@@ -2,15 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sorry Babe</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EXPLORIOT</title>
+  <style>
+    body {
+      background-color: #000;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Courier New', monospace;
+    }
+
+    .exploriot-button {
+      position: relative;
+      padding: 30px 60px;
+      font-size: 28px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #ff4b4b;
+      border: 2px solid #ff4b4b;
+      background: transparent;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 12px;
+      z-index: 1;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+      animation: syncedPulse 6s ease-in-out infinite;
+    }
+
+    /* Fill 'Er Up Effect (synced) */
+    .exploriot-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background: rgba(255, 0, 0, 0.2);
+      z-index: -1;
+      animation: syncedFill 6s ease-in-out infinite;
+    }
+
+    @keyframes syncedFill {
+      0%, 100% { width: 0%; }
+      50% { width: 100%; }
+    }
+
+    /* Star Shine Effect (synced) */
+    .exploriot-button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+      animation: syncedShine 6s linear infinite;
+      opacity: 0.15;
+      z-index: 0;
+    }
+
+    @keyframes syncedShine {
+      0% { transform: rotate(0deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1.1); }
+    }
+
+    /* Breathing (Zoomer + Pulser synced) */
+    @keyframes syncedPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.2);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 0, 0, 0.5), 0 0 50px rgba(255, 0, 0, 0.3);
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="heart">💖</div>
-    <h1>Sorry babe</h1>
-    <p>I didn’t mean to hurt you. Please forgive me.</p>
-  </div>
+  <button class="exploriot-button">EXPLORIOT</button>
 </body>
 </html>
