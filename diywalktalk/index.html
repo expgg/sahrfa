@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIY Wireless Intercom Project - Budget Build</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-color: #4CAF50; /* A pleasant green */
+            --black-color: #212121; /* Deep black */
+            --cream-white-color: #F5F5DC; /* Creamy white */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--black-color);
+            color: var(--cream-white-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--black-color);
+            border: 2px solid var(--green-color);
+            border-radius: 10px;
+            padding: 25px;
+            max-width: 900px; /* Slightly wider for better text flow */
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--green-color);
+            margin-bottom: 15px;
+            font-size: 2.5em;
+            text-shadow: 0 0 5px var(--green-color);
+        }
+
+        p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 1.05em;
+        }
+
+        .intro-text {
+            font-size: 1.1em;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--green-color);
+            margin-top: 35px;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 1.8em;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.4);
+            padding-bottom: 5px;
+        }
+
+        .highlight {
+            color: var(--green-color);
+            font-weight: bold;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        ul li {
+            background-color: rgba(76, 175, 80, 0.08);
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-left: 4px solid var(--green-color);
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap; /* Allow content to wrap */
+            align-items: flex-start;
+            gap: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        ul li:hover {
+            transform: translateX(5px);
+            background-color: rgba(76, 175, 80, 0.15);
+        }
+
+        ul li strong {
+            color: var(--green-color);
+            min-width: 120px;
+            flex-shrink: 0; /* Prevent shrinking on small screens */
+        }
+
+        ul li p {
+            margin: 0;
+            padding: 0;
+            flex-grow: 1; /* Allow text content to take remaining space */
+        }
+
+        .button-container {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .toggle-button {
+            background-color: var(--green-color);
+            color: var(--black-color);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
+            flex-grow: 1; /* Allow buttons to grow */
+            max-width: 200px; /* Limit button width */
+        }
+
+        .toggle-button:hover {
+            background-color: #66BB6A;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 255, 0, 0.4);
+        }
+
+        .toggle-button.active {
+            background-color: var(--cream-white-color);
+            color: var(--black-color);
+            box-shadow: 0 0 10px var(--cream-white-color), 0 0 20px var(--cream-white-color);
+        }
+
+        .info-box {
+            background-color: rgba(33, 33, 33, 0.8);
+            border: 1px dashed var(--cream-white-color);
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+            text-align: left;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scaleY(0); transform-origin: top; }
+            to { opacity: 1; transform: scaleY(1); transform-origin: top; }
+        }
+
+        .info-box p {
+            margin-bottom: 10px;
+        }
+
+        .info-box strong {
+            color: var(--green-color);
+        }
+
+        a {
+            color: var(--green-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #90EE90;
+        }
+
+        .cost-summary {
+            background-color: rgba(76, 175, 80, 0.2);
+            border: 1px solid var(--green-color);
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .cost-summary .total {
+            color: var(--green-color);
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .language-toggle-container {
+            margin-bottom: 20px;
+            text-align: right;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .language-toggle-button {
+            background-color: var(--cream-white-color);
+            color: var(--black-color);
+            border: 1px solid var(--green-color);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .language-toggle-button:hover {
+            background-color: var(--green-color);
+            color: var(--cream-white-color);
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .section-title {
+                font-size: 1.5em;
+            }
+            .toggle-button {
+                padding: 10px 20px;
+                font-size: 1em;
+                flex-grow: unset; /* Revert flex-grow on smaller screens */
+                width: 100%; /* Make buttons full width */
+                max-width: none; /* Remove max-width constraint */
+            }
+            .button-container {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: center;
+            }
+            ul li {
+                flex-direction: column; /* Stack strong and p vertically */
+                align-items: flex-start;
+            }
+            ul li strong {
+                min-width: unset; /* Remove min-width constraint */
+                width: 100%; /* Take full width */
+                margin-bottom: 5px;
+            }
+            .language-toggle-container {
+                text-align: center;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .intro-text, p {
+                font-size: 0.95em;
+            }
+            .section-title {
+                font-size: 1.3em;
+            }
+            .toggle-button {
+                font-size: 0.95em;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle-container">
+        <button class="language-toggle-button" id="languageToggle">বাংলা</button>
+    </div>
+    <div class="container">
+        <h1 data-key="mainTitle">DIY Wireless Intercom System</h1>
+        <p class="intro-text" data-key="introText">Ready to build a <span class="highlight">3-unit push-to-talk wireless intercom</span> for your 5-7 sotok home? We're aiming for a <span class="highlight">BDT 2000 budget</span>, utilizing <span class="highlight">nRF24L01+ modules</span> and a bit of DIY magic!</p>
+
+        <div class="button-container">
+            <button class="toggle-button active" id="componentsBtn" data-key="btnComponents">Components List</button>
+            <button class="toggle-button" id="nextStepsBtn" data-key="btnNextSteps">Next Steps</button>
+            <button class="toggle-button" id="summaryBtn" data-key="btnSummary">Project Summary</button>
+        </div>
+
+        <div id="componentsInfo" class="info-box" style="display: block;">
+            <h3 class="section-title" data-key="componentsTitle">Final Component List (for 3 Intercom Units)</h3>
+            <ul>
+                <li>
+                    <strong data-key="compArduinoStrong">Arduino Pro Mini (x3):</strong>
+                    <p data-key="compArduinoDesc">The <span class="highlight">brain</span> for processing audio and controlling wireless comms. <span class="highlight">BDT 350 each = BDT 1050</span>.</p>
+                </li>
+                <li>
+                    <strong data-key="compNRFStrong">M177 NRF24L01 2.4GHz Transceiver (x3):</strong>
+                    <p data-key="compNRFDesc">Your <span class="highlight">wireless link</span> for sending/receiving voice data. <span class="highlight">BDT 199 each = BDT 597</span>.</p>
+                </li>
+                <li>
+                    <strong data-key="compMicStrong">High Sensitive Mic Sensor Detection Module (x3):</strong>
+                    <p data-key="compMicDesc">Captures your <span class="highlight">voice input</span>. <span class="highlight">BDT 90 each = BDT 270</span>.</p>
+                </li>
+                <li>
+                    <strong data-key="compLM386Strong">LM386 Audio Amplifier IC (x3):</strong>
+                    <p data-key="compLM386Desc"><span class="highlight">Amplifies</span> received audio for the speaker. <span class="highlight">BDT 20 each = BDT 60</span>.</p>
+                </li>
+                <li>
+                    <strong data-key="compButtonStrong">Push Button Switch (2PIN) (x3):</strong>
+                    <p data-key="compButtonDesc">Your essential <span class="highlight">"Push-to-Talk"</span> button. <span class="highlight">BDT 5 each = BDT 15</span>.</p>
+                </li>
+                <li>
+                    <strong data-key="compSpeakersStrong">Small Speakers (x3):</strong>
+                    <p data-key="compSpeakersDesc">For audio output. <span class="highlight">Must be salvaged</span> from old headphones/toys to save cost.</p>
+                </li>
+                <li>
+                    <strong data-key="compBatteryStrong">Batteries / Power Source (x3):</strong>
+                    <p data-key="compBatteryDesc">Powers each intercom unit. <span class="highlight">Must be salvaged</span> (e.g., old phone batteries) or very cheap options.</p>
+                </li>
+                <li>
+                    <strong data-key="compMiscStrong">Misc. Wires, Resistors, Capacitors, PCBs:</strong>
+                    <p data-key="compMiscDesc">Connections and mounting. <span class="highlight">Salvage wires</span>, allow <span class="highlight">BDT 100-200</span> for PCBs/small parts.</p>
+                </li>
+            </ul>
+            <div class="cost-summary">
+                <p data-key="costSummaryTitle"><strong>Estimated Total Cost (excluding salvaged items):</strong></p>
+                <p class="total" data-key="costTotal">BDT 2142</p>
+                <p data-key="costNote"><em>Slightly over your BDT 2000 budget. Salvaging speakers and batteries is crucial!</em></p>
+            </div>
+        </div>
+
+        <div id="nextStepsInfo" class="info-box">
+            <h3 class="section-title" data-key="nextStepsTitle">Next Steps: Building Your Intercom</h3>
+            <ul>
+                <li>
+                    <strong data-key="toolsStrong">Gather Tools:</strong>
+                    <p data-key="toolsDesc">You'll need a <span class="highlight">soldering iron, solder, wire strippers, cutters</span>, and a <span class="highlight">multimeter</span> (highly recommended for troubleshooting).</p>
+                </li>
+                <li>
+                    <strong data-key="arduinoIDESetupStrong">Arduino IDE Setup:</strong>
+                    <p data-key="arduinoIDESetupDesc1">Download and install the <span class="highlight">Arduino IDE</span>. Install drivers for your <span class="highlight">Arduino Pro Mini</span> (requires a <span class="highlight">USB-to-TTL converter</span>, an extra purchase if you don't have one).</p>
+                    <p data-key="arduinoIDESetupDesc2">Install the <span class="highlight">RF24 (TMRh20)</span> and <span class="highlight">RF24Audio libraries</span> via the Arduino IDE's Library Manager.</p>
+                </li>
+                <li>
+                    <strong data-key="findSketchStrong">Find a Suitable Sketch (Code):</strong>
+                    <p data-key="findSketchDesc1">Search online for "<span class="highlight">Arduino NRF24L01 walkie talkie</span>" or "<span class="highlight">voice communication</span>" projects. Look for examples using the <span class="highlight">RF24Audio library</span>.</p>
+                    <p data-key="findSketchDesc2">Websites like <a href="https://www.instructables.com/" target="_blank">Instructables</a>, <a href="https://github.com/" target="_blank">GitHub</a>, and electronics blogs are great resources.</p>
+                </li>
+                <li>
+                    <strong data-key="prototypingStrong">Prototyping (on Breadboards):</strong>
+                    <p data-key="prototypingDesc1">Start with <span class="highlight">TWO units</span> first. Connect components on separate breadboards following your chosen circuit diagram.</p>
+                    <p data-key="prototypingDesc2"><strong>Wiring:</strong> Connect Arduino Pro Mini to NRF24L01, mic, LM386, speaker, and button. Pay attention to <span class="highlight">3.3V/5V power</span>. NRF24L01 needs 3.3V power!</p>
+                    <p data-key="prototypingDesc3"><strong>Power:</strong> Connect salvaged batteries to Arduino (check voltage for your Pro Mini version).</p>
+                </li>
+                <li>
+                    <strong data-key="uploadTestStrong">Upload Code & Test:</strong>
+                    <p data-key="uploadTestDesc1">Upload the sketch to each Arduino Pro Mini. <span class="highlight">Set different addresses</span> in the code for each unit.</p>
+                    <p data-key="uploadTestDesc2">Test communication, audio clarity, and range between the two units. <span class="highlight">Debug</span> any wiring, code, or power issues.</p>
+                </li>
+                <li>
+                    <strong data-key="addThirdUnitStrong">Add the Third Unit:</strong>
+                    <p data-key="addThirdUnitDesc">Once two units work reliably, build and test the third unit similarly. Ensure all three can communicate on a shared channel.</p>
+                </li>
+                <li>
+                    <strong data-key="finalAssemblyStrong">Final Assembly:</strong>
+                    <p data-key="finalAssemblyDesc1">Solder components onto small <span class="highlight">general-purpose PCBs</span> for a robust and permanent solution.</p>
+                    <p data-key="finalAssemblyDesc2">Enclose circuits in <span class="highlight">salvaged plastic boxes</span> (old soap boxes, food containers). Cut holes for the speaker, microphone, push button, and potentially a charging port if using rechargeable batteries.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="summaryInfo" class="info-box">
+            <h3 class="section-title" data-key="summaryTitle">Project Summary: Your Wireless Intercom</h3>
+            <p data-key="summaryDesc1">This project leverages affordable <span class="highlight">Arduino Pro Mini</span> and <span class="highlight">nRF24L01+</span> modules to create a functional, budget-friendly wireless intercom system for your home in Joypurhat.</p>
+            <p data-key="summaryDesc2">While the budget is tight (BDT 2000), resourceful salvaging of parts like speakers and batteries is key to staying on track.</p>
+            <p data-key="summaryDesc3">Expect basic but clear voice communication. The process involves coding (Arduino IDE, RF24/RF24Audio libraries), soldering, and diligent troubleshooting. Starting with two units for testing is crucial before adding the third.</p>
+            <p data-key="summaryDesc4">It's a challenging yet rewarding DIY venture that builds practical electronics skills.</p>
+        </div>
+
+        <p data-key="finalP">This project requires basic electronics knowledge and patience. Good luck!</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.toggle-button');
+            const infoBoxes = {
+                componentsBtn: document.getElementById('componentsInfo'),
+                nextStepsBtn: document.getElementById('nextStepsInfo'),
+                summaryBtn: document.getElementById('summaryInfo')
+            };
+            const langToggleBtn = document.getElementById('languageToggle');
+
+            let currentLanguage = 'en'; // Default language
+
+            const translations = {
+                'en': {
+                    mainTitle: "DIY Wireless Intercom System",
+                    introText: "Ready to build a <span class=\"highlight\">3-unit push-to-talk wireless intercom</span> for your 5-7 sotok home? We're aiming for a <span class=\"highlight\">BDT 2000 budget</span>, utilizing <span class=\"highlight\">nRF24L01+ modules</span> and a bit of DIY magic!",
+                    btnComponents: "Components List",
+                    btnNextSteps: "Next Steps",
+                    btnSummary: "Project Summary",
+
+                    componentsTitle: "Final Component List (for 3 Intercom Units)",
+                    compArduinoStrong: "Arduino Pro Mini (x3):",
+                    compArduinoDesc: "The <span class=\"highlight\">brain</span> for processing audio and controlling wireless comms. <span class=\"highlight\">BDT 350 each = BDT 1050</span>.",
+                    compNRFStrong: "M177 NRF24L01 2.4GHz Transceiver (x3):",
+                    compNRFDesc: "Your <span class=\"highlight\">wireless link</span> for sending/receiving voice data. <span class=\"highlight\">BDT 199 each = BDT 597</span>.",
+                    compMicStrong: "High Sensitive Mic Sensor Detection Module (x3):",
+                    compMicDesc: "Captures your <span class=\"highlight\">voice input</span>. <span class=\"highlight\">BDT 90 each = BDT 270</span>.",
+                    compLM386Strong: "LM386 Audio Amplifier IC (x3):",
+                    compLM386Desc: "<span class=\"highlight\">Amplifies</span> received audio for the speaker. <span class=\"highlight\">BDT 20 each = BDT 60</span>.",
+                    compButtonStrong: "Push Button Switch (2PIN) (x3):",
+                    compButtonDesc: "Your essential <span class=\"highlight\">\"Push-to-Talk\"</span> button. <span class=\"highlight\">BDT 5 each = BDT 15</span>.",
+                    compSpeakersStrong: "Small Speakers (x3):",
+                    compSpeakersDesc: "For audio output. <span class=\"highlight\">Must be salvaged</span> from old headphones/toys to save cost.",
+                    compBatteryStrong: "Batteries / Power Source (x3):",
+                    compBatteryDesc: "Powers each intercom unit. <span class=\"highlight\">Must be salvaged</span> (e.g., old phone batteries) or very cheap options.",
+                    compMiscStrong: "Misc. Wires, Resistors, Capacitors, PCBs:",
+                    compMiscDesc: "Connections and mounting. <span class=\"highlight\">Salvage wires</span>, allow <span class=\"highlight\">BDT 100-200</span> for PCBs/small parts.",
+                    costSummaryTitle: "<strong>Estimated Total Cost (excluding salvaged items):</strong>",
+                    costTotal: "BDT 2142",
+                    costNote: "<em>Slightly over your BDT 2000 budget. Salvaging speakers and batteries is crucial!</em>",
+
+                    nextStepsTitle: "Next Steps: Building Your Intercom",
+                    toolsStrong: "Gather Tools:",
+                    toolsDesc: "You'll need a <span class=\"highlight\">soldering iron, solder, wire strippers, cutters</span>, and a <span class=\"highlight\">multimeter</span> (highly recommended for troubleshooting).",
+                    arduinoIDESetupStrong: "Arduino IDE Setup:",
+                    arduinoIDESetupDesc1: "Download and install the <span class=\"highlight\">Arduino IDE</span>. Install drivers for your <span class=\"highlight\">Arduino Pro Mini</span> (requires a <span class=\"highlight\">USB-to-TTL converter</span>, an extra purchase if you don't have one).",
+                    arduinoIDESetupDesc2: "Install the <span class=\"highlight\">RF24 (TMRh20)</span> and <span class=\"highlight\">RF24Audio libraries</span> via the Arduino IDE's Library Manager.",
+                    findSketchStrong: "Find a Suitable Sketch (Code):",
+                    findSketchDesc1: "Search online for \"<span class=\"highlight\">Arduino NRF24L01 walkie talkie</span>\" or \"<span class=\"highlight\">voice communication</span>\" projects. Look for examples using the <span class=\"highlight\">RF24Audio library</span>.",
+                    findSketchDesc2: "Websites like <a href=\"https://www.instructables.com/\" target=\"_blank\">Instructables</a>, <a href=\"https://github.com/\" target=\"_blank\">GitHub</a>, and electronics blogs are great resources.",
+                    prototypingStrong: "Prototyping (on Breadboards):",
+                    prototypingDesc1: "Start with <span class=\"highlight\">TWO units</span> first. Connect components on separate breadboards following your chosen circuit diagram.",
+                    prototypingDesc2: "<strong>Wiring:</strong> Connect Arduino Pro Mini to NRF24L01, mic, LM386, speaker, and button. Pay attention to <span class=\"highlight\">3.3V/5V power</span>. NRF24L01 needs 3.3V power!",
+                    prototypingDesc3: "<strong>Power:</strong> Connect salvaged batteries to Arduino (check voltage for your Pro Mini version).",
+                    uploadTestStrong: "Upload Code & Test:",
+                    uploadTestDesc1: "Upload the sketch to each Arduino Pro Mini. <span class=\"highlight\">Set different addresses</span> in the code for each unit.",
+                    uploadTestDesc2: "Test communication, audio clarity, and range between the two units. <span class=\"highlight\">Debug</span> any wiring, code, or power issues.",
+                    addThirdUnitStrong: "Add the Third Unit:",
+                    addThirdUnitDesc: "Once two units work reliably, build and test the third unit similarly. Ensure all three can communicate on a shared channel.",
+                    finalAssemblyStrong: "Final Assembly:",
+                    finalAssemblyDesc1: "Solder components onto small <span class=\"highlight\">general-purpose PCBs</span> for a robust and permanent solution.",
+                    finalAssemblyDesc2: "Enclose circuits in <span class=\"highlight\">salvaged plastic boxes</span> (old soap boxes, food containers). Cut holes for the speaker, microphone, push button, and potentially a charging port if using rechargeable batteries.",
+
+                    summaryTitle: "Project Summary: Your Wireless Intercom",
+                    summaryDesc1: "This project leverages affordable <span class=\"highlight\">Arduino Pro Mini</span> and <span class=\"highlight\">nRF24L01+</span> modules to create a functional, budget-friendly wireless intercom system for your home in Joypurhat.",
+                    summaryDesc2: "While the budget is tight (BDT 2000), resourceful salvaging of parts like speakers and batteries is key to staying on track.",
+                    summaryDesc3: "Expect basic but clear voice communication. The process involves coding (Arduino IDE, RF24/RF24Audio libraries), soldering, and diligent troubleshooting. Starting with two units for testing is crucial before adding the third.",
+                    summaryDesc4: "It's a challenging yet rewarding DIY venture that builds practical electronics skills.",
+                    finalP: "This project requires basic electronics knowledge and patience. Good luck!"
+                },
+                'bn': {
+                    mainTitle: "ডিআইওয়াই ওয়্যারলেস ইন্টারকম সিস্টেম",
+                    introText: "আপনার ৫-৭ শতকের বাড়ির জন্য একটি <span class=\"highlight\">৩-ইউনিট পুশ-টু-টক ওয়্যারলেস ইন্টারকম</span> তৈরি করতে প্রস্তুত? আমরা <span class=\"highlight\">২০০০ টাকা বাজেটের</span> লক্ষ্য নিয়েছি, <span class=\"highlight\">nRF24L01+ মডিউল</span> এবং কিছুটা ডিআইওয়াই জাদু ব্যবহার করে!",
+                    btnComponents: "উপাদান তালিকা",
+                    btnNextSteps: "পরবর্তী ধাপসমূহ",
+                    btnSummary: "প্রকল্পের সারাংশ",
+
+                    componentsTitle: "চূড়ান্ত উপাদান তালিকা (৩টি ইন্টারকম ইউনিটের জন্য)",
+                    compArduinoStrong: "আর্ডুইনো প্রো মিনি (৩টি):",
+                    compArduinoDesc: "অডিও প্রক্রিয়াকরণ এবং ওয়্যারলেস যোগাযোগ নিয়ন্ত্রণের জন্য <span class=\"highlight\">মস্তিষ্ক</span>। <span class=\"highlight\">প্রতিটি ৩৫০ টাকা = ১০৫০ টাকা</span>।",
+                    compNRFStrong: "M177 NRF24L01 2.4GHz ট্রান্সসিভার (৩টি):",
+                    compNRFDesc: "ভয়েস ডেটা পাঠানো এবং গ্রহণ করার জন্য আপনার <span class=\"highlight\">ওয়্যারলেস লিঙ্ক</span>। <span class=\"highlight\">প্রতিটি ১৯৯ টাকা = ৫৯৭ টাকা</span>।",
+                    compMicStrong: "উচ্চ সংবেদনশীল মাইক্রোফোন সাউন্ড সেন্সর মডিউল (৩টি):",
+                    compMicDesc: "আপনার <span class=\"highlight\">ভয়েস ইনপুট</span> গ্রহণ করে। <span class=\"highlight\">প্রতিটি ৯০ টাকা = ২৭০ টাকা</span>।",
+                    compLM386Strong: "LM386 অডিও অ্যামপ্লিফায়ার আইসি (৩টি):",
+                    compLM386Desc: "স্পিকারের জন্য প্রাপ্ত অডিও সিগন্যালকে <span class=\"highlight\">বিস্তৃত</span> করে। <span class=\"highlight\">প্রতিটি ২০ টাকা = ৬০ টাকা</span>।",
+                    compButtonStrong: "পুশ বাটন সুইচ (২পিন) (৩টি):",
+                    compButtonDesc: "আপনার অপরিহার্য <span class=\"highlight\">\"পুশ-টু-টক\"</span> বাটন। <span class=\"highlight\">প্রতিটি ৫ টাকা = ১৫ টাকা</span>।",
+                    compSpeakersStrong: "ছোট স্পিকার (৩টি):",
+                    compSpeakersDesc: "অডিও আউটপুটের জন্য। খরচ কমাতে পুরনো হেডফোন, খেলনা থেকে <span class=\"highlight\">উদ্ধার করতে হবে</span>।",
+                    compBatteryStrong: "ব্যাটারি / পাওয়ার উৎস (৩টি):",
+                    compBatteryDesc: "প্রতিটি ইন্টারকম ইউনিটকে পাওয়ার দেয়। <span class=\"highlight\">উদ্ধার করতে হবে</span> (যেমন, পুরনো ফোনের ব্যাটারি) বা খুব সস্তা বিকল্প ব্যবহার করুন।",
+                    compMiscStrong: "বিবিধ তার, প্রতিরোধক, ক্যাপাসিটার, পিসিবি:",
+                    compMiscDesc: "সংযোগ এবং মাউন্ট করার জন্য। <span class=\"highlight\">তার উদ্ধার করুন</span>, পিসিবি/ছোট যন্ত্রাংশের জন্য <span class=\"highlight\">১০০-২০০ টাকা</span> রাখুন।",
+                    costSummaryTitle: "<strong>আনুমানিক মোট খরচ (উদ্ধার করা আইটেম বাদে):</strong>",
+                    costTotal: "২১৪২ টাকা",
+                    costNote: "<em>আপনার ২০০০ টাকার বাজেটের চেয়ে সামান্য বেশি। স্পিকার এবং ব্যাটারি উদ্ধার করা অত্যন্ত গুরুত্বপূর্ণ!</em>",
+
+                    nextStepsTitle: "পরবর্তী ধাপসমূহ: আপনার ইন্টারকম তৈরি করা",
+                    toolsStrong: "সরঞ্জাম সংগ্রহ করুন:",
+                    toolsDesc: "আপনার একটি <span class=\"highlight\">সোল্ডারিং আয়রন, সোল্ডার, তার স্ট্রিপার, কাটার</span> এবং একটি <span class=\"highlight\">মাল্টিমিটার</span> (সমস্যা সমাধানের জন্য অত্যন্ত প্রস্তাবিত) প্রয়োজন হবে।",
+                    arduinoIDESetupStrong: "আর্ডুইনো আইডিই সেটআপ:",
+                    arduinoIDESetupDesc1: "<span class=\"highlight\">আর্ডুইনো আইডিই</span> ডাউনলোড এবং ইনস্টল করুন। আপনার <span class=\"highlight\">আর্ডুইনো প্রো মিনি</span> এর জন্য প্রয়োজনীয় ড্রাইভার ইনস্টল করুন (এই বোর্ডের জন্য আপনার সম্ভবত একটি <span class=\"highlight\">ইউএসবি-টু-টিটিএল কনভার্টার</span> প্রয়োজন হবে, যদি আপনার কাছে না থাকে তবে এটি একটি অতিরিক্ত ক্রয়)।",
+                    arduinoIDESetupDesc2: "আর্ডুইনো আইডিই এর লাইব্রেরি ম্যানেজার থেকে <span class=\"highlight\">RF24 (TMRh20)</span> এবং সম্ভবত একটি <span class=\"highlight\">RF24Audio লাইব্রেরি</span> ইনস্টল করুন।",
+                    findSketchStrong: "উপযুক্ত স্কেচ (কোড) খুঁজুন:",
+                    findSketchDesc1: "অনলাইনে \"<span class=\"highlight\">Arduino NRF24L01 walkie talkie</span>\" বা \"<span class=\"highlight\">voice communication</span>\" প্রকল্পগুলির জন্য অনুসন্ধান করুন। <span class=\"highlight\">RF24Audio লাইব্রেরি</span> ব্যবহার করে এমন উদাহরণগুলি দেখুন।",
+                    findSketchDesc2: "<a href=\"https://www.instructables.com/\" target=\"_blank\">Instructables</a>, <a href=\"https://github.com/\" target=\"_blank\">GitHub</a>, এবং বিভিন্ন ইলেকট্রনিক্স ব্লগগুলি ভাল উৎস।",
+                    prototypingStrong: "প্রোটোটাইপিং (ব্রেডবোর্ডে):",
+                    prototypingDesc1: "প্রথমে <span class=\"highlight\">দুটি ইউনিট</span> দিয়ে শুরু করুন। আপনার নির্বাচিত সার্কিট ডায়াগ্রাম অনুযায়ী আলাদা ব্রেডবোর্ডে উপাদানগুলি সংযুক্ত করুন।",
+                    prototypingDesc2: "<strong>ওয়্যারিং:</strong> আর্ডুইনো প্রো মিনিকে NRF24L01, মাইক, LM386, স্পিকার এবং পুশ বাটনের সাথে সংযুক্ত করুন। পাওয়ার (<span class=\"highlight\">3.3V/5V</span>) এবং গ্রাউন্ড সংযোগগুলিতে মনোযোগ দিন। NRF24L01 এর ডেটা পিনগুলির জন্য 3.3V সহনশীলতা রয়েছে তবে 3.3V পাওয়ার প্রয়োজন, তাই 5V আর্ডুইনো ব্যবহার করলে সঠিক ভোল্টেজ রেগুলেশন নিশ্চিত করুন।",
+                    prototypingDesc3: "<strong>পাওয়ার:</strong> আপনার উদ্ধার করা ব্যাটারিগুলি আর্ডুইনোর সাথে সংযুক্ত করুন (প্রো মিনি সংস্করণের জন্য সঠিক ভোল্টেজ পরীক্ষা করুন, সাধারণত 5V বা 3.3V)।",
+                    uploadTestStrong: "কোড আপলোড এবং পরীক্ষা:",
+                    uploadTestDesc1: "প্রতিটি আর্ডুইনো প্রো মিনিতে স্কেচ আপলোড করুন। সঠিক যোগাযোগের জন্য কোডে প্রতিটি ইউনিটের জন্য <span class=\"highlight\">আলাদা ঠিকানা</span> সেট করতে হবে।",
+                    uploadTestDesc2: "দুটি ইউনিটের মধ্যে যোগাযোগ, অডিও স্বচ্ছতা এবং পরিসীমা পরীক্ষা করুন। ওয়্যারিং, কোড লজিক, পাওয়ার সাপ্লাই এবং উপাদান কার্যকারিতা (যেমন, মাইক মডিউল কাজ করছে কিনা?) সংক্রান্ত যেকোনো সমস্যা <span class=\"highlight\">সমাধান</span> করুন।",
+                    addThirdUnitStrong: "তৃতীয় ইউনিট যোগ করুন:",
+                    addThirdUnitDesc: "একবার প্রথম দুটি ইউনিট নির্ভরযোগ্যভাবে কাজ করলে, একইভাবে তৃতীয় ইউনিটটি তৈরি এবং পরীক্ষা করুন। নিশ্চিত করুন যে তিনটিই একটি শেয়ার করা চ্যানেলে যোগাযোগ করতে পারে।",
+                    finalAssemblyStrong: "চূড়ান্ত সমাবেশ:",
+                    finalAssemblyDesc1: "সবকিছু ব্রেডবোর্ডে কাজ করলে, আরও শক্তিশালী এবং স্থায়ী সমাধানের জন্য ছোট সাধারণ-উদ্দেশ্যমূলক পিসিবিগুলিতে উপাদানগুলি সোল্ডার করুন।",
+                    finalAssemblyDesc2: "সমাপ্ত সার্কিটগুলি আপনার উদ্ধার করা প্লাস্টিকের ঘেরে (পুরনো সাবানের বাক্স, খাবারের পাত্র ইত্যাদি) রাখুন যাতে সেগুলি সুরক্ষিত থাকে এবং পোর্টেবল হয়। স্পিকার, মাইক্রোফোন, পুশ বাটন এবং রিচার্জেবল ব্যাটারি ব্যবহার করলে চার্জিং পোর্টের জন্য ছিদ্র কাটুন।",
+
+                    summaryTitle: "প্রকল্পের সারাংশ: আপনার ওয়্যারলেস ইন্টারকম",
+                    summaryDesc1: "এই প্রকল্পটি আপনার জয়পুরহাটের বাড়ির জন্য একটি কার্যকরী, বাজেট-বান্ধব ওয়্যারলেস ইন্টারকম সিস্টেম তৈরি করতে সাশ্রয়ী মূল্যের <span class=\"highlight\">আর্ডুইনো প্রো মিনি</span> এবং <span class=\"highlight\">nRF24L01+</span> মডিউল ব্যবহার করে।",
+                    summaryDesc2: "যদিও বাজেট সীমাবদ্ধ (২০০০ টাকা), স্পিকার এবং ব্যাটারির মতো যন্ত্রাংশগুলি বুদ্ধি খাটিয়ে উদ্ধার করা সময় মতো কাজ শেষ করার জন্য গুরুত্বপূর্ণ।",
+                    summaryDesc3: "মৌলিক কিন্তু স্পষ্ট ভয়েস যোগাযোগ আশা করুন। প্রক্রিয়াটিতে কোডিং (আর্ডুইনো আইডিই, RF24/RF24Audio লাইব্রেরি), সোল্ডারিং এবং কঠোর সমস্যা সমাধান জড়িত। তৃতীয় ইউনিট যোগ করার আগে পরীক্ষার জন্য দুটি ইউনিট দিয়ে শুরু করা অত্যন্ত গুরুত্বপূর্ণ।",
+                    summaryDesc4: "এটি একটি চ্যালেঞ্জিং কিন্তু ফলপ্রসূ ডিআইওয়াই উদ্যোগ যা ব্যবহারিক ইলেকট্রনিক্স দক্ষতা তৈরি করে।",
+                    finalP: "এই প্রকল্পের জন্য মৌলিক ইলেকট্রনিক্স জ্ঞান এবং ধৈর্য প্রয়োজন। শুভকামনা!"
+                }
+            };
+
+            function updateContent(lang) {
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (translations[lang][key]) {
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+
+                // Update button texts specifically
+                document.getElementById('componentsBtn').textContent = translations[lang]['btnComponents'];
+                document.getElementById('nextStepsBtn').textContent = translations[lang]['btnNextSteps'];
+                document.getElementById('summaryBtn').textContent = translations[lang]['btnSummary'];
+
+                langToggleBtn.textContent = (lang === 'en' ? 'বাংলা' : 'English');
+            }
+
+            langToggleBtn.addEventListener('click', function() {
+                currentLanguage = (currentLanguage === 'en' ? 'bn' : 'en');
+                updateContent(currentLanguage);
+            });
+
+            function showInfo(buttonId) {
+                // Hide all info boxes and deactivate all buttons
+                for (let key in infoBoxes) {
+                    infoBoxes[key].style.display = 'none';
+                }
+                buttons.forEach(btn => btn.classList.remove('active'));
+
+                // Show the selected info box and activate its button
+                infoBoxes[buttonId].style.display = 'block';
+                document.getElementById(buttonId).classList.add('active');
+            }
+
+            // Default to English content on load
+            updateContent('en');
+            // Show components info by default on page load
+            showInfo('componentsBtn');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    showInfo(this.id);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
