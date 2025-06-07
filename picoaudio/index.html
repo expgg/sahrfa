@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploriot: Pico Audio Player Build Guide</title>
+    <!-- Tailwind CSS CDN for quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the theme */
+        :root {
+            --color-primary: #dc2626; /* Cherry Red */
+            --color-background: #0a0a0a; /* AMOLED Black */
+            --color-text: #f5f5dc; /* Cream White */
+            --color-accent-dark: #b91c1c; /* Darker Red */
+            --color-card-bg: #1a1a1a;
+            --color-border: #444;
+            --color-highlight-bg: rgba(245, 245, 220, 0.15); /* Cream White with transparency */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* Specific styling for sections and cards */
+        .section-container {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem; /* Rounded corners */
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-border);
+        }
+
+        .part-card {
+            background-color: var(--color-card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .copy-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background-color: var(--color-accent-dark);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-dark);
+        }
+
+        /* Highlighting style */
+        .highlight {
+            background-color: var(--color-highlight-bg);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-card-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 10px;
+            border: 2px solid var(--color-card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-dark);
+        }
+
+        /* Sticky navigation for desktop */
+        @media (min-width: 1024px) {
+            .sticky-nav {
+                position: sticky;
+                top: 1rem;
+                align-self: flex-start;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased leading-normal">
+    <!-- Main container for the whole guide -->
+    <div class="min-h-screen p-4 lg:p-8 flex flex-col lg:flex-row gap-8">
+
+        <!-- Sticky Navigation / Table of Contents (Desktop) -->
+        <nav id="sticky-nav" class="hidden lg:block w-1/4 sticky-nav section-container p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">Table of Contents</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#introduction" class="hover:text-red-500 transition-colors">Project Introduction</a></li>
+                <li><a href="#parts-list" class="hover:text-red-500 transition-colors">Parts List</a></li>
+                <li><a href="#step-by-step" class="hover:text-red-500 transition-colors">Step-by-Step Guide</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#step-1" class="hover:text-red-500 transition-colors">1. Install MicroPython</a></li>
+                        <li><a href="#step-2" class="hover:text-red-500 transition-colors">2. Breadboard Prototyping</a></li>
+                        <li><a href="#step-3" class="hover:text-red-500 transition-colors">3. Basic Code Dev & Testing</a></li>
+                        <li><a href="#step-4" class="hover:text-red-500 transition-colors">4. Hardware Assembly (Soldering)</a></li>
+                        <li><a href="#step-5" class="hover:text-red-500 transition-colors">5. Power System Integration</a></li>
+                        <li><a href="#step-6" class="hover:text-red-500 transition-colors">6. Full Code Dev & UI</a></li>
+                        <li><a href="#step-7" class="hover:text-red-500 transition-colors">7. Enclosure Design & Fabrication</a></li>
+                    </ul>
+                </li>
+                <li><a href="#conclusion" class="hover:text-red-500 transition-colors">Conclusion</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main content area -->
+        <main class="flex-grow w-full lg:w-3/4 space-y-8">
+
+            <!-- Mobile Navigation (Hamburger Menu) -->
+            <div class="lg:hidden section-container mb-8">
+                <button id="mobile-nav-toggle" class="btn-primary w-full text-center">
+                    Show Table of Contents
+                </button>
+                <div id="mobile-nav-menu" class="hidden mt-4">
+                    <ul class="space-y-3 text-lg">
+                        <li><a href="#introduction" class="block hover:text-red-500 transition-colors py-2">Project Introduction</a></li>
+                        <li><a href="#parts-list" class="block hover:text-red-500 transition-colors py-2">Parts List</a></li>
+                        <li><a href="#step-by-step" class="block hover:text-red-500 transition-colors py-2">Step-by-Step Guide</a>
+                            <ul class="ml-4 space-y-2 mt-2 text-base">
+                                <li><a href="#step-1" class="block hover:text-red-500 transition-colors py-1">1. Install MicroPython</a></li>
+                                <li><a href="#step-2" class="block hover:text-red-500 transition-colors py-1">2. Breadboard Prototyping</a></li>
+                                <li><a href="#step-3" class="block hover:text-red-500 transition-colors py-1">3. Basic Code Dev & Testing</a></li>
+                                <li><a href="#step-4" class="block hover:text-red-500 transition-colors py-1">4. Hardware Assembly (Soldering)</a></li>
+                                <li><a href="#step-5" class="block hover:text-red-500 transition-colors py-1">5. Power System Integration</a></li>
+                                <li><a href="#step-6" class="block hover:text-red-500 transition-colors py-1">6. Full Code Dev & UI</a></li>
+                                <li><a href="#step-7" class="block hover:text-red-500 transition-colors py-1">7. Enclosure Design & Fabrication</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#conclusion" class="block hover:text-red-500 transition-colors py-2">Conclusion</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- Project Introduction Section -->
+            <section id="introduction" class="section-container">
+                <h1 class="text-4xl lg:text-5xl mb-6 text-center highlight">Exploriot: Build Your Own Pico Audio Player!</h1>
+                <p class="text-lg mb-4">Welcome to the comprehensive guide for building a sleek, portable, and high-fidelity audio player using the versatile Raspberry Pi Pico microcontroller. This project will walk you through everything from selecting the right components to writing the software that brings your device to life. Get ready to create a unique music experience in a thin and long form factor!</p>
+                <p class="text-lg">Our goal is to create a compact audio player with a <span class="highlight">crisp mini screen</span> for managing audio files, <span class="highlight">intuitive button controls</span>, support for <span class="highlight">Opus audio files</span>, a <span class="highlight">long-lasting rechargeable battery</span>, and a <span class="highlight">high-quality headphone jack</span>. We'll ensure it has a distinctive cherry red, AMOLED black, and cream white aesthetic.</p>
+            </section>
+
+            <!-- Parts List Section -->
+            <section id="parts-list" class="section-container">
+                <h2 class="text-3xl lg:text-4xl mb-8 text-center">Essential Parts List</h2>
+                <p class="mb-6 text-center text-sm text-gray-400">
+                    *Prices are estimated in BDT (Bangladeshi Taka) and can vary based on vendor, current market conditions, shipping, and specific model. Always check multiple sources for the best deals. You can typically find these components at local electronics stores in major cities (e.g., Dhaka, Chittagong), or online marketplaces like Daraz, TechShopBD, RoboticsBD, etc.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Part 1: Raspberry Pi Pico -->
+                    <div class="part-card">
+                        <h3 class="text-2xl font-semibold text-red-600 mb-2">1. Raspberry Pi Pico</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 500 - 860</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A low-cost, high-performance microcontroller board built around Raspberry Pi's own RP2040 chip. It features a dual-core Arm Cortex-M0+ processor.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> This is the "brain" of your audio player. It will run the MicroPython code, decode the audio files, manage the UI, read button inputs, and control the DAC and SD card module.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops.</p>
+                    </div>
+
+                    <!-- Part 2: I2S DAC Module with Headphone Amplifier -->
+                    <div class="part-card">
+                        <h3 class="text-2xl font-semibold text-red-600 mb-2">2. I2S DAC Module with Headphone Amplifier</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 700 - 1500</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A Digital-to-Analog Converter module that takes digital audio signals (like from the Pico via I2S) and converts them into analog audio suitable for headphones. Often includes a built-in amplifier.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Essential for high-quality audio output to your headphones. The Pico outputs digital audio, but your headphones need an analog signal. This module performs that conversion and amplifies the sound.</span></p>
+                        <p class="text-sm text-gray-500">Recommended: Pimoroni Pico Audio Pack (check specialized Raspberry Pi retailers). Alternatives: Generic PCM5102A or MAX98357A breakout boards (TechShopBD, RoboticsBD).</p>
+                    </div>
+
+                    <!-- Part 3: 0.96" I2C OLED Display (SSD1306) -->
+                    <div class="part-card">
+                        <h3 class="text-2xl font-semibold text-red-600 mb-2">3. 0.96" I2C OLED Display (SSD1306)</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 350 - 370</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A small, high-contrast monochrome (usually blue or white pixels) organic light-emitting diode display. It's energy-efficient and ideal for compact UIs.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> This is your mini screen for the user interface. It will display track names, playback status, volume, and battery level.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops.</p>
+                    </div>
+
+                    <!-- Part 4: MicroSD Card Module -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">4. MicroSD Card Module</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 75 - 140</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A small breakout board that allows a microcontroller to read data from and write data to a standard microSD card using the SPI communication protocol.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> This module provides the storage for your audio files (Opus format). Your Pico will read the music data from the microSD card via this module.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops.</p>
+                    </div>
+
+                    <!-- Part 5: Tactile Push Buttons (Qty: 5-7) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">5. Tactile Push Buttons (Qty: 5-7)</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 25 - 70 (for a set)</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> Small, momentary push-button switches that provide tactile feedback when pressed. They come in various sizes and colors.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> These will be your physical controls for the audio player, enabling actions like Play/Pause, Next Track, Previous Track, Volume Up, Volume Down, and menu navigation.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops (very common).</p>
+                    </div>
+
+                    <!-- Part 6: High-Quality 18650 Li-ion Battery -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">6. High-Quality 18650 Li-ion Battery</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 200 - 400</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A cylindrical rechargeable lithium-ion battery cell, typically 18mm in diameter and 65mm long. Capacities usually range from 2000mAh to 3500mAh.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> This is your primary power source for portability, chosen for its high energy density to provide long playback times (25-50 hours estimated with 3000mAh+). <strong>Crucially, ensure you get a high-quality cell from a reputable source, and ideally one with built-in protection circuitry.</strong></span></p>
+                        <p class="text-sm text-gray-500">Where to get it: Specialized battery suppliers, reputable electronics stores (avoid extremely cheap or unknown brands for safety).</p>
+                    </div>
+
+                    <!-- Part 7: 18650 Battery Holder (Single Cell) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">7. 18650 Battery Holder (Single Cell)</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 35 - 100</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A plastic casing designed to securely hold a single 18650 battery, often with terminals for easy connection.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Provides a safe and convenient way to insert and connect your 18650 battery to the charging module and power circuit.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops.</p>
+                    </div>
+
+                    <!-- Part 8: Fast Charging Li-ion Battery Charger Module -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">8. Fast Charging Li-ion Battery Charger Module</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 150 - 300</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A small circuit board (often with a USB-C or Micro-USB port) that safely charges Li-ion batteries. Look for modules rated for 2A or 3A output for fast charging, and with built-in protection features (overcharge, over-discharge, short-circuit).</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Manages the charging process for your 18650 battery, ensures safe charging, and provides a regulated 5V output to power your Pico and other components from the battery.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, online component suppliers (search for "TP4056 USB-C 2A charger" or "IP5306/IP5328P power bank module").</p>
+                    </div>
+
+                    <!-- Part 9: USB A to Micro-USB Cable -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">9. USB A to Micro-USB Cable</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 50 - 150</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A standard cable used to connect your Raspberry Pi Pico to your computer for programming and initial power.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Essential for flashing MicroPython firmware and uploading your code to the Pico. Also provides power during development.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: Any electronics store, mobile accessories shop.</p>
+                    </div>
+
+                    <!-- Part 10: MicroSD Card (e.g., 8GB - 32GB) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">10. MicroSD Card (e.g., 8GB - 32GB)</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 200 - 800</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A small flash memory card used for data storage. Capacity depends on how many audio files you want to store.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Stores your Opus audio files that the player will access and play.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: Electronics stores, mobile phone shops, computer stores.</p>
+                    </div>
+
+                    <!-- Part 11: Jumper Wires (Male-to-Male, Male-to-Female) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">11. Jumper Wires (Male-to-Male, Male-to-Female)</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 100 - 200 (for an assortment pack)</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> Flexible wires with connectors at the ends, used for making temporary connections on a breadboard.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Indispensable for the prototyping phase on a breadboard to connect all your modules and the Pico before permanent soldering.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops.</p>
+                    </div>
+
+                    <!-- Part 12: Breadboard -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">12. Breadboard</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 100 - 200</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A solderless construction base used for prototyping electronic circuits. It allows for temporary connections without soldering.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Crucial for assembling and testing your circuit before committing to permanent soldering. It allows you to easily rearrange components and troubleshoot.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD, local electronics shops.</p>
+                    </div>
+
+                    <!-- Part 13: Soldering Iron, Solder, Safety Glasses (Optional for Prototyping, Essential for Final Build) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">13. Soldering Iron, Solder, Safety Glasses</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 500 - 2000+</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> Tools and materials for creating permanent electrical connections. A soldering iron heats components, solder melts to form the connection, and safety glasses protect your eyes.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Required for assembling the final circuit board (perfboard or custom PCB) after successful prototyping on the breadboard. Creates robust and reliable connections.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: Electronics hardware stores, online marketplaces. A basic kit is sufficient for beginners.</p>
+                    </div>
+
+                    <!-- Part 14: Perfboard/Protoboard or Custom PCB (Optional, but Recommended for Final Build) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">14. Perfboard/Protoboard or Custom PCB</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 50 - 500 (for perfboard), BDT 1000+ (for custom PCB manufacturing)</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong>
+                            <ul class="list-disc list-inside ml-4 text-sm">
+                                <li><strong>Perfboard:</strong> A pre-drilled circuit board with copper pads, allowing you to solder components permanently.</li>
+                                <li><strong>Custom PCB:</strong> A specially designed circuit board manufactured to your exact component layout, offering the most compact and professional finish.</li>
+                            </ul>
+                        </span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Provides the physical base for your permanent circuit assembly. Ensures components are securely mounted and connections are stable for long-term use.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: TechShopBD, RoboticsBD (perfboard). Online PCB manufacturers like JLCPCB, PCBWay (for custom PCBs).</p>
+                    </div>
+
+                    <!-- Part 15: 3D Printed Enclosure (Optional but Recommended for Portability/Aesthetics) -->
+                    <div class="part-card">
+                        <h3 class="2xl font-semibold text-red-600 mb-2">15. 3D Printed Enclosure</h3>
+                        <p class="text-sm text-gray-400 mb-2">Estimated Price: BDT 500 - 2000+</p>
+                        <p class="mb-2"><span class="highlight"><strong>Description:</strong> A custom-designed and 3D-printed plastic casing for your audio player, providing protection and a professional look.</span></p>
+                        <p class="mb-2"><span class="highlight"><strong>Function:</strong> Houses all your electronics, protects them from damage, and provides the desired "thin and long" form factor with cutouts for the screen, buttons, and ports.</span></p>
+                        <p class="text-sm text-gray-500">Where to get it: Local 3D printing services, university labs with 3D printers, or if you own a 3D printer.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step-by-Step Guide Section -->
+            <section id="step-by-step" class="section-container">
+                <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step-by-Step Build Guide</h2>
+
+                <!-- Step 1: Install MicroPython on Raspberry Pi Pico -->
+                <div id="step-1" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 1: Install MicroPython on Raspberry Pi Pico</h3>
+                    <p class="mb-4">This foundational step is akin to installing the operating system on your tiny Pico computer. MicroPython is a highly optimized version of Python, perfectly suited for the resource-constrained environment of microcontrollers, enabling you to program the Pico with ease and efficiency.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your brand new Raspberry Pi Pico board.</li>
+                        <li>A reliable USB A to Micro-USB cable (ensure it's a data cable, not just a charging cable).</li>
+                        <li>A computer (Windows, macOS, or Linux operating system).</li>
+                        <li>A stable internet connection for downloading software.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Download the MicroPython Firmware (.uf2 file):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Open your preferred web browser (e.g., Chrome, Firefox, Edge).</li>
+                                <li>Navigate to the official MicroPython download page for the Raspberry Pi Pico. A quick search for "Raspberry Pi Pico MicroPython uf2 download" will usually lead you to the correct page on the MicroPython website or Raspberry Pi's documentation.</li>
+                                <li>On that page, you will see various `.uf2` files. Look for the <span class="highlight"><strong>latest stable version</strong></span> of the MicroPython firmware specifically compiled for the Raspberry Pi Pico. It will typically have a name format like `rp2-pico-YYYYMMDD.uf2` or `rp2-pico-latest.uf2`.</li>
+                                <li>Click on the `.uf2` file to download it. Save this file to a location on your computer that you can easily remember and access, such as your "Downloads" folder or a dedicated project folder. This `.uf2` file is the complete MicroPython "operating system" that your Pico will run.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Prepare the Pico for Flashing (Enter Bootloader Mode):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Before connecting the Pico, locate the small white button on your Raspberry Pi Pico board. This button is labeled <span class="highlight"><strong>"BOOTSEL"</strong></span> and is usually situated very close to the micro-USB port.</li>
+                                <li><span class="highlight"><strong>This is a crucial step for entering bootloader mode:</strong></span> While you are <span class="highlight"><strong>firmly pressing and holding down</strong></span> the "BOOTSEL" button, gently plug the micro-USB end of your USB cable into the Raspberry Pi Pico's micro-USB port.</li>
+                                <li>Immediately after plugging the micro-USB end into the Pico, plug the standard USB-A end of the cable into a free USB port on your computer.</li>
+                                <li>Continue to hold the "BOOTSEL" button for approximately <span class="highlight">2 to 3 seconds</span>. Watch your computer's file explorer (or desktop).</li>
+                                <li>You should see a new removable drive or storage device appear. This drive will typically be named <span class="highlight"><strong>"RPI-RP2"</strong></span>.</li>
+                                <li>Once the "RPI-RP2" drive appears on your computer, you can safely release the "BOOTSEL" button. Your Pico is now in "bootloader mode," which means it's ready to receive new firmware through a simple drag-and-drop mechanism.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Drag and Drop the Firmware to the Pico:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Open your computer's file explorer (e.g., "This PC" or "My Computer" on Windows, "Finder" on macOS, or your file manager on Linux).</li>
+                                <li>Navigate to the folder where you saved the downloaded MicroPython `.uf2` file (from step 1).</li>
+                                <li><span class="highlight"><strong>Drag the `rp2-pico-YYYYMMDD.uf2` file</strong></span> (or whatever its name is) directly from your computer's folder onto the "RPI-RP2" drive window.</li>
+                                <li>As soon as you drop the file, the Pico will begin the flashing process. This happens very quickly. The "RPI-RP2" drive will automatically <span class="highlight">dismount itself</span> (disappear from your computer's drive list) after a few seconds. This is the Pico's way of confirming that the firmware has been successfully loaded. The Pico will then automatically reboot, and it will now be running the newly installed MicroPython firmware.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Install Thonny IDE (Integrated Development Environment):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Thonny is a <span class="highlight">beginner-friendly Python IDE</span> that comes with built-in support for MicroPython, making it the ideal tool for writing, running, and transferring your Python code to the Pico.</li>
+                                <li>Open your web browser and search for "Thonny IDE" or go directly to <a href="https://thonny.org/" class="text-red-400 hover:underline">`https://thonny.org/`</a>.</li>
+                                <li>On the Thonny website, download the appropriate installer for your computer's operating system (Windows, macOS, or Linux).</li>
+                                <li>Run the downloaded installer file. Follow the on-screen prompts, which are typically very straightforward ("Next", "Install", "Finish").</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Configure Thonny for MicroPython on Pico:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Launch the newly installed Thonny IDE.</li>
+                                <li>In the Thonny menu bar, go to `Tools` -> `Options`.</li>
+                                <li>In the "Options" dialog box that appears, click on the <span class="highlight">`Interpreter` tab</span>.</li>
+                                <li>From the "Interpreter" dropdown menu, select <span class="highlight"><strong>"MicroPython (Raspberry Pi Pico)"</strong></span>. This tells Thonny to communicate with your Pico using the MicroPython language.</li>
+                                <li>Below the "Interpreter" selection, in the "Port" dropdown menu, Thonny should automatically detect and display the serial port connected to your Pico. It might appear as something like `/dev/ttyACM0` (on Linux), `COMx` (where 'x' is a number, on Windows), or `/dev/cu.usbmodemxxxx` (on macOS). If you see multiple options and are unsure, you can try unplugging and re-plugging your Pico to see which port disappears and reappears.</li>
+                                <li>Once you've selected the correct port, click <span class="highlight">`OK`</span> to save the settings.</li>
+                                <li>You should now observe a <span class="highlight"><strong>"MicroPython" prompt (>>>)</strong></span> in the Thonny "Shell" window, which is usually located at the bottom of the Thonny interface. This prompt signifies that Thonny has successfully established communication with your Pico, and your Pico is ready to receive and execute MicroPython commands. You can test this by typing a simple Python command like `print("Hello from Pico!")` into the shell and pressing Enter; you should see the output appear in the shell.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Step 2: Breadboard Prototyping -->
+                <div id="step-2" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 2: Breadboard Prototyping</h3>
+                    <p class="mb-4">This is a critically important "trial and error" phase. You'll build your entire circuit temporarily on a breadboard. This allows you to verify all your connections, test individual components, and debug your code without damaging anything. Think of it as a rough draft for your final circuit.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your Raspberry Pi Pico board (with MicroPython already installed).</li>
+                        <li>A breadboard (a medium-sized one, typically 830 tie-points, will be sufficient).</li>
+                        <li>Assorted Dupont jumper wires (male-to-male and male-to-female are essential).</li>
+                        <li>All your purchased electronic components: OLED display, I2S DAC module, MicroSD card module, and the tactile push buttons.</li>
+                        <li><span class="highlight"><strong>Crucial:</strong></span> The datasheets or pinout diagrams for each of your components. These diagrams show which pin does what (VCC, GND, SDA, SCL, MOSI, MISO, etc.). You can usually find these by searching online for "\[component name] pinout" or "\[component name] datasheet".</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Understand the Breadboard Layout:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>A breadboard is a grid of tiny holes. These holes are designed to make electrical connections without soldering.</li>
+                                <li><span class="highlight"><strong>Power Rails (usually along the long edges):</strong></span> These rows of holes are typically marked with a red line (+) for positive voltage and a blue or black line (-) for ground. All holes in these long rows are electrically connected horizontally. Use these for distributing VCC (positive voltage) and GND (ground) to your components.</li>
+                                <li><span class="highlight"><strong>Component Rails (in the middle section):</strong></span> The holes in the central part of the breadboard are typically connected in short vertical columns (usually 5 holes per column). When you insert a component, its pins should straddle the central groove (the "trench") so that pins on opposite sides are not short-circuited.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Power the Breadboard from the Pico:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Locate the `3V3` (3.3 Volt output) pin on your Raspberry Pi Pico. This pin provides the stable 3.3V power that most of your modules will need. Using a male-to-male jumper wire, connect the Pico's <span class="highlight">`3V3` pin to one of the red (+) power rails</span> on your breadboard.</li>
+                                <li>Find any `GND` (Ground) pin on your Raspberry Pi Pico. Using another male-to-male jumper wire, connect this Pico <span class="highlight">`GND` pin to one of the blue/black (-) ground rails</span> on your breadboard.</li>
+                                <li><span class="highlight"><strong>Optional but recommended:</strong></span> Use short jumper wires to connect the power and ground rails from one side of the breadboard to the other, ensuring that both sets of rails have 3.3V and GND available. Now, you have a convenient source of 3.3V and GND distributed across your breadboard for all subsequent component connections.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Connect the OLED Display (I2C Communication):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Pick up your 0.96" I2C OLED display module. Carefully identify its four pins: VCC (power), GND (ground), SDA (Serial Data Line), and SCL (Serial Clock Line). Refer to its pinout diagram if labels are unclear.</li>
+                                <li>Connect the OLED's <span class="highlight"><strong>VCC</strong> pin to the <strong>3.3V power rail</strong></span> on your breadboard.</li>
+                                <li>Connect the OLED's <span class="highlight"><strong>GND</strong> pin to the <strong>GND rail</strong></span> on your breadboard.</li>
+                                <li>Connect the OLED's <span class="highlight"><strong>SDA</strong> pin to <strong>Pico GPIO 4 (GP4)</strong></span>. This is a common I2C data pin for the Pico's I2C0 peripheral.</li>
+                                <li>Connect the OLED's <span class="highlight"><strong>SCL</strong> pin to <strong>Pico GPIO 5 (GP5)</strong></span>. This is a common I2C clock pin for the Pico's I2C0 peripheral.</li>
+                                <li><span class="highlight"><strong>Important Note:</strong></span> The Pico has multiple I2C peripherals. While GP4/GP5 (I2C0) is common, you could use other pairs like GP0/GP1 (I2C0), GP6/GP7 (I2C1), GP10/GP11 (I2C1), etc. The key is to match the pins in your wiring to the pins you'll specify in your MicroPython code.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Connect the MicroSD Card Module (SPI Communication):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Take your MicroSD card module. It typically has 6 pins: VCC, GND, CS (Chip Select), SCK (Serial Clock), MOSI (Master Out Slave In), and MISO (Master In Slave Out). Check your module's pinout.</li>
+                                <li>Connect the SD module's <span class="highlight"><strong>VCC</strong> pin to the <strong>3.3V power rail</strong></span> on your breadboard.</li>
+                                <li>Connect the SD module's <span class="highlight"><strong>GND</strong> pin to the <strong>GND rail</strong></span> on your breadboard.</li>
+                                <li>Connect the SD module's <span class="highlight"><strong>CS</strong> pin to <strong>Pico GPIO 13 (GP13)</strong></span>. This pin acts as the "enable" signal for the SD card.</li>
+                                <li>Connect the SD module's <span class="highlight"><strong>SCK</strong> pin to <strong>Pico GPIO 10 (GP10)</strong></span>. This is the clock signal for SPI communication.</li>
+                                <li>Connect the SD module's <span class="highlight"><strong>MOSI</strong> pin to <strong>Pico GPIO 11 (GP11)</strong></span>. Data from the Pico goes *out* to the SD card on this line.</li>
+                                <li>Connect the SD module's <span class="highlight"><strong>MISO</strong> pin to <strong>Pico GPIO 12 (GP12)</strong></span>. Data from the SD card comes *in* to the Pico on this line.</li>
+                                <li><span class="highlight"><strong>Important Note:</strong></span> The Pico has multiple SPI peripherals. GP10-GP13 (SPI1) is a very common and convenient set of pins for SPI communication, especially for SD cards.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Connect the I2S DAC Module (Digital Audio Output):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>If you are using the <span class="highlight"><strong>Pimoroni Pico Audio Pack</strong></span>, this step is significantly simpler. This module is designed to <span class="highlight">directly plug into the Raspberry Pi Pico's header pins</span>. Carefully align the module with the Pico's pins (often matching the USB port orientation) and gently press it into place. This board handles all the I2S connections internally.</li>
+                                <li>If you are using a <span class="highlight"><strong>generic I2S DAC module</strong></span> (e.g., PCM5102A breakout):
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Identify the DAC's pins: VCC, GND, LRCK (Left/Right Clock), BCLK (Bit Clock), DATA (Serial Data In), and potentially MCLK (Master Clock) if your specific DAC requires one (many modern DACs, like the PCM510xA series, can generate MCLK internally, simplifying wiring).</li>
+                                        <li>Connect the DAC's <span class="highlight"><strong>VCC</strong> pin to the <strong>3.3V power rail</strong></span> on your breadboard.</li>
+                                        <li>Connect the DAC's <span class="highlight"><strong>GND</strong> pin to the <strong>GND rail</strong></span> on your breadboard.</li>
+                                        <li>Connect the DAC's <span class="highlight"><strong>LRCK</strong> (Word Select / Left-Right Clock) pin to <strong>Pico GPIO 25 (GP25)</strong></span>.</li>
+                                        <li>Connect the DAC's <span class="highlight"><strong>BCLK</strong> (Bit Clock) pin to <strong>Pico GPIO 26 (GP26)</strong></span>.</li>
+                                        <li>Connect the DAC's <span class="highlight"><strong>DATA</strong> (Serial Data In) pin to <strong>Pico GPIO 27 (GP27)</strong></span>.</li>
+                                        <li><span class="highlight"><strong>Important Note:</strong></span> The exact GPIO pins for I2S might need to be adjusted based on the I2S peripheral (I2S0 or I2S1) you configure in your code and the specific I2S pins your DAC module expects. Always consult your DAC module's datasheet or example wiring diagrams.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Connect the Tactile Push Buttons:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>For each push button (you'll typically use 5 to 7: Play/Pause, Next, Previous, Volume Up, Volume Down, Menu, Select/Enter), identify its two primary electrical terminals (most tactile buttons have 4 pins for mechanical stability, but only two are electrically connected).</li>
+                                <li>For each button:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Connect one terminal of the button to a <span class="highlight">unique <strong>Pico GPIO pin</strong></span> (e.g., GP0, GP1, GP2, GP3, GP6, GP7, GP8 – choose any unused GPIO pins that are convenient for your layout).</li>
+                                        <li>Connect the <span class="highlight"><strong>other terminal of *the same button*</strong> to the <strong>GND rail</strong></span> on your breadboard.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Important Note (Pull-Up Configuration):</strong></span> By connecting one side of the button to a Pico GPIO pin and the other to GND, you're setting up a "pull-up" configuration in your MicroPython code. This means the Pico's internal pull-up resistor will keep the GPIO pin "High" (3.3V) by default when the button is not pressed. When you press the button, it momentarily connects the GPIO pin directly to GND, pulling its voltage "Low" (0V). Your code will detect a button press when the pin value changes from High to Low.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Double-Check All Connections (The Zen of Prototyping):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>This is the most time-consuming but most rewarding part of breadboarding. Go over every single wire connection.</li>
+                                <li><span class="highlight">Verify that every VCC connection is to the 3.3V rail and every GND connection is to the GND rail.</span></li>
+                                <li><span class="highlight">Confirm that every data line</span> (SDA, SCL, CS, SCK, MOSI, MISO, I2S lines) is connected to the <span class="highlight"><em>exact</em> Pico GPIO pin</span> you intend to use and will specify in your code.</li>
+                                <li><span class="highlight">Ensure there are no accidental short circuits</span> (e.g., a jumper wire touching an adjacent pin it shouldn't).</li>
+                                <li>A single misplaced wire can prevent your entire system from working, so <span class="highlight">patience and thoroughness here will save you headaches later.</span></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Step 3: Basic Code Development & Testing -->
+                <div id="step-3" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 3: Basic Code Development & Testing</h3>
+                    <p class="mb-4">Now that your hardware is temporarily assembled on the breadboard, it's time to write some MicroPython code to test each component individually. This modular testing approach helps you quickly identify and resolve any wiring issues or coding errors before integrating everything into the final player.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your breadboarded Pico setup from Step 2, connected to your computer via USB.</li>
+                        <li>Thonny IDE, configured to communicate with your Pico (as done in Step 1).</li>
+                        <li>Small, focused MicroPython scripts (which you'll either write or download).</li>
+                        <li>Your MicroSD card (formatted FAT32) with some sample files.</li>
+                        <li>Headphones to test audio.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Test Pico Basic Functionality (Built-in LED Blink Test):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>This is the "Hello World" for microcontrollers, confirming your Pico is alive and accepting code.</li>
+                                <li>In Thonny, create a new file by going to `File` -> `New`.</li>
+                                <li>Carefully type or paste the following code into the new editor window:
+<pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-python">
+from machine import Pin
+import time
+
+# The built-in LED on the Raspberry Pi Pico is conveniently aliased as "LED"
+# We configure it as an output pin.
+led = Pin("LED", Pin.OUT)
+
+print("Starting LED blink test...")
+
+# This loop will run indefinitely, blinking the LED
+while True:
+    led.value(1) # Set the LED pin to HIGH (1), which turns the LED ON
+    print("LED ON")
+    time.sleep(0.5) # Pause execution for 0.5 seconds
+
+    led.value(0) # Set the LED pin to LOW (0), which turns the LED OFF
+    print("LED OFF")
+    time.sleep(0.5) # Pause execution for another 0.5 seconds
+</code>
+</pre>
+                                <li>Click the "Save" icon (looks like a floppy disk, or go to `File` -> `Save As`).</li>
+                                <li>When prompted to choose where to save, select <span class="highlight"><strong>"Raspberry Pi Pico"</strong></span>.</li>
+                                <li>Save the file as <span class="highlight">`main.py`</span>. This filename is very important: when the Pico powers on (or is reset), it automatically looks for and runs a file named `main.py` if it exists in its root directory. This will be your main program for the audio player later.</li>
+                                <li>Click the "Run current script" button (it's a green play icon, or go to `Run` -> `Run Current Script`).</li>
+                                <li><span class="highlight"><strong>Expected Result:</strong></span> The small, usually red, LED built directly onto your Raspberry Pi Pico board should start blinking on and off every half-second. Concurrently, you should see "LED ON" and "LED OFF" messages continuously printed in the Thonny "Shell" window at the bottom of the screen. This confirms that MicroPython is running, your Pico is receiving power, and you can successfully upload and execute code.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Test OLED Display Functionality:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>To control the OLED display, you'll need a MicroPython library for the SSD1306 chip.</li>
+                                <li><span class="highlight"><strong>Download Library:</strong></span> Open your web browser and search for "micropython ssd1306.py github". Look for a repository that provides a raw `ssd1306.py` file (often from Adafruit or similar sources). Download this file to your computer.</li>
+                                <li><span class="highlight"><strong>Upload Library to Pico:</strong></span> In Thonny, go to `View` -> `Files`. This will open a file browser pane. On the left side, you'll see your computer's file system, and on the right side, you'll see the files on your "Raspberry Pi Pico". <span class="highlight">Drag the `ssd1306.py` file from your computer's file list on the left to the "Raspberry Pi Pico" file list on the right.</span> This transfers the library file to your Pico's internal flash memory.</li>
+                                <li><span class="highlight"><strong>Write Test Code:</strong></span> Create a new file in Thonny (`File` -> `New`) and paste the following code. <span class="highlight"><strong>Crucially, adjust the `i2c_sda` and `i2c_scl` Pin numbers if you used different GPIO pins for your OLED's SDA and SCL connections in Step 2.</strong></span>
+<pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-python">
+from machine import Pin, I2C
+import ssd1306 # Import the library you just uploaded
+import time
+
+# Define the dimensions of your OLED display
+oled_width = 128
+oled_height = 64 # Common for 0.96" OLEDs. If yours is 128x32, change this to 32.
+
+# Configure the I2C communication pins for the OLED
+# These should match the GPIO pins you used in your wiring (Step 2)
+i2c_sda = Pin(4) # Pico GPIO 4 for I2C Data
+i2c_scl = Pin(5) # Pico GPIO 5 for I2C Clock
+
+# Initialize the I2C bus. I2C(0) refers to I2C peripheral 0 on the Pico.
+# freq=400000 sets the I2C clock frequency to 400kHz, which is standard for OLEDs.
+i2c_bus = I2C(0, sda=i2c_sda, scl=i2c_scl, freq=400000)
+
+# Initialize the SSD1306 OLED display object
+oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c_bus)
+
+# Clear the display (fill with black pixels)
+oled.fill(0) # 0 for black, 1 for white/on
+
+# Display some text messages
+# oled.text(text, x_coordinate, y_coordinate)
+oled.text("Hello, Pico!", 0, 0)   # Top-left corner
+oled.text("Audio Player", 0, 10)  # 10 pixels down from top
+oled.text("v0.1", 0, 20)          # 20 pixels down from top
+
+# Update the physical display with the buffered changes
+oled.show()
+
+# Keep the message on display for 5 seconds
+time.sleep(5)
+
+# Clear the display again
+oled.fill(0)
+oled.show()
+
+print("OLED test complete.")
+</code>
+</pre>
+                                <li>Save this code as a new file (e.g., `oled_test.py`) on your Pico (not as `main.py` yet, so it doesn't run automatically).</li>
+                                <li>Run the `oled_test.py` script.</li>
+                                <li><span class="highlight"><strong>Expected Result:</strong></span> The OLED screen should light up and display "Hello, Pico! Audio Player v0.1" for about 5 seconds, and then it should clear to black. If nothing appears or you see errors in the Thonny Shell, meticulously double-check your OLED wiring (VCC, GND, SDA, SCL) and ensure the `Pin` numbers in your `I2C` initialization in the code precisely match your physical connections. Also, verify that the `ssd1306.py` library was successfully uploaded.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Test Push Buttons Functionality:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>This test verifies that your Pico can correctly detect when a button is pressed.</li>
+                                <li>Create a new file in Thonny (`File` -> `New`):
+<pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-python">
+from machine import Pin
+import time
+
+# Define the GPIO pins connected to your buttons.
+# Pin.IN sets them as input pins.
+# Pin.PULL_UP enables the Pico's internal pull-up resistor.
+# This means the pin will read HIGH (1) when the button is NOT pressed,
+# and LOW (0) when the button IS pressed (connecting to GND).
+button_up = Pin(0, Pin.IN, Pin.PULL_UP)     # Example: Button connected to GP0
+button_down = Pin(1, Pin.IN, Pin.PULL_UP)   # Example: Button connected to GP1
+button_select = Pin(2, Pin.IN, Pin.PULL_UP) # Example: Button connected to GP2
+
+print("Press any button... (Output will appear in Thonny Shell)")
+
+# Loop indefinitely to continuously check button states
+while True:
+    # Check if the "Up" button is pressed (value goes to 0)
+    if button_up.value() == 0:
+        print("Up button pressed!")
+        time.sleep(0.2) # Simple debounce: waits a short moment to avoid multiple readings from a single press
+
+    # Check if the "Down" button is pressed
+    if button_down.value() == 0:
+        print("Down button pressed!")
+        time.sleep(0.2) # Debounce
+
+    # Check if the "Select" button is pressed
+    if button_select.value() == 0:
+        print("Select button pressed!")
+        time.sleep(0.2) # Debounce
+
+    time.sleep(0.05) # A small delay to prevent the loop from consuming too much CPU resources (busy-waiting)
+</code>
+</pre>
+                                <li>Save this as `buttons_test.py` on your Pico and run it.</li>
+                                <li><span class="highlight"><strong>Expected Result:</strong></span> In the Thonny Shell, every time you press one of the connected buttons, you should see the corresponding message ("Up button pressed!", "Down button pressed!", or "Select button pressed!"). If a button doesn't respond, carefully check its wiring to the Pico's GPIO pin and ensure its other terminal is connected to GND. Also, confirm the `Pin` numbers in your code match your physical connections.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Test MicroSD Card Module:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>This step confirms that your Pico can communicate with and read files from the MicroSD card.</li>
+                                <li><span class="highlight"><strong>Prepare SD Card:</strong></span> Insert a formatted (FAT32 filesystem) microSD card into your MicroSD card module. Ensure the card has at least one small text file or dummy file on it for testing (e.g., `test.txt`).</li>
+                                <li><span class="highlight"><strong>Download Library:</strong></span> You'll need an SD card library for MicroPython. Search for "micropython sdcard.py github" and <span class="highlight">upload the `sdcard.py` file to the root directory of your Pico</span> (using `View` -> `Files` in Thonny, just like you did for `ssd1306.py`).</li>
+                                <li><span class="highlight"><strong>Write Test Code:</strong></span> Create a new file in Thonny and paste the following code. <span class="highlight"><strong>Adjust the `Pin` numbers for `spi_sck`, `spi_mosi`, `spi_miso`, and `sd_cs` if they differ from your wiring in Step 2.</strong></span>
+<pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-python">
+from machine import Pin, SPI
+import os       # The standard MicroPython OS module for filesystem operations
+import sdcard   # The SD card library you uploaded
+
+# Define the GPIO pins for SPI communication with the SD card module.
+# These should match your wiring from Step 2.
+spi_sck = Pin(10) # SPI Clock (SCK)
+spi_mosi = Pin(11) # Master Out Slave In (MOSI) - Pico sends data to SD card
+spi_miso = Pin(12) # Master In Slave Out (MISO) - Pico receives data from SD card
+sd_cs = Pin(13)   # SD Card Chip Select (CS)
+
+# Initialize the SPI bus. SPI(0) refers to SPI peripheral 0 on the Pico.
+# baudrate is the communication speed.
+# polarity=0, phase=0 are standard SPI modes.
+spi = SPI(1, baudrate=1000000, polarity=0, phase=0, sck=spi_sck, mosi=spi_mosi, miso=spi_miso)
+
+# Initialize the SD card object using the SPI bus and Chip Select pin
+sd = sdcard.SDCard(spi, sd_cs)
+
+# Attempt to mount the SD card to the Pico's filesystem.
+# It will appear as a directory named '/sd'.
+try:
+    os.mount(sd, '/sd')
+    print("SD Card mounted successfully!")
+    print("Files found on SD card:")
+    # List all files and directories within the mounted '/sd' path
+    for filename in os.listdir('/sd'):
+        print(" -", filename)
+    
+    # After operations, it's good practice to unmount the SD card
+    os.umount('/sd')
+    print("SD Card unmounted.")
+
+except OSError as e:
+    # If there's an error during mounting (e.g., wiring issue, card not found, wrong format)
+    print("Error mounting SD card:", e)
+    print("Please double-check wiring, ensure the SD card is inserted correctly, and is formatted as FAT32.")
+
+print("SD Card test complete.")
+</code>
+</pre>
+                                <li>Save this as `sd_test.py` on your Pico and run it.</li>
+                                <li><span class="highlight"><strong>Expected Result:</strong></span> You should see "SD Card mounted successfully!" followed by a list of the files and folders present on your MicroSD card. If you encounter an "OSError" or other issues, meticulously re-check your SD card module's wiring (VCC, GND, CS, SCK, MOSI, MISO), ensure the card is inserted properly, and that it's formatted to FAT32. Some modules might also have specific voltage requirements (ensure 3.3V power).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Test I2S DAC Audio Output:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>This is often the most intricate part of the individual component tests. It confirms your Pico can send digital audio data to your DAC, and the DAC can convert it to audible sound.</li>
+                                <li><span class="highlight"><strong>Prerequisites:</strong></span> Ensure your headphones are connected to the DAC's 3.5mm output.</li>
+                                <li><span class="highlight"><strong>Specific DAC Library/Example:</strong></span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>If you are using the <span class="highlight"><strong>Pimoroni Pico Audio Pack</strong></span>, they provide specific MicroPython examples and libraries tailored for their board. <span class="highlight"><strong>It is highly recommended to use their official examples first.</strong></span> Search for "Pimoroni Pico Audio Pack MicroPython example" on their website or GitHub. This will greatly simplify the I2S setup.</li>
+                                        <li>If you are using a <span class="highlight"><strong>generic I2S DAC module</strong></span>, you'll need a suitable I2S library for MicroPython. The `machine.I2S` class in MicroPython is the standard way to interact with the Pico's I2S peripheral. You might need additional helper functions or a specific driver for your DAC if it requires complex initialization. Search for "micropython i2s audio example" or "micropython PCM5102A example".</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Conceptual Sine Wave Example (Highly Dependent on Your DAC/Library!):</strong></span> Below is a conceptual example to generate a sine wave. <span class="highlight"><strong>You will likely need to adapt this significantly based on the specific I2S library and DAC you are using.</strong></span> This example assumes `ulab` (a MicroPython library for numerical operations) is installed on your Pico for `numpy` functionality (`pip install micropython-ulab` via Thonny's `Tools` -> `Manage packages...`).
+<pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-python">
+from machine import Pin, I2S
+import ulab.numpy as np # Used for efficient array operations, needs to be installed on Pico
+import math
+import time
+
+# --- I2S Configuration ---
+# These GPIO pins MUST match your DAC's I2S connections from Step 2.
+SCK_PIN = 26  # Serial Clock (BCLK)
+WS_PIN = 27   # Word Select (LRCK - Left/Right Clock)
+SD_PIN = 28   # Serial Data (DATA IN)
+
+# Audio parameters
+SAMPLE_RATE = 44100  # Samples per second (CD quality)
+BITS_PER_SAMPLE = 16 # Bits per audio sample (16-bit for good quality)
+CHANNEL_FORMAT = I2S.STEREO # Use stereo output
+STANDARD = I2S.PHILIPS # Common I2S standard (also known as I2S or MSB_FIRST)
+
+# Initialize the I2S peripheral on the Pico
+# I2S(0) refers to the first I2S peripheral.
+audio_out = I2S(
+    0,
+    sck=Pin(SCK_PIN),
+    ws=Pin(WS_PIN),
+    sd=Pin(SD_PIN),
+    standard=STANDARD,
+    mode=I2S.TX,         # Transmit mode (Pico sends data OUT)
+    bits=BITS_PER_SAMPLE,
+    format=CHANNEL_FORMAT,
+    rate=SAMPLE_RATE,
+    ibuf=2048            # Internal buffer size in bytes (must be power of 2)
+)
+
+print("Attempting to play a sine wave...")
+
+# --- Sine Wave Generation ---
+# This generates a 440 Hz sine wave (A4 note)
+frequency = 440
+# Number of samples to generate per buffer write.
+# For smooth audio, you'll continuously generate and write these.
+num_samples_per_channel = 128 # Small buffer for demonstration
+
+# Create a buffer for stereo 16-bit audio. Each sample is 2 bytes.
+# For stereo, you need two samples (Left, Right) per audio frame.
+# So, total bytes = num_samples_per_channel * 2 channels * 2 bytes/sample
+audio_buffer = bytearray(num_samples_per_channel * 2 * (BITS_PER_SAMPLE // 8))
+
+# Loop to continuously generate and play sine wave
+try:
+    while True:
+        # Generate interleaved stereo sine wave samples
+        # This part is crucial for stereo: L0, R0, L1, R1, ...
+        for i in range(num_samples_per_channel):
+            # Calculate sine wave value for Left channel
+            val_left = int( (math.sin(2 * math.pi * frequency * (audio_out.sample_count + i) / SAMPLE_RATE) * (2**(BITS_PER_SAMPLE-1) - 1)) )
+            # For simplicity, Right channel is same as Left
+            val_right = val_left
+
+            # Pack 16-bit values into bytes (little-endian is common for I2S)
+            # Make sure this packing matches what your DAC expects (endianness)
+            byte_idx = i * 4 # 2 channels * 2 bytes/sample = 4 bytes per frame
+            audio_buffer[byte_idx] = val_left & 0xFF
+            audio_buffer[byte_idx + 1] = (val_left >> 8) & 0xFF
+            audio_buffer[byte_idx + 2] = val_right & 0xFF
+            audio_buffer[byte_idx + 3] = (val_right >> 8) & 0xFF
+        
+        # Write the audio buffer to the I2S peripheral
+        # This is non-blocking, the I2S hardware handles sending data
+        audio_out.write(audio_buffer)
+
+except KeyboardInterrupt:
+    print("Audio playback interrupted by user.")
+except Exception as e:
+    print(f"An error occurred during audio playback: {e}")
+finally:
+    # Deinitialize the I2S peripheral to stop audio output and release resources
+    audio_out.deinit()
+    print("Audio stopped and I2S deinitialized.")
+
+</code>
+</pre>
+                                <li>Save this code as `i2s_audio_test.py` on your Pico and run it.</li>
+                                <li><span class="highlight"><strong>Expected Result:</strong></span> When you plug in your headphones, you should hear a continuous sine wave tone. If you hear static, silence, or garbled sound, meticulously double-check your DAC wiring (especially VCC, GND, and the three I2S pins: LRCK, BCLK, DATA). Also, carefully review the `I2S` initialization parameters in your code (sample rate, bit depth, channel format) to ensure they match your DAC's capabilities and your expectations. Consult your DAC's datasheet for required clock frequencies and data formats.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-lg">Once all individual components pass their tests, you're ready to integrate them into a single, cohesive project. This modular testing is a <span class="highlight">crucial step for debugging</span> and ensures a smoother transition to the final assembly and full code development.</p>
+                </div>
+
+                <!-- Step 4: Hardware Assembly (Soldering) -->
+                <div id="step-4" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 4: Hardware Assembly (Soldering)</h3>
+                    <p class="mb-4">This is the stage where your temporary breadboard prototype transforms into a <span class="highlight">robust, permanent circuit</span>. Soldering ensures reliable electrical connections, prevents accidental disconnections, and allows for a much more compact final form factor than a breadboard.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your fully tested breadboard prototype from Step 3.</li>
+                        <li>All your individual electronic components.</li>
+                        <li><span class="highlight"><strong>Soldering Iron:</strong></span> A temperature-controlled soldering iron is highly recommended as it provides consistent heat and prevents damage to sensitive components.</li>
+                        <li><span class="highlight"><strong>Solder:</strong></span> Rosin-core electronic solder (e.g., 60/40 tin/lead or a lead-free alternative like SAC305). The rosin flux helps the solder flow cleanly.</li>
+                        <li><span class="highlight"><strong>Safety Glasses:</strong></span> Absolutely <span class="highlight"><strong>crucial!</strong></span> Wear them at all times while soldering to protect your eyes from splashes of molten solder or fumes.</li>
+                        <li><span class="highlight"><strong>Good Ventilation:</strong></span> Solder fumes are harmful. Work in a well-ventilated area, near an open window, or use a dedicated fume extractor.</li>
+                        <li><span class="highlight"><strong>"Third Hand" Tool (Optional but Recommended):</strong></span> A stand with adjustable clips that holds components and PCBs steady, freeing your hands for soldering.</li>
+                        <li><span class="highlight"><strong>Desoldering Braid or Solder Sucker (for mistakes):</strong></span> Useful for removing excess solder or correcting mis-soldered connections.</li>
+                        <li><span class="highlight"><strong>Isopropyl Alcohol (IPA) and Cotton Swabs/Brush (Optional):</strong></span> For cleaning up flux residue after soldering, making your board look neater and preventing potential issues.</li>
+                        <li><span class="highlight"><strong>Protoboard/Perforated Board (Perfboard) or Custom PCB:</strong></span>
+                            <ul class="list-disc list-inside ml-6">
+                                <li><strong>Perfboard:</strong> This is the most common choice for DIY permanent circuits. It's a universal board with a grid of pre-drilled holes, usually with small copper pads around each hole. You connect components and create traces with solder and wires.</li>
+                                <li><strong>Custom PCB:</strong> This is for advanced users aiming for the most compact and professional result. It involves designing a circuit board layout using specialized software (like KiCad or EasyEDA) and then having it manufactured by a PCB fabrication service. This is outside the scope of direct assembly instructions but offers the best final product.</li>
+                            </ul>
+                        </li>
+                        <li><span class="highlight"><strong>Small Gauge Hook-Up Wire:</strong></span> Various colors of thin, insulated wire (e.g., 22 AWG to 30 AWG) for making connections on the perfboard. Solid core wire is often easier for neat routing.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained - for Perfboard):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Plan Your Layout on the Perfboard:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Before you start soldering, study your breadboard layout. Now, visualize how you can arrange all your components (Pico, OLED, DAC, SD card module, battery holder, charging module) on the perfboard in a <span class="highlight">compact, organized, and "thin and long" manner</span> to fit your desired enclosure.</li>
+                                <li>Consider the physical dimensions of the 18650 battery. This will likely dictate the overall length and thinness of your device.</li>
+                                <li>Think about where the connectors will be: where will the USB-C charging port protrude? Where will the headphone jack be accessible? Where will the buttons be positioned? Arrange your components on the perfboard so that their respective connectors are easily accessible through your future enclosure openings.</li>
+                                <li>You might even want to draw a rough sketch of your layout on paper or use a piece of grid paper to map it out. The goal is to minimize wire lengths and avoid cluttered areas.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Mount Components (One by One):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Start by carefully pushing the pins of your smallest or most central components (e.g., Pico first, then the DAC if it's a HAT/Pico-sized board) through the appropriate holes on the perfboard.</li>
+                                <li>Ensure each component sits flat against the board and is oriented correctly (e.g., USB port facing the direction you planned for charging access).</li>
+                                <li>Once a component is in place, you can <span class="highlight">gently bend its pins</span> on the back of the perfboard outwards by about 45 degrees. This "cinches" the component, holding it in place temporarily so it doesn't fall out while you solder.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Solder Power and Ground Connections (First Priority):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Begin with the most fundamental connections: common power (3.3V) and common ground (GND).</li>
+                                <li>Just like on a breadboard, it's good practice to create <span class="highlight">"power buses"</span> on your perfboard. You can do this by running a continuous line of solid core wire or by using short, neat solder bridges between adjacent pads to connect them.</li>
+                                <li>Solder every component's VCC (power input) pin to your common 3.3V power bus.</li>
+                                <li>Solder every component's GND (ground) pin to your common GND bus.</li>
+                                <li><span class="highlight"><strong>Soldering Technique Reminder:</strong></span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight">Heat both the component pin and the copper pad</span> on the perfboard *simultaneously* with the clean, tinned tip of your soldering iron.</li>
+                                        <li>Touch the solder wire to the heated joint (not the iron itself). The solder should melt and flow smoothly around the pin and onto the pad, forming a small, <span class="highlight">shiny, concave "volcano" or "fillet" shape</span>.</li>
+                                        <li>Remove the solder wire first, then immediately remove the soldering iron.</li>
+                                        <li>Allow the joint to cool and solidify for a few seconds without moving it. A good joint will be shiny and smooth.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Solder Data Connections (Next):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Now, systematically connect all the data lines from your components to their respective Raspberry Pi Pico GPIO pins. These include:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>OLED: SDA and SCL to Pico's I2C pins (e.g., GP4 and GP5).</li>
+                                        <li>SD Card Module: CS, SCK, MOSI, MISO to Pico's SPI pins (e.g., GP13, GP10, GP11, GP12).</li>
+                                        <li>I2S DAC Module: LRCK, BCLK, DATA to Pico's I2S pins (e.g., GP25, GP26, GP27 – if using a generic DAC). If using a Pimoroni Audio Pack, these are already connected internally.</li>
+                                    </ul>
+                                </li>
+                                <li>Use <span class="highlight">short lengths of insulated hook-up wire</span>. Strip only enough insulation from the ends to make the connection. Cut them to precise lengths to keep your board as neat and compact as possible. <span class="highlight">Avoid long, looping wires, as they can sometimes act as antennas and introduce electrical noise.</span></li>
+                                <li>Solder one end of each wire to the component pin and the other end to the corresponding Pico GPIO pin.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Connect Push Buttons:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Solder one terminal of each push button to its assigned Pico GPIO pin (e.g., GP0, GP1, GP2, etc.).</li>
+                                <li>Solder the other terminal of each button to your common GND bus on the perfboard.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Integrate Battery Holder and Charging Module:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>This is a critical step involving power. <span class="highlight">Take extreme care to ensure correct polarity.</span></li>
+                                <li>Solder the <span class="highlight"><strong>positive (+)</strong> terminal</span> of your 18650 battery holder to the `BAT+` (or `B+`) input terminal on your fast-charging module.</li>
+                                <li>Solder the <span class="highlight"><strong>negative (-)</strong> terminal</span> of your 18650 battery holder to the `BAT-` (or `B-`) input terminal on your fast-charging module.</li>
+                                <li>Now, solder the <span class="highlight"><strong>output</strong> of the charging module to power your Pico:</span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Solder the `OUT+` (or `5V OUT` or `Vout`) pin of the charging module to the <span class="highlight"><strong>`VSYS` pin</strong> on your Raspberry Pi Pico</span>. The Pico's `VSYS` pin is designed to accept a voltage input directly from the battery (or a regulated power source) and has its own onboard regulator to safely step it down to the 3.3V the Pico's main components require. This is why connecting the 5V output of your charging module to `VSYS` is the correct and safe method.</li>
+                                        <li>Solder the `OUT-` (or `GND`) pin of the charging module to any <span class="highlight"><strong>`GND` pin</strong> on your Raspberry Pi Pico.</span> Ensure this ground connection is solid.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Visual confirmation:</strong> Double-check all power connections before inserting the battery.</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Perform a Thorough Inspection of All Solder Joints:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Once all soldering is complete, perform a <span class="highlight">meticulous visual inspection</span> of every single solder joint. Use a magnifying glass if available.</li>
+                                <li>Look for:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Shiny, smooth, concave joints:</strong></span> These are good, strong electrical connections.</li>
+                                        <li><span class="highlight"><strong>"Cold" joints:</strong></span> These look dull, lumpy, or grainy. They indicate insufficient heat or movement during soldering and are unreliable. <span class="highlight">Re-heat and re-solder these until they are shiny.</span></li>
+                                        <li><span class="highlight"><strong>Solder bridges:</strong></span> These are accidental blobs of solder that connect two adjacent pins or copper pads that should not be connected. They create short circuits and can damage components. <span class="highlight">Use desoldering braid or a solder sucker to remove them.</span></li>
+                                        <li><span class="highlight"><strong>Loose wires:</strong></span> Gently tug on each wire to ensure it's firmly connected and won't detach.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Cleanliness:</strong></span> If desired, use isopropyl alcohol and a cotton swab or brush to clean off any remaining flux residue from the soldered areas. This improves aesthetics and can prevent long-term corrosion.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-lg">By following these detailed soldering steps, you'll create a <span class="highlight">robust and reliable permanent circuit board</span> for your audio player, ready for the next phase of integration and programming.</p>
+                </div>
+
+                <!-- Step 5: Power System Integration -->
+                <div id="step-5" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 5: Power System Integration</h3>
+                    <p class="mb-4">This step focuses on safely connecting your 18650 battery to the charging module and then powering your Pico from that module. It also involves testing the charging functionality and preparing for battery level monitoring in your software.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your newly soldered circuit board from Step 4.</li>
+                        <li>Your 18650 Li-ion battery.</li>
+                        <li>Your fast-charging Li-ion battery charger module.</li>
+                        <li>A USB-C cable (for charging the battery).</li>
+                        <li>Optional: A multimeter for verifying voltages.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Final Battery Connections (if not already completed during soldering):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>If you haven't already, ensure the 18650 battery holder is securely soldered to the fast-charging module.</li>
+                                <li><span class="highlight"><strong>CRUCIAL SAFETY WARNING: Observe Polarity!</strong></span> Misconnecting a Li-ion battery can be dangerous (cause damage to components, heating, or even fire). Your 18650 battery will have a clearly marked positive (+) end (often slightly raised) and a negative (-) end (flat). Your 18650 battery holder will also have markings or springs indicating these polarities.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Connect the <span class="highlight"><strong>positive (+) terminal</strong></span> of the battery holder to the `BAT+` (or `B+`) input terminal on your fast-charging module.</li>
+                                        <li>Connect the <span class="highlight"><strong>negative (-) terminal</strong></span> of the battery holder to the `BAT-` (or `B-`) input terminal on your fast-charging module.</li>
+                                    </ul>
+                                </li>
+                                <li>Once the holder is wired, carefully insert your 18650 battery into its holder, matching the polarity.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Powering the Pico from the Charging Module:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Your fast-charging module has two main functions: charging the battery AND providing a regulated output voltage (usually 5V) from the battery to power your devices.</li>
+                                <li>Locate the `OUT+` (or `5V OUT` or `Vout`) pin on your charging module. This is the positive voltage output. Solder a wire from this pin to the <span class="highlight"><strong>`VSYS` pin</strong> on your Raspberry Pi Pico.</span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Explanation of `VSYS`:</strong></span> The Pico's `VSYS` pin is specifically designed to accept a voltage input directly from a battery (or a regulated power source) ranging from 1.8V to 5.5V. The Pico has an efficient onboard 3.3V regulator that takes this `VSYS` voltage and steps it down to the precise 3.3V required by the RP2040 chip and most other components. This is why connecting the 5V output of your charging module to `VSYS` is the correct and safe method.</li>
+                                    </ul>
+                                </li>
+                                <li>Locate the `OUT-` (or `GND`) pin on your charging module. This is the ground output. Solder a wire from this pin to any <span class="highlight"><strong>`GND` pin</strong> on your Raspberry Pi Pico.</span> Ensure this ground connection is solid.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Test Charging Functionality:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>With the 18650 battery inserted and the charging module connected to your Pico, <span class="highlight">plug a USB-C cable</span> (connected to a USB power adapter or a computer's USB port) into the USB-C port of your fast-charging module.</li>
+                                <li><span class="highlight"><strong>Observe Indicator Lights:</strong></span> Most charging modules have small LEDs that indicate the charging status. Typically, you'll see a <span class="highlight">red or orange LED light up when charging is active, and a blue or green LED light up when the battery is fully charged.</span> Observe these lights to confirm the charging process has begun.</li>
+                                <li><span class="highlight"><strong>Measure Voltage (Optional but Highly Recommended):</strong></span> If you have a multimeter:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Measure the voltage directly across the 18650 battery terminals before plugging in the USB-C cable. Note the reading.</li>
+                                        <li>Plug in the USB-C cable and measure the voltage across the battery again. You should see the voltage slowly increasing (e.g., from 3.7V towards 4.2V).</li>
+                                        <li>Once the charging indicator light turns "full," measure the battery voltage one last time. It should be <span class="highlight">very close to 4.2V</span> (the full charge voltage for a single Li-ion cell). This confirms the charging module is working correctly and safely stopping charging at the appropriate voltage.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Test Powering Without USB-C:</strong></span> Unplug the USB-C cable from the charging module. Your Pico should remain powered by the 18650 battery and continue running your `main.py` script (e.g., blinking the LED or displaying something on the OLED if you saved the test code as `main.py`). This confirms the battery can supply power to your Pico independently.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Prepare for Battery Level Monitoring (Software Pre-work):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>The Pico has a built-in Analog-to-Digital Converter (ADC) that can measure analog voltages. The good news is that the Pico's <span class="highlight">`VSYS` pin is directly connected to one of its internal ADC channels</span> (specifically, `ADC3`, which corresponds to `Pin(29)` in MicroPython). This means you can read the battery voltage directly from your Pico's software without additional external components.</li>
+                                <li>In your main MicroPython code (which we'll develop in Step 6), you will write a function to read this ADC value and convert it into a human-readable voltage. This voltage can then be mapped to a battery percentage or displayed as raw voltage on your OLED screen.</li>
+                                <li>The conversion factor for `ADC(3)` (VSYS) on the Pico is approximately <span class="highlight">`3.3V / 65535 * 3`</span>. This accounts for the 16-bit resolution of the ADC (0 to 65535) and the internal voltage divider (which divides `VSYS` by 3 before feeding it to the ADC input, which has a maximum input of 3.3V).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-lg">With your power system securely integrated and tested, you've ensured your audio player will be <span class="highlight">truly portable and rechargeable</span>, ready for the brain of the operation: the full software suite.</p>
+                </div>
+
+                <!-- Step 6: Full Code Development & UI -->
+                <div id="step-6" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 6: Full Code Development & UI</h3>
+                    <p class="mb-4">This is the heart of your project – where all the individual component tests from Step 3 converge into a single, functional audio player. This step is largely about writing and integrating the MicroPython code that manages everything from audio playback to the user interface.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your fully assembled and tested circuit board from Step 4 and 5.</li>
+                        <li>Thonny IDE connected to your Pico.</li>
+                        <li>An SD card formatted with FAT32, containing your Opus audio files (and possibly some WAV or MP3 files for initial testing if Opus decoding is too complex initially).</li>
+                        <li>All necessary MicroPython libraries (e.g., `ssd1306.py`, `sdcard.py`, and your Opus decoding library, `ulab` if needed).</li>
+                        <li>Plenty of patience and a willingness to debug!</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Project Structure and Library Management:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>On your Pico, all the `.py` files (your main program, component drivers, and custom helper functions) should reside in the root directory or in a `lib` folder. Ensure all libraries you need (like `ssd1306.py`, `sdcard.py`, and your Opus library) are <span class="highlight">uploaded to your Pico.</span></li>
+                                <li>Your primary program file, which the Pico will automatically run on startup, should be named <span class="highlight">`main.py`.</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Audio Playback Logic (Opus Decoding & I2S Streaming):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li><span class="highlight"><strong>File Reading:</strong></span> Your code will need to open the `.opus` files from the `/sd/` directory (where your SD card is mounted). You'll typically read these files in small chunks.</li>
+                                <li><span class="highlight"><strong>Opus Decoding Library Integration:</strong></span> This is the most computationally intensive and potentially complex part.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>You'll use the Opus decoding library you've found or adapted for MicroPython on the RP2040. This library will have functions to take raw Opus encoded data as input.</li>
+                                        <li>The decoder will process these Opus "frames" and convert them into uncompressed PCM (Pulse Code Modulation) audio samples (e.g., 16-bit, 44.1kHz stereo).</li>
+                                        <li>The library will need to handle the Opus file format, including reading headers and individual audio frames.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>I2S Streaming:</strong></span> The decoded PCM samples must then be continuously fed to your I2S DAC module.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>The `machine.I2S` class (which you tested in Step 3) is responsible for taking these PCM samples and sending them out as a high-speed serial data stream that your DAC understands.</li>
+                                        <li>You will typically use a loop that repeatedly calls <span class="highlight">`audio_out.write(pcm_bytes_buffer)`.</span> The `write` function is non-blocking, meaning the Pico hardware takes over transmitting the audio, allowing your main CPU to continue with other tasks.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Buffering:</strong></span> Implementing proper audio buffering is crucial to prevent audio dropouts or glitches.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>The general idea is to have two (or more) buffers in memory. While the I2S peripheral is playing audio from one buffer, your Pico's CPU can be simultaneously reading the next chunk of Opus data from the SD card and decoding it into the *other* buffer.</li>
+                                        <li>Once the first buffer is finished playing, the Pico switches to the second buffer for playback, and your code starts filling the first buffer again. This continuous "ping-pong" buffering ensures a smooth audio stream.</li>
+                                        <li>This process is often handled by <span class="highlight">DMA (Direct Memory Access) on the RP2040</span>, allowing the I2S peripheral to fetch data directly from memory without constant CPU intervention, which is vital for efficient audio playback.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>User Interface (UI) Implementation on OLED:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Your OLED screen will be the visual feedback for the user. You'll design different "screens" or "views" that the user can navigate.</li>
+                                <li><span class="highlight"><strong>Screen Layouts:</strong></span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Now Playing Screen:</strong></span> This will be your primary display. It should show:
+                                            <ul class="list-disc list-inside ml-8">
+                                                <li>The current track's name (e.g., "Song Title.opus").</li>
+                                                <li>Optionally, artist or album if you parse metadata from Opus files (more advanced).</li>
+                                                <li>Elapsed time and total duration of the current song.</li>
+                                                <li>Current volume level (e.g., a number or a small bar graph).</li>
+                                                <li>A graphical battery level indicator (icon or percentage).</li>
+                                                <li>Small icons for play/pause, shuffle, repeat status.</li>
+                                            </ul>
+                                        </li>
+                                        <li><span class="highlight"><strong>Playlist View:</strong></span> A scrollable list of all `.opus` files found on your SD card. The currently selected or playing track should be highlighted.</li>
+                                        <li><span class="highlight"><strong>Settings Menu:</strong></span> For adjusting playback options, screen brightness (if supported by OLED), or other future features.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Drawing Functions (using `ssd1306` library):</strong></span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>`oled.fill(0)`: Call this at the beginning of drawing a new screen or updating major elements to clear the display to black.</li>
+                                        <li>`oled.text(text_string, x_coordinate, y_coordinate)`: Use this to display song titles, messages, and numerical values.</li>
+                                        <li>`oled.rect(x, y, width, height, color)`: Useful for drawing outlines, progress bars (e.g., for playback progress or volume), or battery meter bars.</li>
+                                        <li>`oled.pixel(x, y, color)`: For drawing individual pixels if you need custom icons or very fine-grained graphics.</li>
+                                        <li><span class="highlight"><strong>CRUCIAL: `oled.show()`:</strong></span> After you've issued all your `oled.text()`, `oled.rect()`, etc., commands, you <span class="highlight"><strong>MUST</strong> call `oled.show()`</span>. This command pushes the buffered pixel data from the Pico's memory to the physical OLED display, making your changes visible. Without `oled.show()`, nothing will appear on the screen.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Efficiency in UI Updates:</strong></span> Don't update the entire screen constantly if only a small part changes (e.g., elapsed time). Update only the necessary regions if your `ssd1306` library supports partial updates, or redraw the whole screen less frequently (e.g., once every second for time, only when volume or track changes). This saves CPU cycles and battery power.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Button Handling and State Machine:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li><span class="highlight"><strong>Event-Driven Approach:</strong></span> Instead of continuously polling (checking) the state of each button in your main loop (which wastes CPU cycles), it's more efficient to use button interrupts. The Pico can be configured to trigger a special function (an "interrupt service routine" or ISR) whenever a button's state changes (from pressed to released or vice-versa).
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>You'd attach an interrupt to each button pin. When an interrupt fires, you record that a button was pressed (e.g., set a flag) and maybe which one.</li>
+                                        <li>Your main loop then periodically checks these flags and performs the appropriate action.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Debouncing:</strong></span> Physical buttons "bounce" electrically when pressed or released, creating multiple rapid on/off signals for a very short duration. This can cause your Pico to register one press as many.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Software Debouncing:</strong></span> Implement a small delay (e.g., 50-100 milliseconds) after detecting an initial button press before registering it as a valid event. During this delay, ignore any further changes in the button's state.</li>
+                                        <li>Alternatively, you can implement a more robust debouncing algorithm that checks if the button state has been stable for a certain period.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>State Machine for UI Navigation:</strong></span> This is a powerful programming pattern for managing complex interactions.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Define different "states" for your audio player's UI, such as:
+                                            <ul class="list-disc list-inside ml-8">
+                                                <li>`STATE_NOW_PLAYING` (The main playback screen)</li>
+                                                <li>`STATE_PLAYLIST_MENU` (Browsing songs)</li>
+                                                <li>`STATE_VOLUME_ADJUST` (Dedicated volume screen)</li>
+                                                <li>`STATE_SETTINGS` (Configuration options)</li>
+                                            </ul>
+                                        </li>
+                                        <li>Your code will keep track of the `current_state`. When a button is pressed, your code will check `if current_state == STATE_NOW_PLAYING:` and then `if button_next_pressed:` to perform the specific action for that state and button.</li>
+                                        <li>Buttons like "Select" or "Menu" can trigger transitions between states (e.g., from `STATE_NOW_PLAYING` to `STATE_PLAYLIST_MENU`).</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Playlist Management:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li><span class="highlight"><strong>Scanning SD Card:</strong></span> On initial startup (or when triggered by a menu option), your code will use the `os.listdir('/sd')` function to get a list of all files and folders on your mounted SD card. You'll then filter this list to find only your `.opus` audio files.</li>
+                                <li><span class="highlight"><strong>Storing the Playlist:</strong></span> Store the paths or filenames of your `.opus` files in a Python list (e.g., `my_playlist = ["/sd/song1.opus", "/sd/song2.opus", ...]`).</li>
+                                <li><span class="highlight"><strong>Current Track Index:</strong></span> Maintain a variable (e.g., `current_track_index`) to keep track of which song in the `my_playlist` list is currently playing.</li>
+                                <li><span class="highlight"><strong>Navigation:</strong></span> Implement functions for:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>`play_next_track()`: Increments `current_track_index` (wrapping around to the beginning if at the end of the playlist).</li>
+                                        <li>`play_previous_track()`: Decrements `current_track_index` (wrapping around to the end if at the beginning).</li>
+                                        <li>`play_selected_track(index)`: Starts playback of a specific song chosen from the playlist menu.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Power Management (Battery Life Optimization):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li><span class="highlight"><strong>OLED Display Sleep:</strong></span> The OLED display consumes power. When the device is idle (no button presses for a certain time, e.g., 30 seconds), <span class="highlight">turn off the OLED using `oled.poweroff()`</span>. When any button is pressed, turn it back on using `oled.poweron()`.</li>
+                                <li><span class="highlight"><strong>Pico Sleep Modes (Optional but Advanced):</strong></span> For extreme battery saving when the audio player is not actively playing music and no user interaction is expected for a long time (e.g., in standby mode), you can put the Pico into low-power sleep modes.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>MicroPython's `machine.lightsleep()` and `machine.deepsleep()` functions can achieve significant power reductions.</li>
+                                        <li>Waking up from these sleep modes typically requires an external interrupt (like a button press) or a timer interrupt. Implementing this adds complexity to your code but vastly extends standby battery life.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>CPU Frequency Scaling (Advanced):</strong></span> For optimal power efficiency, you can dynamically change the Pico's CPU clock frequency. When decoding Opus or displaying graphics, run at full speed (133MHz). When idle or only doing basic tasks, reduce the clock speed (e.g., to 48MHz or lower) using `machine.freq()`. This requires careful management of timing-sensitive operations.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-lg">Developing the full code is an iterative process. Write small functions for each feature, test them, and then integrate them into your main program. This systematic approach will help you build a robust and feature-rich audio player.</p>
+                </div>
+
+                <!-- Step 7: Enclosure Design & Fabrication -->
+                <div id="step-7" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Step 7: Enclosure Design & Fabrication</h3>
+                    <p class="mb-4">This is the final, incredibly satisfying step where your electronic masterpiece gets its protective and aesthetically pleasing shell. A well-designed enclosure will protect your components, provide a comfortable user experience, and give your audio player a professional, finished look.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">What You'll Need:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Your fully assembled and working circuit board from Step 6.</li>
+                        <li>Access to a <span class="highlight">3D printer</span> (either your own, a local service, or a university lab).</li>
+                        <li><span class="highlight">3D design software</span> (e.g., Autodesk Fusion 360, Tinkercad, FreeCAD).</li>
+                        <li>Small screws, plastic snaps, or appropriate adhesive for assembly.</li>
+                        <li>Optional: Small drill bits, files, sandpaper, hobby knife for post-processing and finishing the enclosure.</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Detailed Instructions (Super Explained):</h4>
+                    <ol class="list-decimal list-inside ml-4 space-y-4">
+                        <li>
+                            <p><span class="highlight"><strong>Measure Everything Precisely:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Before you start designing, take <span class="highlight">incredibly accurate measurements</span> of all your components. Precision here is paramount to ensure your enclosure fits perfectly.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Circuit Board Dimensions:</strong></span> Measure the length, width, and height of your entire assembled circuit board, including the tallest components (e.g., the Pico itself, the DAC module, the SD card module, any headers).</li>
+                                        <li><span class="highlight"><strong>18650 Battery Dimensions:</strong></span> Standard 18650 cells are 18mm in diameter and 65mm long. Confirm the exact dimensions of your chosen battery, especially if it has a protection circuit which can make it slightly longer.</li>
+                                        <li><span class="highlight"><strong>Component Locations:</strong></span> Crucially, measure the precise locations and sizes of the OLED screen, each push button, the USB-C charging port on your charging module, and the 3.5mm headphone jack on your DAC module. You'll need these measurements to create accurate cutouts and mounting points in your design.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Choose Your Fabrication Method & Design Software:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Given your preference for "thin and long" and a professional finish, <span class="highlight"><strong>3D Printing</strong> is generally the best and most flexible method</span> for DIY electronics enclosures.
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Design Software:</strong></span>
+                                            <ul class="list-disc list-inside ml-8">
+                                                <li><span class="highlight"><strong>Tinkercad:</strong> Excellent for beginners, web-based, drag-and-drop interface. Great for simple shapes and combining objects.</span></li>
+                                                <li><span class="highlight"><strong>Autodesk Fusion 360:</strong> A powerful, professional-grade CAD software (free for hobbyists/students). It has a steeper learning curve but offers immense control for precise designs, complex geometries, and creating interlocking parts. Highly recommended if you plan to do more design.</span></li>
+                                                <li><span class="highlight"><strong>FreeCAD:</strong> A free and open-source parametric 3D modeler, also powerful but can be challenging for new users.</span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Concept:</strong> Most enclosures are designed in multiple parts, typically a "bottom case" and a "top lid" that fit together.</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Design Your Enclosure (Iterative Process):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li><span class="highlight"><strong>Internal Mounting:</strong></span> Design features within the bottom case to securely hold your assembled circuit board. This could be:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Standoffs:</strong></span> Small cylindrical posts with holes for tiny screws that align with mounting holes on your Pico or other modules.</li>
+                                        <li><span class="highlight"><strong>Friction Fit Slots:</strong></span> Grooves or channels that the edges of your circuit board can slide into and be held tightly by friction.</li>
+                                        <li><span class="highlight"><strong>Clip-in Features:</strong></span> Small plastic clips that snap over the edges of your board.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Battery Compartment:</strong></span> Create a snug compartment specifically sized for your 18650 battery. Ensure it has enough tolerance so the battery slides in and out easily but doesn't rattle. Consider how you'll make the battery accessible for insertion/removal or if it's meant to be permanently enclosed (though you specified rechargeable, so it needs to be accessible for the charging port).</li>
+                                <li><span class="highlight"><strong>External Openings & Features:</strong></span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>OLED Screen Cutout:</strong></span> A rectangular opening in the top lid precisely sized for your OLED display. You might design a small bezel around it for a cleaner look.</li>
+                                        <li><span class="highlight"><strong>Button Holes:</strong></span> Create individual holes for each push button. The design can vary: you might print "button caps" that fit over the tactile switches and extend through the holes, or simply design the holes for direct finger access to the tactile switches.</li>
+                                        <li><span class="highlight"><strong>USB-C Port Opening:</strong></span> A precise cutout for the USB-C charging port on your fast-charging module. Ensure enough clearance around it for various cables.</li>
+                                        <li><span class="highlight"><strong>Headphone Jack Opening:</strong></span> A circular hole for the 3.5mm headphone jack on your DAC module. Ensure it's wide enough for headphone plugs to insert fully.</li>
+                                        <li><span class="highlight"><strong>Optional: Ventilation holes</strong></span> if you find components generate significant heat, though for a Pico audio player, this is usually not critical.</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Enclosure Assembly Mechanism:</strong></span> Decide how the top and bottom halves of your enclosure will join:
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li><span class="highlight"><strong>Small Screws:</strong></span> Design screw holes and corresponding posts for threaded inserts or self-tapping screws.</li>
+                                        <li><span class="highlight"><strong>Snap Fits:</strong></span> Design interlocking plastic features that snap together. This requires careful design for tolerances.</li>
+                                        <li><span class="highlight"><strong>Adhesive:</strong></span> You could glue the two halves together, but this makes future disassembly for repairs difficult.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Prepare for 3D Printing (Slicing):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Once your 3D design is complete, export it as an <span class="highlight"><strong>STL file</strong></span>. This is the standard file format for 3D printing.</li>
+                                <li>Use a "slicer" software (e.g., Cura, PrusaSlicer, Simplify3D) to prepare your STL file for your specific 3D printer. In the slicer, you'll set parameters like layer height, infill density, print speed, and whether support structures are needed.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>3D Print the Parts:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Load your chosen filament into the 3D printer.</li>
+                                <li>Start the printing process. This can take several hours depending on the size and complexity of your design.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Test Fit and Refine (The Iterative Loop):</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Once your 3D-printed parts are cool, immediately perform a test fit. Try to place your assembled circuit board into the bottom case.</li>
+                                <li><span class="highlight"><strong>Crucial Checkpoints:</strong></span>
+                                    <ul class="list-disc list-inside ml-6">
+                                        <li>Does the circuit board fit snugly onto its mounting points?</li>
+                                        <li>Do the OLED screen and buttons align perfectly with their respective cutouts in the top lid?</li>
+                                        <li>Can the USB-C cable plug into the charging module's port without obstruction?</li>
+                                        <li>Does the headphone plug insert fully into the DAC's jack?</li>
+                                        <li>Do the two halves of the enclosure close properly?</li>
+                                    </ul>
+                                </li>
+                                <li><span class="highlight"><strong>Be Prepared for Adjustments:</strong></span> It's very common for the first print to not be perfect. If something doesn't fit, go back to your 3D design software, make precise adjustments (e.g., increase a hole's diameter by 0.2mm, widen a slot by 0.5mm), and then reprint only the problematic part(s). This iterative design-print-test-refine cycle is standard practice in 3D printing.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span class="highlight"><strong>Final Assembly of the Enclosure:</strong></span></p>
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Once all your enclosure parts fit perfectly:</li>
+                                <li>Carefully place your fully tested and assembled circuit board into the bottom half of the enclosure. Secure it with screws (if your design uses them) or a small amount of non-conductive adhesive if necessary.</li>
+                                <li>Place the OLED screen into its cutout. You might use a dab of hot glue on the edges or design a friction fit.</li>
+                                <li>Insert the push buttons into their respective holes. They might snap in, friction fit, or need a small amount of glue.</li>
+                                <li>Carefully align and attach the top lid to the bottom case. Secure it with screws or snap it into place.</li>
+                                <li><span class="highlight"><strong>Finishing Touches (Optional):</strong></span> You can use fine-grit sandpaper to smooth rough edges, or paint the enclosure for a customized look.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-lg">With your electronics safely housed in a custom enclosure, your Raspberry Pi Pico audio player is now complete and ready for use! Enjoy your personalized, high-fidelity music on the go.</p>
+                </div>
+            </section>
+
+            <!-- Conclusion Section -->
+            <section id="conclusion" class="section-container">
+                <h2 class="text-3xl lg:text-4xl mb-6 text-center">Conclusion</h2>
+                <p class="text-lg mb-4">You've now completed the journey of building your own Raspberry Pi Pico audio player! From understanding its core components and their functions to the intricate steps of hardware assembly, software development, and enclosure design, you've gained invaluable experience in embedded electronics and programming.</p>
+                <p class="text-lg mb-4">This project demonstrates the incredible versatility of the Raspberry Pi Pico and the power of open-source hardware and software. Your custom player offers high-quality audio, long battery life, and a unique form factor tailored to your preferences. Enjoy your personalized music experience!</p>
+                <p class="text-lg">Don't hesitate to explore further: You could add Bluetooth connectivity, more advanced UI features, or even experiment with different audio codecs. The world of DIY electronics is full of possibilities!</p>
+            </section>
+
+            <!-- Back to Top Button -->
+            <button id="back-to-top" class="fixed bottom-8 right-8 btn-primary hidden">
+                Back to Top
+            </button>
+
+        </main>
+    </div>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // For mobile, close the menu after clicking a link
+                if (window.innerWidth < 1024) {
+                    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                    mobileNavMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Mobile navigation toggle
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+
+        if (mobileNavToggle) {
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavMenu.classList.toggle('hidden');
+                mobileNavToggle.textContent = mobileNavMenu.classList.contains('hidden') ? 'Show Table of Contents' : 'Hide Table of Contents';
+            });
+        }
+
+
+        // Back to Top button functionality
+        const backToTopButton = document.getElementById('back-to-top');
+
+        // Show/hide back to top button on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling down 300px
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+
+        // Scroll to top when back to top button is clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Copy code snippets to clipboard
+        document.querySelectorAll('pre code').forEach(codeBlock => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative';
+            codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+            wrapper.appendChild(codeBlock);
+
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button absolute top-2 right-2 px-3 py-1 text-xs';
+            copyButton.textContent = 'Copy Code';
+            wrapper.appendChild(copyButton);
+
+            copyButton.addEventListener('click', () => {
+                const codeText = codeBlock.textContent;
+                // Use execCommand('copy') for better iframe compatibility
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page
+                textarea.style.opacity = 0; // Hide the textarea
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Code';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    copyButton.textContent = 'Error!';
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
