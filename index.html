@@ -1,88 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EXPLORIOT</title>
-  <style>
-    body {
-      background-color: #000;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Courier New', monospace;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAHRFA.TOP</title>
+    <!-- Google Fonts for professional and cozy vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic reset and body styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; /* Dark grey-black for background, matching image */
+            color: #e0e0e0; /* Soft off-white text */
+            font-family: 'Inter', sans-serif; /* Modern, readable sans-serif */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            overflow: hidden; /* Prevent scrollbars */
+            position: relative;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    .exploriot-button {
-      position: relative;
-      padding: 30px 60px;
-      font-size: 28px;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: #ff4b4b;
-      border: 2px solid #ff4b4b;
-      background: transparent;
-      cursor: pointer;
-      overflow: hidden;
-      border-radius: 12px;
-      z-index: 1;
-      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-      animation: syncedPulse 6s ease-in-out infinite;
-    }
+        /* Main container for the content */
+        .main-container {
+            background-color: rgba(26, 26, 26, 0.9); /* Slightly transparent darker grey, matching image background */
+            border: 1px solid #cc0000; /* Red border, matching image accent */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Soft shadow */
+            padding: 40px;
+            text-align: center; /* Center align text */
+            max-width: 900px; /* Max width for larger screens */
+            width: 100%; /* Responsive width */
+            border-radius: 8px; /* Gently rounded corners */
+            box-sizing: border-box;
+        }
 
-    /* Fill 'Er Up Effect (synced) */
-    .exploriot-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 100%;
-      background: rgba(255, 0, 0, 0.2);
-      z-index: -1;
-      animation: syncedFill 6s ease-in-out infinite;
-    }
+        h1 {
+            font-family: 'Lora', serif; /* Elegant serif for headings */
+            font-size: clamp(2rem, 6vw, 3.5rem); /* Responsive font size for H1 */
+            margin-bottom: 20px;
+            color: #cc0000; /* Red for headings, matching image accent */
+            font-weight: 700; /* Bold */
+        }
 
-    @keyframes syncedFill {
-      0%, 100% { width: 0%; }
-      50% { width: 100%; }
-    }
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem); /* Responsive font size for paragraphs */
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #e0e0e0; /* Off-white for body text, matching image text */
+            font-weight: 300; /* Lighter weight for cozy feel */
+        }
 
-    /* Star Shine Effect (synced) */
-    .exploriot-button::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
-      animation: syncedShine 6s linear infinite;
-      opacity: 0.15;
-      z-index: 0;
-    }
+        /* Typing effect cursor - HIDDEN as requested */
+        .typing-cursor {
+            display: none;
+        }
 
-    @keyframes syncedShine {
-      0% { transform: rotate(0deg) scale(1.1); }
-      100% { transform: rotate(360deg) scale(1.1); }
-    }
+        /* Button styling - REMOVED from CSS as requested */
+        /*
+        .action-button {
+            background-color: #5865f2;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Breathing (Zoomer + Pulser synced) */
-    @keyframes syncedPulse {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.2);
-      }
-      50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 25px rgba(255, 0, 0, 0.5), 0 0 50px rgba(255, 0, 0, 0.3);
-      }
-    }
-  </style>
+        .action-button:hover {
+            background-color: #4752c4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        */
+
+        /* Message box styling - Adjusted colors to new theme */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .message-box-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box {
+            background-color: #1a1a1a; /* Darker grey, matching background */
+            border: 1px solid #cc0000; /* Red border, matching accent */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+            max-width: 500px;
+            border-radius: 8px;
+            transform: translateY(-20px); /* Initial slightly elevated position */
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .message-box-overlay.visible .message-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .message-box h3 {
+            margin-top: 0;
+            color: #cc0000; /* Red for heading */
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-family: 'Lora', serif;
+            font-weight: 700;
+        }
+
+        .message-box p {
+            margin-bottom: 25px;
+            color: #e0e0e0; /* Off-white text */
+            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+        }
+
+        .message-box button {
+            background-color: #cc0000; /* Red button */
+            color: #ffffff; /* White text */
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .message-box button:hover {
+            background-color: #a30000; /* Darker red on hover */
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <button class="exploriot-button">EXPLORIOT</button>
+
+    <div class="main-container">
+        <h1 id="main-title"></h1>
+        <p id="intro-text"></p>
+        <!-- Removed the "Explore My Work" button as requested -->
+    </div>
+
+    <script>
+        // Get elements for typing effect
+        const mainTitle = document.getElementById('main-title');
+        const introText = document.getElementById('intro-text');
+        // exploreButton is no longer needed as the button is removed
+        // const exploreButton = document.getElementById('explore-button');
+
+        // Text content for typing effect
+        const titleContent = "Welcome to SAHRFA.TOP";
+        const introContent = "This is a curated space showcasing my projects and professional insights. Discover my latest work and ongoing developments.";
+
+        let titleIndex = 0;
+        let introIndex = 0;
+
+        // Function to simulate typing effect
+        function typeWriter(element, text, index, callback) {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                index++;
+                // Removed blinking cursor at the end of the current text
+                setTimeout(() => {
+                    typeWriter(element, text, index, callback);
+                }, 40); // Typing speed
+            } else {
+                if (callback) {
+                    callback();
+                }
+            }
+        }
+
+        // Function to show a custom message box (not used by default now, but kept for future use if needed)
+        function showMessageBox(title, message) {
+            const overlay = document.createElement('div');
+            overlay.className = 'message-box-overlay';
+            overlay.classList.add('visible'); // Make overlay visible
+
+            const messageBox = document.createElement('div');
+            messageBox.className = 'message-box';
+
+            const titleElement = document.createElement('h3');
+            titleElement.textContent = title;
+
+            const messageElement = document.createElement('p');
+            messageElement.textContent = message;
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = "Close";
+            closeButton.onclick = () => {
+                overlay.classList.remove('visible'); // Hide overlay
+                setTimeout(() => document.body.removeChild(overlay), 300); // Remove after transition
+            };
+
+            messageBox.appendChild(titleElement);
+            messageBox.appendChild(messageElement);
+            messageBox.appendChild(closeButton);
+            overlay.appendChild(messageBox);
+            document.body.appendChild(overlay);
+        }
+
+        // Event listener for the button - REMOVED as button is removed
+        /*
+        exploreButton.addEventListener('click', () => {
+            showMessageBox("Navigation", "Thank you for your interest. This button will soon lead to a comprehensive overview of my projects.");
+            // In a real scenario, you would redirect to a projects page here:
+            // window.location.href = "/your-projects-page";
+        });
+        */
+
+        // Start typing effect on window load
+        window.onload = function() {
+            typeWriter(mainTitle, titleContent, titleIndex, () => {
+                // After title is typed, start typing intro text
+                typeWriter(introText, introContent, introIndex);
+            });
+        };
+    </script>
 </body>
 </html>
