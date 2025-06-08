@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploriot: Understanding Global Warming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #dc2626; /* Cherry Red */
+            --color-background: #0a0a0a; /* AMOLED Black */
+            --color-text: #f5f5dc; /* Cream White */
+            --color-accent-dark: #b91c1c; /* Darker Red */
+            --color-card-bg: #1a1a1a;
+            --color-border: #444;
+            --color-highlight-bg: rgba(245, 245, 220, 0.15); /* Cream White with transparency */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .section-container {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-border);
+            transition: box-shadow 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .section-container:hover {
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .part-card {
+            background-color: var(--color-card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            position: relative;
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .copy-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .copy-button:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-1px);
+        }
+
+        .section-copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(var(--color-primary-rgb, 220, 38, 38), 0.7);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, background-color 0.2s;
+            z-index: 10;
+        }
+
+        .section-container:hover .section-copy-button,
+        .part-card:hover .section-copy-button,
+        .mb-10.p-6.rounded-xl.bg-gray-900:hover .section-copy-button {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .section-copy-button:hover {
+            background-color: var(--color-primary);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .highlight {
+            background-color: var(--color-highlight-bg);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        .sticky-nav ul li a, #mobile-nav-menu ul li a {
+            transition: color 0.2s, transform 0.2s;
+            display: inline-block;
+            padding-left: 0.5rem;
+        }
+
+        .sticky-nav ul li a:hover, #mobile-nav-menu ul li a:hover {
+            transform: translateX(5px);
+        }
+
+        h2 {
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.3);
+        }
+        h3 {
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.2);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-card-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 10px;
+            border: 2px solid var(--color-card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-dark);
+        }
+
+        @media (min-width: 1024px) {
+            .sticky-nav {
+                position: sticky;
+                top: 1rem;
+                align-self: flex-start;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+
+        #mobile-nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-out;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        #mobile-nav-menu.mobile-nav-open {
+            transform: translateX(0);
+            display: flex;
+        }
+
+        #mobile-nav-close {
+            background-color: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            line-height: 1;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        #mobile-nav-close:hover {
+            background-color: var(--color-primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        #back-to-top {
+            font-size: 2.5rem;
+            font-weight: 900;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased leading-normal">
+    <div class="min-h-screen p-4 lg:p-8 flex flex-col lg:flex-row gap-8">
+
+        <nav id="sticky-nav" class="hidden lg:block w-1/4 sticky-nav section-container p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">Table of Contents</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#introduction-warming-world" class="hover:text-red-500">Introduction: A Warming World</a></li>
+                <li><a href="#science-behind-global-warming" class="hover:text-red-500">The Science Behind Global Warming</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#greenhouse-gases" class="hover:text-red-500">Greenhouse Gases</a></li>
+                        <li><a href="#human-activities-emissions" class="hover:text-red-500">Human Activities and Emissions</a></li>
+                    </ul>
+                </li>
+                <li><a href="#observable-impace-global-warming" class="hover:text-red-500">Observable Impacts of Global Warming</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#rising-global-temperatures" class="hover:text-red-500">Rising Global Temperatures</a></li>
+                        <li><a href="#melting-ice-rising-sea-levels" class="hover:text-red-500">Melting Ice and Rising Sea Levels</a></li>
+                        <li><a href="#extreme-weather-events" class="hover:text-red-500">Extreme Weather Events</a></li>
+                        <li><a href="#ecosystem-biodiversity-impace" class="hover:text-red-500">Ecosystem and Biodiversity Impacts</a></li>
+                    </ul>
+                </li>
+                <li><a href="#solutions-mitigation-strategies" class="hover:text-red-500">Solutions and Mitigation Strategies</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#transition-renewable-energy" class="hover:text-red-500">Transition to Renewable Energy</a></li>
+                        <li><a href="#energy-efficiency-conservation" class="hover:text-red-500">Energy Efficiency and Conservation</a></li>
+                        <li><a href="#sustainable-land-use-forestry" class="hover:text-red-500">Sustainable Land Use and Forestry</a></li>
+                        <li><a href="#individual-actions" class="hover:text-red-500">Individual Actions</a></li>
+                    </ul>
+                </li>
+                <li><a href="#conclusion-call-to-action" class="hover:text-red-500">Conclusion: A Call to Action</a></li>
+            </ul>
+        </nav>
+
+        <main class="flex-grow w-full lg:w-3/4 space-y-8">
+
+            <div class="lg:hidden section-container mb-8">
+                <button id="mobile-nav-toggle" class="btn-primary w-full text-center">
+                    Show Table of Contents
+                </button>
+            </div>
+
+            <div id="mobile-nav-menu" class="hidden">
+                <button id="mobile-nav-close" aria-label="Close menu">X</button>
+                <h2 class="text-3xl font-bold mb-6 text-center pt-8">Table of Contents</h2>
+                <ul class="space-y-4 text-xl flex-grow flex flex-col justify-center">
+                    <li><a href="#introduction-warming-world" class="block hover:text-red-500 py-2">Introduction: A Warming World</a></li>
+                    <li><a href="#science-behind-global-warming" class="block hover:text-red-500 py-2">The Science Behind Global Warming</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#greenhouse-gases" class="block hover:text-red-500 py-1">Greenhouse Gases</a></li>
+                            <li><a href="#human-activities-emissions" class="block hover:text-red-500 py-1">Human Activities and Emissions</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#observable-impace-global-warming" class="block hover:text-red-500 py-2">Observable Impacts of Global Warming</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#rising-global-temperatures" class="block hover:text-red-500 py-1">Rising Global Temperatures</a></li>
+                            <li><a href="#melting-ice-rising-sea-levels" class="block hover:text-red-500 py-1">Melting Ice and Rising Sea Levels</a></li>
+                            <li><a href="#extreme-weather-events" class="block hover:text-red-500 py-1">Extreme Weather Events</a></li>
+                            <li><a href="#ecosystem-biodiversity-impace" class="block hover:text-red-500 py-1">Ecosystem and Biodiversity Impacts</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#solutions-mitigation-strategies" class="block hover:text-red-500 py-2">Solutions and Mitigation Strategies</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#transition-renewable-energy" class="block hover:text-red-500 py-1">Transition to Renewable Energy</a></li>
+                            <li><a href="#energy-efficiency-conservation" class="block hover:text-red-500 py-1">Energy Efficiency and Conservation</a></li>
+                            <li><a href="#sustainable-land-use-forestry" class="block hover:text-red-500 py-1">Sustainable Land Use and Forestry</a></li>
+                            <li><a href="#individual-actions" class="block hover:text-red-500 py-1">Individual Actions</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#conclusion-call-to-action" class="block hover:text-red-500 py-2">Conclusion: A Call to Action</a></li>
+                </ul>
+            </div>
+
+
+            <section id="introduction-warming-world" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h1 class="text-4xl lg:text-5xl mb-6 text-center highlight">Exploriot: Understanding Global Warming</h1>
+                    <p class="text-lg mb-4">Global warming refers to the ongoing increase in Earth's average surface temperature. This phenomenon is primarily driven by human activities, leading to significant and widespread changes across our planet. The consequences are far-reaching, affecting ecosystems, weather patterns, and human societies.</p>
+                    <p class="text-lg">For instance, this article will cover the <span class="highlight">science behind global warming</span>, detail its <span class="highlight">observable impacts</span>, and explore <span class="highlight">effective solutions and mitigation strategies</span> to guide the reader through this critical issue. Prepare to dive deep into <span class="highlight">climate science</span>!</p>
+                </div>
+            </section>
+
+            <section id="science-behind-global-warming" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">The Science Behind Global Warming</h2>
+                    <p class="mb-4">Global warming is largely attributed to the <span class="highlight">enhanced greenhouse effect</span>. Certain gases in Earth's atmosphere trap heat, much like the glass of a greenhouse, preventing it from escaping into space. This natural process is essential for life, but human activities have dramatically increased the concentration of these gases.</p>
+
+                    <div id="greenhouse-gases" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Greenhouse Gases</h3>
+                            <p class="mb-4">The primary greenhouse gases responsible for global warming include:</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Carbon Dioxide (CO2):</span> The most significant contributor, primarily from burning fossil fuels (coal, oil, gas) for energy and transportation, as well as deforestation. Its atmospheric concentration has increased by over 50% since pre-industrial levels.</li>
+                                <li><span class="highlight">Methane (CH4):</span> Released from livestock farming, natural gas production, and waste decomposition. It's a more potent greenhouse gas than CO2, though it has a shorter atmospheric lifetime.</li>
+                                <li><span class="highlight">Nitrous Oxide (N2O):</span> Emitted from agricultural practices and industrial processes.</li>
+                                <li><span class="highlight">Fluorinated Gases:</span> Synthetic gases used in refrigerants and industrial processes, with a very strong warming effect.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="human-activities-emissions" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Human Activities and Emissions</h3>
+                            <p class="mb-4">Our modern lifestyle heavily contributes to these emissions:</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Energy Production:</span> Burning fossil fuels for electricity and heat generation is the largest source.</li>
+                                <li><span class="highlight">Manufacturing:</span> Industrial processes and the production of goods like cement, steel, and plastics.</li>
+                                <li><span class="highlight">Transportation:</span> Vehicles, ships, and planes largely rely on fossil fuels.</li>
+                                <li><span class="highlight">Deforestation:</span> Trees absorb CO2, so clearing forests releases stored carbon and reduces Earth's capacity to remove CO2 from the atmosphere.</li>
+                                <li><span class="highlight">Agriculture:</span> Livestock farming (methane) and the use of nitrogen-based fertilizers (nitrous oxide).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="observable-impace-global-warming" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Observable Impacts of Global Warming</h2>
+                    <p class="mb-4">The effects of global warming are already evident and are accelerating.</p>
+
+                    <div id="rising-global-temperatures" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Rising Global Temperatures</h3>
+                            <p class="mb-4">Earth's average temperature has risen by approximately <span class="highlight">1.1$^{\circ}$C (2$^{\circ}$F)</span> since the late 19th century.</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>The 10 warmest years on record have all occurred in the past decade (2015-2024).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="melting-ice-rising-sea-levels" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Melting Ice and Rising Sea Levels</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Glaciers and Ice Sheets:</span> Massive ice formations are shrinking globally. Greenland and Antarctic ice sheets have lost billions of tons of ice annually.</li>
+                                <li><span class="highlight">Sea Ice:</span> Arctic sea ice coverage is rapidly declining, impacting polar ecosystems and traditional ways of life.</li>
+                                <li><span class="highlight">Sea Level Rise:</span> Global average sea level has risen by 8-9 inches since 1880, due to both thermal expansion of warming seawater and melting ice. This threatens coastal communities and low-lying regions like Bangladesh.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="extreme-weather-events" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Extreme Weather Events</h3>
+                            <p class="mb-4">Global warming is intensifying and increasing the frequency of:</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Heatwaves:</span> Longer and more intense periods of abnormally hot weather.</li>
+                                <li><span class="highlight">Droughts:</span> Leading to water shortages and increased risk of wildfires.</li>
+                                <li><span class="highlight">Heavy Rainfall and Floods:</span> A more vigorous hydrologic cycle means more intense precipitation in many regions.</li>
+                                <li><span class="highlight">Stronger Storms:</span> Hurricanes and tropical cyclones are becoming more intense with higher rainfall rates.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="ecosystem-biodiversity-impace" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Ecosystem and Biodiversity Impacts</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Habitat Shifts:</span> Plant and animal species are forced to shift their geographic ranges, sometimes unable to adapt fast enough.</li>
+                                <li><span class="highlight">Extinction Risk:</span> Many species face increased extinction rates due to rapid environmental changes.</li>
+                                <li><span class="highlight">Ocean Acidification:</span> Oceans absorb significant CO2, leading to increased acidity, which harms marine life, especially coral reefs.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solutions-mitigation-strategies" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Solutions and Mitigation Strategies</h2>
+                    <p class="mb-4">Addressing global warming requires a multifaceted approach involving global cooperation, technological innovation, and individual actions.</p>
+
+                    <div id="transition-renewable-energy" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Transition to Renewable Energy</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Solar Power:</span> Harnessing energy from the sun.</li>
+                                <li><span class="highlight">Wind Power:</span> Utilizing wind turbines for electricity generation.</li>
+                                <li><span class="highlight">Hydroelectric Power:</span> Generating electricity from flowing water.</li>
+                                <li><span class="highlight">Geothermal Energy:</span> Tapping into Earth's internal heat.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="energy-efficiency-conservation" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Energy Efficiency and Conservation</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Smart Grids:</span> Optimizing energy distribution.</li>
+                                <li><span class="highlight">Energy-Efficient Appliances and Buildings:</span> Reducing energy consumption in homes and industries.</li>
+                                <li><span class="highlight">Public Transportation and Electric Vehicles:</span> Shifting away from fossil-fuel-powered personal vehicles.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="sustainable-land-use-forestry" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Sustainable Land Use and Forestry</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li><span class="highlight">Reforestation and Afforestation:</span> Planting new trees and restoring degraded forests to absorb CO2.</li>
+                                <li><span class="highlight">Sustainable Agriculture:</span> Reducing methane emissions from livestock and improving soil health to sequester carbon.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="individual-actions" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Individual Actions</h3>
+                            <p class="mb-4">Even small personal changes contribute:</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Reducing energy consumption at home.</li>
+                                <li>Adopting plant-rich diets to lower carbon footprints.</li>
+                                <li>Reducing, reusing, and recycling to minimize waste and associated emissions.</li>
+                                <li>Advocating for policy changes and supporting businesses committed to sustainability.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="conclusion-call-to-action" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-6 text-center">Conclusion: A Call to Action</h2>
+                    <p class="text-lg mb-4">Global warming presents an existential challenge, but also an opportunity for innovation and collective action. The scientific evidence is clear, and the solutions are increasingly accessible. By transitioning to a <span class="highlight">sustainable future</span>, we can mitigate the most severe impacts of global warming and build a more <span class="highlight">resilient planet</span> for generations to come. The time to act is now.</p>
+                </div>
+            </section>
+
+            <button id="back-to-top" class="fixed bottom-8 right-8 btn-primary hidden">
+                &uarr;
+            </button>
+
+        </main>
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                if (window.innerWidth < 1024) {
+                    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                    if (mobileNavMenu && mobileNavMenu.classList.contains('mobile-nav-open')) {
+                        mobileNavMenu.classList.remove('mobile-nav-open');
+                        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+                        if (mobileNavToggle) {
+                            mobileNavToggle.textContent = 'Show Table of Contents';
+                        }
+                    }
+                }
+            });
+        });
+
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const mobileNavClose = document.getElementById('mobile-nav-close');
+
+        if (mobileNavToggle && mobileNavMenu && mobileNavClose) {
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavMenu.classList.add('mobile-nav-open');
+                mobileNavToggle.textContent = 'Hide Table of Contents';
+            });
+
+            mobileNavClose.addEventListener('click', () => {
+                mobileNavMenu.classList.remove('mobile-nav-open');
+                mobileNavToggle.textContent = 'Show Table of Contents';
+            });
+        }
+
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.querySelectorAll('pre code').forEach(codeBlock => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative';
+            codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+            wrapper.appendChild(codeBlock);
+
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button absolute top-2 right-2 px-3 py-1 text-xs';
+            copyButton.textContent = 'Copy Code';
+            wrapper.appendChild(copyButton);
+
+            copyButton.addEventListener('click', () => {
+                const codeText = codeBlock.textContent;
+
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = 0;
+                document.body.appendChild(textarea);
+
+                textarea.focus();
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Code';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    copyButton.textContent = 'Error!';
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            });
+        });
+
+        document.querySelectorAll('.section-copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const sectionContent = button.closest('.section-container > .section-content, .p-6.rounded-xl.bg-gray-900 > .section-content');
+
+                if (sectionContent) {
+                    const textToCopy = sectionContent.textContent;
+
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = 0;
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+
+                    try {
+                        document.execCommand('copy');
+                        button.textContent = 'Copied!';
+                        setTimeout(() => {
+                            button.textContent = 'Copy Section';
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy section text: ', err);
+                        button.textContent = 'Error!';
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
