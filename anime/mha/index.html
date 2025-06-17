@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hero Academia Fandom Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            line-height: 1.6;
+        }
+        .header {
+            background-color: #2d3748; /* Darker header */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e53e3e; /* Red underline */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #e53e3e; /* Red for titles */
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 3px;
+            bottom: -5px;
+            left: 10%;
+            background-color: #e53e3e;
+        }
+        .card {
+            background-color: #2d3748;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #2d3748;
+            margin: auto;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .close-button {
+            color: #e2e8f0;
+            float: right;
+            font-size: 2.5rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #e53e3e;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-bounce-custom {
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating-arrow {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #e53e3e;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        .floating-arrow:hover {
+            background-color: #c53030;
+            transform: translateY(-3px);
+        }
+
+        /* Loading spinner styles */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #e53e3e; /* Red */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+            display: none; /* Hidden by default */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .grid-cols-2-md {
+                grid-template-columns: 1fr;
+            }
+            .px-8-md {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Scroll to Top Button -->
+    <div class="floating-arrow hidden" id="scrollToTopBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </div>
+
+    <!-- Header and Navigation -->
+    <header class="header py-4">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-3xl font-bold text-red-500 mb-4 md:mb-0 animate-bounce-custom">My Hero Academia</h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#world-overview" class="nav-link text-white hover:text-red-400">World</a></li>
+                    <li><a href="#characters" class="nav-link text-white hover:text-red-400">Characters</a></li>
+                    <li><a href="#quirks" class="nav-link text-white hover:text-red-400">Quirks</a></li>
+                    <li><a href="#perks-items" class="nav-link text-white hover:text-red-400">Perks & Items</a></li>
+                    <li><a href="#scenarios-drawbacks" class="nav-link text-white hover:text-red-400">Scenarios & Drawbacks</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-8 py-12">
+
+        <!-- World Overview Section -->
+        <section id="world-overview" class="mb-16">
+            <h2 class="section-title text-4xl font-bold mb-8 text-center">World Overview</h2>
+            <div class="card p-8">
+                <p class="text-lg mb-4">The world of My Hero Academia was once similar to ours until a baby was born with the ability to glow. Soon after, humans began to manifest special abilities known as "Quirks," plunging the world into chaos. Now, stability and peace have been restored, with 80% of the population possessing Quirks.</p>
+                <p class="text-lg mb-4">The use of Quirks in public is generally prohibited to ensure civilian safety. Those who use their gifts for selfish gain are branded as "Villains." In contrast, "Heroes" are formalized civil servants who use their Quirks to protect the populace, assist in disaster relief, and collaborate with police to solve crimes.</p>
+                <p class="text-lg">All Might, the greatest hero, is the "Pillar of Peace" responsible for the current golden age. However, his critical injuries mean he will soon retire, and a rising darkness, led by charismatic villains like All For One, threatens society's fragile peace.</p>
+                <p class="text-lg mt-4">The story begins ten months before U.A. High's next Entrance Exam, coinciding with All Might's first meeting with Izuku Midoriya, a Quirkless boy aspiring to be a hero.</p>
+            </div>
+        </section>
+
+        <!-- Characters Section -->
+        <section id="characters" class="mb-16">
+            <h2 class="section-title text-4xl font-bold mb-8 text-center">Characters</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Hero Card -->
+                <div class="card p-6 flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/e53e3e/ffffff?text=All+Might" alt="All Might" class="rounded-full w-32 h-32 object-cover mb-4 shadow-lg">
+                    <h3 class="text-2xl font-semibold text-red-400 mb-2">Heroes</h3>
+                    <p class="text-md mb-4">Professional heroes, licensed to use their Quirks for good. They are public figures, highly scrutinized, and undergo rigorous training at schools like U.A. High.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('hero-details')">Learn More</button>
+                </div>
+                <!-- Villain Card -->
+                <div class="card p-6 flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/a0aec0/ffffff?text=Shigaraki" alt="Tomura Shigaraki" class="rounded-full w-32 h-32 object-cover mb-4 shadow-lg">
+                    <h3 class="text-2xl font-semibold text-gray-400 mb-2">Villains</h3>
+                    <p class="text-md mb-4">Individuals who use their Quirks for illegal acts. They range from hardened criminals to those seeking liberation from societal norms.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('villain-details')">Learn More</button>
+                </div>
+                <!-- Student Card -->
+                <div class="card p-6 flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/4299e1/ffffff?text=Deku" alt="Izuku Midoriya" class="rounded-full w-32 h-32 object-cover mb-4 shadow-lg">
+                    <h3 class="text-2xl font-semibold text-blue-400 mb-2">Students</h3>
+                    <p class="text-md mb-4">Young individuals aspiring to greatness, often aiming for hero schools like U.A. High, Ketsubutsu Academy, or Shiketsu High.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('student-details')">Learn More</button>
+                </div>
+                <!-- Support Card -->
+                <div class="card p-6 flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/d69e2e/ffffff?text=Mei+Hatsume" alt="Mei Hatsume" class="rounded-full w-32 h-32 object-cover mb-4 shadow-lg">
+                    <h3 class="text-2xl font-semibold text-yellow-400 mb-2">Support</h3>
+                    <p class="text-md mb-4">Individuals involved in the support industry, designing costumes, gadgets, and managing PR for heroes and villains.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('support-details')">Learn More</button>
+                </div>
+                <!-- Vigilante Card -->
+                <div class="card p-6 flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/6b46c1/ffffff?text=Stain" alt="Stain" class="rounded-full w-32 h-32 object-cover mb-4 shadow-lg">
+                    <h3 class="text-2xl font-semibold text-purple-400 mb-2">Vigilantes</h3>
+                    <p class="text-md mb-4">Those who take a stand against crime outside the established law enforcement and hero system.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('vigilante-details')">Learn More</button>
+                </div>
+                <!-- Revolutionary Card -->
+                <div class="card p-6 flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/f6ad55/ffffff?text=Re-Destro" alt="Re-Destro" class="rounded-full w-32 h-32 object-cover mb-4 shadow-lg">
+                    <h3 class="text-2xl font-semibold text-orange-400 mb-2">Revolutionaries</h3>
+                    <p class="text-md mb-4">Individuals with strong opinions about the world's direction, willing to change it themselves, often defying the status quo.</p>
+                    <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('revolutionary-details')">Learn More</button>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('backstory-generator-modal')">Generate Character Backstory ✨</button>
+            </div>
+        </section>
+
+        <!-- Quirks Section -->
+        <section id="quirks" class="mb-16">
+            <h2 class="section-title text-4xl font-bold mb-8 text-center">Quirks</h2>
+            <div class="card p-8">
+                <p class="text-lg mb-4">Quirks are innate powers manifesting between birth and age four, behaving like a natural bodily function. They can be trained or atrophy if neglected, and often have natural limitations.</p>
+                <p class="text-lg mb-6">Quirks are categorized by type and price tier. There are four tiers, from weakest/cheapest (Tier 0) to strongest/most expensive (Tier 3). Nomu can purchase multiple Quirks, while others are limited to one.</p>
+
+                <h3 class="text-3xl font-bold text-red-400 mb-4">Quirk Types:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Manipulation Quirks</h4>
+                        <p class="text-sm mt-2">Control external substances, elements, or objects (e.g., fire, earth, bullets). Can control more, better, and longer with training. Limited by quantity, control precision, stamina, and availability of the substance.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('manipulation-quirks')">View Examples</button>
+                    </div>
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Generation Quirks</h4>
+                        <p class="text-sm mt-2">Produce something from the user's body (e.g., acid, black holes). Often esoteric with visible signs of generation. Training strengthens production, expands "fuel reservoir," and improves control. Limited by control after generation, drawbacks from overuse, and sustainability.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('generation-quirks')">View Examples</button>
+                    </div>
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Augmentation Quirks</h4>
+                        <p class="text-sm mt-2">Manipulate, enhance, and control one's own body. Vary in complexity and scope. Training pushes them farther or reveals new tricks. Limitations often center on the health of affected body parts.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('augmentation-quirks')">View Examples</button>
+                    </div>
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Alteration Quirks</h4>
+                        <p class="text-sm mt-2">Strange close-range Quirks affecting how things work (e.g., disintegrating objects, shutting off gravity). Can be physically demanding or hard to control. Training makes them more powerful but rarely more flexible. Limitations include being "always on" or causing side effects like headaches.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('alteration-quirks')">View Examples</button>
+                    </div>
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Affliction Quirks</h4>
+                        <p class="text-sm mt-2">Focused on hindering, affecting, or controlling others, with few personal advantages. Often require specific conditions (e.g., consuming blood, verbal response). Training is difficult due to reliance on targets.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('affliction-quirks')">View Examples</button>
+                    </div>
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Mutation Quirks</h4>
+                        <p class="text-sm mt-2">Permanent bodily features (e.g., muscular tail, horns). Behave like natural body parts. Training improves traditional aspects like strength, dexterity, or endurance. Limitations include muscle fatigue and natural limitations of the body part.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('mutation-quirks')">View Examples</button>
+                    </div>
+                    <div class="p-4 bg-gray-700 rounded-md shadow-md">
+                        <h4 class="text-xl font-semibold text-red-300">Sensory Quirks</h4>
+                        <p class="text-sm mt-2">Expand or improve perception and communication (e.g., enhanced sight, new senses). Training makes them more acute or expands range. Limitations are typically related to range of perception or precision of the sense.</p>
+                        <button class="mt-4 bg-red-600 hover:bg-red-700 text-white text-sm py-1 px-3 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('sensory-quirks')">View Examples</button>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('quirk-generator-modal')">Generate New Quirk ✨</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Perks & Items Section -->
+        <section id="perks-items" class="mb-16">
+            <h2 class="section-title text-4xl font-bold mb-8 text-center">Perks & Items</h2>
+            <div class="card p-8">
+                <p class="text-lg mb-4">Gain new abilities, tools, and advantages. Perks provide innate skills and enhancements, while items offer equipment and resources. Origins offer discounts on matching perks and items.</p>
+                <p class="text-lg mb-6">Nomu have unique perk-lines and item selections, allowing for more specialized builds.</p>
+
+                <h3 class="text-3xl font-bold text-red-400 mb-4">Key Perks:</h3>
+                <ul class="list-disc pl-5 mb-6 text-lg">
+                    <li><strong>Power Lottery (Free!):</strong> Create a custom Quirk by fusing up to four existing Quirks (parents/grandparents), or modify an existing Quirk's tier and properties.</li>
+                    <li><strong>Quirk Proficiency (200CP):</strong> Gain extensive training and experience with your Quirk, understanding its nuances, strengths, and weaknesses.</li>
+                    <li><strong>Superficial Mutant (Free):</strong> Customize your appearance to be highly mutated, or very close to a traditional human, with minor limitations.</li>
+                    <li><strong>Real Life Ninja (300CP):</strong> Gain inhuman agility, acrobatic acumen, hand-to-hand combat skills, proficiency with conventional ninja weaponry, and one ninja technique.</li>
+                </ul>
+
+                <h3 class="text-3xl font-bold text-red-400 mb-4">Key Items:</h3>
+                <ul class="list-disc pl-5 mb-6 text-lg">
+                    <li><strong>All-Might Jacket (50CP):</strong> A limited edition, mint condition jacket resembling All Might's costume, unable to be dirtied or damaged, making you look cool to nerds.</li>
+                    <li><strong>Guns (50CP/200CP):</strong> Purchase a gun of your choice with a large amount of ammunition, or an entire arsenal with consistent restock.</li>
+                    <li><strong>Industrial Support Workshop (400CP):</strong> A fully equipped workshop for designing, making, and testing support items for heroes and villains.</li>
+                    <li><strong>Villain Factory (600CP):</strong> A small but well-trained operation with multiple safehouses for abduction, human experimentation with Quirk Enhancement Drugs (Trigger), and securing contraband.</li>
+                </ul>
+                <button class="mt-4 bg-red-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('full-perks-items')">View All Perks & Items</button>
+            </div>
+        </section>
+
+        <!-- Scenarios & Drawbacks Section -->
+        <section id="scenarios-drawbacks" class="mb-16">
+            <h2 class="section-title text-4xl font-bold mb-8 text-center">Scenarios & Drawbacks</h2>
+            <div class="card p-8">
+                <p class="text-lg mb-4">Scenarios offer unique challenges and rewards, allowing you to shape your story within the My Hero Academia world. Drawbacks add difficulty for extra CP.</p>
+
+                <h3 class="text-3xl font-bold text-red-400 mb-4">DIY Scenario Creation:</h3>
+                <p class="text-lg mb-4">You can create your own scenario with a setup (background alteration), a narrative (ordeals to overcome), and a goal (reward). The scale of changes and difficulty match the reward.</p>
+                <ul class="list-disc pl-5 mb-6 text-lg">
+                    <li><strong>Example: All For One (Quirk) Reward:</strong> Setup as an orphan manipulated by All For One, narrative mirrors Shigaraki's path of cultivating hatred and fighting heroes/villains, goal of overcoming AFO's attempted possession and embodying your villainous ideal.</li>
+                    <li><strong>Example: One For All (Quirk) Reward:</strong> Setup and narrative mirror Midoriya's, aspiring hero receiving One For All early. Goal is to become the number one hero and change society for the better to keep the Quirk.</li>
+                    <li><strong>Casual Scenarios:</strong> Smaller rewards like romance with a character or a steady income for your family are also possible, leading to a more comfortable narrative.</li>
+                </ul>
+
+                <h3 class="text-3xl font-bold text-red-400 mb-4">Drawbacks:</h3>
+                <ul class="list-disc pl-5 mb-6 text-lg">
+                    <li><strong>Origin Story (+0):</strong> Roll back your start up to twenty years prior to current events.</li>
+                    <li><strong>Vigilantes! (+0):</strong> Start a year or two earlier, at the beginning of the 'Vigilante: Boku no Hero Academia Illegals' spinoff series.</li>
+                    <li><strong>Fanfiction (+0):</strong> Select any existing fanfic as the baseline for your experiences.</li>
+                    <li><strong>Wild Nomu (-):</strong> (Specific to Nomu Origin) Tiered drawback based on number and tier of Quirks, ranging from no complications to actively being hunted by All For One and the Doctor.</li>
+                    <li><strong>Bitter Rivalry (+100CP):</strong> Gain a rival you can't permanently get rid of; careers always draw you together, attempts to kill them fail, persistent annoyance.</li>
+                    <li><strong>Quirkless (+200CP):</strong> No Quirk for the duration of your stay, treated as a second-class citizen. (Mutually incompatible with Quirk-driven drawbacks).</li>
+                </ul>
+                <button class="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="openModal('full-scenarios-drawbacks')">View All Scenarios & Drawbacks</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modals (Hidden by default) -->
+
+    <!-- Hero Details Modal -->
+    <div id="hero-details" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('hero-details')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Heroes</h3>
+            <p class="text-lg mb-4">Professional heroes are licensed individuals who use their Quirks to protect the populace, assist in disaster relief, and collaborate with police to solve crimes. They are public figures, constantly in the spotlight, and undergo rigorous training at specialized schools like U.A. High, known as the #1 Hero Academy in the world.</p>
+            <p class="text-lg mb-4">All Might, the "Pillar of Peace," is the most iconic hero, inspiring both civilians and fellow heroes while striking fear into villains. Becoming a professional hero is extremely difficult due to the intense scrutiny and responsibility involved.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Hero Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Welcome to the Gunshow! (100CP):</strong> Take on a vastly more muscular, sculpted form at will, increasing strength.</li>
+                <li><strong>Heroically Unimpeded! (100CP):</strong> Ignore common inconveniences like tripping or capes hindering movement.</li>
+                <li><strong>What Are Your Plans, You Rogue!? (200CP):</strong> Gift for gab to make villains monologue or fumble.</li>
+                <li><strong>Certified (200CP):</strong> High-quality hero's education in non-combat subjects (disaster relief, media, first aid, ethics).</li>
+                <li><strong>Watch Out! (400CP):</strong> Reduce collateral damage and better utilize environment with abilities.</li>
+                <li><strong>Media Darling (400CP):</strong> Innate awareness of demographics, allowing you to cultivate popularity and inspire people.</li>
+                <li><strong>Follow My Lead! (600CP):</strong> Excel as a mentor, polishing raw talent into generational treasures.</li>
+                <li><strong>Pillar of Peace (600CP):</strong> Possess the true heart of a hero, with sun-like charisma, benevolent actions providing satisfaction, and inspiring hope.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Villain Details Modal -->
+    <div id="villain-details" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('villain-details')">&times;</span>
+            <h3 class="text-3xl font-bold text-gray-400 mb-4">Villains</h3>
+            <p class="text-lg mb-4">Villains are individuals who use their Quirks to perform illegal acts. Some are hardened criminals, while others act out of a desire for public liberation and defiance of the law. Their treatment by society varies based on their actions and location.</p>
+            <p class="text-lg mb-4">Despite the established hero system, crime persists, and the era of peace is fragile with All Might's impending retirement. Villains like All For One are plotting to assert dominance, and the Villain Alliance is growing stronger.</p>
+            <h4 class="text-2xl font-semibold text-gray-300 mb-2">Villain Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Slasher's Smile (100CP):</strong> Project malicious intent, psychotic glee, or unsettling feelings with your smile/teeth.</li>
+                <li><strong>Not A 'Bad' Guy (100CP):</strong> Social skills to get on the good side of bad people, navigating conversations and negotiations.</li>
+                <li><strong>Runaway Getaway (200CP):</strong> Impeccable at navigating the underbelly of society and covering tracks, with contacts for illegal 'work' and 'markets'.</li>
+                <li><strong>Dead in the Water (200CP):</strong> Improvise and set up traps on short notice, skilled at baiting and luring targets.</li>
+                <li><strong>Self-Mutilation (400CP):</strong> Keen awareness of body limitations, ability to self-harm without shock, and use painful Quirks while staying aware of limits.</li>
+                <li><strong>Psychotic Analyst (400CP):</strong> Dig deep into targets' mental closets, uncovering secrets and insecurities through prolonged interaction.</li>
+                <li><strong>Modern Moriarty (600CP):</strong> Masterful schemer, layering plans, thriving through 'failure,' and enduring blows to your enterprise.</li>
+                <li><strong>Demon Lord (600CP):</strong> Lucid 'Quirk Ghost' attached to your biology, fighting foreign abilities and exerting influence, fueled by intense emotion (especially hatred).</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div id="student-details" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('student-details')">&times;</span>
+            <h3 class="text-3xl font-bold text-blue-400 mb-4">Students</h3>
+            <p class="text-lg mb-4">Young individuals, often in middle school, with aspirations of becoming heroes. They typically have their sights set on entrance exams for prestigious hero schools like U.A. High, Ketsubutsu Academy, or Shiketsu High. Their families usually provide unwavering emotional and financial support for their heroic endeavors.</p>
+            <p class="text-lg mb-4">For those who choose a different path, or a normal life, their families remain supportive. Hero work is dangerous, so safety is a concern for loved ones.</p>
+            <h4 class="text-2xl font-semibold text-blue-300 mb-2">Student Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>It Might Be Destiny (100CP):</strong> Land chance meetings with people during formative or troubled moments, with the ability to influence their path.</li>
+                <li><strong>Push Through (100CP):</strong> Push through pain of self-inflicted injuries, staying functional in emergencies.</li>
+                <li><strong>American Dream (200CP):</strong> Excellent self-discipline, adhering to promises and training schedules.</li>
+                <li><strong>Do You Ever Do Something UN-Cool!? (200CP):</strong> Hard to forget, leaving strong impressions, with good points accentuated in others' perception.</li>
+                <li><strong>My Way (400CP):</strong> Dedicated and loyal to your beliefs, courageous, with insurmountable integrity and efficient decision-making.</li>
+                <li><strong>What's in a Name? (400CP):</strong> Talented at creating snappy, memorable names (hero/villain names, special moves) that evoke desired emotions and spread easily.</li>
+                <li><strong>Making A Difference (600CP):</strong> Calm under pressure, oriented towards practical problem-solving, with savant-like understanding of Quirks and strategies.</li>
+                <li><strong>Peer Pressure (600CP):</strong> Explosive training results when chasing peers/rivals, rising quickly even from humble beginnings.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Support Details Modal -->
+    <div id="support-details" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('support-details')">&times;</span>
+            <h3 class="text-3xl font-bold text-yellow-400 mb-4">Support</h3>
+            <p class="text-lg mb-4">The Support Industry is a broad term for all trades and services catering to the needs of a Hero (or Villain). This includes managers for PR and merchandise, tailors for protective and stylish costumes, and engineers who design gadgets. They are the brains behind the operation, providing crucial assistance to those on the front lines.</p>
+            <h4 class="2xl font-semibold text-yellow-300 mb-2">Support Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Quick Study (100CP):</strong> Skilled at scanning, absorbing, and applying information quickly, essential for catering to individual hero needs.</li>
+                <li><strong>Passion For Fashion (100CP):</strong> Talented artisan in costume design, creating functional and fashionable looks that bring out an individual's personality, working with various materials including bodily ones.</li>
+                <li><strong>Public Relations (200CP):</strong> Remarkable skill in improving public perception, with a silver tongue for managing media and guiding conversations.</li>
+                <li><strong>Obsession (200CP):</strong> Irrational investment in goals, drawing on sheer focus, determination, and stamina for tireless work.</li>
+                <li><strong>Fixation (400CP):</strong> General intelligence surpassing peers, with a particular fixation of choice leading to unrealistic expertise (e.g., atomic structure, support tool ideas, hacking).</li>
+                <li><strong>Industry Support (400CP):</strong> Competence in diverse fields (material sciences, mechanical engineering), talented at designing tools that efficiently elevate client powers/skills and expand options.</li>
+                <li><strong>Tribute (600CP):</strong> Pinnacle of support, able to emulate a wide variety of Quirks through technological means (robotic limbs, lasers, modular armor).</li>
+                <li><strong>The Doctor Is In (600CP):</strong> Foremost expert on Quirk biological research, with knowledge to replicate Quirks through cloning or surgically augment bodies to withstand Quirk use.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Vigilante Details Modal -->
+    <div id="vigilante-details" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('vigilante-details')">&times;</span>
+            <h3 class="text-3xl font-bold text-purple-400 mb-4">Vigilantes</h3>
+            <p class="text-lg mb-4">In a world with formal law enforcement and professional heroes, vigilantism exists for those who take a stand when civilians need help and there's no one else to call. Despite being illegal and often unappreciated, vigilantes uphold the law from outside it.</p>
+            <h4 class="text-2xl font-semibold text-purple-300 mb-2">Vigilante Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Undiscovered (100CP):</strong> Perfect human specimen appearance with iconic charm, attracting trust and allowing you to get away with more questionable things.</li>
+                <li><strong>What? Who? (100CP):</strong> Excellent at quick disguises and coming up with excuses to appear non-suspicious, also useful for being ignored.</li>
+                <li><strong>Extra Credit (200CP):</strong> Always find ways to prove yourself and achieve goals, even if you struggle with tests or specific skills.</li>
+                <li><strong>Weekly Event (200CP):</strong> Encounter chance meetings, random events, and lucky breaks that lead you to crime scenes, often resolving quickly.</li>
+                <li><strong>Hard Boiled (400CP):</strong> Get into the minds of criminals with exceptional accuracy, predicting actions, even terrorist attacks.</li>
+                <li><strong>Outside the Law (400CP):</strong> Law enforcement generally ignores your illegal actions as long as you do good work without significant mistakes.</li>
+                <li><strong>Unthinking Dancer (600CP):</strong> God-tier self-preservation instincts and reflexes, reacting to danger even when consciously unaware, making you tough to defeat.</li>
+                <li><strong>Knuckle Sandwich (600CP):</strong> Peak physical condition (superhuman by other worlds' standards) and incredible combat experience, picking apart weaknesses and handling weapons.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Revolutionary Details Modal -->
+    <div id="revolutionary-details" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('revolutionary-details')">&times;</span>
+            <h3 class="text-3xl font-bold text-orange-400 mb-4">Revolutionaries</h3>
+            <p class="text-lg mb-4">Revolutionaries believe the world is "rotten" and have strong opinions about its direction, possessing the grit to change it themselves. They may be independent or members of groups like the Meta Liberation Army, which advocates for individuality and the repeal of Quirk laws.</p>
+            <h4 class="text-2xl font-semibold text-orange-300 mb-2">Revolutionary Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Nice Guy (100CP):</strong> Easily conceal radical beliefs or negative emotions behind a friendly and affable public persona.</li>
+                <li><strong>Bad Guy (100CP):</strong> Present as a fearsome and threatening figure to enemies, planting seeds of terror through actions that substantiate your claims.</li>
+                <li><strong>Hypothetically Speaking (200CP):</strong> Masterful at probing others for information without revealing your own intentions, useful for finding susceptible recruits.</li>
+                <li><strong>Hearts & Mind (200CP):</strong> Excellent public speaker and politically gifted, able to soften the masses and convert them to your ideals.</li>
+                <li><strong>True Patrician (400CP):</strong> Recognize those who fit your ideological system, seeing "true heroes" or "truly free" individuals.</li>
+                <li><strong>What Doesn't Kill (400CP):</strong> Endure and inflict physical or mental trauma to grow stronger yourself, and inspire incredible growth in others who share your ideology.</li>
+                <li><strong>Promised Day (600CP):</strong> Mind-boggling ability to keep your developing faction a complete secret until ready to act, even with large, city-encompassing forces.</li>
+                <li><strong>Dark Ideology (600CP):</strong> Absolute belief in a chosen ideology, becoming more determined when challenged, pushing through serious injuries, and appearing as an exaggerated terror to opponents.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Manipulation Quirks Modal -->
+    <div id="manipulation-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('manipulation-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Manipulation Quirks Examples</h3>
+            <p class="text-lg mb-4">Manipulation Quirks are all about controlling some external substance, element or object. As they are trained, users can usually control more, better and for longer.</p>
+            <h4 class="2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Shadow Puppets:</strong> Manipulate your own shadow's form.</li>
+                <li><strong>Season City:</strong> Manipulate common flavor enhancers like salt, sugar, pepper, ketchup, or mustard.</li>
+                <li><strong>Headlights:</strong> Collect and manipulate photons into linear beams or conical rays.</li>
+                <li><strong>Airburst:</strong> Compress small quantities of air into marble-shaped pockets and project them.</li>
+                <li><strong>Leaf Manipulation:</strong> Control leaves from surroundings and project them as sharpened blades.</li>
+                <li><strong>Weak Attraction:</strong> Pull small, lightweight objects closer.</li>
+                <li><strong>Confetti:</strong> Manipulate pieces of paper after contact, shaping and splitting them.</li>
+                <li><strong>Curveball:</strong> Apply a delayed rotation to small objects, designating direction.</li>
+                <li><strong>Snow Shoes:</strong> Disperse exerted forces of body over a larger area for easier movement on soft surfaces or lifting awkward objects.</li>
+                <li><strong>Placebo:</strong> Create small, strangely patterned pills that make others more suggestible.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Anivoice:</strong> Communicate with and command animals.</li>
+                <li><strong>Babel:</strong> Auto-telekinesis, commanding inanimate objects to stack into perfectly balanced towers.</li>
+                <li><strong>Homing:</strong> Lock onto an opponent, causing projectiles to home in on them.</li>
+                <li><strong>Echo:</strong> Control and collect nearby sounds into music note constructs that bounce around.</li>
+                <li><strong>Signal Pirate:</strong> Hijack electronic signals to manipulate audio and video on nearby electronics.</li>
+                <li><strong>Larceny:</strong> Steal any objects seen on a target's person, including non-permanent Quirk manifestations.</li>
+                <li><strong>Size:</strong> Increase the size of objects you've interacted with up to several dozen times over.</li>
+                <li><strong>Storage:</strong> Take in and store objects inside a separate space within your body.</li>
+                <li><strong>Boomerang:</strong> Channel energy into objects, accelerating and altering their trajectory after throwing.</li>
+                <li><strong>Anthropomorph:</strong> Transform roughly human-sized objects into controllable puppets.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Fiber Master:</strong> Freely control and manipulate the fibers making up textiles.</li>
+                <li><strong>Water Accumulation:</strong> Exert extremely fine control over water, even pulling moisture from the air.</li>
+                <li><strong>Repulsion:</strong> Manipulate a repulsive, invisible force that bounces anything away.</li>
+                <li><strong>Cement:</strong> Power over cement and cement-like materials, able to expand, 'grow,' or repair them.</li>
+                <li><strong>Handyman:</strong> Mentally grab and manipulate pieces of a broken object, regenerating damage.</li>
+                <li><strong>Extend-o-Hair:</strong> Incredible control over your own body hair, growing and manipulating it for offense, defense, and utility.</li>
+                <li><strong>Dust Bunny:</strong> Powerful, highly refined control over dust and similar particulates over a wide area.</li>
+                <li><strong>Flight:</strong> Manipulate a special aerodynamic barrier for high-speed flight.</li>
+                <li><strong>Mummification:</strong> Produce red bandages to control and transform inanimate objects into mummy-like golems.</li>
+                <li><strong>Magic:</strong> Create dazzling rings of light that expand into platform-like constructs to move people or objects.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Earthflow:</strong> Exert great control over large amounts of earthen substances, creating Earth Devils.</li>
+                <li><strong>Meatball:</strong> Manipulate and change the shape of raw human flesh, compressing people into ball-shaped lumps.</li>
+                <li><strong>Soundgarden:</strong> Manipulate large sums of sand and glass through song, transforming sand into glass and vice versa.</li>
+                <li><strong>Bottled Lightning:</strong> Manipulate electricity with fine control, pulling it from surroundings.</li>
+                <li><strong>Fungal Growth:</strong> Detect, manipulate, condense, and rapidly grow fungus or fungal growth, producing spores.</li>
+                <li><strong>Maximum Security:</strong> Great control over iron and iron alloys, commanding it over a wide area, forming bars and chains.</li>
+                <li><strong>Canopic Jar:</strong> Separate organs from body, body becomes redundant and can regenerate around bone jar.</li>
+                <li><strong>Weather Manipulation:</strong> Freely manipulate weather over a region, creating storms, lightning, or aiding flight.</li>
+                <li><strong>New Order:</strong> Set a "rule" upon something by touching it and calling its name, manipulating targets or changing properties.</li>
+                <li><strong>Ruin:</strong> Loosen chemical bonds of objects seen, radically lowering durability and allowing breaking through tough materials.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Generation Quirks Modal -->
+    <div id="generation-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('generation-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Generation Quirks Examples</h3>
+            <p class="text-lg mb-4">Generation Quirks are all about making something from the user's body. They often have noticeable signs or methods of production.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Waterworks:</strong> Produce an outrageous flow of tears like garden hoses.</li>
+                <li><strong>Lighter:</strong> Produce a flame over your thumb by snapping fingers.</li>
+                <li><strong>Uppercrust:</strong> Create and spread a hard, jagged material predominantly made of keratin from your hands.</li>
+                <li><strong>Hay Fever:</strong> Produce a pollen-like powder that triggers allergy symptoms in others.</li>
+                <li><strong>Bishie:</strong> Produce sparkling lights around your head and body, making you more attractive.</li>
+                <li><strong>Little Pompeii:</strong> Produce and control ashes from your fingertips.</li>
+                <li><strong>Static:</strong> Charge an internal battery by rubbing body parts, then manipulate electricity internally or externally.</li>
+                <li><strong>Scarface:</strong> Have your voice originate from any point within a radius of ten meters.</li>
+                <li><strong>Ice Cube:</strong> Produce perfectly chilled ice cubes by shaking a closed fist.</li>
+                <li><strong>Slide & Glide:</strong> Produce a force from your body with attractive and repulsive properties, allowing seamless sliding.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Cemedine:</strong> Expel a large volume of glue-like, viscous fluid that quickly hardens.</li>
+                <li><strong>Urn Pell:</strong> Produce a clay-like substance that quickly sets into ceramic-like objects.</li>
+                <li><strong>Lumber:</strong> Generate wood from your body and control it as an extension.</li>
+                <li><strong>Navel Laser:</strong> Project extremely powerful lasers from your stomach/belly button.</li>
+                <li><strong>Blackwhip:</strong> Generate tendrils of black energy, commanding them through will and physical force.</li>
+                <li><strong>Bad Breath:</strong> Project a dense, light-blocking cloud of multicolored fog from your face.</li>
+                <li><strong>Perfume Bubble:</strong> Create bubbles filled with any scent you've smelled, with properties varying by mental state.</li>
+                <li><strong>Crystallization:</strong> Produce crystals from anywhere on your body for crude armor and weaponry.</li>
+                <li><strong>Man of Iron:</strong> Conjure or dismiss a full set of iron armor around your body, with energy blasts from palms.</li>
+                <li><strong>Stockpile:</strong> Generate and store power in your Quirk to enhance physical abilities over time.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Acid:</strong> Produce corrosive fluids from your skin, adjusting solubility, viscosity, and acidity.</li>
+                <li><strong>Clones:</strong> Expel glowing, ectoplasm-like slime that can be transformed into copies of yourself.</li>
+                <li><strong>Explosion:</strong> Excrete nitroglycerin from your palms and ignite it to make it explode.</li>
+                <li><strong>Queen Bee:</strong> Produce bees with syringes for abdomens, commanding them as an extension for fluid transfer and spying.</li>
+                <li><strong>Somnambulist:</strong> Produce a highly potent, sleep-inducing aroma from your body.</li>
+                <li><strong>Easter Eggs:</strong> Conjure small, colorful eggs with varying effects and detonation conditions.</li>
+                <li><strong>Horn Cannon:</strong> Passively grow curved horns that can be detached and controlled remotely.</li>
+                <li><strong>Glamour:</strong> Emit a mist from your mouth that can be manipulated to form complex visual and auditory illusions.</li>
+                <li><strong>Toxic Chainsaw:</strong> Generate copious amounts of deadly cytotoxic venom and rotate it at high speeds for slicing.</li>
+                <li><strong>Shield:</strong> Generate an array of rapidly multiplying, hexagonal plates over and from your body, forming armor or bladed armaments.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Black Hole:</strong> Generate small black holes at your fingertips that suck up and disintegrate matter.</li>
+                <li><strong>Creation:</strong> Produce inanimate objects from any exposed part of your body with exacting understanding of atomic structure.</li>
+                <li><strong>Gamma Maximum:</strong> Spit glowing, green slime that emits radiation, causing invertebrates to grow hundreds of times their size.</li>
+                <li><strong>Warp Gate:</strong> Generate and manipulate a black fog that links two points of space, allowing teleportation.</li>
+                <li><strong>Wave Motion:</strong> Convert your vitality into pure energy and project it as spiraling shockwaves.</li>
+                <li><strong>Edge Master:</strong> Create and project bladed objects from your body with incredibly high quality iron alloy.</li>
+                <li><strong>Comic:</strong> Vocalize onomatopoeia to manifest giant letters with varying effects (e.g., "Blam!" for crashing, "Boing" for elastic).</li>
+                <li><strong>Hatcher:</strong> Regurgitate eggs that hatch into obedient 'monsters' with traits reflecting what was consumed.</li>
+                <li><strong>Double:</strong> Create copies of yourself or others with almost full capabilities, including Quirks.</li>
+                <li><strong>Toy Soldiers:</strong> Eject rapidly expanding clockwork automatons from your chest, inheriting your intelligence and completing orders.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Augmentation Quirks Modal -->
+    <div id="augmentation-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('augmentation-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Augmentation Quirks Examples</h3>
+            <p class="text-lg mb-4">Augmentation Quirks are all about manipulating, enhancing, and controlling your own body for a variety of effects, either part of it or the whole thing.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Permeation:</strong> Become intangible, causing everything to pass through you harmlessly.</li>
+                <li><strong>Blade Arms:</strong> Sprout small, short metal blades from your arms.</li>
+                <li><strong>Telescoping:</strong> Lengthen your spine and torso up to five times its normal length or contract it to half.</li>
+                <li><strong>Green Thumbs:</strong> Transform your thumbs into long, prehensile vines with leaves.</li>
+                <li><strong>Hardening:</strong> Harden any part of your body to protect against physical force, heat, and shock.</li>
+                <li><strong>Badger:</strong> Lengthen and harden your nails on command for various uses.</li>
+                <li><strong>Gyrate:</strong> Rotate your body parts independently at high speeds.</li>
+                <li><strong>Wall Run:</strong> Feel heightened gravity in the direction your feet are facing, allowing easier climbing or extending leaps.</li>
+                <li><strong>Suicide Bomb:</strong> Explode with incredible force equivalent to your weight in TNT (lethal to user).</li>
+                <li><strong>Switch Up:</strong> Flip a mental switch to coordinate perfectly in reverse, increasing flexibility.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Blood Control:</strong> Manipulate your own blood (move, shape, harden, liquefy) with less deleterious health effects.</li>
+                <li><strong>Bone Spear:</strong> Sprout super hard drills of bone from your body for offense and defense.</li>
+                <li><strong>Hypertrophy:</strong> Greatly enlarge one of your body parts at a time, vastly increasing strength and durability.</li>
+                <li><strong>Roughest:</strong> Manipulate the texture and properties of your own skin (rougher, smoother, softer, tougher, more elastic).</li>
+                <li><strong>Black:</strong> Merge with anything seen as the color black, including shadows, and move through it quickly.</li>
+                <li><strong>Tongue Web:</strong> Strengthen, extend, expand, and branch your tongue to an incredible extent.</li>
+                <li><strong>Sugar Rush:</strong> Multiply your strength five times over for three minutes for every ten grams of sugar ingested.</li>
+                <li><strong>Air Walk:</strong> Stand on and control the air around you, granting levitation and allowing you to run/jump on air.</li>
+                <li><strong>Transform:</strong> Transform and take the appearance of another person after consuming their blood.</li>
+                <li><strong>Copy:</strong> Copy the Quirks of others by touching them, gaining basic understanding and temporary use.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Blade Tooth:</strong> Enlarge, reshape, sharpen, and manipulate your teeth to form dangerous, branching, flexible blades.</li>
+                <li><strong>Foldabody:</strong> Thin and stretch your body, taking the form of thread or folding yourself like origami.</li>
+                <li><strong>Harpoon:</strong> Project steel spikes on lines resembling rope from your body at bullet-like speeds, with retracting barbs.</li>
+                <li><strong>Tool Arms:</strong> Sprout additional arms from your upper body, ending with various tools (saw, screwdriver, chainsaw).</li>
+                <li><strong>Strongarm:</strong> Rotate and move shoulders at extreme speed and power, allowing pulverizing punches.</li>
+                <li><strong>The Hand:</strong> Summon a massive hand from your body that mimics your dominant hand, floating and crawling at high speeds.</li>
+                <li><strong>Lizard Tail Splitter:</strong> Split your body apart into pieces, manipulating them through thought.</li>
+                <li><strong>Muscle Augmentation:</strong> Manipulate and amplify your muscle fibers, allowing them to protrude and increase strength, speed, and resilience.</li>
+                <li><strong>Transforming Arms:</strong> Radically manipulate the shape of your arms (stretching, bending, expanding, splitting) into wings, whips, etc.</li>
+                <li><strong>Double Time:</strong> 'Overclock' two organs or body parts at a time, multiplying their functionality.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Gigantification:</strong> Instantly grow to about 68 meters in height, gaining incredible destructive force.</li>
+                <li><strong>Temperature Modulation:</strong> Survive extreme temperatures and manipulate your own body's temperature to melt steel or freeze water.</li>
+                <li><strong>Manifest:</strong> Manifest body parts and/or characteristics of any animal you eat.</li>
+                <li><strong>Transfer:</strong> Transmute your body into any inanimate material by touching it, and merge with it for high-speed travel.</li>
+                <li><strong>Fat Absorption:</strong> Manipulate body fat to absorb tangible objects and kinetic forces, discharging accumulated energy in a strike.</li>
+                <li><strong>Ring Fingers:</strong> Transform fingers into metal rings, controlling them remotely and enforcing will on victims.</li>
+                <li><strong>Overclock:</strong> Hasten perception of time, allowing multiple simulations of potential futures within seconds.</li>
+                <li><strong>Myth:</strong> Transform into a larger, more powerful mythological creature, gaining physiological changes and abilities.</li>
+                <li><strong>Stress:</strong> Convert anger, frustration, and general stress into raw power, enhancing body parts or projecting outwards.</li>
+                <li><strong>Cow Catcher:</strong> Acquire a semi-translucent energy coating that builds momentum, making you an unstoppable force.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Alteration Quirks Modal -->
+    <div id="alteration-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('alteration-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Alteration Quirks Examples</h3>
+            <p class="text-lg mb-4">Alteration Quirks are normally strange close-range Quirks that carry powerful effects or affect the way things work. They can be physically demanding or hard to control.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Love:</strong> Enhance the strength, speed, and resilience of a single individual by declaring your love for them.</li>
+                <li><strong>Coating:</strong> Smooth and polish whatever you touch, giving it a slippery, shiny, glossy quality.</li>
+                <li><strong>Graffiti:</strong> Alter the color of whatever a short, conical beam touches.</li>
+                <li><strong>Barbs:</strong> Sprout small barbs or thorns from inanimate objects you're touching.</li>
+                <li><strong>Sunburn:</strong> Grab and peel off a thin, top surface of inanimate objects as a translucent sheet.</li>
+                <li><strong>Soda Fountain:</strong> Turn water into another fluid at a whim, based on the last eight liquids ingested.</li>
+                <li><strong>Mochi Press:</strong> Crush and bind substances and materials into a cohesive, dough-like mass with your tail.</li>
+                <li><strong>Negative:</strong> Alter the way objects or persons you touch interact with the visible light spectrum, rendering them as a photo-negative.</li>
+                <li><strong>Glowstick:</strong> Crack your joints to 'paint' surfaces with a glow-in-the-dark quality.</li>
+                <li><strong>Finger Trap:</strong> Embed snare traps made of paper by poking an object.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Vertebrae:</strong> Project spine-like tentacles from your back that inject a muscle-locking toxic fluid.</li>
+                <li><strong>Magnetism:</strong> Magnetize people around you, causing them to behave as if extremely powerful magnets.</li>
+                <li><strong>Weld:</strong> Seamlessly 'weld' inanimate objects together at the atomic level.</li>
+                <li><strong>Shake:</strong> Vibrate whatever you touch, adjusting strength and speed of vibration.</li>
+                <li><strong>Water Balloon:</strong> Alter the surface tension of liquids, making them hard, rubbery, soft, or abrasive.</li>
+                <li><strong>Lock Down:</strong> Lock objects in space, immobilizing them by 'turning a key' with your finger.</li>
+                <li><strong>Scissors:</strong> Cleanly cut through almost anything with your body by mimicking the shape and motion of scissors.</li>
+                <li><strong>Mimicry:</strong> Merge yourself with inanimate objects, then manipulate or shape them.</li>
+                <li><strong>Solid Air:</strong> Solidify air, creating static platforms, shields, or other shapes.</li>
+                <li><strong>3D Printer:</strong> Transform existing objects or materials into any object you've previously 'memorized.'</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Heal:</strong> Rapidly accelerate a target's natural healing by kissing them.</li>
+                <li><strong>Softening:</strong> Soften anything you touch until it becomes a fluid, mud-like consistency.</li>
+                <li><strong>Zero Gravity:</strong> Completely shut off the influence of gravity upon a target using finger pads.</li>
+                <li><strong>Skateboard:</strong> Sprout wheels from whatever you touch and command them to spin at high speeds.</li>
+                <li><strong>Need For Speed:</strong> Slow or accelerate any moving object you come in contact with.</li>
+                <li><strong>Elasticity:</strong> Bestow elasticity to whatever you touch, including the ground, air, or buildings.</li>
+                <li><strong>Dead Zone:</strong> Reduce the electrical conductivity of everything in an area to zero.</li>
+                <li><strong>Twin Impact:</strong> Create secondary impacts at the site of any observed impact, many times stronger than the initial.</li>
+                <li><strong>Decay:</strong> Destroy virtually anything you lay your hands on, causing it to rapidly crumble to dust.</li>
+                <li><strong>Displacement:</strong> Transform arms into huge, webbed hands that displace anything 'swiped' into an orb.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Compress:</strong> Shrink anything down inside a spherical prison resembling a marble.</li>
+                <li><strong>Blackjack:</strong> Forcibly bend anything you grab up to 90 degrees without compromising structural integrity.</li>
+                <li><strong>Drain:</strong> Create a 'drain' on whatever you touch, sucking in moisture and pumping it into a target.</li>
+                <li><strong>Noise:</strong> Apply a Disruptive field (scrambles electronic signals) or an Attractive field (charges target with electricity) by pointing.</li>
+                <li><strong>Melting Point:</strong> Dramatically alter the boiling point or freezing point of any inanimate object in sight.</li>
+                <li><strong>Rewind:</strong> Revert any living, biological organism you're touching to a previous state.</li>
+                <li><strong>Layers:</strong> Stretch and compact inanimate materials into incredibly dense, strong sheets.</li>
+                <li><strong>The Purple:</strong> Spread a bizarre energy field through inanimate objects, giving them 'super-tangibility' and making them hard to ignore.</li>
+                <li><strong>Officiant:</strong> Fundamentally change the effects of someone's Quirk by combining properties of two people.</li>
+                <li><strong>Mirage:</strong> Alter the speed and intensity of light, creating visual effects like appearing where you were or will be, or projecting intense rays.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Affliction Quirks Modal -->
+    <div id="affliction-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('affliction-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Affliction Quirks Examples</h3>
+            <p class="text-lg mb-4">Affliction Quirks are focused on directly hindering, affecting, or exerting control over others while carrying few personal advantages.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Enfeeble:</strong> Paralyze the muscles of a target for three seconds by making eye contact.</li>
+                <li><strong>Ringer:</strong> Temporarily dull a target's sense of hearing by striking their ear.</li>
+                <li><strong>Sunspots:</strong> Flash a light from your palm that temporarily cripples vision with light exposure.</li>
+                <li><strong>Pepper Breath:</strong> Saliva induces a chemical reaction with stomach acid, producing thick, acrid smoke.</li>
+                <li><strong>Trace Empathy:</strong> Broadcast your emotions, influencing others to feel the same.</li>
+                <li><strong>Interject:</strong> Disrupt a target's train of thought through any sort of vocalization while they are speaking.</li>
+                <li><strong>Rule Breaker:</strong> Flip the biological sex of living creatures (women into men and vice versa) with physical contact.</li>
+                <li><strong>Anesthetic:</strong> Temporarily numb a portion of a living creature with a poke of your fingers.</li>
+                <li><strong>Bruise:</strong> Produce a mild toxin from your knuckles that causes discoloration and heightened nerve sensitivity on skin contact.</li>
+                <li><strong>Cold:</strong> Body naturally produces a virus capable of causing symptoms functionally identical to the common cold.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Chronostasis:</strong> Project arrow-shaped locks of hair that slow a victim's movement dramatically upon impact.</li>
+                <li><strong>Chute:</strong> Compact the body and body parts of a victim via sufficient physical impact, depriving mobility.</li>
+                <li><strong>Popcorn:</strong> Expand the fat inside a target's body on contact, causing them to irregularly puff up.</li>
+                <li><strong>Bloodcurdle:</strong> Temporarily paralyze a person by consuming some of their blood.</li>
+                <li><strong>Absorb & Release:</strong> Absorb enemy attacks (physical or energy), hold them, and release them whenever.</li>
+                <li><strong>Confession:</strong> Force anyone to answer your questions with a truthful answer.</li>
+                <li><strong>Good Face:</strong> Warp an individual to acquire a more 'charismatic' and 'cooler' behavior and appearance.</li>
+                <li><strong>Army Man:</strong> Harmlessly 'implant' small, inanimate objects within a living creature.</li>
+                <li><strong>Muddied:</strong> Induce a minor form of amnesia by touching the target's head.</li>
+                <li><strong>Despot:</strong> Extend strings from your body to control an individual looped around their neck.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Brainwashing:</strong> Brainwash others, taking control over their body by vocal prompting.</li>
+                <li><strong>Erasure:</strong> Shut off the target's Quirk by staring at them.</li>
+                <li><strong>Outburst:</strong> Tell empowered jokes that make specified targets crack up, dulling cognitive and motor functions.</li>
+                <li><strong>Black Cat:</strong> Project a pseudo-intelligent and malicious intelligence into a target, causing 'bad luck.'</li>
+                <li><strong>Forced Activation:</strong> Manifest branching, black spears to pierce others and activate/manipulate their Quirk against their will.</li>
+                <li><strong>Fuel Siphon:</strong> Drain the stamina of whoever you're touching, becoming significantly larger and stronger.</li>
+                <li><strong>Landmine:</strong> Turn anything you touch into an explosive, including other people, remotely activatable.</li>
+                <li><strong>Zombie Virus:</strong> Produce pink gas that transforms victims into aggressive 'zombies' with heightened endurance and strength.</li>
+                <li><strong>Spirit Possession:</strong> Project a light construct and detach consciousness to operate it, sap energy, and temporarily control living creatures.</li>
+                <li><strong>Incite:</strong> Layer your voice with an electromagnetic pulse, dramatically improving physical and mental abilities of authority figures.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Impact Recoil:</strong> Reflect opposing physical forces back where they came from.</li>
+                <li><strong>Overhaul:</strong> Disassemble and reassemble matter by touching it with your hands, reconfiguring as desired.</li>
+                <li><strong>Rage:</strong> Inflict terrible headaches and delayed nervous system signals upon targets by speaking.</li>
+                <li><strong>Sleeper:</strong> Plant a copy of your consciousness inside a target, taking temporary control.</li>
+                <li><strong>Dreamcatcher:</strong> Pull anyone with eye contact into a shared, mental realm where you control reality.</li>
+                <li><strong>Mania:</strong> Fully manipulate the five senses of up to two people in line of sight, creating illusions.</li>
+                <li><strong>Transfusion:</strong> Trade 'cell memory' with a target, giving or taking injuries, illnesses, or conditions.</li>
+                <li><strong>Trigger:</strong> Tongue transforms into a needle to inject a substance that dramatically augments or facilitates Quirk growth.</li>
+                <li><strong>Kiss of Death:</strong> Impart powerful suggestions upon a victim by kissing them, manifesting physical changes to the body.</li>
+                <li><strong>Lethe:</strong> Produce a thick yet gently flowing mist that causes memory loss and passivity in those exposed.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Mutation Quirks Modal -->
+    <div id="mutation-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('mutation-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Mutation Quirks Examples</h3>
+            <p class="text-lg mb-4">Mutation Quirks are some form of permanent feature or body part the user was born with. They are often truly parts of your body.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Big Horn:</strong> Grants a large pair of horns (shape/size customizable).</li>
+                <li><strong>Four Arms:</strong> Granted an additional pair of fully functioning and mobile arms.</li>
+                <li><strong>Invisibility:</strong> Light passes through your body, rendering you functionally invisible (cannot be shut off).</li>
+                <li><strong>Orbit:</strong> Gravitational field passively pulls small objects into orbit around you.</li>
+                <li><strong>Pheromone:</strong> Natural scent causes serotonin production in others, improving their mood.</li>
+                <li><strong>Wild Lice:</strong> Symbiotic relationship with invertebrates in your hair that spread to attack when stressed.</li>
+                <li><strong>Bendy Fingers:</strong> Fingers have a radically heightened range of movement, comparable to octopus tentacles.</li>
+                <li><strong>Hedgehog:</strong> Grow metal quills from your back, protecting from attack.</li>
+                <li><strong>Tail:</strong> Born with a large, muscular, prehensile tail that acts as an additional limb.</li>
+                <li><strong>Wings:</strong> Born with a pair of wings suitable for gliding or breaking falls.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Engine:</strong> Structures resembling engines in your calves provide tremendous leg strength and speed.</li>
+                <li><strong>Pop Off:</strong> Produce sticky, springy spheres from the top of your head that are highly adhesive and durable.</li>
+                <li><strong>Jet:</strong> Expel strong bursts of air from holes in the soles of your feet for high-speed movement.</li>
+                <li><strong>Longevity:</strong> Functional immortality with no real upper age limit.</li>
+                <li><strong>Gatling:</strong> Metallic organs around forearms resemble revolver cylinders, shooting keratin claws like bullets.</li>
+                <li><strong>Food:</strong> Abnormal potential to bite through, chew, and digest almost anything.</li>
+                <li><strong>Rocket Thrust:</strong> Right fist is metal and can be sent flying with rocket propulsion.</li>
+                <li><strong>Pliabody:</strong> Body has an extreme range of motion and pliability, bending, stretching, twisting, and flattening.</li>
+                <li><strong>10t:</strong> Oversized breasts (or ass/testicles) with incredible mass and resilience, used as bludgeoning implements.</li>
+                <li><strong>Traject:</strong> Produce bandage wrappings that alter the trajectory of anything passing through their loops.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Earphone Jack:</strong> Elongated, prehensile earlobes tipped with metal resembling wires, used to pick up sounds or channel amplified heart vibrations.</li>
+                <li><strong>Dupli-Arms:</strong> Tentacles connected to arms via webbing that duplicate any of your body parts.</li>
+                <li><strong>Tape:</strong> Cylindrical elbows dispense cellophane tape-like material for binding enemies or swinging.</li>
+                <li><strong>Animal Mimicry:</strong> Bestowed with appearance, traits, and abilities based on one chosen animal.</li>
+                <li><strong>High Spec:</strong> Incredible cognitive abilities (intelligence, perception, reaction, comprehension) allowing quick problem solving and strategy.</li>
+                <li><strong>Blood Knight:</strong> Moderate regenerative abilities focused on replenishing blood, which coagulates into flexible plate armor when injured.</li>
+                <li><strong>Vines:</strong> Numerous thorned vines grow from your head, allowing immense control for defensive walls or snaring enemies.</li>
+                <li><strong>Brick:</strong> Bodily systems are much stronger than normal, making you faster, tougher, and able to lift/throw cars.</li>
+                <li><strong>Rifle:</strong> Two-toned hair with epoxy properties shapes into bullets, and arm forms a biomechanical sniper rifle.</li>
+                <li><strong>Shiver:</strong> Body passively shivers, producing higher temperature, absorbing kinetic energy, and allowing focused, amplified shivering for burning flesh.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Dark Shadow:</strong> Host to a sapient, symbiotic entity of dark energy that gets stronger in darker environments and with negative emotions.</li>
+                <li><strong>Sludge Body:</strong> Amorphous body composed of thick sludge, immune to conventional physical damage, and can cling/spread to control targets.</li>
+                <li><strong>Daw Mour:</strong> Unusual anatomy with boneless arm tendrils and a long tongue covered in fang-filled jaws, allowing rapid 'eating through' materials.</li>
+                <li><strong>Fiber Body:</strong> Body made of interwoven fibers that can stretch, unravel, weave, and stitch, allowing regeneration and manipulation of surroundings.</li>
+                <li><strong>Rubber Body:</strong> Body with properties of rubber, allowing bending, stretching, and extreme resistance to electrical or blunt damage.</li>
+                <li><strong>Atmosphere:</strong> Super lungs with deep sea diving capacity, powerful exhalations, and ability to synthesize various gases.</li>
+                <li><strong>Super Regeneration:</strong> Recover from virtually all forms of damage/disease at extreme speeds, including missing limbs.</li>
+                <li><strong>Fierce Wings:</strong> Large, powerful wings with manipulable feathers that can harden into blades or lift you for flight.</li>
+                <li><strong>Chimera:</strong> Varied mixture of animal abilities and physical traits, with breath element and ability to exaggerate form into a monstrous state.</li>
+                <li><strong>Charles Horse:</strong> Rapidly mutate in response to environmental stressors, developing armor-like skin or enhanced senses/speed.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sensory Quirks Modal -->
+    <div id="sensory-quirks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('sensory-quirks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Sensory Quirks Examples</h3>
+            <p class="text-lg mb-4">Sensory Quirks expand or improve your ability to perceive or communicate with the world around you. They can range from improving a current sense to getting a new one.</p>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 0:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Hammerhead:</strong> Sensory organ across face/nose for perception of electricity.</li>
+                <li><strong>Booze Hound:</strong> Extrasensory perception of alcohol, detecting location, strength, purity, and volume.</li>
+                <li><strong>Mustard:</strong> Refined sense of gravity, always knowing up/down, heightened coordination.</li>
+                <li><strong>Censor!:</strong> Censor your own senses, depriving yourself of input selectively.</li>
+                <li><strong>Radio Star:</strong> Extrasensory ability to perceive and pick up on radio waves.</li>
+                <li><strong>Love Lucky:</strong> Automatically compare traits between two individuals to calculate compatibility.</li>
+                <li><strong>Peeper:</strong> Limited x-ray vision, seeing through solid objects.</li>
+                <li><strong>Brail:</strong> Complex sense of touch directly linked to language processing, allowing reading by touch.</li>
+                <li><strong>Sun Dial:</strong> Incredibly precise internal clock, tracking time down to the millisecond.</li>
+                <li><strong>Loogie:</strong> Complex ability to calculate trajectories and wind conditions, gifted with greater mouth control and spitting strength.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 1:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Telepath:</strong> Advise and instruct multiple people at once through mental communication.</li>
+                <li><strong>Zoom:</strong> Focus sight, zooming in on distant targets with incredible clarity.</li>
+                <li><strong>Infrared Ray:</strong> Scatter infrared rays to sense surroundings in every direction, functioning even while blind.</li>
+                <li><strong>Echolocation:</strong> Project infrasonic screeches that bounce around, providing information on surroundings.</li>
+                <li><strong>Ultraviolet:</strong> See ultraviolet light, enhancing perception of chemicals and locating objects in low light.</li>
+                <li><strong>Watchmaker:</strong> Incredible microscopic vision for inspecting things in fine detail.</li>
+                <li><strong>Polaroid:</b> Eyes resemble camera lenses, with ability to zoom, focus, emit flash, and take pictures that slide out of mouth.</li>
+                <li><strong>Beast:</strong> Assume a more bestial form with heightened physical abilities and incredibly acute senses, especially smell.</li>
+                <li><strong>Danger Sense:</strong> Feel incoming threats and dangers via stabbing sensation, predominantly from malicious intent.</li>
+                <li><strong>File Cabinet:</strong> Project a mental room to peruse memories in file cabinets, enhancing recall and thought.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 2:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Serpentress:</strong> Trio of snakes sprouting from head with highly acute senses (360 vision, heat perception, sensitive touch, smell/taste).</li>
+                <li><strong>Synesthesia:</strong> Five senses linked to form an extrasensory network, perceiving information as if through all five.</li>
+                <li><strong>Scouts:</strong> Manifest segmented, many-legged creatures from body with acute senses and incredible cognitive abilities for scouting.</li>
+                <li><strong>Trajectory:</strong> Casts a cube-shaped grid of awareness, sensing anything moving through it and predicting/influencing movement.</li>
+                <li><strong>Diagnosis:</strong> Learn varied and specific knowledge about an individual through personal observation, acquiring intimate details.</li>
+                <li><strong>Flashback:</strong> Record area and events, playing back within mind and inspecting from new angles.</li>
+                <li><strong>Lie Detector:</strong> Detect heart rate, breathing, perspiration to determine mood and detect lies, also living individuals.</li>
+                <li><strong>IQ:</strong> Greatly increase intelligence by drinking tea and closing eyes, mentally envisioning holographic text/diagrams.</li>
+                <li><strong>Forensics:</strong> Enter an analytical state to gain exponential understanding of environment/subject by using multiple senses.</li>
+                <li><strong>Plague:</strong> Disperse body into a swarm of locusts, functioning as a hive mind.</li>
+            </ul>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Tier 3:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Search:</strong> Track and monitor up to one hundred individuals, aware of their location and any weaknesses.</li>
+                <li><strong>Foresight:</strong> See the entirety of a target's future, second by second, for one hour.</li>
+                <li><strong>Clairvoyance:</strong> Mark and hijack the senses of any living creatures within five hundred meters, dispersing mental load.</li>
+                <li><strong>Peek:</strong> Hasten perception of time, allowing multiple simulations of potential futures within twenty seconds.</li>
+                <li><strong>Auto-Pilot:</strong> Secondary intelligence takes over body to guide out of danger with supernatural efficiency.</li>
+                <li><strong>Sentry System:</strong> Produce small, gray seeds that create a large field of awareness, transmitting abstract information.</li>
+                <li><strong>Vector:</strong> Profound awareness of physical forces and mechanisms (kinetic energy, momentum, vectors), manipulating them.</li>
+                <li><strong>Chakra:</strong> Perceive strange, abstract, electromagnetic fields as myriad colored auras emanating off everything.</li>
+                <li><strong>Pointer:</strong> Accurately point in the direction of basically anything you're looking for, even abstract concepts.</li>
+                <li><strong>Third Person:</strong> Displace sense of sight to look down upon yourself from above, gaining intuitive understanding of movement.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Full Perks & Items Modal -->
+    <div id="full-perks-items" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('full-perks-items')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">All Perks & Items</h3>
+            <p class="text-lg mb-4">This section contains a comprehensive list of all available Perks and Items, categorized for easy navigation. Remember that Origin discounts apply!</p>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">General Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Superficial Mutant (Free):</strong> Customize your appearance; bipeds, solid, generally human size, lack notable mechanical advantages besides natural weapons.</li>
+                <li><strong>Big Dick Walking (300CP):</strong> Qualities to lead the powerless; charismatic with lower classes, excellent battlefield strategy, coordinating masses, designing max-security prisons.</li>
+                <li><strong>Real Life Ninja (300CP):</strong> Inhuman agility, acrobatic acumen, skilled in hand-to-hand combat, conventional ninja weaponry (concealed blades), specialized in stealth and trickery, proficiency in one ninja technique (e.g., Eraserhead's scarf manipulation, Edgeshot's substitution, Himiko's vanishing trick).</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Support Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Quick Study (100CP):</strong> Skilled at scanning, absorbing, and applying information cleanly and quickly, helpful for costume or tool design.</li>
+                <li><strong>Passion For Fashion (100CP):</strong> Talented artisan in costume design, creating functional and fashionable looks that bring out individuality, working with diverse materials including hair and other bodily material.</li>
+                <li><strong>Public Relations (200CP):</strong> Remarkable skill in improving public image, silver tongue for dancing around leading questions, excellent manager for heroes.</li>
+                <li><strong>Obsession (200CP):</strong> Irrational investment in goals, drawing upon sheer focus, determination, and stamina, leading to tireless work (e.g., mass production).</li>
+                <li><strong>Fixation (400CP):</strong> General intelligence surpassing peers, phenomenal ability to glean, absorb, and apply information, with a particular chosen fixation leading to unrealistic expertise (e.g., atomic structure, support tool ideas, hacking).</li>
+                <li><strong>Industry Support (400CP):</strong> Competence in diverse fields (material sciences, mechanical engineering), skilled at designing tools that efficiently elevate client powers/skills or expand options naturally and intuitively.</li>
+                <li><strong>Tribute (600CP):</strong> Pinnacle of support, able to emulate a wide variety of Quirks wholesale through technological means (robotic limbs, lasers, modular armor), potential to interact with Quirk Factor.</li>
+                <li><strong>The Doctor Is In (600CP):</strong> Foremost expert on Quirk biological research, understanding underlying mechanisms of Quirk Factor, able to replicate Quirks through cloning or surgically augment bodies to withstand Quirk use.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Vigilante Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Undiscovered (100CP):</strong> Appear as a perfect human specimen with iconic charm that attracts trust, allowing you to get away with more questionable things or blend in.</li>
+                <li><strong>What? Who? (100CP):</strong> Excellent at organizing quick disguises and coming up with excuses to appear non-suspicious, also useful for being ignored when needed.</li>
+                <li><strong>Extra Credit (200CP):</strong> Always find more ways to prove yourself and reach goals, even if you fail tests or rely on something you're bad at; efforts will not betray you.</li>
+                <li><strong>Weekly Event (200CP):</strong> Encounter chance meetings, random events, and lucky breaks in daily life that lead you to crime scenes, often wrapping up fast.</li>
+                <li><strong>Hard Boiled (400CP):</strong> Ability to get into the minds of criminals with exceptional accuracy, predicting actions like terrorist attacks.</li>
+                <li><strong>Outside the Law (400CP):</strong> Law enforcement largely ignores your vigilantism as long as you do good work, discreetly, without significant mess-ups, and may even work alongside you.</li>
+                <li><strong>Unthinking Dancer (600CP):</strong> God-tier self-preservation instincts and reflexes; body reacts to danger even when consciously unaware, making you a tough bug to crush, especially against people with tells.</li>
+                <li><strong>Knuckle Sandwich (600CP):</strong> Peak physical condition (superhuman by other worlds' standards) and incredible combat experience, picking apart weaknesses, dancing around strength, throwing mean counters, proficient with common weapons.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Student Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>It Might Be Destiny (100CP):</strong> A way of landing chance meetings with people during formative or troubled moments, allowing you to befriend, hurt, or direct them.</li>
+                <li><strong>Push Through (100CP):</strong> Push through the pain of any self-inflicted injuries, pushing stimuli to the back of your mind to focus on the situation (combat, training).</li>
+                <li><strong>American Dream (200CP):</strong> Excellent self-discipline; promises, training schedules, and resolutions are followed through, only failing if actively, willfully reneged.</li>
+                <li><strong>Do You Ever Do Something UN-Cool!? (200CP):</strong> Hard to forget, leaving impressions, with good points accentuated in people's perception, making you endearing even if an asshole.</li>
+                <li><strong>My Way (400CP):</strong> Dedicated and loyal to your beliefs, courageous, with insurmountable integrity and efficient decision-making.</li>
+                <li><strong>What's in a Name? (400CP):</strong> Talent with 'names,' coming up with snappy, memorable ones that evoke intended emotions, forge attachment, and spread like a meme.</li>
+                <li><strong>Making A Difference (600CP):</strong> Brilliant mind suited for heroes/villains, calm under pressure, problem-solving oriented, savant-like understanding of powers and strategies, able to turn a "crapsack power" into a powerful weapon.</li>
+                <li><strong>Peer Pressure (600CP):</strong> Explosive training results when chasing peers/rivals, rising quickly even from humble beginnings; dynamic results taper without a chase, but dire situations can bring temporary bursts of growth.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Hero Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Welcome to the Gunshow! (100CP):</strong> Take on a vastly more muscular, sculpted form at will, genuinely increasing strength.</li>
+                <li><strong>Heroically Unimpeded! (100CP):</strong> Ignore common inconveniences (tripping, wind-blown hair/cape) that get in your way or prove dangerous.</li>
+                <li><strong>What Are Your Plans, You Rogue!? (200CP):</strong> Gift for gab to make villains monologue, fumble, and spill beans with theatrics and snappy one-liners.</li>
+                <li><strong>Certified (200CP):</strong> High-quality hero's education in non-combat subjects (disaster relief, media, first aid, ethics), knowing protocols and power application in scenarios.</li>
+                <li><strong>Watch Out! (400CP):</strong> Abilities become more apt for heroic usage, dramatically reducing collateral damage, and better utilizing environment; bend/flow away from non-targets.</li>
+                <li><strong>Media Darling (400CP):</strong> Innate awareness of societal demographics, knowing how to get public support and cultivate desired image (inspiring, fear-inducing).</li>
+                <li><strong>Follow My Lead! (600CP):</strong> Excel as a mentor, seeing diamonds in the rough and polishing them, imparting values, building strong bonds with disciples, preparing them for dark days.</li>
+                <li><strong>Pillar of Peace (600CP):</strong> True heart of a hero, sun-like charisma, benevolent actions genuinely satisfying, inspiring hope, setting an example, fierce against villains, last stand can instill fear of god.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Revolutionary Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Nice Guy (100CP):</strong> Easily conceal radical beliefs or negative emotions behind a friendly and affable public persona, tricking people into thinking you're "pretty okay."</li>
+                <li><strong>Bad Guy (100CP):</strong> Present as a more fearsome and threatening figure to enemies through dress, carry, words, substantiating claims to plant terror.</li>
+                <li><strong>Hypothetically Speaking (200CP):</strong> Masterful at probing others for information without exposing your own hand, finding those susceptible to indoctrination.</li>
+                <li><strong>Hearts & Mind (200CP):</strong> Excellent public speaker and politically gifted, knowing whose hands to shake, what bridges to burn, softening masses, converting flock.</li>
+                <li><strong>True Patrician (400CP):</strong> Recognize those who fit well into your ideological system (allies, enemies, strangers), seeing "true heroes" or "truly free" individuals.</li>
+                <li><strong>What Doesn't Kill (400CP):</strong> Endure great physical or mental trauma for personal growth, and inflict trauma on those sharing your ideology for their incredible growth and strengthened belief.</li>
+                <li><strong>Promised Day (600CP):</strong> Mind-boggling ability to keep your developing faction a complete secret until ready to act (e.g., entire city converted without being discovered).</li>
+                <li><strong>Dark Ideology (600CP):</strong> Absolute belief in a chosen ideology, becoming more determined when challenged, pushing through serious injuries, appearing as an exaggerated terror, transforming beliefs into a "dark infection" on society.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Villain Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Slasher's Smile (100CP):</strong> Mouth given truly menacing energy, projecting malicious intent, psychotic glee, or unsettling feelings by showing teeth (grins, scowls).</li>
+                <li><strong>Not A 'Bad' Guy (100CP):</strong> Social skills to get on the good side of bad people; disarming first impression, dark humor, genuine compassion, knowing "red buttons" to guide conversations.</li>
+                <li><strong>Runaway Getaway (200CP):</strong> Impeccable at navigating society's underbelly, covering tracks, finding alleys/backroads, contacts for 'work' and 'black markets' when wanted.</li>
+                <li><strong>Dead in the Water (200CP):</strong> Improvise and set up traps on short notice, even in enemy territory, skilled at grabbing attention and reeling in targets.</li>
+                <li><strong>Self-Mutilation (400CP):</strong> Keen, instinctive awareness of body limitations, ability to hurt yourself no matter how durable, use painful Quirks while staying aware of limits.</li>
+                <li><strong>Psychotic Analyst (400CP):</strong> Dig deeper into mental closets of targets through prolonged interaction, finding secrets and insecurities to torment them with; anti-interrogation tool.</li>
+                <li><strong>Modern Moriarty (600CP):</strong> Meticulous and sinister schemer, layering plans, thriving through 'failure,' enemies suffer through 'success,' difficult to permanently damage your enterprise, enduring resurgence.</li>
+                <li><strong>Demon Lord (600CP):</strong> 'Quirk Ghost' is lucid and aware, fighting foreign abilities and exerting influence from inside copied biology, strength based on emotion (hatred especially effective for smothering/subjugating other 'ghosts').</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Wild Nomu Perks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Nomu Constitution (Wild Nomu Exclusive/Mandatory):</strong> Purchase up to 6 Quirks (individually, with 100CP discount), retain Power Lottery, select 1 free 100CP Perk from other Origins, apply standard discounts to 1 each of 200CP, 400CP, and 600CP Perks from other Origins.</li>
+                <li><strong>Meat Head (100CP):</strong> Brain is much more resilient than normal; dehydration or open skull won't inhibit thought, physical contact is harmless.</li>
+                <li><strong>Ready to Rumble (200CP):</strong> Enhanced physical abilities significantly over average human, incredibly resilient with redundant organs, hard to put down without lethal action.</li>
+                <li><strong>Personality Persistence (400CP):</strong> Your personality can never be destroyed, even through visceral programming; core personality quickly reawakens with time/stimulus, buried memories filter back.</li>
+                <li><strong>Mutation (600CP):</strong> Unique abilities native to your physiology "bleed together" (lower level traits imprint), and can radically fuse into something entirely new (resembling Quirk Marriage).</li>
+            </ul>
+
+            <h3 class="text-3xl font-bold text-red-400 mb-4">Items:</h3>
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">General Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>All-Might Jacket (50CP):</strong> Limited edition, mint condition, resembles All Might's costume, cannot be dirtied or damaged, makes you look cool to nerds. Can be themed after another big name hero.</li>
+                <li><strong>Guns (50CP/200CP):</strong> 50CP for a gun of your make/model and large ammunition. 200CP for an entire arsenal and consistent restock via under-the-table contacts.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Support Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Assistance (100/200/400CP):</strong> 100CP for an efficient non-descript secretary for business legwork. 200CP adds a team of technicians/mechanics/followers. 400CP gives an entire small startup company in your name, fully staffed, with a loyal CEO.</li>
+                <li><strong>Business Connections (200CP):</strong> Tin of business cards/contact info for prominent support industry figures, allowing easy job landing or finding partners for buying/selling products. Can tilt contacts towards reputable or disreputable.</li>
+                <li><strong>Industrial Support Workshop (400CP):</strong> Workshop stuffed with industrial tools, machinery, parts, materials, and reinforced walls for making support items (costumes, electroshock tools). Attaches to warehouse post-Jump.</li>
+                <li><strong>J-Island (600CP):</strong> Private island in a special government zone, rich in natural resources, beautiful scenery, defended by massive wall/security checkpoints. Flourishing city with support industry technicians. You are the leader. Increases facilities with other Support item purchases.</li>
+            </ul>
+
+            <h4 class="2xl font-semibold text-red-300 mb-2">Vigilante Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>False Certifications (100CP):</strong> Cabinet filled with falsified licenses, paperwork, and official looking papers to get away with most illegal activities if discreet.</li>
+                <li><strong>Unlisted Apartment (200CP):</strong> Out-of-the-way apartment with no rent (address doesn't exist), no stairs to roof, like a secret base.</li>
+                <li><strong>Inconspicuous Bench (400CP):</strong> Mundane public bench where you can meet various informants (criminal underworld, police, political circles) for secretive communication and document passing.</li>
+                <li><strong>The Fan Club (600CP):</strong> Your subtle actions earned fans (locals, authors, high-ranking heroes) who assist indirectly and directly (hiding, media spin, backup from vigilantes/heroes). Useful fans become Followers.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Student Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>All Might Memorabilia (100CP):</strong> Endless amount of All Might memorabilia (posters, figures, DVDs, autographs, etc.) showing off your super fan status.</li>
+                <li><strong>Scholarship (200CP):</strong> One-time scholarship per Jump for any applicable school (e.g., U.A. High), bypassing tests with a solid recommendation and tuition.</li>
+                <li><strong>Otaku's Notebook (400CP):</strong> Notebook jam-packed with expert hero and villain analysis (public details, personal insight, Quirk notes, team-ups, scenarios), basically a cheat sheet.</li>
+                <li><strong>In With Industry (600CP):</strong> Incredibly influential family with decades in hero business, supplying best trainers, tutors, equipment, and connections, willing to share wealth and resources.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Hero Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Uniform of Justice! (100CP):</strong> Your hero costume, stylish, iconic, and functional, made by professionals to work with your Quirk, extremely resilient to damage, repairs taken care of.</li>
+                <li><strong>Iconic Equipment! (200CP):</strong> Up to three custom-made support equipment pieces (firearms, braces, ribbons, armor) that emphasize your strengths or downplay weaknesses.</li>
+                <li><strong>Personal Merchandise! (400CP):</strong> Your own merchandise line with a manager (website, clothing, toys, posters, fact books), can expand to local stores.</li>
+                <li><strong>School of Hard Knocks! (600CP):</strong> Your own hero school (not U.A. budget/reputation) with primary facilities, full teaching staff of experienced/retired heroes, reinforced walls, practice areas. Can spawn in future worlds.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Revolutionary Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Mall Ninja (100CP):</strong> Stockpile of mundane bladed implements (swords, melee weapons, ungodly amount of knives), easily concealable, readily retrievable, automatically retrieved if left behind.</li>
+                <li><strong>Politician's Van (200CP):</strong> Van with reinforced roof, drives around, staffed with people not personally connected to you, can broadcast voice, act as public stage, or hold billboard. Includes competent driver, lawyer, public speaker.</li>
+                <li><strong>The Manifesto (400CP):</strong> Publicly available autobiography by founder of your ideology, containing stories and heavy ideological guidance, easily consumed and memorized, potentially converting open minds.</li>
+                <li><strong>Scenic City (600CP):</strong> Small city with company headquarters and modern infrastructure, peaceful inhabitants, tight-knit community, home of your "family" (local organization/cult). Fertile ground for ideological spread, can be made your own.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Villain Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Black Market Costume (100CP):</strong> Back-channels costume, equal to hero's, but rougher, ramped up intimidation factor instead of iconography.</li>
+                <li><strong>Illegal Armory (200CP):</strong> Black market support equipment fitted to augment your Quirk, uniquely more lethal or brutal than hero tools.</li>
+                <li><strong>Anti-Quirk Drug (400CP):</strong> Case with two vials of temporary, reproducible Quirk-reversing drug, documents for reproduction, custom air pistol, supply of bullets.</li>
+                <li><strong>Villain Factory (600CP):</strong> Small but well-trained operation with multiple safehouses for abduction, human experimentation with Trigger, securing illegal substances/contraband.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Wild Nomu Items:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Modified Suit (100CP):</strong> Fine suit, tailored for your precise dimensions, made with expensive costume methods, fits despite oddities (sludge, expansion).</li>
+                <li><strong>Low Enders (200CP):</strong> Six bottom-of-the-barrel Nomu foot soldiers (cannot think independently, require input), with benefits of 100CP/200CP Wild Nomu Perks and a Tier 0/1 Quirk.</li>
+                <li><strong>Stasis Tube (400CP):</strong> Large glass tube with glowing fluid and machinery that hastens natural healing processes, dulls traumatic effects, but cannot replace multiple critical organs.</li>
+                <li><strong>Discrete Bar (600CP):</strong> Unassuming bar in the city, rooms to sleep, pantry, mysterious benefactor covering utilities/groceries, attracts unsavory types, atmosphere keeps conflict peaceful for meetings/negotiations.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Full Scenarios & Drawbacks Modal -->
+    <div id="full-scenarios-drawbacks" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('full-scenarios-drawbacks')">&times;</span>
+            <h3 class="text-3xl font-bold text-red-400 mb-4">All Scenarios & Drawbacks</h3>
+            <p class="text-lg mb-4">This section details all available scenarios and drawbacks, allowing you to tailor your experience in the My Hero Academia Jumpchain.</p>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">DIY Scenario Creation Station:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Setup:</strong> Deliberate alteration to your background (e.g., orphan manipulated by All For One).</li>
+                <li><strong>Narrative:</strong> Content of the scenario and ordeals to overcome (e.g., mirroring Shigaraki/Number 6's challenges).</li>
+                <li><strong>Goal:</strong> The reward you're working towards (e.g., All For One Quirk, One For All Quirk, romance, steady income).</li>
+                <li>Difficulty matches reward value. Failure to complete results in revocation of rewards.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Companions:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Backup (50CP+/200CP+):</strong> 50CP to import 1 companion (600CP + 200CP Quirk stipend). 200CP to import 8 companions (hero league/villain organization). Can create new companions.</li>
+                <li><strong>Canon Companion (50CP):</strong> Select a canon character, have a fated meeting to make a good first impression, and invite them to become your companion.</li>
+                <li><strong>Mentor (200CP):</strong> Import one companion (not Wild Nomu) with 1000CP for a complete build, becoming your mentor or relative.</li>
+                <li><strong>Nomu (400CP/Discounted for Villain, Wild Nomu):</strong> Custom-made companion, top-of-the-line model with 4 Tier 2 or below Quirks (independent, can use Power Lottery), and 600CP for Perks/Items.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Drawbacks:</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Origin Story (+0):</strong> Roll back your start up to twenty years prior to current events (between All Might's prime and present).</li>
+                <li><strong>Vigilantes! (+0):</strong> Begin a year or two earlier, at the start of 'Vigilante: Boku no Hero Academia Illegals,' with more comedic/darker tone.</li>
+                <li><strong>Fanfiction (+0):</strong> Select any existing fanfic as the baseline for your experiences.</li>
+                <li><strong>Wild Nomu (-):</strong> (Specific to Nomu Origin) Tiered drawback based on number and tier of Quirks (1 Quirk = no complications; multiple = abnormal appearance; multiple + one Tier 3 = awareness of Quirks/skills by AFO; multiple + multiple Tier 3 = active hunting by AFO).</li>
+                <li><strong>Bitter Rivalry (+100CP):</strong> Gain a rival that's literally impossible to get rid of permanently; careers always draw you together, attempts to kill them fail, persistent annoyance.</li>
+                <li><strong>Villainous Vibes (+100CP):</strong> Your personal aesthetics and Quirk cause most people to make a snap judgment of "villain," making them wary even if you're a hero.</li>
+                <li><strong>Quirky (+100CP):</strong> Your Quirk gains a peculiar, negative quirk of its own (e.g., certain foods cause misfires, explosive temper linked to Quirk, bizarre activation conditions).</li>
+                <li><strong>Crutch (+200CP):</strong> Terrible experience leaves you crippled (e.g., lost limb), granted a prosthetic that is never truly the same, cannot take as much abuse, limits potential.</li>
+                <li><strong>Quirk Singularity (+200CP):</strong> Visible display of Quirk Singularity threats; suffer health complications with Quirk use (e.g., Dabi's flames burning you, Nines' cellular decay), must forego or pace Quirk use.</li>
+                <li><strong>Quirkless (+200CP):</strong> No Quirk, treated as a second-class citizen; purchased/customized Quirk locked for duration, cannot hide this fact. (Mutually incompatible with any Quirk driven drawback).</li>
+                <li><strong>Evil Seed (+300CP):</strong> Served All For One, in his pocket; he has your number (suicide bomb Quirk, hold on reputation), can lead to downfall; low expectations mean minor tasks, but waves mean intrusive demands.</li>
+                <li><strong>Distortion of Fate (+300CP):</strong> Perception and belief hold strange weight on your life; more people know you, more negative wants influence circumstances to make you fail.</li>
+                <li><strong>Growing Pains (+300CP):</strong> Awaken from comatose state with eroded body/abilities (agonizing pain, mental blocks); exist as a fraction, but rehabilitation can reclaim what's lost.</li>
+            </ul>
+
+            <h4 class="text-2xl font-semibold text-red-300 mb-2">Old Scenarios (Select only one, incompatible with DIY Scenario):</h4>
+            <ul class="list-disc pl-5 text-md mb-4">
+                <li><strong>Pillar of Peace:</strong> Subsume Midoriya's role as inheritor of One For All; All Might loses powers, you must fill his shoes as symbol of peace, earning recognition quickly to stem darkness. Failure: Chain ends, left behind. Success: Keep One For All.</li>
+                <li><strong>Stain's Legacy:</strong> Fall in step with Stain's message to clean the world of "false heroes"; systematically slaughter/cripple or infiltrate system. Opposed by heroes/society. 10 years to succeed. Failure: No reward. Success: Spread message like unstoppable wildfire, swaying likeminded people.</li>
+                <li><strong>Big Bad Conspiracy:</strong> Learn All For One's arrest was a clone, true AFO made clean getaway; no one in power believes you except "outcasts" (Quirkless, thugs). Must team with outcasts to confront and take down Villain Alliance. Failure: No reward, guilt. Success: Blow whistle on truth, causing evidence to surge forth.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Quirk Generator Modal -->
+    <div id="quirk-generator-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('quirk-generator-modal')">&times;</span>
+            <h3 class="text-3xl font-bold text-green-400 mb-4">Generate New Quirk ✨</h3>
+            <div class="mb-4">
+                <label for="quirk-keywords" class="block text-white text-lg font-bold mb-2">Enter keywords or concepts (e.g., "fire and ice", "speed and intelligence"):</label>
+                <input type="text" id="quirk-keywords" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-200" placeholder="e.g., elemental control, physical enhancement">
+            </div>
+            <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="generateQuirk()">Generate Quirk ✨</button>
+            <div id="quirk-generator-loader" class="loader"></div>
+            <div id="generated-quirk-output" class="mt-6 p-4 border border-gray-600 rounded-md bg-gray-800 text-white hidden">
+                <h4 class="text-2xl font-semibold text-green-300 mb-2" id="generated-quirk-name"></h4>
+                <p class="text-md mb-1"><strong>Type:</strong> <span id="generated-quirk-type"></span></p>
+                <p class="text-md mb-1"><strong>Tier:</strong> <span id="generated-quirk-tier"></span></p>
+                <p class="text-md mb-1"><strong>Description:</strong> <span id="generated-quirk-description"></span></p>
+                <p class="text-md mb-1"><strong>Limitations:</strong> <ul class="list-disc pl-5" id="generated-quirk-limitations"></ul></p>
+            </div>
+            <div id="quirk-error-message" class="text-red-500 mt-4 hidden"></div>
+        </div>
+    </div>
+
+    <!-- Backstory Generator Modal -->
+    <div id="backstory-generator-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('backstory-generator-modal')">&times;</span>
+            <h3 class="text-3xl font-bold text-blue-400 mb-4">Generate Character Backstory ✨</h3>
+            <div class="mb-4">
+                <label for="backstory-type" class="block text-white text-lg font-bold mb-2">Character Type:</label>
+                <select id="backstory-type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-200">
+                    <option value="Hero">Hero</option>
+                    <option value="Villain">Villain</option>
+                    <option value="Student">Student</option>
+                    <option value="Support">Support</option>
+                    <option value="Vigilante">Vigilante</option>
+                    <option value="Revolutionary">Revolutionary</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="backstory-keywords" class="block text-white text-lg font-bold mb-2">Keywords/Concepts (e.g., "tragic past", "sudden power discovery"):</label>
+                <input type="text" id="backstory-keywords" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-200" placeholder="e.g., family loss, hidden talent">
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105" onclick="generateBackstory()">Generate Backstory ✨</button>
+            <div id="backstory-generator-loader" class="loader"></div>
+            <div id="generated-backstory-output" class="mt-6 p-4 border border-gray-600 rounded-md bg-gray-800 text-white hidden">
+                <h4 class="text-2xl font-semibold text-blue-300 mb-2">Character Name: <span id="generated-backstory-name"></span></h4>
+                <p class="text-md mb-1"><strong>Type:</strong> <span id="generated-backstory-char-type"></span></p>
+                <p class="text-md mb-1"><strong>Backstory:</strong> <span id="generated-backstory-text"></span></p>
+                <p class="text-md mb-1"><strong>Key Events:</strong> <ul class="list-disc pl-5" id="generated-backstory-key-events"></ul></p>
+            </div>
+            <div id="backstory-error-message" class="text-red-500 mt-4 hidden"></div>
+        </div>
+    </div>
+
+
+    <script>
+        // Function to open a modal
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+            // Reset output and error messages when opening modals
+            if (id === 'quirk-generator-modal') {
+                document.getElementById('quirk-keywords').value = '';
+                document.getElementById('generated-quirk-output').classList.add('hidden');
+                document.getElementById('quirk-error-message').classList.add('hidden');
+            } else if (id === 'backstory-generator-modal') {
+                document.getElementById('backstory-keywords').value = '';
+                document.getElementById('generated-backstory-output').classList.add('hidden');
+                document.getElementById('backstory-error-message').classList.add('hidden');
+            }
+        }
+
+        // Function to close a modal
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Close modal when clicking outside of the content
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Scroll to top button functionality
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.classList.remove('hidden');
+            } else {
+                scrollToTopBtn.classList.add('hidden');
+            }
+        };
+
+        scrollToTopBtn.onclick = function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // --- Gemini API Integration for Quirk Generation ---
+        async function generateQuirk() {
+            const keywords = document.getElementById('quirk-keywords').value;
+            const outputDiv = document.getElementById('generated-quirk-output');
+            const loader = document.getElementById('quirk-generator-loader');
+            const errorMessage = document.getElementById('quirk-error-message');
+
+            outputDiv.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loader.style.display = 'block'; // Show loader
+
+            const prompt = `Generate a unique My Hero Academia Quirk idea based on these keywords: "${keywords}". Provide the response in JSON format with the following structure, adhering strictly to the enum values for quirkType and tier:
+            {
+              "quirkName": "string",
+              "quirkType": "enum(Manipulation, Generation, Augmentation, Alteration, Affliction, Mutation, Sensory)",
+              "tier": "enum(Tier 0, Tier 1, Tier 2, Tier 3)",
+              "description": "string",
+              "limitations": ["string"]
+            }`;
+
+            try {
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "quirkName": { "type": "STRING" },
+                                "quirkType": { "type": "STRING", "enum": ["Manipulation", "Generation", "Augmentation", "Alteration", "Affliction", "Mutation", "Sensory"] },
+                                "tier": { "type": "STRING", "enum": ["Tier 0", "Tier 1", "Tier 2", "Tier 3"] },
+                                "description": { "type": "STRING" },
+                                "limitations": { "type": "ARRAY", "items": { "type": "STRING" } }
+                            },
+                            required: ["quirkName", "quirkType", "tier", "description", "limitations"]
+                        }
+                    }
+                };
+
+                const apiKey = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // YOUR API KEY HERE
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                console.log("Gemini API response:", result); // Log the full response
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+
+                    const quirkText = result.candidates[0].content.parts[0].text;
+                    const generatedQuirk = JSON.parse(quirkText);
+
+                    document.getElementById('generated-quirk-name').textContent = generatedQuirk.quirkName || 'N/A';
+                    document.getElementById('generated-quirk-type').textContent = generatedQuirk.quirkType || 'N/A';
+                    document.getElementById('generated-quirk-tier').textContent = generatedQuirk.tier || 'N/A';
+                    document.getElementById('generated-quirk-description').textContent = generatedQuirk.description || 'N/A';
+
+                    const limitationsList = document.getElementById('generated-quirk-limitations');
+                    limitationsList.innerHTML = ''; // Clear previous
+                    if (generatedQuirk.limitations && generatedQuirk.limitations.length > 0) {
+                        generatedQuirk.limitations.forEach(limit => {
+                            const li = document.createElement('li');
+                            li.textContent = limit;
+                            limitationsList.appendChild(li);
+                        });
+                    } else {
+                        const li = document.createElement('li');
+                        li.textContent = 'No specific limitations provided.';
+                        limitationsList.appendChild(li);
+                    }
+                    outputDiv.classList.remove('hidden');
+
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+            } catch (error) {
+                console.error("Error generating quirk:", error);
+                errorMessage.textContent = `Failed to generate quirk: ${error.message}. Please try again.`;
+                errorMessage.classList.remove('hidden');
+            } finally {
+                loader.style.display = 'none'; // Hide loader
+            }
+        }
+
+        // --- Gemini API Integration for Backstory Generation ---
+        async function generateBackstory() {
+            const charType = document.getElementById('backstory-type').value;
+            const keywords = document.getElementById('backstory-keywords').value;
+            const outputDiv = document.getElementById('generated-backstory-output');
+            const loader = document.getElementById('backstory-generator-loader');
+            const errorMessage = document.getElementById('backstory-error-message');
+
+            outputDiv.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loader.style.display = 'block'; // Show loader
+
+            const prompt = `Generate a backstory for a My Hero Academia character of type "${charType}" with these concepts/keywords: "${keywords}". Provide the response in JSON format with the following structure:
+            {
+              "characterType": "string",
+              "name": "string",
+              "backstory": "string",
+              "keyEvents": ["string"]
+            }`;
+
+            try {
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "characterType": { "type": "STRING" },
+                                "name": { "type": "STRING" },
+                                "backstory": { "type": "STRING" },
+                                "keyEvents": { "type": "ARRAY", "items": { "type": "STRING" } }
+                            },
+                            required: ["characterType", "name", "backstory", "keyEvents"]
+                        }
+                    }
+                };
+
+                const apiKey = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // YOUR API KEY HERE
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                console.log("Gemini API response:", result); // Log the full response
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+
+                    const backstoryText = result.candidates[0].content.parts[0].text;
+                    const generatedBackstory = JSON.parse(backstoryText);
+
+                    document.getElementById('generated-backstory-name').textContent = generatedBackstory.name || 'N/A';
+                    document.getElementById('generated-backstory-char-type').textContent = generatedBackstory.characterType || 'N/A';
+                    document.getElementById('generated-backstory-text').textContent = generatedBackstory.backstory || 'N/A';
+
+                    const keyEventsList = document.getElementById('generated-backstory-key-events');
+                    keyEventsList.innerHTML = ''; // Clear previous
+                    if (generatedBackstory.keyEvents && generatedBackstory.keyEvents.length > 0) {
+                        generatedBackstory.keyEvents.forEach(event => {
+                            const li = document.createElement('li');
+                            li.textContent = event;
+                            keyEventsList.appendChild(li);
+                        });
+                    } else {
+                        const li = document.createElement('li');
+                        li.textContent = 'No specific key events provided.';
+                        keyEventsList.appendChild(li);
+                    }
+                    outputDiv.classList.remove('hidden');
+
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+            } catch (error) {
+                console.error("Error generating backstory:", error);
+                errorMessage.textContent = `Failed to generate backstory: ${error.message}. Please try again.`;
+                errorMessage.classList.remove('hidden');
+            } finally {
+                loader.style.display = 'none'; // Hide loader
+            }
+        }
+    </script>
+</body>
+</html>
