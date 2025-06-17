@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploriot's PUBG Royale Pass Tracker</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN (for Plus, Minus, CheckCircle, Tag, TrendingUp, Users) -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000; /* Pitch black background */
+            color: #E2E8F0; /* Light gray text */
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            padding-top: 40px; /* Add some top padding */
+        }
+
+        .container {
+            max-width: 1024px; /* Equivalent to max-w-5xl */
+            width: 100%;
+            padding: 24px; /* Equivalent to p-6 */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 28px;
+            height: 28px;
+            border: 2px solid #34D399; /* Emerald 400 */
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease-in-out;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 5px rgba(52, 211, 153, 0.5); /* Inner shadow */
+        }
+        .custom-checkbox:checked {
+            background-color: #34D399; /* Emerald 400 */
+            border-color: #34D399;
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.7); /* Outer glow */
+        }
+        .custom-checkbox:checked::after {
+            content: '✔';
+            color: #1A202C; /* Dark text for checkmark */
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .control-button {
+            background-color: #1A202C; /* Very dark gray */
+            color: #34D399; /* Emerald 400 */
+            border: 1px solid #34D399;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .control-button:hover {
+            background-color: #34D399;
+            color: #1A202C;
+            box-shadow: 0 6px 10px rgba(52, 211, 153, 0.4);
+            transform: translateY(-2px);
+        }
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .control-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.3;
+            background-color: #1A202C; /* Keep dark background */
+            color: #34D399; /* Keep emerald color */
+            border-color: #34D399;
+            box-shadow: none; /* No shadow when disabled */
+            transform: none; /* No transform when disabled */
+        }
+
+        /* Mission Card Base Styles */
+        .mission-card-item {
+            position: relative;
+            overflow: hidden;
+            z-index: 1; /* Ensure content is above the pseudo-element */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+            background-size: 200% 100%; /* For the shimmer effect */
+            background-position: 100% 0; /* Start shimmer off-screen right */
+            border: 2px solid #34D399; /* Solid emerald border */
+            transition: all 0.3s ease-in-out;
+            border-radius: 0.75rem; /* Equivalent to rounded-xl */
+            padding: 24px; /* Equivalent to p-6 */
+            display: flex;
+            flex-direction: column; /* Default for mobile */
+            align-items: flex-start; /* Default for mobile */
+            justify-content: space-between;
+        }
+
+        @media (min-width: 640px) { /* sm breakpoint */
+            .mission-card-item {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        /* Hover Animation (Fill from left) */
+        .mission-card-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%; /* Start hidden */
+            height: 100%;
+            background-color: rgba(52, 211, 153, 0.08); /* Slightly more visible emerald overlay */
+            z-index: -1; /* Place behind content */
+            transition: width 0.3s ease-out;
+            border-radius: inherit; /* Inherit parent's border-radius */
+        }
+
+        .mission-card-item:hover::before {
+            width: 100%; /* Expand on hover */
+        }
+        .mission-card-item:hover {
+            transform: translateY(-3px); /* Slight lift on hover */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); /* More prominent shadow on hover */
+        }
+
+        /* Subtle background animation for high RP missions */
+        @keyframes shimmer-glow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .high-rp-mission {
+            background-image: linear-gradient(90deg, #1A202C 0%, #1A202C 50%, rgba(52, 211, 153, 0.15) 60%, #1A202C 70%, #1A202C 100%);
+            animation: shimmer-glow 8s infinite linear;
+        }
+
+        /* Title glow animation */
+        @keyframes pulse-glow {
+            0% { text-shadow: 0 0 5px #34D399, 0 0 10px #34D399; }
+            50% { text-shadow: 0 0 15px #34D399, 0 0 25px #34D399; }
+            100% { text-shadow: 0 0 5px #34D399, 0 0 10px #34D399; }
+        }
+
+        .glowing-title {
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        /* Completion Fill from both sides animation */
+        .mission-card-item .completion-fill {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%; /* Start from center */
+            width: 0%;
+            height: 100%;
+            background-color: rgba(52, 211, 153, 0.6); /* More visible emerald fill color */
+            z-index: -1; /* Above main background, below hover effect */
+            transform: translateX(-50%) scaleX(0); /* Initially collapsed at center */
+            transition: transform 0.4s ease-out, width 0.4s ease-out; /* Animate transform and width */
+            border-radius: inherit;
+        }
+
+        .mission-card-item.completed .completion-fill {
+            width: 100%; /* Expand to full width */
+            transform: translateX(-50%) scaleX(1); /* Scale to full size from center */
+            opacity: 1; /* Ensure full opacity of the fill */
+        }
+
+        /* Styling for completed card to ensure fill is prominent */
+        .mission-card-item.completed {
+            opacity: 0.9; /* Slightly less opaque than before to ensure fill is seen */
+            background-color: #1a202c; /* A darker base for completed cards to contrast with fill */
+        }
+
+        /* Flex utilities for children */
+        .flex-grow { flex-grow: 1; }
+        .mb-4 { margin-bottom: 16px; }
+        .sm\:mb-0 { margin-bottom: 0; }
+        .mr-5 { margin-right: 20px; }
+        .mt-2 { margin-top: 8px; }
+        .text-gray-500 { color: #A0AEC0; } /* Tailwind gray-500 */
+        .text-gray-100 { color: #F7FAFC; } /* Tailwind gray-100 */
+        .font-semibold { font-weight: 600; }
+        .leading-tight { line-height: 1.25; }
+        .gap-x-4 > * { margin-right: 16px; }
+        .gap-y-2 > * { margin-top: 8px; }
+        .text-yellow-400 { color: #F6E05E; }
+        .text-blue-400 { color: #63B3ED; }
+        .text-purple-400 { color: #A78BFA; }
+        .text-white { color: #FFFFFF; }
+        .ml-1 { margin-left: 4px; }
+        .text-base { font-size: 1rem; }
+        .w-16 { width: 64px; }
+        .text-center { text-align: center; }
+        .space-x-2 > * { margin-left: 8px; }
+        .px-4 { padding-left: 16px; padding-right: 16px; }
+        .py-2 { padding-top: 8px; padding-bottom: 8px; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .bg-emerald-700 { background-color: #047857; }
+        .bg-gray-700 { background-color: #4A5568; }
+        .text-4xl { font-size: 2.25rem; }
+        .font-bold { font-weight: 700; }
+        .mb-10 { margin-bottom: 40px; }
+        .text-green-400 { color: #48BB78; }
+        .drop-shadow-lg { filter: drop-shadow(0 10px 8px rgba(0,0,0,0.04)) drop-shadow(0 4px 3px rgba(0,0,0,0.1)); }
+        .space-y-4 > *:not(:first-child) { margin-top: 16px; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .py-8 { padding-top: 32px; padding-bottom: 32px; }
+        .font-extrabold { font-weight: 800; }
+        .mb-12 { margin-bottom: 48px; }
+        .bg-gray-900 { background-color: #1A202C; }
+        .border-emerald-600 { border-color: #059669; }
+        .bg-gray-950 { background-color: #0D1117; }
+        .border-emerald-400 { border-color: #34D399; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-5xl font-extrabold text-center mb-12 text-emerald-400 drop-shadow-lg glowing-title">
+            Exploriot's PUBG Royale Pass Tracker
+        </h1>
+
+        <div id="mission-list" class="space-y-6">
+            <!-- Missions will be rendered here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Array to hold mission data
+        let missions = [];
+
+        // Helper function to process initial mission data
+        const processMissionData = (mission) => {
+            if (mission.progress === 'Collected' || mission.progress === 'Ended') {
+                return {
+                    ...mission,
+                    completed: true,
+                    isTrackable: false,
+                    currentProgress: null,
+                    targetProgress: null,
+                };
+            }
+            const parts = mission.progress.split('/');
+            if (parts.length === 2) {
+                const current = parseInt(parts[0], 10);
+                const target = parseInt(parts[1], 10);
+                return {
+                    ...mission,
+                    currentProgress: current,
+                    targetProgress: target,
+                    isTrackable: true,
+                    completed: current >= target,
+                };
+            }
+            return {
+                ...mission,
+                completed: false,
+                isTrackable: false,
+                currentProgress: null,
+                targetProgress: null,
+            };
+        };
+
+        // Define the initial list of missions
+        const initialMissionsRaw = [
+            // RP 200
+            { id: 'swim-1000m-season', text: 'Swim for a total of 1000 meters in Classic Mode.', rp: 200, progress: '6/1000', type: 'Season Challenge', special: '' },
+            { id: 'equip-2-firearms-season', text: 'Equip 2 firearms with full attachments at the same time in 5 Classic Mode matches.', rp: 200, progress: '0/5', type: 'Season Challenge', special: '' },
+            // RP 150
+            { id: 'heal-teammate-medpack-weekly', text: '[Friend Boost] Use a Portable Med Pack to heal a teammate 5 times in Classic Mode.', rp: 150, progress: '0/5', type: 'Weekly Challenge', special: 'Friend Boost' },
+            { id: 'eliminate-ar-pochinki-weekly', text: '[Friend Boost] Eliminate 10 enemies with Assault Rifles in Pochinki (Erangel) in Classic Mode.', rp: 150, progress: '1/10', type: 'Weekly Challenge', special: 'Friend Boost' },
+            { id: 'eliminate-ar-erangel-weekly', text: '[Friend Boost] Eliminate 20 enemies with Assault Rifles in Erangel in Classic Mode.', rp: 150, progress: '1/20', type: 'Weekly Challenge', special: 'Friend Boost' },
+            { id: 'equip-2-firearms-weekly', text: '[Friend Boost] Equip 2 firearms with full attachments at the same time in 3 Classic Mode matches.', rp: 150, progress: '0/3', type: 'Weekly Challenge', special: 'Friend Boost' },
+            { id: 'eliminate-smgs-erangel-weekly', text: '[Friend Boost] Eliminate 5 enemies with SMGs in Erangel in Classic Mode.', rp: 150, progress: '0/5', type: 'Weekly Challenge', special: 'Friend Boost' },
+            { id: 'add-friends-season', text: 'Add 7 friends.', rp: 150, progress: '5/7', type: 'Season Challenge', special: '' },
+            // RP 100
+            { id: 'win-military-vest-weekly', text: 'Win a classic match 1 time while wearing a Military Vest (Lv. 3).', rp: 100, progress: '0/1', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'use-adrenaline-syringe-weekly', text: 'Use Adrenaline Syringe 6 times in Classic Mode.', rp: 100, progress: '0/6', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'land-sosnovka-rooftop-weekly', text: 'Land on any rooftop in Sosnovka Military Base (Erangel) 1 time in Classic Mode.', rp: 100, progress: '0/1', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'eliminate-100m-weekly', text: 'Eliminate an enemy from 100 meters away 2 times in Classic Mode.', rp: 100, progress: '0/2', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'pick-up-compensator-weekly', text: 'Pick up Compensator in 5 matches in Classic Mode.', rp: 100, progress: '0/5', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'eliminate-60s-landing-weekly', text: 'Eliminate 1 enemy within 60 seconds of landing in Classic Mode.', rp: 100, progress: '0/1', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'pick-up-spetsnaz-helmet-weekly', text: 'Pick up Spetsnaz Helmet (Lv. 3) 2 times in Classic Mode.', rp: 100, progress: '1/2', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'win-spetsnaz-helmet-weekly', text: 'Win a Classic match 1 time while wearing a Spetsnaz Helmet (Lv. 3).', rp: 100, progress: '0/1', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'use-energy-drink-weekly', text: 'Use Energy Drink 10 times in Classic Mode.', rp: 100, progress: '3/10', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'eliminate-prone-weekly', text: 'Eliminate 3 players while prone in Classic Mode.', rp: 100, progress: '0/3', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'use-first-aid-kit-weekly', text: 'Use First Aid Kit 10 times in Classic Mode.', rp: 100, progress: '2/10', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'pick-up-ghillie-suit-weekly', text: 'Pick up Ghillie Suit 1 time in Classic Mode.', rp: 100, progress: '0/1', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'pick-up-molotov-weekly', text: 'Pick up Molotov Cocktail in 5 matches in Classic Mode.', rp: 100, progress: '0/5', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'give-likes-teammates-weekly', text: 'Give 12 LIKES to teammates.', rp: 100, progress: '0/12', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'eliminate-headshots-weekly', text: 'Eliminate 2 enemies with headshots in Classic Mode.', rp: 100, progress: '0/2', type: 'Weekly Challenge', special: 'ELITE' },
+            { id: 'invite-teammates-season', text: 'Invite teammates to follow you when jumping 5 times in Classic Mode.', rp: 100, progress: '4/5', type: 'Season Challenge', special: '' },
+            { id: 'use-home-coins-season', text: 'Use a total of 15000 Basic Home Coins.', rp: 100, progress: '4500/15000', type: 'Season Challenge', special: '' },
+            { id: 'purchase-elite-pass-season', text: '[Bonus Pass] Purchase the Elite Pass.', rp: 100, progress: 'Collected', type: 'Season Challenge', special: 'Bonus Pass' },
+            { id: 'eliminate-6-enemies-single-match-season', text: 'Eliminate 6 enemies in a single Classic Mode match.', rp: 100, progress: 'Collected', type: 'Season Challenge', special: '' },
+            // RP 60
+            { id: 'eliminate-akm-weekly', text: '[Friend Bonus] Eliminate 10 enemies with AKM in Classic Mode.', rp: 60, progress: '3/10', type: 'Weekly Challenge', special: 'Friend Bonus' },
+            { id: 'win-spetsnaz-helmet-team-weekly', text: '[Team Boost] Win 3 matches while equipping Spetsnaz Helmet (Lv. 3) with teammates in Classic Mode.', rp: 60, progress: '1/3', type: 'Weekly Challenge', special: 'Team Boost' },
+            { id: 'eliminate-lmg-weekly', text: '[Friend Bonus] Eliminate 5 enemies with LMG in Classic Mode.', rp: 60, progress: '1/5', type: 'Weekly Challenge', special: 'Friend Bonus' },
+            { id: 'open-airdrops-weekly', text: '[Team Boost] Open air drops 8 times with teammates in Classic Mode.', rp: 60, progress: '2/8', type: 'Weekly Challenge', special: 'Team Boost' },
+            { id: 'finish-top3-friends-weekly', text: '[Friend Bonus] Finish 3 times in the Top 3 in Classic Mode with friends.', rp: 60, progress: '0/3', type: 'Weekly Challenge', special: 'Friend Bonus' },
+            { id: 'eliminate-pan-teammates-weekly', text: '[Team Boost] Eliminate players with the Pan 2 times with teammates in Classic Mode.', rp: 60, progress: '0/2', type: 'Weekly Challenge', special: 'Team Boost' },
+            { id: 'obtain-contribution-points-weekly', text: 'Obtain 50 Contribution Points during the Clan Battle event.', rp: 60, progress: '0/50', type: 'Weekly Challenge', special: '' },
+            { id: 'complete-matches-friends-weekly', text: '[Friend Bonus] Complete 5 matches with friends in Classic Mode.', rp: 60, progress: '0/5', type: 'Weekly Challenge', special: 'Friend Bonus' },
+            { id: 'pick-up-flare-gun-weekly', text: '[Team Boost] Pick up the Flare Gun in 3 matches with teammates in Classic Mode.', rp: 60, progress: '0/3', type: 'Weekly Challenge', special: 'Team Boost' },
+            { id: 'eliminate-m416-weekly', text: 'Eliminate 10 enemies with M416 in Classic Mode.', rp: 60, progress: '0/10', type: 'Weekly Challenge', special: '' },
+            { id: 'spend-60min-matches-week6-weekly', text: '[Repeatable] (Week 6 only) Spend 60 minutes in matches.', rp: 60, progress: '54/60', type: 'Weekly Challenge', special: 'Repeatable' },
+            { id: 'eliminate-mz49-weekly', text: '[Friend Bonus] Eliminate 3 enemies with MZ49 in Classic Mode.', rp: 60, progress: '0/3', type: 'Weekly Challenge', special: 'Friend Bonus' },
+            { id: 'eliminate-vehicles-teammates-weekly', text: '[Team Boost] Eliminate players with vehicles 1 time with teammates in Classic Mode.', rp: 60, progress: '0/1', type: 'Weekly Challenge', special: 'Team Boost' },
+            { id: 'eliminate-dbs-weekly', text: 'Eliminate 1 enemy with DBS in Classic Mode.', rp: 60, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'log-in-week6-weekly', text: '(Week 6 only) Log into the game on a total of 3 days.', rp: 60, progress: '2/3', type: 'Weekly Challenge', special: '' },
+            { id: 'spend-60min-matches-week7-weekly', text: '[Repeatable] (Week 7 only) Spend 60 minutes in matches.', rp: 60, progress: '0/60', type: 'Weekly Challenge', special: 'Repeatable' },
+            { id: 'log-in-week7-weekly', text: '(Week 7 only) Log into the game on a total of 3 days.', rp: 60, progress: '0/3', type: 'Weekly Challenge', special: '' },
+            { id: 'eliminate-shotgun-erangel-weekly', text: '[Friend Bonus] Eliminate 1 enemy with a Shotgun in Erangel in Classic Mode.', rp: 60, progress: '0/1', type: 'Weekly Challenge', special: 'Friend Bonus' },
+            { id: 'open-airdrops-6-weekly', text: '[Team Boost] Open air drops 6 times with teammates in Classic Mode.', rp: 60, progress: '1/6', type: 'Weekly Challenge', special: 'Team Boost' },
+            { id: 'eliminate-dp28-weekly', text: 'Eliminate 5 enemies with a DP-28 in any mode.', rp: 60, progress: '0/5', type: 'Weekly Challenge', special: '' },
+            { id: 'pick-up-scar-l-weekly', text: 'Pick up SCAR-L in 5 matches in Classic Mode.', rp: 60, progress: '1/5', type: 'Weekly Challenge', special: '' },
+            // RP 30
+            { id: 'enter-visit-homes-weekly', text: 'Enter or visit 5 Homes.', rp: 30, progress: '0/5', type: 'Weekly Challenge', special: '' },
+            { id: 'pick-up-kar98k-weekly', text: 'Pick up a Kar98K 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'land-stadium-rondo-weekly', text: 'Land in any area of Stadium (Rondo) 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'finish-top10-livik-weekly', text: 'Finish in the Top 10 in Livik 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'land-tin-long-garden-weekly', text: 'Land in any area of Tin Long Garden (Rondo) 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'land-rin-jiang-weekly', text: 'Land in any area of Rin Jiang (Rondo) 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'destroy-vehicle-tires-weekly', text: 'Destroy 2 vehicle tires in Classic Mode.', rp: 30, progress: '0/2', type: 'Weekly Challenge', special: '' },
+            { id: 'pick-up-awm-weekly', text: 'Pick up an AWM 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'land-mey-ran-weekly', text: 'Land in any area of Mey Ran (Rondo) 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'eliminate-m762-weekly', text: 'Eliminate 1 enemy with M762 in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+            { id: 'rescue-teammates-weekly', text: 'Rescue teammates 1 time in Classic Mode.', rp: 30, progress: '0/1', type: 'Weekly Challenge', special: '' },
+        ];
+
+        // Function to render missions
+        function renderMissions() {
+            const missionListDiv = document.getElementById('mission-list');
+            missionListDiv.innerHTML = ''; // Clear existing missions
+
+            // Sort missions: uncompleted first, then by RP points (descending)
+            const sortedMissions = [...missions].sort((a, b) => {
+                if (a.completed !== b.completed) {
+                    return a.completed ? 1 : -1; // Completed go to bottom
+                }
+                return b.rp - a.rp; // Higher RP first
+            });
+
+            sortedMissions.forEach(mission => {
+                const missionCard = document.createElement('div');
+                missionCard.id = `mission-${mission.id}`;
+                missionCard.className = `mission-card-item flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 rounded-xl transition-all duration-300 ease-in-out
+                    ${mission.completed ? 'bg-gray-900 border-emerald-600 opacity-80 completed' : `bg-gray-950 border-emerald-400 ${mission.rp >= 150 ? 'high-rp-mission' : ''}`}`;
+                
+                // Add completion fill element
+                const completionFill = document.createElement('div');
+                completionFill.className = 'completion-fill';
+                missionCard.appendChild(completionFill);
+
+                missionCard.innerHTML += `
+                    <div class="flex items-center flex-grow mb-4 sm:mb-0">
+                        <input type="checkbox" class="custom-checkbox mr-5" ${mission.completed ? 'checked' : ''} data-mission-id="${mission.id}">
+                        <div class="flex-grow">
+                            <p class="text-xl font-semibold leading-tight ${mission.completed ? 'line-through text-gray-500' : 'text-gray-100'}">
+                                ${mission.text}
+                            </p>
+                            <div class="flex flex-wrap items-center text-sm mt-2 text-gray-400 gap-x-4 gap-y-2">
+                                <span class="flex items-center">
+                                    <i data-lucide="trending-up" class="mr-1 text-yellow-400"></i> RP: <span class="font-bold text-white ml-1">${mission.rp}</span>
+                                </span>
+                                <span class="flex items-center">
+                                    <i data-lucide="tag" class="mr-1 text-blue-400"></i> Type: <span class="font-bold text-white ml-1">${mission.type}</span>
+                                </span>
+                                ${mission.special ? `
+                                <span class="flex items-center">
+                                    <i data-lucide="users" class="mr-1 text-purple-400"></i> Special: <span class="font-bold text-white ml-1">${mission.special}</span>
+                                </span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    ${mission.isTrackable ? `
+                    <div class="flex items-center mt-4 sm:mt-0 sm:ml-auto space-x-2">
+                        <span class="text-gray-400 font-semibold text-base">Progress:</span>
+                        <button class="control-button p-2" data-action="decrement" data-mission-id="${mission.id}" ${mission.completed || mission.currentProgress <= 0 ? 'disabled' : ''}>
+                            <i data-lucide="minus" size="18"></i>
+                        </button>
+                        <span class="text-white font-bold text-lg w-16 text-center">
+                            ${mission.currentProgress}/${mission.targetProgress}
+                        </span>
+                        <button class="control-button p-2" data-action="increment" data-mission-id="${mission.id}" ${mission.completed || mission.currentProgress >= mission.targetProgress ? 'disabled' : ''}>
+                            <i data-lucide="plus" size="18"></i>
+                        </button>
+                    </div>` : `
+                    <div class="flex items-center mt-4 sm:mt-0 sm:ml-auto px-4 py-2 rounded-lg ${mission.completed ? 'bg-emerald-700' : 'bg-gray-700'}">
+                        <i data-lucide="check-circle" size="18" class="mr-2 text-white"></i>
+                        <span class="text-white font-semibold">${mission.progress}</span>
+                    </div>`}
+                `;
+                missionListDiv.appendChild(missionCard);
+            });
+
+            // Replace Lucide icons after rendering
+            lucide.createIcons();
+        }
+
+        // Function to toggle mission completion
+        function toggleCompletion(id) {
+            const missionIndex = missions.findIndex(m => m.id === id);
+            if (missionIndex > -1) {
+                let mission = { ...missions[missionIndex] }; // Create a copy
+
+                let newCompleted = !mission.completed;
+                let newCurrentProgress = mission.currentProgress;
+
+                if (mission.isTrackable) {
+                    if (newCompleted) {
+                        newCurrentProgress = mission.targetProgress; // Auto-fill to target
+                    } else {
+                        newCurrentProgress = 0; // Reset progress if unchecked
+                    }
+                }
+
+                mission.completed = newCompleted;
+                mission.currentProgress = newCurrentProgress;
+                
+                missions[missionIndex] = mission; // Update the mission in the array
+                renderMissions(); // Re-render the list
+            }
+        }
+
+        // Function to increment progress
+        function incrementProgress(id) {
+            const missionIndex = missions.findIndex(m => m.id === id);
+            if (missionIndex > -1) {
+                let mission = { ...missions[missionIndex] }; // Create a copy
+                if (mission.isTrackable && !mission.completed) {
+                    const newCurrent = Math.min(mission.currentProgress + 1, mission.targetProgress);
+                    mission.currentProgress = newCurrent;
+                    mission.completed = newCurrent >= mission.targetProgress;
+                    missions[missionIndex] = mission;
+                    renderMissions();
+                }
+            }
+        }
+
+        // Function to decrement progress
+        function decrementProgress(id) {
+            const missionIndex = missions.findIndex(m => m.id === id);
+            if (missionIndex > -1) {
+                let mission = { ...missions[missionIndex] }; // Create a copy
+                if (mission.isTrackable && !mission.completed) {
+                    const newCurrent = Math.max(mission.currentProgress - 1, 0);
+                    mission.currentProgress = newCurrent;
+                    mission.completed = newCurrent >= mission.targetProgress; // Update completion status, though unlikely to change from false to true here
+                    missions[missionIndex] = mission;
+                    renderMissions();
+                }
+            }
+        }
+
+        // Event listener delegation for checkboxes and buttons
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('custom-checkbox')) {
+                const missionId = event.target.dataset.missionId;
+                toggleCompletion(missionId);
+            } else if (event.target.closest('.control-button')) {
+                const button = event.target.closest('.control-button');
+                const missionId = button.dataset.missionId;
+                const action = button.dataset.action;
+                if (action === 'increment') {
+                    incrementProgress(missionId);
+                } else if (action === 'decrement') {
+                    decrementProgress(missionId);
+                }
+            }
+        });
+
+        // Initialize missions and render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            missions = initialMissionsRaw.map(processMissionData);
+            renderMissions();
+        });
+    </script>
+</body>
+</html>
