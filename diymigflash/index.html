@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploriot: DIY Mig Flash V-2 Clone Roadmap (for Personal Backup Use Only)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+        CSS Variables: These define the site's color palette.
+        They make it easy to change the theme colors globally from one place.
+        --color-primary: Main accent color (Cherry Red)
+        --color-background: Dark background color (AMOLED Black)
+        --color-text: Main text color (Cream White)
+        --color-accent-dark: A darker shade of the primary color for hover states
+        --color-card-bg: Background color for content sections and cards
+        --color-border: Border color for sections and cards
+        --color-highlight-bg: Background color for highlighted text, with transparency
+        AI INSTRUCTION: Refer to these variables for all color-related styling.
+        */
+        :root {
+            --color-primary: #dc2626; /* Cherry Red */
+            --color-background: #0a0a0a; /* AMOLED Black */
+            --color-text: #f5f5dc; /* Cream White */
+            --color-accent-dark: #b91c1c; /* Darker Red */
+            --color-card-bg: #1a1a1a;
+            --color-border: #444;
+            --color-highlight-bg: rgba(245, 245, 220, 0.15); /* Cream White with transparency */
+        }
+
+        /*
+        Body Styling: Sets the default font, background, text color, and line height for the entire page.
+        AI INSTRUCTION: Body text will use 'Inter'.
+        */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /*
+        Heading Styling: Sets the color and font weight for all heading tags (H1 to H4).
+        AI INSTRUCTION: Headings will now use 'Montserrat' for a distinct look.
+        */
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif; /* New font for headings */
+            color: var(--color-primary);
+            font-weight: 700; /* Bold weight for headings */
+        }
+
+        /*
+        Section Container Styling: Defines the visual appearance of major content blocks.
+        - background-color: Uses the defined card background variable.
+        - border-radius: Creates rounded corners (1rem = 16px).
+        - padding: Adds space inside the container.
+        - box-shadow: Gives a subtle depth effect.
+        - border: Adds a subtle border using the defined border color.
+        - transition: Added for subtle hover effect on section.
+        - position: relative; added to allow absolute positioning of copy button inside.
+        AI INSTRUCTION: ALL major content sections (e.g., introduction, parts list, step-by-step) MUST use this class.
+        */
+        .section-container {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-border);
+            transition: box-shadow 0.3s ease-in-out; /* Added transition for hover effect */
+            position: relative; /* For positioning copy button */
+        }
+
+        /* Hover effect for section containers */
+        .section-container:hover {
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+        }
+
+
+        /*
+        Part Card Styling: Defines the appearance for individual items within a grid (e.g., parts in the parts list).
+        - background-color, border-radius, padding, box-shadow, border: Similar to section-container but slightly smaller.
+        - transition: Adds a smooth animation effect on hover.
+        - position: relative; added to allow absolute positioning of copy button inside.
+        AI INSTRUCTION: Use this class for items that are visually distinct cards within a section.
+        */
+        .part-card {
+            background-color: var(--color-card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added box-shadow transition */
+            position: relative; /* For positioning copy button */
+        }
+
+        /* Hover effect for part cards */
+        .part-card:hover {
+            transform: translateY(-5px); /* Lifts the card slightly on hover */
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+        }
+
+        /*
+        Copy Button Styling (for code blocks): Styles the button used to copy code snippets.
+        - background-color: Uses the primary cherry red.
+        - color: White text.
+        - padding, border-radius, font-weight: Standard button styling.
+        - transition: Smooth color change on hover.
+        AI INSTRUCTION: Use this class ONLY for the "Copy Code" button within <pre> blocks.
+        */
+        .copy-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s; /* Added transform transition */
+        }
+
+        /* Hover effect for copy button */
+        .copy-button:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-1px); /* Slight lift on hover */
+        }
+
+        /*
+        Section Copy Button Styling: New style for copying entire sections/sub-sections.
+        - absolute: Positions relative to its parent section/div.
+        - top-4 right-4: Positions it at the top-right corner.
+        - z-index: Ensures it's above other content.
+        - opacity: 0; visibility: hidden; transition: Starts hidden and fades/slides in.
+        AI INSTRUCTION: Apply this class to copy buttons placed on content sections.
+        */
+        .section-copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(var(--color-primary-rgb, 220, 38, 38), 0.7); /* Semi-transparent primary */
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, background-color 0.2s;
+            z-index: 10;
+        }
+
+        /* Show section copy button on hover of its parent container */
+        .section-container:hover .section-copy-button,
+        .part-card:hover .section-copy-button,
+        .mb-10.p-6.rounded-xl.bg-gray-900:hover .section-copy-button { /* Specific selector for sub-topic divs */
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .section-copy-button:hover {
+            background-color: var(--color-primary); /* Fully opaque on hover */
+        }
+
+
+        /*
+        Primary Button Styling: Styles general-purpose primary action buttons.
+        - background-color: Uses the primary cherry red.
+        - color: White text.
+        - padding, border-radius, font-weight: Standard button styling.
+        - transition: Smooth color change on hover.
+        AI INSTRUCTION: Use this class for main interactive buttons (e.g., "Show Table of Contents", "Back to Top").
+        */
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s; /* Added transform transition */
+        }
+
+        /* Hover effect for primary button */
+        .btn-primary:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+        }
+
+        /*
+        Highlight Text Styling: Styles text to look like it's been highlighted with a marker.
+        - background-color: Uses the translucent cream white highlight color.
+        - padding, border-radius: Adds slight padding and rounded corners for the highlight effect.
+        AI INSTRUCTION: Wrap important phrases or keywords in <span class="highlight">...</span> tags
+        to draw attention to them, similar to a textbook highlighter.
+        */
+        .highlight {
+            background-color: var(--color-highlight-bg);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        /*
+        Navigation Link Hover Effect:
+        Adds a subtle translateX transform to navigation links on hover, giving a "slide" effect.
+        */
+        .sticky-nav ul li a, #mobile-nav-menu ul li a {
+            transition: color 0.2s, transform 0.2s; /* Smooth transition for color and transform */
+            display: inline-block; /* Required for transform on inline elements */
+            padding-left: 0.5rem; /* Add some padding for the slide effect */
+        }
+
+        .sticky-nav ul li a:hover, #mobile-nav-menu ul li a:hover {
+            transform: translateX(5px); /* Slides slightly to the right on hover */
+        }
+
+        /*
+        Heading Border Separators: Adds a subtle line below h2 and h3 headings.
+        - padding-bottom: Space below the text before the line.
+        - margin-bottom: Space below the line.
+        - border-bottom: The line itself.
+        AI INSTRUCTION: These styles are automatically applied to h2 and h3 elements.
+        */
+        h2 {
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.3); /* Subtle primary colored line */
+        }
+        h3 {
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.2); /* Slightly lighter line for h3 */
+        }
+
+
+        /*
+        Scrollbar Styling: Customizes the appearance of the scrollbar for a themed look.
+        AI INSTRUCTION: This is purely for aesthetics and doesn't require AI intervention.
+        */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-card-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 10px;
+            border: 2px solid var(--color-card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-dark);
+        }
+
+        /*
+        Sticky Navigation for Desktop:
+        This media query applies styles only on screens wider than 1024px (large screens).
+        - position: sticky, top: 1rem, align-self: flex-start: Makes the navigation stick to the top
+          of the viewport as the user scrolls.
+        - max-height, overflow-y: Allows the navigation to scroll internally if it's too long,
+          preventing the entire page from having excessive scrolling.
+        AI INSTRUCTION: This ensures the Table of Contents remains visible on larger screens.
+        */
+        @media (min-width: 1024px) {
+            .sticky-nav {
+                position: sticky;
+                top: 1rem;
+                align-self: flex-start;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+
+        /*
+        Floating Table of Contents for Mobile (Overlay):
+        This section defines the styling for the full-screen, sliding TOC overlay on mobile.
+        - fixed: Positions relative to the viewport.
+        - top-0, left-0, w-full, h-full: Covers the entire screen.
+        - z-index: Places it above other content.
+        - transform: translateX(100%): Starts off-screen to the right.
+        - transition: Smooth slide-in/out effect.
+        - hidden: Initial state, JavaScript will remove this.
+        AI INSTRUCTION: This styling is controlled by JavaScript.
+        */
+        #mobile-nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent AMOLED black */
+            z-index: 50; /* High z-index to be on top */
+            transform: translateX(100%); /* Start off-screen to the right */
+            transition: transform 0.3s ease-out; /* Smooth slide transition */
+            padding: 2rem;
+            display: flex; /* Use flexbox for content alignment */
+            flex-direction: column; /* Stack items vertically */
+            overflow-y: auto; /* Allow scrolling if TOC is long */
+        }
+        /* Class added by JS to show the mobile TOC */
+        #mobile-nav-menu.mobile-nav-open {
+            transform: translateX(0); /* Slide into view */
+            display: flex; /* Ensure it's displayed as flex when open */
+        }
+
+        /* Styling for the close button inside the mobile TOC */
+        #mobile-nav-close {
+            background-color: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            line-height: 1;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%; /* Circular button */
+            position: absolute; /* Position relative to the menu */
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        #mobile-nav-close:hover {
+            background-color: var(--color-primary);
+            color: white;
+            transform: rotate(90deg); /* Spin effect on hover */
+        }
+
+        /* Styling for the Back to Top icon button */
+        #back-to-top {
+            font-size: 2.5rem; /* Larger font size for the icon */
+            font-weight: 900; /* Make the icon bold */
+            width: 3.5rem; /* Adjust width for the icon */
+            height: 3.5rem; /* Adjust height for the icon */
+            border-radius: 50%; /* Make it circular */
+            display: flex; /* Use flexbox to center the icon */
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Center vertically */
+            padding: 0; /* Remove default padding from btn-primary */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add a stronger shadow */
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px); /* More pronounced lift on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+        }
+    </style>
+</head>
+<body class="antialiased leading-normal">
+    <div class="min-h-screen p-4 lg:p-8 flex flex-col lg:flex-row gap-8">
+
+        <nav id="sticky-nav" class="hidden lg:block w-1/4 sticky-nav section-container p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">Table of Contents</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#overview" class="hover:text-red-500">Overview</a></li>
+                <li><a href="#warning-and-goal" class="hover:text-red-500">Warning and Goal</a></li>
+                <li><a href="#step-1-research-switch-cartridge-protocol" class="hover:text-red-500">STEP 1: Research Switch Cartridge Protocol</a></li>
+                <li><a href="#step-2-choose-core-components" class="hover:text-red-500">STEP 2: Choose Core Components</a></li>
+                <li><a href="#step-3-design-circuit-pcb" class="hover:text-red-500">STEP 3: Design Circuit & PCB</a></li>
+                <li><a href="#step-4-firmware-development" class="hover:text-red-500">STEP 4: Firmware Development</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#subtasks" class="hover:text-red-500">Subtasks</a></li>
+                        <li><a href="#language" class="hover:text-red-500">Language</a></li>
+                    </ul>
+                </li>
+                <li><a href="#step-5-flash-test-debug" class="hover:text-red-500">STEP 5: Flash, Test & Debug</a></li>
+                <li><a href="#step-6-enclosure-usability" class="hover:text-red-500">STEP 6: Enclosure & Usability</a></li>
+                <li><a href="#step-7-console-safety" class="hover:text-red-500">STEP 7: Console Safety</a></li>
+                <li><a href="#step-8-optional-dumping-your-own-cartridges" class="hover:text-red-500">STEP 8: Optional - Dumping Your Own Cartridges</a></li>
+                <li><a href="#final-notes" class="hover:text-red-500">Final Notes</a></li>
+            </ul>
+        </nav>
+
+        <main class="flex-grow w-full lg:w-3/4 space-y-8">
+
+            <div class="lg:hidden section-container mb-8">
+                <button id="mobile-nav-toggle" class="btn-primary w-full text-center">
+                    Show Table of Contents
+                </button>
+            </div>
+
+            <div id="mobile-nav-menu" class="hidden">
+                <button id="mobile-nav-close" aria-label="Close menu">X</button>
+                <h2 class="text-3xl font-bold mb-6 text-center pt-8">Table of Contents</h2>
+                <ul class="space-y-4 text-xl flex-grow flex flex-col justify-center">
+                    <li><a href="#overview" class="block hover:text-red-500 py-2">Overview</a></li>
+                    <li><a href="#warning-and-goal" class="block hover:text-red-500 py-2">Warning and Goal</a></li>
+                    <li><a href="#step-1-research-switch-cartridge-protocol" class="block hover:text-red-500 py-2">STEP 1: Research Switch Cartridge Protocol</a></li>
+                    <li><a href="#step-2-choose-core-components" class="block hover:text-red-500 py-2">STEP 2: Choose Core Components</a></li>
+                    <li><a href="#step-3-design-circuit-pcb" class="block hover:text-red-500 py-2">STEP 3: Design Circuit & PCB</a></li>
+                    <li><a href="#step-4-firmware-development" class="block hover:text-red-500 py-2">STEP 4: Firmware Development</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#subtasks" class="block hover:text-red-500 py-1">Subtasks</a></li>
+                            <li><a href="#language" class="block hover:text-red-500 py-1">Language</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#step-5-flash-test-debug" class="block hover:text-red-500 py-2">STEP 5: Flash, Test & Debug</a></li>
+                    <li><a href="#step-6-enclosure-usability" class="block hover:text-red-500 py-2">STEP 6: Enclosure & Usability</a></li>
+                    <li><a href="#step-7-console-safety" class="block hover:text-red-500 py-2">STEP 7: Console Safety</a></li>
+                    <li><a href="#step-8-optional-dumping-your-own-cartridges" class="block hover:text-red-500 py-2">STEP 8: Optional - Dumping Your Own Cartridges</a></li>
+                    <li><a href="#final-notes" class="block hover:text-red-500 py-2">Final Notes</a></li>
+                </ul>
+            </div>
+
+
+            <section id="overview" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h1 class="text-4xl lg:text-5xl mb-6 text-center highlight">Exploriot: DIY Mig Flash V-2 Clone Roadmap (for Personal Backup Use Only)</h1>
+                    <p class="text-lg mb-4">This roadmap outlines the complete steps to build a <span class="highlight">Mig Flash V-2 style Nintendo Switch cartridge emulator</span> from scratch.</p>
+                    <p class="text-lg">It is intended for ethical, <span class="highlight">personal backup use only</span> (i.e., you own the original cartridges). Prepare to dive deep into <span class="highlight">advanced hardware and software emulation</span>!</p>
+                </div>
+            </section>
+
+            <section id="warning-and-goal" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Warning and Goal</h2>
+                    <p class="mb-4">⚠️ <span class="highlight"><strong>WARNING:</strong></span> This project involves <span class="highlight">advanced electrical engineering, FPGA programming, microcontroller logic, and potentially risky reverse engineering</span>. It does not involve modifying your Switch.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">✅ GOAL</h3>
+                    <p class="mb-4">Create a cartridge-shaped device that:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Fits in the Switch's game card slot.</li>
+                        <li>Reads game backups (XCI files) from a microSD card.</li>
+                        <li>Can switch between multiple games via a button.</li>
+                        <li>Emulates a real cartridge closely enough that the Switch boots the game.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step-1-research-switch-cartridge-protocol" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 1: Research Switch Cartridge Protocol</h2>
+                    <p class="mb-4">Objective: Understand how real Switch carts communicate with the console.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Tasks:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Study SPI-like protocols and bus behavior.</li>
+                        <li>Read community research (look up <span class="highlight">Switchbrew.org, Wololo.net, GitHub</span>).</li>
+                        <li>Analyze cartridge logic using logic analyzers (if possible).</li>
+                    </ul>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Resources:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li><a href="https://switchbrew.org/wiki/Gamecard" class="text-blue-400 hover:underline" target="_blank">https://switchbrew.org/wiki/Gamecard</a></li>
+                        <li><a href="https://github.com" class="text-blue-400 hover:underline" target="_blank">https://github.com</a> (search "Switch cartridge reverse engineering")</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step-2-choose-core-components" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 2: Choose Core Components</h2>
+                    <p class="mb-4">Objective: Select suitable hardware to emulate cartridge behavior.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Hardware You Need:</h4>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li><span class="highlight">FPGA</span> (e.g., Lattice iCE40, Xilinx Spartan series) <br>Used to simulate Nintendo's <span class="highlight">secure cartridge IC</span>.</li>
+                        <li><span class="highlight">Microcontroller</span> (e.g., STM32F4, ESP32-S3) <br>Controls game switching, microSD communication.</li>
+                        <li><span class="highlight">microSD Card Socket</span> <br>For storing game files.</li>
+                        <li><span class="highlight">Push Button</span> <br>For changing active game.</li>
+                        <li><span class="highlight">PCB Board</span> shaped like a Switch cart</li>
+                        <li><span class="highlight">Cartridge Edge Connector (Gold Fingers)</span> <br>Matches Switch cart slot pinout.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step-3-design-circuit-pcb" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 3: Design Circuit & PCB</h2>
+                    <p class="mb-4">Objective: Create a working circuit and PCB layout.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Tools:</h4>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li><span class="highlight">KiCad or EasyEDA</span> (<span class="highlight">free PCB design tools</span>)</li>
+                    </ul>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Design Tasks:</h4>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Design the circuit that connects FPGA, MCU, SD card, and edge connector.</li>
+                        <li>Add button logic and microcontroller power management.</li>
+                        <li>Layout PCB dimensions and pins to match a real Switch cart.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step-4-firmware-development" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 4: Firmware Development</h2>
+                    <p class="mb-4">Objective: Program the logic for cartridge emulation and game switching.</p>
+
+                    <div id="subtasks" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Subtasks</h3>
+                            <p class="mb-4">Write microcontroller code to:</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Read XCI filenames from microSD.</li>
+                                <li>Emulate game select button logic.</li>
+                                <li>Send proper control signals to FPGA.</li>
+                            </ul>
+                            <p class="mb-4">Program FPGA to:</p>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Emulate the behavior of a real Nintendo cartridge.</li>
+                                <li>Handle <span class="highlight">encrypted communication protocol</span> (complex).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="language" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Language</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Microcontroller: <span class="highlight">C / C++</span> (e.g., STM32CubeIDE, PlatformIO)</li>
+                                <li>FPGA: <span class="highlight">Verilog or VHDL</span> (with Yosys, iCEStudio, or Vivado)</li>
+                            </ul>
+<pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-c">
+// Example Microcontroller (C++) pseudo-code for game switching
+#include <iostream>
+#include <vector>
+#include <string>
+
+// Assume FPGA control functions exist
+void setFPGAGameID(const std::string& gameID) {
+    std::cout << "FPGA: Setting game ID to " << gameID << std::endl;
+    // Actual SPI/GPIO communication to FPGA
+}
+
+int main() {
+    std::vector<std::string> gameList = {"Game_A.xci", "Game_B.xci", "Game_C.xci"};
+    int currentGameIndex = 0;
+
+    std::cout << "Initializing Mig Flash V-2 Clone..." << std::endl;
+    setFPGAGameID(gameList[currentGameIndex]); // Load initial game
+
+    // Simulate button press
+    // In real hardware, this would be an interrupt handler
+    bool buttonPressed = true;
+    if (buttonPressed) {
+        currentGameIndex = (currentGameIndex + 1) % gameList.size();
+        std::cout << "Button pressed! Switching game to: " << gameList[currentGameIndex] << std::endl;
+        setFPGAGameID(gameList[currentGameIndex]);
+    }
+
+    // Main loop would continuously monitor button, manage power, etc.
+    while(true) {
+        // Your main application logic here
+    }
+
+    return 0;
+}
+</code>
+</pre>
+                            <p class="mt-6 text-lg">This pseudo-code demonstrates the basic logic for switching between games. In a real-world scenario, the microcontroller would handle reading files from the SD card and securely communicating with the FPGA.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step-5-flash-test-debug" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 5: Flash, Test & Debug</h2>
+                    <p class="mb-4">Objective: Upload your firmware and test it inside a real Switch.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Tasks:</h4>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Upload FPGA bitstream and MCU firmware.</li>
+                        <li>Insert cart into a Switch and observe boot behavior.</li>
+                        <li>Check for power draw, pin voltage correctness, and logic behavior.</li>
+                        <li>Attach logic analyzer to see data exchange.</li>
+                    </ul>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Tips:</h4>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Use LED indicators to show status.</li>
+                        <li>Use a test bench before final PCB fabrication.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step-6-enclosure-usability" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 6: Enclosure & Usability</h2>
+                    <p class="mb-4">Objective: Make the device durable and user-friendly.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Tasks:</h4>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>3D print or mill a plastic shell to resemble a Switch cart.</li>
+                        <li>Add holes for the button, SD card slot access, and LEDs.</li>
+                        <li>Ensure durability and precise dimensions.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="step-7-console-safety" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 7: Console Safety</h2>
+                    <p class="mb-4">Objective: Avoid detection and bans.</p>
+                    <h4 class="text-xl font-semibold text-red-400 mb-2">Tasks:</h4>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Use only with your <span class="highlight">own dumped XCI games</span>.</li>
+                        <li>Keep the <span class="highlight">Switch offline</span> while using the cartridge.</li>
+                        <li>Consider DNS blocking Nintendo’s telemetry domains.</li>
+                    </ul>
+                    <p class="mt-6 text-lg"><span class="highlight"><strong>Crucial Note:</strong></span> Always prioritize console safety to avoid potential bans from online services. This project is for personal, offline use only.</p>
+                </div>
+            </section>
+
+            <section id="step-8-optional-dumping-your-own-cartridges" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">STEP 8: Optional - Dumping Your Own Cartridges</h2>
+                    <p class="mb-4">If you want to create your own XCI files:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Use a <span class="highlight">hacked Switch temporarily</span> (with nxdumptool).</li>
+                        <li>OR: Build/buy a cartridge dumping tool (some homebrew USB devices exist).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="final-notes" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-6 text-center">Final Notes</h2>
+                    <p class="text-lg mb-4">This is a massive project, likely requiring <span class="highlight">months of time, soldering tools, PCB manufacturing, firmware engineering, and possibly even failed attempts before success</span>.</p>
+                    <p class="text-lg mb-4">Still want to proceed? I can generate schematic diagrams, starter firmware templates, or 3D case designs.</p>
+                    <p class="text-lg">Stay ethical. Stay offline. And make it awesome.</p>
+                </div>
+            </section>
+
+            <button id="back-to-top" class="fixed bottom-8 right-8 btn-primary hidden">
+                &uarr;
+            </button>
+
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        // This function makes clicks on internal links scroll smoothly instead of jumping.
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default jump behavior
+
+                // Scroll to the target element
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth' // Smooth scroll animation
+                });
+
+                // For mobile, close the menu after clicking a link
+                if (window.innerWidth < 1024) { // Check if screen is less than desktop size
+                    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                    if (mobileNavMenu && mobileNavMenu.classList.contains('mobile-nav-open')) { // Check if menu is open
+                        mobileNavMenu.classList.remove('mobile-nav-open'); // Close the menu
+                        // Reset button text
+                        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+                        if (mobileNavToggle) {
+                            mobileNavToggle.textContent = 'Show Table of Contents';
+                        }
+                    }
+                }
+            });
+        });
+
+        // Mobile navigation toggle
+        // This handles showing and hiding the Table of Contents on mobile devices.
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const mobileNavClose = document.getElementById('mobile-nav-close'); // New close button
+
+        if (mobileNavToggle && mobileNavMenu && mobileNavClose) {
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavMenu.classList.add('mobile-nav-open'); // Add class to slide in
+                mobileNavToggle.textContent = 'Hide Table of Contents'; // Update button text
+            });
+
+            mobileNavClose.addEventListener('click', () => {
+                mobileNavMenu.classList.remove('mobile-nav-open'); // Remove class to slide out
+                mobileNavToggle.textContent = 'Show Table of Contents'; // Reset button text
+            });
+        }
+
+
+        // Back to Top button functionality
+        // This makes the "Back to Top" button appear when the user scrolls down
+        // and scrolls them back to the top when clicked.
+        const backToTopButton = document.getElementById('back-to-top');
+
+        // Show/hide back to top button on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // If scrolled down more than 300px
+                backToTopButton.classList.remove('hidden'); // Show the button
+            } else {
+                backToTopButton.classList.add('hidden'); // Hide the button
+            }
+        });
+
+        // Scroll to top when back to top button is clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0, // Scroll to the very top of the page
+                behavior: 'smooth' // Smooth scroll animation
+            });
+        });
+
+        // Copy code snippets to clipboard
+        // This script automatically adds a "Copy Code" button to every <pre><code> block
+        // and handles copying its content to the clipboard.
+        document.querySelectorAll('pre code').forEach(codeBlock => {
+            // Create a wrapper div to position the button relative to the code block
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative'; // Make it a positioning context for absolute button
+            codeBlock.parentNode.insertBefore(wrapper, codeBlock); // Insert wrapper before code block
+            wrapper.appendChild(codeBlock); // Move code block inside the wrapper
+
+            // Create the copy button
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button absolute top-2 right-2 px-3 py-1 text-xs'; // Styles for the button
+            copyButton.textContent = 'Copy Code'; // Initial button text
+            wrapper.appendChild(copyButton); // Add button to the wrapper
+
+            // Add click event listener to the copy button
+            copyButton.addEventListener('click', () => {
+                const codeText = codeBlock.textContent; // Get the text content of the code block
+
+                // Create a temporary textarea to hold the text for copying
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed'; // Prevents scrolling to the bottom of the page
+                textarea.style.opacity = 0; // Hides the textarea
+                document.body.appendChild(textarea); // Add to document temporarily
+
+                // Select the text in the textarea and copy it
+                textarea.focus();
+                textarea.select();
+                try {
+                    // document.execCommand('copy') is used for better iframe compatibility
+                    // compared to navigator.clipboard.writeText() which might be restricted.
+                    document.execCommand('copy');
+                    copyButton.textContent = 'Copied!'; // Change button text on success
+                    // Revert button text after a delay
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Code';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    copyButton.textContent = 'Error!'; // Change button text on error
+                } finally {
+                    document.body.removeChild(textarea); // Remove temporary textarea
+                }
+            });
+        });
+
+        // New JavaScript for copying entire sections/sub-sections
+        // This selects all buttons with the 'section-copy-button' class
+        // and handles copying the content of their parent 'section-content' div.
+        document.querySelectorAll('.section-copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Find the parent section-content div
+                const sectionContent = button.closest('.section-container > .section-content, .p-6.rounded-xl.bg-gray-900 > .section-content');
+
+                if (sectionContent) {
+                    // Get the text content of the section-content div
+                    const textToCopy = sectionContent.textContent;
+
+                    // Create a temporary textarea to copy the text
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = 0;
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+
+                    try {
+                        document.execCommand('copy');
+                        button.textContent = 'Copied!';
+                        setTimeout(() => {
+                            button.textContent = 'Copy Section';
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy section text: ', err);
+                        button.textContent = 'Error!';
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
