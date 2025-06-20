@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং জাভা সাজেশন - AL Hossain Rifat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Pitch black background */
+            color: #e2e8f0; /* Light text color */
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            margin: 0; /* Ensure no default body margin */
+            padding: 0; /* Ensure no default body padding */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .header, .footer {
+            background-color: #1a1a1a; /* Darker header/footer for pitch black */
+            color: #e2e8f0;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid #ff0000; /* Red accent */
+        }
+        .chapter-title {
+            background-color: #330000; /* Darker red accent for chapter headers */
+            color: #ff0000; /* Red accent */
+            padding: 0.75rem 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 1px solid #ff0000; /* Red border */
+        }
+        .section-title {
+            color: #ff0000; /* Red accent for section titles */
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .question-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .question-list li {
+            background-color: #1a1a1a; /* Question background */
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            border: 1px solid #ff0000; /* Red accent border */
+        }
+        .question-list li .bullet {
+            color: #ff0000; /* Red accent for bullet */
+            font-weight: bold;
+        }
+        .nav-sidebar {
+            width: 250px;
+            background-color: #1a1a1a; /* Darker sidebar for pitch black */
+            padding: 1rem;
+            position: fixed;
+            left: 0;
+            top: 0; /* Align sidebar to very top */
+            height: 100%;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            border-right: 2px solid #ff0000; /* Red accent */
+        }
+        .nav-sidebar.open {
+            transform: translateX(0);
+        }
+        .nav-sidebar a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            margin-bottom: 0.25rem;
+        }
+        .nav-sidebar a:hover {
+            background-color: #330000; /* Darker red on hover */
+            color: #ff0000;
+        }
+        .nav-toggle {
+            position: fixed;
+            top: 0; /* Align toggle to very top */
+            left: 1rem;
+            background-color: #330000; /* Darker red for toggle */
+            color: #ff0000; /* Red accent */
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 1.5rem;
+            line-height: 1;
+            border: none;
+        }
+        .main-content {
+            margin-left: 0;
+            padding-top: 0; /* Remove padding at the top */
+            transition: margin-left 0.3s ease-in-out;
+        }
+        @media (min-width: 768px) {
+            .nav-sidebar {
+                transform: translateX(0);
+                position: sticky;
+                top: 0;
+                height: 100vh;
+            }
+            .main-content {
+                margin-left: 250px;
+                padding-top: 0; /* Ensure no padding at top for desktop as well */
+            }
+            .nav-toggle {
+                display: none;
+            }
+        }
+
+        /* Accessibility improvements */
+        button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid #ff0000; /* Red focus outline */
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-100 antialiased">
+    <button class="nav-toggle" aria-controls="sidebar" aria-expanded="false" title="Toggle Navigation">☰</button>
+
+    <aside id="sidebar" class="nav-sidebar">
+        <h2 class="text-xl font-bold mb-4 text-white">সূচিপত্র</h2>
+        <nav>
+            <a href="#chapter-1">অধ্যায়-১: ক্লাস এবং অবজেক্ট</a>
+            <a href="#chapter-2">অধ্যায়-২: মেথড</a>
+            <a href="#chapter-3">অধ্যায়-৩: জাভাতে অবজেক্ট ওরিয়েন্টেড প্রোগ্রামিং</a>
+            <a href="#chapter-4">অধ্যায়-৪: স্ট্রিংস এবং ক্যারেক্টারস</a>
+            <a href="#chapter-5">অধ্যায়-৫: এক্সেপশন হ্যান্ডলিং</a>
+            <a href="#chapter-6">অধ্যায়-৬: জাভা ডাটাবেজ সংযোগ</a>
+            <a href="#chapter-7">অধ্যায়-৭: সুইং</a>
+            <a href="#chapter-8">অধ্যায়-৮: সার্ভলেট</a>
+            <a href="#chapter-9">অধ্যায়-৯: ইভেন্ট হ্যান্ডলিং</a>
+        </nav>
+    </aside>
+
+    <div class="main-content">
+        <header class="header rounded-b-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-2" style="color: #ff0000;">AL Hossain Rifat</h1>
+            <h2 class="text-2xl font-semibold mt-4">ডিপ্লোমা-ইন-ইঞ্জিনিয়ারিং</h2>
+            <p class="text-xl">বিষয়ঃ অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং জাভা</p>
+            <p class="text-lg">সেমিস্টারঃ ৫ম</p>
+            <p class="text-lg">টেকনোলজিঃ কম্পিউটার (প্রবিধান ২০২২)</p>
+            <p class="text-lg">বিষয় কোডঃ ২৮৫৫১</p>
+        </header>
+
+        <main class="container py-8">
+            <!-- Chapter 1 -->
+            <section id="chapter-1">
+                <h2 class="chapter-title">অধ্যায়-১: ক্লাস এবং অবজেক্ট</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। ক্লাস বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ২। অবজেক্ট বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ৩। ক্লাস ডিক্লারেশন বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ৪। জাভায় ক্লাস ডিক্লারেশনের ফরম্যাট লেখ।</li>
+                    <li><span class="bullet">**</span> ৫। জাভার ক্লাসে অবজেক্ট ডিক্লারেশনের ফরম্যাট লেখ।</li>
+                    <li><span class="bullet">*</span> ৬। ক্লাস মেম্বার অ্যাক্সেসিবিলিটি মোডগুলোর নাম খেল।</li>
+                    <li><span class="bullet">***</span> ৭। মেথড কাকে বলে?</li>
+                    <li><span class="bullet">**</span> ৮। Object ও Class- এর মাঝে মূল পার্থক্য কী?</li>
+                    <li><span class="bullet">**</span> ৯। জাভা ক্লাসের ভেরিয়েবলগুলো লেখ।</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। Area নামে একটি Class তৈরি কওে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি Java Program লেখ।</li>
+                    <li><span class="bullet">***</span> ২। জাভার ক্লাস ডিক্লারেশনের ফরম্যাট উদাহরণসহ উল্লেখ কর।</li>
+                    <li><span class="bullet">***</span> ৩। Java Class ও Object একটি উদাহরণ প্রোগ্রামের মাধ্যমে ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">***</span> ৪। ক্লাসের বৈশিষ্ট্যসমূহ লেখ।</li>
+                    <li><span class="bullet">***</span> ৫। অবজেক্টের বৈশিষ্ট্যসমূহ লেখ।</li>
+                    <li><span class="bullet">***</span> ৬। ক্লাস ও অবজেক্ট এর মধ্যে পার্থক্য লেখ।</li>
+                    <li><span class="bullet">**</span> ৭। ক্রিয়েশনাল ডিজাইন প্যাটার্ন কত প্রকার ও ও কী কী?</li>
+                </ul>
+
+                <h3 class="section-title">sos রচনামূলক প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। ক্লাসের পাবলিক মেম্বার অ্যাক্সেসিং প্রক্রিয়া প্রোগ্রাম লিলে ব্যাখ্যা কর।</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 2 -->
+            <section id="chapter-2">
+                <h2 class="chapter-title">অধ্যায়- ২: মেথড</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">**</span> ১। মেথডে ব্যবহৃত অ্যাক্সেস মডিফায়ারগুলোর নাম লেখ।</li>
+                    <li><span class="bullet">**</span> ২। মেথডের উপাদানগুলোর নাম লেখ।</li>
+                    <li><span class="bullet">***</span> ৩। মেথডের প্রটোটাইপ বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ৪। কনস্ট্রাক্টর কী?</li>
+                    <li><span class="bullet">***</span> ৫। কনস্ট্রাক্টর কত প্রকার ও কী কী?</li>
+                    <li><span class="bullet">***</span> ৬। মেথড ওভারলোডিং কাকে বলে?</li>
+                    <li><span class="bullet">***</span> ৭। ওভারলোডিং কনস্ট্রাক্টর বা কপি কনস্ট্রাক্টর কাকে বলে?</li>
+                    <li><span class="bullet">***</span> ৮। গারবেজ কালেকশন কী?</li>
+                    <li><span class="bullet">*</span> ৯। মাল্টিপল কনস্ট্রাক্টর কী?</li>
+                    <li><span class="bullet">**</span> ১০। মেথড কলিং বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ১১। ওভাররিডেন ও ওভাররাইডিং মেথড বলতে কী বুঝায়?</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। কনস্ট্রাক্টর মেথডের বৈশিষ্ট্যগুলো উল্লেখ কর।</li>
+                    <li><span class="bullet">**</span> ২। ইনস্টেল ভেরিয়েবল হাইডিং প্রক্রিয়া বর্ণনা কর।</li>
+                    <li><span class="bullet">***</span> ৩। উদাহরণসহ Method Prototype ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">***</span> ৪। জাভা মেথডের বিভিন্ন অংশ বর্ণনা কর।</li>
+                    <li><span class="bullet">**</span> ৫। রিটার্ন স্টেটমেন্টের কাজ লেখ।</li>
+                    <li><span class="bullet">**</span> ৬। রিটার্ন স্টেটমেন্ট লেখার নিয়মাবলি কী কী?</li>
+                    <li><span class="bullet">**</span> ৭। মেথড ব্যবহারের সুবিধাসমূহ উল্লেখ কর।</li>
+                    <li><span class="bullet">***</span> ৮। ওভাররিডেন মেথডের বৈশিষ্ট্যসমূহ উল্লেখ কর।</li>
+                    <li><span class="bullet">***</span> ৯। ওভারলোডেড মেথড ও ওভাররিডেন মেথডের মধ্যে পার্থক্য লেখ।</li>
+                    <li><span class="bullet">***</span> ১০। উদাহরণসহ গারবেজ কালেকশন পদ্ধতি ব্যাখ্যা কর।</li>
+                </ul>
+
+                <h3 class="section-title">Sos রচনামূলক প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">**</span> ১। উদাহরণসহ ফ্লাসে মেথড সংযোজনের প্রক্রিয়াটি বর্ণনা কর।</li>
+                    <li><span class="bullet">***</span> ২। মেথড ওভারলোডিং পদ্ধতির জন্য একটি জাভা প্রোগ্রাম লেখ।</li>
+                    <li><span class="bullet">***</span> ৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ।</li>
+                    <li><span class="bullet">***</span> ৪। প্রোগ্রামের মাধ্যমে ওভারলোডিং কনস্ট্রাক্টর বা কপি কনস্ট্রাক্টর পদ্ধতি ব্যাখ্যা কর।</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 3 -->
+            <section id="chapter-3">
+                <h2 class="chapter-title">অধ্যায়- ৩: জাভাতে অবজেক্ট ওরিয়েন্টেড প্রোগ্রামিং</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">**</span> ১। জাভার প্রধান স্তম্ভ কয়টি কী কী?</li>
+                    <li><span class="bullet">***</span> ২। ডাটা অ্যাবস্ট্রাকশন বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ৩। জাভার কী কী পদ্ধতিতে ডাটা অ্যাবস্ট্রাকশন সম্পন্ন করা যায়?</li>
+                    <li><span class="bullet">***</span> ৪। এনক্যাপসুলেশন কাকে বলে?</li>
+                    <li><span class="bullet">***</span> ৫। পলিমরফিজম বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ৬। সুপার ক্লাস ও সাব-ক্লাস কাকে বলে?</li>
+                    <li><span class="bullet">***</span> ৭। মাল্টিলেভেল ইনহেরিট্যান্স কাকে বলে?</li>
+                    <li><span class="bullet">**</span> ৮। সিঙ্গেল ইনহেরিট্যান্স কী?</li>
+                    <li><span class="bullet">**</span> ৯। হায়ারারকিক্যাশ ইনহেরিট্যাল কী?</li>
+                    <li><span class="bullet">***</span> ১০। ক্যাবস্ট্রাক্ট ক্লাস কী?</li>
+                    <li><span class="bullet">**</span> ১১। ইন্টারফেস বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ১২। মাল্টিপল ইন্টারফেস কাকে বলে?</li>
+                    <li><span class="bullet">***</span> ১৩। সুপার কী-ওয়ার্ড কেন ব্যবহার করা হয়?</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। মাল্টিলেভেল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরম্যাট লেখ।</li>
+                    <li><span class="bullet">***</span> ২। সুপার ক্লাস ও সাব-ক্লাস বর্ণনা কর।</li>
+                    <li><span class="bullet">***</span> ৩। একটি উদাহরণের মাদ্যমে Java inheritance দেখাও।</li>
+                    <li><span class="bullet">***</span> ৪। Final ও Super Keyword এর মাথে পার্থক্য লেখ।</li>
+                    <li><span class="bullet">***</span> ৫। উদাহরণসহ পলিমরফিজম প্রক্রিয়াটি ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">***</span> ৬। উদাহরণসহ ইন্টারফেস-এর ফরম্যাট উল্লেখ কর।</li>
+                </ul>
+
+                <h3 class="section-title">sos রচনামূলক প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। সুপার ক্লাস ও সাব-ক্লাস ব্যবহার করে একটি প্রোগ্রাম লেখ।</li>
+                    <li><span class="bullet">***</span> ২। মাল্টিলেভেল ইনহেরিট্যান্স ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ।</li>
+                    <li><span class="bullet">**</span> ৩। ইন্টারফেস বাস্তবায়ন প্রক্রিয়াটি একটি প্রোগ্রাম লিলে ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">**</span> ৪। মাল্টিপল ইন্টারফেস প্রক্রিয়াটি প্রোগ্রামসহ বর্ণনা কর।</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 4 -->
+            <section id="chapter-4">
+                <h2 class="chapter-title">অধ্যায়-৪: স্ট্রিংস এবং ক্যারেক্টারস</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। ক্যারেক্টর বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ২। স্ট্রিং কী?</li>
+                    <li><span class="bullet">***</span> ৩। জাভাতে ব্যবহৃত যে-কোনো দুটি স্ট্রিং কনস্ট্রাক্টরের নাম লেখ।</li>
+                    <li><span class="bullet">***</span> ৪। জাভাতে ব্যবহৃত যে-কোনো দুটি স্ট্রিং মেথডের নাম লেখ।</li>
+                    <li><span class="bullet">***</span> ৫। toUpperCase মেথডের কাজ কী?</li>
+                    <li><span class="bullet">**</span> ৬। replace মেথড ব্যবহার করা হয় কেন?</li>
+                    <li><span class="bullet">**</span> ৭। trim() মেথডের কাজ কী?</li>
+                    <li><span class="bullet">***</span> ৮। জাভার ব্যবহৃত কমন স্ট্রিং বাফার কনস্ট্রাক্টরগুলোর নাম লেখ।</li>
+                    <li><span class="bullet">**</span> ৯। জাভা স্ট্রিং বাফার বলতে কী বুঝায়?</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। জাভার ব্যবহৃত স্ট্রিং কনস্ট্রাক্টরসমূহ কী কী?</li>
+                    <li><span class="bullet">***</span> ২। উদাহরণসহ যে-কোনো চারটি স্ট্রিং মেথড সংক্ষেপে লিখ।</li>
+                    <li><span class="bullet">**</span> ৩। স্ট্রিং ও স্ট্রিং বাফারের মধ্যে পার্থক্য লেখ।</li>
+                    <li><span class="bullet">**</span> ৪। স্ট্রিং বাফার মেথডগুলোর কাজ লেখ।</li>
+                </ul>
+
+                <h3 class="section-title">sos রচনামূলক প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। একটি প্রোগ্রামের মাধ্যমে জাভা স্ট্রিং কনস্ট্রাক্টরগুলো ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">**</span> ২। উদাহরণসহ স্ট্রিং মেথডগুলো বর্ণনা কর।</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 5 -->
+            <section id="chapter-5">
+                <h2 class="chapter-title">অধ্যায়- ৫: এক্সেপশন হ্যান্ডলিং</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। এরর বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ২। কী কী কারণে এরর সংঘটিত হতে পারে?</li>
+                    <li><span class="bullet">***</span> ৩। এক্সেপশন কী?</li>
+                    <li><span class="bullet">**</span> ৪। এক্সেপশন কী কী কারণে হতে পারে?</li>
+                    <li><span class="bullet">***</span> ৫। এক্সেপশন হ্যান্ডলিং কী?</li>
+                    <li><span class="bullet">***</span> ৬। জাভা এক্সেপশন হ্যান্ডলিংয়ে ব্যবহৃত কী-ওয়ার্ডগুলোর নাম লেখ।</li>
+                    <li><span class="bullet">**</span> ৭। অ্যারিথমেটিক এক্সেপশন কখন সংঘটিত হয়?</li>
+                    <li><span class="bullet">**</span> ৮। ClassCast এক্সেপশন কখন সংঘটিত হয়?</li>
+                    <li><span class="bullet">***</span> ৯। IOException কী?</li>
+                    <li><span class="bullet">**</span> ১০। SQL এক্সেপশন সংঘটিত হয় কেন?</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। যে-কোনো দুটি এক্সেপশন হ্যান্ডলিং উদাহরণসহ উল্লেখ কর।</li>
+                    <li><span class="bullet">***</span> ২। এক্সেপশন হ্যান্ডিলিং এর সুবিধাসমূহ লেখ।</li>
+                    <li><span class="bullet">***</span> ৩। উদাহরণসহ throws বিকৃতি বর্ণনা কর।</li>
+                </ul>
+
+                <h3 class="section-title">sos রচনামূলক প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। জাভা এক্সেপশন ক্লাসের হায়ারারকি চিত্রসহ বর্ণনা কর।</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 6 -->
+            <section id="chapter-6">
+                <h2 class="chapter-title">অধ্যায়- ৬: জাভা ডাটাবেজ সংযোগ</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। জাভা জাটাবেজ কানেকটিভিটি (JDBC) বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ২। কানেকশন কী?</li>
+                    <li><span class="bullet">***</span> ৩। স্টেটমেন্ট বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ৪। প্রিপেয়ার্ড স্টেটমেন্ট ব্যবহার করা হয় কেন?</li>
+                    <li><span class="bullet">**</span> ৫। JOBC ড্রাইভার বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ৬। ODBC-এর কাজ কী?</li>
+                    <li><span class="bullet">***</span> ৭। নেটওয়ার্ক প্রটোকল ড্রাইভার কী?</li>
+                    <li><span class="bullet">**</span> ৮। JDBC স্টেটমেন্ট কত প্রকার ও কী কী?</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। JDBC ব্যবহারের সুবিধাসমূহ উল্লেখ কর।</li>
+                    <li><span class="bullet">***</span> ২। ODBC ড্রাইভারের ব্লক ডায়াগ্রাম অঙ্কন কর।</li>
+                    <li><span class="bullet">***</span> ৩। নেটওয়ার্ক প্রটোকল ড্রাইভার সংক্ষেপে বর্ণনা কর।</li>
+                    <li><span class="bullet">**</span> ৪। প্রিপেয়ার্ড স্টেটমেন্টের সুবিধাসমূহ উল্লেখ কর।</li>
+                    <li><span class="bullet">**</span> ৫। প্রিপেয়ার্ড স্টেটমেন্টসমূহের মেথডগুলো কী কী?</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 7 -->
+            <section id="chapter-7">
+                <h2 class="chapter-title">অধ্যায়- ৭: সুইং</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। জাভা সুইং বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ২। সুইং কম্পোন্টে কী? উদাহরণসহ লেখ।</li>
+                    <li><span class="bullet">**</span> ৩। JFrame কম্পোনেন্টের কাজ কী?</li>
+                    <li><span class="bullet">**</span> ৪। JFrame কম্পোনেন্টের সিনট্যাক্স লেখ।</li>
+                    <li><span class="bullet">***</span> ৫। সুইং প্যাকেজ বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ৬। যে-কোনো চারটি সুইং প্যাকেজের নাম লেখ।</li>
+                </ul>
+
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। জাভা সুইং ব্যবহারের অসুবিধাসমূহ লেখ।</li>
+                    <li><span class="bullet">***</span> ২। সিনট্যাক্সসহ JLabel কম্পোনেন্ট ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">***</span> ৩। উদাহরণসহ JButton কম্পোনেন্ট বর্ণনা কর।</li>
+                    <li><span class="bullet">**</span> ৪। বাটন তৈরির একটি জাভা প্রোগ্রাম লেখ।</li>
+                    <li><span class="bullet">**</span> ৫। JComponent ক্লাসের অধীনে ক্লাসগুলোর নাম লেখ।</li>
+                </ul>
+
+                <h3 class="section-title">sos রচনামূলক প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ৩। জাভা সুইং কম্পোনেন্টসমূহ আলোচনা কর।</li>
+                    <li><span class="bullet">***</span> ৪। জাভা সুইং এ ব্যবহৃত প্যাকেজসমূহ বর্ণনা কর।</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 8 -->
+            <section id="chapter-8">
+                <h2 class="chapter-title">অধ্যায়- ৮: সার্ভলেট</h2>
+                <h3 class="section-title">sos অতি সংক্ষিপ্ত প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। সার্ভলেট বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ২। কয়েকটি জনপ্রিয় সার্ভলেট কন্টেইনার এর নাম লেখ।</li>
+                    <li><span class="bullet">***</span> ৩। জাভায় সার্ভলেট তৈরির সম্ভাব্য উপায়সমূহ কী কী?</li>
+                    <li><span class="bullet">***</span> ৪। init () মেথডের কাজ কী?</li>
+                    <li><span class="bullet">**</span> ৫। Service () মেথডের কাজ কী?</li>
+                    <li><span class="bullet">***</span> ৬। সেশন ম্যানেজমেন্ট বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ৭। কুকি কী?</li>
+                    <li><span class="bullet">**</span> ৮। সার্ভলেট লাইফ সাইকেল বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ৯। চিত্রসহ জাভা সার্ভলেটের সংজ্ঞা লেখ।</li>
+                    <li><span class="bullet">**</span> ১০। সার্ভলেটের উল্লেখযোগ্য বৈশিষ্ট্যসমূহ উল্লেখ কর।</li>
+                    <li><span class="bullet">**</span> ১১। সার্ভলেট আর্কিটেকচার কম্পোনেন্টসমূহ বর্ণনা কর।</li>
+                    <li><span class="bullet">**</span> ১২। Service () মেথডের সাথে সম্পর্কিত HTTP মেথডসমূহ আলোচনা কর।</li>
+                </ul>
+
+                <h3 class="section-title">Sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। ইভেন্ট বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ২। ইভেন্ট হ্যান্ডলিং কী?</li>
+                    <li><span class="bullet">***</span> ৩। ইভেন্ট হ্যান্ডলিং-এর উপাদান কয়টি ও কী কী?</li>
+                    <li><span class="bullet">***</span> ৪। অটোমেটিক ইভেন্ট হ্যান্ডলিং কী?</li>
+                    <li><span class="bullet">**</span> ৫। ম্যানুয়াল ইভেন্ট হ্যান্ডলিং বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">***</span> ৬। ইভেন্ট সোর্স কী?</li>
+                    <li><span class="bullet">***</span> ৭। ইভেন্ট লিসনার কী?</li>
+                    <li><span class="bullet">**</span> ৮। ইলেন্ট হ্যান্ডলিং ক্লাস বলতে কী বুঝায়?</li>
+                    <li><span class="bullet">**</span> ৯। মাউস ইভেন্ট কী?</li>
+                    <li><span class="bullet">**</span> ১০। ইনোটাশন বলতে কী বুঝায়?</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 9 -->
+            <section id="chapter-9">
+                <h2 class="chapter-title">অধ্যায়- ৯: ইভেন্ট হ্যান্ডলিং</h2>
+                <h3 class="section-title">sos সংক্ষিপ্ত প্রশ্নঃ</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। ইলেন্ট হ্যান্ডলিং এর প্রকারভেদ আলোচনা কর।</li>
+                    <li><span class="bullet">**</span> ২। অটোমোটিক ইভেন্ট হ্যান্ডলিং কী লিখ?</li>
+                    <li><span class="bullet">**</span> ৩। ম্যানুয়াল ইভেন্ট হ্যান্ডলিং লিখ।</li>
+                    <li><span class="bullet">**</span> ৪। ইভেন্ট সোর্স বর্ণনা কর।</li>
+                    <li><span class="bullet">***</span> ৫। উদাহরণসহ জাভা এনোটেশন ব্যাখ্যা কর।</li>
+                    <li><span class="bullet">**</span> ৬। ইভেন্ট হ্যান্ডলিং এর ধাপসমূহ কী কী?</li>
+                    <li><span class="bullet">***</span> ৭। Override এনোটেশন লেখ।</li>
+                </ul>
+
+                <h3 class="section-title">sos রচনামূলক প্রশ্ন:</h3>
+                <ul class="question-list">
+                    <li><span class="bullet">***</span> ১। ডেলিগেশন ইভেন্ট মডেলের উপাদানসমূহ বর্ণনা কর।</li>
+                    <li><span class="bullet">***</span> ২। ইভেন্ট গ্যান্ডলিং ক্লাসসমূহ আলোচনা কর।</li>
+                    <li><span class="bullet">**</span> ৩। লিসনার-ভিত্তিক ও ডেলিগেট-ভিত্তিক ইভেন্ট হ্যান্ডলিং উদাহরণসহ লেখ।</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="footer mt-8 rounded-t-lg shadow-lg">
+            <p class="text-sm" style="color: #ff0000;">AL Hossain Rifat</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navSidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            // Set body and html to ensure no margin/padding from user agent stylesheet
+            document.body.style.margin = '0';
+            document.body.style.padding = '0';
+            document.documentElement.style.margin = '0';
+            document.documentElement.style.padding = '0';
+
+
+            navToggle.addEventListener('click', function() {
+                navSidebar.classList.toggle('open');
+                // For accessibility, toggle aria-expanded
+                const isExpanded = navSidebar.classList.contains('open');
+                this.setAttribute('aria-expanded', isExpanded);
+            });
+
+            // Close sidebar when a navigation link is clicked (for mobile)
+            navSidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        navSidebar.classList.remove('open');
+                        navToggle.setAttribute('aria-expanded', false);
+                    }
+                });
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add basic keyboard navigation for list items (e.g., using arrow keys)
+            const questionLists = document.querySelectorAll('.question-list');
+            questionLists.forEach(list => {
+                list.addEventListener('keydown', (e) => {
+                    const activeElement = document.activeElement;
+                    if (!activeElement || !list.contains(activeElement)) return;
+
+                    const items = Array.from(list.children);
+                    const currentIndex = items.indexOf(activeElement);
+
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = (currentIndex + 1) % items.length;
+                        items[nextIndex].focus();
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = (currentIndex - 1 + items.length) % items.length;
+                        items[prevIndex].focus();
+                    }
+                });
+                // Make list items focusable for keyboard navigation
+                list.querySelectorAll('li').forEach(item => {
+                    item.setAttribute('tabindex', '0');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
