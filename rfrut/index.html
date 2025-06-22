@@ -134,14 +134,91 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Lock screen specific styles */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0F172A; /* Dark background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000; /* Ensure it's on top of everything */
+            color: #E2E8F0;
+            text-align: center;
+        }
+        #lockScreen.hidden {
+            display: none;
+        }
+        .lock-form {
+            background-color: #1a202c;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .lock-form input[type="text"],
+        .lock-form input[type="password"] {
+            background-color: #2D3748; /* Darker input background */
+            border: 1px solid #4A5568;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #E2E8F0;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .lock-form input::placeholder {
+            color: #A0AEC0;
+        }
+        .lock-form button {
+            background-color: #4299E1; /* Blue for login button */
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .lock-form button:hover {
+            background-color: #3182CE;
+        }
+        #loginError {
+            color: #FC8181; /* Red for error message */
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        /* Hide main content initially */
+        #mainContent {
+            display: none;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8 flex justify-center items-center min-h-screen">
-    <div class="container bg-slate-800 p-6 sm:p-8 rounded-xl shadow-2xl w-full border border-slate-700">
+    <!-- Lock Screen -->
+    <div id="lockScreen">
+        <div class="lock-form">
+            <h2 class="text-3xl font-bold text-sky-400 mb-4">লক স্ক্রীন (Lock Screen)</h2>
+            <input type="text" id="usernameInput" placeholder="ইউজারনেম (Username)">
+            <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড (Password)">
+            <button id="loginButton">লগইন করুন (Login)</button>
+            <p id="loginError" class="text-red-400 hidden">ভুল ইউজারনেম বা পাসওয়ার্ড (Incorrect username or password)</p>
+        </div>
+    </div>
+
+    <!-- Main Content (initially hidden) -->
+    <div id="mainContent" class="container bg-slate-800 p-6 sm:p-8 rounded-xl shadow-2xl w-full border border-slate-700">
         <!-- Header for Medication Plan -->
         <header class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-sky-400 mb-3 rounded-lg p-3 bg-slate-700 shadow-inner">আপনার ঔষধের তালিকা</h1>
-            <p class="text-lg sm:text-xl text-slate-300">thik moto meds kha gamli</p>
+            <p class="text-lg sm:text-xl text-slate-300">Your Medication List</p>
             <button id="clearCheckmarks" class="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-300">
                 <i class="fas fa-undo mr-2"></i> সমস্ত চেকমার্ক সরান
             </button>
@@ -188,6 +265,45 @@
     </div>
 
     <script>
+        // --- Lock Screen Logic ---
+        const lockScreen = document.getElementById('lockScreen');
+        const mainContent = document.getElementById('mainContent');
+        const usernameInput = document.getElementById('usernameInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginButton = document.getElementById('loginButton');
+        const loginError = document.getElementById('loginError');
+
+        const CORRECT_USERNAME = 'gamli';
+        const CORRECT_PASSWORD = '5600';
+
+        loginButton.addEventListener('click', () => {
+            const enteredUsername = usernameInput.value;
+            const enteredPassword = passwordInput.value;
+
+            if (enteredUsername === CORRECT_USERNAME && enteredPassword === CORRECT_PASSWORD) {
+                lockScreen.classList.add('hidden');
+                mainContent.style.display = 'block'; // Show the main content
+                renderMedications(); // Render medications once logged in
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        // Optional: Allow pressing Enter to log in
+        passwordInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                loginButton.click();
+            }
+        });
+
+        // Hide main content on initial load until logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            mainContent.style.display = 'none'; // Ensure main content is hidden initially
+            lockScreen.classList.remove('hidden'); // Ensure lock screen is visible
+        });
+
+        // --- Existing Medication Tracker Logic (rest of your script) ---
+
         const medicationData = [
             {
                 id: "ciprocin",
@@ -271,7 +387,7 @@
                     drugInteraction: `<strong>ডাইসালফাইরাম</strong>: ফিলমেট এবং ডাইসালফাইরাম এক সাথে ব্যবহার করলে মানসিক প্রতিক্রিয়ার উদ্ভব হতে পারে বলে রিপোর্ট পাওয়া গেছে।<br><br><strong>অ্যালকোহল</strong>: ফিলমেট দ্বারা চিকিৎসা চলাকালীন সময় এবং শেষ হবার অন্তত ১ দিন পর পর্যন্ত রোগীদের অ্যালকোহল জাতীয় পানীয় সেবন করা থেকে বিরত থাকার পরামর্শ দিতে হবে কারন সেটা ডাইসালফাইরাম প্রতিক্রিয়ার (অ্যানটাবউস ইফেক্ট- ত্বকে অত্যধিক রক্ত সরবরাহ, বমি, দ্রুত হৃদস্পন্দন) কারন হতে পারে।<br><br><strong>এন্টিকোয়াগুলেন্ট চিকিৎসা (ওয়ারফেরিন জাতীয়)</strong>: হেপাটিক ক্যাটাবলিসম কমে যাওয়ার কারনে এন্টিকোয়াগুলেন্ট এর প্রভাব বৃদ্ধি পায় এবং রক্তক্ষরন এর সম্ভবনা বেড়ে যায়। ফিলমেট এর সাথে দেওয়া হলে নিয়মিত প্রোথ্রম্বিন টাইম পর্যবেক্ষণ করতে হবে এবং এন্টিকোয়াগুলেন্ট-এর মাত্রা সমন্বয় করতে হবে।<br><br><strong>লিথিয়াম</strong>: ফিলমেট দ্বারা রক্তের প্লাজমা তে লিথিয়াম এর মাত্রা বৃদ্ধি পেতে পারে।<br><br><strong>সাইক্লোস্পরিন</strong>: সেরাম এ সাইক্লোস্পরিন এবং ক্রিয়েটিনিন এর মাত্রা নিবির ভাবে পর্যবেক্ষণ করতে হবে যদি ফিলমেট এর সাথে দেওয়া হয়।<br><br><strong>ফেনাইটয়েন অথবা ফেনোবারবিটাল</strong>: ফিলমেট নিঃসরণ এর মাত্রা বেড়ে যাওয়ায় প্লাজমাতে পরিমান কমে যায়। <br><br><strong>৫-ফ্লুরোইউরাসিল</strong>: শরীর থেকে নিঃসরণ এর মাত্রা কমে যাওয়ায় ৫-ফ্লুরোইউরাসিল দ্বারা বিষক্রিয়ার সম্ভবনা বৃদ্ধি পায়।<br><br><strong>বিউসালফান</strong>: ফিলমেট প্লাজমাতে বিউসালফান এর পরিমান বাড়িয়ে দেয় যা বিউসালফান জনিত বিষক্রিয়া সৃষ্টি করতে পারে।`,
                     contraindications: `মেট্রোনিডাজল ও অন্যান্য নাইট্রোইমিডাজল জাতীয় ডেরিভেটিভের প্রতি অতিসংবেদনশীল রোগীদের ক্ষেত্রে মেট্রোনিডাজল ব্যবহার প্রতিনির্দেশিত।`,
                     pregnancyLactation: `US FDA প্রেগন্যান্সি ক্যাটাগরী অনুযায়ী মেট্রোনিডাজল 'B' জাতীয় ঔষধ । অর্থাৎ, গর্ভাবস্থায় ব্যবহারের সুনিয়ন্ত্রিত ও পর্যাপ্ত তথ্য নেই। যেহেতু প্রাণিজ প্রজনন গবেষণা সর্বদা মানবদেহে কার্যকারিতা সম্বন্ধে পূর্ব ধারণা দেয় না, সেহেতু এই ঔষধটি গর্ভাবস্থায় সুনির্দিষ্টভাবে প্রয়োজন হলেই ব্যবহার করা উচিত। মেট্রোনিডাজল স্তন্যদুগ্ধে নিঃসৃত হয়। সুতরাং, স্তন্যদাত্রী মায়েদের ক্ষেত্রে মেট্রোনিডাজল ব্যবহারে সতর্কতা অবলম্বন করা উচিত ।`,
-                    precautions: `যদি কোন কারনবশত নির্ধারিত সময়কালের অধিক সময় ধরে ফিলমেট দ্বারা চিকিৎসা করতে হয় সেক্ষেত্রে সেবনকারীর রক্ত পরীক্ষা, বিশেষ করে শ্বেত রক্তকনিকার সংখ্যা, নিয়মিত পরীক্ষা করা এবং রোগীর বিরূপ প্রতিক্রিয়া, যেমন- প্রান্তিক ও কেন্দ্রীয় স্নায়ুরোগ (পারেসথেশিয়া অ্যাটাকশিয়া, ঝিম ঝিম লাগা, খিঁচুনি), পর্যবেক্ষণ এর জন্য নজরদারিতে রাখতে হবে।<br><br>ফিলমেট হেপাটিক এনসেফেলোপ্যাথি রোগীদের সতর্কতার সাথে প্রয়োগ করা উচিত।<br><br>রোগীদের সতর্ক করা উচিত যে ফিলমেট মূত্রকে ডার্ক করতে পারে।`,
+                    precautions: `যদি কোন কারনবশত নির্ধারিত সময়কালের অধিক সময় ধরে ফিলমেট দ্বারা চিকিৎসা করতে হয় সেক্ষেত্রে সেবনকারীর রক্ত পরীক্ষা, বিশেষ করে শ্বেত রক্তকনিকার সংখ্যা, নিয়মিত পরীক্ষা করা এবং রোগীর বিরূপ প্রতিক্রিয়া, যেমন- প্রান্তিক ও কেন্দ্রীয় স্নায়ুরোগ (পারেসথেশিয়া অ্যাটাকশিয়া, ঝিম ঝিম লাগা, খিঁচুনি), পর্যবেক্ষণ এর জন্য নজরদারিতে রাখতে হবে।<br><br>ফিলমেট হেপাটিক এনসেফেলোপ্যাথি রোগীদের সতর্কতার সাথে প্রয়োগ করা উচিত।<br><br>রোগীদের সতর্ক করা উচিত যে ফিলমেট মূত্রকে ডার্ক করতে পারে।`,
                     storage: `৩০° সে তাপমাত্রার নিচে সংরক্ষন করতে হবে। আলো থেকে দূরে রাখতে হবে। শিশুদের নাগালের বাইরে রাখতে হবে। মেয়াদউত্তীর্ণ হয়ে যাওয়ার পর ব্যবহার করা যাবে না।`
                 }
             },
@@ -578,7 +694,7 @@
                 }
             };
 
-            const apiKey = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // Canvas will automatically provide this
+            const apiKey = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // User provided API Key
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
@@ -687,11 +803,6 @@
 
         // Event listener for "Generate More Alternatives" button
         generateMoreAlternativesBtn.addEventListener('click', async () => {
-            // Re-fetch alternatives for the current medicine.
-            // Need to know which medicine was clicked last to generate more alternatives for it.
-            // A simple way is to store the index or ID of the last medicine whose alternatives were requested.
-            // For this example, let's assume we pass the index through a data attribute on the button itself.
-            // Or, more robustly, store it in a global variable when `alternative-btn` is clicked.
             const lastClickedMedIndex = generateMoreAlternativesBtn.dataset.lastClickedMedIndex;
             if (lastClickedMedIndex !== undefined) {
                 await showAlternativesModal(null, medicationData[lastClickedMedIndex].name, true, lastClickedMedIndex);
@@ -886,9 +997,6 @@
                 renderMedications(); // Re-render the medications to reflect cleared states
             }
         });
-
-        // Initial render when the page loads
-        document.addEventListener('DOMContentLoaded', renderMedications);
 
         // Adjust max-height on window resize for collapsible content
         window.addEventListener('resize', () => {
