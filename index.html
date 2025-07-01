@@ -3,251 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAHRFA.TOP</title>
-    <!-- Google Fonts for professional and cozy vibe -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Basic reset and body styling */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a; /* Dark grey-black for background, matching image */
-            color: #e0e0e0; /* Soft off-white text */
-            font-family: 'Inter', sans-serif; /* Modern, readable sans-serif */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Full viewport height */
-            overflow: hidden; /* Prevent scrollbars */
-            position: relative;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* Main container for the content */
-        .main-container {
-            background-color: rgba(26, 26, 26, 0.9); /* Slightly transparent darker grey, matching image background */
-            border: 1px solid #cc0000; /* Red border, matching image accent */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Soft shadow */
-            padding: 40px;
-            text-align: center; /* Center align text */
-            max-width: 900px; /* Max width for larger screens */
-            width: 100%; /* Responsive width */
-            border-radius: 8px; /* Gently rounded corners */
-            box-sizing: border-box;
-        }
-
-        h1 {
-            font-family: 'Lora', serif; /* Elegant serif for headings */
-            font-size: clamp(2rem, 6vw, 3.5rem); /* Responsive font size for H1 */
-            margin-bottom: 20px;
-            color: #cc0000; /* Red for headings, matching image accent */
-            font-weight: 700; /* Bold */
-        }
-
-        p {
-            font-size: clamp(1rem, 2.5vw, 1.2rem); /* Responsive font size for paragraphs */
-            line-height: 1.6;
-            margin-bottom: 30px;
-            color: #e0e0e0; /* Off-white for body text, matching image text */
-            font-weight: 300; /* Lighter weight for cozy feel */
-        }
-
-        /* Typing effect cursor - HIDDEN as requested */
-        .typing-cursor {
-            display: none;
-        }
-
-        /* Button styling - REMOVED from CSS as requested */
-        /*
-        .action-button {
-            background-color: #5865f2;
-            color: #ffffff;
-            border: none;
-            padding: 15px 30px;
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .action-button:hover {
-            background-color: #4752c4;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-        */
-
-        /* Message box styling - Adjusted colors to new theme */
-        .message-box-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .message-box-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .message-box {
-            background-color: #1a1a1a; /* Darker grey, matching background */
-            border: 1px solid #cc0000; /* Red border, matching accent */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            padding: 30px;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-            color: #e0e0e0;
-            max-width: 500px;
-            border-radius: 8px;
-            transform: translateY(-20px); /* Initial slightly elevated position */
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .message-box-overlay.visible .message-box {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .message-box h3 {
-            margin-top: 0;
-            color: #cc0000; /* Red for heading */
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-family: 'Lora', serif;
-            font-weight: 700;
-        }
-
-        .message-box p {
-            margin-bottom: 25px;
-            color: #e0e0e0; /* Off-white text */
-            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
-        }
-
-        .message-box button {
-            background-color: #cc0000; /* Red button */
-            color: #ffffff; /* White text */
-            border: none;
-            padding: 10px 20px;
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        .message-box button:hover {
-            background-color: #a30000; /* Darker red on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .main-container {
-                padding: 30px 20px;
-            }
-        }
-    </style>
+    <title>Al Hossain Rifat - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="https://placehold.co/32x32/B8860B/fff?text=AR" type="image/png">
 </head>
 <body>
+    <main class="portfolio-container">
+        <section class="profile-section">
+            <img src="https://cdn.prod.website-files.com/62bdc93e9cccfb43e155104c/654e8c52bd1963900334f10d_63ccd8001a2c84d7bf720bda_Aesthetic%2520Cartoon%2520GIF%2520PFP%2520for%2520Tiktok%25201.gif" alt="Al Hossain Rifat Profile Photo" class="profile-photo">
+            <h1 class="name">Al Hossain Rifat</h1>
+            <p class="bio"></p>
+        </section>
 
-    <div class="main-container">
-        <h1 id="main-title"></h1>
-        <p id="intro-text"></p>
-        <!-- Removed the "Explore My Work" button as requested -->
-    </div>
+        <section class="tab-system">
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="socials">Socials</button>
+                <button class="tab-button" data-tab="misc">Misc</button>
+            </div>
 
-    <script>
-        // Get elements for typing effect
-        const mainTitle = document.getElementById('main-title');
-        const introText = document.getElementById('intro-text');
-        // exploreButton is no longer needed as the button is removed
-        // const exploreButton = document.getElementById('explore-button');
+            <div id="socials" class="tab-content active scrollable-content">
+                <!-- Updated Facebook link and username -->
+                <a href="https://www.facebook.com/alhossainrifat0" target="_blank" class="social-entry">
+                    <i class="fab fa-facebook-f social-icon facebook-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Facebook</span>
+                        <span class="social-username">alhossainrifat0</span>
+                    </div>
+                </a>
+                <!-- Updated YouTube link and username -->
+                <a href="https://www.youtube.com/@exploriot" target="_blank" class="social-entry">
+                    <i class="fab fa-youtube social-icon youtube-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">YouTube</span>
+                        <span class="social-username">@exploriot</span>
+                    </div>
+                </a>
+                <!-- Updated Instagram link and username -->
+                <a href="https://www.instagram.com/exploriot_" target="_blank" class="social-entry">
+                    <i class="fab fa-instagram social-icon instagram-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Instagram</span>
+                        <span class="social-username">@exploriot</span>
+                    </div>
+                </a>
+                <!-- Updated LinkedIn link and username -->
+                <a href="https://www.linkedin.com/in/rifat56" target="_blank" class="social-entry">
+                    <i class="fab fa-linkedin-in social-icon linkedin-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">LinkedIn</span>
+                        <span class="social-username">Al Hossain Rifat</span>
+                    </div>
+                </a>
+                <!-- Updated X (Twitter) link and username -->
+                <a href="https://x.com/exploriot" target="_blank" class="social-entry">
+                    <i class="fab fa-twitter social-icon x-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">X (Twitter)</span>
+                        <span class="social-username">@exploriot</span>
+                    </div>
+                </a>
+                <!-- Added Spotify button -->
+                <a href="https://open.spotify.com/user/31kdbdkekhjdnlpryajwziibqzey?si=7c7286bbf44c4e22" target="_blank" class="social-entry">
+                    <i class="fab fa-spotify social-icon spotify-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Spotify</span>
+                        <span class="social-username">exploriot</span>
+                    </div>
+                    </a>
+                <!-- WhatsApp link -->
+                <a href="https://wa.me/01773185817" target="_blank" class="social-entry">
+                    <i class="fab fa-whatsapp social-icon whatsapp-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">WhatsApp</span>
+                        <span class="social-username">Direct Message</span>
+                    </div>
+                </a>
+                <!-- Phone link -->
+                <a href="tel:01773185817" class="social-entry">
+                    <i class="fas fa-phone social-icon phone-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Phone</span>
+                        <span class="social-username">Call Me</span>
+                    </div>
+                </a>
+            </div>
 
-        // Text content for typing effect
-        const titleContent = "Welcome to SAHRFA.TOP";
-        const introContent = "This is a curated space showcasing my projects and professional insights. Discover my latest work and ongoing developments.";
+            <div id="misc" class="tab-content scrollable-content">
+                <!-- Projects button (this remains a link as it has a valid href) -->
+                <a href="https://your-projects-website.com" target="_blank" class="game-entry">
+                    <i class="fas fa-folder-open game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Projects</span>
+                        <span class="game-ign">Explore My Work</span>
+                        <span class="game-uid">Click to Visit</span>
+                    </div>
+                </a>
+                <!-- PUBG Mobile -->
+                <div class="game-entry">
+                    <i class="fas fa-bullseye game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">PUBG Mobile</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="5393243034">UID: 5393243034</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Call of Duty: Mobile -->
+                <div class="game-entry">
+                    <i class="fas fa-gun game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Call of Duty: Mobile</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="6753982261215363073">UID: 6753982261215363073</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Clash of Clans - Now a link with updated info -->
+                <a href="https://link.clashofclans.com/en?action=OpenClanProfile&tag=2QPYUVLU9" target="_blank" class="game-entry">
+                    <i class="fas fa-shield-alt game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Clash of Clans</span>
+                        <span class="game-ign">IGN: ExploRiot</span>
+                        <span class="game-uid" data-uid="#LUG9Y80VQ">Player Tag: #LUG9Y80VQ</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
+                </a>
+                <!-- Garena Free Fire -->
+                <div class="game-entry">
+                    <i class="fas fa-fire game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Garena Free Fire</span>
+                        <span class="game-ign">IGN: exploriot.gg</span>
+                        <span class="game-uid" data-uid="3843359330">UID: 3843359330</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Blood Strike -->
+                <div class="game-entry">
+                    <i class="fas fa-tint game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Blood Strike</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="586020437072">UID: 586020437072</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Clash Royale -->
+                <div class="game-entry">
+                    <i class="fas fa-crown game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Clash Royale</span>
+                        <span class="game-ign">IGN: ExploRiot</span>
+                        <span class="game-uid" data-uid="#CYRPL9YJU">Player Tag: #CYRPL9YJU</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
+                </div>
+                <!-- Mobile Legends: Bang Bang -->
+                <div class="game-entry">
+                    <i class="fas fa-swords game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Mobile Legends: Bang Bang</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="666777855 (8649)">UID: 666777855 (8649)</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+            </div>
+        </section>
+    </main>
 
-        let titleIndex = 0;
-        let introIndex = 0;
-
-        // Function to simulate typing effect
-        function typeWriter(element, text, index, callback) {
-            if (index < text.length) {
-                element.innerHTML += text.charAt(index);
-                index++;
-                // Removed blinking cursor at the end of the current text
-                setTimeout(() => {
-                    typeWriter(element, text, index, callback);
-                }, 40); // Typing speed
-            } else {
-                if (callback) {
-                    callback();
-                }
-            }
-        }
-
-        // Function to show a custom message box (not used by default now, but kept for future use if needed)
-        function showMessageBox(title, message) {
-            const overlay = document.createElement('div');
-            overlay.className = 'message-box-overlay';
-            overlay.classList.add('visible'); // Make overlay visible
-
-            const messageBox = document.createElement('div');
-            messageBox.className = 'message-box';
-
-            const titleElement = document.createElement('h3');
-            titleElement.textContent = title;
-
-            const messageElement = document.createElement('p');
-            messageElement.textContent = message;
-
-            const closeButton = document.createElement('button');
-            closeButton.textContent = "Close";
-            closeButton.onclick = () => {
-                overlay.classList.remove('visible'); // Hide overlay
-                setTimeout(() => document.body.removeChild(overlay), 300); // Remove after transition
-            };
-
-            messageBox.appendChild(titleElement);
-            messageBox.appendChild(messageElement);
-            messageBox.appendChild(closeButton);
-            overlay.appendChild(messageBox);
-            document.body.appendChild(overlay);
-        }
-
-        // Event listener for the button - REMOVED as button is removed
-        /*
-        exploreButton.addEventListener('click', () => {
-            showMessageBox("Navigation", "Thank you for your interest. This button will soon lead to a comprehensive overview of my projects.");
-            // In a real scenario, you would redirect to a projects page here:
-            // window.location.href = "/your-projects-page";
-        });
-        */
-
-        // Start typing effect on window load
-        window.onload = function() {
-            typeWriter(mainTitle, titleContent, titleIndex, () => {
-                // After title is typed, start typing intro text
-                typeWriter(introText, introContent, introIndex);
-            });
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
