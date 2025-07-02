@@ -86,13 +86,37 @@
             margin-bottom: 20px;
         }
         
+        /* Bulk Actions Buttons */
+        .bulk-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+        .bulk-actions button {
+            background-color: #E91E63; /* Pink color for buttons */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em; /* Slightly smaller text for buttons */
+            transition: background-color 0.2s ease;
+        }
+        .bulk-actions button:hover {
+            background-color: #C2185B; /* Darker pink on hover */
+        }
+
         .transaction-list {
             list-style: none;
             padding: 0;
         }
         .transaction-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Align items to the top to accommodate notes */
             padding: 10px 0;
             border-bottom: 1px solid #444; /* Darker border for dark theme */
         }
@@ -100,6 +124,7 @@
             border-bottom: none;
         }
         .transaction-item input[type="checkbox"] {
+            margin-top: 8px; /* Adjust vertical alignment with text */
             margin-right: 15px;
             transform: scale(1.2);
             cursor: pointer;
@@ -107,10 +132,30 @@
         }
         .transaction-details {
             flex-grow: 1;
+            display: flex; /* Use flexbox for spacing elements within details */
+            flex-direction: column;
+            gap: 2px; /* Small gap between description, note, and date */
         }
         .transaction-details .desc {
             font-weight: bold;
             color: #eee;
+        }
+        .transaction-details .transaction-note {
+            width: 100%; /* Make note fill available width */
+            padding: 4px 6px; /* Reduced padding for more compact look */
+            background-color: #444; /* Darker background for note */
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #eee;
+            font-size: 0.9em;
+            resize: none; /* Disable manual resizing for cleaner auto-resize */
+            box-sizing: border-box; /* Include padding/border in width */
+            overflow: hidden; /* Hide scrollbar for auto-resize */
+            min-height: 25px; /* Minimum height for an empty note */
+            line-height: 1.3; /* Adjust line height for text fitting */
+        }
+        .transaction-details .transaction-note::placeholder {
+            color: #bbb;
         }
         .transaction-details .date {
             font-size: 0.9em;
@@ -147,6 +192,11 @@
 
     <div class="container">
         <h1>Transaction History</h1>
+        <div class="bulk-actions">
+            <button id="checkAllIncome">Check All Income</button>
+            <button id="checkAllExpense">Check All Expense</button>
+            <button id="uncheckAll">Uncheck All</button>
+        </div>
         <ul id="transactionList" class="transaction-list">
             </ul>
     </div>
@@ -154,44 +204,86 @@
     <script>
         const initialBalance = 0; // Starting balance is ৳0
         
-        // Transaction data
-        const transactions = [
-            { id: 1, type: 'income', description: 'Received Money (bks)', amount: 9000, date: 'June 7, 2025 06:31 PM', checked: false },
-            { id: 2, type: 'income', description: 'Cash In (01876257155)', amount: 1000, date: 'June 8, 2025 12:04 AM', checked: false },
-            { id: 3, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 10, date: 'June 12, 2025 09:06 AM', checked: false },
-            { id: 4, type: 'income', description: 'Mobile Recharge Reversal (Rifat Bks)', amount: 10, date: 'June 12, 2025 09:06 AM', checked: false },
-            { id: 5, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 20, date: 'June 12, 2025 09:07 AM', checked: false },
-            { id: 6, type: 'expense', description: 'Make Payment (Star Tech - Online)', amount: 100, date: 'June 12, 2025 07:39 PM', checked: false },
-            { id: 7, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'June 14, 2025 07:02 PM', checked: false },
-            { id: 8, type: 'expense', description: 'Mobile Recharge (Ammu)', amount: 250, date: 'June 14, 2025 07:30 PM', checked: false },
-            { id: 9, type: 'expense', description: 'Send Money (Sazzad Vai)', amount: 4000, date: 'June 15, 2025 08:30 PM', checked: false },
-            { id: 10, type: 'expense', description: 'Cash Out (M/S Nurjahan Traders)', amount: 500, date: 'June 15, 2025 05:41 PM', checked: false },
-            { id: 11, type: 'expense', description: 'Send Money (01878231295)', amount: 233, date: 'June 17, 2025 11:04 AM', checked: false },
-            { id: 12, type: 'income', description: 'Cash In (01306070770)', amount: 5000, date: 'June 18, 2025 06:17 PM', checked: false },
-            { id: 13, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'June 18, 2025 09:50 PM', checked: false },
-            { id: 14, type: 'expense', description: 'Send Money (01751650670)', amount: 1527.75, date: 'June 19, 2025 04:42 PM', checked: false },
-            { id: 15, type: 'expense', description: 'Mobile Recharge (Toxi Teletalk)', amount: 25, date: 'June 20, 2025 02:04 PM', checked: false },
-            { id: 16, type: 'expense', description: 'Make Payment (SSLCOMMERZ)', amount: 300, date: 'June 22, 2025 01:20 PM', checked: false },
-            { id: 17, type: 'income', description: 'Received Money (bks)', amount: 4000, date: 'June 23, 2025 06:30 PM', checked: false },
-            { id: 18, type: 'income', description: 'Remittance Received (PBLTTSREM)', amount: 389.50, date: 'June 23, 2025 04:52 PM', checked: false },
-            { id: 19, type: 'expense', description: 'Send Money (0160941412)', amount: 400, date: 'June 23, 2025 07:51 PM', checked: false },
-            { id: 20, type: 'income', description: 'Remittance Received (PBLTTSREM)', amount: 79.95, date: 'June 23, 2025 07:46 PM', checked: false },
-            { id: 21, type: 'expense', description: 'Send Money (bks)', amount: 500, date: 'June 24, 2025 05:09 PM', checked: false },
-            { id: 22, type: 'income', description: 'Received Money (bks)', amount: 800, date: 'June 25, 2025 01:43 PM', checked: false },
-            { id: 23, type: 'expense', description: 'Cash Out (HTM Cosmetics)', amount: 100, date: 'June 25, 2025 08:33 PM', checked: false },
-            { id: 24, type: 'expense', description: 'Mobile Recharge (Abbu)', amount: 260, date: 'June 26, 2025 12:59 PM', checked: false },
-            { id: 25, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 100, date: 'June 29, 2025 07:18 PM', checked: false },
-            { id: 26, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 50, date: 'June 29, 2025 07:26 PM', checked: false },
-            { id: 27, type: 'expense', description: 'Send Money (bks)', amount: 400, date: 'June 30, 2025 12:20 PM', checked: false },
-            { id: 28, type: 'expense', description: 'Send Money (Abbu)', amount: 1000, date: 'June 30, 2025 02:16 PM', checked: false },
-            { id: 29, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'July 2, 2025 12:19 PM', checked: false },
-            { id: 30, type: 'expense', description: 'Make Payment (Osudpotro.com)', amount: 426.50, date: 'July 2, 2025 10:58 PM', checked: false }
+        // Default Transaction data with added 'note' property
+        let defaultTransactions = [
+            { id: 1, type: 'income', description: 'Received Money (bks)', amount: 9000, date: 'June 7, 2025 06:31 PM', checked: false, note: '' },
+            { id: 2, type: 'income', description: 'Cash In (01876257155)', amount: 1000, date: 'June 8, 2025 12:04 AM', checked: false, note: '' },
+            { id: 3, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 10, date: 'June 12, 2025 09:06 AM', checked: false, note: '' },
+            { id: 4, type: 'income', description: 'Mobile Recharge Reversal (Rifat Bks)', amount: 10, date: 'June 12, 2025 09:06 AM', checked: false, note: '' },
+            { id: 5, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 20, date: 'June 12, 2025 09:07 AM', checked: false, note: '' },
+            { id: 6, type: 'expense', description: 'Make Payment (Star Tech - Online)', amount: 100, date: 'June 12, 2025 07:39 PM', checked: false, note: '' },
+            { id: 7, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'June 14, 2025 07:02 PM', checked: false, note: '' },
+            { id: 8, type: 'expense', description: 'Mobile Recharge (Ammu)', amount: 250, date: 'June 14, 2025 07:30 PM', checked: false, note: '' },
+            { id: 9, type: 'expense', description: 'Send Money (Sazzad Vai)', amount: 4000, date: 'June 15, 2025 08:30 PM', checked: false, note: '' },
+            { id: 10, type: 'expense', description: 'Cash Out (M/S Nurjahan Traders)', amount: 500, date: 'June 15, 2025 05:41 PM', checked: false, note: '' },
+            { id: 11, type: 'expense', description: 'Send Money (01878231295)', amount: 233, date: 'June 17, 2025 11:04 AM', checked: false, note: '' },
+            { id: 12, type: 'income', description: 'Cash In (01306070770)', amount: 5000, date: 'June 18, 2025 06:17 PM', checked: false, note: '' },
+            { id: 13, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'June 18, 2025 09:50 PM', checked: false, note: '' },
+            { id: 14, type: 'expense', description: 'Send Money (01751650670)', amount: 1527.75, date: 'June 19, 2025 04:42 PM', checked: false, note: '' },
+            { id: 15, type: 'expense', description: 'Mobile Recharge (Toxi Teletalk)', amount: 25, date: 'June 20, 2025 02:04 PM', checked: false, note: '' },
+            { id: 16, type: 'expense', description: 'Make Payment (SSLCOMMERZ)', amount: 300, date: 'June 22, 2025 01:20 PM', checked: false, note: '' },
+            { id: 17, type: 'income', description: 'Received Money (bks)', amount: 4000, date: 'June 23, 2025 06:30 PM', checked: false, note: '' },
+            { id: 18, type: 'income', description: 'Remittance Received (PBLTTSREM)', amount: 389.50, date: 'June 23, 2025 04:52 PM', checked: false, note: '' },
+            { id: 19, type: 'expense', description: 'Send Money (0160941412)', amount: 400, date: 'June 23, 2025 07:51 PM', checked: false, note: '' },
+            { id: 20, type: 'income', description: 'Remittance Received (PBLTTSREM)', amount: 79.95, date: 'June 23, 2025 07:46 PM', checked: false, note: '' },
+            { id: 21, type: 'expense', description: 'Send Money (bks)', amount: 500, date: 'June 24, 2025 05:09 PM', checked: false, note: '' },
+            { id: 22, type: 'income', description: 'Received Money (bks)', amount: 800, date: 'June 25, 2025 01:43 PM', checked: false, note: '' },
+            { id: 23, type: 'expense', description: 'Cash Out (HTM Cosmetics)', amount: 100, date: 'June 25, 2025 08:33 PM', checked: false, note: '' },
+            { id: 24, type: 'expense', description: 'Mobile Recharge (Abbu)', amount: 260, date: 'June 26, 2025 12:59 PM', checked: false, note: '' },
+            { id: 25, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 100, date: 'June 29, 2025 07:18 PM', checked: false, note: '' },
+            { id: 26, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 50, date: 'June 29, 2025 07:26 PM', checked: false, note: '' },
+            { id: 27, type: 'expense', description: 'Send Money (bks)', amount: 400, date: 'June 30, 2025 12:20 PM', checked: false, note: '' },
+            { id: 28, type: 'expense', description: 'Send Money (Abbu)', amount: 1000, date: 'June 30, 2025 02:16 PM', checked: false, note: '' },
+            { id: 29, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'July 2, 2025 12:19 PM', checked: false, note: '' },
+            { id: 30, type: 'expense', description: 'Make Payment (Osudpotro.com)', amount: 426.50, date: 'July 2, 2025 10:58 PM', checked: false, note: '' }
         ];
+
+        let transactions = []; // This will hold the actual data, loaded from localStorage or default
 
         const transactionListElem = document.getElementById('transactionList');
         const balanceDisplayElem = document.getElementById('currentBalance');
         const totalIncomeElem = document.getElementById('totalIncome');
         const totalExpenseElem = document.getElementById('totalExpense');
+        const checkAllIncomeBtn = document.getElementById('checkAllIncome');
+        const checkAllExpenseBtn = document.getElementById('checkAllExpense');
+        const uncheckAllBtn = document.getElementById('uncheckAll'); // New button reference
+
+        // Auto-resize function for the textarea (defined once)
+        function autoResizeNote(element) {
+            element.style.height = 'auto'; // Reset height
+            element.style.height = (element.scrollHeight) + 'px'; // Set to scroll height
+        }
+
+        // Function to load transactions from Local Storage or use defaults
+        function loadTransactionsData() {
+            const storedData = localStorage.getItem('transactionsData');
+            if (storedData) {
+                const loadedTransactions = JSON.parse(storedData);
+                // Merge loaded data with default transactions:
+                // Prioritize loaded data for existing IDs, and add new default transactions
+                const mergedTransactions = defaultTransactions.map(defaultTx => {
+                    const loadedTx = loadedTransactions.find(ltx => ltx.id === defaultTx.id);
+                    // If loadedTx exists, use its checked and note state, otherwise use default's
+                    return loadedTx ? { ...defaultTx, checked: loadedTx.checked, note: loadedTx.note || '' } : defaultTx;
+                });
+
+                // Add any transactions that exist in localStorage but not in defaultTransactions (e.g., if deleted from default list later)
+                loadedTransactions.forEach(loadedTx => {
+                    if (!mergedTransactions.some(mtx => mtx.id === loadedTx.id)) {
+                        mergedTransactions.push(loadedTx);
+                    }
+                });
+                transactions = mergedTransactions;
+            } else {
+                // If no stored data, initialize with the default transactions
+                transactions = defaultTransactions;
+            }
+        }
+
+        // Function to save transactions to Local Storage
+        function saveTransactions() {
+            localStorage.setItem('transactionsData', JSON.stringify(transactions));
+        }
 
         // Function to update all balances based on checked transactions
         function updateBalances() {
@@ -233,16 +325,41 @@
                     const changedTransaction = transactions.find(t => t.id === id);
                     if (changedTransaction) {
                         changedTransaction.checked = event.target.checked;
+                        saveTransactions(); // Save checked state
                         updateBalances(); // Call the unified update function
                     }
                 });
 
                 const detailsDiv = document.createElement('div');
                 detailsDiv.classList.add('transaction-details');
-                detailsDiv.innerHTML = `
-                    <div class="desc">${transaction.description}</div>
-                    <div class="date">${transaction.date}</div>
-                `;
+
+                const descDiv = document.createElement('div');
+                descDiv.classList.add('desc');
+                descDiv.textContent = transaction.description;
+
+                const noteTextarea = document.createElement('textarea'); // Textarea for notes
+                noteTextarea.classList.add('transaction-note');
+                noteTextarea.placeholder = 'Add a note...';
+                noteTextarea.value = transaction.note || ''; // Set existing note or empty string
+                noteTextarea.dataset.id = transaction.id; // Link to transaction ID
+
+                noteTextarea.addEventListener('input', (event) => { // Use 'input' for live updates while typing
+                    const id = parseInt(event.target.dataset.id);
+                    const changedTransaction = transactions.find(t => t.id === id);
+                    if (changedTransaction) {
+                        changedTransaction.note = event.target.value;
+                        saveTransactions(); // Save immediately on input
+                    }
+                    autoResizeNote(event.target); // Call auto-resize on input
+                });
+
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('date');
+                dateDiv.textContent = transaction.date;
+
+                detailsDiv.appendChild(descDiv);
+                detailsDiv.appendChild(noteTextarea); // Add note textarea
+                detailsDiv.appendChild(dateDiv);
 
                 const amountSpan = document.createElement('span');
                 amountSpan.classList.add('transaction-amount');
@@ -253,13 +370,52 @@
                 listItem.appendChild(amountSpan);
 
                 transactionListElem.appendChild(listItem);
+
+                // Important: Call auto-resize after the textarea is in the DOM
+                autoResizeNote(noteTextarea);
             });
         }
 
-        // Initial rendering and balance update when the page loads
+        // Event listener for Check All Income button
+        checkAllIncomeBtn.addEventListener('click', () => {
+            transactions.forEach(tx => {
+                if (tx.type === 'income') {
+                    tx.checked = true;
+                }
+            });
+            renderTransactions(); // Re-render to update checkboxes and notes
+            updateBalances(); // Update balance
+            saveTransactions(); // Save state to local storage
+        });
+
+        // Event listener for Check All Expense button
+        checkAllExpenseBtn.addEventListener('click', () => {
+            transactions.forEach(tx => {
+                if (tx.type === 'expense') {
+                    tx.checked = true;
+                }
+            });
+            renderTransactions(); // Re-render to update checkboxes and notes
+            updateBalances(); // Update balance
+            saveTransactions(); // Save state to local storage
+        });
+
+        // Event listener for Uncheck All button
+        uncheckAllBtn.addEventListener('click', () => {
+            transactions.forEach(tx => {
+                tx.checked = false; // Set all to unchecked
+            });
+            renderTransactions(); // Re-render to update checkboxes and notes
+            updateBalances(); // Update balance
+            saveTransactions(); // Save state to local storage
+        });
+
+
+        // Initial loading and rendering when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            renderTransactions();
-            updateBalances(); // This will show ৳0.00 for all initially as no checkboxes are checked
+            loadTransactionsData(); // Load data first
+            renderTransactions(); // Then render based on loaded data
+            updateBalances(); // And finally update balances
         });
     </script>
 </body>
