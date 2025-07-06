@@ -6,6 +6,7 @@
     <title>Application Development Using Java Short suggestion - Softmax Online School</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             background-color: #1a202c; /* Dark background for the whole page */
@@ -127,6 +128,151 @@
             z-index: 1000;
         }
 
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #66FCF1; /* Cyan for code text */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+
         @media (max-width: 768px) {
             body {
                 padding-bottom: 35px;
@@ -223,56 +369,318 @@
         Made By Al Hossain Rifat
     </footer>
 
+    <!-- AI Answer Modal (from index.html) -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Your API key (from index.html)
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ";
+
         // Define the questions categorized
+        // Star ratings are no longer used for display or prompt logic, only for initial categorization.
         const questions = {
             "very-short": [
-                "১। অবজেক্ট বলতে কী বুঝায়?",
-                "২। মেথড কাকে বলে?",
-                "৩। ক্লাস বলতে কী বুঝায়?",
-                "৪। জাভায় ক্লাস ডিক্লারেশনের ফরমেট দেখাও?",
-                "৫। মেথড ওভারলোডিং কী?",
-                "৬। ওভারলোডিং কনস্ট্রাক্টর ও কপি কনস্ট্রাক্টর কাকে বলে?",
-                "৭। গারবেজ কালেকশন বলতে কী বুঝায়?",
-                "৮। ওভাররিডেন ও ওভাররাইডিং মেথড বলতে কী বুঝায়?",
-                "৯। মাল্টিলেভেল ইনহেরিট্যান্স কাকে বলে?",
-                "১০। সাব ক্লাস ও সুপার বলতে কি বুঝায়?",
-                "১১। ক্যারেক্টার বলতে কী বুঝায়?",
-                "১২। স্ট্রিং কী?",
-                "১৩। এক্সেপশন হ্যান্ডলিং কি?",
-                "১৪। এক্সপশন কী? কী কী কারনে হতে পারে?"
+                { text: "১। অবজেক্ট বলতে কী বুঝায়?" },
+                { text: "২। মেথড কাকে বলে?" },
+                { text: "৩। ক্লাস বলতে কী বুঝায়?" },
+                { text: "৪। জাভায় ক্লাস ডিক্লারেশনের ফরমেট দেখাও?" },
+                { text: "৫। মেথড ওভারলোডিং কী?" },
+                { text: "৬। ওভারলোডিং কনস্ট্রাক্টর ও কপি কনস্ট্রাক্টর কাকে বলে?" },
+                { text: "৭। গারবেজ কালেকশন বলতে কী বুঝায়?" },
+                { text: "৮। ওভাররিডেন ও ওভাররাইডিং মেথড বলতে কী বুঝায়?" },
+                { text: "৯। মাল্টিলেভেল ইনহেরিট্যান্স কাকে বলে?" },
+                { text: "১০। সাব ক্লাস ও সুপার বলতে কি বুঝায়?" },
+                { text: "১১। ক্যারেক্টার বলতে কী বুঝায়?" },
+                { text: "১২। স্ট্রিং কী?" },
+                { text: "১৩। এক্সেপশন হ্যান্ডলিং কি?" },
+                { text: "১৪। এক্সপশন কী? কী কী কারনে হতে পারে?" }
             ],
             "short": [
-                "১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?",
-                "২। ক্লাস ও অবজেক্টে এর মধ্যে পার্থক্য লেখ?",
-                "৩। কনস্ট্রাক্টর মেথডের বৈশিষ্টগুলো উল্লেখ কর?",
-                "৪। ওভারলোডেড মেথড ও ওভারriডেন মেথড মধ্যে পার্থক্য লেখ?",
-                "৫। মাল্টিলেvel ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?",
-                "৬। হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?",
-                "৭। স্ট্রিং এবং বাফারের মধ্যে পার্থক্য লেখ?",
-                "৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?",
-                "৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?"
+                { text: "১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?" },
+                { text: "২। ক্লাস ও অবজেক্টে এর মধ্যে পার্থক্য লেখ?" },
+                { text: "৩। কনস্ট্রাক্টর মেথডের বৈশিষ্টগুলো উল্লেখ কর?" },
+                { text: "৪। ওভারলোডেড মেথড ও ওভারriডেন মেথড মধ্যে পার্থক্য লেখ?" },
+                { text: "৫। মাল্টিলেvel ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?" },
+                { text: "৬। হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?" },
+                { text: "৭। স্ট্রিং এবং বাফারের মধ্যে পার্থক্য লেখ?" },
+                { text: "৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?" },
+                { text: "৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?" }
             ],
             "essay": [
-                "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?",
-                "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?",
-                "৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?",
-                "৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?",
-                "৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?",
-                "৬। OOP এর হিসাবে জাভার মূল স্তম্ভগুলো বর্ণন কর?",
-                "৭। উদাহরণসহ জাভা এক্সেপশন হ্যান্ডলিং এপ্রোচ বর্ণনা কর?"
+                { text: "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "৬। OOP এর হিসাবে জাভার মূল স্তম্ভগুলো বর্ণন কর?" },
+                { text: "৭। উদাহরণসহ জাভা এক্সেপশন হ্যান্ডলিং এপ্রোচ বর্ণনা কর?" }
             ]
         };
+
+        // AI Modal elements
+        const aiAnswerModal = document.getElementById('aiAnswerModal');
+        const aiModalCloseButton = document.getElementById('aiModalCloseButton');
+        const modalQuestionText = document.getElementById('modalQuestionText');
+        const modalAnswerContent = document.getElementById('modalAnswerContent');
+        const modalAnswerParts = document.getElementById('modalAnswerParts');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
+
+        // Function to copy text to clipboard for individual question (from index.html)
+        window.copyQuestionText = (button) => {
+            const questionTextElement = button.closest('.question-item').querySelector('.flex-1');
+            const textToCopy = questionTextElement.textContent.trim();
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        // Function to generate answer using Gemini API
+        async function generateAnswer(question, questionCategory) {
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear previous answer parts
+
+            // Determine question type for prompt based on category
+            let questionTypeForPrompt;
+            let answerLengthDescription;
+            if (questionCategory === 'very-short') {
+                questionTypeForPrompt = 'অতি সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'সংক্ষিপ্ত, ১-২ লাইনের মধ্যে।'; // Super short
+            } else if (questionCategory === 'short') {
+                questionTypeForPrompt = 'সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'মাঝারি, ৩-৬ লাইনের মধ্যে (প্রায়)。'; // Medium
+            } else if (questionCategory === 'essay') {
+                questionTypeForPrompt = 'রচনামূলক প্রশ্ন';
+                answerLengthDescription = 'বিস্তারিত এবং পয়েন্টভিত্তিক, যথেষ্ট লম্বা হতে হবে।'; // Big
+            } else {
+                questionTypeForPrompt = 'সাধারণ প্রশ্ন';
+                answerLengthDescription = 'যথাযথ দৈর্ঘ্যের হবে।';
+            }
+
+            const prompt = `
+                তুমি আমার একজন বন্ধুত্বপূর্ণ স্টাডি অ্যাসিস্ট্যান্ট হিসেবে কাজ করবে।
+                আমি বাংলাদেশের একজন ডিপ্লোমা ইন ইঞ্জিনিয়ারিং (কম্পিউটার সায়েন্স এন্ড টেকনোলজি) এর ছাত্র, পরীক্ষার জন্য প্রস্তুতি নিচ্ছি।
+                আমার সাথে সহজ, লোকাল, ইনফরমাল বাংলা ভাষায় কথা বলবে।
+                আমার হাতে বেশি সময় নেই সো যত সম্ভব সহজ করে উত্তর দেবে এবং নিশ্চিত করবে উত্তরগুলো অনেক সহজ হয়।
+
+                আমি তোমাকে একটি পরীক্ষার প্রশ্ন দেবো। তোমাকে সেই প্রশ্নটির বিস্তারিত উত্তর তৈরি করতে হবে।
+                প্রশ্নের ধরন: ${questionTypeForPrompt}
+                
+                উত্তরের গঠন (Answer Structure - 3 Parts):
+                প্রতিটি প্রশ্নের উত্তরের ৩টি অংশ থাকবে। তুমি এমনভাবে উত্তর সাজাবে যাতে ধাপে ধাপে প্রশ্নটি বোঝা যায়।
+                প্রথমে "পার্ট ৩: একদম সহজ ব্যাখ্যা" দেবে, তারপর "পার্ট ২: সহজ ভাষায় ব্যাখ্যা" দেবে এবং শেষে "পার্ট ১: পরীক্ষায় লেখার জন্য" অংশটি লিখবে।
+
+                পার্ট ৩ (একদম সহজ ব্যাখ্যা):
+                উত্তরটা এমন সহজ ভাষায় আর উদাহরণ দিয়ে বোঝাতে হবে যেন ক্লাস ২ এর একটা বাচ্চাও বুঝতে পারে। টেকনিক্যাল শব্দ ব্যবহার করা যাবে না। উদাহরণস্বরূপ: তুমি আর ফারজানা যখন খেলনা দিয়ে খেলো, তখন কী হয়? অথবা রিফাত, তুমি আর তোমার বন্ধু ফারজানা মিলে নতুন কিছু বানানোর চেষ্টা করছো, তখন সেটা কীভাবে হয়?
+
+                পার্ট ২ (সহজ ভাষায় ব্যাখ্যা):
+                পার্ট ৩-এর ব্যাখ্যাকে ভিত্তি করে একদম সহজ, ঘরোয়া বাংলা ভাষায় উদাহরণ দিয়ে উত্তরটা বুঝিয়ে বলবে। এখানে কিছুটা ইনফরমাল হওয়া যাবে। উদাহরণস্বরূপ: ধরো, রিফাত আর ফারজানা মিলে একটা প্রজেক্ট করছে, তখন কী হয়?
+
+                পার্ট ১ (পরীক্ষায় লেখার জন্য):
+                ভাষা: খুবই সহজবোধ্য, চলিত কিন্তু ফরমাল বাংলা ভাষায় লিখতে হবে। শব্দচয়ন এমন হবে যেন সবাই সহজে বুঝতে পারে, মনে রাখতে সুবিধা হয় এবং পরীক্ষার খাতায় লেখার জন্যও উপযুক্ত হয়। কঠিন বা অপ্রচলিত শব্দ ব্যবহার করা যাবে না।
+                দৈর্ঘ্য: প্রশ্নের ধরন অনুযায়ী হবে:
+                যদি প্রশ্নটি '${questionTypeForPrompt}' হয়: ${answerLengthDescription}
+                উত্তরের সাইজ যেন ঠিক থাকে।
+
+                দয়া করে উত্তর দেওয়ার সময় এই ফরম্যাট কঠোরভাবে অনুসরণ করো:
+                পার্ট ৩: [একদম সহজ ব্যাখ্যা]
+                পার্ট ২: [সহজ ভাষায় ব্যাখ্যা]
+                পার্ট ১: [পরীক্ষায় লেখার জন্য উত্তর]
+
+                প্রশ্ন: "${question}"
+            `;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    let rawAnswer = result.candidates[0].content.parts[0].text;
+                    
+                    // Replace Markdown bolding (**) with HTML strong tags
+                    rawAnswer = rawAnswer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    // Replace Markdown list items (*) with HTML list items if they are at the beginning of a line
+                    rawAnswer = rawAnswer.replace(/^\* (.*)/gm, '<li>$1</li>');
+
+                    // Split the rawAnswer into sections based on your defined headers
+                    const sections = rawAnswer.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)([\s\S]*?)(?=(পার্ট ৩:|পার্ট ২:|পার্ট ১:|$))/g);
+
+                    modalAnswerParts.innerHTML = ''; // Clear existing content
+
+                    if (sections) {
+                        sections.forEach(section => {
+                            const headerMatch = section.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)/);
+                            if (headerMatch) {
+                                const header = headerMatch[0].trim();
+                                const content = section.substring(header.length).trim();
+
+                                let headingText;
+                                if (header === 'পার্ট ৩:') {
+                                    headingText = 'পার্ট ৩: একদম সহজ ব্যাখ্যা';
+                                } else if (header === 'পার্ট ২:') {
+                                    headingText = 'পার্ট ২: সহজ ভাষায় ব্যাখ্যা';
+                                } else if (header === 'পার্ট ১:') {
+                                    headingText = 'পার্ট ১: পরীক্ষায় লেখার জন্য';
+                                }
+
+                                const partDiv = document.createElement('div');
+                                partDiv.classList.add('ai-answer-part');
+                                partDiv.innerHTML = `<h4 class="answer-part-heading">${headingText}</h4>`;
+                                
+                                // Check for code blocks (```java or ```)
+                                const codeBlockRegex = /```(?:java)?\s*([\s\S]*?)```/g;
+                                let lastIndex = 0;
+                                let match;
+                                
+                                // Process parts that are not code
+                                while ((match = codeBlockRegex.exec(content)) !== null) {
+                                    // Add text before the code block
+                                    if (match.index > lastIndex) {
+                                        const textBefore = content.substring(lastIndex, match.index);
+                                        const p = document.createElement('p');
+                                        p.classList.add('answer-content-text');
+                                        p.innerHTML = textBefore; // Use innerHTML to render bold/list
+                                        partDiv.appendChild(p);
+                                    }
+
+                                    // Add the code block
+                                    const pre = document.createElement('pre');
+                                    pre.classList.add('answer-content-text'); // Apply common text style too
+                                    pre.textContent = match[1].trim(); // Extract content inside ```
+                                    partDiv.appendChild(pre);
+                                    lastIndex = codeBlockRegex.lastIndex;
+                                }
+
+                                // Add any remaining text after the last code block
+                                if (lastIndex < content.length) {
+                                    const remainingText = content.substring(lastIndex);
+                                    const p = document.createElement('p');
+                                    p.classList.add('answer-content-text');
+                                    p.innerHTML = remainingText; // Use innerHTML to render bold/list
+                                    partDiv.appendChild(p);
+                                }
+
+                                // If no code blocks and no lists, just add as a paragraph
+                                if (lastIndex === 0 && !codeBlockRegex.test(content) && !/^\s*<li>/.test(content)) {
+                                    const p = document.createElement('p');
+                                    p.classList.add('answer-content-text');
+                                    p.innerHTML = content; // Use innerHTML to render bold/list
+                                    partDiv.appendChild(p);
+                                } else if (lastIndex === 0 && /^\s*<li>/.test(content)) {
+                                    // If only lists, wrap in ul
+                                    const ul = document.createElement('ul');
+                                    ul.classList.add('list-disc', 'list-inside'); // Tailwind classes for bullet points
+                                    ul.innerHTML = content;
+                                    partDiv.appendChild(ul);
+                                }
+                                
+                                modalAnswerParts.appendChild(partDiv);
+                            }
+                        });
+                    } else {
+                        // Fallback if structured parts aren't found
+                        const p = document.createElement('p');
+                        p.classList.add('text-center', 'answer-content-text');
+                        p.innerHTML = rawAnswer.trim() || 'No answer found.'; // Use innerHTML for fallback too
+                        modalAnswerParts.appendChild(p);
+                    }
+
+                } else {
+                    modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">Sorry, could not generate an answer for this question.</p>';
+                }
+            } catch (error) {
+                console.error('Error generating answer:', error);
+                modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">An error occurred while generating the answer. Please try again.</p>';
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }
+        }
+
+        // Function to open AI modal
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            modalQuestionText.textContent = question;
+            
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; 
+
+            aiAnswerModal.classList.add('active');
+            generateAnswer(question, questionCategory); 
+        };
+
+        // Function to close AI modal (from index.html)
+        aiModalCloseButton.addEventListener('click', () => {
+            aiAnswerModal.classList.remove('active');
+        });
+
+        aiAnswerModal.addEventListener('click', (e) => {
+            if (e.target === aiAnswerModal) {
+                aiAnswerModal.classList.remove('active');
+            }
+        });
 
         // Function to load questions into the DOM
         function loadQuestions() {
             for (const category in questions) {
                 const listElement = document.getElementById(`${category}-questions`);
                 if (listElement) {
-                    questions[category].forEach(questionText => {
+                    questions[category].forEach((q) => {
                         const listItem = document.createElement('div');
                         listItem.classList.add('question-item');
-                        listItem.textContent = questionText;
+
+                        listItem.innerHTML = `
+                            <div class="flex-1">
+                                ${q.text}
+                            </div>
+                            <div class="flex items-center gap-2 ml-auto flex-shrink-0">
+                                <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                    AI
+                                </button>
+                                <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                    <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                        <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        `;
                         listElement.appendChild(listItem);
                     });
                 }
