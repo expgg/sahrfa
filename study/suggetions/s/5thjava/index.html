@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Development Using Java Short suggestion - Softmax Online School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .branding {
+            background-color: #2d3748; /* Dark background for branding */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .branding .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .branding .tagline {
+            font-size: 1rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px; /* Added horizontal padding for items */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 35px;
+            }
+            .main-content {
+                margin: 10px auto;
+                padding: 0 15px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .header .subtitle {
+                font-size: 1.2rem;
+            }
+            .branding {
+                padding: 10px 15px;
+            }
+            .branding .logo-text {
+                font-size: 1.5rem;
+            }
+            .branding .tagline {
+                font-size: 0.9rem;
+            }
+            .branding .contact-info {
+                flex-direction: column;
+                gap: 8px;
+                font-size: 0.8rem;
+            }
+            .category-header {
+                font-size: 1.3rem;
+                padding: 12px 15px;
+            }
+            .question-list {
+                padding: 15px;
+            }
+            .question-item {
+                font-size: 0.95rem;
+                padding: 8px 12px;
+            }
+            .footer {
+                padding: 6px 0;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Branding section is now directly on the body background -->
+    <div class="branding">
+        <div class="logo-text">SOFTMAX</div>
+        <div class="tagline">ONLINE SCHOOL</div>
+        <div class="contact-info">
+            <div>📍 Rangamati Nir, DUET, Gazipur-1707</div>
+            <div>📞 09678 677 677, 01755 319105</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="header">
+            <h1>Application Development Using Java</h1>
+            <p class="subtitle">Short suggestion</p>
+        </header>
+
+        <!-- Question categories without card styling -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <script>
+        // Define the questions categorized
+        const questions = {
+            "very-short": [
+                "১। অবজেক্ট বলতে কী বুঝায়?",
+                "২। মেথড কাকে বলে?",
+                "৩। ক্লাস বলতে কী বুঝায়?",
+                "৪। জাভায় ক্লাস ডিক্লারেশনের ফরমেট দেখাও?",
+                "৫। মেথড ওভারলোডিং কী?",
+                "৬। ওভারলোডিং কনস্ট্রাক্টর ও কপি কনস্ট্রাক্টর কাকে বলে?",
+                "৭। গারবেজ কালেকশন বলতে কী বুঝায়?",
+                "৮। ওভাররিডেন ও ওভাররাইডিং মেথড বলতে কী বুঝায়?",
+                "৯। মাল্টিলেভেল ইনহেরিট্যান্স কাকে বলে?",
+                "১০। সাব ক্লাস ও সুপার বলতে কি বুঝায়?",
+                "১১। ক্যারেক্টার বলতে কী বুঝায়?",
+                "১২। স্ট্রিং কী?",
+                "১৩। এক্সেপশন হ্যান্ডলিং কি?",
+                "১৪। এক্সপশন কী? কী কী কারনে হতে পারে?"
+            ],
+            "short": [
+                "১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?",
+                "২। ক্লাস ও অবজেক্টে এর মধ্যে পার্থক্য লেখ?",
+                "৩। কনস্ট্রাক্টর মেথডের বৈশিষ্টগুলো উল্লেখ কর?",
+                "৪। ওভারলোডেড মেথড ও ওভারriডেন মেথড মধ্যে পার্থক্য লেখ?",
+                "৫। মাল্টিলেvel ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?",
+                "৬। হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?",
+                "৭। স্ট্রিং এবং বাফারের মধ্যে পার্থক্য লেখ?",
+                "৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?",
+                "৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?"
+            ],
+            "essay": [
+                "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?",
+                "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?",
+                "৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?",
+                "৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?",
+                "৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?",
+                "৬। OOP এর হিসাবে জাভার মূল স্তম্ভগুলো বর্ণন কর?",
+                "৭। উদাহরণসহ জাভা এক্সেপশন হ্যান্ডলিং এপ্রোচ বর্ণনা কর?"
+            ]
+        };
+
+        // Function to load questions into the DOM
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    questions[category].forEach(questionText => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        listItem.textContent = questionText;
+                        listElement.appendChild(listItem);
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>
