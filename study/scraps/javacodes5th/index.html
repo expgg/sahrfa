@@ -10,19 +10,24 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c; /* Dark background */
-            color: #e2e8f0; /* Light text */
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
             min-height: 100vh; /* Ensure body takes full viewport height */
             display: flex;
             flex-direction: column;
         }
-        .container {
+        .main-content-wrapper { /* New wrapper to manage main content area */
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem;
-            flex-grow: 1; /* Allow container to grow and push footer down */
-            background-color: #2d3748; /* Slightly lighter dark for container */
-            color: #e2e8f0; /* Light text for container */
+            padding: 0.5rem; /* Overall padding for the content area, reduced */
+            flex-grow: 1; /* Allow content to grow and push footer down */
+        }
+        .section-content { /* Replaced section-card for a flatter look */
+            background-color: transparent; /* No distinct background for sections */
+            border-radius: 0; /* No rounded corners */
+            padding: 0.5rem 0; /* Minimal padding for sections */
+            margin-bottom: 0.5rem; /* Minimal space between sections */
+            box-shadow: none; /* No shadow */
         }
         .code-block {
             background-color: #282c34; /* Darker background for code, similar to images */
@@ -44,7 +49,7 @@
         .class-name { color: #56b6c2; } /* Cyan */
         .dot-access { color: #abb2bf; } /* Default light gray */
         .comment-text {
-            color: #888; /* A lighter gray for comments */
+            color: #a0a0a0; /* Lighter gray for comments for better visibility */
             display: none; /* Hidden by default */
         }
         .footer {
@@ -65,11 +70,11 @@
     </style>
 </head>
 <body class="p-4">
-    <div class="container bg-white shadow-lg rounded-lg p-6 md:p-8 lg:p-10 my-8">
+    <div class="main-content-wrapper">
         <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-100">জাভা প্রোগ্রাম সংগ্রহ</h1>
 
         <!-- প্রোগ্রাম ১: আয়তক্ষেত্রের ক্ষেত্রফল -->
-        <section class="mb-8">
+        <section class="section-content">
             <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?</h2>
             <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-1')">কমেন্ট দেখান</button>
             <div id="code-block-1" class="code-block">
@@ -99,7 +104,7 @@
         </section>
 
         <!-- প্রোগ্রাম ২: বৃত্তের ক্ষেত্রফল (Area ক্লাস) -->
-        <section class="mb-8">
+        <section class="section-content">
             <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?</h2>
             <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-2')">কমেন্ট দেখান</button>
             <div id="code-block-2" class="code-block">
@@ -126,7 +131,7 @@
         </section>
 
         <!-- প্রোগ্রাম ৩: কনস্ট্রাক্টর মেথড (Student ক্লাস) -->
-        <section class="mb-8">
+        <section class="section-content">
             <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?</h2>
             <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-3')">কমেন্ট দেখান</button>
             <div id="code-block-3" class="code-block">
@@ -159,7 +164,7 @@
         </section>
 
         <!-- প্রোগ্রাম ৪: মেথড ওভারলোডিং (Rifat ক্লাস) -->
-        <section class="mb-8">
+        <section class="section-content">
             <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?</h2>
             <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-4')">কমেন্ট দেখান</button>
             <div id="code-block-4" class="code-block">
@@ -178,7 +183,7 @@
     }
 
     <span class="keyword">int</span> <span class="method">Rifat</span>(<span class="keyword">int</span> <span class="variable">x</span>) { <span class="comment-text">// একটি পূর্ণসংখ্যার জন্য মেথড</span>
-        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="variable">x</span>);
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Result: "</span> + <span class="variable">x</span>); <span class="comment-text">// আউটপুট স্ট্রিং ঠিক করা হয়েছে</span>
         <span class="keyword">return</span> <span class="number">0</span>;
     }
 }
@@ -190,14 +195,15 @@
         <span class="class-name">Rifat</span> <span class="variable">s</span> = <span class="keyword">new</span> <span class="class-name">Rifat</span>();
         <span class="variable">s</span>.<span class="method">Rifat</span>(<span class="number">56.57f</span>, <span class="number">757f</span>); <span class="comment-text">// ফ্লোট মেথড কল</span>
         <span class="variable">s</span>.<span class="method">Rifat</span>(<span class="number">10</span>, <span class="number">20</span>); <span class="comment-text">// ইন্টিজার মেথড কল</span>
+        <span class="variable">s</span>.<span class="method">Rifat</span>(<span class="number">100</span>); <span class="comment-text">// নতুন ইন্টিজার মেথড কল</span>
     }
 }
-</code></pre>
+```</pre>
             </div>
         </section>
 
         <!-- প্রোগ্রাম ৫: সুপার ক্লাস ও সাব ক্লাস -->
-        <section class="mb-8">
+        <section class="section-content">
             <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?</h2>
             <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-5')">কমেন্ট দেখান</button>
             <div id="code-block-5" class="code-block">
