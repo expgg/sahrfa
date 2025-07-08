@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Concepts Explained</title>
+    <style>
+        /* CSS Styling for the Java Concepts Explained Web App */
+        /* Using CSS Variables for easy theme switching (Light/Dark Mode) */
+        :root {
+            /* Light Mode Variables */
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --header-bg: #4CAF50; /* A pleasant green */
+            --header-text: #fff;
+            --item-bg: #ffffff;
+            --border-color: #ddd;
+            --code-bg: #eee;
+            --code-text: #d32f2f; /* Darker red for light mode code */
+            --table-header-bg: #e0e0e0;
+            --table-row-even-bg: rgba(0, 0, 0, 0.03);
+            --button-bg: #007bff;
+            --button-hover-bg: #0056b3;
+        }
+
+        body.dark-mode {
+            /* Dark Mode Variables */
+            --background-color: #2c3e50; /* Dark blue-grey */
+            --text-color: #ecf0f1; /* Off-white */
+            --header-bg: #34495e; /* Slightly darker blue-grey */
+            --header-text: #ecf0f1;
+            --item-bg: #3b5062; /* Medium blue-grey */
+            --border-color: #555;
+            --code-bg: #1a2c3a; /* Very dark blue-grey for code blocks */
+            --code-text: #ffab91; /* Lighter orange/red for dark mode code */
+            --table-header-bg: #4f6a83;
+            --table-row-even-bg: rgba(255, 255, 255, 0.05);
+            --button-bg: #6c757d; /* Grey button for dark mode */
+            --button-hover-bg: #5a6268;
+        }
+
+        /* Base styles for body and typography */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased; /* Improves font rendering */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header styling */
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Makes header stick to the top */
+            top: 0;
+            z-index: 1000; /* Ensures header is above other content */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+
+        /* Dark Mode Toggle Button */
+        #darkModeToggle {
+            background-color: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        #darkModeToggle:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        /* Main content container */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: var(--background-color); /* Ensures container matches body background */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Styling for each concept item (question and answer) */
+        .concept-item {
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden; /* Hides content when collapsed */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* Question heading styling (clickable) */
+        .question {
+            background-color: var(--item-bg); /* Match item-bg */
+            color: var(--text-color);
+            padding: 18px 25px;
+            margin: 0;
+            cursor: pointer;
+            font-size: 1.3em;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Plus/Minus indicator for accordion */
+        .question::after {
+            content: '+';
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .question.active::after {
+            content: '-';
+            transform: rotate(180deg); /* Rotates the minus sign */
+        }
+
+        /* Answer content styling (hidden by default) */
+        .answer {
+            padding: 0 25px;
+            max-height: 0; /* Initially hidden */
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; /* Smooth collapse/expand */
+            background-color: var(--item-bg);
+            color: var(--text-color);
+            border-top: none;
+        }
+
+        .answer.show {
+            max-height: 2000px; /* Large enough to show all content, adjust if needed */
+            padding: 15px 25px 25px;
+            transition: max-height 0.5s ease-in, padding 0.5s ease-in;
+        }
+
+        /* Specific styling for content within answers */
+        .answer p {
+            margin-bottom: 15px;
+        }
+
+        .answer strong {
+            color: inherit; /* Ensures strong text color adapts to theme */
+        }
+
+        /* Code block styling */
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto; /* Allows horizontal scrolling for long lines */
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Nicer font for code */
+            color: var(--code-text);
+        }
+
+        /* Table specific styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            font-weight: bold;
+            color: var(--text-color); /* Adapt to dark mode */
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--table-row-even-bg); /* Slight stripe effect */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            .container {
+                margin: 20px 10px;
+                padding: 15px;
+            }
+            .question {
+                font-size: 1.1em;
+                padding: 15px 20px;
+            }
+            .answer.show {
+                padding: 10px 20px 20px;
+            }
+            pre, code {
+                font-size: 0.85em;
+            }
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Java Concepts Explained</h1>
+        <button id="darkModeToggle">Toggle Dark Mode</button>
+    </header>
+
+    <main class="container">
+        <!-- Question 1: জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও? -->
+        <div class="concept-item">
+            <h2 class="question">১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?</h2>
+            <div class="answer">
+                <p>জাভাতে একটি <strong>ক্লাস ডিক্লেয়ারেশন (Class Declaration)</strong> হলো একটি ব্লুপ্রিন্ট তৈরি করার প্রথম ধাপ, যা নির্দেশ করে যে অবজেক্টটি কী ধরনের ডেটা ধারণ করবে এবং কী কী কাজ করতে পারবে। এর সাধারণ ফরম্যাট হলো:</p>
+                <pre><code class="language-java">accessModifier class ClassName {
+    // Fields (বা ইনস্ট্যান্স ভেরিয়েবল): এগুলি ক্লাসের বৈশিষ্ট্য বা ডেটা ধারণ করে।
+    // Constructors: অবজেক্ট তৈরি করার সময় ইনিশিয়ালাইজেশনের জন্য ব্যবহৃত হয়।
+    // Methods: এগুলি ক্লাসের আচরণ বা কার্যকারিতা সংজ্ঞায়িত করে।
+}</code></pre>
+                <ul>
+                    <li><strong><code>accessModifier</code></strong>: এটি ক্লাসের অ্যাক্সেস লেভেল নিয়ন্ত্রণ করে (যেমন, <code>public</code>, <code>default</code>)। <code>public</code> হলে এটি যেকোনো জায়গা থেকে অ্যাক্সেস করা যায়।</li>
+                    <li><strong><code>class</code></strong>: এটি একটি কিওয়ার্ড যা নির্দেশ করে যে আমরা একটি ক্লাস তৈরি করছি।</li>
+                    <li><strong><code>ClassName</code></strong>: এটি ক্লাসের নাম যা একটি বৈধ জাভা আইডেন্টিফায়ার হতে হবে এবং প্রচলিতভাবে CamelCase ব্যবহার করে শুরু হয় (যেমন, <code>MyClass</code>, <code>StudentDetails</code>)।</li>
+                </ul>
+                <p><strong>উদাহরণ:</strong></p>
+                <pre><code class="language-java">public class Car { // 'Car' নামের একটি পাবলিক ক্লাস তৈরি করা হয়েছে
+    // Fields (বৈশিষ্ট্য)
+    String brand;    // গাড়ির ব্র্যান্ড
+    String model;    // গাড়ির মডেল
+    int year;        // গাড়ির তৈরির বছর
+
+    // Constructor (অবজেক্ট ইনিশিয়ালাইজ করার জন্য)
+    public Car(String brand, String model, int year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+
+    // Methods (আচরণ/কার্যকারিতা)
+    public void displayInfo() { // গাড়ির তথ্য দেখানোর একটি মেথড
+        System.out.println("Brand: " + brand + ", Model: " + model + ", Year: " + year);
+    }
+
+    public void startEngine() { // ইঞ্জিন স্টার্ট করার একটি মেথড
+        System.out.println(brand + " " + model + " engine started.");
+    }
+}</code></pre>
+                <p>এই উদাহরণে, <strong><code>Car</code> ক্লাসটি</strong> গাড়ির ব্র্যান্ড, মডেল এবং বছরকে তার <strong>বৈশিষ্ট্য (fields)</strong> হিসাবে সংজ্ঞায়িত করে। <code>displayInfo()</code> এবং <code>startEngine()</code> হলো এর <strong>মেথড (methods)</strong>, যা <code>Car</code> অবজেক্ট কী কাজ করতে পারে তা নির্ধারণ করে। <code>Car(String, String, int)</code> হলো <strong>কনস্ট্রাক্টর (constructor)</strong> যা একটি নতুন <code>Car</code> অবজেক্ট তৈরি করার সময় তার প্রাথমিক মান সেট করে।</p>
+            </div>
+        </div>
+
+        <!-- Question 2: ক্লাস ও অবজেক্ট এর মধ্যে পার্থক্য লেখ? -->
+        <div class="concept-item">
+            <h2 class="question">২। ক্লাস ও অবজেক্ট এর মধ্যে পার্থক্য লেখ?</h2>
+            <div class="answer">
+                <p>জাভা OOP (Object-Oriented Programming)-এর দুটি মৌলিক ধারণা হলো <strong>ক্লাস (Class)</strong> এবং <strong>অবজেক্ট (Object)</strong>। এদের মধ্যে প্রধান পার্থক্যগুলো নিচে দেওয়া হলো:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>বৈশিষ্ট্য</th>
+                            <th>ক্লাস (Class)</th>
+                            <th>অবজেক্ট (Object)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>সংজ্ঞা</strong></td>
+                            <td>একটি ব্লুপ্রিন্ট, টেমপ্লেট বা প্রোটোটাইপ যা অবজেক্ট তৈরির জন্য ব্যবহৃত হয়। এটি অবজেক্টের বৈশিষ্ট্য ও আচরণ সংজ্ঞায়িত করে।</td>
+                            <td>ক্লাসের একটি বাস্তব উদাহরণ বা ইনস্ট্যান্স। ক্লাসে সংজ্ঞায়িত বৈশিষ্ট্য এবং আচরণ ধারণ করে।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>সত্তা</strong></td>
+                            <td>এটি একটি <strong>লজিক্যাল সত্তা (logical entity)</strong>; এর কোনো ফিজিক্যাল অস্তিত্ব নেই।</td>
+                            <td>এটি একটি <strong>ফিজিক্যাল সত্তা (physical entity)</strong>; এটি মেমোরিতে জায়গা দখল করে।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>তৈরি করা</strong></td>
+                            <td>একবার সংজ্ঞায়িত করা হয়।</td>
+                            <td>একটি ক্লাস থেকে অনেক অবজেক্ট তৈরি করা যেতে পারে।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>মেমোরি</strong></td>
+                            <td>মেমোরি দখল করে না।</td>
+                            <td>মেমোরি দখল করে।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>উদাহরণ</strong></td>
+                            <td><code>Car</code> ক্লাস, <code>Student</code> ক্লাস, <code>Animal</code> ক্লাস ইত্যাদি।</td>
+                            <td><code>myCar</code> (একটি নির্দিষ্ট Car অবজেক্ট), <code>john</code> (একটি নির্দিষ্ট Student অবজেক্ট), <code>dog</code> (একটি নির্দিষ্ট Animal অবজেক্ট) ইত্যাদি।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ব্যবহার</strong></td>
+                            <td>অবজেক্টের কাঠামো এবং ফাংশনালিটি সংজ্ঞায়িত করতে ব্যবহৃত হয়।</td>
+                            <td>ক্লাসের সংজ্ঞায়িত বৈশিষ্ট্য এবং ফাংশনালিটি ব্যবহার করতে ব্যবহৃত হয়।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>সৃষ্টি</strong></td>
+                            <td><code>class</code> কিওয়ার্ড ব্যবহার করে তৈরি করা হয়।</td>
+                            <td><code>new</code> কিওয়ার্ড ব্যবহার করে তৈরি করা হয় (যেমন, <code>new Car();</code>)।</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>সহজ কথায়, ক্লাস হলো একটি রেসিপি বইয়ের মতো, যা বলে কী কী উপাদান লাগবে এবং কীভাবে কিছু একটা বানাতে হবে; আর অবজেক্ট হলো সেই রেসিপি অনুসরণ করে বানানো একটি বাস্তব খাবার।</p>
+            </div>
+        </div>
+
+        <!-- Question 3: কনস্ট্রাক্টর মেথডের বৈশিষ্টগুলো উল্লেখ কর? -->
+        <div class="concept-item">
+            <h2 class="question">৩। কনস্ট্রাক্টর মেথডের বৈশিষ্টগুলো উল্লেখ কর?</h2>
+            <div class="answer">
+                <p><strong>কনস্ট্রাক্টর মেথড (Constructor Method)</strong> হলো জাভার এক বিশেষ ধরনের মেথড যা একটি ক্লাসের অবজেক্ট তৈরি হওয়ার সময় স্বয়ংক্রিয়ভাবে কল হয়। এর প্রধান উদ্দেশ্য হলো নতুন তৈরি হওয়া অবজেক্টের ইনস্ট্যান্স ভেরিয়েবলগুলো (fields) ইনিশিয়ালাইজ করা বা প্রাথমিক মান প্রদান করা। এর মূল বৈশিষ্ট্যগুলো হলো:</p>
+                <ol>
+                    <li><strong>নাম ক্লাসের নামের মতোই:</strong> কনস্ট্রাক্টরের নাম অবশ্যই তার ক্লাসের নামের সাথে হুবহু এক হতে হবে। উদাহরণস্বরূপ, যদি ক্লাসের নাম <code>Student</code> হয়, তবে কনস্ট্রাক্টরের নামও <code>Student</code> হবে।</li>
+                    <li><strong>কোনো রিটার্ন টাইপ নেই:</strong> কনস্ট্রাক্টরের কোনো রিটার্ন টাইপ থাকে না, এমনকি <code>void</code>ও না। এর কারণ হলো এটি কোনো মান রিটার্ন করে না, বরং একটি নতুন অবজেক্টের ইনস্ট্যান্স তৈরি করে।</li>
+                    <li><strong>স্বয়ংক্রিয় কল:</strong> যখন <code>new</code> কিওয়ার্ড ব্যবহার করে একটি ক্লাসের অবজেক্ট তৈরি করা হয়, তখন সংশ্লিষ্ট কনস্ট্রাক্টর স্বয়ংক্রিয়ভাবে কল হয়। যেমন, <code>Student s = new Student();</code> লাইনটি <code>Student</code> ক্লাসের কনস্ট্রাক্টরকে কল করবে।</li>
+                    <li><strong>ইনিশিয়ালাইজেশন:</strong> এর প্রধান কাজ হলো অবজেক্টের ইনস্ট্যান্স ভেরিয়েবলগুলোকে প্রাথমিক মান দিয়ে ইনিশিয়ালাইজ করা।</li>
+                    <li><strong>ওভারলোডিং সম্ভব:</strong> একটি ক্লাসে একাধিক কনস্ট্রাক্টর থাকতে পারে, তবে তাদের প্যারামিটার লিস্ট (সংখ্যা, টাইপ বা ক্রম) ভিন্ন হতে হবে। এটিকে <strong>কনস্ট্রাক্টর ওভারলোডিং (Constructor Overloading)</strong> বলে।</li>
+                    <li><strong>ইনহেরিট হয় না:</strong> কনস্ট্রাক্টর সাবক্লাসে ইনহেরিট (inherit) হয় না, যদিও সাবক্লাসের কনস্ট্রাক্টর সুপারক্লাসের কনস্ট্রাক্টরকে কল করতে পারে <code>super()</code> কিওয়ার্ড ব্যবহার করে।</li>
+                    <li><strong>ডিফল্ট কনস্ট্রাক্টর:</strong> যদি কোনো ক্লাসে ম্যানুয়ালি কোনো কনস্ট্রাক্টর তৈরি না করা হয়, তবে জাভা কম্পাইলার স্বয়ংক্রিয়ভাবে একটি <strong>ডিফল্ট নো-আর্গুমেন্ট কনস্ট্রাক্টর</strong> তৈরি করে দেয়।</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Question 4: ওভারলোডেড মেথড ও ওভাররিডেন মেথড এর মধ্যে পার্থক্য লেখ? -->
+        <div class="concept-item">
+            <h2 class="question">৪। ওভারলোডেড মেথড ও ওভাররিডেন মেথড এর মধ্যে পার্থক্য লেখ?</h2>
+            <div class="answer">
+                <p><strong>মেথড ওভারলোডিং (Method Overloading)</strong> এবং <strong>মেথড ওভাররাইডিং (Method Overriding)</strong> উভয়ই জাভাতে <strong>পলিমরফিজমের (Polymorphism)</strong> ধারণা নিয়ে কাজ করে, কিন্তু তারা ভিন্ন পরিস্থিতিতে এবং ভিন্ন উদ্দেশ্যে ব্যবহৃত হয়।</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>বৈশিষ্ট্য</th>
+                            <th>ওভারলোডেড মেথড (Overloaded Method)</th>
+                            <th>ওভাররিডেন মেথড (Overridden Method)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>সংজ্ঞা</strong></td>
+                            <td>একই ক্লাসের মধ্যে একাধিক মেথডের <strong>নাম এক</strong> কিন্তু তাদের <strong>প্যারামিটার লিস্ট (Parameter List)</strong> ভিন্ন হয়।</td>
+                            <td>একটি সুপারক্লাসে (Parent Class) সংজ্ঞায়িত একটি মেথডকে একটি সাবক্লাসে (Child Class) <strong>একই সিগনেচার (Signature)</strong> সহ পুনরায় সংজ্ঞায়িত করা।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>স্কোপ</strong></td>
+                            <td><strong>একই ক্লাসের মধ্যে</strong> বা একই ইনহেরিটেন্স হায়ারার্কির বিভিন্ন ওভারলোডেড মেথড।</td>
+                            <td><strong>সুপারক্লাস ও সাবক্লাসের মধ্যে</strong> সম্পর্কযুক্ত।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>সিগনেচার</strong></td>
+                            <td>মেথডের নাম একই থাকে, কিন্তু প্যারামিটারের সংখ্যা, টাইপ বা ক্রম ভিন্ন হয়।</td>
+                            <td>মেথডের নাম, রিটার্ন টাইপ এবং প্যারামিটার লিস্ট <strong>হুবহু একই</strong> থাকে। (জাভা 5 থেকে, কভেরিয়েন্ট রিটার্ন টাইপ অনুমোদিত)।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>উদ্দেশ্য</strong></td>
+                            <td>একই নামের একাধিক ফাংশন প্রদান করা যা ভিন্ন ডেটা টাইপ বা ভিন্ন সংখ্যক আর্গুমেন্ট নিয়ে কাজ করে।</td>
+                            <td>রানটাইমে পলিমরফিজম অর্জন করা এবং সাবক্লাসকে সুপারক্লাসের মেথডের নিজস্ব ইমপ্লিমেন্টেশন প্রদান করতে দেওয়া।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>পলিমরফিজম</strong></td>
+                            <td>এটি <strong>কম্পাইল-টাইম পলিমরফিজম (Compile-time Polymorphism)</strong> বা স্ট্যাটিক পলিমরফিজম নামে পরিচিত।</td>
+                            <td>এটি <strong>রান-টাইম পলিমরফিজম (Run-time Polymorphism)</strong> বা ডাইনামিক পলিমরফিজম নামে পরিচিত।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>কল</strong></td>
+                            <td>কম্পাইলার প্যারামিটারের উপর ভিত্তি করে কোন মেথড কল হবে তা নির্ধারণ করে।</td>
+                            <td>JVM (Java Virtual Machine) রানটাইমে অবজেক্টের প্রকৃত টাইপ দেখে মেথড কল করে।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>উদাহরণ</strong></td>
+                            <td><code>add(int a, int b)</code> এবং <code>add(int a, int b, int c)</code> বা <code>add(double a, double b)</code></td>
+                            <td><code>Animal</code> ক্লাসের <code>makeSound()</code> মেথডকে <code>Dog</code> ক্লাস <code>makeSound()</code> হিসাবে ওভাররাইড করে <code>Woof</code> প্রিন্ট করা।</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>সংক্ষেপে, ওভারলোডিং হলো একই নামে অনেকগুলো কাজের সুবিধা দেওয়া, কিন্তু বিভিন্ন প্যারামিটার নিয়ে; আর ওভাররাইডিং হলো প্যারেন্ট ক্লাসের একটি কাজকে চাইল্ড ক্লাসে নিজের মতো করে বদলে দেওয়া।</p>
+            </div>
+        </div>
+
+        <!-- Question 5: মাল্টিলেভেল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ? -->
+        <div class="concept-item">
+            <h2 class="question">৫। মাল্টিলেভেল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?</h2>
+            <div class="answer">
+                <p><strong>মাল্টিলেভেল ইনহেরিট্যান্স (Multilevel Inheritance)</strong> হলো জাভার একটি ইনহেরিট্যান্স মেকানিজম যেখানে একটি ক্লাস অন্য একটি ক্লাস থেকে ইনহেরিট করে, এবং সেই ইনহেরিট করা ক্লাসটি আবার অন্য একটি ক্লাসের জন্য বেস ক্লাস হিসেবে কাজ করে। অর্থাৎ, এখানে একাধিক স্তরে ইনহেরিটেন্স ঘটে।</p>
+                <p><strong>ব্লকচিত্র (Textual Representation):</strong></p>
+                <pre><code>      Class A (Grandparent)
+             |
+             | extends
+             V
+      Class B (Parent/Child of A)
+             |
+             | extends
+             V
+      Class C (Child of B)
+</code></pre>
+                <p>এই চিত্রে:</p>
+                <ul>
+                    <li><code>Class B</code> হলো <code>Class A</code> এর চাইল্ড ক্লাস। <code>B</code> ক্লাস <code>A</code> ক্লাসের বৈশিষ্ট্য এবং আচরণ উত্তরাধিকার সূত্রে পায়।</li>
+                    <li><code>Class C</code> হলো <code>Class B</code> এর চাইল্ড ক্লাস। <code>C</code> ক্লাস <code>B</code> ক্লাসের বৈশিষ্ট্য এবং আচরণ উত্তরাধিকার সূত্রে পায়। যেহেতু <code>B</code> ক্লাস <code>A</code> ক্লাস থেকে উত্তরাধিকার সূত্রে পেয়েছে, তাই <code>C</code> ক্লাস পরোক্ষভাবে <code>A</code> ক্লাসের বৈশিষ্ট্য এবং আচরণও ব্যবহার করতে পারে।</li>
+                </ul>
+                <p><strong>ফরমেট:</strong></p>
+                <pre><code class="language-java">// প্রথম স্তর: Base Class (বা Grandparent Class)
+class A {
+    // Class A এর বৈশিষ্ট্য এবং মেথড
+    void methodA() {
+        System.out.println("Method from Class A");
+    }
+}
+
+// দ্বিতীয় স্তর: Class B extends Class A (B হলো A এর চাইল্ড এবং C এর প্যারেন্ট)
+class B extends A {
+    // Class B এর নিজস্ব বৈশিষ্ট্য এবং মেথড
+    void methodB() {
+        System.out.println("Method from Class B");
+    }
+}
+
+// তৃতীয় স্তর: Class C extends Class B (C হলো B এর চাইল্ড)
+class C extends B {
+    // Class C এর নিজস্ব বৈশিষ্ট্য এবং মেথড
+    void methodC() {
+        System.out.println("Method from Class C");
+    }
+
+    public static void main(String[] args) {
+        C objC = new C();
+        objC.methodA(); // Class A এর মেথড অ্যাক্সেস করছে
+        objC.methodB(); // Class B এর মেথড অ্যাক্সেস করছে
+        objC.methodC(); // Class C এর নিজস্ব মেথড অ্যাক্সেস করছে
+    }
+}</code></pre>
+                <p>এই ফরমেটে, <code>Class C</code> <code>Class B</code> থেকে ইনহেরিট করে, এবং <code>Class B</code> আবার <code>Class A</code> থেকে ইনহেরিট করে। ফলে <code>Class C</code> এর একটি অবজেক্ট <code>Class A</code> এবং <code>Class B</code> উভয়ের পাবলিক এবং প্রোটেক্টেড মেম্বার অ্যাক্সেস করতে পারে।</p>
+            </div>
+        </div>
+
+        <!-- Question 6: হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ? -->
+        <div class="concept-item">
+            <h2 class="question">৬। হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?</h2>
+            <div class="answer">
+                <p><strong>হায়ারারকিক্যাল ইনহেরিট্যান্স (Hierarchical Inheritance)</strong> হলো জাভার একটি ইনহেরিট্যান্স মেকানিজম যেখানে একটি মাত্র বেস ক্লাস (বা প্যারেন্ট ক্লাস) থেকে একাধিক সাবক্লাস (বা চাইল্ড ক্লাস) ইনহেরিট করে। এর ফলে একটি "গাছ"-এর মতো কাঠামো তৈরি হয় যেখানে একটি মূল ক্লাসের একাধিক শাখা থাকে।</p>
+                <p><strong>ব্লকচিত্র (Textual Representation):</strong></p>
+                <pre><code>         Class A (Parent Class)
+        /       \
+       /         \
+      V           V
+  Class B     Class C
+(Child of A)  (Child of A)
+</code></pre>
+                <p>এই চিত্রে:</p>
+                <ul>
+                    <li><code>Class A</code> হলো বেস ক্লাস।</li>
+                    <li><code>Class B</code> এবং <code>Class C</code> উভয়ই <code>Class A</code> থেকে ইনহেরিট করেছে। এর অর্থ হলো <code>Class B</code> এবং <code>Class C</code> উভয়ই <code>Class A</code> এর পাবলিক এবং প্রোটেক্টেড বৈশিষ্ট্য ও আচরণ উত্তরাধিকার সূত্রে পায়।</li>
+                    <li>তবে, <code>Class B</code> এবং <code>Class C</code> একে অপরের থেকে ইনহেরিট করে না। তারা স্বতন্ত্রভাবে <code>Class A</code> থেকে ইনহেরিট করে।</li>
+                </ul>
+                <p><strong>ফরমেট:</strong></p>
+                <pre><code class="language-java">// Base Class (Parent Class)
+class Animal {
+    void eat() {
+        System.out.println("This animal eats food.");
+    }
+}
+
+// Child Class 1 extends Animal
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog barks.");
+    }
+}
+
+// Child Class 2 extends Animal
+class Cat extends Animal {
+    void meow() {
+        System.out.println("Cat meows.");
+    }
+}
+
+// উদাহরণ ব্যবহারের জন্য মেইন ক্লাস
+public class HierarchicalInheritanceDemo {
+    public static void main(String[] args) {
+        Dog myDog = new Dog();
+        myDog.eat();  // Animal ক্লাস থেকে ইনহেরিট করা মেথড
+        myDog.bark(); // Dog ক্লাসের নিজস্ব মেথড
+
+        Cat myCat = new Cat();
+        myCat.eat();  // Animal ক্লাস থেকে ইনহেরিট করা মেথড
+        myCat.meow(); // Cat ক্লাসের নিজস্ব মেথড
+    }
+}</code></pre>
+                <p>এই ফরমেটে, <code>Animal</code> ক্লাসটি একটি বেস ক্লাস, এবং <code>Dog</code> ও <code>Cat</code> উভয়ই <code>Animal</code> ক্লাস থেকে ইনহেরিট করে। <code>Dog</code> ক্লাস <code>bark()</code> মেথড যোগ করে, এবং <code>Cat</code> ক্লাস <code>meow()</code> মেথড যোগ করে, কিন্তু উভয়ই <code>Animal</code> ক্লাসের <code>eat()</code> মেথড ব্যবহার করতে পারে।</p>
+            </div>
+        </div>
+
+        <!-- Question 7: স্ট্রিং এবং স্ট্রিং বাফারের মধ্যে পার্থক্য লেখ? -->
+        <div class="concept-item">
+            <h2 class="question">৭। স্ট্রিং এবং স্ট্রিং বাফারের মধ্যে পার্থক্য লেখ?</h2>
+            <div class="answer">
+                <p>জাভাতে টেক্সট ডেটা নিয়ে কাজ করার জন্য <code>String</code> এবং <code>StringBuffer</code> উভয় ক্লাসই ব্যবহৃত হয়। তবে, তাদের কিছু মৌলিক পার্থক্য রয়েছে যা তাদের ব্যবহারের ক্ষেত্র নির্ধারণ করে।</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>বৈশিষ্ট্য</th>
+                            <th>স্ট্রিং (String)</th>
+                            <th>স্ট্রিং বাফার (StringBuffer)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>মিউটেবিলিটি</strong></td>
+                            <td><strong>Immutable (অপরিবর্তনীয়)</strong>: একবার তৈরি হলে <code>String</code> অবজেক্টের মান পরিবর্তন করা যায় না। যেকোনো অপারেশনের (যেমন, কনক্যাটেনেশন) ফলে একটি নতুন <code>String</code> অবজেক্ট তৈরি হয়।</td>
+                            <td><strong>Mutable (পরিবর্তনযোগ্য)</strong>: <code>StringBuffer</code> অবজেক্টের মান পরিবর্তন করা যায়। এটি একই অবজেক্টে পরিবর্তন সাধন করে, নতুন অবজেক্ট তৈরি করে না।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>মেমোরি</strong></td>
+                            <td>প্রতিটি পরিবর্তনের জন্য নতুন অবজেক্ট তৈরি হওয়ায় এটি বেশি মেমোরি এবং সময় (garbage collection-এর কারণে) ব্যবহার করতে পারে, বিশেষ করে যখন বারবার স্ট্রিং পরিবর্তন করা হয়।</td>
+                            <td>মেমোরি এবং পারফরম্যান্সের দিক থেকে এটি বেশি কার্যকর, কারণ এটি একই অবজেক্টের উপর কাজ করে এবং নতুন অবজেক্ট তৈরির ঝামেলা এড়ায়।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>থ্রেড-সেফটি</strong></td>
+                            <td><strong>Thread-safe নয়</strong>: যেহেতু <code>String</code> immutable, এটি স্বয়ংক্রিয়ভাবে থ্রেড-সেফ। একাধিক থ্রেড একই <code>String</code> অবজেক্ট অ্যাক্সেস করলেও কোনো সমস্যা হয় না।</td>
+                            <td><strong>Thread-safe (synchronized)</strong>: <code>StringBuffer</code> এর মেথডগুলো synchronized, তাই এটি একাধিক থ্রেড দ্বারা একই সময়ে নিরাপদে ব্যবহার করা যায়। এটি পারফরম্যান্সের দিক থেকে <code>StringBuilder</code> থেকে ধীর হতে পারে।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>পারফরম্যান্স</strong></td>
+                            <td>বারবার পরিবর্তনের প্রয়োজন হলে পারফরম্যান্স কম হতে পারে।</td>
+                            <td>যখন স্ট্রিং-এ ঘন ঘন পরিবর্তন (যোগ, বিয়োগ, পরিবর্তন) করার প্রয়োজন হয়, তখন এটি <code>String</code> এর চেয়ে বেশি কার্যকর।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ব্যবহার</strong></td>
+                            <td>যখন স্ট্রিং মান অপরিবর্তিত থাকে বা খুব কম পরিবর্তন হয়, তখন <code>String</code> ব্যবহার করা হয়।</td>
+                            <td>যখন স্ট্রিং-এ বারবার পরিবর্তন করার প্রয়োজন হয় এবং থ্রেড-সেফটির প্রয়োজন হয়, তখন <code>StringBuffer</code> ব্যবহার করা হয়।</td>
+                        </tr>
+                        <tr>
+                            <td><strong>উদাহরণ</strong></td>
+                            <td><code>String s = "Hello"; s = s + " World";</code> (এখানে <code>s + " World"</code> এর ফলে নতুন String তৈরি হয়)।</td>
+                            <td><code>StringBuffer sb = new StringBuffer("Hello"); sb.append(" World");</code> (এখানে <code>sb</code> অবজেক্টটিই পরিবর্তিত হয়)।</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>একটি অনুরূপ ক্লাস <code>StringBuilder</code>ও রয়েছে, যা <code>StringBuffer</code> এর মতো mutable কিন্তু <strong>Thread-safe নয় (unsynchronized)</strong>, তাই এটি সিঙ্গেল-থ্রেডেড পরিবেশে <code>StringBuffer</code> এর চেয়ে দ্রুত কাজ করে।</p>
+            </div>
+        </div>
+
+        <!-- Question 8: জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও? -->
+        <div class="concept-item">
+            <h2 class="question">৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?</h2>
+            <div class="answer">
+                <p>জাভাতে <strong>এক্সেপশন হ্যান্ডলিং (Exception Handling)</strong> এর মূল ভিত্তি হলো একটি সুসংগঠিত ক্লাস হায়ারার্কি। এই হায়ারার্কির মূল ক্লাস হলো <code>Throwable</code>। <code>Throwable</code> এর দুটি প্রধান সাবক্লাস রয়েছে: <code>Error</code> এবং <code>Exception</code>।</p>
+                <p><strong>জাভা এক্সেপশন ক্লাস হায়ারার্কি চিত্র (Textual Representation):</strong></p>
+                <pre><code>               java.lang.Object
+                     |
+               java.lang.Throwable
+                     |
+       --------------------------
+       |                        |
+ java.lang.Error         java.lang.Exception
+       |                        |
+ (Unchecked)              ------------------
+                          |                |
+                java.lang.RuntimeException  java.io.IOException
+                (Unchecked)             (Checked)
+                    |                    |
+        -----------------------          -----------------------
+        |         |           |          |         |           |
+NullPointerException  ArrayIndexOutOfBoundsException  ArithmeticException  FileNotFoundException  SQLException etc.
+</code></pre>
+                <p><strong>হায়ারার্কির ব্যাখ্যা:</strong></p>
+                <ol>
+                    <li><strong><code>java.lang.Throwable</code> (বেস ক্লাস):</strong> এটি জাভার সমস্ত ত্রুটি (errors) এবং ব্যতিক্রমের (exceptions) সুপারক্লাস। এর দুটি ডাইরেক্ট সাবক্লাস আছে:
+                        <ul>
+                            <li><strong><code>java.lang.Error</code>:</strong> এই ক্লাসটি গুরুতর সমস্যা নির্দেশ করে যা সাধারণত প্রোগ্রামার দ্বারা হ্যান্ডেল করা যায় না এবং JVM (Java Virtual Machine) এর সাথে সম্পর্কিত (যেমন, <code>OutOfMemoryError</code>, <code>StackOverflowError</code>)। এগুলি আনচেকড এক্সেপশন।</li>
+                            <li><strong><code>java.lang.Exception</code>:</strong> এই ক্লাসটি প্রোগ্রামিং ত্রুটি বা অপ্রত্যাশিত পরিস্থিতি নির্দেশ করে যা সাধারণত প্রোগ্রামার দ্বারা হ্যান্ডেল করা যায় এবং প্রোগ্রামকে ক্র্যাশ হওয়া থেকে রক্ষা করা যায়। <code>Exception</code> এর আরও দুটি প্রধান ভাগ রয়েছে:
+                                <ul>
+                                    <li><strong><code>java.lang.RuntimeException</code> (Unchecked Exceptions):</strong> এগুলি সেই ব্যতিক্রম যা কম্পাইল-টাইমে চেক করা হয় না এবং সাধারণত প্রোগ্রামিং লজিকের ভুলের কারণে ঘটে (যেমন, <code>NullPointerException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>ArithmeticException</code>)। এগুলি হ্যান্ডেল করা ঐচ্ছিক।</li>
+                                    <li><strong>Checked Exceptions:</strong> এগুলি <code>RuntimeException</code> ছাড়া <code>Exception</code> এর অন্যান্য সাবক্লাস। এগুলি কম্পাইল-টাইমে চেক করা হয় এবং প্রোগ্রামারকে অবশ্যই <code>try-catch</code> ব্লক ব্যবহার করে অথবা <code>throws</code> কিওয়ার্ড ব্যবহার করে হ্যান্ডেল করতে হবে (যেমন, <code>IOException</code>, <code>SQLException</code>, <code>FileNotFoundException</code>)।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>সংক্ষেপে, এই হায়ারার্কি জাভাকে বিভিন্ন ধরণের ত্রুটি এবং ব্যতিক্রমকে সুনির্দিষ্টভাবে শ্রেণীবদ্ধ করতে সাহায্য করে, যা প্রোগ্রামারকে আরও কার্যকরভাবে ত্রুটিগুলো সনাক্ত করতে এবং সমাধান করতে সক্ষম করে।</p>
+            </div>
+        </div>
+
+        <!-- Question 9: এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ? -->
+        <div class="concept-item">
+            <h2 class="question">৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?</h2>
+            <div class="answer">
+                <p><strong>এক্সেপশন হ্যান্ডলিং (Exception Handling)</strong> হলো জাভাতে এমন একটি শক্তিশালী মেকানিজম যা প্রোগ্রামের রানটাইমে ঘটে যাওয়া অপ্রত্যাশিত ত্রুটি বা ব্যতিক্রমী পরিস্থিতিগুলোকে (exceptions) সুচারুরূপে পরিচালনা করতে সাহায্য করে। এর কিছু গুরুত্বপূর্ণ সুবিধা নিচে উল্লেখ করা হলো:</p>
+                <ol>
+                    <li><strong>প্রোগ্রামের স্বাভাবিক ফ্লো বজায় রাখা:</strong> এটি প্রোগ্রামের অপ্রত্যাশিতভাবে বন্ধ হয়ে যাওয়া (crashing) থেকে রক্ষা করে। যখন একটি এক্সেপশন ঘটে, তখন এক্সেপশন হ্যান্ডলিং মেকানিজম প্রোগ্রামকে নিয়ন্ত্রণ হারানোর পরিবর্তে একটি নির্ধারিত পথে চলতে সাহায্য করে। এর ফলে ব্যবহারকারীর অভিজ্ঞতা ভালো থাকে এবং প্রোগ্রাম আরও নির্ভরযোগ্য হয়।</li>
+                    <li><strong>ত্রুটি সনাক্তকরণ ও মোকাবিলা:</strong> এক্সেপশন হ্যান্ডলিং প্রোগ্রামারকে ত্রুটির কারণ এবং প্রকৃতি সম্পর্কে বিস্তারিত তথ্য পেতে সাহায্য করে। <code>try-catch-finally</code> ব্লক ব্যবহার করে নির্দিষ্ট ধরণের এক্সেপশনগুলো ধরা যায় এবং সেগুলোর জন্য উপযুক্ত কোড এক্সিকিউট করা যায় (যেমন, ত্রুটি বার্তা দেখানো, রিসোর্স বন্ধ করা)।</li>
+                    <li><strong>কোড সেপারেশন:</strong> এটি "নরমাল" কোড লজিক এবং "ত্রুটি হ্যান্ডলিং" কোড লজিককে আলাদা রাখতে সাহায্য করে। <code>try</code> ব্লকের মধ্যে মূল কোড থাকে, এবং <code>catch</code> ব্লকে এক্সেপশন হ্যান্ডলিং এর কোড থাকে। এতে কোড পরিষ্কার এবং বোঝা সহজ হয়।</li>
+                    <li><strong>রিসোর্স ম্যানেজমেন্ট:</strong> <code>finally</code> ব্লক ব্যবহার করে আপনি নিশ্চিত করতে পারেন যে, একটি এক্সেপশন ঘটুক বা না ঘটুক, কিছু নির্দিষ্ট কোড (যেমন, ফাইল বন্ধ করা, ডেটাবেস কানেকশন ক্লোজ করা) সবসময় এক্সিকিউট হবে। এটি রিসোর্স লিক এড়াতে সাহায্য করে।</li>
+                    <li><strong>শক্তিশালী ও নির্ভরযোগ্য অ্যাপ্লিকেশন তৈরি:</strong> এক্সেপশন হ্যান্ডলিং এর মাধ্যমে প্রোগ্রামার অপ্রত্যাশিত ইনপুট, নেটওয়ার্ক সমস্যা, ফাইল না খুঁজে পাওয়া ইত্যাদি পরিস্থিতিতেও অ্যাপ্লিকেশনকে সঠিকভাবে কাজ করাতে পারে। এতে অ্যাপ্লিকেশন অনেক বেশি স্থিতিশীল এবং ফেইল-সেফ হয়।</li>
+                    <li><strong>ত্রুটি প্রোপাগেশন নিয়ন্ত্রণ:</strong> এক্সেপশনকে <code>throws</code> কিওয়ার্ড ব্যবহার করে মেথড স্ট্যাকের উপরের দিকে প্রোপাগেট করা যায়। এর ফলে যে মেথডটি এক্সেপশন হ্যান্ডেল করার জন্য সবচেয়ে উপযুক্ত, সেটিই ত্রুটিটি ধরতে পারে।</li>
+                </ol>
+                <p>এই সুবিধাগুলো একটি অ্যাপ্লিকেশনকে আরও মজবুত, ব্যবহারকারী-বান্ধব এবং রক্ষণাবেক্ষণের জন্য সহজ করে তোলে।</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // JavaScript for Accordion and Dark Mode functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+
+            // --- Accordion functionality ---
+            questions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling; // Get the answer div next to the clicked question
+                    question.classList.toggle('active'); // Toggles the '+' / '-' indicator
+                    answer.classList.toggle('show'); // Toggles the visibility of the answer
+
+                    // Optional: Close other open answers when a new one is opened
+                    questions.forEach(otherQuestion => {
+                        if (otherQuestion !== question && otherQuestion.classList.contains('active')) {
+                            otherQuestion.classList.remove('active');
+                            otherQuestion.nextElementSibling.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // --- Dark Mode functionality ---
+            // Check for saved theme preference in localStorage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode'); // Apply dark mode if previously saved
+            }
+
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode'); // Toggle the 'dark-mode' class on the body
+
+                // Save current theme preference to localStorage
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
