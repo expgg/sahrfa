@@ -114,14 +114,25 @@
             background-color: #636b7f; /* Slightly lighter on hover */
             transform: translateY(-2px); /* Subtle lift effect */
         }
-        /* New style for highlighted questions - now a subtle left border */
-        .highlighted-question-item {
-            border-left: 4px solid #66FCF1; /* Cyan stripe on the left */
+        /* Style for blue stripe items */
+        .blue-stripe-item {
+            border-left: 4px solid #4299e1; /* Blue stripe on the left */
             padding-left: 11px; /* Adjust padding to account for the border */
             background-color: #4a5568; /* Keep original background for subtle effect */
             color: #e2e8f0; /* Keep original text color */
         }
-        .highlighted-question-item:hover {
+        .blue-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for green stripe items */
+        .green-stripe-item {
+            border-left: 4px solid #48bb78; /* Green stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .green-stripe-item:hover {
             background-color: #636b7f; /* Maintain hover effect */
             transform: translateY(-2px);
         }
@@ -468,20 +479,26 @@
                 { text: "১২। স্ট্রিং কী?", answer: "ক্যারেক্টারের একটি অনুক্রম।" },
                 { text: "১৩। এক্সেপশন হ্যান্ডলিং কি?", answer: "প্রোগ্রামের ত্রুটি মোকাবিলা ও ব্যবস্থাপনার প্রক্রিয়া।" },
                 { text: "১৪। এক্সপশন কী? কী কী কারনে হতে পারে?", answer: "প্রোগ্রাম নির্বাহের অস্বাভাবিক ঘটনা; ফাইল বা নেটওয়ার্ক ত্রুটি, অবৈধ ইনপুট ইত্যাদি কারণে হতে পারে।" },
-                // New very-short questions added previously
-                { text: "১৫। জাভা ডেটাবেজ কানেকটিভিটি (JDBC) বলতে কী বুঝায়?", answer: "JDBC হলো জাভা থেকে ডেটাবেজ সংযোগের API।", highlight: true },
-                { text: "১৬। কানেকশন কী?", answer: "কানেকশন হলো ডেটাবেজের সাথে জাভার সেশন।", highlight: true },
-                { text: "১৭। স্টেটমেন্ট বলতে কী বুঝায়?", answer: "স্টেটমেন্ট হলো SQL কোয়েরি চালানোর ইন্টারফেস।", highlight: true },
-                { text: "১৮। নেটওয়ার্ক প্রটোকল ড্রাইভার কী?", answer: "নেটওয়ার্ক প্রটোকল ড্রাইভার হলো সরাসরি ডেটাবেজে সংযোগকারী JDBC ড্রাইভার।", highlight: true },
-                { text: "১৯। জাভা সুইং বলতে কী বুঝায়?", answer: "জাভা সুইং হলো জাভাতে GUI তৈরির লাইব্রেরি।", highlight: true },
-                { text: "২০। সুইং প্যাকেজ বলতে কী বুঝায়?", answer: "সুইং প্যাকেজ হলো GUI উপাদান তৈরির ক্লাস সংগ্রহ।", highlight: true },
-                { text: "২১। যে-কোনো চারটি সুইং প্যাকেজের নাম লেখ।", answer: "javax.swing, javax.swing.event, javax.swing.text, javax.swing.table।", highlight: true },
-                { text: "২২। সার্ভলেট বলতে কী বুঝায়?", answer: "সার্ভলেট হলো ওয়েব সার্ভারের জন্য জাভা ক্লাস।", highlight: true },
-                { text: "২৩। কয়েকটি জনপ্রিয় সার্ভলেট কন্টেইনার এর নাম লেখ।", answer: "অ্যাপাচি টমক্যাট, জেটি, ওয়াইল্ডফ্লাই।", highlight: true },
-                { text: "২৪। জাভায় সার্ভলেট তৈরির সম্ভাব্য উপায়সমূহ কী কী?", answer: "ইন্টারফেস ইমপ্লিমেন্ট বা ক্লাস এক্সটেন্ড করে।", highlight: true },
-                { text: "২৫। init () মেথডের কাজ কী?", answer: "init() সার্ভলেটের শুরুর ইনিশিয়ালাইজেশন করে।", highlight: true },
-                { text: "২৬। সেশন ম্যানেজমেন্ট বলতে কী বুঝায়?", answer: "সেশন ম্যানেজমেন্ট হলো ব্যবহারকারীর স্টেট বজায় রাখার প্রক্রিয়া।", highlight: true },
-                { text: "২৭। চিত্রসহ জাভা সার্ভলেটের সংজ্ঞা লেখ।", answer: "জাভা সার্ভলেট হলো সার্ভার-সাইড প্রোগ্রাম যা ওয়েব কন্টেন্ট তৈরি করে।", highlight: true }
+                // New very-short questions added previously with blue stripe
+                { text: "১৫। জাভা ডেটাবেজ কানেকটিভিটি (JDBC) বলতে কী বুঝায়?", answer: "JDBC হলো জাভা থেকে ডেটাবেজ সংযোগের API।", stripe: 'blue' },
+                { text: "১৬। কানেকশন কী?", answer: "কানেকশন হলো ডেটাবেজের সাথে জাভার সেশন।", stripe: 'blue' },
+                { text: "১৭। স্টেটমেন্ট বলতে কী বুঝায়?", answer: "স্টেটমেন্ট হলো SQL কোয়েরি চালানোর ইন্টারফেস।", stripe: 'blue' },
+                { text: "১৮। নেটওয়ার্ক প্রটোকল ড্রাইভার কী?", answer: "নেটওয়ার্ক প্রটোকল ড্রাইভার হলো সরাসরি ডেটাবেজে সংযোগকারী JDBC ড্রাইver।", stripe: 'blue' },
+                { text: "১৯। জাভা সুইং বলতে কী বুঝায়?", answer: "জাভা সুইং হলো জাভাতে GUI তৈরির লাইব্রেরি।", stripe: 'blue' },
+                { text: "২০। সুইং প্যাকেজ বলতে কী বুঝায়?", answer: "সুইং প্যাকেজ হলো GUI উপাদান তৈরির ক্লাস সংগ্রহ।", stripe: 'blue' },
+                { text: "২১। যে-কোনো চারটি সুইং প্যাকেজের নাম লেখ।", answer: "javax.swing, javax.swing.event, javax.swing.text, javax.swing.table।", stripe: 'blue' },
+                { text: "২২। সার্ভলেট বলতে কী বুঝায়?", answer: "সার্ভলেট হলো ওয়েব সার্ভারের জন্য জাভা ক্লাস।", stripe: 'blue' },
+                { text: "২৩। কয়েকটি জনপ্রিয় সার্ভলেট কন্টেইনার এর নাম লেখ।", answer: "অ্যাপাচি টমক্যাট, জেটি, ওয়াইল্ডফ্লাই।", stripe: 'blue' },
+                { text: "২৪। জাভায় সার্ভলেট তৈরির সম্ভাব্য উপায়সমূহ কী কী?", answer: "ইন্টারফেস ইমপ্লিমেন্ট বা ক্লাস এক্সটেন্ড করে।", stripe: 'blue' },
+                { text: "২৫। init () মেথডের কাজ কী?", answer: "init() সার্ভলেটের শুরুর ইনিশিয়ালাইজেশন করে।", stripe: 'blue' },
+                { text: "২৬। সেশন ম্যানেজমেন্ট বলতে কী বুঝায়?", answer: "সেশন ম্যানেজমেন্ট হলো ব্যবহারকারীর স্টেট বজায় রাখার প্রক্রিয়া।", stripe: 'blue' },
+                { text: "২৭। চিত্রসহ জাভা সার্ভলেটের সংজ্ঞা লেখ।", answer: "জাভা সার্ভলেট হলো সার্ভার-সাইড প্রোগ্রাম যা ওয়েব কন্টেন্ট তৈরি করে।", stripe: 'blue' },
+                // New very-short questions with green stripe
+                { text: "২৮। ইভেন্ট বলতে কী বুঝায়?", answer: "ইভেন্ট হলো এমন একটি ঘটনা যা ব্যবহারকারী বা সিস্টেম দ্বারা ঘটে, যেমন মাউস ক্লিক, কিবোর্ড প্রেস বা একটি নির্দিষ্ট সময়সীমার সমাপ্তি ।", stripe: 'green' },
+                { text: "২৯। ইভেন্ট কত প্রকার ও কী কী?", answer: "ইভেন্ট সাধারণত দুই প্রকারের হয়: সোর্স ইভেন্ট (Event Source) এবং লিসনার ইভেন্ট (Event Listener) ।", stripe: 'green' },
+                { text: "৩০। ইভেন্ট হ্যান্ডলিং কী?", answer: "ইভেন্ট হ্যান্ডলিং হলো এমন একটি প্রক্রিয়া যার মাধ্যমে কোনো ইভেন্ট ঘটার পর সেটিকে সনাক্ত করা হয় এবং তার প্রতিক্রিয়া হিসাবে নির্দিষ্ট কাজ সম্পাদন করা হয় ।", stripe: 'green' },
+                { text: "৩১। ইভেন্ট হ্যান্ডলিং এর উপাদান কয়টি ও কী কী?", answer: "ইভেন্ট হ্যান্ডলিং এর প্রধান উপাদান তিনটি: ইভেন্ট সোর্স (Event Source), ইভেন্ট লিসনার (Event Listener) এবং ইভেন্ট ক্লাস (Event Class) ।", stripe: 'green' },
+                { text: "৩২। অটোমেটিক ইভেন্ট হ্যান্ডলিং কী?", answer: "অটোমেটিক ইভেন্ট হ্যান্ডলিং হলো এমন একটি পদ্ধতি যেখানে জাভা ভার্চুয়াল মেশিন (JVM) স্বয়ংক্রিয়ভাবে ইভেন্ট সনাক্ত করে এবং সে অনুযায়ী পদক্ষেপ নেয় ।", stripe: 'green' }
             ],
             "short": [
                 { text: "১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?" },
@@ -493,13 +510,17 @@
                 { text: "৭। স্ট্রিং এবং বাফারের মধ্যে পার্থক্য লেখ?" },
                 { text: "৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?" },
                 { text: "৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?" },
-                // New short questions added below, starting from 10
-                { text: "১০। JDBC ব্যবহারের সুবিধাসমূহ উল্লেখ কর।", highlight: true },
-                { text: "১১। ODBC ড্রাইভারের ব্লক ডায়াগ্রাম অঙ্কন কর।", highlight: true },
-                { text: "১২। নেটওয়ার্ক প্রটোকল ড্রাইভার সংক্ষেপে বর্ণনা কর।", highlight: true },
-                { text: "১৩। জাভা সুইং ব্যবহারের অসুবিধাসমূহ লেখ।", highlight: true },
-                { text: "১৪। সিনট্যাক্সসহ JLabel কম্পোনেন্ট ব্যাখ্যা কর।", highlight: true },
-                { text: "১৫। উদাহরণসহ JButton কম্পোনেন্ট বর্ণনা কর।", highlight: true }
+                // Previous new short questions with blue stripe
+                { text: "১০। JDBC ব্যবহারের সুবিধাসমূহ উল্লেখ কর।", stripe: 'blue' },
+                { text: "১১। ODBC ড্রাইভারের ব্লক ডায়াগ্রাম অঙ্কন কর।", stripe: 'blue' },
+                { text: "১২। নেটওয়ার্ক প্রটোকল ড্রাইভার সংক্ষেপে বর্ণনা কর।", stripe: 'blue' },
+                { text: "১৩। জাভা সুইং ব্যবহারের অসুবিধাসমূহ লেখ।", stripe: 'blue' },
+                { text: "১৪। সিনট্যাক্সসহ JLabel কম্পোনেন্ট ব্যাখ্যা কর।", stripe: 'blue' },
+                { text: "১৫। উদাহরণসহ JButton কম্পোনেন্ট বর্ণনা কর।", stripe: 'blue' },
+                // New short questions with green stripe
+                { text: "১৬। উদাহরণসহ জাভা এনোটেশন ব্যাখ্যা করো।", stripe: 'green' },
+                { text: "১৭। ইভেন্ট হ্যান্ডলিং এর প্রকারভেদ আলোচনা করো।", stripe: 'green' },
+                { text: "১৮। Override এনোটেশন লেখো।", stripe: 'green' }
             ],
             "essay": [
                 { text: "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
@@ -765,9 +786,12 @@
                     questions[category].forEach((q) => {
                         const listItem = document.createElement('div');
                         listItem.classList.add('question-item');
-                        // Add highlight class if applicable
-                        if (q.highlight) {
-                            listItem.classList.add('highlighted-question-item');
+                        
+                        // Add stripe class based on 'stripe' property
+                        if (q.stripe === 'blue') {
+                            listItem.classList.add('blue-stripe-item');
+                        } else if (q.stripe === 'green') {
+                            listItem.classList.add('green-stripe-item');
                         }
 
                         let questionContentHTML = ``;
