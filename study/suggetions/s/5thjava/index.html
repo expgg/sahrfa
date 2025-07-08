@@ -241,7 +241,7 @@
         }
         .ai-answer-part pre {
             background-color: #1A1A1D; /* Darker background for code */
-            color: #66FCF1; /* Cyan for code text */
+            color: #ABB2BF; /* Default code text color */
             padding: 1rem;
             border-radius: 0.5rem;
             overflow-x: auto; /* Enable horizontal scroll for long code lines */
@@ -251,6 +251,17 @@
             white-space: pre-wrap; /* Preserve line breaks and spaces */
             word-break: break-word; /* Break long words */
         }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
         .ai-answer-part p {
             white-space: pre-wrap; /* Preserve line breaks and spaces */
             word-break: break-word; /* Break long words */
@@ -523,13 +534,112 @@
                 { text: "১৮। Override এনোটেশন লেখো।", stripe: 'green' }
             ],
             "essay": [
-                { text: "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
-                { text: "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
-                { text: "৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
-                { text: "৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
-                { text: "৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
-                { text: "৬। OOP এর হিসাবে জাভার মূল স্তম্ভগুলো বর্ণন কর?" },
-                { text: "৭। উদাহরণসহ জাভা এক্সেপশন হ্যান্ডলিং এপ্রোচ বর্ণনা কর?" }
+                { text: "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?", answer: `
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner s = new Scanner(System.in); 
+
+        System.out.println("দৈর্ঘ্য: "); 
+        double l = s.nextDouble(); 
+
+        System.out.println("প্রস্থ: "); 
+        double w = s.nextDouble(); 
+
+        System.out.println("ক্ষেত্রফল: " + (l * w)); 
+    }
+}
+`},
+                { text: "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?", answer: `
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner s = new Scanner(System.in); 
+
+        System.out.println("ব্যাসার্ধ প্রবেশ করান: "); 
+        double r = s.nextDouble(); 
+
+        System.out.println("বৃত্তের ক্ষেত্রফল: " + (Math.PI * r * r)); 
+    }
+}
+`},
+                { text: "৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?", answer: `
+class Student {
+    int Roll;
+    String Name;
+
+    Student() {
+        Roll = 56;
+        Name = "Rifat";
+        System.out.println("Roll: " + Roll);
+        System.out.println("Name: " + Name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student();
+    }
+}
+`},
+                { text: "৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?", answer: `
+class Student {
+
+    int Rifat(int x, int y) {
+        int z = x + y;
+        System.out.println("Result: " + z);
+        return 0;
+    }
+
+    float Rifat(float a, float b) {
+        float c = a + b;
+        System.out.println("Result: " + c);
+        return 0;
+    }
+
+    int Rifat(int x) {
+        System.out.println(x);
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.Rifat(1.0f, 2.0f);
+        s.Rifat(1, 2);
+    }
+}
+`},
+                { text: "৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?", answer: `
+class Animal {
+    void Sound() {
+        System.out.println("Animal Sound");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.Sound();
+        d.bark();
+    }
+}
+`},
+                { text: "৬। OOP এর হিসাবে জাভার মূল স্তম্ভগুলো বর্ণন কর?" }, /* This one is text-based, not code */
+                { text: "৭। উদাহরণসহ জাভা এক্সেপশন হ্যান্ডলিং এপ্রোচ বর্ণনা কর?" } /* This one is text-based, not code */
             ]
         };
 
@@ -542,6 +652,73 @@
         const loadingSpinner = document.querySelector('.loading-spinner');
         const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
 
+        // Keywords, types, and common elements for Java syntax highlighting
+        const javaKeywords = [
+            'import', 'public', 'class', 'static', 'void', 'int', 'double', 'float', 'String',
+            'new', 'return', 'extends', 'if', 'else', 'for', 'while', 'try', 'catch', 'finally',
+            'this', 'super', 'null', 'true', 'false'
+        ];
+        const javaBuiltInClasses = ['Scanner', 'System', 'Math'];
+        const javaBuiltInMethods = ['main', 'println', 'print', 'nextDouble', 'close', 'PI']; // PI is a field but often highlighted like a method/constant
+
+        /**
+         * Applies syntax highlighting to a given Java code string.
+         * @param {string} codeString - The raw Java code string.
+         * @returns {string} - The HTML string with syntax highlighting.
+         */
+        function highlightJavaCode(codeString) {
+            const keywords = new Set(javaKeywords);
+            const builtInClasses = new Set(javaBuiltInClasses);
+            const builtInMethods = new Set(javaBuiltInMethods);
+
+            // Split by common delimiters, preserving them
+            // This regex splits by:
+            // - Word boundaries (\b\w+\b)
+            // - Whitespace (\s+)
+            // - Specific operators/punctuation ([+\-*\/=<>!&|%;.,{}()[\]"'])
+            // It also handles comments and strings as special cases.
+            const parts = codeString.split(/(\/\/.*|\/\*[\s\S]*?\*\/|"[^"]*"|\b\w+\b|[+\-*\/=<>!&|%;.,{}()[\]])/g).filter(Boolean);
+            let highlightedHtml = '';
+
+            for (let i = 0; i < parts.length; i++) {
+                let part = parts[i];
+
+                if (part.match(/^\s+$/)) { // Whitespace
+                    highlightedHtml += part;
+                } else if (part.startsWith('//') || part.startsWith('/*')) { // Comments
+                    highlightedHtml += `<span class="code-comment">${part}</span>`;
+                } else if (part.startsWith('"') && part.endsWith('"')) { // Strings
+                    highlightedHtml += `<span class="code-string">${part}</span>`;
+                } else if (!isNaN(parseFloat(part)) && isFinite(part) && part.match(/\d/)) { // Numbers (ensure it contains a digit)
+                    highlightedHtml += `<span class="code-number">${part}</span>`;
+                } else if (keywords.has(part)) {
+                    highlightedHtml += `<span class="code-keyword">${part}</span>`;
+                } else if (builtInClasses.has(part)) {
+                    highlightedHtml += `<span class="code-class">${part}</span>`;
+                } else if (builtInMethods.has(part)) {
+                    highlightedHtml += `<span class="code-method">${part}</span>`;
+                } else if (part.match(/[+\-*\/=<>!&|%]/)) { // Operators
+                    highlightedHtml += `<span class="code-operator">${part}</span>`;
+                } else if (part.match(/[;.,{}()[\]]/)) { // Punctuation
+                    highlightedHtml += `<span class="code-punctuation">${part}</span>`;
+                } else {
+                    // Handle special cases like System.out and Math.PI if they were split
+                    // This is done by looking ahead in the parts array
+                    if (part === 'System' && parts[i+1] === '.' && parts[i+2] === 'out') {
+                        highlightedHtml += `<span class="code-class">System</span><span class="code-punctuation">.</span><span class="code-variable">out</span>`;
+                        i += 2; // Skip next two parts
+                    } else if (part === 'Math' && parts[i+1] === '.' && parts[i+2] === 'PI') {
+                        highlightedHtml += `<span class="code-class">Math</span><span class="code-punctuation">.</span><span class="code-variable">PI</span>`;
+                        i += 2; // Skip next two parts
+                    } else {
+                        highlightedHtml += part; // Default to no highlighting (variable names, etc.)
+                    }
+                }
+            }
+            return highlightedHtml;
+        }
+
+
         /**
          * Copies the text content of a question to the clipboard.
          * @param {HTMLElement} button - The button element that triggered the copy action.
@@ -549,12 +726,26 @@
         window.copyQuestionText = (button) => {
             const questionItem = button.closest('.question-item');
             const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
-            const textToCopy = questionTextElement.textContent.trim();
+            const targetId = questionTextElement.dataset.target; // Get target ID from toggle element
+            let textToCopy = questionTextElement.textContent.trim(); // Default to question text
+
+            if (targetId) { // If it's a dropdown question
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const codePre = dropdown.querySelector('pre.java-code-display');
+                    if (codePre) {
+                        textToCopy = codePre.textContent.trim(); // Copy raw code from pre tag
+                    } else {
+                        textToCopy = dropdown.textContent.trim(); // Copy text from non-code dropdown
+                    }
+                }
+            }
+            
             const textArea = document.createElement("textarea");
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
             textArea.select();
-            document.execCommand('copy'); // Fallback for navigator.clipboard.writeText due to iframe restrictions
+            document.execCommand('copy');
             document.body.removeChild(textArea);
         };
 
@@ -688,9 +879,9 @@
                                         }
                                     }
 
-                                    // Add the code block
+                                    // Add the code block with highlighting
                                     const pre = document.createElement('pre');
-                                    pre.textContent = match[1].trim(); // Extract content inside ```
+                                    pre.innerHTML = highlightJavaCode(match[1].trim()); // Apply highlighting here
                                     tempDiv.appendChild(pre);
                                     lastIndex = codeBlockRegex.lastIndex;
                                 }
@@ -783,7 +974,7 @@
             for (const category in questions) {
                 const listElement = document.getElementById(`${category}-questions`);
                 if (listElement) {
-                    questions[category].forEach((q) => {
+                    questions[category].forEach((q, index) => {
                         const listItem = document.createElement('div');
                         listItem.classList.add('question-item');
                         
@@ -795,13 +986,15 @@
                         }
 
                         let questionContentHTML = ``;
+                        const dropdownId = `answer-dropdown-${category}-${index}`; // More robust ID for dropdown
 
-                        if (category === 'very-short' && q.answer) {
+                        // All categories now use dropdowns if an answer is provided
+                        if (q.answer) {
                             questionContentHTML = `
                                 <div class="question-main-row">
-                                    <div class="question-text-toggle flex-1 cursor-pointer" data-target="answer-dropdown-${q.text.replace(/\s/g, '-')}" >
+                                    <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}" >
                                         <span>${q.text}</span>
-                                        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+                                        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                         </svg>
                                     </div>
@@ -810,18 +1003,19 @@
                                             AI
                                         </button>
                                         <button class="action-button copy-button" onclick="copyQuestionText(this)">
-                                            <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
                                                 <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
                                                 <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
                                             </svg>
                                         </button>
                                     </div>
                                 </div>
-                                <div id="answer-dropdown-${q.text.replace(/\s/g, '-')}" class="answer-dropdown hidden">
-                                    ${q.answer}
+                                <div id="${dropdownId}" class="answer-dropdown hidden">
+                                    ${category === 'essay' ? `<pre class="java-code-display">${q.answer}</pre>` : q.answer}
                                 </div>
                             `;
                         } else {
+                            // If no answer provided, still show AI and Copy buttons, but no dropdown
                             questionContentHTML = `
                                 <div class="question-main-row">
                                     <div class="question-text-display flex-1">
@@ -832,7 +1026,7 @@
                                             AI
                                         </button>
                                         <button class="action-button copy-button" onclick="copyQuestionText(this)">
-                                            <svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
                                                 <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
                                                 <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
                                             </svg>
@@ -845,8 +1039,16 @@
                         listItem.innerHTML = questionContentHTML;
                         listElement.appendChild(listItem);
 
-                        // Add event listener for dropdown toggle only for 'very-short' questions
-                        if (category === 'very-short' && q.answer) {
+                        // After appending, if it's an essay question with code, highlight it
+                        if (category === 'essay' && q.answer) {
+                            const preElement = listItem.querySelector(`#${dropdownId} .java-code-display`);
+                            if (preElement) {
+                                preElement.innerHTML = highlightJavaCode(preElement.textContent);
+                            }
+                        }
+
+                        // Add event listener for dropdown toggle for any question with an answer
+                        if (q.answer) {
                             const toggleElement = listItem.querySelector('.question-text-toggle');
                             const toggleIcon = toggleElement.querySelector('.toggle-icon');
                             toggleElement.addEventListener('click', function() {
