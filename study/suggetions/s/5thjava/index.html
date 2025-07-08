@@ -114,6 +114,18 @@
             background-color: #636b7f; /* Slightly lighter on hover */
             transform: translateY(-2px); /* Subtle lift effect */
         }
+        /* New style for highlighted questions - now a subtle left border */
+        .highlighted-question-item {
+            border-left: 4px solid #66FCF1; /* Cyan stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .highlighted-question-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
         .footer {
             position: fixed;
             bottom: 0;
@@ -232,6 +244,13 @@
             white-space: pre-wrap; /* Preserve line breaks and spaces */
             word-break: break-word; /* Break long words */
         }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
         .answer-part-heading {
             font-weight: 600;
             color: #66FCF1; /* Cyan for headings within answer parts */
@@ -286,7 +305,9 @@
         .question-text-toggle {
             cursor: pointer;
             flex-grow: 1; /* Allow text to grow */
-            /* Removed padding-bottom to reduce overall height */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
         }
         .question-main-row {
             display: flex;
@@ -299,6 +320,12 @@
             display: flex;
             gap: 0.5rem;
             flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
         }
 
         @media (max-width: 768px) {
@@ -422,40 +449,61 @@
 
     <script>
         // Your API key (from index.html)
-        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ";
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // Keep this as provided by the user.
 
         // Define the questions categorized
         const questions = {
             "very-short": [
-                { text: "১। অবজেক্ট বলতে কী বুঝায়?", answer: "অবজেক্ট হলো একটি ক্লাসের ইনস্ট্যান্স।" },
+                { text: "১। অবজেক্ট বলতে কী বুঝায়?", answer: "অবজেক্ট হলো একটি ক্লাসের ইনস্ট্যান্স।" },
                 { text: "২। মেথড কাকে বলে?", answer: "মেথড হলো একটি কোড ব্লক যা নির্দিষ্ট কাজ করে।" },
-                { text: "৩। ক্লাস বলতে কী বুঝায়?", answer: "ক্লাস হলো অবজেক্ট তৈরির ব্লুপ্রিন্ট।" },
-                { text: "৪। জাভায় ক্লাস ডিক্লারেশনের ফরমেট দেখাও?", answer: "access_modifier class ClassName { // class body }" },
+                { text: "৩। ক্লাস বলতে কী বুঝায়?", answer: "ক্লাস হলো অবজেক্ট তৈরির ব্লুপ্রিন্ট।" },
+                { text: "৪। জাভায় ক্লাস ডিক্লারেশনের ফরমেট দেখাও?", answer: "access_modifier class ClassName { // class body }" },
                 { text: "৫। মেথড ওভারলোডিং কী?", answer: "একই নামের একাধিক মেথড, ভিন্ন প্যারামিটারসহ।" },
                 { text: "৬। ওভারলোডিং কনস্ট্রাক্টর ও কপি কনস্ট্রাক্টর কাকে বলে?", answer: "ওভারলোডিং কনস্ট্রাক্টর হলো ভিন্ন প্যারামিটারসহ একাধিক কনস্ট্রাক্টর; কপি কনস্ট্রাক্টর হলো অবজেক্ট কপি করার জন্য।" },
-                { text: "৭। গারবেজ কালেকশন বলতে কী বুঝায়?", answer: "অব্যবহৃত মেমরি স্বয়ংক্রিয়ভাবে মুক্ত করার প্রক্রিয়া।" },
-                { text: "৮। ওভাররিডেন ও ওভাররাইডিং মেথড বলতে কী বুঝায়?", answer: "সুপারক্লাসের মেথড সাবক্লাসে নতুনভাবে সংজ্ঞায়িত করা।" },
+                { text: "৭। গারবেজ কালেকশন বলতে কী বুঝায়?", answer: "অব্যবহৃত মেমরি স্বয়ংক্রিয়ভাবে মুক্ত করার প্রক্রিয়া।" },
+                { text: "৮। ওভাররিডেন ও ওভাররাইডিং মেথড বলতে কী বুঝায়?", answer: "সুপারক্লাসের মেথড সাবক্লাসে নতুনভাবে সংজ্ঞায়িত করা।" },
                 { text: "৯। মাল্টিলেভেল ইনহেরিট্যান্স কাকে বলে?", answer: "একটি ক্লাস থেকে অন্য ক্লাসের উত্তরাধিকার, যা আবার অন্য একটি থেকে পায়।" },
-                { text: "১০। সাব ক্লাস ও সুপার বলতে কি বুঝায়?", answer: "সাব ক্লাস বৈশিষ্ট্য উত্তরাধিকার সূত্রে পায়; সুপার ক্লাস থেকে বৈশিষ্ট্য প্রাপ্ত হয়।" },
-                { text: "১১। ক্যারেক্টার বলতে কী বুঝায়?", answer: "একক বর্ণ, সংখ্যা বা প্রতীক।" },
+                { text: "১০। সাব ক্লাস ও সুপার বলতে কি বুঝায়?", answer: "সাব ক্লাস বৈশিষ্ট্য উত্তরাধিকার সূত্রে পায়; সুপার ক্লাস থেকে বৈশিষ্ট্য প্রাপ্ত হয়।" },
+                { text: "১১। ক্যারেক্টার বলতে কী বুঝায়?", answer: "একক বর্ণ, সংখ্যা বা প্রতীক।" },
                 { text: "১২। স্ট্রিং কী?", answer: "ক্যারেক্টারের একটি অনুক্রম।" },
                 { text: "১৩। এক্সেপশন হ্যান্ডলিং কি?", answer: "প্রোগ্রামের ত্রুটি মোকাবিলা ও ব্যবস্থাপনার প্রক্রিয়া।" },
-                { text: "১৪। এক্সপশন কী? কী কী কারনে হতে পারে?", answer: "প্রোগ্রাম নির্বাহের অস্বাভাবিক ঘটনা; ফাইল বা নেটওয়ার্ক ত্রুটি, অবৈধ ইনপুট ইত্যাদি কারণে হতে পারে।" }
+                { text: "১৪। এক্সপশন কী? কী কী কারনে হতে পারে?", answer: "প্রোগ্রাম নির্বাহের অস্বাভাবিক ঘটনা; ফাইল বা নেটওয়ার্ক ত্রুটি, অবৈধ ইনপুট ইত্যাদি কারণে হতে পারে।" },
+                // New very-short questions added previously
+                { text: "১৫। জাভা ডেটাবেজ কানেকটিভিটি (JDBC) বলতে কী বুঝায়?", answer: "JDBC হলো জাভা থেকে ডেটাবেজ সংযোগের API।", highlight: true },
+                { text: "১৬। কানেকশন কী?", answer: "কানেকশন হলো ডেটাবেজের সাথে জাভার সেশন।", highlight: true },
+                { text: "১৭। স্টেটমেন্ট বলতে কী বুঝায়?", answer: "স্টেটমেন্ট হলো SQL কোয়েরি চালানোর ইন্টারফেস।", highlight: true },
+                { text: "১৮। নেটওয়ার্ক প্রটোকল ড্রাইভার কী?", answer: "নেটওয়ার্ক প্রটোকল ড্রাইভার হলো সরাসরি ডেটাবেজে সংযোগকারী JDBC ড্রাইভার।", highlight: true },
+                { text: "১৯। জাভা সুইং বলতে কী বুঝায়?", answer: "জাভা সুইং হলো জাভাতে GUI তৈরির লাইব্রেরি।", highlight: true },
+                { text: "২০। সুইং প্যাকেজ বলতে কী বুঝায়?", answer: "সুইং প্যাকেজ হলো GUI উপাদান তৈরির ক্লাস সংগ্রহ।", highlight: true },
+                { text: "২১। যে-কোনো চারটি সুইং প্যাকেজের নাম লেখ।", answer: "javax.swing, javax.swing.event, javax.swing.text, javax.swing.table।", highlight: true },
+                { text: "২২। সার্ভলেট বলতে কী বুঝায়?", answer: "সার্ভলেট হলো ওয়েব সার্ভারের জন্য জাভা ক্লাস।", highlight: true },
+                { text: "২৩। কয়েকটি জনপ্রিয় সার্ভলেট কন্টেইনার এর নাম লেখ।", answer: "অ্যাপাচি টমক্যাট, জেটি, ওয়াইল্ডফ্লাই।", highlight: true },
+                { text: "২৪। জাভায় সার্ভলেট তৈরির সম্ভাব্য উপায়সমূহ কী কী?", answer: "ইন্টারফেস ইমপ্লিমেন্ট বা ক্লাস এক্সটেন্ড করে।", highlight: true },
+                { text: "২৫। init () মেথডের কাজ কী?", answer: "init() সার্ভলেটের শুরুর ইনিশিয়ালাইজেশন করে।", highlight: true },
+                { text: "২৬। সেশন ম্যানেজমেন্ট বলতে কী বুঝায়?", answer: "সেশন ম্যানেজমেন্ট হলো ব্যবহারকারীর স্টেট বজায় রাখার প্রক্রিয়া।", highlight: true },
+                { text: "২৭। চিত্রসহ জাভা সার্ভলেটের সংজ্ঞা লেখ।", answer: "জাভা সার্ভলেট হলো সার্ভার-সাইড প্রোগ্রাম যা ওয়েব কন্টেন্ট তৈরি করে।", highlight: true }
             ],
             "short": [
-                { text: "১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?" },
+                { text: "১। জাভায় ক্লাস ডিক্লারেশন ফরমেট উদাহরণসহ দেখাও?" },
                 { text: "২। ক্লাস ও অবজেক্টে এর মধ্যে পার্থক্য লেখ?" },
                 { text: "৩। কনস্ট্রাক্টর মেথডের বৈশিষ্টগুলো উল্লেখ কর?" },
                 { text: "৪। ওভারলোডেড মেথড ও ওভারriডেন মেথড মধ্যে পার্থক্য লেখ?" },
                 { text: "৫। মাল্টিলেvel ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?" },
-                { text: "৬। হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?" },
+                { text: "৬। হায়ারারকিক্যাল ইনহেরিট্যান্স এর ব্লকচিত্র অঙ্কন করে ফরমেট লেখ?" },
                 { text: "৭। স্ট্রিং এবং বাফারের মধ্যে পার্থক্য লেখ?" },
-                { text: "৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?" },
-                { text: "৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?" }
+                { text: "৮। জাভা এক্সেপশন ক্লাস হায়ারর্কি চিত্রের মাধ্যমে দেখাও?" },
+                { text: "৯। এক্সেপশন হ্যান্ডলিং এর সুবিধাসমূহ লিখ?" },
+                // New short questions added below, starting from 10
+                { text: "১০। JDBC ব্যবহারের সুবিধাসমূহ উল্লেখ কর।", highlight: true },
+                { text: "১১। ODBC ড্রাইভারের ব্লক ডায়াগ্রাম অঙ্কন কর।", highlight: true },
+                { text: "১২। নেটওয়ার্ক প্রটোকল ড্রাইভার সংক্ষেপে বর্ণনা কর।", highlight: true },
+                { text: "১৩। জাভা সুইং ব্যবহারের অসুবিধাসমূহ লেখ।", highlight: true },
+                { text: "১৪। সিনট্যাক্সসহ JLabel কম্পোনেন্ট ব্যাখ্যা কর।", highlight: true },
+                { text: "১৫। উদাহরণসহ JButton কম্পোনেন্ট বর্ণনা কর।", highlight: true }
             ],
             "essay": [
-                { text: "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
-                { text: "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
+                { text: "২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?" },
                 { text: "৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
                 { text: "৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
                 { text: "৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?" },
@@ -473,7 +521,10 @@
         const loadingSpinner = document.querySelector('.loading-spinner');
         const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
 
-        // Function to copy text to clipboard for individual question
+        /**
+         * Copies the text content of a question to the clipboard.
+         * @param {HTMLElement} button - The button element that triggered the copy action.
+         */
         window.copyQuestionText = (button) => {
             const questionItem = button.closest('.question-item');
             const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
@@ -482,17 +533,22 @@
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
             textArea.select();
-            document.execCommand('copy');
+            document.execCommand('copy'); // Fallback for navigator.clipboard.writeText due to iframe restrictions
             document.body.removeChild(textArea);
         };
 
-        // Function to generate answer using Gemini API
+        /**
+         * Generates an answer for a given question using the Gemini API.
+         * The answer is structured into three parts: very easy explanation, easy explanation, and exam-ready answer.
+         * @param {string} question - The question to generate an answer for.
+         * @param {string} questionCategory - The category of the question (e.g., 'very-short', 'short', 'essay').
+         */
         async function generateAnswer(question, questionCategory) {
             loadingSpinner.classList.remove('hidden');
             modalAnswerPlaceholder.classList.remove('hidden');
             modalAnswerParts.innerHTML = ''; // Clear previous answer parts
 
-            // Determine question type for prompt based on category
+            // Determine question type and desired answer length for the prompt
             let questionTypeForPrompt;
             let answerLengthDescription;
             if (questionCategory === 'very-short') {
@@ -560,11 +616,6 @@
                     result.candidates[0].content.parts.length > 0) {
                     let rawAnswer = result.candidates[0].content.parts[0].text;
                     
-                    // Replace Markdown bolding (**) with HTML strong tags
-                    rawAnswer = rawAnswer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    // Replace Markdown list items (*) with HTML list items if they are at the beginning of a line
-                    rawAnswer = rawAnswer.replace(/^\* (.*)/gm, '<li>$1</li>');
-
                     // Split the rawAnswer into sections based on your defined headers
                     const sections = rawAnswer.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)([\s\S]*?)(?=(পার্ট ৩:|পার্ট ২:|পার্ট ১:|$))/g);
 
@@ -575,7 +626,7 @@
                             const headerMatch = section.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)/);
                             if (headerMatch) {
                                 const header = headerMatch[0].trim();
-                                const content = section.substring(header.length).trim();
+                                let content = section.substring(header.length).trim();
 
                                 let headingText;
                                 if (header === 'পার্ট ৩:') {
@@ -590,53 +641,58 @@
                                 partDiv.classList.add('ai-answer-part');
                                 partDiv.innerHTML = `<h4 class="answer-part-heading">${headingText}</h4>`;
                                 
-                                // Check for code blocks (```java or ```)
+                                // Process content for Markdown formatting (bold, lists, code)
                                 const codeBlockRegex = /```(?:java)?\s*([\s\S]*?)```/g;
                                 let lastIndex = 0;
                                 let match;
                                 
-                                // Process parts that are not code
+                                const tempDiv = document.createElement('div'); // Temporary div to process content
+                                
                                 while ((match = codeBlockRegex.exec(content)) !== null) {
                                     // Add text before the code block
                                     if (match.index > lastIndex) {
                                         const textBefore = content.substring(lastIndex, match.index);
-                                        const p = document.createElement('p');
-                                        p.classList.add('answer-content-text');
-                                        p.innerHTML = textBefore; // Use innerHTML to render bold/list
-                                        partDiv.appendChild(p);
+                                        // Convert Markdown bold (**) and list items (*) to HTML
+                                        let formattedText = textBefore.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                                        
+                                        if (formattedText.includes('<li>')) {
+                                            const ul = document.createElement('ul');
+                                            ul.innerHTML = formattedText;
+                                            tempDiv.appendChild(ul);
+                                        } else {
+                                            const p = document.createElement('p');
+                                            p.innerHTML = formattedText;
+                                            tempDiv.appendChild(p);
+                                        }
                                     }
 
                                     // Add the code block
                                     const pre = document.createElement('pre');
-                                    pre.classList.add('answer-content-text'); // Apply common text style too
                                     pre.textContent = match[1].trim(); // Extract content inside ```
-                                    partDiv.appendChild(pre);
+                                    tempDiv.appendChild(pre);
                                     lastIndex = codeBlockRegex.lastIndex;
                                 }
 
                                 // Add any remaining text after the last code block
                                 if (lastIndex < content.length) {
                                     const remainingText = content.substring(lastIndex);
-                                    const p = document.createElement('p');
-                                    p.classList.add('answer-content-text');
-                                    p.innerHTML = remainingText; // Use innerHTML to render bold/list
-                                    partDiv.appendChild(p);
-                                }
+                                    // Convert Markdown bold (**) and list items (*) to HTML
+                                    let formattedText = remainingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                    formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
 
-                                // If no code blocks and no lists, just add as a paragraph
-                                if (lastIndex === 0 && !codeBlockRegex.test(content) && !/^\s*<li>/.test(content)) {
-                                    const p = document.createElement('p');
-                                    p.classList.add('answer-content-text');
-                                    p.innerHTML = content; // Use innerHTML to render bold/list
-                                    partDiv.appendChild(p);
-                                } else if (lastIndex === 0 && /^\s*<li>/.test(content)) {
-                                    // If only lists, wrap in ul
-                                    const ul = document.createElement('ul');
-                                    ul.classList.add('list-disc', 'list-inside'); // Tailwind classes for bullet points
-                                    ul.innerHTML = content;
-                                    partDiv.appendChild(ul);
+                                    if (formattedText.includes('<li>')) {
+                                        const ul = document.createElement('ul');
+                                        ul.innerHTML = formattedText;
+                                        tempDiv.appendChild(ul);
+                                    } else {
+                                        const p = document.createElement('p');
+                                        p.innerHTML = formattedText;
+                                        tempDiv.appendChild(p);
+                                    }
                                 }
                                 
+                                partDiv.appendChild(tempDiv); // Append the processed content to the partDiv
                                 modalAnswerParts.appendChild(partDiv);
                             }
                         });
@@ -644,7 +700,17 @@
                         // Fallback if structured parts aren't found
                         const p = document.createElement('p');
                         p.classList.add('text-center', 'answer-content-text');
-                        p.innerHTML = rawAnswer.trim() || 'No answer found.'; // Use innerHTML for fallback too
+                        // Convert Markdown bold (**) and list items (*) to HTML for fallback
+                        let formattedText = rawAnswer.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                        
+                        if (formattedText.includes('<li>')) {
+                            const ul = document.createElement('ul');
+                            ul.innerHTML = formattedText;
+                            p.appendChild(ul);
+                        } else {
+                            p.innerHTML = formattedText;
+                        }
                         modalAnswerParts.appendChild(p);
                     }
 
@@ -660,31 +726,38 @@
             }
         }
 
-        // Function to open AI modal
+        /**
+         * Opens the AI answer modal and triggers answer generation.
+         * @param {string} encodedQuestion - The URI-encoded question text.
+         * @param {string} questionCategory - The category of the question.
+         */
         window.openAiModal = (encodedQuestion, questionCategory) => {
             const question = decodeURIComponent(encodedQuestion);
             modalQuestionText.textContent = question;
             
             loadingSpinner.classList.remove('hidden');
             modalAnswerPlaceholder.classList.remove('hidden');
-            modalAnswerParts.innerHTML = ''; 
+            modalAnswerParts.innerHTML = ''; // Clear existing content before showing spinner
 
             aiAnswerModal.classList.add('active');
-            generateAnswer(question, questionCategory); 
+            generateAnswer(question, questionCategory);
         };
 
-        // Function to close AI modal (from index.html)
+        // Event listener to close AI modal when close button is clicked
         aiModalCloseButton.addEventListener('click', () => {
             aiAnswerModal.classList.remove('active');
         });
 
+        // Event listener to close AI modal when clicking outside the content
         aiAnswerModal.addEventListener('click', (e) => {
             if (e.target === aiAnswerModal) {
                 aiAnswerModal.classList.remove('active');
             }
         });
 
-        // Function to load questions into the DOM
+        /**
+         * Loads questions into the DOM based on categories defined in the `questions` object.
+         */
         function loadQuestions() {
             for (const category in questions) {
                 const listElement = document.getElementById(`${category}-questions`);
@@ -692,6 +765,10 @@
                     questions[category].forEach((q) => {
                         const listItem = document.createElement('div');
                         listItem.classList.add('question-item');
+                        // Add highlight class if applicable
+                        if (q.highlight) {
+                            listItem.classList.add('highlighted-question-item');
+                        }
 
                         let questionContentHTML = ``;
 
@@ -699,7 +776,10 @@
                             questionContentHTML = `
                                 <div class="question-main-row">
                                     <div class="question-text-toggle flex-1 cursor-pointer" data-target="answer-dropdown-${q.text.replace(/\s/g, '-')}" >
-                                        ${q.text}
+                                        <span>${q.text}</span>
+                                        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
                                     </div>
                                     <div class="button-container flex items-center gap-2 flex-shrink-0">
                                         <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
@@ -744,11 +824,13 @@
                         // Add event listener for dropdown toggle only for 'very-short' questions
                         if (category === 'very-short' && q.answer) {
                             const toggleElement = listItem.querySelector('.question-text-toggle');
+                            const toggleIcon = toggleElement.querySelector('.toggle-icon');
                             toggleElement.addEventListener('click', function() {
                                 const targetId = this.dataset.target;
                                 const dropdown = document.getElementById(targetId);
                                 if (dropdown) {
                                     dropdown.classList.toggle('hidden');
+                                    toggleIcon.classList.toggle('rotated'); // Rotate icon
                                 }
                             });
                         }
@@ -757,6 +839,7 @@
             }
         }
 
+        // Load questions when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
             loadQuestions();
         });
