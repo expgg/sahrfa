@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Development Using Java Short suggestion - Softmax Online School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .branding {
+            background-color: #2d3748; /* Dark background for branding */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .branding .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .branding .tagline {
+            font-size: 1rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack main row and dropdown */
+            align-items: flex-start; /* Align items to the start */
+            padding: 8px 15px; /* Adjusted vertical padding */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* Style for blue stripe items */
+        .blue-stripe-item {
+            border-left: 4px solid #4299e1; /* Blue stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .blue-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for green stripe items */
+        .green-stripe-item {
+            border-left: 4px solid #48bb78; /* Green stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .green-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+            font-size: 1.25rem; /* Ensure icon is visible */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #ABB2BF; /* Default code text color */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Styles for dropdown answers */
+        .answer-dropdown {
+            background-color: #3a475a; /* Slightly lighter dark background for dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            width: 100%; /* Ensure it takes full width of its parent */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* New style for extended answer dropdown */
+        .extended-answer-dropdown {
+            background-color: #5a6b80; /* Even lighter dark background for extended dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Style for the short answer text itself, now a toggle */
+        .short-answer-text-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0; /* Add some padding */
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex; /* To align text and icon */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .short-answer-text-toggle:hover {
+            background-color: #4a5568; /* Slightly lighter on hover */
+        }
+
+
+        .question-text-toggle {
+            cursor: pointer;
+            flex-grow: 1; /* Allow text to grow */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
+        }
+        .question-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure this row takes full width of question-item */
+            min-height: 2.5rem; /* Set a minimum height for the row */
+        }
+        .question-item .button-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 35px;
+            }
+            .main-content {
+                margin: 10px auto;
+                padding: 0 15px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .header .subtitle {
+                font-size: 1.2rem;
+            }
+            .branding {
+                padding: 10px 15px;
+            }
+            .branding .logo-text {
+                font-size: 1.5rem;
+            }
+            .branding .tagline {
+                font-size: 0.9rem;
+            }
+            .branding .contact-info {
+                flex-direction: column;
+                gap: 8px;
+                font-size: 0.8rem;
+            }
+            .category-header {
+                font-size: 1.3rem;
+                padding: 12px 15px;
+            }
+            .question-list {
+                padding: 15px;
+            }
+            .question-item {
+                font-size: 0.95rem;
+                padding: 8px 12px;
+            }
+            .footer {
+                padding: 6px 0;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Branding section is now directly on the body background -->
+    <div class="branding">
+        <div class="logo-text">SOFTMAX</div>
+        <div class="tagline">ONLINE SCHOOL</div>
+        <div class="contact-info">
+            <div>📍 Rangamati Nir, DUET, Gazipur-1707</div>
+            <div>📞 09678 677 677, 01755 319105</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="header">
+            <h1>Application Development Using Java</h1>
+            <p class="subtitle">Short suggestion</p>
+        </header>
+
+        <!-- Question categories without card styling -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <!-- AI Answer Modal (from index.html) -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your API key (from index.html)
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // Keep this as provided by the user.
+
+        // Define the questions categorized
+        const questions = {
+            "very-short": [
+                { text: "১। DOM কী?", answer: "DOM হলো HTML/XML ডকুমেন্টের প্রোগ্রামিং ইন্টারফেস।", extendedAnswer: "DOM (Document Object Model) হলো HTML এবং XML ডকুমেন্টগুলির জন্য একটি প্রোগ্রামিং ইন্টারফেস। এটি ওয়েব পেজের কাঠামোকে একটি ট্রি-এর মতো করে উপস্থাপন করে, যেখানে প্রতিটি HTML উপাদান (যেমন, প্যারাগ্রাফ, ছবি, বাটন) একটি নোড হিসেবে থাকে। জাভাস্ক্রিপ্ট ব্যবহার করে এই DOM নোডগুলিকে অ্যাক্সেস, পরিবর্তন বা ডিলিট করা যায়, যার ফলে ওয়েব পেজের বিষয়বস্তু, স্টাইল এবং কাঠামো ডায়নামিকভাবে পরিবর্তন করা সম্ভব হয়।" },
+                { text: "২। HTML-এলিমেন্টকে জাভাস্ক্রিপ্ট দ্বারা সিলেক্ট করার পদ্ধতি লেখ।", answer: "getElementById(), querySelector() ইত্যাদি।", extendedAnswer: "HTML এলিমেন্টকে জাভাস্ক্রিপ্ট দ্বারা সিলেক্ট করার জন্য বিভিন্ন পদ্ধতি রয়েছে, যার মাধ্যমে ওয়েব পেজের নির্দিষ্ট উপাদানগুলিকে খুঁজে বের করে সেগুলিতে পরিবর্তন আনা যায়। প্রধান পদ্ধতিগুলি হলো: getElementById() (আইডি দ্বারা সিলেক্ট), getElementsByClassName() (ক্লাস নেম দ্বারা সিলেক্ট), getElementsByTagName() (ট্যাগ নেম দ্বারা সিলেক্ট), querySelector() (CSS সিলেক্টর দ্বারা প্রথম ম্যাচিং এলিমেন্ট সিলেক্ট), এবং querySelectorAll() (CSS সিলেক্টর দ্বারা সব ম্যাচিং এলিমেন্ট সিলেক্ট)।" },
+                { text: "৩। ক্লায়েন্ট সাইড ফ্রেমওয়ার্ক কী?", answer: "ক্লায়েন্ট সাইড ফ্রেমওয়ার্ক হলো ব্রাউজারে রান হওয়া ওয়েব অ্যাপ তৈরির কাঠামো।", extendedAnswer: "ক্লায়েন্ট সাইড ফ্রেমওয়ার্ক হলো এমন একটি কাঠামো যা ওয়েব ব্রাউজারে (ক্লায়েন্ট সাইডে) রান হওয়া ওয়েব অ্যাপ্লিকেশন তৈরির জন্য ব্যবহৃত হয়। এই ফ্রেমওয়ার্কগুলি ডেভেলপারদেরকে ইউজার ইন্টারফেস (UI) তৈরি, ডেটা ম্যানেজমেন্ট এবং অ্যাপ্লিকেশন লজিক সংগঠিত করার জন্য পূর্ব-লিখিত কোড এবং টুলস সরবরাহ করে। এর ফলে দ্রুত এবং সহজে ইন্টারেক্টিভ ও ডায়নামিক ওয়েব অ্যাপ্লিকেশন তৈরি করা যায়, যেমন সিঙ্গেল পেজ অ্যাপ্লিকেশন (SPA)।" },
+                { text: "৪। জেকুয়েরি (jQuery) কী?", answer: "জেকুয়েরি হলো HTML ও Ajax সহজ করার জাভাস্ক্রিপ্ট লাইব্রেরি।", extendedAnswer: "জেকুয়েরি (jQuery) হলো একটি দ্রুত, ছোট এবং ফিচার-সমৃদ্ধ জাভাস্ক্রিপ্ট লাইব্রেরি। এটি HTML ডকুমেন্ট ট্রাভার্সাল, ইভেন্ট হ্যান্ডলিং, অ্যানিমেশন, এবং Ajax ইন্টারঅ্যাকশনকে সহজ করার জন্য ডিজাইন করা হয়েছে। 'Write less, do more' (কম লিখুন, বেশি করুন) এই স্লোগান নিয়ে এটি জাভাস্ক্রিপ্ট কোডিংকে অনেক সহজ করে তুলেছে, বিশেষ করে DOM ম্যানিপুলেশনের ক্ষেত্রে।" },
+                { text: "৫। স্ট্যাটিক ওয়েবসাইট কী?", answer: "স্ট্যাটিক ওয়েবসাইট হলো স্থির বিষয়বস্তুর ওয়েবসাইট।", extendedAnswer: "স্ট্যাটিক ওয়েবসাইট হলো এমন ওয়েবসাইট যার বিষয়বস্তু স্থির এবং ব্যবহারকারীর অনুরোধের উপর ভিত্তি করে পরিবর্তিত হয় না। এই ওয়েবসাইটগুলি সাধারণত HTML, CSS এবং জাভাস্ক্রিপ্ট ফাইল দিয়ে তৈরি হয় এবং সার্ভারে সরাসরি স্টোর করা থাকে। প্রতিটি ব্যবহারকারী একই কন্টেন্ট দেখতে পায় এবং ডেটাবেজের সাথে এর কোনো সংযোগ থাকে না। ছোট ব্যবসা বা ব্যক্তিগত পোর্টফোলিওর জন্য এটি উপযুক্ত।" },
+                { text: "৬। ডায়নামিক ওয়েবসাইট কী?", answer: "ডায়নামিক ওয়েবসাইট হলো পরিবর্তনশীল বিষয়বস্তুর ওয়েবসাইট।", extendedAnswer: "ডায়নামিক ওয়েবসাইট হলো এমন ওয়েবসাইট যার বিষয়বস্তু ব্যবহারকারীর অনুরোধ বা ডেটাবেজের তথ্যের উপর ভিত্তি করে পরিবর্তিত হয়। এই ওয়েবসাইটগুলি সার্ভার-সাইড স্ক্রিপ্টিং ভাষা (যেমন PHP, Python, Node.js) এবং ডেটাবেজ (যেমন MySQL, PostgreSQL) ব্যবহার করে তৈরি হয়। ই-কমার্স সাইট, সোশ্যাল মিডিয়া প্ল্যাটফর্ম এবং ব্লগগুলি ডায়নামিক ওয়েবসাইটের উদাহরণ।" },
+                { text: "৭। ফ্রেমওয়ার্ক কী?", answer: "ফ্রেমওয়ার্ক হলো সফটওয়্যার তৈরির পূর্ব-প্রতিষ্ঠিত কাঠামো।", extendedAnswer: "ফ্রেমওয়ার্ক হলো সফটওয়্যার অ্যাপ্লিকেশন তৈরির জন্য একটি পূর্ব-প্রতিষ্ঠিত কাঠামো এবং টুলসেট। এটি ডেভেলপারদেরকে অ্যাপ্লিকেশন তৈরির জন্য একটি ভিত্তি সরবরাহ করে, যেখানে সাধারণ কাজগুলি করার জন্য রেডিমেড কম্পোনেন্ট এবং লাইব্রেরি থাকে। ফ্রেমওয়ার্ক ব্যবহারের ফলে ডেভেলপমেন্ট প্রক্রিয়া দ্রুত হয়, কোডের মান উন্নত হয় এবং কোড রক্ষণাবেক্ষণ সহজ হয়।" },
+                { text: "৮। ডায়নামিক ওয়েবসাইট তৈরির কয়েকটি ফ্রেমওয়ার্কের নাম লেখ।", answer: "রিঅ্যাক্ট, লারাভেল, জ্যাঙ্গো।", extendedAnswer: "ডায়নামিক ওয়েবসাইট তৈরির জন্য বেশ কিছু জনপ্রিয় ফ্রেমওয়ার্ক রয়েছে। ক্লায়েন্ট-সাইড (ফ্রন্ট-এন্ড) এর জন্য রিঅ্যাক্ট (React), অ্যাঙ্গুলার (Angular), এবং ভিউ.জেএস (Vue.js) বিশেষভাবে পরিচিত। সার্ভার-সাইড (ব্যাক-এন্ড) এর জন্য লারাভেল (Laravel - PHP), জ্যাঙ্গো (Django - Python), এবং এক্সপ্রেস.জেএস (Express.js - Node.js) ব্যাপকভাবে ব্যবহৃত হয়।" },
+                { text: "৯। ডাটাবেজ কী?", answer: "ডেটাবেজ হলো সুসংগঠিত ডেটার সংগ্রহ।", extendedAnswer: "ডেটাবেজ হলো সুসংগঠিত ডেটার একটি সংগ্রহ যা সহজে অ্যাক্সেস, পরিচালনা এবং আপডেট করা যায়। এটি তথ্যকে একটি সুনির্দিষ্ট ফরম্যাটে সংরক্ষণ করে, যাতে প্রয়োজনে দ্রুত তথ্য খুঁজে বের করা যায় এবং ব্যবহার করা যায়। ডেটাবেজগুলি বিভিন্ন ধরনের হতে পারে, যেমন রিলেশনাল ডেটাবেজ (MySQL, PostgreSQL) বা NoSQL ডেটাবেজ (MongoDB, Cassandra)।" },
+                { text: "১০। DDL কী?", answer: "DDL হলো ডেটাবেজ কাঠামো সংজ্ঞায়িত করার কমান্ড।", extendedAnswer: "DDL (Data Definition Language) হলো ডেটাবেজের কাঠামো বা স্কিমা সংজ্ঞায়িত করার জন্য ব্যবহৃত কমান্ড সেট। এই কমান্ডগুলির মাধ্যমে ডেটাবেজ, টেবিল, ইনডেক্স এবং অন্যান্য ডেটাবেজ অবজেক্ট তৈরি, পরিবর্তন বা মুছে ফেলা হয়। CREATE, ALTER, এবং DROP হলো DDL এর প্রধান কমান্ড।" },
+                { text: "১১। DML কী?", answer: "DML হলো ডেটাবেজে ডেটা পরিবর্তনের কমান্ড।", extendedAnswer: "DML (Data Manipulation Language) হলো ডেটাবেজে ডেটা সন্নিবেশ (Insert), পরিবর্তন (Update), মুছে ফেলা (Delete) এবং পুনরুদ্ধার (Retrieve) করার জন্য ব্যবহৃত কমান্ড সেট। এই কমান্ডগুলি ডেটাবেজের ডেটা নিয়ে কাজ করে, কিন্তু এর কাঠামো পরিবর্তন করে না। SELECT, INSERT, UPDATE, এবং DELETE হলো DML এর প্রধান কমান্ড।" },
+                { text: "১২। কনটেন্ট ম্যানেজমেন্ট সিস্টেম কী?", answer: "CMS হলো ডিজিটাল কনটেন্ট ব্যবস্থাপনা সফটওয়্যার।", extendedAnswer: "কনটেন্ট ম্যানেজমেন্ট সিস্টেম (CMS) হলো একটি সফটওয়্যার অ্যাপ্লিকেশন যা ডিজিটাল কনটেন্ট তৈরি, ব্যবস্থাপনা, এবং সংশোধনে সাহায্য করে। এটি ব্যবহারকারীদেরকে কোডিং জ্ঞান ছাড়াই ওয়েবসাইট বা ডিজিটাল কন্টেন্ট তৈরি ও আপডেট করার সুবিধা দেয়। ওয়ার্ডপ্রেস, জুমলা, এবং ড্রুপাল হলো জনপ্রিয় CMS এর উদাহরণ।" },
+                { text: "১৩। শপিফাই কী?", answer: "শপিফাই হলো একটি অনলাইন স্টোর তৈরির প্ল্যাটফর্ম।", extendedAnswer: "শপিফাই (Shopify) হলো একটি জনপ্রিয় ই-কমার্স প্ল্যাটফর্ম যা ব্যক্তি এবং ব্যবসাকে সহজে অনলাইন স্টোর তৈরি ও পরিচালনা করতে সাহায্য করে। এর মাধ্যমে পণ্য তালিকা তৈরি করা, অর্ডার ম্যানেজ করা, পেমেন্ট গ্রহণ করা এবং শিপিং সেটআপ করা যায়। এটি একটি ক্লাউড-ভিত্তিক সমাধান, তাই সার্ভার বা হোস্টিং নিয়ে চিন্তা করতে হয় না।" },
+                { text: "১৪। সিএমএস-এর দুটি সুবিধা লেখ।", answer: "কোডিং ছাড়া ওয়েবসাইট তৈরি; সহজে কনটেন্ট আপডেট।", extendedAnswer: "সিএমএস (CMS) ব্যবহারের দুটি প্রধান সুবিধা হলো: ১. কোডিং জ্ঞান ছাড়াই ওয়েবসাইট তৈরি ও কনটেন্ট আপডেট করা যায়, যা অ-প্রযুক্তিগত ব্যবহারকারীদের জন্য ওয়েবসাইট পরিচালনা সহজ করে তোলে। ২. এটি একটি ব্যবহারকারী-বান্ধব ইন্টারফেস সরবরাহ করে, যার মাধ্যমে সহজেই টেক্সট, ছবি, ভিডিও এবং অন্যান্য মিডিয়া যুক্ত ও সম্পাদনা করা যায়।" },
+                { text: "১৫। ই-কমার্স কী?", answer: "ই-কমার্স হলো ইন্টারনেট ব্যবহার করে পণ্য কেনা-বেচা।", extendedAnswer: "ই-কমার্স (E-commerce) হলো ইলেকট্রনিক মাধ্যম, বিশেষ করে ইন্টারনেট ব্যবহার করে পণ্য বা পরিষেবা কেনা-বেচা। এর মধ্যে অনলাইন শপিং, অনলাইন ব্যাংকিং, ইলেকট্রনিক পেমেন্ট সিস্টেম এবং অনলাইন টিকিট বুকিং ইত্যাদি অন্তর্ভুক্ত। ই-কমার্স ব্যবসাগুলিকে বিশ্বব্যাপী গ্রাহকদের কাছে পৌঁছাতে এবং ২৪/৭ পরিষেবা প্রদান করতে সাহায্য করে।" },
+                { text: "১৬। ক্রিপ্টোকারেন্সি কী?", answer: "ক্রিপ্টোকারেন্সি হলো ক্রিপ্টোগ্রাফি দ্বারা সুরক্ষিত ডিজিটাল মুদ্রা।", extendedAnswer: "ক্রিপ্টোকারেন্সি হলো একটি ডিজিটাল বা ভার্চুয়াল মুদ্রা যা ক্রিপ্টোগ্রাফি দ্বারা সুরক্ষিত এবং বিকেন্দ্রীভূত নেটওয়ার্কে (ব্লকচেইন) কাজ করে। এটি সাধারণত কোনো কেন্দ্রীয় ব্যাংক বা সরকারের নিয়ন্ত্রণাধীন নয়। বিটকয়েন (Bitcoin) এবং ইথেরিয়াম (Ethereum) হলো সবচেয়ে পরিচিত ক্রিপ্টোকারেন্সি।" },
+                { text: "১৭। ডোমেইন কী?", answer: "ডোমেইন হলো ওয়েবসাইটের ঠিকানা।", extendedAnswer: "ডোমেইন (Domain) হলো একটি ওয়েবসাইটের ঠিকানা যা ইন্টারনেটে একটি ওয়েবসাইটকে চিহ্নিত করে (যেমন, example.com)। এটি আইপি অ্যাড্রেসের (যেমন, 192.168.1.1) একটি সহজবোধ্য নাম, যা মনে রাখা সহজ। ব্যবহারকারীরা এই ডোমেইন নামটি ব্রাউজারে টাইপ করে ওয়েবসাইটে প্রবেশ করে।" },
+                { text: "১৮। BTCL ও BTRC কী?", answer: "BTCL বাংলাদেশের প্রধান টেলিযোগাযোগ সংস্থা; BTRC নিয়ন্ত্রক সংস্থা।", extendedAnswer: "BTCL (Bangladesh Telecommunications Company Limited) হলো বাংলাদেশের প্রধান টেলিযোগাযোগ সংস্থা যা টেলিফোন, ইন্টারনেট এবং অন্যান্য টেলিযোগাযোগ পরিষেবা প্রদান করে। অন্যদিকে, BTRC (Bangladesh Telecommunication Regulatory Commission) হলো বাংলাদেশের টেলিযোগাযোগ নিয়ন্ত্রক সংস্থা, যা দেশের টেলিযোগাযোগ খাতের নিয়মকানুন প্রণয়ন ও বাস্তবায়ন করে এবং লাইসেন্স প্রদান করে।" },
+                { text: "১৯। ওয়েব সিকিউরিটি কী?", answer: "ওয়েব সিকিউরিটি হলো সাইবার আক্রমণ থেকে ওয়েবসাইট রক্ষা।", extendedAnswer: "ওয়েব সিকিউরিটি হলো ওয়েব অ্যাপ্লিকেশন, সার্ভার এবং ডেটাবেজকে সাইবার আক্রমণ, ডেটা চুরি, এবং অন্যান্য অনলাইন হুমকি থেকে রক্ষা করার প্রক্রিয়া। এর মধ্যে ডেটা এনক্রিপশন, ফায়ারওয়াল ব্যবহার, নিয়মিত নিরাপত্তা অডিট, এবং দুর্বলতা পরীক্ষা করা অন্তর্ভুক্ত। এর লক্ষ্য হলো ব্যবহারকারীর ডেটা এবং ওয়েবসাইটের কার্যকারিতা সুরক্ষিত রাখা।" },
+                { text: "২০। ফায়ারওয়াল কী?", answer: "ফায়ারওয়াল হলো নেটওয়ার্ক ট্র্যাফিক নিয়ন্ত্রণকারী নিরাপত্তা সিস্টেম।", extendedAnswer: "ফায়ারওয়াল (Firewall) হলো একটি নেটওয়ার্ক সিকিউরিটি সিস্টেম যা পূর্বনির্ধারিত নিরাপত্তা নিয়মের ভিত্তিতে ইনকামিং ও আউটগোয়িং নেটওয়ার্ক ট্র্যাফিক নিয়ন্ত্রণ করে। এটি একটি সুরক্ষা প্রাচীর হিসেবে কাজ করে যা অনুমোদিত ট্র্যাফিককে পাস করতে দেয় এবং অননুমোদিত বা ক্ষতিকারক ট্র্যাফিককে ব্লক করে। এটি হার্ডওয়্যার বা সফটওয়্যার উভয় রূপে থাকতে পারে।" },
+                { text: "২১। অ্যান্টিভাইরাস কী?", answer: "অ্যান্টিভাইরাস হলো ভাইরাস থেকে কম্পিউটার রক্ষাকারী সফটওয়্যার।", extendedAnswer: "অ্যান্টিভাইরাস হলো একটি সফটওয়্যার যা কম্পিউটারকে ভাইরাস, ম্যালওয়্যার, স্পাইওয়্যার এবং অন্যান্য ক্ষতিকারক প্রোগ্রাম থেকে রক্ষা করে। এটি সিস্টেমে ক্ষতিকারক ফাইল স্ক্যান করে, সনাক্ত করে এবং সেগুলিকে মুছে ফেলে বা কোয়ারেন্টাইন করে। নিয়মিত আপডেট এবং স্ক্যানিং অ্যান্টিভাইরাসের কার্যকারিতা বজায় রাখতে সাহায্য করে।" },
+                { text: "২২। ফিশিং কী?", answer: "ফিশিং হলো প্রতারণামূলক তথ্য হাতিয়ে নেওয়ার সাইবার কৌশল।", extendedAnswer: "ফিশিং (Phishing) হলো প্রতারণামূলকভাবে সংবেদনশীল তথ্য (যেমন ইউজারনেম, পাসওয়ার্ড, ক্রেডিট কার্ডের বিবরণ) হাতিয়ে নেওয়ার একটি সাইবার আক্রমণ কৌশল। আক্রমণকারীরা নিজেদেরকে বিশ্বস্ত সত্তা (যেমন ব্যাংক, পরিচিত কোম্পানি) হিসেবে উপস্থাপন করে ইমেল, মেসেজ বা ভুয়া ওয়েবসাইটের মাধ্যমে ব্যবহারকারীদেরকে ব্যক্তিগত তথ্য দিতে প্রলুব্ধ করে।" },
+                { text: "২৩। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়?", answer: "হ্যাকিং হলো অনুমতি ছাড়া সিস্টেমে প্রবেশ; হ্যাকার হলো যে এই কাজ করে।", extendedAnswer: "হ্যাকিং হলো অনুমতি ছাড়া কম্পিউটার সিস্টেম, নেটওয়ার্ক বা ডেটায় প্রবেশ করা বা সেগুলিতে পরিবর্তন আনা। এর উদ্দেশ্য হতে পারে তথ্য চুরি করা, সিস্টেমের ক্ষতি করা, বা অননুমোদিত অ্যাক্সেস লাভ করা। হ্যাকার হলো সেই ব্যক্তি যে এই হ্যাকিং কার্যক্রম চালায়। হ্যাকাররা বিভিন্ন ধরনের হতে পারে, যেমন হোয়াইট হ্যাট (নৈতিক হ্যাকার), ব্ল্যাক হ্যাট (ক্ষতিকারক হ্যাকার) এবং গ্রে হ্যাট।" }
+            ],
+            "short": [
+                { text: "১। HTML tree structure লেখ।" },
+                { text: "২। DOM-এর প্রয়োজনীয় কয়েকটি ফাংশনের সংক্ষিপ্ত বর্ণনা দাও।" },
+                { text: "৩। জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্ট বলতে কী বুঝায়? কয়েকটি রানটাইমের এনভায়রনমেন্টের নাম লেখ।" },
+                { text: "৪। স্ট্যাটিক ও ডায়নামিক ওয়েবসাইট বলতে কী বুঝায়?" },
+                { text: "৫। স্ট্যাটিক ও ডায়নামিক ওয়েবসাইটের মধ্যে পার্থক্য লেখ।" },
+                { text: "৬। ডাটাবেস কী? ইহার বৈশিষ্ট্য লেখ।" },
+                { text: "৭। সিএমএস-এর বৈশিষ্ট্যগুলো লেখ।" },
+                { text: "৮। ই-কমার্সের সুবিধা ও অসুবিধাগুলো লেখ।" },
+                { text: "৯। ডোমেইন নেম সিস্টেম (DNS) বলতে কী বুঝায়?" },
+                { text: "১০। বিটিআরসি (BTRC)-এর কার্যাবলি সংক্ষেপে বর্ণনা কর।" },
+                { text: "১১। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়? হ্যাকারের প্রকারভেদ লেখ।" }
+            ],
+            "essay": [
+                { text: "১। DOM কী? DOM-এর ম্যানিপুলেশন বর্ণনা কর।" },
+                { text: "২। জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্টের বর্ণনা দাও।" },
+                { text: "৩। ডায়নামিক ওয়েবসাইট তৈরির বিভিন্ন ফ্রেমওয়ার্কগুলোর বর্ণনা দাও।" },
+                { text: "৪। সিএমএস কী? বিভিন্ন প্রকার সিএমএস সম্পর্কে বর্ণনা কর।" },
+                { text: "৫। সি- প্যানেল কী? সি-প্যানেলের উপাদানগুলো বর্ণনা কর।" },
+                { text: "৬। ই-কমার্সের বৈশিষ্ট্যগুলোর বর্ণনা দাও।" },
+                { text: "৭। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়? হ্যাকারের প্রকারভেদগুলোর বর্ণনা দাও।" }
+            ]
+        };
+
+        // AI Modal elements
+        const aiAnswerModal = document.getElementById('aiAnswerModal');
+        const aiModalCloseButton = document.getElementById('aiModalCloseButton');
+        const modalQuestionText = document.getElementById('modalQuestionText');
+        const modalAnswerContent = document.getElementById('modalAnswerContent');
+        const modalAnswerParts = document.getElementById('modalAnswerParts');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
+
+        // Keywords, types, and common elements for Java syntax highlighting
+        const javaKeywords = [
+            'import', 'public', 'class', 'static', 'void', 'int', 'double', 'float', 'String',
+            'new', 'return', 'extends', 'if', 'else', 'for', 'while', 'try', 'catch', 'finally',
+            'this', 'super', 'null', 'true', 'false'
+        ];
+        const javaBuiltInClasses = ['Scanner', 'System', 'Math'];
+        const javaBuiltInMethods = ['main', 'println', 'print', 'nextDouble', 'close', 'PI']; // PI is a field but often highlighted like a method/constant
+
+        /**
+         * Applies syntax highlighting to a given Java code string.
+         * @param {string} codeString - The raw Java code string.
+         * @returns {string} - The HTML string with syntax highlighting.
+         */
+        function highlightJavaCode(codeString) {
+            const keywords = new Set(javaKeywords);
+            const builtInClasses = new Set(javaBuiltInClasses);
+            const builtInMethods = new Set(javaBuiltInMethods);
+
+            // Split by common delimiters, preserving them
+            // This regex splits by:
+            // - Word boundaries (\b\w+\b)
+            // - Whitespace (\s+)
+            // - Specific operators/punctuation ([+\-*\/=<>!&|%;.,{}()[\]"'])
+            // It also handles comments and strings as special cases.
+            const parts = codeString.split(/(\/\/.*|\/\*[\s\S]*?\*\/|"[^"]*"|\b\w+\b|[+\-*\/=<>!&|%;.,{}()[\]])/g).filter(Boolean);
+            let highlightedHtml = '';
+
+            for (let i = 0; i < parts.length; i++) {
+                let part = parts[i];
+
+                if (part.match(/^\s+$/)) { // Whitespace
+                    highlightedHtml += part;
+                } else if (part.startsWith('//') || part.startsWith('/*')) { // Comments
+                    highlightedHtml += `<span class="code-comment">${part}</span>`;
+                } else if (part.startsWith('"') && part.endsWith('"')) { // Strings
+                    highlightedHtml += `<span class="code-string">${part}</span>`;
+                } else if (!isNaN(parseFloat(part)) && isFinite(part) && part.match(/\d/)) { // Numbers (ensure it contains a digit)
+                    highlightedHtml += `<span class="code-number">${part}</span>`;
+                } else if (keywords.has(part)) {
+                    highlightedHtml += `<span class="code-keyword">${part}</span>`;
+                } else if (builtInClasses.has(part)) {
+                    highlightedHtml += `<span class="code-class">${part}</span>`;
+                } else if (builtInMethods.has(part)) {
+                    highlightedHtml += `<span class="code-method">${part}</span>`;
+                } else if (part.match(/[+\-*\/=<>!&|%]/)) { // Operators
+                    highlightedHtml += `<span class="code-operator">${part}</span>`;
+                } else if (part.match(/[;.,{}()[\]]/)) { // Punctuation
+                    highlightedHtml += `<span class="code-punctuation">${part}</span>`;
+                } else {
+                    // Handle special cases like System.out and Math.PI if they were split
+                    // This is done by looking ahead in the parts array
+                    if (part === 'System' && parts[i+1] === '.' && parts[i+2] === 'out') {
+                        highlightedHtml += `<span class="code-class">System</span><span class="code-punctuation">.</span><span class="code-variable">out</span>`;
+                        i += 2; // Skip next two parts
+                    } else if (part === 'Math' && parts[i+1] === '.' && parts[i+2] === 'PI') {
+                        highlightedHtml += `<span class="code-class">Math</span><span class="code-punctuation">.</span><span class="code-variable">PI</span>`;
+                        i += 2; // Skip next two parts
+                    } else {
+                        highlightedHtml += part; // Default to no highlighting (variable names, etc.)
+                    }
+                }
+            }
+            return highlightedHtml;
+        }
+
+
+        /**
+         * Copies the text content of a question to the clipboard.
+         * @param {HTMLElement} button - The button element that triggered the copy action.
+         */
+        window.copyQuestionText = (button) => {
+            const questionItem = button.closest('.question-item');
+            const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
+            const targetId = questionTextElement.dataset.target; // Get target ID from toggle element
+            let textToCopy = questionTextElement.textContent.trim(); // Default to question text
+
+            if (targetId) { // If it's a dropdown question
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const codePre = dropdown.querySelector('pre.java-code-display');
+                    if (codePre) {
+                        textToCopy = codePre.textContent.trim(); // Copy raw code from pre tag
+                    } else {
+                        textToCopy = dropdown.textContent.trim(); // Copy text from non-code dropdown
+                    }
+                }
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        /**
+         * Generates an answer for a given question using the Gemini API.
+         * The answer is structured into three parts: very easy explanation, easy explanation, and exam-ready answer.
+         * @param {string} question - The question to generate an answer for.
+         * @param {string} questionCategory - The category of the question (e.g., 'very-short', 'short', 'essay').
+         */
+        async function generateAnswer(question, questionCategory) {
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear previous answer parts
+
+            // Determine question type and desired answer length for the prompt
+            let questionTypeForPrompt;
+            let answerLengthDescription;
+            if (questionCategory === 'very-short') {
+                questionTypeForPrompt = 'অতি সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'সংক্ষিপ্ত, ১-২ লাইনের মধ্যে।'; // Super short
+            } else if (questionCategory === 'short') {
+                questionTypeForPrompt = 'সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'মাঝারি, ৩-৬ লাইনের মধ্যে (প্রায়)。'; // Medium
+            } else if (questionCategory === 'essay') {
+                questionTypeForPrompt = 'রচনামূলক প্রশ্ন';
+                answerLengthDescription = 'বিস্তারিত এবং পয়েন্টভিত্তিক, যথেষ্ট লম্বা হতে হবে।'; // Big
+            } else {
+                questionTypeForPrompt = 'সাধারণ প্রশ্ন';
+                answerLengthDescription = 'যথাযথ দৈর্ঘ্যের হবে।';
+            }
+
+            const prompt = `
+                তুমি আমার একজন বন্ধুত্বপূর্ণ স্টাডি অ্যাসিস্ট্যান্ট হিসেবে কাজ করবে।
+                আমি বাংলাদেশের একজন ডিপ্লোমা ইন ইঞ্জিনিয়ারিং (কম্পিউটার সায়েন্স এন্ড টেকনোলজি) এর ছাত্র, পরীক্ষার জন্য প্রস্তুতি নিচ্ছি।
+                আমার সাথে সহজ, লোকাল, ইনফরমাল বাংলা ভাষায় কথা বলবে।
+                আমার হাতে বেশি সময় নেই সো যত সম্ভব সহজ করে উত্তর দেবে এবং নিশ্চিত করবে উত্তরগুলো অনেক সহজ হয়।
+
+                আমি তোমাকে একটি পরীক্ষার প্রশ্ন দেবো। তোমাকে সেই প্রশ্নটির বিস্তারিত উত্তর তৈরি করতে হবে।
+                প্রশ্নের ধরন: ${questionTypeForPrompt}
+                
+                উত্তরের গঠন (Answer Structure - 3 Parts):
+                প্রতিটি প্রশ্নের উত্তরের ৩টি অংশ থাকবে। তুমি এমনভাবে উত্তর সাজাবে যাতে ধাপে ধাপে প্রশ্নটি বোঝা যায়।
+                প্রথমে "পার্ট ৩: একদম সহজ ব্যাখ্যা" দেবে, তারপর "পার্ট ২: সহজ ভাষায় ব্যাখ্যা" দেবে এবং শেষে "পার্ট ১: পরীক্ষায় লেখার জন্য" অংশটি লিখবে।
+
+                পার্ট ৩ (একদম সহজ ব্যাখ্যা):
+                উত্তরটা এমন সহজ ভাষায় আর উদাহরণ দিয়ে বোঝাতে হবে যেন ক্লাস ২ এর একটা বাচ্চাও বুঝতে পারে। টেকনিক্যাল শব্দ ব্যবহার করা যাবে না। উদাহরণস্বরূপ: তুমি আর ফারজানা যখন খেলনা দিয়ে খেলো, তখন কী হয়? অথবা রিফাত, তুমি আর তোমার বন্ধু ফারজানা মিলে নতুন কিছু বানানোর চেষ্টা করছো, তখন সেটা কীভাবে হয়?
+
+                পার্ট ২ (সহজ ভাষায় ব্যাখ্যা):
+                পার্ট ৩-এর ব্যাখ্যাকে ভিত্তি করে একদম সহজ, ঘরোয়া বাংলা ভাষায় উদাহরণ দিয়ে উত্তরটা বুঝিয়ে বলবে। এখানে কিছুটা ইনফরমাল হওয়া যাবে। উদাহরণস্বরূপ: ধরো, রিফাত আর ফারজানা মিলে একটা প্রজেক্ট করছে, তখন কী হয়?
+
+                পার্ট ১ (পরীক্ষায় লেখার জন্য):
+                ভাষা: খুবই সহজবোধ্য, চলিত কিন্তু ফরমাল বাংলা ভাষায় লিখতে হবে। শব্দচয়ন এমন হবে যেন সবাই সহজে বুঝতে পারে, মনে রাখতে সুবিধা হয় এবং পরীক্ষার খাতায় লেখার জন্যও উপযুক্ত হয়। কঠিন বা অপ্রচলিত শব্দ ব্যবহার করা যাবে না।
+                দৈর্ঘ্য: প্রশ্নের ধরন অনুযায়ী হবে:
+                যদি প্রশ্নটি '${questionTypeForPrompt}' হয়: ${answerLengthDescription}
+                উত্তরের সাইজ যেন ঠিক থাকে।
+
+                দয়া করে উত্তর দেওয়ার সময় এই ফরম্যাট কঠোরভাবে অনুসরণ করো:
+                পার্ট ৩: [একদম সহজ ব্যাখ্যা]
+                পার্ট ২: [সহজ ভাষায় ব্যাখ্যা]
+                পার্ট ১: [পরীক্ষায় লেখার জন্য উত্তর]
+
+                প্রশ্ন: "${question}"
+            `;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    let rawAnswer = result.candidates[0].content.parts[0].text;
+                    
+                    // Split the rawAnswer into sections based on your defined headers
+                    const sections = rawAnswer.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)([\s\S]*?)(?=(পার্ট ৩:|পার্ট ২:|পার্ট ১:|$))/g);
+
+                    modalAnswerParts.innerHTML = ''; // Clear existing content
+
+                    if (sections) {
+                        sections.forEach(section => {
+                            const headerMatch = section.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)/);
+                            if (headerMatch) {
+                                const header = headerMatch[0].trim();
+                                let content = section.substring(header.length).trim();
+
+                                let headingText;
+                                if (header === 'পার্ট ৩:') {
+                                    headingText = 'পার্ট ৩: একদম সহজ ব্যাখ্যা';
+                                } else if (header === 'পার্ট ২:') {
+                                    headingText = 'পার্ট ২: সহজ ভাষায় ব্যাখ্যা';
+                                } else if (header === 'পার্ট ১:') {
+                                    headingText = 'পার্ট ১: পরীক্ষায় লেখার জন্য';
+                                }
+
+                                const partDiv = document.createElement('div');
+                                partDiv.classList.add('ai-answer-part');
+                                partDiv.innerHTML = `<h4 class="answer-part-heading">${headingText}</h4>`;
+                                
+                                // Process content for Markdown formatting (bold, lists, code)
+                                const codeBlockRegex = /```(?:java)?\s*([\s\S]*?)```/g;
+                                let lastIndex = 0;
+                                let match;
+                                
+                                const tempDiv = document.createElement('div'); // Temporary div to process content
+                                
+                                while ((match = codeBlockRegex.exec(content)) !== null) {
+                                    // Add text before the code block
+                                    if (match.index > lastIndex) {
+                                        const textBefore = content.substring(lastIndex, match.index);
+                                        // Convert Markdown bold (**) and list items (*) to HTML
+                                        let formattedText = textBefore.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                                        
+                                        if (formattedText.includes('<li>')) {
+                                            const ul = document.createElement('ul');
+                                            ul.innerHTML = formattedText;
+                                            tempDiv.appendChild(ul);
+                                        } else {
+                                            const p = document.createElement('p');
+                                            p.innerHTML = formattedText;
+                                            tempDiv.appendChild(p);
+                                        }
+                                    }
+
+                                    // Add the code block with highlighting
+                                    const pre = document.createElement('pre');
+                                    pre.innerHTML = highlightJavaCode(match[1].trim()); // Apply highlighting here
+                                    tempDiv.appendChild(pre);
+                                    lastIndex = codeBlockRegex.lastIndex;
+                                }
+
+                                // Add any remaining text after the last code block
+                                if (lastIndex < content.length) {
+                                    const remainingText = content.substring(lastIndex);
+                                    // Convert Markdown bold (**) and list items (*) to HTML
+                                    let formattedText = remainingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                    formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+
+                                    if (formattedText.includes('<li>')) {
+                                        const ul = document.createElement('ul');
+                                        ul.innerHTML = formattedText;
+                                        tempDiv.appendChild(ul);
+                                    } else {
+                                        const p = document.createElement('p');
+                                        p.innerHTML = formattedText;
+                                        tempDiv.appendChild(p);
+                                    }
+                                }
+                                
+                                partDiv.appendChild(tempDiv); // Append the processed content to the partDiv
+                                modalAnswerParts.appendChild(partDiv);
+                            }
+                        });
+                    } else {
+                        // Fallback if structured parts aren't found
+                        const p = document.createElement('p');
+                        p.classList.add('text-center', 'answer-content-text');
+                        // Convert Markdown bold (**) and list items (*) to HTML for fallback
+                        let formattedText = rawAnswer.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                        
+                        if (formattedText.includes('<li>')) {
+                            const ul = document.createElement('ul');
+                            ul.innerHTML = formattedText;
+                            p.appendChild(ul);
+                        } else {
+                            p.innerHTML = formattedText;
+                        }
+                        modalAnswerParts.appendChild(p);
+                    }
+
+                } else {
+                    modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">Sorry, could not generate an answer for this question.</p>';
+                }
+            } catch (error) {
+                console.error('Error generating answer:', error);
+                modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">An error occurred while generating the answer. Please try again.</p>';
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Opens the AI answer modal and triggers answer generation.
+         * @param {string} encodedQuestion - The URI-encoded question text.
+         * @param {string} questionCategory - The category of the question.
+         */
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            modalQuestionText.textContent = question;
+            
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear existing content before showing spinner
+
+            aiAnswerModal.classList.add('active');
+            generateAnswer(question, questionCategory);
+        };
+
+        // Event listener to close AI modal when close button is clicked
+        aiModalCloseButton.addEventListener('click', () => {
+            aiAnswerModal.classList.remove('active');
+        });
+
+        // Event listener to close AI modal when clicking outside the content
+        aiAnswerModal.addEventListener('click', (e) => {
+            if (e.target === aiAnswerModal) {
+                aiAnswerModal.classList.remove('active');
+            }
+        });
+
+        /**
+         * Loads questions into the DOM based on categories defined in the `questions` object.
+         */
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    questions[category].forEach((q, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        
+                        // Add stripe class based on 'stripe' property
+                        if (q.stripe === 'blue') {
+                            listItem.classList.add('blue-stripe-item');
+                        } else if (q.stripe === 'green') {
+                            listItem.classList.add('green-stripe-item');
+                        }
+
+                        let questionContentHTML = ``;
+                        const dropdownId = `answer-dropdown-${category}-${index}`; // More robust ID for main answer dropdown
+                        const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`; // ID for extended answer dropdown
+
+                        // All categories now use dropdowns if an answer is provided
+                        if (q.answer) {
+                            questionContentHTML = `
+                                <div class="question-main-row">
+                                    <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}" >
+                                        <span>${q.text}</span>
+                                        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                        <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                            AI
+                                        </button>
+                                        <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="${dropdownId}" class="answer-dropdown hidden">
+                                    ${category === 'essay' ? `<pre class="java-code-display">${q.answer}</pre>` : `<p class="short-answer-text-toggle" data-target="${extendedDropdownId}">${q.answer} <svg class="toggle-icon w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></p>`}
+                                    ${q.extendedAnswer ? `
+                                        <div id="${extendedDropdownId}" class="extended-answer-dropdown hidden">
+                                            ${q.extendedAnswer}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `;
+                        } else {
+                            // If no answer provided, still show AI and Copy buttons, but no dropdown
+                            questionContentHTML = `
+                                <div class="question-main-row">
+                                    <div class="question-text-display flex-1">
+                                        <span>${q.text}</span>
+                                    </div>
+                                    <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                        <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                            AI
+                                        </button>
+                                        <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        listItem.innerHTML = questionContentHTML;
+                        listElement.appendChild(listItem);
+
+                        // After appending, if it's an essay question with code, highlight it
+                        if (category === 'essay' && q.answer) {
+                            const preElement = listItem.querySelector(`#${dropdownId} .java-code-display`);
+                            if (preElement) {
+                                preElement.innerHTML = highlightJavaCode(preElement.textContent);
+                            }
+                        }
+
+                        // Add event listener for main dropdown toggle
+                        if (q.answer) {
+                            const toggleElement = listItem.querySelector('.question-text-toggle');
+                            const toggleIcon = toggleElement.querySelector('.toggle-icon');
+                            toggleElement.addEventListener('click', function() {
+                                const targetId = this.dataset.target;
+                                const dropdown = document.getElementById(targetId);
+                                if (dropdown) {
+                                    dropdown.classList.toggle('hidden');
+                                    toggleIcon.classList.toggle('rotated'); // Rotate icon
+                                }
+                            });
+
+                            // Add event listener for extended answer toggle if it exists
+                            if (q.extendedAnswer) {
+                                const extendedToggleElement = listItem.querySelector('.short-answer-text-toggle'); // Select the short answer text, which is now the toggle
+                                if (extendedToggleElement) { // Ensure the element exists
+                                    const extendedToggleIcon = extendedToggleElement.querySelector('.toggle-icon');
+                                    extendedToggleElement.addEventListener('click', function(event) {
+                                        event.stopPropagation(); // Prevent the parent dropdown from closing
+                                        const targetId = this.dataset.target;
+                                        const extendedDropdown = document.getElementById(targetId);
+                                        if (extendedDropdown) {
+                                            extendedDropdown.classList.toggle('hidden');
+                                            extendedToggleIcon.classList.toggle('rotated'); // Rotate icon
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        // Load questions when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>
