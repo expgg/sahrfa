@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Development Using Java Short suggestion - Softmax Online School</title>
+    <title>WEB2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -426,18 +426,11 @@
 </head>
 <body>
     <!-- Branding section is now directly on the body background -->
-    <div class="branding">
-        <div class="logo-text">SOFTMAX</div>
-        <div class="tagline">ONLINE SCHOOL</div>
-        <div class="contact-info">
-            <div>📍 Rangamati Nir, DUET, Gazipur-1707</div>
-            <div>📞 09678 677 677, 01755 319105</div>
-        </div>
-    </div>
+    <!-- Removed Branding Section -->
 
     <div class="main-content">
         <header class="header">
-            <h1>Application Development Using Java</h1>
+            <h1>ওয়েভ ডিজাইন অ্যান্ড ডেভেলপমেন্ট- 2</h1>
             <p class="subtitle">Short suggestion</p>
         </header>
 
@@ -934,7 +927,7 @@
                             questionContentHTML = `
                                 <div class="question-main-row">
                                     <div class="question-text-display flex-1">
-                                        <span>${q.text}</span>
+                                        <span>${index + 1}। ${q.text}</span>
                                     </div>
                                     <div class="button-container flex items-center gap-2 flex-shrink-0">
                                         <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
