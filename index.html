@@ -106,13 +106,13 @@
 
         /* RGB Cycling Keyframes for Border-only - LIGHT/BRIGHT VERSION */
         @keyframes rgbCycleBorder {
-            0% { border-color: #FF6666; }
-            16% { border-color: #FFFF99; }
-            33% { border-color: #99FF99; }
-            50% { border-color: #99FFFF; }
-            66% { border-color: #9999FF; }
-            83% { border-color: #FF99FF; }
-            100% { border-color: #FF6666; }
+            0% { border-color: #FF6666; --animated-color: #FF6666; }
+            16% { border-color: #FFFF99; --animated-color: #FFFF99; }
+            33% { border-color: #99FF99; --animated-color: #99FF99; }
+            50% { border-color: #99FFFF; --animated-color: #99FFFF; }
+            66% { border-color: #9999FF; --animated-color: #9999FF; }
+            83% { border-color: #FF99FF; --animated-color: #FF99FF; }
+            100% { border-color: #FF6666; --animated-color: #FF6666; }
         }
 
         /* RGB Cycling Keyframes for Scrollbar Thumb - LIGHT/BRIGHT VERSION */
@@ -162,6 +162,7 @@
             display: flex;
             flex-direction: column;
             animation: rgbCycleBorderShadowBackground 10s linear infinite; /* Apply the new combined animation */
+            border: 2px solid; /* Added border to the main card */
         }
 
         .profile-section {
@@ -221,23 +222,41 @@
             display: flex;
             flex-direction: column;
             margin-top: 15px;
+            border: 1px solid; /* Added border to the whole tab section */
+            border-radius: 10px; /* Consistent border-radius */
+            animation: rgbCycleBorder 10s linear infinite; /* Animate the border */
+            padding: 10px; /* Add some padding inside the bordered section */
+            position: relative; /* Needed for the absolute positioning of the splitter bar */
+            padding-bottom: 25px; /* Increased padding to make space for the splitter bar */
+        }
+
+        .tab-system::after {
+            content: '';
+            position: absolute;
+            bottom: 10px; /* Position it above the bottom padding */
+            left: 5%;
+            width: 90%;
+            height: 2px; /* Thickness of the splitter bar */
+            background: linear-gradient(to right, transparent, var(--animated-color), transparent); /* Gradient for a cool effect */
+            animation: rgbCycleBorder 10s linear infinite; /* Animate the color */
+            border-radius: 1px;
+            box-shadow: 0 0 10px var(--animated-color); /* Add a glow */
         }
 
         .tab-buttons {
             display: flex;
             justify-content: center;
             margin-bottom: 15px;
-            border-bottom: 2px solid; /* Make border color animated */
             background-color: #2a2a2a;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 5px;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-            animation: rgbCycleBorder 10s linear infinite; /* Apply RGB cycle to tab-buttons border */
+            /* Removed border animation from here as it's now on .tab-system */
         }
 
         .tab-button {
             background-color: transparent;
-            border: none;
+            border: none; /* Removed border from individual buttons */
             padding: 10px 20px;
             font-family: 'Poppins', sans-serif;
             font-size: 1.1em;
@@ -245,9 +264,8 @@
             color: #888;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
             flex: 1;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .tab-button:hover {
@@ -257,7 +275,6 @@
 
         .tab-button.active {
             animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to active color */
-            border-bottom: 2px solid; /* Make border color animated */
             background-color: rgba(255, 255, 255, 0.2); /* More noticeable white tint */
         }
 
