@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Al Hossain Rifat - Portfolio</title>
+    <!-- Embedded CSS from style.css -->
     <style>
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Smooth scroll for a polished feel */
         }
 
         body {
@@ -23,19 +24,10 @@
             position: relative;
         }
 
-        /* Canvas for geometric animations */
-        #geometric-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            pointer-events: none;
-            background-color: #0d0d0d; /* Base background color */
-        }
+        /* YouTube Video Background Styling */
+        /* Removed #youtube-background styles as the iframe is removed */
 
-        /* Overlay for the canvas to dim it and allow grid pattern to show */
+        /* Overlay for the video to dim it and allow grid pattern to show */
         body::before {
             content: '';
             position: absolute;
@@ -43,20 +35,13 @@
             left: 0;
             width: 100%;
             height: 100%;
+            /* Original subtle grid pattern */
             background:
                 repeating-linear-gradient(0deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px),
                 repeating-linear-gradient(90deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px);
-            opacity: 0.1;
-            z-index: -1;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Animation for the grid background */
-            animation: moveGrid 20s linear infinite;
-        }
-
-        /* Keyframes for moving the grid background */
-        @keyframes moveGrid {
-            0% { background-position: 0 0; }
-            100% { background-position: 100px 100px; } /* Moves diagonally */
+            opacity: 0.1; /* Original opacity for the grid */
+            z-index: -1; /* Placed above the video, below main content */
+            /* Removed background-color: rgba(0, 0, 0, 0.5); to revert to old background */
         }
 
         /* RGB Cycling Keyframes for Colors (Text, Icons) - LIGHT/BRIGHT VERSION */
@@ -73,9 +58,9 @@
         /* RGB Cycling Keyframes for Borders/Shadows/Backgrounds (Main Container, Entries) - LIGHT/BRIGHT VERSION */
         @keyframes rgbCycleBorderShadowBackground {
             0% { 
-                border-color: rgba(255, 153, 153, 0.5);
-                box-shadow: 0 0 35px rgba(255, 153, 153, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
-                background-color: rgba(255, 153, 153, 0.15);
+                border-color: rgba(255, 153, 153, 0.5); /* Increased border opacity */
+                box-shadow: 0 0 35px rgba(255, 153, 153, 0.3), 0 0 20px rgba(0, 0, 0, 0.8); /* Increased shadow spread/opacity */
+                background-color: rgba(255, 153, 153, 0.15); /* More noticeable background tint */
             }
             16% { 
                 border-color: rgba(255, 255, 204, 0.5); 
@@ -133,7 +118,7 @@
 
         /* RGB Cycling Keyframes for Text Shadow on Hover */
         @keyframes rgbCycleTextShadow {
-            0% { text-shadow: 0 0 12px #FF9999; }
+            0% { text-shadow: 0 0 12px #FF9999; } /* Increased shadow intensity */
             16% { text-shadow: 0 0 12px #FFFFCC; }
             33% { text-shadow: 0 0 12px #CCFFCC; }
             50% { text-shadow: 0 0 12px #CCFFFF; }
@@ -146,7 +131,7 @@
         h1 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            animation: rgbCycle 10s linear infinite;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to h1 */
         }
 
         .portfolio-container {
@@ -154,6 +139,8 @@
             width: 100%;
             text-align: center;
             padding: 20px;
+            /* Glassmorphism background for the main card */
+            /* The background-color and box-shadow are now animated by rgbCycleBorderShadowBackground */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -164,7 +151,7 @@
             min-height: 700px;
             display: flex;
             flex-direction: column;
-            animation: rgbCycleBorderShadowBackground 10s linear infinite;
+            animation: rgbCycleBorderShadowBackground 10s linear infinite; /* Apply the new combined animation */
         }
 
         .profile-section {
@@ -183,17 +170,18 @@
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 10px;
-            border: 5px solid;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 5px solid; /* Make border color animated */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Keep original shadow for depth */
             margin-right: 15px;
             margin-top: -10px;
-            animation: rgbCycleBorder 10s linear infinite;
+            animation: rgbCycleBorder 10s linear infinite; /* Apply RGB cycle to photo border */
         }
 
         .name {
             font-size: 2em;
             margin-bottom: 0px;
             padding-bottom: 0px;
+            /* Color and text-shadow are now animated by h1's rgbCycle */
             background-color: rgba(0, 0, 0, 0.5);
             padding: 8px 10px;
             border-radius: 5px;
@@ -229,12 +217,12 @@
             display: flex;
             justify-content: center;
             margin-bottom: 15px;
-            border-bottom: 2px solid;
+            border-bottom: 2px solid; /* Make border color animated */
             background-color: #2a2a2a;
             border-radius: 10px;
             padding: 5px;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-            animation: rgbCycleBorder 10s linear infinite;
+            animation: rgbCycleBorder 10s linear infinite; /* Apply RGB cycle to tab-buttons border */
         }
 
         .tab-button {
@@ -253,14 +241,14 @@
         }
 
         .tab-button:hover {
-            animation: rgbCycle 10s linear infinite;
-            background-color: rgba(255, 255, 255, 0.1);
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to hover color */
+            background-color: rgba(255, 255, 255, 0.1); /* Subtle white tint on hover */
         }
 
         .tab-button.active {
-            animation: rgbCycle 10s linear infinite;
-            border-bottom: 2px solid;
-            background-color: rgba(255, 255, 255, 0.2);
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to active color */
+            border-bottom: 2px solid; /* Make border color animated */
+            background-color: rgba(255, 255, 255, 0.2); /* More noticeable white tint */
         }
 
         .tab-content {
@@ -284,7 +272,7 @@
 
         .tab-content::-webkit-scrollbar-thumb {
             border-radius: 10px;
-            animation: rgbCycleScrollbar 10s linear infinite;
+            animation: rgbCycleScrollbar 10s linear infinite; /* Apply RGB cycle to scrollbar thumb */
         }
 
         .tab-content.active {
@@ -295,9 +283,10 @@
         .game-entry {
             display: flex;
             align-items: center;
+            /* Background-color is now animated by rgbCycleBorderShadowBackground */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid;
+            border: 1px solid; /* Make border color animated */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             padding: 15px;
             border-radius: 10px;
@@ -305,6 +294,7 @@
             position: relative;
             overflow: hidden;
             text-decoration: none;
+            /* Apply the combined animation for border, shadow, and background */
             animation: fadeIn 0.5s ease-out forwards, rgbCycleBorderShadowBackground 10s linear infinite; 
             color: inherit;
             width: 100%;
@@ -313,27 +303,30 @@
             transition: all 0.3s ease;
         }
 
+        /* Apply cursor pointer only to actual links */
         a.social-entry,
         a.game-entry {
             cursor: pointer;
         }
 
+        /* Ensure div game entries do not have a pointer cursor */
         div.game-entry {
             cursor: default;
         }
 
         .social-entry:hover,
         .game-entry:hover {
-            box-shadow: 0 6px 20px;
+            /* Background-color is now animated by rgbCycleBorderShadowBackground */
+            box-shadow: 0 6px 20px; /* Make hover shadow animated */
             transform: translateY(-2px);
-            animation: rgbCycleBorderShadowBackground 10s linear infinite;
+            animation: rgbCycleBorderShadowBackground 10s linear infinite; /* Apply RGB cycle to hover shadow and background */
         }
 
 
         .social-icon,
         .game-icon {
             font-size: 2em;
-            animation: rgbCycle 10s linear infinite;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to icon color and shadow */
             min-width: 40px;
             text-align: center;
             display: flex;
@@ -356,7 +349,7 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             font-size: 1.1em;
-            animation: rgbCycle 10s linear infinite;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to title color */
         }
 
         .social-username,
@@ -367,6 +360,7 @@
             word-break: break-word;
         }
 
+        /* Apply text glow on hover to these elements */
         .social-entry:hover .social-title,
         .social-entry:hover .social-username,
         .game-entry:hover .game-title,
@@ -376,9 +370,10 @@
         }
 
 
+        /* Copy button specific styles */
         .copy-uid-button {
             font-size: 1.2em;
-            animation: rgbCycle 10s linear infinite;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to copy button color and shadow */
             cursor: pointer;
             margin-left: auto;
             padding: 5px;
@@ -388,9 +383,10 @@
 
         .copy-uid-button:hover {
             transform: scale(1.1);
-            animation: rgbCycle 10s linear infinite;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to hover color and shadow */
         }
 
+        /* Animation for copied state */
         @keyframes copiedBounce {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); color: #4CAF50; }
@@ -413,6 +409,7 @@
             100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); }
         }
 
+        /* Media Queries for Responsiveness */
         @media (max-width: 600px) {
             .portfolio-container {
                 padding: 15px;
@@ -493,8 +490,7 @@
     <link rel="icon" href="https://placehold.co/32x32/B8860B/fff?text=AR" type="image/png">
 </head>
 <body>
-    <!-- Canvas for geometric animations -->
-    <canvas id="geometric-background"></canvas>
+    <!-- YouTube Video Background Removed -->
 
     <main class="portfolio-container">
         <section class="profile-section">
@@ -510,6 +506,7 @@
             </div>
 
             <div id="socials" class="tab-content active scrollable-content">
+                <!-- Updated Facebook link and username -->
                 <a href="https://www.facebook.com/alhossainrifat0" target="_blank" class="social-entry">
                     <i class="fab fa-facebook-f social-icon facebook-icon"></i>
                     <div class="social-details">
@@ -517,6 +514,7 @@
                         <span class="social-username">alhossainrifat0</span>
                     </div>
                 </a>
+                <!-- Updated YouTube link and username -->
                 <a href="https://www.youtube.com/@exploriot" target="_blank" class="social-entry">
                     <i class="fab fa-youtube social-icon youtube-icon"></i>
                     <div class="social-details">
@@ -524,6 +522,7 @@
                         <span class="social-username">@exploriot</span>
                     </div>
                 </a>
+                <!-- Updated Instagram link and username -->
                 <a href="https://www.instagram.com/exploriot_" target="_blank" class="social-entry">
                     <i class="fab fa-instagram social-icon instagram-icon"></i>
                     <div class="social-details">
@@ -531,6 +530,7 @@
                         <span class="social-username">@exploriot</span>
                     </div>
                 </a>
+                <!-- Updated LinkedIn link and username -->
                 <a href="https://www.linkedin.com/in/rifat56" target="_blank" class="social-entry">
                     <i class="fab fa-linkedin-in social-icon linkedin-icon"></i>
                     <div class="social-details">
@@ -538,6 +538,7 @@
                         <span class="social-username">Al Hossain Rifat</span>
                     </div>
                 </a>
+                <!-- Updated X (Twitter) link and username -->
                 <a href="https://x.com/exploriot" target="_blank" class="social-entry">
                     <i class="fab fa-twitter social-icon x-icon"></i>
                     <div class="social-details">
@@ -545,6 +546,7 @@
                         <span class="social-username">@exploriot</span>
                     </div>
                 </a>
+                <!-- Added Spotify button -->
                 <a href="https://open.spotify.com/user/31kdbdkekhjdnlpryajwziibqzey?si=7c7286bbf44c4e22" target="_blank" class="social-entry">
                     <i class="fab fa-spotify social-icon spotify-icon"></i>
                     <div class="social-details">
@@ -552,6 +554,7 @@
                         <span class="social-username">exploriot</span>
                     </div>
                     </a>
+                <!-- WhatsApp link -->
                 <a href="https://wa.me/01773185817" target="_blank" class="social-entry">
                     <i class="fab fa-whatsapp social-icon whatsapp-icon"></i>
                     <div class="social-details">
@@ -559,6 +562,7 @@
                         <span class="social-username">Direct Message</span>
                     </div>
                 </a>
+                <!-- Phone link -->
                 <a href="tel:01773185817" class="social-entry">
                     <i class="fas fa-phone social-icon phone-icon"></i>
                     <div class="social-details">
@@ -569,6 +573,7 @@
             </div>
 
             <div id="misc" class="tab-content scrollable-content">
+                <!-- Projects button (this remains a link as it has a valid href) -->
                 <a href="https://your-projects-website.com" target="_blank" class="game-entry">
                     <i class="fas fa-folder-open game-icon generic-icon"></i>
                     <div class="game-details">
@@ -577,6 +582,7 @@
                         <span class="game-uid">Click to Visit</span>
                     </div>
                 </a>
+                <!-- PUBG Mobile -->
                 <div class="game-entry">
                     <i class="fas fa-bullseye game-icon generic-icon"></i>
                     <div class="game-details">
@@ -586,6 +592,7 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
+                <!-- Call of Duty: Mobile -->
                 <div class="game-entry">
                     <i class="fas fa-gun game-icon generic-icon"></i>
                     <div class="game-details">
@@ -595,6 +602,7 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
+                <!-- Clash of Clans - Now a link with updated info -->
                 <a href="https://link.clashofclans.com/en?action=OpenClanProfile&tag=2QPYUVLU9" target="_blank" class="game-entry">
                     <i class="fas fa-shield-alt game-icon generic-icon"></i>
                     <div class="game-details">
@@ -604,6 +612,7 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
                 </a>
+                <!-- Garena Free Fire -->
                 <div class="game-entry">
                     <i class="fas fa-fire game-icon generic-icon"></i>
                     <div class="game-details">
@@ -613,6 +622,7 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
+                <!-- Blood Strike -->
                 <div class="game-entry">
                     <i class="fas fa-tint game-icon generic-icon"></i>
                     <div class="game-details">
@@ -622,6 +632,7 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
+                <!-- Clash Royale -->
                 <div class="game-entry">
                     <i class="fas fa-crown game-icon generic-icon"></i>
                     <div class="game-details">
@@ -631,6 +642,7 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
                 </div>
+                <!-- Mobile Legends: Bang Bang -->
                 <div class="game-entry">
                     <i class="fas fa-swords game-icon generic-icon"></i>
                     <div class="game-details">
@@ -644,6 +656,7 @@
         </section>
     </main>
 
+    <!-- Embedded JavaScript from script.js -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const bioElement = document.querySelector('.bio');
@@ -656,7 +669,7 @@
                 const elementsToAnimate = tabElement.querySelectorAll('.social-entry, .game-entry');
                 elementsToAnimate.forEach((element, index) => {
                     element.style.animation = 'none';
-                    void element.offsetWidth;
+                    void element.offsetWidth; // Trigger reflow
                     if (element.classList.contains('social-entry') || element.classList.contains('game-entry')) {
                         element.style.animation = `fadeIn 0.5s ease-out ${index * 0.05}s forwards`;
                     }
@@ -687,42 +700,46 @@
                 applyAnimations(initialActiveTab);
             }
 
+            // Copy UID functionality
             const copyUidButtons = document.querySelectorAll('.copy-uid-button');
             copyUidButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
+                    event.preventDefault(); // Prevent the link from being followed if it's an <a> tag
+                    event.stopPropagation(); // Stop event bubbling to parent link
 
                     const gameEntry = button.closest('.game-entry');
-                    const gameUidSpan = gameEntry.querySelector('.game-uid');
-                    const uidValue = gameUidSpan.dataset.uid;
-                    const uidLabel = gameUidSpan.textContent.split(':')[0];
+                    const gameUidSpan = gameEntry.querySelector('.game-uid'); // Get the span with the UID
+                    const uidValue = gameUidSpan.dataset.uid; // Get the UID from the data-uid attribute
+                    const uidLabel = gameUidSpan.textContent.split(':')[0]; // Get the "UID" or "Player Tag" label
 
                     if (uidValue) {
                         const textToCopy = `${uidLabel}: ${uidValue}`;
                         
+                        // Create a temporary textarea to copy text to clipboard
                         const tempTextArea = document.createElement('textarea');
-                        tempTextArea.value = uidValue;
+                        tempTextArea.value = uidValue; // Only copy the UID value, not the label
                         document.body.appendChild(tempTextArea);
                         tempTextArea.select();
                         
                         try {
                             document.execCommand('copy');
+                            // Provide visual feedback and animation
                             const originalTitle = button.title;
                             const originalColor = button.style.color;
 
                             button.title = 'Copied!';
-                            button.style.color = '#4CAF50';
-                            button.classList.add('copied-animation');
+                            button.style.color = '#4CAF50'; // Green color for copied feedback
+                            button.classList.add('copied-animation'); // Add animation class
 
                             setTimeout(() => {
                                 button.title = originalTitle;
-                                button.style.color = originalColor;
-                                button.classList.remove('copied-animation');
-                            }, 1500);
+                                button.style.color = originalColor; // Revert color
+                                button.classList.remove('copied-animation'); // Remove animation class
+                            }, 1500); // Reset after 1.5 seconds
 
                         } catch (err) {
                             console.error('Failed to copy text: ', err);
+                            // Fallback for environments where execCommand is restricted (using a custom message box)
                             const messageBox = document.createElement('div');
                             messageBox.textContent = 'Failed to copy. Please copy manually: ' + uidValue;
                             messageBox.style.cssText = `
@@ -743,136 +760,13 @@
                             document.body.appendChild(messageBox);
                             setTimeout(() => {
                                 document.body.removeChild(messageBox);
-                            }, 3000);
+                            }, 3000); // Remove message after 3 seconds
                         } finally {
                             document.body.removeChild(tempTextArea);
                         }
                     }
                 });
             });
-
-            // Geometric background animation
-            const canvas = document.getElementById('geometric-background');
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            const particles = [];
-            const numParticles = 80; // Optimized: Reduced particle count for better performance
-            const maxDistance = 100; // Optimized: Reduced max distance for fewer lines
-
-            // Define the RGB colors used in the CSS animation for syncing
-            const rgbColors = [
-                {r: 255, g: 153, b: 153}, // Lighter Red
-                {r: 255, g: 255, b: 204}, // Lighter Yellow
-                {r: 204, g: 255, b: 204}, // Lighter Green
-                {r: 204, g: 255, b: 255}, // Lighter Cyan
-                {r: 204, g: 204, b: 255}, // Lighter Blue
-                {r: 255, g: 204, b: 255}, // Lighter Magenta
-                {r: 255, g: 153, b: 153}  // Back to Lighter Red for smooth loop
-            ];
-
-            // Linear interpolation function for numbers
-            function lerp(a, b, t) {
-                return a + (b - a) * t;
-            }
-
-            // Function to get interpolated color based on progress (0 to 1) and desired opacity
-            function getInterpolatedColor(progress, opacity) {
-                const numSegments = rgbColors.length - 1;
-                const segmentIndex = Math.floor(progress * numSegments);
-                const segmentProgress = (progress * numSegments) - segmentIndex;
-
-                const color1 = rgbColors[segmentIndex];
-                const color2 = rgbColors[Math.min(segmentIndex + 1, numSegments)];
-
-                const r = lerp(color1.r, color2.r, segmentProgress);
-                const g = lerp(color1.g, color2.g, segmentProgress);
-                const b = lerp(color1.b, color2.b, segmentProgress);
-
-                return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${opacity})`;
-            }
-
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.5; // Optimized: Slightly slower movement
-                    this.vy = (Math.random() - 0.5) * 0.5; // Optimized: Slightly slower movement
-                    this.radius = Math.random() * 1.2 + 0.3; // Optimized: Slightly smaller particles
-                    this.initialOpacity = Math.random() * 0.2 + 0.05; // Optimized: Fainter initial opacity
-                    this.angle = Math.random() * Math.PI * 2;
-                }
-
-                update() {
-                    this.x += this.vx + Math.cos(this.angle) * 0.05; // Optimized: Reduced wave motion
-                    this.y += this.vy + Math.sin(this.angle) * 0.05; // Optimized: Reduced wave motion
-                    this.angle += 0.005; // Optimized: Slower angle change
-
-                    if (this.x < 0 || this.x > width) this.vx *= -1;
-                    if (this.y < 0 || this.y > height) this.vy *= -1;
-                }
-
-                // Draw method now takes current animation progress
-                draw(animationProgress) {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = getInterpolatedColor(animationProgress, this.initialOpacity); // Use interpolated color
-                    ctx.fill();
-                }
-            }
-
-            function initParticles() {
-                particles.length = 0;
-                for (let i = 0; i < numParticles; i++) {
-                    particles.push(new Particle());
-                }
-            }
-
-            function animateGeometricBackground(currentTime) {
-                ctx.clearRect(0, 0, width, height);
-
-                // Calculate animation progress based on a 10-second cycle (10000 ms)
-                const animationProgress = (currentTime / 10000) % 1;
-
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw(animationProgress); // Pass progress to draw method
-
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const p1 = particles[i];
-                        const p2 = particles[j];
-                        const distance = Math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2);
-
-                        if (distance < maxDistance) {
-                            ctx.beginPath();
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            // Use interpolated color for lines, with opacity based on distance
-                            const lineColorOpacity = 1 - (distance / maxDistance) * 0.6; // Optimized: Fainter lines
-                            ctx.strokeStyle = getInterpolatedColor(animationProgress, lineColorOpacity);
-                            ctx.lineWidth = 0.5; // Optimized: Thinner lines
-                            ctx.stroke();
-                        }
-                    }
-                }
-                requestAnimationFrame(animateGeometricBackground);
-            }
-
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                initParticles();
-            });
-
-            // Initial setup - start the animation loop with current time
-            resizeCanvas();
-            initParticles();
-            animateGeometricBackground(performance.now());
         });
     </script>
 </body>
