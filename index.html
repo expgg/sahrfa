@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al Hossain Rifat - Portfolio</title>
+    <title>AHR</title>
     <!-- Embedded CSS from style.css -->
     <style>
         html {
@@ -11,7 +11,7 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif; /* Changed default body font to Inter */
             background-color: #0d0d0d;
             color: #e0e0e0;
             margin: 0;
@@ -117,13 +117,8 @@
 
         /* RGB Cycling Keyframes for Scrollbar Thumb - LIGHT/BRIGHT VERSION */
         @keyframes rgbCycleScrollbar {
-            0% { background: #FF6666; }
-            16% { background: #FFFF99; }
-            33% { background: #99FF99; }
-            50% { background: #99FFFF; }
-            66% { background: #9999FF; }
-            83% { background: #FF99FF; }
-            100% { background: #FF6666; }
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% -700%; /* Move the entire gradient length */ }
         }
 
         /* RGB Cycling Keyframes for Text Shadow on Hover */
@@ -139,13 +134,13 @@
 
 
         h1 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Rajdhani', sans-serif; /* Reverted font to Rajdhani */
             font-weight: 600;
             animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to h1 */
         }
 
         .portfolio-container {
-            max-width: 500px;
+            max-width: 500px; /* Reverted max-width */
             width: 100%;
             text-align: center;
             padding: 20px;
@@ -202,6 +197,7 @@
         }
 
         .bio {
+            font-family: 'Space Mono', monospace; /* Kept Space Mono for bio */
             font-size: 1em;
             line-height: 1.2;
             color: white;
@@ -211,9 +207,10 @@
             background-color: rgba(0, 0, 0, 0.4);
             padding: 5px 10px;
             border-radius: 5px;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Kept enhanced text shadow */
             width: 100%;
             margin-top: 10px;
+            /* Reverted bio background styling */
         }
 
 
@@ -289,17 +286,29 @@
         }
 
         .tab-content::-webkit-scrollbar {
-            width: 6px;
+            width: 8px; /* Made scrollbar thinner */
         }
 
         .tab-content::-webkit-scrollbar-track {
-            background: #333;
+            background: #1a1a1a; /* Darker track for better contrast */
             border-radius: 10px;
         }
 
         .tab-content::-webkit-scrollbar-thumb {
             border-radius: 10px;
-            animation: rgbCycleScrollbar 10s linear infinite; /* Apply RGB cycle to scrollbar thumb */
+            /* Enhanced RGB gradient with more colors and increased background size for smoother flow */
+            background: linear-gradient(to bottom, 
+                #FF0000, /* Red */
+                #FF7F00, /* Orange */
+                #FFFF00, /* Yellow */
+                #00FF00, /* Green */
+                #0000FF, /* Blue */
+                #4B0082, /* Indigo */
+                #9400D3 /* Violet */
+            );
+            background-size: 100% 700%; /* Increased background size for more gradient to flow */
+            animation: rgbCycleScrollbar 0.5s linear infinite; /* ANIMATION SPEED INCREASED TO 0.5S */
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5); /* Stronger shadow for visibility */
         }
 
         .tab-content.active {
@@ -498,7 +507,7 @@
 
             .social-username,
             .game-ign,
-            .game-uid {
+                .game-uid {
                 font-size: 0.8em;
             }
 
@@ -512,7 +521,7 @@
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&family=Rajdhani:wght@600&family=Inter:wght@400&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="https://placehold.co/32x32/B8860B/fff?text=AR" type="image/png">
 </head>
@@ -689,6 +698,25 @@
 
     <!-- Embedded JavaScript from script.js -->
     <script>
+        // Function to cache the video
+        async function cacheVideo(videoUrl) {
+            try {
+                const cacheName = 'portfolio-video-cache-v1'; // A unique name for your cache
+                const cache = await caches.open(cacheName);
+                const response = await cache.match(videoUrl);
+
+                if (!response) { // If video is not already in cache
+                    console.log('Caching video:', videoUrl);
+                    await cache.add(videoUrl);
+                    console.log('Video cached successfully!');
+                } else {
+                    console.log('Video already in cache.');
+                }
+            } catch (error) {
+                console.error('Failed to cache video:', error);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const bioElement = document.querySelector('.bio');
             bioElement.textContent = "I like computer stuff and enjoy making new things every day. I also love playing games and exploring new technologies.";
@@ -781,12 +809,12 @@
                                 background-color: #333;
                                 color: #fff;
                                 padding: 15px 25px;
-                                border-radius: 8px;
-                                box-shadow: 0 0 15px rgba(0,0,0,0.5);
-                                z-index: 1000;
-                                font-family: 'Roboto', sans-serif;
-                                font-size: 1em;
-                                border: 1px solid #FF8C00;
+                                border-radius: 8px;\
+                                box-shadow: 0 0 15px rgba(0,0,0,0.5);\
+                                z-index: 1000;\
+                                font-family: 'Roboto', sans-serif;\
+                                font-size: 1em;\
+                                border: 1px solid #FF8C00;\
                             `;
                             document.body.appendChild(messageBox);
                             setTimeout(() => {
@@ -798,6 +826,15 @@
                     }
                 });
             });
+
+            // Call the caching function for the video
+            const videoElement = document.getElementById('video-background');
+            if (videoElement) {
+                // Only attempt to cache once the video metadata is loaded
+                videoElement.addEventListener('loadedmetadata', () => {
+                    cacheVideo(videoElement.src);
+                }, { once: true }); 
+            }
         });
     </script>
 </body>
