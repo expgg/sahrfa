@@ -24,8 +24,18 @@
             position: relative;
         }
 
-        /* YouTube Video Background Styling */
-        /* Removed #youtube-background styles as the iframe is removed */
+        /* Video Background Styling */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This makes the video cover the entire area, cropping if necessary */
+            z-index: -2; /* Placed behind body::before and main content */
+            pointer-events: none; /* Allows clicks to pass through to elements beneath */
+            overflow: hidden; /* Crucial to hide parts that go beyond the viewport */
+        }
 
         /* Overlay for the video to dim it and allow grid pattern to show */
         body::before {
@@ -41,7 +51,7 @@
                 repeating-linear-gradient(90deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px);
             opacity: 0.1; /* Original opacity for the grid */
             z-index: -1; /* Placed above the video, below main content */
-            /* Removed background-color: rgba(0, 0, 0, 0.5); to revert to old background */
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay to make content pop and dim video */
         }
 
         /* RGB Cycling Keyframes for Colors (Text, Icons) - LIGHT/BRIGHT VERSION */
@@ -490,7 +500,11 @@
     <link rel="icon" href="https://placehold.co/32x32/B8860B/fff?text=AR" type="image/png">
 </head>
 <body>
-    <!-- YouTube Video Background Removed -->
+    <!-- Video Background -->
+    <video id="video-background" autoplay loop muted playsinline>
+        <source src="vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
     <main class="portfolio-container">
         <section class="profile-section">
