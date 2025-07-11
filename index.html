@@ -4,12 +4,498 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Al Hossain Rifat - Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas for geometric animations */
+        #geometric-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            background-color: #0d0d0d; /* Base background color */
+        }
+
+        /* Overlay for the canvas to dim it and allow grid pattern to show */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(0deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px),
+                repeating-linear-gradient(90deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px);
+            opacity: 0.1;
+            z-index: -1;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Animation for the grid background */
+            animation: moveGrid 20s linear infinite;
+        }
+
+        /* Keyframes for moving the grid background */
+        @keyframes moveGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; } /* Moves diagonally */
+        }
+
+        /* RGB Cycling Keyframes for Colors (Text, Icons) - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycle {
+            0% { color: #FF9999; text-shadow: 0 0 10px rgba(255, 153, 153, 0.9); } /* Lighter Red */
+            16% { color: #FFFFCC; text-shadow: 0 0 10px rgba(255, 255, 204, 0.9); } /* Lighter Yellow */
+            33% { color: #CCFFCC; text-shadow: 0 0 10px rgba(204, 255, 204, 0.9); } /* Lighter Green */
+            50% { color: #CCFFFF; text-shadow: 0 0 10px rgba(204, 255, 255, 0.9); } /* Lighter Cyan */
+            66% { color: #CCCCFF; text-shadow: 0 0 10px rgba(204, 204, 255, 0.9); } /* Lighter Blue */
+            83% { color: #FFCCFF; text-shadow: 0 0 10px rgba(255, 204, 255, 0.9); } /* Lighter Magenta */
+            100% { color: #FF9999; text-shadow: 0 0 10px rgba(255, 153, 153, 0.9); } /* Back to Lighter Red */
+        }
+
+        /* RGB Cycling Keyframes for Borders/Shadows/Backgrounds (Main Container, Entries) - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycleBorderShadowBackground {
+            0% { 
+                border-color: rgba(255, 153, 153, 0.5);
+                box-shadow: 0 0 35px rgba(255, 153, 153, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 153, 153, 0.15);
+            }
+            16% { 
+                border-color: rgba(255, 255, 204, 0.5); 
+                box-shadow: 0 0 35px rgba(255, 255, 204, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 255, 204, 0.15);
+            }
+            33% { 
+                border-color: rgba(204, 255, 204, 0.5); 
+                box-shadow: 0 0 35px rgba(204, 255, 204, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(204, 255, 204, 0.15);
+            }
+            50% { 
+                border-color: rgba(204, 255, 255, 0.5); 
+                box-shadow: 0 0 35px rgba(204, 255, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(204, 255, 255, 0.15);
+            }
+            66% { 
+                border-color: rgba(204, 204, 255, 0.5); 
+                box-shadow: 0 0 35px rgba(204, 204, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(204, 204, 255, 0.15);
+            }
+            83% { 
+                border-color: rgba(255, 204, 255, 0.5); 
+                box-shadow: 0 0 35px rgba(255, 204, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 204, 255, 0.15);
+            }
+            100% { 
+                border-color: rgba(255, 153, 153, 0.5); 
+                box-shadow: 0 0 35px rgba(255, 153, 153, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 153, 153, 0.15);
+            }
+        }
+
+        /* RGB Cycling Keyframes for Border-only - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycleBorder {
+            0% { border-color: #FF6666; }
+            16% { border-color: #FFFF99; }
+            33% { border-color: #99FF99; }
+            50% { border-color: #99FFFF; }
+            66% { border-color: #9999FF; }
+            83% { border-color: #FF99FF; }
+            100% { border-color: #FF6666; }
+        }
+
+        /* RGB Cycling Keyframes for Scrollbar Thumb - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycleScrollbar {
+            0% { background: #FF6666; }
+            16% { background: #FFFF99; }
+            33% { background: #99FF99; }
+            50% { background: #99FFFF; }
+            66% { background: #9999FF; }
+            83% { background: #FF99FF; }
+            100% { background: #FF6666; }
+        }
+
+        /* RGB Cycling Keyframes for Text Shadow on Hover */
+        @keyframes rgbCycleTextShadow {
+            0% { text-shadow: 0 0 12px #FF9999; }
+            16% { text-shadow: 0 0 12px #FFFFCC; }
+            33% { text-shadow: 0 0 12px #CCFFCC; }
+            50% { text-shadow: 0 0 12px #CCFFFF; }
+            66% { text-shadow: 0 0 12px #CCCCFF; }
+            83% { text-shadow: 0 0 12px #FFCCFF; }
+            100% { text-shadow: 0 0 12px #FF9999; }
+        }
+
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            animation: rgbCycle 10s linear infinite;
+        }
+
+        .portfolio-container {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 15px;
+            box-sizing: border-box;
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            animation: rgbCycleBorderShadowBackground 10s linear infinite;
+        }
+
+        .profile-section {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 5px solid;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-right: 15px;
+            margin-top: -10px;
+            animation: rgbCycleBorder 10s linear infinite;
+        }
+
+        .name {
+            font-size: 2em;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            flex-shrink: 0;
+            margin-top: -20px;
+        }
+
+        .bio {
+            font-size: 1em;
+            line-height: 1.2;
+            color: white;
+            max-width: 400px;
+            margin: 5px auto 0px;
+            padding-bottom: 0px;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+
+        .tab-system {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            animation: rgbCycleBorder 10s linear infinite;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            flex: 1;
+            border-radius: 8px;
+        }
+
+        .tab-button:hover {
+            animation: rgbCycle 10s linear infinite;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-button.active {
+            animation: rgbCycle 10s linear infinite;
+            border-bottom: 2px solid;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+            flex-grow: 1;
+        }
+
+        .tab-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tab-content::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            animation: rgbCycleScrollbar 10s linear infinite;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .social-entry,
+        .game-entry {
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            animation: fadeIn 0.5s ease-out forwards, rgbCycleBorderShadowBackground 10s linear infinite; 
+            color: inherit;
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 70px;
+            transition: all 0.3s ease;
+        }
+
+        a.social-entry,
+        a.game-entry {
+            cursor: pointer;
+        }
+
+        div.game-entry {
+            cursor: default;
+        }
+
+        .social-entry:hover,
+        .game-entry:hover {
+            box-shadow: 0 6px 20px;
+            transform: translateY(-2px);
+            animation: rgbCycleBorderShadowBackground 10s linear infinite;
+        }
+
+
+        .social-icon,
+        .game-icon {
+            font-size: 2em;
+            animation: rgbCycle 10s linear infinite;
+            min-width: 40px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .social-details,
+        .game-details {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .social-title,
+        .game-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+            animation: rgbCycle 10s linear infinite;
+        }
+
+        .social-username,
+        .game-ign,
+        .game-uid {
+            font-size: 0.9em;
+            color: #b0b0b0;
+            word-break: break-word;
+        }
+
+        .social-entry:hover .social-title,
+        .social-entry:hover .social-username,
+        .game-entry:hover .game-title,
+        .game-entry:hover .game-ign,
+        .game-entry:hover .game-uid {
+            animation: rgbCycleTextShadow 10s linear infinite;
+        }
+
+
+        .copy-uid-button {
+            font-size: 1.2em;
+            animation: rgbCycle 10s linear infinite;
+            cursor: pointer;
+            margin-left: auto;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .copy-uid-button:hover {
+            transform: scale(1.1);
+            animation: rgbCycle 10s linear infinite;
+        }
+
+        @keyframes copiedBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #4CAF50; }
+            100% { transform: scale(1); }
+        }
+
+        .copy-uid-button.copied-animation {
+            animation: copiedBounce 0.5s ease-in-out;
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatPulse {
+            0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); }
+            50% { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(184, 134, 11, 0.5); }
+            100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); }
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-container {
+                padding: 15px;
+                margin: 10px;
+                min-height: 600px;
+            }
+
+            .name {
+                font-size: 1.6em;
+                margin-bottom: 0px;
+                background-color: rgba(0, 0, 0, 0.5);
+                padding: 5px 10px;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .bio {
+                font-size: 0.9em;
+                margin: 5px auto 0px;
+                background-color: rgba(0, 0, 0, 0.4);
+                padding: 5px 10px;
+                border-radius: 5px;
+                color: white;
+            }
+
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .tab-buttons {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding: 3px;
+            }
+
+            .tab-button {
+                font-size: 1em;
+                padding: 8px 15px;
+                border-radius: 6px;
+            }
+
+            .social-entry,
+            .game-entry {
+                padding: 10px;
+                gap: 10px;
+                min-height: 60px;
+            }
+
+            .social-icon,
+            .game-icon {
+                font-size: 1.5em;
+            }
+
+            .social-title,
+            .game-title {
+                font-size: 1em;
+            }
+
+            .social-username,
+            .game-ign,
+            .game-uid {
+                font-size: 0.8em;
+            }
+
+            .tab-content {
+                max-height: 300px;
+                padding-right: 5px;
+            }
+
+            .tab-content::-webkit-scrollbar {
+                width: 4px;
+            }
+        }
+    </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="https://placehold.co/32x32/B8860B/fff?text=AR" type="image/png">
 </head>
 <body>
+    <!-- Canvas for geometric animations -->
+    <canvas id="geometric-background"></canvas>
+
     <main class="portfolio-container">
         <section class="profile-section">
             <img src="https://cdn.prod.website-files.com/62bdc93e9cccfb43e155104c/654e8c52bd1963900334f10d_63ccd8001a2c84d7bf720bda_Aesthetic%2520Cartoon%2520GIF%2520PFP%2520for%2520Tiktok%25201.gif" alt="Al Hossain Rifat Profile Photo" class="profile-photo">
@@ -24,7 +510,6 @@
             </div>
 
             <div id="socials" class="tab-content active scrollable-content">
-                <!-- Updated Facebook link and username -->
                 <a href="https://www.facebook.com/alhossainrifat0" target="_blank" class="social-entry">
                     <i class="fab fa-facebook-f social-icon facebook-icon"></i>
                     <div class="social-details">
@@ -32,7 +517,6 @@
                         <span class="social-username">alhossainrifat0</span>
                     </div>
                 </a>
-                <!-- Updated YouTube link and username -->
                 <a href="https://www.youtube.com/@exploriot" target="_blank" class="social-entry">
                     <i class="fab fa-youtube social-icon youtube-icon"></i>
                     <div class="social-details">
@@ -40,7 +524,6 @@
                         <span class="social-username">@exploriot</span>
                     </div>
                 </a>
-                <!-- Updated Instagram link and username -->
                 <a href="https://www.instagram.com/exploriot_" target="_blank" class="social-entry">
                     <i class="fab fa-instagram social-icon instagram-icon"></i>
                     <div class="social-details">
@@ -48,7 +531,6 @@
                         <span class="social-username">@exploriot</span>
                     </div>
                 </a>
-                <!-- Updated LinkedIn link and username -->
                 <a href="https://www.linkedin.com/in/rifat56" target="_blank" class="social-entry">
                     <i class="fab fa-linkedin-in social-icon linkedin-icon"></i>
                     <div class="social-details">
@@ -56,7 +538,6 @@
                         <span class="social-username">Al Hossain Rifat</span>
                     </div>
                 </a>
-                <!-- Updated X (Twitter) link and username -->
                 <a href="https://x.com/exploriot" target="_blank" class="social-entry">
                     <i class="fab fa-twitter social-icon x-icon"></i>
                     <div class="social-details">
@@ -64,7 +545,6 @@
                         <span class="social-username">@exploriot</span>
                     </div>
                 </a>
-                <!-- Added Spotify button -->
                 <a href="https://open.spotify.com/user/31kdbdkekhjdnlpryajwziibqzey?si=7c7286bbf44c4e22" target="_blank" class="social-entry">
                     <i class="fab fa-spotify social-icon spotify-icon"></i>
                     <div class="social-details">
@@ -72,7 +552,6 @@
                         <span class="social-username">exploriot</span>
                     </div>
                     </a>
-                <!-- WhatsApp link -->
                 <a href="https://wa.me/01773185817" target="_blank" class="social-entry">
                     <i class="fab fa-whatsapp social-icon whatsapp-icon"></i>
                     <div class="social-details">
@@ -80,7 +559,6 @@
                         <span class="social-username">Direct Message</span>
                     </div>
                 </a>
-                <!-- Phone link -->
                 <a href="tel:01773185817" class="social-entry">
                     <i class="fas fa-phone social-icon phone-icon"></i>
                     <div class="social-details">
@@ -91,7 +569,6 @@
             </div>
 
             <div id="misc" class="tab-content scrollable-content">
-                <!-- Projects button (this remains a link as it has a valid href) -->
                 <a href="https://your-projects-website.com" target="_blank" class="game-entry">
                     <i class="fas fa-folder-open game-icon generic-icon"></i>
                     <div class="game-details">
@@ -100,7 +577,6 @@
                         <span class="game-uid">Click to Visit</span>
                     </div>
                 </a>
-                <!-- PUBG Mobile -->
                 <div class="game-entry">
                     <i class="fas fa-bullseye game-icon generic-icon"></i>
                     <div class="game-details">
@@ -110,7 +586,6 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
-                <!-- Call of Duty: Mobile -->
                 <div class="game-entry">
                     <i class="fas fa-gun game-icon generic-icon"></i>
                     <div class="game-details">
@@ -120,7 +595,6 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
-                <!-- Clash of Clans - Now a link with updated info -->
                 <a href="https://link.clashofclans.com/en?action=OpenClanProfile&tag=2QPYUVLU9" target="_blank" class="game-entry">
                     <i class="fas fa-shield-alt game-icon generic-icon"></i>
                     <div class="game-details">
@@ -130,7 +604,6 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
                 </a>
-                <!-- Garena Free Fire -->
                 <div class="game-entry">
                     <i class="fas fa-fire game-icon generic-icon"></i>
                     <div class="game-details">
@@ -140,7 +613,6 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
-                <!-- Blood Strike -->
                 <div class="game-entry">
                     <i class="fas fa-tint game-icon generic-icon"></i>
                     <div class="game-details">
@@ -150,7 +622,6 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
                 </div>
-                <!-- Clash Royale -->
                 <div class="game-entry">
                     <i class="fas fa-crown game-icon generic-icon"></i>
                     <div class="game-details">
@@ -160,7 +631,6 @@
                     </div>
                     <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
                 </div>
-                <!-- Mobile Legends: Bang Bang -->
                 <div class="game-entry">
                     <i class="fas fa-swords game-icon generic-icon"></i>
                     <div class="game-details">
@@ -174,6 +644,236 @@
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bioElement = document.querySelector('.bio');
+            bioElement.textContent = "I like computer stuff and enjoy making new things every day. I also love playing games and exploring new technologies.";
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            const applyAnimations = (tabElement) => {
+                const elementsToAnimate = tabElement.querySelectorAll('.social-entry, .game-entry');
+                elementsToAnimate.forEach((element, index) => {
+                    element.style.animation = 'none';
+                    void element.offsetWidth;
+                    if (element.classList.contains('social-entry') || element.classList.contains('game-entry')) {
+                        element.style.animation = `fadeIn 0.5s ease-out ${index * 0.05}s forwards`;
+                    }
+                });
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTabId = button.dataset.tab;
+
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    const activeTabContent = document.getElementById(targetTabId);
+                    activeTabContent.classList.add('active');
+                    button.classList.add('active');
+
+                    applyAnimations(activeTabContent);
+                });
+            });
+
+            const initialActiveTab = document.querySelector('.tab-content.active');
+            if (initialActiveTab) {
+                applyAnimations(initialActiveTab);
+            }
+
+            const copyUidButtons = document.querySelectorAll('.copy-uid-button');
+            copyUidButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const gameEntry = button.closest('.game-entry');
+                    const gameUidSpan = gameEntry.querySelector('.game-uid');
+                    const uidValue = gameUidSpan.dataset.uid;
+                    const uidLabel = gameUidSpan.textContent.split(':')[0];
+
+                    if (uidValue) {
+                        const textToCopy = `${uidLabel}: ${uidValue}`;
+                        
+                        const tempTextArea = document.createElement('textarea');
+                        tempTextArea.value = uidValue;
+                        document.body.appendChild(tempTextArea);
+                        tempTextArea.select();
+                        
+                        try {
+                            document.execCommand('copy');
+                            const originalTitle = button.title;
+                            const originalColor = button.style.color;
+
+                            button.title = 'Copied!';
+                            button.style.color = '#4CAF50';
+                            button.classList.add('copied-animation');
+
+                            setTimeout(() => {
+                                button.title = originalTitle;
+                                button.style.color = originalColor;
+                                button.classList.remove('copied-animation');
+                            }, 1500);
+
+                        } catch (err) {
+                            console.error('Failed to copy text: ', err);
+                            const messageBox = document.createElement('div');
+                            messageBox.textContent = 'Failed to copy. Please copy manually: ' + uidValue;
+                            messageBox.style.cssText = `
+                                position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                background-color: #333;
+                                color: #fff;
+                                padding: 15px 25px;
+                                border-radius: 8px;
+                                box-shadow: 0 0 15px rgba(0,0,0,0.5);
+                                z-index: 1000;
+                                font-family: 'Roboto', sans-serif;
+                                font-size: 1em;
+                                border: 1px solid #FF8C00;
+                            `;
+                            document.body.appendChild(messageBox);
+                            setTimeout(() => {
+                                document.body.removeChild(messageBox);
+                            }, 3000);
+                        } finally {
+                            document.body.removeChild(tempTextArea);
+                        }
+                    }
+                });
+            });
+
+            // Geometric background animation
+            const canvas = document.getElementById('geometric-background');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            const particles = [];
+            const numParticles = 150;
+            const maxDistance = 150;
+
+            // Define the RGB colors used in the CSS animation for syncing
+            const rgbColors = [
+                {r: 255, g: 153, b: 153}, // Lighter Red
+                {r: 255, g: 255, b: 204}, // Lighter Yellow
+                {r: 204, g: 255, b: 204}, // Lighter Green
+                {r: 204, g: 255, b: 255}, // Lighter Cyan
+                {r: 204, g: 204, b: 255}, // Lighter Blue
+                {r: 255, g: 204, b: 255}, // Lighter Magenta
+                {r: 255, g: 153, b: 153}  // Back to Lighter Red for smooth loop
+            ];
+
+            // Linear interpolation function for numbers
+            function lerp(a, b, t) {
+                return a + (b - a) * t;
+            }
+
+            // Function to get interpolated color based on progress (0 to 1) and desired opacity
+            function getInterpolatedColor(progress, opacity) {
+                const numSegments = rgbColors.length - 1;
+                const segmentIndex = Math.floor(progress * numSegments);
+                const segmentProgress = (progress * numSegments) - segmentIndex;
+
+                const color1 = rgbColors[segmentIndex];
+                const color2 = rgbColors[Math.min(segmentIndex + 1, numSegments)];
+
+                const r = lerp(color1.r, color2.r, segmentProgress);
+                const g = lerp(color1.g, color2.g, segmentProgress);
+                const b = lerp(color1.b, color2.b, segmentProgress);
+
+                return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${opacity})`;
+            }
+
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.7;
+                    this.vy = (Math.random() - 0.5) * 0.7;
+                    this.radius = Math.random() * 1.5 + 0.5;
+                    this.initialOpacity = Math.random() * 0.3 + 0.1; // Store initial random opacity
+                    this.angle = Math.random() * Math.PI * 2;
+                }
+
+                update() {
+                    this.x += this.vx + Math.cos(this.angle) * 0.1;
+                    this.y += this.vy + Math.sin(this.angle) * 0.1;
+                    this.angle += 0.01;
+
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+
+                // Draw method now takes current animation progress
+                draw(animationProgress) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = getInterpolatedColor(animationProgress, this.initialOpacity); // Use interpolated color
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles.length = 0;
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animateGeometricBackground(currentTime) {
+                ctx.clearRect(0, 0, width, height);
+
+                // Calculate animation progress based on a 10-second cycle (10000 ms)
+                const animationProgress = (currentTime / 10000) % 1;
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw(animationProgress); // Pass progress to draw method
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p1 = particles[i];
+                        const p2 = particles[j];
+                        const distance = Math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2);
+
+                        if (distance < maxDistance) {
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            // Use interpolated color for lines, with opacity based on distance
+                            const lineColorOpacity = 1 - (distance / maxDistance) * 0.7;
+                            ctx.strokeStyle = getInterpolatedColor(animationProgress, lineColorOpacity);
+                            ctx.lineWidth = 0.7;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animateGeometricBackground);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles();
+            });
+
+            // Initial setup - start the animation loop with current time
+            resizeCanvas();
+            initParticles();
+            animateGeometricBackground(performance.now());
+        });
+    </script>
 </body>
 </html>
