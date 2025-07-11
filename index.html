@@ -756,8 +756,8 @@
             const ctx = canvas.getContext('2d');
             let width, height;
             const particles = [];
-            const numParticles = 150;
-            const maxDistance = 150;
+            const numParticles = 80; // Optimized: Reduced particle count for better performance
+            const maxDistance = 100; // Optimized: Reduced max distance for fewer lines
 
             // Define the RGB colors used in the CSS animation for syncing
             const rgbColors = [
@@ -802,17 +802,17 @@
                 constructor() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.vx = (Math.random() - 0.5) * 0.7;
-                    this.vy = (Math.random() - 0.5) * 0.7;
-                    this.radius = Math.random() * 1.5 + 0.5;
-                    this.initialOpacity = Math.random() * 0.3 + 0.1; // Store initial random opacity
+                    this.vx = (Math.random() - 0.5) * 0.5; // Optimized: Slightly slower movement
+                    this.vy = (Math.random() - 0.5) * 0.5; // Optimized: Slightly slower movement
+                    this.radius = Math.random() * 1.2 + 0.3; // Optimized: Slightly smaller particles
+                    this.initialOpacity = Math.random() * 0.2 + 0.05; // Optimized: Fainter initial opacity
                     this.angle = Math.random() * Math.PI * 2;
                 }
 
                 update() {
-                    this.x += this.vx + Math.cos(this.angle) * 0.1;
-                    this.y += this.vy + Math.sin(this.angle) * 0.1;
-                    this.angle += 0.01;
+                    this.x += this.vx + Math.cos(this.angle) * 0.05; // Optimized: Reduced wave motion
+                    this.y += this.vy + Math.sin(this.angle) * 0.05; // Optimized: Reduced wave motion
+                    this.angle += 0.005; // Optimized: Slower angle change
 
                     if (this.x < 0 || this.x > width) this.vx *= -1;
                     if (this.y < 0 || this.y > height) this.vy *= -1;
@@ -854,9 +854,9 @@
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(p2.x, p2.y);
                             // Use interpolated color for lines, with opacity based on distance
-                            const lineColorOpacity = 1 - (distance / maxDistance) * 0.7;
+                            const lineColorOpacity = 1 - (distance / maxDistance) * 0.6; // Optimized: Fainter lines
                             ctx.strokeStyle = getInterpolatedColor(animationProgress, lineColorOpacity);
-                            ctx.lineWidth = 0.7;
+                            ctx.lineWidth = 0.5; // Optimized: Thinner lines
                             ctx.stroke();
                         }
                     }
