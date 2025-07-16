@@ -522,7 +522,7 @@
                 { text: "২৯। BIST-এর কাজ কী?", answer: "একটি সার্কিট বা সিস্টেমের নিজের কার্যকারিতা পরীক্ষা করা।", extendedAnswer: "BIST (Built-In Self-Test) এর কাজ হলো একটি সার্কিট বা সিস্টেম নিজেই নিজের কার্যকারিতা পরীক্ষা করা।" }
             ],
             "short": [
-                { text: "১। স্ট্যাটিক ও ডায়নামিক ওয়েবসাইটের মধ্যে পার্থক্য লেখ।", answer: `
+                { text: "More coming soon", answer: `
                     <div class="answer-content-section">
                         <p class="mb-2"><span class="highlight-text">স্ট্যাটিক ফিক্সড কন্টেন্ট দেখায় (বই)</span>, <span class="highlight-text">ডায়নামিক কন্টেন্ট ইউজারের চাহিদা অনুযায়ী পরিবর্তন হয় (লাইভ টিভি)</span>। 🔄</p>
                     </div>
@@ -553,25 +553,487 @@
                 ` }
             ],
             "essay": [
-                { text: "১। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়? হ্যাকারের প্রকারভেদগুলোর বর্ণনা দাও।", answer: `
+                { text: "১। কম্পিউটারের গঠন চিত্রসহ বর্ণনা কর। (অধ্যায়-১)", answer: `
                     <div class="answer-content-section">
-                        <h5 class="mb-2">হ্যাকিং কী? (What is Hacking?)</h5>
-                        <p class="mb-2">হ্যাকিং হলো কম্পিউটার সিস্টেম বা নেটওয়ার্কের দুর্বলতা খুঁজে অননুমোদিতভাবে প্রবেশ করা বা নিয়ন্ত্রণ নেওয়া। এটা অনেকটা অনুমতি ছাড়া কোনো বাড়িতে ঢোকার মতো, তবে তালার ফাঁক খুঁজে। 🔑</p>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">কম্পিউটারের গঠন চিত্রসহ বর্ণনা</span> (Structure of a Computer with Diagram)</h5>
+                        <p class="mb-2">কম্পিউটারের গঠনকে একটা <span style="color: #66FCF1;">ব্লক ডায়াগ্রাম</span> দিয়ে খুব সহজে বোঝানো যায়। এটা কম্পিউটারের প্রধান অংশগুলো কিভাবে ডেটা আদান-প্রদান করে, তার একটা সহজ ম্যাপ।</p>
 
-                        <h5 class="mb-2">হ্যাকার কী? (What is a Hacker?)</h5>
-                        <p class="mb-2">একজন হ্যাকার হলেন সেই ব্যক্তি যিনি এই হ্যাকিং কাজটি করেন। তিনি একজন টেকনিক্যাল এক্সপার্ট যিনি সিস্টেমের নিরাপত্তা দুর্বলতা খুঁজে বের করতে পারেন।</p>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">কম্পিউটারের মৌলিক ব্লক ডায়াগ্রাম:</span></h5>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb1.jpg" alt="Basic Block Diagram of Computer" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2">এই ডায়াগ্রামের <span style="color: #66FCF1;">প্রধান অংশগুলো</span> এবং তাদের কাজ নিচে বর্ণনা করা হলো:</p>
 
-                        <h5 class="mb-2">হ্যাকারের প্রকারভেদ (Types of Hackers)</h5>
-                        <p class="mb-2">হ্যাকারদের প্রধান প্রকারগুলো নিচে দেওয়া হলো:</p>
-                        <ul class="list-disc ml-6 mb-2">
-                            <li><strong><span class="highlight-text">হোয়াইট হ্যাট হ্যাকার (White Hat Hacker)</span></strong>: এরা হলো ভালো হ্যাকার, যারা কোম্পানির অনুমতি নিয়ে সিস্টেমের দুর্বলতা খুঁজে বের করে সুরক্ষাকে আরও মজবুত করে। 😇 তুলনা: আপনার বাড়ির নিরাপত্তা পরীক্ষা করার জন্য নিয়োগ করা সিকিউরিটি কনসালটেন্ট।</li>
-                            <li><strong><span class="highlight-text">ব্ল্যাক হ্যাট হ্যাকার (Black Hat Hacker)</span></strong>: এরা হলো খারাপ হ্যাকার, যারা অনুমতি ছাড়া সিস্টেমে প্রবেশ করে ব্যক্তিগত লাভের জন্য (যেমন টাকা বা তথ্য চুরি) বা ক্ষতি করার জন্য কাজ করে। 😈 তুলনা: ডিজিটাল দুনিয়ার চোর বা ক্রিমিনাল।</li>
-                            <li><strong><span class="highlight-text">গ্রে হ্যাট হ্যাকার (Grey Hat Hacker)</span></strong>: এরা মাঝামাঝি। অনুমতি ছাড়াই দুর্বলতা খুঁজে, কিন্তু মালিককে জানিয়ে কখনো কখনো টাকার বিনিময়ে সাহায্য চায়। ⚖️ তুলনা: যে ডিটেকটিভ অনুমতি ছাড়া ঢুকে ফাঁক খুঁজে মালিককে জানায়, আর বিনিময়ে টাকা চায়।</li>
-                            <li><strong><span class="highlight-text">স্ক্রিপ্ট কিডিস (Script Kiddies)</span></strong>: এদের হ্যাকিং সম্পর্কে গভীর জ্ঞান থাকে না। এরা অন্যদের তৈরি করা রেডিমেড টুলস ব্যবহার করে হ্যাকিং চেষ্টা করে। 👶 তুলনা: অন্যের খেলনা বন্দুক নিয়ে খেলা করা শিশু।</li>
-                            <li><strong><span class="highlight-text">অ্যাক্টিভিস্ট (Hacktivist)</span></strong>: এরা হ্যাকিং করে সামাজিক বা রাজনৈতিক উদ্দেশ্য নিয়ে কোনো বার্তা ছড়িয়ে দেওয়া বা প্রতিবাদ করার জন্য। ✊ তুলনা: ডিজিটাল প্রতিবাদকারী।</li>
+                        <h5 class="mb-2">১. ইনপুট ইউনিট (<span style="color: #66FCF1;">Input Unit</span>):</h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">কাজ:</span> এই অংশটি বাইরের থেকে (যেমন, ব্যবহারকারীর কাছ থেকে) <span style="color: #66FCF1;">ডেটা ও নির্দেশ গ্রহণ</span> করে এবং সেগুলোকে কম্পিউটারের বোঝার উপযোগী ভাষায় (<span style="color: #66FCF1;">বাইনারি কোড</span>) রূপান্তর করে।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> কীবোর্ড, মাউস, স্ক্যানার, মাইক্রোফোন।</li>
+                        </ul>
+
+                        <h5 class="mb-2">২. সেন্ট্রাল প্রসেসিং ইউনিট (<span style="color: #66FCF1;">CPU - Central Processing Unit</span>):</h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">কাজ:</span> এটা কম্পিউটারের <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">মস্তিষ্ক</span>। ইনপুট ডেটা <span style="color: #66FCF1;">প্রক্রিয়াকরণ</span> করা, নির্দেশাবলী <span style="color: #66FCF1;">কার্যকর</span> করা, এবং সমস্ত কাজ <span style="color: #66FCF1;">নিয়ন্ত্রণ</span> করা এর মূল দায়িত্ব। সিপিইউ-এর তিনটি প্রধান অংশ আছে:</li>
+                            <li><span style="color: #66FCF1;">কন্ট্রোল ইউনিট (CU - Control Unit):</span> কম্পিউটারের সব কাজ <span style="color: #66FCF1;">নিয়ন্ত্রণ ও সমন্বয়</span> করে। ডেটা প্রবাহ এবং নির্দেশাবলী ঠিকমতো চলছে কি না, তা দেখে।</li>
+                            <li><span style="color: #66FCF1;">আরিথমেটিক লজিক ইউনিট (ALU - Arithmetic Logic Unit):</span> সমস্ত <span style="color: #66FCF1;">গাণিতিক</span> (যোগ, বিয়োগ, গুণ, ভাগ) এবং <span style="color: #66FCF1;">যৌক্তিক</span> (তুলনা করা, সিদ্ধান্ত নেওয়া) কাজগুলো সম্পন্ন করে।</li>
+                            <li><span style="color: #66FCF1;">রেজিস্টার (Registers):</span> সিপিইউ-এর ভেতরে থাকা খুব ছোট, <span style="color: #66FCF1;">দ্রুত গতির মেমরি</span>, যা <span style="color: #66FCF1;">ডেটা ও নির্দেশাবলী সাময়িকভাবে ধরে রাখে</span>।</li>
+                        </ul>
+
+                        <h5 class="mb-2">৩. মেমরি ইউনিট (<span style="color: #66FCF1;">Memory Unit</span>):</h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">কাজ:</span> এই অংশটি <span style="color: #66FCF1;">ডেটা এবং নির্দেশাবলী জমা রাখে</span>, যা সিপিইউ প্রক্রিয়াকরণের জন্য ব্যবহার করবে বা প্রক্রিয়াকরণের পর ফলাফল হিসেবে তৈরি হয়েছে।</li>
+                            <li><span style="color: #66FCF1;">প্রকারভেদ:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">প্রাইমারি মেমরি (Primary Memory):</span> <span style="color: #66FCF1;">RAM</span> (Random Access Memory) এবং <span style="color: #66FCF1;">ROM</span> (Read-Only Memory) এর অন্তর্ভুক্ত। এটি ডেটা দ্রুত অ্যাক্সেস করতে পারে। <span style="color: #66FCF1;">RAM অস্থায়ী (volatile)</span>, <span style="color: #66FCF1;">ROM স্থায়ী (non-volatile)</span>।</li>
+                                    <li><span style="color: #66FCF1;">সেকেন্ডারি মেমরি (Secondary Memory):</span> হার্ড ডিস্ক ড্রাইভ (HDD), সলিড স্টেট ড্রাইভ (SSD), পেনড্রাইভ ইত্যাদি। এটি ডেটা <span style="color: #66FCF1;">স্থায়ীভাবে সংরক্ষণ</span> করে।</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h5 class="mb-2">৪. আউটপুট ইউনিট (<span style="color: #66FCF1;">Output Unit</span>):</h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">কাজ:</span> প্রক্রিয়াকরণের পর প্রাপ্ত ফলাফলকে ব্যবহারকারীর বোঝার উপযোগী রূপে (যেমন, ছবি, লেখা, শব্দ) <span style="color: #66FCF1;">রূপান্তর করে প্রদর্শন</span> করে।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> মনিটর, প্রিন্টার, স্পিকার।</li>
                         </ul>
                     </div>
+                ` },
+                { text: "২। General Register machine এর ব্লক চিত্র অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও। (Chapter 2)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">General Register machine কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">General Register machine</span> হলো এমন ধরনের কম্পিউটার প্রসেসর আর্কিটেকচার যেখানে প্রসেসরের ভেতরেই অনেকগুলো ছোট, সুপার ফাস্ট মেমরি লোকেশন (<span style="color: #66FCF1;">রেজিস্টার</span>) থাকে। এটা অনেকটা একজন শেফের অনেকগুলো ছোট ওয়ার্কবেঞ্চ থাকার মতো 🧑‍🍳, যা ডেটা প্রসেসিংকে অনেক বেশি <span style="color: #66FCF1;">দক্ষ (efficient)</span> এবং <span style="color: #66FCF1;">নমনীয় (flexible)</span> করে তোলে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">ব্লক চিত্র এবং উপাদানগুলোর সংক্ষিপ্ত বর্ণনা</span></h5>
+                        <p class="mb-2">একটি <span style="color: #66FCF1;">General Register machine</span>-এর গঠনকে নিচের <span style="color: #66FCF1;">ব্লক ডায়াগ্রামের</span> মাধ্যমে উপস্থাপন করা যায়। এই ডায়াগ্রামটি প্রসেসরের <span style="color: #66FCF1;">প্রধান অংশগুলো</span> এবং তাদের মধ্যে <span style="color: #66FCF1;">ডেটা প্রবাহের পথ</span> দেখায়।</p>
+
+                        <h5 class="mb-2">কম্পিউটারের মৌলিক ব্লক ডায়াগ্রামের ট্রেস-চিত্র:</h5>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb2.jpg" alt="General Register Machine Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">১. সাধারণ রেজিস্টার ফাইল (General Purpose Register File):</span> এটি সিপিইউ-এর ভেতরের <span style="color: #66FCF1;">দ্রুত গতির সামরিক ডেটা সংরক্ষণের জায়গা</span>, যেখানে সিপিইউ ডেটা নিয়ে কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">২. ALU (Arithmetic Logic Unit):</span> এটি সিপিইউ-এর অংশে যা সমস্ত <span style="color: #66FCF1;">গাণিতিক (যোগ, বিয়োগ)</span> এবং <span style="color: #66FCF1;">যৌক্তিক (তুলনা করা)</span> কাজগুলো সম্পন্ন করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">৩. কন্ট্রোল ইউনিট (CU - Control Unit):</span> এটি সিপিইউ-এর <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">মস্তিষ্ক</span>, যা কম্পিউটারের সমস্ত অপারেশন <span style="color: #66FCF1;">নিয়ন্ত্রণ ও সমন্বয়</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">৪. মেমরি ইন্টারফেস (Memory Interface):</span> এটি সিপিইউকে কম্পিউটারের <span style="color: #66FCF1;">প্রধান মেমরি (RAM)</span>-এর সাথে সংযুক্ত করে <span style="color: #66FCF1;">ডেটা আদান-প্রদান</span> করতে সাহায্য করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">৫. ইনপুট/আউটপুট ইন্টারফেস (Input/Output Interface):</span> এটি সিপিইউকে <span style="color: #66FCF1;">কীবোর্ড, মাউস, মনিটর</span> এর মতো ইনপুট ও আউটপুট ডিভাইসের সাথে <span style="color: #66FCF1;">যোগাযোগ</span> করতে সাহায্য করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.2);">৬. অভ্যন্তরীণ বাস (Internal Bus):</span> এটি সিপিইউ-এর ভেতরের বিভিন্ন অংশের মধ্যে <span style="color: #66FCF1;">ডেটা এবং নিয়ন্ত্রণ সংকেত আদান-প্রদানের জন্য একটি দ্রুত গতির পথ</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৩। Huffman op-code encoding পদ্ধতি ব্যাখ্যা কর। (Chapter 2)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">Huffman Encoding কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">Huffman Encoding</span> হলো ছোটো ছোটো করার একটা পদ্ধতি। এটা এমনভাবে কোড তৈরি করে যাতে বেশি ব্যবহৃত জিনিসের জন্য ছোট কোড আর কম ব্যবহৃত জিনিসের জন্য লম্বা কোড দেওয়া হয়। এটা অনেকটা আপনার বন্ধুদের সাথে কথা বলার জন্য একটা গোপন কোড বানানোর মতো, যেখানে কমন কথাগুলোর জন্য শর্টকাট ব্যবহার করেন। 🗣️</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">Huffman op-code encoding পদ্ধতি ও এর কাজ</span></h5>
+                        <p class="mb-2">কম্পিউটারের সিপিইউ (CPU) যখন প্রোগ্রাম চালায়, তখন সে নির্দেশ (<span style="color: #66FCF1;">opcodes</span>) ব্যবহার করে। <span style="color: #66FCF1;">Huffman</span> এই অপকোডগুলোকে ছোট বাইনারি কোড দেয় যাতে দ্রুত প্রসেসিং হয় এবং মেমরি বাঁচে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">এর মৌলিক ধাপগুলো হলো:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ফ্রিকোয়েন্সি গণনা (Count Frequency):</span> কোন নির্দেশ কতবার ব্যবহৃত হয়, তার সংখ্যা গণনা।</li>
+                            <li><span style="color: #66FCF1;">Huffman ট্রি তৈরি (Build Tree):</span> কম ব্যবহার হওয়া কোডগুলো জোড়া লাগিয়ে একটি গাছের মতো কাঠামো তৈরি করা।</li>
+                            <li><span style="color: #66FCF1;">কোড অ্যাসাইন করা (Assign Codes):</span> গাছের পথ ধরে প্রতিটি নির্দেশন জন্য বাইনারি কোড সেট করা (বামে গেলে '0', ডানে গেলে '1')।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">ফলাফল ও সুবিধা</span></h5>
+                        <p class="mb-2">এই পদ্ধতি ব্যবহার করলে নির্দেশগুলোর <span style="color: #66FCF1;">গড় কোডের দৈর্ঘ্য ছোট</span> হয়। এর মানে হলো, প্রোগ্রামের <span style="color: #66FCF1;">মোট আকার কমে</span> আসে, যা <span style="color: #66FCF1;">মেমরি সাশ্রয়</span> করে এবং সিপিইউকে <span style="color: #66FCF1;">কম ডেটা প্রসেস</span> করতে হয়, ফলে প্রোগ্রাম <span style="color: #66FCF1;">দ্রুত কার্যকর</span> হয়। এটা সিপিইউ-এর কাজকে আরও <span style="color: #66FCF1;">দক্ষ করে তোলে!</span> 🚀</p>
+                    </div>
+                ` },
+                { text: "৪। DMA System-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও। (Chapter 4)", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">DMA মানে হলো Direct Memory Access!</span> এটা কম্পিউটারের ভেতরে ডেটা আদান-প্রদানের এমন একটা স্মার্ট পদ্ধতি, যেখানে <span style="color: #66FCF1;">ইনপুট/আউটপুট (I/O) ডিভাইসগুলো সরাসরি মেমরি (RAM)-এর সাথে ডেটা ট্রান্সফার করে</span>, সিপিইউকে খুব বেশি ব্যবহার না করেই। এটা অনেকটা একটা ডেডিকেটেড ডেলিভারি সার্ভিস 📦, যা ম্যানেজারকে (CPU) পাশ কাটিয়ে ফাইলগুলো (ডেটা) সরাসরি এক গুদাম (I/O ডিভাইস) থেকে অন্য গুদামে (মেমরি) নিয়ে যায়।</p>
+
+                        <p class="mb-2">নিচে ব্লক ডায়াগ্রামের মাধ্যমে <span style="color: #66FCF1;">DMA সিস্টেমের গঠন ও এর উপাদানগুলো</span> ব্যাখ্যা করা হলো:</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">DMA সিস্টেমের মৌলিক ব্লক ডায়াগ্রামের ট্রেস-চিত্র:</span></h5>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb4.jpg" alt="DMA System Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">১. DMA কন্ট্রোলার (DMAC - DMA Controller):</span> এটি DMA অপারেশনের <span style="color: #66FCF1;">মূল ম্যানেজার</span>, যা সিপিইউ-এর কাছ থেকে নিয়ন্ত্রণ নিয়ে ডেটা ট্রান্সফার পরিচালনা করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">২. CPU (Central Processing Unit):</span> DMA অপারেশনে সিপিইউ ডেটা ট্রান্সফারের কাজটি <span style="color: #66FCF1;">সরাসরি করে না</span>; এটি শুধু DMAC-কে নির্দেশ দেয় এবং ডেটা ট্রান্সফার চলাকালীন অন্য কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৩. মেমরি (Memory/RAM):</span> এটি ডেটা সংরক্ষণের <span style="color: #66FCF1;">মূল স্থান</span>; DMA অপারেশনের সময় সরাসরি I/O ডিভাইস থেকে এখানে আসে বা এখান থেকে I/O ডিভাইসে যায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৪. I/O ডিভাইস (Input/Output Device):</span> এগুলোই DMA ব্যবহার করে মেমরি থেকে ডেটা নেয় বা মেমরিতে ডেটা রাখে (যেমন <span style="color: #66FCF1;">হার্ড ড্রাইভ, নেটওয়ার্ক কার্ড</span>)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৫. সিস্টেম বাস (System Bus):</span> এটি কম্পিউটারের বিভিন্ন উপাদানের (CPU, মেমরি, I/O ডিভাইস, DMAC) মধ্যে <span style="color: #66FCF1;">ডেটা ও সংকেত আদান-প্রদানের জন্য একটি হাইওয়ে</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৫। 8086 আর্কিটেকচার অঙ্কন করে প্রতিটি ব্লকের কার্যাবলি বর্ণনা কর। (Chapter 5)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">8086 মাইক্রোপ্রসেসরের আর্কিটেকচার কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসর</span> হলো Intel-এর তৈরি একটি <span style="color: #66FCF1;">16-বিট প্রসেসর</span>, যা দুটি প্রধান ইউনিটে ভাগ হয়ে একসাথে কাজ করে। এটা একটা সুপার-দক্ষ ফ্যাক্টরি 🏭, যেখানে <span style="color: #66FCF1;">ডেলিভারি টিম (BIU)</span> বাইরে থেকে জিনিসপত্র আনে আর <span style="color: #66FCF1;">উৎপাদন টিম (EU)</span> আসল কাজটা করে। এতে সময় বাঁচে আর প্রসেস দ্রুত চলে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">8086 মাইক্রোপ্রসেসরের আর্কিটেকচার চিত্র</span></h5>
+                        <p class="mb-2">এখানে 8086 মাইক্রোপ্রসেসরের মৌলিক আর্কিটেকচারের চিত্র দেওয়া হলো:</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb5.jpg" alt="8086 Microprocessor Architecture Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">প্রতিটি ব্লকের কার্যাবলি:</span></h5>
+                        
+                        <h5 class="mb-2"><span style="color: #66FCF1;">A. বাস ইন্টারফেস ইউনিট (BIU - Bus Interface Unit):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">কাজ:</span> BIU হলো প্রসেসরের <span style="color: #66FCF1;">ডেলিভারি টিম</span>। এর প্রধান কাজ হলো বাইরে থেকে <span style="color: #66FCF1;">ডেটা ও নির্দেশ আনা-নেওয়া</span> করা এবং সেগুলোকে <span style="color: #66FCF1;">নির্দেশ কিউতে জমা রাখা</span>।</li>
+                            <li><span style="color: #66FCF1;">১. সেগমেন্ট রেজিস্টার (Segment Registers):</span> মেমরি অ্যাড্রেস ম্যানেজ করার জন্য চারটি অ্যাড্রেস ধরে রাখে (যেমন <span style="color: #66FCF1;">CS, DS, SS, ES</span>)।</li>
+                            <li><span style="color: #66FCF1;">২. নির্দেশ পয়েন্টার (IP - Instruction Pointer):</span> পরের যে <span style="color: #66FCF1;">নির্দেশটি চালাবে</span>, তার অ্যাড্রেস ধরে রাখে।</li>
+                            <li><span style="color: #66FCF1;">৩. নির্দেশ কিউ (Instruction Queue - IQ):</span> BIU মেমরি থেকে <span style="color: #66FCF1;">নির্দেশ এনে এখানে জমা রাখে</span>, EU এখান থেকে নিতে পারে (<span style="color: #66FCF1;">৬ বাইট পর্যন্ত</span>)!</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">B. এক্সিকিউশন ইউনিট (EU - Execution Unit):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">কাজ:</span> EU হলো প্রসেসরের <span style="color: #66FCF1;">উৎপাদন টিম</span>। এর প্রধান কাজ BIU থেকে পাওয়া নির্দেশগুলো <span style="color: #66FCF1;">ডিকোড করা</span> এবং সেগুলোকে <span style="color: #66FCF1;">এক্সিকিউট করা</span>।</li>
+                            <li><span style="color: #66FCF1;">১. অ্যারিথমেটিক লজিক ইউনিট (ALU):</span> সমস্ত <span style="color: #66FCF1;">গাণিতিক ও যৌক্তিক কাজ</span> সম্পন্ন করে।</li>
+                            <li><span style="color: #66FCF1;">২. সাধারণ কাজ রেজিস্টার (General Purpose Registers):</span> <span style="color: #66FCF1;">ডেটা ও নির্দেশ সাময়িকভাবে ধরে রাখে</span> (যেমন <span style="color: #66FCF1;">AX, BX, CX, DX</span>)।</li>
+                            <li><span style="color: #66FCF1;">৩. ফ্ল্যাগ রেজিস্টার (Flag Registers):</span> অপারেশনের পর প্রসেসরের <span style="color: #66FCF1;">বর্তমান অবস্থা</span> (যেমন ফলাফল শূন্য কিনা) জানায়।</li>
+                            <li><span style="color: #66FCF1;">৪. কন্ট্রোল ইউনিট (CU - Control Unit):</span> নির্দেশ <span style="color: #66FCF1;">ডিকোড করে</span> এবং প্রসেসরের <span style="color: #66FCF1;">সব কাজ নিয়ন্ত্রণ</span> করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৬। ৮০৮৬ µP-এর ফ্ল্যাগ রেজিস্টারের বর্ণনা কর। (Chapter 5)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">ফ্ল্যাগ রেজিস্টার কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ফ্ল্যাগ রেজিস্টার</span> হলো সিপিইউ-এর ভেতরের একটা বিশেষ রেজিস্টার, যা বিভিন্ন কাজ শেষ হওয়ার পর প্রসেসরের <span style="color: #66FCF1;">বর্তমান অবস্থা বা ফলাফল সম্পর্কে তথ্য</span> ধরে রাখে। এটা অনেকটা একটা গাড়ির ড্যাশবোর্ডের ওয়ার্নিং লাইটের মতো ⚠️, যা আপনাকে ইঞ্জিনের অবস্থা জানায়। <span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসরের এই রেজিস্টারটি একটি 16-বিট রেজিস্টার</span>, যাতে মোট <span style="color: #66FCF1;">৯টি সক্রিয় ফ্ল্যাগ</span> থাকে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">8086 µP-এর ফ্ল্যাগ রেজিস্টার (Flags of 8086 µP)</span></h5>
+                        <p class="mb-2">এই ফ্ল্যাগটিকে <span style="color: #66FCF1;">দুটি প্রধান ভাগে ভাগ</span> করা যায়:</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">A. অবস্থা নির্দেশক ফ্ল্যাগ (Status Flags):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>এগুলো প্রসেসরের শেষ <span style="color: #66FCF1;">গাণিতিক বা যৌক্তিক অপারেশনের ফলাফল</span> সম্পর্কে তথ্য দেয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">১. ক্যারি ফ্ল্যাগ (CF - Carry Flag):</span> আন-সাইন্ড (unsigned) যোগ বা বিয়োগে ফলাফল ধারণক্ষমতা ছাড়িয়ে গেলে বা ধার নিলে এটি সেট হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">২. প্যারিটি ফ্ল্যাগ (PF - Parity Flag):</span> ফলাফলের শেষ বাইটে '1' বিটের সংখ্যা জোড় হলে এটি সেট হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৩. অক্সিলিয়ারি ক্যারি ফ্ল্যাগ (AF - Auxiliary Carry Flag):</span> BCD গাণিতিক অপারেশনে নিচ থেকে চতুর্থ বিটে ক্যারি বা ধার হলে এটি সেট হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৪. জিরো ফ্ল্যাগ (ZF - Zero Flag):</span> গাণিতিক বা যৌক্তিক অপারেশনের ফলাফল শূন্য (0) হলে এটি সেট হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৫. সাইন ফ্ল্যাগ (SF - Sign Flag):</span> ফলাফলের সবচেয়ে গুরুত্বপূর্ণ বিট '1' হলে এটি সেট হয়, যা নির্দেশ করে ফলাফল নেগেটিভ।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৬. ওভারফ্লো ফ্ল্যাগ (OF - Overflow Flag):</span> সাইনড (signed) গাণিতিক অপারেশনের ফলাফল ধারণক্ষমতা ছাড়িয়ে গেলে এটি সেট হয়।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">B. নিয়ন্ত্রণ ফ্ল্যাগ (Control Flags):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>এগুলো প্রসেসরের <span style="color: #66FCF1;">অপারেশন নিয়ন্ত্রণ</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">১. ট্র্যাপ ফ্ল্যাগ (TF - Trap Flag):</span> এটি সেট থাকলে প্রসেসর একবারে একটি ইনস্ট্রাকশন চালায়, যা ডিবাগিং (<span style="color: #66FCF1;">ভুল খুঁজে বের করা</span>) এর জন্য ব্যবহৃত হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">২. ইন্টারাপ্ট ফ্ল্যাগ (IF - Interrupt Flag):</span> এটি সেট থাকলে প্রসেসর বাইরের <span style="color: #66FCF1;">ইন্টারাপ্ট সংকেত গ্রহণ করে সাড়া দেয়</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৩. ডাইরেকশন ফ্ল্যাগ (DF - Direction Flag):</span> স্ট্রিং ইনস্ট্রাকশনগুলোর (যেমন ডেটা সরানো) ডেটা প্রসেসিংয়ের <span style="color: #66FCF1;">দিক নির্ধারণ করে</span> (সামনে বা পিছনে)।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৭। ৮০৮৬ প্রসেসরের ইনস্ট্রাকশন সেটের বর্ণনা দাও। (Chapter 6)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">ইনস্ট্রাকশন সেট কী? (What is an Instruction Set?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ইনস্ট্রাকশন সেট</span> হলো একটা কম্পিউটারকে তার <span style="color: #66FCF1;">সিপিইউ (CPU) কী কী কাজ বুঝতে ও সম্পন্ন করতে পারে</span>, তার একটি তালিকা বা কমান্ডের সংগ্রহ। এটা অনেকটা একজন শেফের রেসিপি বইয়ের মতো 🧑‍🍳, যেখানে সব রান্নার নির্দেশিকা থাকে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">8086 প্রসেসরের ইনস্ট্রাকশন সেট (8086 Processor's Instruction Set)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসরের</span> একটি শক্তিশালী <span style="color: #66FCF1;">16-বিট ইনস্ট্রাকশন সেট</span> রয়েছে, যা বিভিন্ন ধরনের কাজ করার জন্য বিভিন্ন ক্যাটাগরিতে ভাগ করা হয়:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">১. ডেটা ট্রান্সফার ইনস্ট্রাকশন:</span> সিপিইউ-এর <span style="color: #66FCF1;">রেজিস্টার, মেমরি বা I/O ডিভাইসের মধ্যে ডেটা এক জায়গা থেকে অন্য জায়গায় সরিয়ে নিতে</span> ব্যবহৃত হয়। 📦</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">২. অ্যারিথমেটিক ইনস্ট্রাকশন:</span> সমস্ত <span style="color: #66FCF1;">গাণিতিক অপারেশন</span> (যেমন যোগ, বিয়োগ, গুণ, ভাগ) সম্পন্ন করে। ➕</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৩. লজিক্যাল ইনস্ট্রাকশন:</span> ডেটার <span style="color: #66FCF1;">বিট-লেভেলে যৌক্তিক অপারেশন</span> (যেমন AND, OR, NOT) এবং তুলনা করার কাজ করে। ✅</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৪. স্ট্রিং ম্যানিপুলেশন ইনস্ট্রাকশন:</span> একবারে অনেকগুলো ডেটা (যেমন <span style="color: #66FCF1;">টেক্সট স্ট্রিং</span>) মেমরি থেকে মেমরিতে কপি বা তুলনা করার কাজ করে। 📝</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৫. কন্ট্রোল ট্রান্সফার ইনস্ট্রাকশন:</span> প্রোগ্রামের <span style="color: #66FCF1;">স্বাভাবিক প্রবাহ পরিবর্তন</span> করে; যেমন প্রোগ্রামকে অন্য অংশে ঝাঁপ দেওয়া (jump) বা একটি কাজ বারবার করা (loop)। 🔁</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৬. প্রসেসর কন্ট্রোল ইনস্ট্রাকশন:</span> সরাসরি প্রসেসরের আচরণ বা তার <span style="color: #66FCF1;">ফ্ল্যাগ রেজিস্টারের বিটগুলো নিয়ন্ত্রণ</span> করে। 🎛️</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">৭. ইনপুট/আউটপুট (I/O) ইনস্ট্রাকশন:</span> প্রসেসরকে <span style="color: #66FCF1;">ইনপুট/আউটপুট ডিভাইসের সাথে ডেটা আদান-প্রদান</span> করতে সাহায্য করে। ↔️</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৮। ৮০৮৬µP- এর ইনস্ট্রাকশন সেটের শ্রেণিবিভাগ বর্ণনা দাও। (Chapter 6)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ইনস্ট্রাকশন সেটের শ্রেণিবিভাগ কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ইনস্ট্রাকশন সেট শ্রেণিবিভাগ</span> হলো একটি কম্পিউটারকে তার <span style="color: #66FCF1;">সমস্ত কমান্ডকে তাদের কাজের ধরন অনুযায়ী বিভিন্ন গ্রুপে সাজানো</span>। এটা অনেকটা একটা বড় টুলবক্সের মধ্যে টুলস গোছানোর মতো 🧰, যা নির্দেশগুলোকে বুঝতে সহজ কাজ করে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086µP-এর ইনস্ট্রাকশন সেটের শ্রেণিবিভাগ (Classification of 8086 µP Instruction Set)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসরের</span> শক্তিশালী <span style="color: #66FCF1;">16-বিট ইনস্ট্রাকশন সেটকে</span> প্রধানত <span style="color: #66FCF1;">কিছু ক্যাটাগরিতে ভাগ</span> করা হয়। এই শ্রেণিবিভাগ নির্দেশগুলোর কারিগরি ব্যবহারের জন্য গুরুত্বপূর্ণ:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ডেটা ট্রান্সফার ইনস্ট্রাকশন:</span> সিপিইউ-এর <span style="color: #66FCF1;">রেজিস্টার, মেমরি বা I/O ডিভাইসের মধ্যে ডেটা এক জায়গা থেকে অন্য জায়গায় সরিয়ে নিতে</span> ব্যবহৃত হয়। 📦</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. অ্যারিথমেটিক ইনস্ট্রাকশন:</span> সমস্ত <span style="color: #66FCF1;">গাণিতিক অপারেশন</span> (যেমন যোগ, বিয়োগ, গুণ, ভাগ) সম্পন্ন করে। ➕</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. লজিক্যাল ইনস্ট্রাকশন:</span> ডেটার <span style="color: #66FCF1;">বিট-লেভেলে যৌক্তিক অপারেশন</span> (যেমন AND, OR) এবং <span style="color: #66FCF1;">তুলনা করার</span> কাজ করে। ✅</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. স্ট্রিং ম্যানিপুলেশন ইনস্ট্রাকশন:</span> একবারে অনেকগুলো ডেটা (যেমন <span style="color: #66FCF1;">টেক্সট স্ট্রিং</span>) মেমরি থেকে মেমরিতে <span style="color: #66FCF1;">কপি বা তুলনা</span> করার কাজ করে। 📝</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. কন্ট্রোল ট্রান্সফার ইনস্ট্রাকশন:</span> প্রোগ্রামের <span style="color: #66FCF1;">স্বাভাবিক প্রবাহ পরিবর্তন</span> করে; যেমন প্রোগ্রামকে অন্য অংশে <span style="color: #66FCF1;">ঝাঁপ দেওয়া (jump)</span> বা একটি কাজ <span style="color: #66FCF1;">বারবার করা (loop)</span>! ⏩</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. প্রসেসর কন্ট্রোল ইনস্ট্রাকশন:</span> সরাসরি প্রসেসরের <span style="color: #66FCF1;">আচরণ বা তার ফ্ল্যাগ রেজিস্টারের বিটগুলো নিয়ন্ত্রণ</span> করে। ⚙️</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. ইনপুট/আউটপুট (I/O) ইনস্ট্রাকশন:</span> প্রসেসরকে <span style="color: #66FCF1;">ইনপুট/আউটপুট ডিভাইসের সাথে ডেটা আদান-প্রদান</span> করতে সাহায্য করে। ↔️</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৯। ৮০৮৬ প্রসেসরের অ্যাড্রেসিং মোডের বর্ণনা দাও। (Chapter 6)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অ্যাড্রেসিং মোড কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">অ্যাড্রেসিং মোড</span> হলো কম্পিউটার প্রসেসরের (CPU) ডেটা (তথ্য) কোথায় আছে, তা বলে দেওয়ার বিভিন্ন পদ্ধতি। এটা অনেকটা আপনার বন্ধুকে কোনো জিনিস কোথায় রাখা আছে, তা বলে দেওয়ার বিভিন্ন পদ্ধতির মতো। 📍</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086 প্রসেসরের অ্যাড্রেসিং মোড</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">8086 প্রসেসর ডেটা অ্যাক্সেসের</span> জন্য বিভিন্ন <span style="color: #66FCF1;">অ্যাড্রেসিং মোড</span> ব্যবহার করে, যা খুবই নমনীয়। প্রধান মোডগুলো নিচে দেওয়া হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইমিডিয়েট অ্যাড্রেসিং মোড:</span> যে ডেটা নিয়ে কাজ করতে হবে, সেটি <span style="color: #66FCF1;">সরাসরি নির্দেশ (instruction)-এর মধ্যেই দেওয়া থাকে</span>। প্রসেসর ডেটার জন্য কোন কোথাও খোঁজে না! ✨</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. রেজিস্টার অ্যাড্রেসিং মোড:</span> ডেটা <span style="color: #66FCF1;">সিপিইউ-এর ভেতরের কোনো রেজিস্টারে রাখা</span> থাকে। ফলে ডেটা অ্যাক্সেস অনেক দ্রুত হয়। ➡️</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডাইরেক্ট অ্যাড্রেসিং মোড:</span> ডেটা <span style="color: #66FCF1;">মেমরির একটি নির্দিষ্ট এবং সরাসরি অ্যাড্রেসে</span> রাখা থাকে, যা নির্দেশেই বলে দেওয়া হয়। 🎯</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. রেজিস্টার ইনডাইরেক্ট অ্যাড্রেসিং মোড:</span> ডেটার <span style="color: #66FCF1;">মেমরি অ্যাড্রেসটি কোনো একটি রেজিস্টারের মধ্যে</span> রাখা থাকে। প্রসেসর রেজিস্টার থেকে সেই অ্যাড্রেসটি পড়ে ডেটা নিয়ে আসে। 📄</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. বেসড অ্যাড্রেসিং মোড:</span> ডেটার মেমরি অ্যাড্রেস একটি <span style="color: #66FCF1;">বেস রেজিস্টার (যেমন BX বা BP)</span> এবং একটি <span style="color: #66FCF1;">নির্দিষ্ট দূরত্ব (offset)</span> যোগ করে হিসাব করা হয়। ➕</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. ইনডেক্সড অ্যাড্রেসিং মোড:</span> ডেটার মেমরি অ্যাড্রেস একটি <span style="color: #66FCF1;">ইনডেক্স রেজিস্টার (যেমন SI বা DI)</span> এবং একটি <span style="color: #66FCF1;">নির্দিষ্ট দূরত্ব (offset)</span> যোগ করে হিসাব করা হয়। 📍</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১০। দুটি ১৬-বিট সংখ্যাকে যোগ করার একটি প্রোগ্রাম লেখ। (Chapter 6)", answer: `
+                    <div class="answer-content-section">
+                        
+                        <p class="mb-2">এখানে <span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসরের অ্যাসেম্বলি ল্যাঙ্গুয়েজ</span> ব্যবহার করে দুটি <span style="color: #66FCF1;">16-বিট (16-bit) সংখ্যাকে যোগ</span> করার প্রোগ্রামটি লেখা হলো:</p>
+                        <pre style="background-color: #1A1A1D; color: #ABB2BF; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: 'Cascadia Code', 'Fira Code', 'monospace'; line-height: 1.4; tab-size: 4; white-space: pre-wrap; word-break: break-word;">
+<span style="color: #89DDFF;">.MODEL</span> <span style="color: #C3E88D;">SMALL</span>
+<span style="color: #89DDFF;">.STACK</span> <span style="color: #F78C6C;">100H</span>
+
+<span style="color: #89DDFF;">.DATA</span>
+<span style="color: #FFEA7A;">NUM1</span> <span style="color: #C792EA;">DW</span> <span style="color: #F78C6C;">1234H</span>
+<span style="color: #FFEA7A;">NUM2</span> <span style="color: #C792EA;">DW</span> <span style="color: #F78C6C;">5678H</span>
+<span style="color: #FFEA7A;">SUM</span> <span style="color: #C792EA;">DW</span> <span style="color: #F78C6C;">?</span>
+<span style="color: #FFEA7A;">CARRY_HIGH_BYTE</span> <span style="color: #C792EA;">DB</span> <span style="color: #F78C6C;">?</span>
+
+<span style="color: #89DDFF;">.CODE</span>
+<span style="color: #C792EA;">MAIN</span> <span style="color: #C792EA;">PROC</span> <span style="color: #89DDFF;">FAR</span>
+
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">AX</span>, <span style="color: #FFEA7A;">@DATA</span>
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">DS</span>, <span style="color: #FFEA7A;">AX</span>
+
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">AX</span>, <span style="color: #FFEA7A;">NUM1</span>
+    <span style="color: #C792EA;">ADD</span> <span style="color: #FFEA7A;">AX</span>, <span style="color: #FFEA7A;">NUM2</span>
+
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">DX</span>, <span style="color: #F78C6C;">0000H</span>
+    <span style="color: #C792EA;">ADC</span> <span style="color: #FFEA7A;">DX</span>, <span style="color: #F78C6C;">0000H</span>
+
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">SUM</span>, <span style="color: #FFEA7A;">AX</span>
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">CARRY_HIGH_BYTE</span>, <span style="color: #FFEA7A;">DL</span>
+
+    <span style="color: #C792EA;">MOV</span> <span style="color: #FFEA7A;">AH</span>, <span style="color: #F78C6C;">4CH</span>
+    <span style="color: #C792EA;">INT</span> <span style="color: #F78C6C;">21H</span>
+
+<span style="color: #C792EA;">MAIN</span> <span style="color: #89DDFF;">ENDP</span>
+<span style="color: #89DDFF;">END</span> <span style="color: #C792EA;">MAIN</span></pre>
+                    </div>
+                ` },
+                { text: "১১। 8086 µP এর মিনিমাম সিস্টেম ইন্টারফেস অঙ্কন করে বর্ণনা কর। (Chapter 7)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086 µP এর মিনিমাম সিস্টেম ইন্টারফেস কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসরের মিনিমাম সিস্টেম ইন্টারফেস</span> হলো এমন একটা <span style="color: #66FCF1;">মৌলিক সেটআপ</span> যেখানে প্রসেসর নিজেই সব <span style="color: #66FCF1;">সিস্টেম বাস (ডেটা, অ্যাড্রেস, কন্ট্রোল) সরাসরি নিয়ন্ত্রণ</span> করে, কোনো অতিরিক্ত চিপের সাহায্য ছাড়াই। এটা অনেকটা একটা ছোট দলের লিডার (CPU) সব কাজ নিজে সরাসরি হ্যান্ডেল করার মতো। 🧑‍💻</p>
+
+                        <p class="mb-2">নিচে এর ব্লক ডায়াগ্রাম এবং এর উপাদানগুলোর বর্ণনা হলো:</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086 মিনিমাম সিস্টেম ইন্টারফেসের সহজ টেক্সট-চিত্র:</span></h5>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb11.jpg" alt="8086 Minimum System Interface Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. 8086 CPU:</span> এটি সিস্টেমের <span style="color: #66FCF1;">মস্তিষ্ক</span>, যা নিজেই সমস্ত <span style="color: #66FCF1;">বাস নিয়ন্ত্রণ</span> করে এবং <span style="color: #66FCF1;">মেমরি ও I/O ডিভাইসের সাথে সরাসরি যোগাযোগ</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. Clock Generator (8284A):</span> এটি 8086 CPU এবং অন্যান্য কম্পোনেন্টের জন্য প্রয়োজনীয় <span style="color: #66FCF1;">টাইমিং সংকেত</span> তৈরি করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. Memory (RAM/ROM):</span> প্রোগ্রাম এবং ডেটা <span style="color: #66FCF1;">অস্থায়ীভাবে সংরক্ষণ</span> করে (<span style="color: #66FCF1;">RAM</span>) বা <span style="color: #66FCF1;">স্থায়ীভাবে বুটআপ কোড</span> জমা রাখে (<span style="color: #66FCF1;">ROM</span>)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. I/O Devices:</span> এগুলো সিপিইউকে <span style="color: #66FCF1;">বাইরের বিশ্বের সাথে যোগাযোগ</span> করতে সাহায্য করে (যেমন <span style="color: #66FCF1;">কীবোর্ড, মনিটর</span>)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. Address/Data Bus:</span> 8086 প্রসেসরের <span style="color: #66FCF1;">অ্যাড্রেস (ঠিকানা)</span> এবং <span style="color: #66FCF1;">ডেটা একই লাইনের (মাল্টিপ্লেক্সড) মাধ্যমে আদান-প্রদান</span> হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. Address Latch (8282/8283):</span> এটি <span style="color: #66FCF1;">ALE সিগনালের সাহায্যে ডেটা বাস থেকে অ্যাড্রেসকে আলাদা ধরে রাখে</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. Data Transceiver (8286/8287):</span> ডেটা বাসে সিগনালকে <span style="color: #66FCF1;">শক্তিশালী</span> করতে এবং <span style="color: #66FCF1;">ডেটা প্রবাহের দিক নিয়ন্ত্রণ</span> করতে এই চিপ ব্যবহার করা হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. Control Bus Signals:</span> এগুলো সিস্টেমের <span style="color: #66FCF1;">বিভিন্ন অপারেশন (যেমন ডেটা পড়া বা লেখা) নিয়ন্ত্রণ</span> করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১২। 8086 µP এর মেমরি অ্যাড্রেস স্পেসের হার্ডওয়্যার ব্যবস্থাপনা বর্ণনা কর। (Chapter 7)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মেমরি অ্যাড্রেস স্পেস কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">মেমরি অ্যাড্রেস স্পেস</span> হলো একটি প্রসেসরের মোট কতটুকু <span style="color: #66FCF1;">মেমরি অ্যাড্রেস (ব্যবহার) করতে পারে</span>, তার পরিমাণ। <span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসর 16-বিট</span> হলেও, এটি <span style="color: #66FCF1;">1 মেগাবাইট (1MB) পর্যন্ত মেমরি ব্যবহার</span> করতে পারে, যার জন্য <span style="color: #66FCF1;">20-বিট ফিজিক্যাল অ্যাড্রেস</span> দরকার হয়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মেমরি ব্যবস্থাপনা কেন দরকার?</span></h5>
+                        <p class="mb-2">8086 প্রসেসরের <span style="color: #66FCF1;">রেজিস্টারগুলো 16-বিটের</span>, কিন্তু 1 মেগাবাইট মেমরি অ্যাক্সেস করতে <span style="color: #66FCF1;">20-বিট অ্যাড্রেসের</span> দরকার হয়। এই <span style="color: #66FCF1;">16-বিট দিয়ে 20-বিট অ্যাড্রেস</span> করার সমস্যা সমাধানের জন্যই <span style="color: #66FCF1;">স্মার্ট হার্ডওয়্যারের ব্যবস্থাপনা</span> প্রয়োজন।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হার্ডওয়্যারের মাধ্যমে মেমরি ব্যবস্থাপনা</span></h5>
+                        <p class="mb-2">8086 প্রসেসর মেমরি অ্যাড্রেস স্পেসকে <span style="color: #66FCF1;">হার্ডওয়্যারের মাধ্যমে প্রধানত দুটি পদ্ধতিতে</span> পরিচালনা করে:</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">A. সেগমেন্টেশন পদ্ধতি (Segmentation for 20-bit Addressing):</span></h5>
+                        <p class="mb-2">8086 প্রসেসরে <span style="color: #66FCF1;">16-বিট রেজিস্টার ব্যবহার করে 20-বিট ফিজিক্যাল অ্যাড্রেস</span> তৈরি করা হয়।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. লজিক্যাল অ্যাড্রেস:</span> এটি <span style="color: #66FCF1;">দুটি 16-বিট অংশের সমন্বয়</span>: সেগমেন্ট রেজিস্টার (যেমন <span style="color: #66FCF1;">CS, DS</span>) এবং অফসেট অ্যাড্রেস।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ফিজিক্যাল অ্যাড্রেস তৈরি:</span> ফিজিক্যাল অ্যাড্রেস = <span style="color: #66FCF1;">(সেগমেন্ট রেজিস্টারের মান X 10H) + অফসেট অ্যাড্রেস</span>। এটা অনেকটা একটা বিল্ডিংয়ের ভেতরে অ্যাপার্টমেন্ট নম্বর থেকে আসল রাস্তার ঠিকানা বের করার মতো। 🏢</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">B. বাইট ও ওয়ার্ড অ্যাক্সেস (Byte and Word Access):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">8086 প্রসেসর মেমরি থেকে ডেটা বাইট (8-bit) অথবা ওয়ার্ড (16-bit) আকারে অ্যাক্সেস করতে পারে।</span> এটি মেমরিকে দুটি <span style="color: #66FCF1;">8-বিটের ব্যাংক (জোড় ও বিজোড়)</span> এ ভাগ করে কাজ করে।</li>
+                            <li><span style="color: #66FCF1;">AO সিগনাল</span> জোড় নাকি বিজোড় অ্যাড্রেসে <span style="color: #66FCF1;">বাইট অ্যাক্সেস</span> হচ্ছে, তা নির্দেশ করে।</li>
+                            <li><span style="color: #66FCF1;">BHE# সিগনাল</span> উভয়ের বাইট ব্যাংক অ্যাক্সেস হচ্ছে কিনা, তা জানায়।</li>
+                            <li><span style="color: #66FCF1;">ওয়ার্ড অ্যাক্সেসের</span> সময় এটি একসাথে <span style="color: #66FCF1;">দুই ব্যাংক (জোড় ও বিজোড়) থেকে ডেটা নেয়</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৩। চিত্রের মাধ্যমে ৮০৮৬ প্রসেসরের মিনিমাম মোড ইন্টারফেসের বর্ণনা কর। (Chapter 8)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">৮০৮৬ প্রসেসরের মিনিমাম মোড ইন্টারফেসের বর্ণনা</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">DMA মানে হলো Direct Memory Access!</span> এটা কম্পিউটারের ভেতরে ডেটা আদান-প্রদানের এমন একটা স্মার্ট পদ্ধতি, যেখানে <span style="color: #66FCF1;">ইনপুট/আউটপুট (I/O) ডিভাইসগুলো সরাসরি মেমরি (RAM)-এর সাথে ডেটা ট্রান্সফার করে</span>, সিপিইউকে খুব বেশি ব্যবহার না করেই। এটা অনেকটা একটা ডেডিকেটেড ডেলিভারি সার্ভিস 📦, যা ম্যানেজারকে (CPU) পাশ কাটিয়ে ফাইলগুলো (ডেটা) সরাসরি এক গুদাম (I/O ডিভাইস) থেকে অন্য গুদামে (মেমরি) নিয়ে যায়।</p>
+
+                        <p class="mb-2">নিচে ব্লক ডায়াগ্রামের মাধ্যমে <span style="color: #66FCF1;">DMA সিস্টেমের গঠন ও এর উপাদানগুলো</span> ব্যাখ্যা করা হলো:</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">DMA সিস্টেমের মৌলিক ব্লক ডায়াগ্রামের ট্রেস-চিত্র:</span></h5>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb11.jpg" alt="8086 Minimum Mode Interface Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. DMA কন্ট্রোলার (DMAC - DMA Controller):</span> এটি DMA অপারেশনের <span style="color: #66FCF1;">মূল ম্যানেজার</span>, যা সিপিইউ-এর কাছ থেকে বাস নিয়ন্ত্রণ নিয়ে ডেটা ট্রান্সফার পরিচালনা করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. CPU (Central Processing Unit):</span> DMA অপারেশনে সিপিইউ ডেটা ট্রান্সফারের কাজটি <span style="color: #66FCF1;">সরাসরি করে না</span>; এটি শুধু DMAC-কে নির্দেশ দেয় এবং ডেটা ট্রান্সফার চলাকালীন অন্য কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মেমরি (Memory/RAM):</span> এটি ডেটা সংরক্ষণের <span style="color: #66FCF1;">মূল স্থান</span>; DMA অপারেশনের সময় ডেটা সরাসরি I/O ডিভাইস থেকে এখানে আসে বা এখান থেকে I/O ডিভাইসে যায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. I/O ডিভাইস (Input/Output Device):</span> এগুলোই DMA ব্যবহার করে মেমরি থেকে ডেটা নেয় বা মেমরিতে ডেটা রাখে (যেমন <span style="color: #66FCF1;">হার্ড ড্রাইভ, নেটওয়ার্ক কার্ড</span>)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. সিস্টেম বাস (System Bus):</span> এটি কম্পিউটারের বিভিন্ন উপাদানের (CPU, মেমরি, I/O ডিভাইস, DMAC) মধ্যে <span style="color: #66FCF1;">ডেটা ও সংকেত আদান-প্রদানের জন্য একটি হাইওয়ে</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৪। PPI এর ব্লক ডায়াগ্রাম অঙ্কন করে সংক্ষেপে বর্ণনা কর। (Chapter 8)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">PPI কী? (What is PPI?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">PPI মানে হলো Programmable Peripheral Interface!</span> এটি <span style="color: #66FCF1;">8255-এর মতো একটি বিশেষ চিপ</span> যা সিপিইউ (CPU) এবং বিভিন্ন <span style="color: #66FCF1;">ইনপুট/আউটপুট ডিভাইস (যেমন কীবোর্ড, প্রিন্টার) এর মধ্যে সেতুর মতো কাজ</span> করে। এটি একটি <span style="color: #66FCF1;">ইউনিভার্সাল অ্যাডাপ্টারের</span> মতো 🌉, যা বিভিন্ন ডিভাইসে সিপিইউ-এর সাথে কথা বলার সুযোগ করে দেয়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">PPI এর ব্লক ডায়াগ্রাম (8255 PPI Block Diagram)</span></h5>
+                        <p class="mb-2">এখানে আপনার দেওয়া ছবিটির ভিত্তিতে <span style="color: #66FCF1;">PPI (8255) এর ব্লক ডায়াগ্রামের</span> একটি সহজ টেক্সট-চিত্র দেওয়া হলো:</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb14.jpg" alt="8255 PPI Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. Data Bus Buffer:</span> এটি <span style="color: #66FCF1;">PPI এবং CPU-এর ডেটা বাসের (D0-D7) মধ্যে ডেটা আদান-প্রদান নিয়ন্ত্রণ</span> করে, যেমন একটি ট্র্যাফিক কন্ট্রোলার। 🚦</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. Read/Write Control:</span> এটি CPU যখন <span style="color: #66FCF1;">PPI-এর রেজিস্টার থেকে ডেটা পড়তে বা লিখতে</span> চায়, তখন সেই অপারেশনগুলো নিয়ন্ত্রণ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. Control Logic:</span> এটি <span style="color: #66FCF1;">PPI-এর মূল বুদ্ধিমত্তা</span>। CPU থেকে নির্দেশ নিয়ে PPI-এর ভেতরের অন্যান্য অংশকে কাজ করার জন্য সংকেত পাঠায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. Group A Control:</span> এটি <span style="color: #66FCF1;">Port A এবং Port C (উপরের অংশ) কে বিভিন্ন মোডে (ইনপুট/আউটপুট) চালানোর</span> জন্য দায়ী।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. Port A (PA0-PA7):</span> এটি PPI এর একটি <span style="color: #66FCF1;">8-বিট ইনপুট/আউটপুট পোর্ট</span>, যার মাধ্যমে সিপিইউ পেরিফেরাল ডিভাইসের সাথে ডেটা আদান-প্রদান করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. Group B Control:</span> এটি <span style="color: #66FCF1;">Port B এবং Port C (নিচের অংশ) কে বিভিন্ন মোডে (ইনপুট/আউটপুট) চালানোর</span> জন্য দায়ী।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. Port B (PB0-PB7):</span> এটি PPI এর আরেকটি <span style="color: #66FCF1;">8-বিট ইনপুট/আউটপুট পোর্ট</span>, যা পেরিফেরাল ডিভাইসের সাথে ডেটা আদান-প্রদান করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. Lower Port (Port C):</span> এটিও একটি <span style="color: #66FCF1;">8-বিট ইনপুট/আউটপুট পোর্ট</span>, যা দুটি 4-বিটের অংশে বিভক্ত (Port C Upper/Lower) এবং <span style="color: #66FCF1;">কন্ট্রোল বা ডেটা সিগনালের জন্য</span> ব্যবহৃত হয়।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৫। চিত্রসহ DMA অপারেশন বর্ণনা কর। (Chapter 8)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">DMA System-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">DMA মানে হলো Direct Memory Access!</span> এটা কম্পিউটারের ভেতরে ডেটা আদান-প্রদানের এমন একটা স্মার্ট পদ্ধতি, যেখানে <span style="color: #66FCF1;">ইনপুট/আউটপুট (I/O) ডিভাইসগুলো সরাসরি মেমরি (RAM)-এর সাথে ডেটা ট্রান্সফার করে</span>, সিপিইউকে খুব বেশি ব্যবহার না করেই। এটা অনেকটা একটা ডেডিকেটেড ডেলিভারি সার্ভিস 📦, যা ম্যানেজারকে (CPU) পাশ কাটিয়ে ফাইলগুলো (ডেটা) সরাসরি এক গুদাম (I/O ডিভাইস) থেকে অন্য গুদামে (মেমরি) নিয়ে যায়।</p>
+
+                        <p class="mb-2">নিচে ব্লক ডায়াগ্রামের মাধ্যমে <span style="color: #66FCF1;">DMA সিস্টেমের গঠন ও এর উপাদানগুলো</span> ব্যাখ্যা করা হলো:</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">DMA সিস্টেমের মৌলিক ব্লক ডায়াগ্রামের ট্রেস-চিত্র:</span></h5>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb4.jpg" alt="DMA System Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. DMA কন্ট্রোলার (DMAC - DMA Controller):</span> এটি DMA অপারেশনের <span style="color: #66FCF1;">মূল ম্যানেজার</span>, যা সিপিইউ-এর কাছ থেকে বাস নিয়ন্ত্রণ নিয়ে ডেটা ট্রান্সফার পরিচালনা করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. CPU (Central Processing Unit):</span> DMA অপারেশনে সিপিইউ ডেটা ট্রান্সফারের কাজটি <span style="color: #66FCF1;">সরাসরি করে না</span>; এটি শুধু DMAC-কে নির্দেশ দেয় এবং ডেটা ট্রান্সফার চলাকালীন অন্য কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মেমরি (Memory/RAM):</span> এটি ডেটা সংরক্ষণের <span style="color: #66FCF1;">মূল স্থান</span>; DMA অপারেশনের সময় ডেটা সরাসরি I/O ডিভাইস থেকে এখানে আসে বা এখান থেকে I/O ডিভাইসে যায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. I/O ডিভাইস (Input/Output Device):</span> এগুলোই DMA ব্যবহার করে মেমরি থেকে ডেটা নেয় বা মেমরিতে ডেটা রাখে (যেমন <span style="color: #66FCF1;">হার্ড ড্রাইভ, নেটওয়ার্ক কার্ড</span>)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. সিস্টেম বাস (System Bus):</span> এটি কম্পিউটারের বিভিন্ন উপাদানের (CPU, মেমরি, I/O ডিভাইস, DMAC) মধ্যে <span style="color: #66FCF1;">ডেটা ও সংকেত আদান-প্রদানের জন্য একটি হাইওয়ে</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৬। ইন্টারাপ্ট ভেক্টর টেবিল অঙ্কন করে বর্ণনা কর। (Chapter 9)", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ইন্টারাপ্ট ভেক্টর টেবিল (IVT) কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ইন্টারাপ্ট ভেক্টর টেবিল (IVT)</span> হলো কম্পিউটারের মেমরির একটা বিশেষ কোনাবুক 📁, যেখানে সিপিইউ (CPU) যখন কোনো জরুরি কাজ (<span style="color: #66FCF1;">ইন্টারাপ্ট</span>) পায়, তখন সেই কাজটা করার জন্য কোথায় যেতে হবে, তার <span style="color: #66FCF1;">ঠিকানা (Address) খুঁজে পায়</span>। এটা একটা ডিরেক্টরি যা সিপিইউকে বলে দেয় কোন জরুরি কলের জন্য কাকে ডাকতে হবে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ইন্টারাপ্ট ভেক্টর টেবিল (IVT)</span></h5>
+                        <p class="mb-2">এখানে ইন্টারাপ্ট ভেক্টর টেবিলের একটা উদাহরণ দেওয়া হলো:</p>
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #3182CE;">Memory</th>
+                                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #3182CE;">Interrupt no.</th>
+                                        <th style="padding: 12px 15px; text-align: left; border-bottom: 1px solid #3182CE;">ISR Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">0000:0000h</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">INT 00h</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">0040:0000h</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">0000:0004h</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">INT 01h</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">0040:0010h</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">0000:0008h</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">INT 02h</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">0040:0020h</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">...</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">...</td>
+                                        <td style="padding: 10px 15px; border-bottom: 1px solid #2D3748;">...</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 10px 15px;">0000:00FFh</td>
+                                        <td style="padding: 10px 15px;">INT FFh</td>
+                                        <td style="padding: 10px 15px;">xxxx:xxxxh</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">টেবিলটি কিভাবে কাজ করে (সহজ ভাষায়):</span></h5>
+                        <p class="mb-2">এই টেবিলটাকে আপনার এলাকার <span style="color: #66FCF1;">জরুরি সার্ভিসগুলোর ফোনবুকের</span> মতো ভাবেন ☎️:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">Memory (মেমরি):</span> এটা হলো সেই ফোনবুকের পাতার নম্বর বা ঠিকানা। প্রতিটি এন্ট্রি (একটি জরুরি সার্ভিস) মেমরিতে <span style="color: #66FCF1;">4 বাইট (8086-এ) জায়গা</span> নেয়, তাই দেখবেন অ্যাড্রেসগুলো <span style="color: #66FCF1;">0000h, তারপর 0004h, 0008h</span> করে 4 বাইট করে বাড়ছে।</li>
+                            <li><span style="color: #66FCF1;">Interrupt no. (ইন্টারাপ্ট নম্বর):</span> এটা হলো জরুরি সার্ভিসের <span style="color: #66FCF1;">টাইপ বা তাদের বিশেষ কোড</span> (যেমন, পুলিশ 00h, ফায়ার সার্ভিস 01h)। সিপিইউ যখন কোনো ইন্টারাপ্ট পায়, সে এই নম্বরটা দেখে।</li>
+                            <li><span style="color: #66FCF1;">ISR Address (আইএসআর অ্যাড্রেস):</span> এটা হলো সেই জরুরি সার্ভিসের অফিস বা লোকেশনের <span style="color: #66FCF1;">আসল ঠিকানা</span> (যেমন, 0040:0000h)। যখন সিপিইউ কোনো ইন্টারাপ্ট নম্বর দেখে, সে সরাসরি এই অ্যাড্রেসে গিয়ে সেই সার্ভিসের কাজটা (<span style="color: #66FCF1;">ISR প্রোগ্রাম</span>) শুরু করে দেয়।</li>
+                        </ul>
+                        <p class="mb-2">সিপিইউ যখন <span style="color: #66FCF1;">INT 00h</span> দেখে, তখন সে ফোনবুকের <span style="color: #66FCF1;">0000:0000h</span> ঠিকানায় যায়। সেখানে ঠিকানা (<span style="color: #66FCF1;">0040:0000h</span>) দেখে সে সরাসরি সেই জরুরি সার্ভিসের কাছে ঝাঁপ দেয় এবং কাজটা শেষ করে আবার নিজের আগের জায়গায় ফিরে আসে। এটাই হলো কিভাবে সিপিইউ বিভিন্ন জরুরি ঘটনাকে সামলায়।</p>
+                    </div>
+                ` },
+                { text: "১৭। পেন্টিয়াম ও ৮০৮৬ প্রসেসরের মধ্যে পার্থক্য লেখ। (Chapter 10)", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">৮০৮৬ ছিল মাইক্রোপ্রসেসরের শুরুর দিকের পাওয়ারহাউস, আর পেন্টিয়াম ছিল এর অনেক পরের, আরও উন্নত এবং শক্তিশালী সংস্করণ!</span> এদের পার্থক্যটা অনেকটা একটা পুরানো ক্লাসিক গাড়ির (8086) 🚗 বনাম একটা আধুনিক শক্তিশালী গাড়ির (পেন্টিয়াম) 🏎️ মধ্যে পার্থক্যের মতো।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নিচে পেন্টিয়াম ও 8086 প্রসেসরের প্রধান পার্থক্যগুলো উল্লেখ করা হলো:</span></h5>
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">বৈশিষ্ট্যের ক্ষেত্র</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">৮০৮৬ প্রসেসর (8086 Processor)</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">পেন্টিয়াম প্রসেসর (Pentium Processor)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ডেটা প্রসেসিং ক্ষমতা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">১৬-বিট ডেটা</span> একসাথে প্রসেস করতে পারতো। অর্থাৎ, একবারে ১৬-বিটের তথ্য নিয়ে কাজ করতো।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">৩২-বিট বা ৬৪-বিট ডেটা</span> একসাথে প্রসেস করতে পারতো। অনেক বেশি তথ্য নিয়ে একবারে কাজ করতো।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ক্লক স্পিড বা গতি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এর গতি ছিল <span style="color: #66FCF1;">তুলনামূলকভাবে কম</span> (যেমন ৫-১০ MHz)।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এর গতি অনেক বেশি ছিল (যেমন <span style="color: #66FCF1;">৩০ MHz থেকে শুরু করে গিগাহার্টজ পর্যন্ত</span>)। অনেক দ্রুত কাজ করতে পারতো।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মেমরি অ্যাক্সেস ক্ষমতা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">১ মেগাবাইট (1 MB) পর্যন্ত মেমরি (RAM)</span> ব্যবহার করতে পারতো।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">৪ গিগাবাইট (4 GB) বা তারও বেশি মেমরি</span> ব্যবহার করতে পারতো। অনেক বেশি RAM নিয়ে কাজ করতে পারতো।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ক্যাশ মেমরি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এর ভেতরে কোনো <span style="color: #66FCF1;">ক্যাশ মেমরি ছিল না</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এর ভেতরে <span style="color: #66FCF1;">বিল্ট-ইন ক্যাশ মেমরি (L1 ও L2)</span> থাকে, যা ডেটা দ্রুত প্রসেসে সাহায্য করে।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. একসাথে কাজের পরিমাণ</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">একটি মাত্র নির্দেশ (instruction)</span> নিয়ে কাজ করতো।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">একবারে একাধিক প্রোগ্রাম (যেমন ২-৪টি) নির্দেশ</span> নিয়ে কাজ করতে পারতো (<span style="color: #66FCF1;">সুপারস্কেলার আর্কিটেকচার</span>)।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. জটিল গাণিতিক গণনা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">জটিল গাণিতিক গণনার জন্য <span style="color: #66FCF1;">আলাদা চিপ (8087 কো-প্রসেসর)</span> লাগতো।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এর ভেতরেই <span style="color: #66FCF1;">জটিল গাণিতিক গণনার ক্ষমতা বিল্ট-ইন</span> ছিল। আলাদা চিপ লাগতো না।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. একসাথে একাধিক প্রোগ্রাম চালানো</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি একসাথে <span style="color: #66FCF1;">একাধিক প্রোগ্রাম ভালোভাবে চালাতে পারতো না (রিয়েল মোড)</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি একসাথে <span style="color: #66FCF1;">একাধিক প্রোগ্রাম (যেমন ওয়ার্ড, ব্রাউজার) দক্ষতার সাথে চালাতে</span> পারতো (<span style="color: #66FCF1;">প্রটেক্টেড মোড সমর্থন</span>)।</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 ` }
+
             ]
         };
 
