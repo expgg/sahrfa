@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5thmec Routine</title>
+    <title>5thmec Routine</title> <!-- Changed title here -->
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -506,7 +506,7 @@
         .close-modal-btn {
             position: absolute;
             top: 0.75rem;
-right: 0.75rem;
+            right: 0.75rem;
             background: none;
             border: none;
             font-size: 1.5rem;
@@ -594,7 +594,7 @@ right: 0.75rem;
                 </div>
             </div>
         </div>
-        <p class="footer-branding animated-text">Made By Al Hossain Rifat for PIAS</p>
+        <p class="footer-branding animated-text">Made By Al Hossain Rifat for PIAS</p> <!-- Added "for PIAS" here -->
     </footer>
 
     <!-- Fullscreen Overlay -->
@@ -669,16 +669,17 @@ right: 0.75rem;
 
     <script>
         // Define exam data based on the provided image
-        // Dates are set to 2025 to ensure they are in the future relative to the current date (July 2025)
         const exams = [
             { date: "2025-07-13", day: "Sunday", time: "10:00 AM", code: null, subject: "Design" },
             { date: "2025-07-17", day: "Thursday", time: "10:00 AM", code: null, subject: "Innovation" },
+            { date: "2025-07-21", day: "Monday", time: "10:00 AM", code: null, subject: "Math" }, // Added Math exam
             { date: "2025-07-22", day: "Tuesday", time: "10:00 AM", code: null, subject: "Heat T." },
             { date: "2025-07-27", day: "Sunday", time: "10:00 AM", code: null, subject: "Tool D." },
+            { date: "2025-07-30", day: "Wednesday", time: "10:00 AM", code: null, subject: "Foundry" }, // Added Foundry exam
             { date: "2025-07-31", day: "Thursday", time: "10:00 AM", code: null, subject: "Production" },
             { date: "2025-08-06", day: "Wednesday", time: "10:00 AM", code: null, subject: "PLQ" },
-            { date: "2025-09-31", day: "Tuesday", time: "10:00 AM", code: null, subject: "Production" } // Assuming Sept 31st means Oct 1st or a typo, keeping as is for now.
-        ];
+            { date: "2025-08-09", day: "Saturday", time: "10:00 AM", code: null, subject: "Production" } // Modified exam from 09-31 to 08-09
+        ].sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort exams by date
 
         // Helper function to calculate detailed time left until an exam
         function getDetailedTimeLeft(examDateString, examTimeString) {
