@@ -596,34 +596,34 @@
                         <p class="mb-2">এই পদ্ধতি ব্যবহার করলে নির্দেশগুলোর <span style="color: #66FCF1;">গড় কোডের দৈর্ঘ্য ছোট</span> হয়। এর মানে হলো, প্রোগ্রামের <span style="color: #66FCF1;">মোট আকার কমে</span> আসে, যা <span style="color: #66FCF1;">মেমরি সাশ্রয়</span> করে এবং সিপিইউকে <span style="color: #66FCF1;">কম ডেটা প্রসেস</span> করতে হয়, ফলে প্রোগ্রাম <span style="color: #66FCF1;">দ্রুত কার্যকর</span> হয়। এটা সিপিইউ-এর কাজকে আরও <span style="color: #66FCF1;">দক্ষ করে তোলে!</span> 🚀</p>
                     </div>
                 ` },
-                { text: "3। 8086 আর্কিটেকচার অঙ্কন করে প্রতিটি ব্লকের কার্যাবলি বর্ণনা কর। (Chapter 5)", stripe: 'green', answer: `
+                { text: "3। ৮০৮৬ আর্কিটেকচার অঙ্কন করে প্রতিটি ব্লকের কার্যাবলি বর্ণনা কর।", stripe: 'green', answer: `
                     <div class="answer-content-section">
-                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">8086 মাইক্রোপ্রসেসরের আর্কিটেকচার কী?</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086 মাইক্রোপ্রসেসরের আর্কিটেকচার কী?</span></h5>
                         <p class="mb-2"><span style="color: #66FCF1;">8086 মাইক্রোপ্রসেসর</span> হলো Intel-এর তৈরি একটি <span style="color: #66FCF1;">16-বিট প্রসেসর</span>, যা দুটি প্রধান ইউনিটে ভাগ হয়ে একসাথে কাজ করে। এটা একটা সুপার-দক্ষ ফ্যাক্টরি 🏭, যেখানে <span style="color: #66FCF1;">ডেলিভারি টিম (BIU)</span> বাইরে থেকে জিনিসপত্র আনে আর <span style="color: #66FCF1;">উৎপাদন টিম (EU)</span> আসল কাজটা করে। এতে সময় বাঁচে আর প্রসেস দ্রুত চলে।</p>
 
-                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">8086 মাইক্রোপ্রসেসরের আর্কিটেকচার চিত্র</span></h5>
-                        <p class="mb-2">এখানে 8086 মাইক্রোপ্রসেসরের মৌলিক আর্কিটেকচারের চিত্র দেওয়া হলো:</p>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086 মাইক্রোপ্রসেসরের আর্কিটেকচার চিত্র</span></h5>
+                        <p class="mb-2">এখানে 8086 মাইক্রোপ্রসেসরের মৌলিক আর্কিটেকচারের চিত্র দেওয়া হলো (আপনার দেওয়া ছবি অনুসারে):</p>
                         <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
                             <img src="rb5.jpg" alt="8086 Microprocessor Architecture Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
                         </div>
 
-                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.6);">প্রতিটি ব্লকের কার্যাবলি:</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রতিটি ব্লকের কার্যাবলি:</span></h5>
                         
-                        <h5 class="mb-2"><span style="color: #66FCF1;">A. বাস ইন্টারফেস ইউনিট (BIU - Bus Interface Unit):</span></h5>
-                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
-                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">কাজ:</span> BIU হলো প্রসেসরের <span style="color: #66FCF1;">ডেলিভারি টিম</span>। এর প্রধান কাজ হলো বাইরে থেকে <span style="color: #66FCF1;">ডেটা ও নির্দেশ আনা-নেওয়া</span> করা এবং সেগুলোকে <span style="color: #66FCF1;">নির্দেশ কিউতে জমা রাখা</span>।</li>
-                            <li><span style="color: #66FCF1;">১. সেগমেন্ট রেজিস্টার (Segment Registers):</span> মেমরি অ্যাড্রেস ম্যানেজ করার জন্য চারটি অ্যাড্রেস ধরে রাখে (যেমন <span style="color: #66FCF1;">CS, DS, SS, ES</span>)।</li>
-                            <li><span style="color: #66FCF1;">২. নির্দেশ পয়েন্টার (IP - Instruction Pointer):</span> পরের যে <span style="color: #66FCF1;">নির্দেশটি চালাবে</span>, তার অ্যাড্রেস ধরে রাখে।</li>
-                            <li><span style="color: #66FCF1;">৩. নির্দেশ কিউ (Instruction Queue - IQ):</span> BIU মেমরি থেকে <span style="color: #66FCF1;">নির্দেশ এনে এখানে জমা রাখে</span>, EU এখান থেকে নিতে পারে (<span style="color: #66FCF1;">৬ বাইট পর্যন্ত</span>)!</li>
-                        </ul>
-
-                        <h5 class="mb-2"><span style="color: #66FCF1;">B. এক্সিকিউশন ইউনিট (EU - Execution Unit):</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1;">A. এক্সিকিউশন ইউনিট (EU - Execution Unit):</span></h5>
                         <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
                             <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">কাজ:</span> EU হলো প্রসেসরের <span style="color: #66FCF1;">উৎপাদন টিম</span>। এর প্রধান কাজ BIU থেকে পাওয়া নির্দেশগুলো <span style="color: #66FCF1;">ডিকোড করা</span> এবং সেগুলোকে <span style="color: #66FCF1;">এক্সিকিউট করা</span>।</li>
-                            <li><span style="color: #66FCF1;">১. অ্যারিথমেটিক লজিক ইউনিট (ALU):</span> সমস্ত <span style="color: #66FCF1;">গাণিতিক ও যৌক্তিক কাজ</span> সম্পন্ন করে।</li>
-                            <li><span style="color: #66FCF1;">২. সাধারণ কাজ রেজিস্টার (General Purpose Registers):</span> <span style="color: #66FCF1;">ডেটা ও নির্দেশ সাময়িকভাবে ধরে রাখে</span> (যেমন <span style="color: #66FCF1;">AX, BX, CX, DX</span>)।</li>
-                            <li><span style="color: #66FCF1;">৩. ফ্ল্যাগ রেজিস্টার (Flag Registers):</span> অপারেশনের পর প্রসেসরের <span style="color: #66FCF1;">বর্তমান অবস্থা</span> (যেমন ফলাফল শূন্য কিনা) জানায়।</li>
-                            <li><span style="color: #66FCF1;">৪. কন্ট্রোল ইউনিট (CU - Control Unit):</span> নির্দেশ <span style="color: #66FCF1;">ডিকোড করে</span> এবং প্রসেসরের <span style="color: #66FCF1;">সব কাজ নিয়ন্ত্রণ</span> করে।</li>
+                            <li><span style="color: #66FCF1;">১. ALU (Arithmetic Logic Unit):</span> সমস্ত <span style="color: #66FCF1;">গাণিতিক ও যৌক্তিক কাজ</span> সম্পন্ন করে।</li>
+                            <li><span style="color: #66FCF1;">২. General Registers (সাধারণ কাজ রেজিস্টার):</span> <span style="color: #66FCF1;">ডেটা ও নির্দেশ সাময়িকভাবে ধরে রাখে</span> (যেমন <span style="color: #66FCF1;">AX, BX, CX, DX</span>)।</li>
+                            <li><span style="color: #66FCF1;">৩. Flag Registers (ফ্ল্যাগ রেজিস্টার):</span> অপারেশনের পর প্রসেসরের <span style="color: #66FCF1;">বর্তমান অবস্থা</span> (যেমন ফলাফল শূন্য কিনা) জানায়।</li>
+                            <li><span style="color: #66FCF1;">৪. Instruction Decoder (নির্দেশ ডিকোডার):</span> নির্দেশকে ভেঙে বিশ্লেষণ করে, যাতে <span style="color: #66FCF1;">কন্ট্রোল ইউনিট বুঝতে পারে কী কাজ করতে হবে</span>। (এটি কন্ট্রোল ইউনিটেরই একটি অংশ হিসেবে কাজ করে, নির্দেশের বোকা)।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1;">B. বাস ইন্টারফেস ইউনিট (BIU - Bus Interface Unit):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.4);">কাজ:</span> BIU হলো প্রসেসরের <span style="color: #66FCF1;">ডেলিভারি টিম</span>। এর প্রধান কাজ হলো বাইরে থেকে <span style="color: #66FCF1;">ডেটা ও নির্দেশ আনা-নেওয়া</span> করা এবং সেগুলোকে <span style="color: #66FCF1;">নির্দেশ কিউতে জমা রাখা</span>।</li>
+                            <li><span style="color: #66FCF1;">১. Segment Registers (সেগমেন্ট রেজিস্টার):</span> মেমরি অ্যাড্রেস ম্যানেজ করার জন্য চারটি অ্যাড্রেস ধরে রাখে (যেমন <span style="color: #66FCF1;">CS, DS, SS, ES</span>)।</li>
+                            <li><span style="color: #66FCF1;">২. Instruction Queue (IQ - নির্দেশ কিউ):</span> BIU মেমরি থেকে <span style="color: #66FCF1;">নির্দেশ এনে এখানে জমা রাখে</span>, EU এখান থেকে নিতে পারে (<span style="color: #66FCF1;">৬ বাইট পর্যন্ত</span>)!</li>
+                            <li><span style="color: #66FCF1;">৩. Address Generation Unit (অ্যাড্রেস জেনারেশন ইউনিট):</span> সেগমেন্ট রেজিস্টার ও অফসেট ব্যবহার করে <span style="color: #66FCF1;">ফিজিক্যাল মেমরি অ্যাড্রেস তৈরি</span> করে, যা ডেটা বা নির্দেশ আনতে দরকার হয়।</li>
                         </ul>
                     </div>
                 ` },
@@ -662,7 +662,49 @@
                         </ul>
                     </div>
                 ` },
-                { text: "6। মিনিমাম ও ম্যাক্সিমাম মোড এর মেমরি/ইনপুট-আউটপুট ইন্টারফেসিং চিত্রসহ বর্ণনা কর।", stripe: 'green', answer: "উত্তর শীঘ্রই আসছে..." },
+                { text: "6। মিনিমাম ও ম্যাক্সিমা মোড এর মেমরি/ইনপুট-আউটপুট ইন্টারফেসের চিত্রসহ বর্ণনা কর।", stripe: 'green', answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">8086 মাইক্রোপ্রসেসরের দুটি মোড: মিনিমাম মোড এবং ম্যাক্সিমা মোড।</span> <span style="color: #66FCF1;">MN/MX#</span> পিনের ভোল্টেজের উপর ভিত্তি করে এটি মোড নির্ধারণ করে, যা মেমরি এবং ইনপুট/আউটপুট (I/O) ডিভাইসের সাথে যোগাযোগের পদ্ধতি পরিবর্তন করে।</p>
+
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">মিনিমাম মোড:</span> ছোট বা একক প্রসেসর সিস্টেমে ব্যবহৃত হয়, যেখানে 8086 নিজেই সব বাস (Bus) নিয়ন্ত্রণ সংকেত তৈরি করে।</li>
+                            <li><span style="color: #66FCF1;">ম্যাক্সিমা মোড:</span> বড় বা মাল্টিপ্রসেসর (একাধিক প্রসেসর) সিস্টেমে ব্যবহৃত হয়, যেখানে একটি অতিরিক্ত চিপ (<span style="color: #66FCF1;">বাস কন্ট্রোলার 8288</span>) বাস সংকেত তৈরি করে।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১. মিনিমাম মোড মেমরি/ইনপুট-আউটপুট ইন্টারফেস</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">মিনিমাম মোডে</span>, 8086 মাইক্রোপ্রসেসর নিজেই <span style="color: #66FCF1;">মেমরি এবং I/O অপারেশনের জন্য প্রয়োজনীয় সময় কন্ট্রোল সিগনাল সরাসরি তৈরি করে</span>। এটি অতিরিক্ত কোনো চিপ ছাড়াই নিয়ন্ত্রণ নিজের হাতে রাখে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মিনিমাম মোড ইন্টারফেসের এর টেক্সট-চিত্র:</span></h5>
+                        <p class="mb-2">(এটি একটি চিত্রের ধারণামূলক উপস্থাপন)</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb18_min.jpg" alt="8086 Minimum Mode Interface Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. 8086 CPU (মিনিমাম মোডে):</span> এটি সিস্টেমের <span style="color: #66FCF1;">মস্তিষ্ক</span>, যা নিজেই সমস্ত <span style="color: #66FCF1;">বাস নিয়ন্ত্রণ</span> করে এবং মেমরি ও I/O ডিভাইসের সাথে সরাসরি যোগাযোগ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সিস্টেম বাস:</span> এটি 8086 CPU, মেমরি এবং I/O ডিভাইসের মধ্যে <span style="color: #66FCF1;">ডেটা, অ্যাড্রেস এবং কন্ট্রোল সংকেত আদান-প্রদানের হাইওয়ে</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. Memory (RAM/ROM):</span> প্রোগ্রাম এবং ডেটা <span style="color: #66FCF1;">অস্থায়ীভাবে সংরক্ষণ</span> করে (RAM) বা <span style="color: #66FCF1;">স্থায়ীভাবে বুটআপ কোড</span> জমা রাখে (ROM)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. I/O Devices:</span> এগুলো সিপিইউকে <span style="color: #66FCF1;">বাইরের বিশ্বের সাথে যোগাযোগ</span> করতে সাহায্য করে (যেমন <span style="color: #66FCF1;">কীবোর্ড, মনিটর</span>)।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">২. ম্যাক্সিমা মোড মেমরি/ইনপুট-আউটপুট ইন্টারফেস</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ম্যাক্সিমা মোডে</span>, 8086 মাইক্রোপ্রসেসর সরাসরি মেমরি বা I/O কন্ট্রোল সিগনাল তৈরি করে না। এর পরিবর্তে, এটি একটি <span style="color: #66FCF1;">বাস কন্ট্রোলার চিপ (যেমন Intel 8288)</span> ব্যবহার করে যোগাযোগের কাজটা করায়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ম্যাক্সিমা মোড ইন্টারফেসের এর টেক্সট-চিত্র:</span></h5>
+                        <p class="mb-2">(এটি একটি চিত্রের ধারণামূলক উপস্থাপন)</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb18_max.jpg" alt="8086 Maximum Mode Interface Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+                        <p class="mb-2"><span style="color: #66FCF1;">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. 8086 CPU (ম্যাক্সিমা মোডে):</span> এটি সিস্টেমের <span style="color: #66FCF1;">মস্তিষ্ক</span>, কিন্তু মেমরি/I/O নিয়ন্ত্রণের জন্য <span style="color: #66FCF1;">8288-কে স্ট্যাটাস সংকেত পাঠায়</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. 8288 Bus Controller:</span> এটি 8086 থেকে <span style="color: #66FCF1;">স্ট্যাটাস সংকেত নিয়ে</span> এবং <span style="color: #66FCF1;">মেমরি ও I/O অপারেশনের জন্য আসল কন্ট্রোল সংকেত তৈরি</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. সিস্টেম বাস:</span> এটি 8086 CPU, 8288, মেমরি এবং I/O ডিভাইসের মধ্যে <span style="color: #66FCF1;">ডেটা, অ্যাড্রেস এবং কন্ট্রোল সংকেত আদান-প্রদানের হাইওয়ে</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. Memory (RAM/ROM):</span> প্রোগ্রাম এবং ডেটা <span style="color: #66FCF1;">অস্থায়ীভাবে সংরক্ষণ</span> করে (RAM) বা <span style="color: #66FCF1;">স্থায়ীভাবে বুটআপ কোড</span> জমা রাখে (ROM)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. I/O Devices:</span> এগুলো সিপিইউকে <span style="color: #66FCF1;">বাইরের বিশ্বের সাথে যোগাযোগ</span> করতে সাহায্য করে (যেমন <span style="color: #66FCF1;">কীবোর্ড, মনিটর</span>)।</li>
+                        </ul>
+                    </div>
+                ` },
                 { text: "7। ইন্টারাপ্ট ভেক্টর টেবিল অঙ্কন করে বর্ণনা কর। (Chapter 9)", stripe: 'green', answer: `
                     <div class="answer-content-section">
                         <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ইন্টারাপ্ট ভেক্টর টেবিল (IVT) কী?</span></h5>
@@ -744,9 +786,56 @@
                 ` },
                 
                 { text: "9। SAP-1 কম্পিউটারের আর্কিটেকচার চিত্রসহ বর্ণনা কর।", stripe: 'blue', answer: "উত্তর শীঘ্রই আসছে..." },
-                { text: "10। অ্যাকুমুলেটর Based Machine এর ব্লক চিত্র অঙ্কন করে বর্ণনা কর।", stripe: 'blue', answer: "উত্তর শীঘ্রই আসছে..." },
-                { text: "11। Stack Based Machine এর ব্লক চিত্র অঙ্কন করে বর্ণনা কর।", stripe: 'blue', answer: "উত্তর শীঘ্রই আসছে..." },
-                { text: "12। 4-bit General Register এবং 4-bit ALU বর্ণনা কর।", stripe: 'blue', answer: "উত্তর শীঘ্রই আসছে..." },
+                { text: "10। Accumulator Based Machine এর ব্লক চিত্র অঙ্কন করে বর্ণনা কর।", stripe: 'blue', answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Accumulator Based Machine কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">Accumulator Based Machine</span> হলো এক ধরনের কম্পিউটার প্রসেসর আর্কিটেকচার যেখানে একটি বিশেষ রেজিস্টার, যাকে <span style="color: #66FCF1;">অ্যাকুমুলেটর</span> বলা হয়, তার বেশিরভাগ অপারেশনের (যেমন <span style="color: #66FCF1;">গাণিতিক ও যৌক্তিক কাজ</span>) প্রধান অপারেন্ড (যে ডেটা নিয়ে কাজ হয়) হিসেবে কাজ করে। এটা অনেকটা একজন শেফের মতো যার শুধুমাত্র একটি প্রধান হাত বা একটি নির্দিষ্ট মিক্সিং বোল আছে, যেখানে সে সব উপকরণ নিয়ে কাজ করে। 🧑‍🍳 অন্য সব ডেটা হয় মেমরি থেকে সরাসরি অ্যাকুমুলেটরে আসে, অথবা অ্যাকুমুলেটর থেকে মেমরিতে যায়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Accumulator Based Machine এর ব্লক ডায়াগ্রাম</span></h5>
+                        <p class="mb-2">এখানে একটি অ্যাকুমুলেটর Based Machine এর মৌলিক ব্লক ডায়াগ্রামের একটি টেক্সট-চিত্র দেওয়া হলো:</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb10.jpg" alt="Accumulator Based Machine Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইনপুট (Input):</span> এটি বাইরে থেকে (যেমন কীবোর্ড) <span style="color: #66FCF1;">ডেটা বা নির্দেশ গ্রহণ</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. মেমরি (RAM):</span> প্রোগ্রাম এবং ডেটা <span style="color: #66FCF1;">সাময়িকভাবে এখানে জমা</span> থাকে, যা CPU দ্রুত অ্যাক্সেস করতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. System Bus (সিস্টেম বাস):</span> এটি প্রসেসরের বিভিন্ন উপাদান এবং মেমরির মধ্যে <span style="color: #66FCF1;">ডেটা ও সংকেত আদান-প্রদানের প্রধান পথ</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. Program Counter (PC):</span> এটি পরের যে <span style="color: #66FCF1;">নির্দেশটি এক্সিকিউট করতে হবে</span>, তার মেমরি অ্যাড্রেস ধরে রাখে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. Instruction Register (IR):</span> PC থেকে আনা বর্তমান নির্দেশটি এখানে জমা থাকে, যা <span style="color: #66FCF1;">কন্ট্রোল ইউনিট ডিকোড</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. কন্ট্রোল ইউনিট (Control Unit - CU):</span> এটি প্রসেসরের <span style="color: #66FCF1;">মস্তিষ্ক</span>। ইনস্ট্রাকশন ডিকোডার থেকে পাওয়া নির্দেশ অনুযায়ী এটি সব অংশের কাজ <span style="color: #66FCF1;">নিয়ন্ত্রণ</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. ALU (Arithmetic Logic Unit):</span> এটি সমস্ত <span style="color: #66FCF1;">গাণিতিক (যোগ, বিয়োগ)</span> এবং <span style="color: #66FCF1;">যৌক্তিক (তুলনা)</span> কাজগুলো সম্পন্ন করে। অ্যাকুমুলেটর থেকে ডেটা নিয়ে কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. অ্যাকুমুলেটর (Accumulator - A):</span> এটি একটি বিশেষ রেজিস্টার যেখানে <span style="color: #66FCF1;">ALU-এর গাণিতিক অপারেশনের একটি অপারেন্ড</span> রাখা হয় এবং ফলাফলও এখানে জমা হয়। এটি বেশিরভাগ ডেটা অপারেশনের কেন্দ্রবিন্দু।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৯. I/O ইউনিট (I/O Unit):</span> এটি <span style="color: #66FCF1;">ইনপুট/আউটপুট ডিভাইসের সাথে প্রসেসরের ডেটা আদান-প্রদান নিয়ন্ত্রণ</span> করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "11। Stack Based Machine এর ব্লক চিত্র অঙ্কন করে বর্ণনা কর।", stripe: 'blue', answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Stack Based Machine কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">Stack Based Machine</span> হলো এক ধরনের কম্পিউটার প্রসেসর আর্কিটেকচার যেখানে CPU-এর বেশিরভাগ অপারেশন (যেমন গাণিতিক কাজ) ডেটা নিয়ে সরাসরি রেজিস্টারে বা মেমরি থেকে না করে, বরং একটি বিশেষ <span style="color: #66FCF1;">স্ট্যাক (Stack)</span> ব্যবহার করে। স্ট্যাক একটি <span style="color: #66FCF1;">LIFO (Last-In, First-Out)</span> পদ্ধতিতে কাজ করে, অর্থাৎ সবার শেষে যে ডেটা ঢোকে, সবার প্রথমে সেটাই বের হয়। এটা অনেকটা থালা বা স্ট্যাক সাজিয়ে রাখার মতো 🍽️; সবার শেষে যে থালা রাখা হয়, সেটাই প্রথমে তোলা যায়। এই আর্কিটেকচারে ডেটা বা অপারেন্ডগুলো স্ট্যাকে '<span style="color: #66FCF1;">পুশ (push)</span>' করা হয় এবং অপারেশন করার জন্য স্ট্যাক থেকে '<span style="color: #66FCF1;">পপ (pop)</span>' করা হয়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Stack Based Machine এর ব্লক ডায়াগ্রাম</span></h5>
+                        <p class="mb-2">এখানে একটি Stack Based Machine এর মৌলিক ব্লক ডায়াগ্রামের একটি টেক্সট-চিত্র দেওয়া হলো:</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb11.jpg" alt="Stack Based Machine Block Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উপাদানগুলোর সংক্ষিপ্ত বর্ণনা:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইনপুট (Input):</span> এটি বাইরে থেকে (যেমন কীবোর্ড) <span style="color: #66FCF1;">ডেটা বা নির্দেশ গ্রহণ</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. Stack Pointer (SP):</span> এটি <span style="color: #66FCF1;">স্ট্যাক মেমরির সর্বোচ্চ ডেটার অবস্থান (top of stack)</span> ধরে রাখে। স্ট্যাকে ডেটা ঢোকালে বা বের করলে এর মান পরিবর্তিত হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. Stack Memory (স্ট্যাক মেমরি):</span> এটি <span style="color: #66FCF1;">প্রধান মেমরির একটি অংশ</span> যা <span style="color: #66FCF1;">স্ট্যাক অপারেশনের জন্য</span> ব্যবহৃত হয়। ডেটা এখানে <span style="color: #66FCF1;">পুশ (push) ও পপ (pop)</span> করা হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. System Bus (সিস্টেম বাস):</span> এটি প্রসেসরের বিভিন্ন উপাদান এবং মেমরির মধ্যে <span style="color: #66FCF1;">ডেটা ও সংকেত আদান-প্রদানের প্রধান পথ</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. Program Counter (PC):</span> এটি পরের যে <span style="color: #66FCF1;">নির্দেশটি এক্সিকিউট করতে হবে</span>, তার মেমরি অ্যাড্রেস ধরে রাখে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. Instruction Register (IR):</span> PC থেকে আনা বর্তমান নির্দেশটি এখানে জমা থাকে, যা <span style="color: #66FCF1;">কন্ট্রোল ইউনিট ডিকোড</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. কন্ট্রোল ইউনিট (Control Unit - CU):</span> এটি প্রসেসরের <span style="color: #66FCF1;">মস্তিষ্ক</span>। ইনস্ট্রাকশন ডিকোডার থেকে পাওয়া নির্দেশ অনুযায়ী এটি সব অংশের কাজ <span style="color: #66FCF1;">নিয়ন্ত্রণ</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. ALU (Arithmetic Logic Unit):</span> এটি সমস্ত <span style="color: #66FCF1;">গাণিতিক (যোগ, বিয়োগ)</span> এবং <span style="color: #66FCF1;">যৌক্তিক (তুলনা)</span> কাজগুলো সম্পন্ন করে। স্ট্যাক থেকে ডেটা নিয়ে কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৯. I/O ইউনিট (I/O Unit):</span> এটি <span style="color: #66FCF1;">ইনপুট/আউটপুট ডিভাইসের সাথে প্রসেসরের ডেটা আদান-প্রদান নিয়ন্ত্রণ</span> করে।</li>
+                        </ul>
+                    </div>
+                ` },
                 
                 
                 
