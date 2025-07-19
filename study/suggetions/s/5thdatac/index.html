@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importing Noto Sans Bengali for better readability */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif; /* Prioritize Noto Sans Bengali */
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .branding {
+            background-color: #2d3748; /* Dark background for branding */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .branding .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .branding .tagline {
+            font-size: 1rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack main row and dropdown */
+            align-items: flex-start; /* Align items to the start */
+            padding: 8px 15px; /* Adjusted vertical padding */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* Style for blue stripe items */
+        .blue-stripe-item {
+            border-left: 4px solid #4299e1; /* Blue stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .blue-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for green stripe items */
+        .green-stripe-item {
+            border-left: 4px solid #48bb78; /* Green stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .green-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+            font-size: 1.25rem; /* Ensure icon is visible */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #ABB2BF; /* Default code text color */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Styles for dropdown answers */
+        .answer-dropdown {
+            background-color: #3a475a; /* Slightly lighter dark background for dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            width: 100%; /* Ensure it takes full width of its parent */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* New style for extended answer dropdown */
+        .extended-answer-dropdown {
+            background-color: #5a6b80; /* Even lighter dark background for extended dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Specific styles for AMOLED black dropdowns in "very-short" and "short" sections */
+        .amoled-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #ffffff; /* White to pop on black */
+        }
+
+        .amoled-extended-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #a78bfa; /* Vibrant purple to pop for extended */
+        }
+
+        /* Style for the short answer text itself, now a toggle */
+        .short-answer-text-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0; /* Add some padding */
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex; /* To align text and icon */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .short-answer-text-toggle:hover {
+            background-color: #4a5568; /* Slightly lighter on hover */
+        }
+
+
+        .question-text-toggle {
+            cursor: pointer;
+            flex-grow: 1; /* Allow text to grow */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
+        }
+        .question-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure this row takes full width of question-item */
+            min-height: 2.5rem; /* Set a minimum height for the row */
+        }
+        .question-item .button-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        /* Custom styles for visually enhanced answers */
+        .answer-content-section {
+            margin-bottom: 1rem;
+        }
+        .answer-content-section h5 {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for sub-headings */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .answer-content-section p {
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul li {
+            margin-bottom: 0.25rem;
+        }
+        .highlight-text {
+            color: #a78bfa; /* Purple for highlighting important info */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Branding section is now directly on the body background -->
+    <!-- Removed Branding Section -->
+
+    <div class="main-content">
+        <header class="header">
+            <h1>কম্পিউটার আর্কিটেকচার অ্যান্ড মাইক্রোপ্রসেসর</h1>
+            <p class="subtitle">Short suggestion</p>
+        </header>
+
+        <!-- Question categories without card styling -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <!-- AI Answer Modal (from index.html) -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your API key (from index.html)
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // Keep this as provided by the user.
+
+        // Define the questions categorized
+        const questions = {
+            "very-short": [
+                { text: "1। ইলেকট্রনিক কমিউনিকেশনের সংজ্ঞা দও। (Chapter - 1)", answer: "ইলেকট্রনিক কমিউনিকেশন হলো ইলেকট্রনিক মাধ্যমে তথ্য আদান-প্রদান।", extendedAnswer: "ইলেকট্রনিক কমিউনিকেশন মানে হলো যখন আপনি <span style=\"color: #66FCF1;\">বিদ্যুৎ ব্যবহার করে তথ্য পাঠান</span>। যেমন, যখন আপনি <span style=\"color: #66FCF1;\">ফোন করে কথা বলেন</span> বা <span style=\"color: #66FCF1;\">ইন্টারনেট ব্যবহার করে মেসেজ পাঠান</span>, তখন এটি ইলেকট্রনিক কমিউনিকেশন।" },
+                { text: "2। ডাটা কমিউনিকেশনের সংজ্ঞা দাও। (Chapter - 1)", answer: "ডাটা কমিউনিকেশন হলো এক ডিভাইস থেকে অন্য ডিভাইসে ডেটা স্থানান্তর প্রক্রিয়া।", extendedAnswer: "ডাটা কমিউনিকেশন হলো যখন <span style=\"color: #66FCF1;\">কম্পিউটার বা মোবাইল ফোন মতো যন্ত্রের মাধ্যমে তথ্য এক জায়গা থেকে অন্য জায়গায় পাঠানো হয়</span>। যেমন, আপনি যখন বন্ধুকে একটি ছবি পাঠান, সেটিই ডাটা কমিউনিকেশন।" },
+                { text: "3। ফ্রিকুয়েন্সির সংজ্ঞা দাও। (Chapter - 1)", answer: "ফ্রিকুয়েন্সি হলো প্রতি সেকেন্ডে একটি তরঙ্গের পূর্ণ চক্রের সংখ্যা।", extendedAnswer: "ফ্রিকুয়েন্সি হলো <span style=\"color: #66FCF1;\">একটি ঢেউ বা তরঙ্গ এক সেকেন্ডে কতবার ওঠানামা করে তার হিসাব</span>। রেডিওতে যখন চ্যানেল পরিবর্তন করেন, তখন আপনি আসলে ফ্রিকোয়েন্সি পরিবর্তন করেন। 🌊" },
+                { text: "4। ডাটা কমিউনিকেশনের বেসিক এলিমেন্টগুলোর কাজ লেখ। (Chapter - 1)", answer: "উৎস: ডেটা তৈরি করে; প্রেরক: ডেটাকে ট্রান্সমিট করে; মাধ্যম: ডেটা পরিবহন করে; গ্রাহক: ডেটা গ্রহণ করে; গন্তব্য: ডেটা ব্যবহার করে।", extendedAnswer: "মূল উপাদানগুলো হলো: <span style=\"color: #66FCF1;\">তথ্য তৈরি করা (উৎস)</span>, <span style=\"color: #66FCF1;\">তথ্যকে পাঠানোর জন্য প্রস্তুত করা (প্রেরক)</span>, <span style=\"color: #66FCF1;\">তথ্য পরিবহন করা (মাধ্যম)</span>, <span style=\"color: #66FCF1;\">তথ্য গ্রহণ করা (গ্রাহক)</span>, এবং <span style=\"color: #66FCF1;\">তথ্য যার কাছে পৌঁছাবে (গন্তব্য)</span>।" },
+                { text: "5। ডাটা কমিউনিকেশনের মৌলিক বৈশিষ্ট্যগুলো কী কী? (Chapter - 2)", answer: "ডেটা কমিউনিকেশনের মৌলিক বৈশিষ্ট্যগুলো হলো ডেলিভারি, অ্যাকুরেসি এবং টাইমলিনেস।", extendedAnswer: "ডেটা কমিউনিকেশনের প্রধান বৈশিষ্ট্যগুলো হলো <span style=\"color: #66FCF1;\">ডেটা সঠিক জায়গায় পৌঁছানো (ডেলিভারি)</span>, <span style=\"color: #66FCF1;\">ডেটা ঠিকঠাক থাকা (অ্যাকুরেসি)</span>, এবং <span style=\"color: #66FCF1;\">ডেটা সঠিক সময়ে পৌঁছানো (টাইমলিনেস)</span>।" },
+                { text: "6। ডাটা কমিউনিকেশনের মৌলিক উপাদানগুলো কী কী? (Chapter - 2)", answer: "উৎস (Source), প্রেরক (Transmitter), ট্রান্সমিশন মাধ্যম (Transmission Medium), গ্রাহক (Receiver), গন্তব্য (Destination)।", extendedAnswer: "ডেটা কমিউনিকেশনের জন্য <span style=\"color: #66FCF1;\">পাঁচটি প্রধান জিনিস লাগে</span>: যে তথ্য পাঠাচ্ছে, তথ্য প্রেরণের যন্ত্র, তথ্য যাওয়ার পথ, তথ্য গ্রহণ করার যন্ত্র এবং যে তথ্য পাচ্ছে।" },
+                { text: "7। Spectrum-এর সংজ্ঞা লেখ। (Chapter - 2)", answer: "Spectrum হলো ফ্রিকোয়েন্সির একটি ধারাবাহিক ব্যান্ড যা বেতার যোগাযোগে ব্যবহৃত হয়।", extendedAnswer: "স্পেকট্রাম হলো <span style=\"color: #66FCF1;\">রেডিও তরঙ্গের একটি বিশাল পরিসর বা ব্যান্ড</span> যেখানে বিভিন্ন ফ্রিকোয়েন্সিতে তারবিহীন যোগাযোগ (যেমন রেডিও, মোবাইল ফোন) হয়। 🌈" },
+                { text: "8। Bandwidth-এর সংজ্ঞা লেখ। (Chapter - 2)", answer: "Bandwidth হলো একটি নির্দিষ্ট সময়ে একটি চ্যানেল বা মাধ্যম দিয়ে প্রবাহিত হতে পারা সর্বোচ্চ ডেটার পরিমাণ।", extendedAnswer: "ব্যান্ডউইথ হলো <span style=\"color: #66FCF1;\">একটি ইন্টারনেট সংযোগ বা নেটওয়ার্ক এক সেকেন্ডে কতটা তথ্য বা ডেটা পাঠাতে বা গ্রহণ করতে পারে</span>। এটি যত বেশি, ইন্টারনেট তত দ্রুত কাজ করে। 🏎️" },
+                { text: "9। Propagation time কাকে বলে। (Chapter - 2)", answer: "Propagation time হলো প্রেরক থেকে গ্রাহক পর্যন্ত একটি সিগন্যাল ভ্রমণ করতে যে সময় নেয়।", extendedAnswer: "প্রোপাগেশন টাইম হলো <span style=\"color: #66FCF1;\">একটি সংকেত বা তথ্য প্রেরক থেকে গ্রহণকারী পর্যন্ত পৌঁছাতে যে সময় লাগে</span>। যেমন, আপনার মেসেজ পাঠানোর পর অন্যজনের ফোনে পৌঁছাতে যতটুকু সময় লাগে।" },
+                { text: "10। SNR কাকে বলে? (Chapter - 2)", answer: "SNR (Signal-to-Noise Ratio) হলো একটি সিগন্যালের শক্তির সাথে নয়েজের শক্তির অনুপাত।", extendedAnswer: "SNR (সিগন্যাল-টু-নয়েজ রেশিও) হলো <span style=\"color: #66FCF1;\">একটি সংকেতের শক্তির সাথে অবাঞ্ছিত শব্দ বা 'নয়েজ'-এর শক্তির অনুপাত</span>। এর মান যত বেশি হয়, সিগন্যাল তত পরিষ্কার হয়।" },
+                { text: "11। Propagation delay কী? (Chapter - 2)", answer: "Propagation delay হলো একটি সিগন্যালকে উৎস থেকে গন্তব্যে পৌঁছাতে যে সময় লাগে।", extendedAnswer: "প্রোপাগেশন ডিলে হলো <span style=\"color: #66FCF1;\">একটি সংকেতকে তার উৎস থেকে গন্তব্যে পৌঁছাতে যে সময় লাগে</span>। এটি প্রায় প্রোপাগেশন টাইমের মতোই একটি ধারণা।" },
+                { text: "12। কমিউনিকেশন স্ট্যান্ডার্ড বলতে কী বুঝায়? (Chapter - 2)", answer: "কমিউনিকেশন স্ট্যান্ডার্ড হলো ডেটা কমিউনিকেশনের নিয়মাবলী বা প্রটোকল যা বিভিন্ন ডিভাইসের মধ্যে সামঞ্জস্য নিশ্চিত করে।", extendedAnswer: "কমিউনিকেশন স্ট্যান্ডার্ড হলো <span style=\"color: #66FCF1;\">ডেটা যোগাযোগের জন্য কিছু আন্তর্জাতিক নিয়ম</span>। যেমন, USB কেবল যেকোনো কম্পিউটারে লাগালে কাজ করে কারণ সবাই একই স্ট্যান্ডার্ড মেনে চলে।" },
+                { text: "13। Transmission media কী? (Chapter - 3)", answer: "Transmission media হলো ডেটা স্থানান্তরের পথ বা মাধ্যম।", extendedAnswer: "এটি হলো <span style=\"color: #66FCF1;\">সেই রাস্তা বা পথ যার মাধ্যমে তথ্য এক জায়গা থেকে অন্য জায়গায় যায়</span>। যেমন, আপনার ফোনের তার, ওয়াইফাই এর বাতাস বা ফাইবার অপটিক কেবল।" },
+                { text: "14। Transmission media কে কয়ভাগে ভাগ করা হয়েছে ও কী কী? (Chapter - 3)", answer: "Transmission media কে দুই ভাগে ভাগ করা হয়েছে: গাইডেড (Guided) এবং আনগাইডেড (Unguided)।", extendedAnswer: "ট্রান্সমিশন মিডিয়াকে প্রধানত <span style=\"color: #66FCF1;\">দুই ভাগে ভাগ করা হয়েছে: গাইডেড (তারের মাধ্যমে) এবং আনগাইডেড (তার ছাড়া, যেমন বেতার)</span>।" },
+                { text: "15। Guided transmission-এর প্রকারভেদ দেখাও। (Chapter - 3)", answer: "গাইডেড ট্রান্সমিশন তিন প্রকার: টুইস্টেড পেয়ার কেবল (Twisted-Pair Cable), কো-এক্সিয়াল কেবল (Co-axial Cable) এবং অপটিক্যাল ফাইবার (Optical Fiber)।", extendedAnswer: "গাইডেড ট্রান্সমিশনের মধ্যে রয়েছে: <span style=\"color: #66FCF1;\">টুইস্টেড পেয়ার কেবল (সাধারণ ফোনের তার)</span>, <span style=\"color: #66FCF1;\">কো-এক্সিয়াল কেবল (ডিশের তার)</span> এবং <span style=\"color: #66FCF1;\">অপটিক্যাল ফাইবার (আলোর তার)</span>।" },
+                { text: "16। STP ক্যাবলের বৈশিষ্ট্যগুলো লেখ। (Chapter - 3)", answer: "STP (Shielded Twisted-Pair) কেবল নয়েজ থেকে সুরক্ষার জন্য শিল্ডিং ব্যবহার করে, যা UTP এর চেয়ে ভালো পারফরম্যান্স দেয়।", extendedAnswer: "STP (Shielded Twisted-Pair) কেবল হলো <span style=\"color: #66FCF1;\">এক ধরনের সুরক্ষিত তার</span>, যা বাইরের বৈদ্যুতিক হস্তক্ষেপ থেকে ডেটাকে রক্ষা করে। এটি সাধারণ তারের চেয়ে ভালো কাজ করে।" },
+                { text: "17। Optical fiber কয় ধরনের ও কী কী? তাদের গঠন লেখ। (Chapter - 3)", answer: "অপটিক্যাল ফাইবার প্রধানত দুই ধরনের: সিঙ্গেল-মোড ফাইবার (Single-mode fiber) এবং মাল্টি-মোড ফাইবার (Multi-mode fiber)। গঠন: উভয় প্রকার ফাইবারের তিনটি প্রধান অংশ থাকে: কোর (Core), ক্ল্যাডিং (Cladding) এবং বাফার কোটিং (Buffer Coating)। কোর আলোক সংকেত বহন করে, ক্ল্যাডিং আলোকে কোরের মধ্যে প্রতিফলিত করে এবং বাফার কোটিং ফাইবারকে সুরক্ষা দেয়।", extendedAnswer: "অপটিক্যাল ফাইবার প্রধানত <span style=\"color: #66FCF1;\">দুই ধরনের: সিঙ্গেল-মোড ফাইবার (একসাথে একটি আলোর রশ্মি যায়) এবং মাল্টি-মোড ফাইবার (একসাথে একাধিক আলোর রশ্মি যায়)</span>। গঠন: উভয় প্রকার ফাইবারের <span style=\"color: #66FCF1;\">তিনটি মূল অংশ থাকে: কোর (মাঝের অংশ যা আলো বহন করে), ক্ল্যাডিং (কোরকে ঘিরে থাকে এবং আলোকে কোরের মধ্যে প্রতিফলিত করে) এবং বাফার কোটিং (ফাইবারকে বাইরের আঘাত থেকে রক্ষা করে)</span>।" },
+                { text: "18। অপটিক্যাল ফাইবার বলতে কী বুঝায়? (Chapter - 3)", answer: "অপটিক্যাল ফাইবার হলো কাঁচ বা প্লাস্টিকের তৈরি পাতলা তার যা আলোর মাধ্যমে ডেটা প্রেরণ করে।", extendedAnswer: "অপটিক্যাল ফাইবার হলো <span style=\"color: #66FCF1;\">খুব পাতলা কাঁচের তার, যার মধ্য দিয়ে আলোর মাধ্যমে ডেটা পাঠানো হয়</span>। এটি বিদ্যুতের তারের চেয়ে অনেক দ্রুত ডেটা পাঠাতে পারে। ✨" },
+                { text: "19। RJ-45 Connector কী কাজে ব্যবহৃত হয়? (Chapter - 3)", answer: "RJ-45 Connector ইথারনেট নেটওয়ার্কে কম্পিউটার ও নেটওয়ার্ক ডিভাইসের মধ্যে সংযোগ স্থাপনে ব্যবহৃত হয়।", extendedAnswer: "RJ-45 কানেক্টর হলো <span style=\"color: #66FCF1;\">সেই প্লাগ যা দিয়ে ইথারনেট কেবল কম্পিউটার বা রাউটারে যুক্ত করা হয় ইন্টারনেটের জন্য</span>।" },
+                { text: "20। Thicknet Co-axial Cable-এর বৈশিষ্ট্যগুলো লেখ। (Chapter - 3)", answer: "Thicknet Co-axial Cable মোটা ও শক্ত, দীর্ঘ দূরত্বে ডেটা পাঠাতে পারে, কিন্তু ইনস্টল করা কঠিন।", extendedAnswer: "Thicknet কো-এক্সিয়াল কেবল <span style=\"color: #66FCF1;\">মোটা ও শক্তিশালী হয়</span>। এটি অনেক দূর পর্যন্ত ডেটা পাঠাতে পারলেও, এটি ইনস্টল করা তুলনামূলক কঠিন।" },
+                { text: "21। মডুলেশন কী? (Chapter - 4)", answer: "মডুলেশন হলো তথ্যের সিগন্যালকে ক্যারিয়ার সিগন্যালের সাথে পরিবর্তন করে প্রেরণযোগ্য করা।", extendedAnswer: "মডুলেশন হলো <span style=\"color: #66FCF1;\">আপনার তথ্যের সিগন্যালকে এমনভাবে পরিবর্তন করা যাতে এটি সহজে অনেক দূরে পাঠানো যায়</span>। যেমন, আপনার কথাকে রেডিও তরঙ্গে মিশিয়ে দেওয়া যাতে তা অনেক দূরে পৌঁছাতে পারে।" },
+                { text: "22। অ্যামপ্লিচিউড মডুলেশন কাকে বলে? (Chapter - 4)", answer: "অ্যামপ্লিচিউড মডুলেশন হলো ক্যারিয়ার সিগন্যালের অ্যামপ্লিচিউডকে তথ্য সিগন্যাল অনুযায়ী পরিবর্তন করা।", extendedAnswer: "এই পদ্ধতিতে <span style=\"color: #66FCF1;\">তথ্যের সিগন্যাল অনুযায়ী রেডিও তরঙ্গের শক্তি বা 'উচ্চতা' ওঠানামা করানো হয়</span>। যেমন, আপনি যখন জোরে কথা বলেন, তখন আপনার কণ্ঠস্বরের তরঙ্গ শক্তিশালী হয়।" },
+                { text: "23। টেলিফোন নেটওয়ার্কের ভয়েস ফ্রিকুয়েন্সি কত? (Chapter - 4)", answer: "টেলিফোন নেটওয়ার্কের ভয়েস ফ্রিকুয়েন্সি সাধারণত 300 Hz থেকে 3400 Hz।", extendedAnswer: "টেলিফোন লাইনে মানুষের কথা বোঝার জন্য সাধারণত <span style=\"color: #66FCF1;\">300 থেকে 3400 হার্জ (Hz) পর্যন্ত ফ্রিকোয়েন্সি ব্যবহার করা হয়</span>।" },
+                { text: "24। লাইন কোডিং কয়প্রকার ও কী কী? (Chapter - 4)", answer: "লাইন কোডিং প্রধানত দুই প্রকার: ইউনিপোলার (Unipolar) এবং পোলার (Polar)।", extendedAnswer: "ডেটা পাঠানোর আগে ডিজিটাল তথ্যকে (0 এবং 1) বৈদ্যুতিক সিগন্যালে কিভাবে পরিবর্তন করা হবে, সেই পদ্ধতিই হলো লাইন কোডিং। এটি প্রধানত <span style=\"color: #66FCF1;\">দুই ধরনের হয়: ইউনিপোলার এবং পোলার</span>।" },
+                { text: "25। ফ্রিকুয়েন্সি মডুলেশনের Application-গুলো কী কী? (Chapter - 4)", answer: "FM রেডিও ব্রডকাস্টিং, টিভি সাউন্ড, টু-ওয়ে রেডিও সিস্টেম।", extendedAnswer: "ফ্রিকোয়েন্সি মডুলেশন (FM) সাধারণত <span style=\"color: #66FCF1;\">FM রেডিও সম্প্রচারে, টেলিভিশনের শব্দের জন্য এবং ওয়াকি-টকিতে ব্যবহৃত হয়</span>।" },
+                { text: "26। মডেম কী? (Chapter - 4)", answer: "মডেম (Modulator-Demodulator) হলো এমন একটি ডিভাইস যা ডিজিটাল সিগন্যালকে অ্যানালগ এবং অ্যানালগ সিগন্যালকে ডিজিটালে রূপান্তর করে।", extendedAnswer: "মডেম হলো <span style=\"color: #66FCF1;\">একটি যন্ত্র যা কম্পিউটারের ডিজিটাল ভাষাকে (যেমন 0 এবং 1) টেলিফোন লাইনের অ্যানালগ ভাষায় (শব্দ) পরিবর্তন করে এবং উল্টোটাও করে</span>। এর ফলে ইন্টারনেট ব্যবহার করা যায়। 🗣️↔️🔊" },
+                { text: "27। ক্যারিয়ার সিগন্যাল কাকে বলে? (Chapter - 4)", answer: "ক্যারিয়ার সিগন্যাল হলো একটি উচ্চ ফ্রিকোয়েন্সির সিগন্যাল যা তথ্য বহন করে।", extendedAnswer: "এটি একটি <span style=\"color: #66FCF1;\">শক্তিশালী তরঙ্গ যা আপনার তথ্যকে বহন করে নিয়ে যায়</span>। যেমন, নদীতে নৌকা যেমন যাত্রীদের বহন করে, তেমনি ক্যারিয়ার সিগন্যাল তথ্যকে বহন করে। 🛶" },
+                { text: "28। ASK, FSK, PSK, BASK, BFSK, BPSK, QPSK, QAM,OOK, TDMA. (Chapter - 4)", answer: "এগুলো বিভিন্ন ডিজিটাল মডুলেশন কৌশল এবং মাল্টিপ্লেক্সিং টেকনিকের সংক্ষিপ্ত রূপ: ASK (Amplitude Shift Keying), FSK (Frequency Shift Keying), PSK (Phase Shift Keying), BASK (Binary Amplitude Shift Keying), BFSK (Binary Frequency Shift Keying), BPSK (Binary Phase Shift Keying), QPSK (Quadrature Phase Shift Keying), QAM (Quadrature Amplitude Modulation), OOK (On-Off Keying), TDMA (Time Division Multiple Access).", extendedAnswer: "এগুলো ডেটা পাঠানোর বিভিন্ন পদ্ধতি: <span style=\"color: #66FCF1;\">ASK (শক্তির পরিবর্তন), FSK (ফ্রিকোয়েন্সির পরিবর্তন), PSK (দশাপ্রবাহের পরিবর্তন)</span> ইত্যাদি ডিজিটাল মডুলেশন পদ্ধতি এবং <span style=\"color: #66FCF1;\">TDMA (একই চ্যানেলে সময় ভাগ করে ডেটা পাঠানো)</span>।" },
+                { text: "29। মডুলেশনের কাজ কী? (Chapter - 4)", answer: "মডুলেশনের কাজ হলো ডেটা সিগন্যালকে দূরপাল্লার সঞ্চালনের জন্য উপযুক্ত করা।", extendedAnswer: "মডুলেশনের মূল কাজ হলো <span style=\"color: #66FCF1;\">ডেটাকে লম্বা দূরত্বে পাঠানোর জন্য উপযুক্ত করা</span>। এটি ডেটাকে এমনভাবে তৈরি করে যেন তা অনেক দূর পর্যন্ত ভ্রমণ করতে পারে।" },
+                { text: "30। মডুলেশন ও ডিমডুলেশন কেন প্রয়োজন হয়? (Chapter - 4)", answer: "ডেটা দূরপাল্লায় প্রেরণের জন্য (মডুলেশন) এবং প্রাপ্ত ডেটাকে মূল অবস্থায় ফিরিয়ে আনার জন্য (ডিমডুলেশন) প্রয়োজন হয়।", extendedAnswer: "মডুলেশন প্রয়োজন হয় <span style=\"color: #66FCF1;\">ডেটাকে অনেক দূরে পাঠানোর জন্য</span>, আর ডিমডুলেশন প্রয়োজন হয় <span style=\"color: #66FCF1;\">সেই ডেটা পাওয়ার পর তাকে আবার মূল রূপে ফিরিয়ে আনার জন্য</span>।" },
+                { text: "31। ডিজিটাল মডুলেশনের সংজ্ঞা দাও? (Chapter - 5)", answer: "ডিজিটাল মডুলেশন হলো ডিজিটাল ডেটাকে অ্যানালগ ক্যারিয়ার সিগন্যালে এনকোড করার প্রক্রিয়া।", extendedAnswer: "ডিজিটাল মডুলেশন হলো <span style=\"color: #66FCF1;\">ডিজিটাল ডেটা (0 এবং 1) কে রেডিও বা অ্যানালগ সিগন্যালে পরিবর্তন করার প্রক্রিয়া</span>, যাতে এটি তার বা বাতাস দিয়ে সহজে যেতে পারে।" },
+                { text: "32। ব্লক কোডিং কী? (Chapter - 5)", answer: "ব্লক কোডিং হলো ডেটার একটি ব্লক (নির্দিষ্ট সংখ্যক বিট) নিয়ে তার সাথে কিছু রিডানড্যান্ট বিট যোগ করে ত্রুটি নিয়ন্ত্রণ করার কৌশল।", extendedAnswer: "ব্লক কোডিং হলো <span style=\"color: #66FCF1;\">ডেটাকে ছোট ছোট ভাগে (ব্লক) ভাগ করে তাতে কিছু অতিরিক্ত বিট যোগ করা</span>। এটি ডেটা পাঠানোর সময় যদি কোনো ভুল হয়, তা ধরতে সাহায্য করে।" },
+                { text: "33। লাইন কোডিং কী? (Chapter - 5)", answer: "লাইন কোডিং হলো বাইনারি ডেটাকে ডিজিটাল সিগন্যালে রূপান্তরের পদ্ধতি।", extendedAnswer: "এটি হলো <span style=\"color: #66FCF1;\">ডিজিটাল ডেটাকে (0s এবং 1s) তার বা বাতাসের মাধ্যমে পাঠানোর জন্য বৈদ্যুতিক বা আলোক সিগন্যালে পরিবর্তন করার নিয়ম</span>।" },
+                { text: "34। কোয়ান্টাইজেশন কী? (Chapter - 5)", answer: "কোয়ান্টাইজেশন হলো অ্যানালগ সিগন্যালকে ডিজিটাল মানগুলিতে রূপান্তর করার প্রক্রিয়া।", extendedAnswer: "কোয়ান্টাইজেশন হলো <span style=\"color: #66FCF1;\">একটি চলমান বা অ্যানালগ সিগন্যালকে কিছু নির্দিষ্ট ধাপে ভাগ করে ডিজিটাল মানে রূপান্তর করা</span>। যেমন, একটি স্কেলে কিছু নির্দিষ্ট দাগে আমরা যেমন মান নিতে পারি, এটি তেমনই।" },
+                { text: "35। স্যাম্পলিং ও কোয়ান্টাইজেশন কী? (Chapter - 5)", answer: "স্যাম্পলিং হলো অ্যানালগ সিগন্যাল থেকে নির্দিষ্ট বিরতিতে স্যাম্পল নেওয়া; কোয়ান্টাইজেশন হলো এই স্যাম্পলগুলোকে ডিজিটাল মানে রূপান্তর করা।", extendedAnswer: "<span style=\"color: #66FCF1;\">স্যাম্পলিং মানে হলো একটি চলমান অ্যানালগ সিগন্যাল থেকে নিয়মিত বিরতিতে কিছু অংশ নেওয়া</span>; <span style=\"color: #66FCF1;\">কোয়ান্টাইজেশন মানে হলো সেই অংশগুলোকে নির্দিষ্ট ডিজিটাল মানে রূপান্তর করা</span>।" },
+                { text: "36। Multiplexing-এর সংজ্ঞা দাও। (Chapter - 6)", answer: "Multiplexing হলো একাধিক ডেটা স্ট্রিমকে একটি একক চ্যানেলের মাধ্যমে পাঠানোর কৌশল।", extendedAnswer: "মাল্টিপ্লেক্সিং মানে হলো <span style=\"color: #66FCF1;\">একটি মাত্র রাস্তা বা চ্যানেল ব্যবহার করে একই সাথে অনেকগুলো তথ্য বা ডেটা পাঠানো</span>। এতে রাস্তার সর্বোচ্চ ব্যবহার নিশ্চিত হয়। 🛣️🚗🚗🚗" },
+                { text: "37। Demultiplexing -সংজ্ঞা দাও। (Chapter - 6)", answer: "Demultiplexing হলো Multiplexing-এর বিপরীত প্রক্রিয়া, যেখানে একটি একক স্ট্রিম থেকে একাধিক ডেটা স্ট্রিমকে পৃথক করা হয়।", extendedAnswer: "এটি <span style=\"color: #66FCF1;\">মাল্টিপ্লেক্সিং এর উল্টো প্রক্রিয়া</span>। অর্থাৎ, একটি চ্যানেল দিয়ে আসা অনেকগুলো ডেটাকে আবার আলাদা আলাদা প্রাপকের কাছে পৌঁছে দেওয়া।" },
+                { text: "38। Multiplexing কেন করা হয়? (Chapter - 6)", answer: "কমিউনিকেশন চ্যানেলের ব্যান্ডউইথকে দক্ষতার সাথে ব্যবহার করতে এবং একই সময়ে একাধিক সিগন্যাল পাঠানোর জন্য।", extendedAnswer: "<span style=\"color: #66FCF1;\">একটি যোগাযোগের চ্যানেলকে আরও দক্ষতার সাথে ব্যবহার করতে</span> এবং <span style=\"color: #66FCF1;\">একই সাথে একাধিক তথ্য পাঠাতে</span> মাল্টিপ্লেক্সিং করা হয়। এতে সময় ও খরচ বাঁচে।" },
+                { text: "39। Time division multiplexing বলতে কী বুঝায়? (Chapter - 6)", answer: "Time Division Multiplexing (TDM) হলো একটি কৌশল যেখানে একাধিক ব্যবহারকারী একই চ্যানেলকে ভিন্ন ভিন্ন সময় স্লটে ব্যবহার করে ডেটা পাঠায়।", extendedAnswer: "Time Division Multiplexing (TDM) হলো একটি কৌশল যেখানে <span style=\"color: #66FCF1;\">একাধিক ব্যবহারকারী একই চ্যানেলকে ভিন্ন ভিন্ন সময় স্লটে ব্যবহার করে ডেটা পাঠায়</span>। যেমন, একটি রাস্তা দিয়ে সবাই পালা করে যাচ্ছে।" },
+                { text: "40। Flow control বলতে কী বুঝ? (Chapter - 7)", answer: "Flow control হলো প্রেরকের ডেটা পাঠানোর গতিকে গ্রাহকের ডেটা প্রক্রিয়াকরণের গতির সাথে সামঞ্জস্যপূর্ণ রাখা।", extendedAnswer: "ফ্লো কন্ট্রোল হলো <span style=\"color: #66FCF1;\">ডেটা প্রেরকের পাঠানোর গতি এবং ডেটা গ্রহণকারীর ডেটা প্রক্রিয়াকরণের গতিকে সামঞ্জস্যপূর্ণ রাখা</span>। যাতে ডেটা অতিরিক্ত না যায় বা হারিয়ে না যায়।" },
+                { text: "41। ফ্রেম কী? (Chapter - 7)", answer: "ফ্রেম হলো ডেটা লিংক লেয়ারে ডেটার একটি ব্লক বা প্যাকেট।", extendedAnswer: "ফ্রেম হলো <span style=\"color: #66FCF1;\">ডেটাকে ছোট ছোট ভাগে বা প্যাকেটে ভাগ করা</span>। যেমন, একটি বড় বইকে অধ্যায়ে ভাগ করলে পড়তে সুবিধা হয়, ফ্রেমও তেমনই ডেটাকে ব্যবস্থাপনার জন্য ভাগ করে।" },
+                { text: "42। Error কত প্রকার ও কী কী? (Chapter - 8)", answer: "এরর প্রধানত দুই প্রকার: সিঙ্গেল-বিট এরর (Single-bit error) এবং বার্স্ট এরর (Burst error)।", extendedAnswer: "সাধারণত <span style=\"color: #66FCF1;\">দুই ধরনের এরর বা ভুল হয়: সিঙ্গেল-বিট এরর (যখন একটি মাত্র বিট ভুল হয়) এবং বার্স্ট এরর (যখন একসাথে অনেকগুলো বিট ভুল হয়)</span>।" },
+                { text: "43। প্যারিটি বিট কী? (Chapter - 8)", answer: "প্যারিটি বিট হলো ডেটা ট্রান্সমিশনের সময় ত্রুটি শনাক্তকরণের জন্য ব্যবহৃত একটি অতিরিক্ত বিট।", extendedAnswer: "এটি একটি <span style=\"color: #66FCF1;\">অতিরিক্ত বিট যা ডেটা পাঠানোর সময় কোনো ভুল হয়েছে কিনা তা পরীক্ষা করতে ব্যবহৃত হয়</span>। এটি ডেটার নির্ভুলতা নিশ্চিত করতে সাহায্য করে। ✅" },
+                { text: "44। OSI মডেল উন্নয়নের কারণ কী? (Chapter - 9)", answer: "বিভিন্ন ভেন্ডরের নেটওয়ার্ক ডিভাইসের মধ্যে সামঞ্জস্যপূর্ণ যোগাযোগ নিশ্চিত করার জন্য OSI মডেল তৈরি করা হয়।", extendedAnswer: "<span style=\"color: #66FCF1;\">বিভিন্ন নির্মাতা প্রতিষ্ঠানের তৈরি নেটওয়ার্ক ডিভাইসগুলো যেন একে অপরের সাথে যোগাযোগ করতে পারে</span>, সেই জন্য একটি সাধারণ নিয়ম বা স্ট্যান্ডার্ড তৈরির উদ্দেশ্যে OSI মডেল তৈরি করা হয়।" },
+                { text: "45। TCP/IP কী? (Chapter - 9)", answer: "TCP/IP (Transmission Control Protocol/Internet Protocol) হলো ইন্টারনেটে ডেটা কমিউনিকেশনের জন্য ব্যবহৃত প্রটোকল স্যুট।", extendedAnswer: "TCP/IP হলো <span style=\"color: #66FCF1;\">ইন্টারনেটের মূল নিয়মকানুনের একটি সেট</span>। এটি নির্ধারণ করে কীভাবে ইন্টারনেট জুড়ে কম্পিউটারগুলোর মধ্যে ডেটা আদান-প্রদান হবে।" },
+                { text: "46। প্রটোকল সুইট (Protocol suite) কী? (Chapter - 9)", answer: "প্রটোকল সুইট হলো নেটওয়ার্ক কমিউনিকেশনের জন্য এক সেট প্রটোকলের সংগ্রহ।", extendedAnswer: "এটি হলো <span style=\"color: #66FCF1;\">অনেকগুলো নিয়মের একটি সংগ্রহ বা প্যাকেজ যা নেটওয়ার্কে ডেটা যোগাযোগের জন্য একসাথে কাজ করে</span>। একটি সফল অফিস পরিচালনার জন্য যেমন অনেকগুলো নিয়ম লাগে, এটি তেমনই।" },
+                { text: "47। ডাটা লিংক লেয়ার কী কী মৌলিক ফাংশন সম্পন্ন করে? (Chapter - 10)", answer: "ফ্রেম তৈরি, ফিজিক্যাল অ্যাড্রেসিং, ফ্লো কন্ট্রোল, এরর কন্ট্রোল এবং অ্যাক্সেস কন্ট্রোল।", extendedAnswer: "এই লেয়ার <span style=\"color: #66FCF1;\">ডেটা ফ্রেম তৈরি করে</span>, <span style=\"color: #66FCF1;\">ফিজিক্যাল ঠিকানা ব্যবহার করে</span>, <span style=\"color: #66FCF1;\">ডেটা প্রবাহ নিয়ন্ত্রণ করে</span>, <span style=\"color: #66FCF1;\">ত্রুটি পরীক্ষা করে</span> এবং <span style=\"color: #66FCF1;\">কে কখন ডেটা পাঠাবে তা নিয়ন্ত্রণ করে</span>।" },
+                { text: "48। সুইচিং-এর প্রকারভেদ লেখ। (Chapter - 10)", answer: "সুইচিং প্রধানত তিন প্রকার: সার্কিট সুইচিং (Circuit Switching), প্যাকেট সুইচিং (Packet Switching) এবং মেসেজ সুইচিং (Message Switching)।", extendedAnswer: "ডেটা যোগাযোগের জন্য প্রধানত <span style=\"color: #66FCF1;\">তিন ধরনের সুইচিং ব্যবহৃত হয়: সার্কিট সুইচিং (যেমন পুরনো টেলিফোন কল), প্যাকেট সুইচিং (যেমন ইন্টারনেট ডেটা) এবং মেসেজ সুইচিং</span>।" },
+                { text: "49। নেটওয়ার্ক সিকিউরিটি বলতে কী বুঝায়? (Chapter - 10)", answer: "নেটওয়ার্ক সিকিউরিটি হলো নেটওয়ার্ক ডেটা ও রিসোর্সকে অননুমোদিত অ্যাক্সেস, ব্যবহার, পরিবর্তন বা ধ্বংস থেকে রক্ষা করা।", extendedAnswer: "নেটওয়ার্ক সিকিউরিটি মানে হলো <span style=\"color: #66FCF1;\">আপনার কম্পিউটার নেটওয়ার্কের ডেটা এবং রিসোর্সকে অননুমোদিত প্রবেশ, ব্যবহার বা ক্ষতি থেকে রক্ষা করা</span>। 🔒" },
+                { text: "50। কয়েকটি কমিউনিকেশন ডিভাইসের নাম লেখ। (Chapter - 11)", answer: "রাউটার, হাব, সুইচ, মডেম, রিপিটার, ব্রিজ।", extendedAnswer: "কয়েকটি গুরুত্বপূর্ণ কমিউনিকেশন ডিভাইস হলো <span style=\"color: #66FCF1;\">রাউটার, হাব, সুইচ, মডেম, রিপিটার এবং ব্রিজ</span>।" },
+                { text: "51। প্রটোকলের প্রধান উপাদানগুলো কী কী? (Chapter - 11)", answer: "সিনট্যাক্স (Syntax), সিমেন্টিকস (Semantics) এবং টাইমলিং (Timing)।", extendedAnswer: "একটি প্রটোকলের <span style=\"color: #66FCF1;\">তিনটি প্রধান অংশ থাকে: সিনট্যাক্স (ডেটা কিভাবে সাজানো হবে), সিমেন্টিকস (ডেটার অর্থ কী) এবং টাইমলিং (কখন ডেটা পাঠানো হবে)</span>।" },
+                { text: "52। HTTP এবং HTTPS এর পোর্ট নাম্বার কত? (Chapter - 11)", answer: "HTTP এর পোর্ট নাম্বার 80 এবং HTTPS এর পোর্ট নাম্বার 443।", extendedAnswer: "HTTP (সাধারণ ওয়েবসাইট) এর জন্য <span style=\"color: #66FCF1;\">পোর্ট নাম্বার 80</span> এবং HTTPS (সুরক্ষিত ওয়েবসাইট) এর জন্য <span style=\"color: #66FCF1;\">পোর্ট নাম্বার 443</span>। এগুলো ইন্টারনেটে যোগাযোগের নির্দিষ্ট পথ।" },
+                { text: "53। FTP এর SMTP এর পোর্ট নাম্বার কত? (Chapter - 11)", answer: "FTP (File Transfer Protocol) এর পোর্ট নাম্বার 20 (ডেটা) ও 21 (কন্ট্রোল); SMTP (Simple Mail Transfer Protocol) এর পোর্ট নাম্বার 25।", extendedAnswer: "FTP (ফাইল স্থানান্তরের জন্য) এর জন্য <span style=\"color: #66FCF1;\">পোর্ট 20 এবং 21</span>; SMTP (ইমেইল পাঠানোর জন্য) এর জন্য <span style=\"color: #66FCF1;\">পোর্ট 25</span>।" },
+                { text: "54। DNS এর কাজ কী? (Chapter - 11)", answer: "DNS (Domain Name System) এর কাজ হলো ডোমেইন নামকে আইপি অ্যাড্রেসে রূপান্তর করা।", extendedAnswer: "DNS (Domain Name System) হলো <span style=\"color: #66FCF1;\">ইন্টারনেটের একটি ফোনবুক</span>। আপনি যখন google.com লেখেন, DNS সেটাকে গুগলের আইপি অ্যাড্রেসে (সংখ্যাসূচক ঠিকানা) বদলে দেয়। 📞" },
+                { text: "55। সাবনেট মাস্কের কাজ কী? (Chapter - 12)", answer: "সাবনেট মাস্কের কাজ হলো একটি আইপি অ্যাড্রেসের কোন অংশ নেটওয়ার্ক আইডি এবং কোন অংশ হোস্ট আইডি তা নির্ধারণ করা।", extendedAnswer: "সাবনেট মাস্ক হলো <span style=\"color: #66FCF1;\">একটি বিশেষ সংখ্যা যা আইপি অ্যাড্রেসের কোন অংশটি নেটওয়ার্কের ঠিকানা এবং কোন অংশটি ডিভাইসের ঠিকানা তা নির্ধারণ করতে সাহায্য করে</span>।" },
+                { text: "56। IP address কী? (Chapter - 12)", answer: "IP address হলো নেটওয়ার্কে সংযুক্ত প্রতিটি ডিভাইসের একটি অনন্য সংখ্যাসূচক শনাক্তকারী।", extendedAnswer: "আইপি অ্যাড্রেস হলো <span style=\"color: #66FCF1;\">ইন্টারনেটে সংযুক্ত প্রতিটি ডিভাইসের একটি অনন্য ডিজিটাল ঠিকানা</span>। যেমন, আপনার বাড়ির যেমন একটি ঠিকানা থাকে, আপনার ডিভাইসেরও ইন্টারনেটে একটি ঠিকানা থাকে।" },
+                { text: "57। প্রাইভেট আইপি অ্যাড্রেস কী? (Chapter - 12)", answer: "প্রাইভেট আইপি অ্যাড্রেস হলো একটি ব্যক্তিগত নেটওয়ার্কের (যেমন হোম বা অফিস LAN) মধ্যে ব্যবহৃত IP অ্যাড্রেস, যা ইন্টারনেটে সরাসরি প্রবেশযোগ্য নয়।", extendedAnswer: "এটি একটি আইপি অ্যাড্রেস যা <span style=\"color: #66FCF1;\">শুধু আপনার ব্যক্তিগত নেটওয়ার্কের (যেমন আপনার বাড়ির ওয়াইফাই নেটওয়ার্ক) মধ্যে ব্যবহার করা হয়</span>। ইন্টারনেটের বাইরের কেউ সরাসরি এই ঠিকানা দেখতে পায় না।" },
+                { text: "58। Google.com এর আইপি অ্যাড্রেস লেখ। (Chapter - 12)", answer: "Google.com এর আইপি অ্যাড্রেস পরিবর্তনশীল হতে পারে, তবে একটি উদাহরণ হলো 142.250.190.142।", extendedAnswer: "Google.com এর আইপি অ্যাড্রেস <span style=\"color: #66FCF1;\">সময়ের সাথে পরিবর্তিত হতে পারে</span>। একটি উদাহরণ হিসেবে এটি <span style=\"color: #66FCF1;\">142.250.190.142</span> হতে পারে, তবে এটি স্থির নয়।" },
+                { text: "59। ওয়‍্যারলেস কমিউনিকেশন কী? (Chapter - 13)", answer: "ওয়্যারলেস কমিউনিকেশন হলো তারবিহীন মাধ্যমে (যেমন রেডিও তরঙ্গ) ডেটা আদান-প্রদান।", extendedAnswer: "ওয়্যারলেস কমিউনিকেশন মানে হলো <span style=\"color: #66FCF1;\">তার ছাড়া রেডিও তরঙ্গ বা অন্য কোনো বেতার সিগন্যাল ব্যবহার করে ডেটা আদান-প্রদান করা</span>, যেমন ওয়াইফাই বা ব্লুটুথ।" },
+                { text: "60। WiFi কী? (Chapter - 13)", answer: "WiFi হলো বেতার লোকাল এরিয়া নেটওয়ার্ক (WLAN) প্রযুক্তি যা ডিভাইসের ইন্টারনেট সংযোগের অনুমতি দেয়।", extendedAnswer: "ওয়াইফাই হলো <span style=\"color: #66FCF1;\">তার ছাড়া ইন্টারনেট সংযোগের একটি পদ্ধতি</span>। এটি রেডিও তরঙ্গ ব্যবহার করে আপনার ডিভাইসকে ইন্টারনেট বা অন্য ডিভাইসের সাথে যুক্ত করে। 📶" },
+                { text: "61। 5G বলতে কী বুঝায়? (Chapter - 13)", answer: "5G হলো পঞ্চম প্রজন্মের সেলুলার প্রযুক্তি যা উচ্চ গতি, কম ল্যাটেন্সি এবং বৃহত্তর সক্ষমতা প্রদান করে।", extendedAnswer: "5G হলো <span style=\"color: #66FCF1;\">মোবাইল ইন্টারনেটের পঞ্চম প্রজন্ম</span>। এটি আগের প্রজন্মের চেয়ে <span style=\"color: #66FCF1;\">অনেক দ্রুতগতির ইন্টারনেট সংযোগ এবং আরও ভালো কার্যক্ষমতা সরবরাহ করে</span>। 🚀" }
+            ],
+            "short": [
+                { text: "1। ডাটা কমিউনিকেশন বলতে কী বুঝায়? (Chapter - 1)", answer: "", extendedAnswer: "" },
+                { text: "2। ডিজিটাল ও অ্যানালগ কমিউনিকেশনের মধ্যে পার্থক্য লেখ। (Chapter - 1)", answer: "", extendedAnswer: "" },
+                { text: "3। Bandwidth ও Data Rate-এর মধ্যকার পার্থক্য লেখ। (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "4। Full-duplex ট্রান্সমিশন মোড বলতে কী বুঝায়? (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "5। Attenuation বলতে কী বুঝায়? (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "6। সিনক্রোনাস ও অ্যাসিনক্রোনাস ডাটা ট্রান্সমিশনের মধ্যে পার্থক্য লেখ। (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "7। টেলিকমিউনিকেশনের ক্ষেত্রে Transmission media-এর প্রকারভেদ দেখাও। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "8। UTP ক্যাবলের গঠন সম্পর্কে আলোচনা কর। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "9। Twisted pair ক্যাবলের Characteristics (বৈশিষ্ট্য) উল্লেখ কর। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "10। Co-axial cable-এর Characteristics (বৈশিষ্ট্য) উল্লেখ কর। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "11। Twisted pair ক্যাবলের সুবিধা-অসুবিধা লেখ। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "12। Fiber-optic ক্যাবলের সুবধি-অসুবিধাগুলো লেখ। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "13। মডুলেশনের ব্যবহার লেথ। (Chapter - 4)", answer: "", extendedAnswer: "" },
+                { text: "14। FSK বলতে কী বুঝায়? (Chapter - 4)", answer: "", extendedAnswer: "" },
+                { text: "15। PSK বলতে কী বুঝায়? (Chapter - 4)", answer: "", extendedAnswer: "" },
+                { text: "16। Polar encoding কাকে বলে? এটি কত প্রকার ও কী কী? (Chapter - 5)", answer: "", extendedAnswer: "" },
+                { text: "17। Unipolar line coding সম্পর্কে সংক্ষেপে লেখ। (Chapter - 5)", answer: "", extendedAnswer: "" },
+                { text: "18। Bipolar বলতে কী বুঝায়? (Chapter - 5)", answer: "", extendedAnswer: "" },
+                { text: "19। মাল্টিপ্লেক্সিং সিস্টেমের ক্যাটাগরিগুলো উল্লেখ কর। (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "20। ফ্রিকুয়েন্সি ডিভিশন মাল্টিপ্লেক্সিং বলতে কী বুঝ? (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "21। TDM ও FDM-এর মধ্যে পার্থক্য লেখ। (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "22। বেসব্যান্ড ও ব্রডব্যান্ড বলতে কী বুঝায়? (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "23। বেসব্যান্ড ও ব্রডব্যান্ড ট্রান্সমিশনের মাঝে পার্থক্য লেখ। (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "24। ডাটা ফ্লো কন্ট্রোলের কন্ট্রোলের প্রয়োজনীয়তা লেখ। (Chapter - 7)", answer: "", extendedAnswer: "" },
+                { text: "25। Stop and wait প্রটোকলের সুবিধা ও অসুবিধাগুলো লেখ। (Chapter - 7)", answer: "", extendedAnswer: "" },
+                { text: "26। বিভিন্ন দরণের ত্রুটি শনাক্ত করণ কৌশলগুলো লেখ। (Chapter - 8)", answer: "", extendedAnswer: "" },
+                { text: "27। অটোমেটিক রিপিটার রিকুয়েস্ট (ARQ) পদ্ধতি লেখ। (Chapter - 8)", answer: "", extendedAnswer: "" },
+                { text: "28। TCP/IP-এর বর্ণনা দাও। (Chapter - 9)", answer: "", extendedAnswer: "" },
+                { text: "29। সুইচিং (Switching) বলতে কী বুঝ)? (Chapter - 10)", answer: "", extendedAnswer: "" },
+                { text: "30। প্যাকেট সুইচিং নেটওয়ার্কের চিত্র অঙ্কন করে বর্ণনা দাও। (Chapter - 10)", answer: "", extendedAnswer: "" },
+                { text: "31। TCP এর সংক্ষিপ্ত বর্ণনা দাও। (Chapter - 11)", answer: "", extendedAnswer: "" },
+                { text: "32। UDP এর সংক্ষিপ্ত বর্ণনা দাও। (Chapter - 11)", answer: "", extendedAnswer: "" },
+                { text: "33। HTTP এর সংক্ষিপ্ত বর্ণনা দাও। (Chapter - 11)", answer: "", extendedAnswer: "" },
+                { text: "34। IPv4 ও IPv6 বলতে কী বুঝায়? (Chapter - 12)", answer: "", extendedAnswer: "" },
+                { text: "35। IPv4 এবং IPv6 এর মধ্যে পার্থক্য লেখ। (Chapter - 12)", answer: "", extendedAnswer: "" },
+                { text: "36। উদাহরণসহ প্রাইভেট IP অ্যাড্রেস বর্ণনা কর। (Chapter - 12)", answer: "", extendedAnswer: "" },
+                { text: "37। উদাহরণসহ পাবলিক IP অ্যাড্রেস বর্ণনা কর। (Chapter - 12)", answer: "", extendedAnswer: "" },
+                { text: "38। ওয়‍্যারলেস কমিউনিখেশনের বৈশিষ্ট্য লেখ। (Chapter - 13)", answer: "", extendedAnswer: "" }
+            ],
+            "essay": [
+                { text: "1। ব্লক ডায়াগ্রাম অঙ্কন পূর্বক কমিউনিকেশন সিস্টেমের বর্ণনা দাও। (Chapter - 1)", answer: "", extendedAnswer: "" },
+                { text: "2। চিত্রসহ সিনক্রোনাস ও অ্যাসিনক্রোনাস কমিউনিকেশন পদ্ধতি আলোচনা কর। (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "3। Communication mode গুলোা চিত্রসহকারে বর্ণনা কর। (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "4। সিমপ্লেক্স, হাফ-ডুপ্লেক্স ও ফুল-ডুপ্লেক্স সিগন্যাল ট্রান্সমিশন মোড কী? ব্যবহারসহ লেখ। (Chapter - 2)", answer: "", extendedAnswer: "" },
+                { text: "5। Fiber-optic ক্যাবলের গঠন সম্পর্কে (চিত্রসহ) বিস্তারিত আলোচনা কর। (Chapter - 3)", answer: "", extendedAnswer: "" },
+                { text: "6। ASK, FSK, PSK-এর সুবিধা ও অসুবিধাসমূহ লেখ। (Chapter - 4)", answer: "", extendedAnswer: "" },
+                { text: "7। প্রয়োজনীয় Waveform এর চিত্রসহ FM, PM এবং AM বর্ণনা দাও। (Chapter - 4)", answer: "", extendedAnswer: "" },
+                { text: "8। ব্লক ডায়াগ্রামসহ ডিজিটাল কমিউনিকেশনের বর্ণনা দাও। (Chapter - 5)", answer: "", extendedAnswer: "" },
+                { text: "9। 4B/5B কোডিং ব্যবহার করে NRZ-I লাইন কোডিং স্কিম বর্ণনা কর। (Chapter - 5)", answer: "", extendedAnswer: "" },
+                { text: "10। ব্লক কোডিং সিস্টেম বর্ণনা কর। (Chapter - 5)", answer: "", extendedAnswer: "" },
+                { text: "11। Frequency Division Multiplexing পদ্ধতি Block diafram-সহ বর্ণনা কর। (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "12। ফ্রিকুয়েন্সি ডিভিশন মাল্টিপ্লেক্সিং এবং ডিমাল্টিপ্লেক্সিং পদ্ধতি প্রসেসের বর্ণনা কর। (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "13। টাইম ডিভিশন মাল্টিপ্লেক্সিং-এর বর্ণনা দাও। (Chapter - 6)", answer: "", extendedAnswer: "" },
+                { text: "14। হামিং কোড এরর কারেকশন পদ্ধতি বর্ণনা কর। (Chapter - 8)", answer: "", extendedAnswer: "" },
+                { text: "15। OSI মডেলের লেয়ারগুলোর বর্ণনা দাও। (Chapter - 9)", answer: "", extendedAnswer: "" },
+                { text: "16। TCP/IP প্রটোকলের প্রতিটি Layer-এর টাস্ক ব্যাখ্যা কর। (Chapter - 9)", answer: "", extendedAnswer: "" },
+                { text: "17। TCP ও FTP প্রটোকল বর্ণনা কর। (Chapter - 11)", answer: "", extendedAnswer: "" },
+                { text: "18। IP অ্যাড্রেসের শ্রেণিবিভাগসহ বর্ণনা দাও। (Chapter - 12)", answer: "", extendedAnswer: "" },
+                { text: "19। চিত্রসহ মাইক্রোওয়েভ কমিউনিকেশন পদ্ধতির বর্ণনা দাও। (Chapter - 13)", answer: "", extendedAnswer: "" },
+                { text: "20। রেডিও, মাইক্রোওয়েভ এবং ইনফ্রারেড কমিউনিকেশনের বর্ণনা দাও। (Chapter - 13)", answer: "", extendedAnswer: "" }
+            ]
+        };
+
+        // AI Modal elements
+        const aiAnswerModal = document.getElementById('aiAnswerModal');
+        const aiModalCloseButton = document.getElementById('aiModalCloseButton');
+        const modalQuestionText = document.getElementById('modalQuestionText');
+        const modalAnswerContent = document.getElementById('modalAnswerContent');
+        const modalAnswerParts = document.getElementById('modalAnswerParts');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
+
+        // Keywords, types, and common elements for Java syntax highlighting
+        const javaKeywords = [
+            'import', 'public', 'class', 'static', 'void', 'int', 'double', 'float', 'String',
+            'new', 'return', 'extends', 'if', 'else', 'for', 'while', 'try', 'catch', 'finally',
+            'this', 'super', 'null', 'true', 'false'
+        ];
+        const javaBuiltInClasses = ['Scanner', 'System', 'Math'];
+        const javaBuiltInMethods = ['main', 'println', 'print', 'nextDouble', 'close', 'PI']; // PI is a field but often highlighted like a method/constant
+
+        /**
+         * Applies syntax highlighting to a given Java code string.
+         * @param {string} codeString - The raw Java code string.
+         * @returns {string} - The HTML string with syntax highlighting.
+         */
+        function highlightJavaCode(codeString) {
+            const keywords = new Set(javaKeywords);
+            const builtInClasses = new Set(javaBuiltInClasses);
+            const builtInMethods = new Set(javaBuiltInMethods);
+
+            // Split by common delimiters, preserving them
+            // This regex splits by:
+            // - Word boundaries (\b\w+\b)
+            // - Whitespace (\s+)
+            // - Specific operators/punctuation ([+\-*\/=<>!&|%;.,{}()[\]"'])
+            // It also handles comments and strings as special cases.
+            const parts = codeString.split(/(\/\/.*|\/\*[\s\S]*?\*\/|"[^"]*"|\b\w+\b|[+\-*\/=<>!&|%;.,{}()[\]])/g).filter(Boolean);
+            let highlightedHtml = '';
+
+            for (let i = 0; i < parts.length; i++) {
+                let part = parts[i];
+
+                if (part.match(/^\s+$/)) { // Whitespace
+                    highlightedHtml += part;
+                } else if (part.startsWith('//') || part.startsWith('/*')) { // Comments
+                    highlightedHtml += `<span class="code-comment">${part}</span>`;
+                } else if (part.startsWith('"') && part.endsWith('"')) { // Strings
+                    highlightedHtml += `<span class="code-string">${part}</span>`;
+                } else if (!isNaN(parseFloat(part)) && isFinite(part) && part.match(/\d/)) { // Numbers (ensure it contains a digit)
+                    highlightedHtml += `<span class="code-number">${part}</span>`;
+                } else if (keywords.has(part)) {
+                    highlightedHtml += `<span class="code-keyword">${part}</span>`;
+                } else if (builtInClasses.has(part)) {
+                    highlightedHtml += `<span class="code-class">${part}</span>`;
+                } else if (builtInMethods.has(part)) {
+                    highlightedHtml += `<span class="code-method">${part}</span>`;
+                } else if (part.match(/[+\-*\/=<>!&|%]/)) { // Operators
+                    highlightedHtml += `<span class="code-operator">${part}</span>`;
+                } else if (part.match(/[;.,{}()[\]]/)) { // Punctuation
+                    highlightedHtml += `<span class="code-punctuation">${part}</span>`;
+                } else {
+                    // Handle special cases like System.out and Math.PI if they were split
+                    // This is done by looking ahead in the parts array
+                    if (part === 'System' && parts[i+1] === '.' && parts[i+2] === 'out') {
+                        highlightedHtml += `<span class="code-class">System</span><span class="code-punctuation">.</span><span class="code-variable">out</span>`;
+                        i += 2; // Skip next two parts
+                    } else if (part === 'Math' && parts[i+1] === '.' && parts[i+2] === 'PI') {
+                        highlightedHtml += `<span class="code-class">Math</span><span class="code-punctuation">.</span><span class="code-variable">PI</span>`;
+                        i += 2; // Skip next two parts
+                    } else {
+                        highlightedHtml += part; // Default to no highlighting (variable names, etc.)
+                    }
+                }
+            }
+            return highlightedHtml;
+        }
+
+
+        /**
+         * Copies the text content of a question to the clipboard.
+         * @param {HTMLElement} button - The button element that triggered the copy action.
+         */
+        window.copyQuestionText = (button) => {
+            const questionItem = button.closest('.question-item');
+            const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
+            const targetId = questionTextElement.dataset.target; // Get target ID from toggle element
+            let textToCopy = questionTextElement.textContent.trim(); // Default to question text
+
+            if (targetId) { // If it's a dropdown question
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const codePre = dropdown.querySelector('pre.java-code-display');
+                    if (codePre) {
+                        textToCopy = codePre.textContent.trim(); // Copy raw code from pre tag
+                    } else {
+                        textToCopy = dropdown.textContent.trim(); // Copy text from non-code dropdown
+                    }
+                }
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        /**
+         * Generates an answer for a given question using the Gemini API.
+         * The answer is structured into three parts: very easy explanation, easy explanation, and exam-ready answer.
+         * @param {string} question - The question to generate an answer for.
+         * @param {string} questionCategory - The category of the question (e.g., 'very-short', 'short', 'essay').
+         */
+        async function generateAnswer(question, questionCategory) {
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear previous answer parts
+
+            // Determine question type and desired answer length for the prompt
+            let questionTypeForPrompt;
+            let answerLengthDescription;
+            if (questionCategory === 'very-short') {
+                questionTypeForPrompt = 'অতি সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'সংক্ষিপ্ত, ১-২ লাইনের মধ্যে।'; // Super short
+            } else if (questionCategory === 'short') {
+                questionTypeForPrompt = 'সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'মাঝারি, ৩-৬ লাইনের মধ্যে (প্রায়)。'; // Medium
+            } else if (questionCategory === 'essay') {
+                questionTypeForPrompt = 'রচনামূলক প্রশ্ন';
+                answerLengthDescription = 'বিস্তারিত এবং পয়েন্টভিত্তিক, যথেষ্ট লম্বা হতে হবে।'; // Big
+            } else {
+                questionTypeForPrompt = 'সাধারণ প্রশ্ন';
+                answerLengthDescription = 'যথাযথ দৈর্ঘ্যের হবে।';
+            }
+
+            const prompt = `
+                তুমি আমার একজন বন্ধুত্বপূর্ণ স্টাডি অ্যাসিস্ট্যান্ট হিসেবে কাজ করবে।
+                আমি বাংলাদেশের একজন ডিপ্লোমা ইন ইঞ্জিনিয়ারিং (কম্পিউটার সায়েন্স এন্ড টেকনোলজি) এর ছাত্র, পরীক্ষার জন্য প্রস্তুতি নিচ্ছি।
+                আমার সাথে সহজ, লোকাল, ইনফরমাল বাংলা ভাষায় কথা বলবে।
+                আমার হাতে বেশি সময় নেই সো যত সম্ভব সহজ করে উত্তর দেবে এবং নিশ্চিত করবে উত্তরগুলো অনেক সহজ হয়।
+
+                আমি তোমাকে একটি পরীক্ষার প্রশ্ন দেবো। তোমাকে সেই প্রশ্নটির বিস্তারিত উত্তর তৈরি করতে হবে।
+                প্রশ্নের ধরন: ${questionTypeForPrompt}
+                
+                উত্তরের গঠন (Answer Structure - 3 Parts):
+                প্রতিটি প্রশ্নের উত্তরের ৩টি অংশ থাকবে। তুমি এমনভাবে উত্তর সাজাবে যাতে ধাপে ধাপে প্রশ্নটি বোঝা যায়।
+                প্রথমে "পার্ট ৩: একদম সহজ ব্যাখ্যা" দেবে, তারপর "পার্ট ২: সহজ ভাষায় ব্যাখ্যা" দেবে এবং শেষে "পার্ট ১: পরীক্ষায় লেখার জন্য" অংশটি লিখবে।
+
+                পার্ট ৩ (একদম সহজ ব্যাখ্যা):
+                উত্তরটা এমন সহজ ভাষায় আর উদাহরণ দিয়ে বোঝাতে হবে যেন ক্লাস ২ এর একটা বাচ্চাও বুঝতে পারে। টেকনিক্যাল শব্দ ব্যবহার করা যাবে না। উদাহরণস্বরূপ: তুমি আর ফারজানা যখন খেলনা দিয়ে খেলো, তখন কী হয়? অথবা রিফাত, তুমি আর তোমার বন্ধু ফারজানা মিলে নতুন কিছু বানানোর চেষ্টা করছো, তখন তখন সেটা কীভাবে হয়?
+
+                পার্ট ২ (সহজ ভাষায় ব্যাখ্যা):
+                পার্ট ৩-এর ব্যাখ্যাকে ভিত্তি করে একদম সহজ, ঘরোয়া বাংলা ভাষায় উদাহরণ দিয়ে উত্তরটা বুঝিয়ে বলবে। এখানে কিছুটা ইনফরমাল হওয়া হবে। উদাহরণস্বরূপ: ধরো, রিফাত আর ফারজানা মিলে একটা প্রজেক্ট করছে, তখন কী হয়?
+
+                পার্ট ১ (পরীক্ষায় লেখার জন্য):
+                ভাষা: খুবই সহজবোধ্য, চলিত কিন্তু ফরমাল বাংলা ভাষায় লিখতে হবে। শব্দচয়ন এমন হবে যেন সবাই সহজে বুঝতে পারে, মনে রাখতে সুবিধা হয় এবং পরীক্ষার খাতায় লেখার জন্যও উপযুক্ত হয়। কঠিন বা অপ্রচলিত শব্দ ব্যবহার করা যাবে না।
+                দৈর্ঘ্য: প্রশ্নের ধরন অনুযায়ী হবে:
+                যদি প্রশ্নটি '${questionTypeForPrompt}' হয়: ${answerLengthDescription}
+                উত্তরের সাইজ যেন ঠিক থাকে।
+
+                দয়া করে উত্তর দেওয়ার সময় এই ফরম্যাট কঠোরভাবে অনুসরণ করো:
+                পার্ট ৩: [একদম সহজ ব্যাখ্যা]
+                পার্ট ২: [ সহজ ভাষায় ব্যাখ্যা]
+                পার্ট ১: [পরীক্ষায় লেখার জন্য উত্তর]
+
+                প্রশ্ন: "${question}"
+            `;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    let rawAnswer = result.candidates[0].content.parts[0].text;
+                    
+                    // Split the rawAnswer into sections based on your defined headers
+                    const sections = rawAnswer.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)([\s\S]*?)(?=(পার্ট ৩:|পার্ট ২:|পার্ট ১:|$))/g);
+
+                    modalAnswerParts.innerHTML = ''; // Clear existing content
+
+                    if (sections) {
+                        sections.forEach(section => {
+                            const headerMatch = section.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)/);
+                            if (headerMatch) {
+                                const header = headerMatch[0].trim();
+                                let content = section.substring(header.length).trim();
+
+                                let headingText;
+                                if (header === 'পার্ট ৩:') {
+                                    headingText = 'পার্ট ৩: একদম সহজ ব্যাখ্যা';
+                                } else if (header === 'পার্ট ২:') {
+                                    headingText = 'পার্ট ২: সহজ ভাষায় ব্যাখ্যা';
+                                } else if (header === 'পার্ট ১:') {
+                                    headingText = 'পার্ট ১: পরীক্ষায় লেখার জন্য';
+                                }
+
+                                const partDiv = document.createElement('div');
+                                partDiv.classList.add('ai-answer-part');
+                                partDiv.innerHTML = `<h4 class="answer-part-heading">${headingText}</h4>`;
+                                
+                                // Process content for Markdown formatting (bold, lists, code)
+                                const codeBlockRegex = /```(?:java)?\s*([\s\S]*?)```/g;
+                                let lastIndex = 0;
+                                let match;
+                                
+                                const tempDiv = document.createElement('div'); // Temporary div to process content
+                                
+                                while ((match = codeBlockRegex.exec(content)) !== null) {
+                                    // Add text before the code block
+                                    if (match.index > lastIndex) {
+                                        const textBefore = content.substring(lastIndex, match.index);
+                                        // Convert Markdown bold (**) and list items (*) to HTML
+                                        let formattedText = textBefore.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                                        
+                                        if (formattedText.includes('<li>')) {
+                                            const ul = document.createElement('ul');
+                                            ul.innerHTML = formattedText;
+                                            tempDiv.appendChild(ul);
+                                        } else {
+                                            const p = document.createElement('p');
+                                            p.innerHTML = formattedText;
+                                            tempDiv.appendChild(p);
+                                        }
+                                    }
+
+                                    // Add the code block with highlighting
+                                    const pre = document.createElement('pre');
+                                    pre.innerHTML = highlightJavaCode(match[1].trim()); // Apply highlighting here
+                                    tempDiv.appendChild(pre);
+                                    lastIndex = codeBlockRegex.lastIndex;
+                                }
+
+                                // Add any remaining text after the last code block
+                                if (lastIndex < content.length) {
+                                    const remainingText = content.substring(lastIndex);
+                                    // Convert Markdown bold (**) and list items (*) to HTML
+                                    let formattedText = remainingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                    formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+
+                                    if (formattedText.includes('<li>')) {
+                                        const ul = document.createElement('ul');
+                                        ul.innerHTML = formattedText;
+                                        p.appendChild(ul);
+                                    } else {
+                                        p.innerHTML = formattedText;
+                                    }
+                                }
+                                
+                                partDiv.appendChild(tempDiv); // Append the processed content to the partDiv
+                                modalAnswerParts.appendChild(partDiv);
+                            }
+                        });
+                    } else {
+                        // Fallback if structured parts aren't found
+                        const p = document.createElement('p');
+                        p.classList.add('text-center', 'answer-content-text');
+                        // Convert Markdown bold (**) and list items (*) to HTML for fallback
+                        let formattedText = rawAnswer.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                        
+                        if (formattedText.includes('<li>')) {
+                            const ul = document.createElement('ul');
+                            ul.innerHTML = formattedText;
+                            p.appendChild(ul);
+                        } else {
+                            p.innerHTML = formattedText;
+                        }
+                        modalAnswerParts.appendChild(p);
+                    }
+
+                } else {
+                    modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">Sorry, could not generate an answer for this question.</p>';
+                }
+            } catch (error) {
+                console.error('Error generating answer:', error);
+                modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">An error occurred while generating the answer. Please try again.</p>';
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Opens the AI answer modal and triggers answer generation.
+         * @param {string} encodedQuestion - The URI-encoded question text.
+         * @param {string} questionCategory - The category of the question.
+         */
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            modalQuestionText.textContent = question;
+            
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear existing content before showing spinner
+
+            aiAnswerModal.classList.add('active');
+            generateAnswer(question, questionCategory);
+        };
+
+        // Event listener to close AI modal when close button is clicked
+        aiModalCloseButton.addEventListener('click', () => {
+            aiAnswerModal.classList.remove('active');
+        });
+
+        // Event listener to close AI modal when clicking outside the content
+        aiAnswerModal.addEventListener('click', (e) => {
+            if (e.target === aiAnswerModal) {
+                aiAnswerModal.classList.remove('active');
+            }
+        });
+
+        /**
+         * Loads questions into the DOM based on categories defined in the `questions` object.
+         */
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    // Clear existing questions before loading new ones
+                    listElement.innerHTML = ''; 
+
+                    questions[category].forEach((q, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        
+                        // Add stripe class based on 'stripe' property
+                        if (q.stripe === 'blue') {
+                            listItem.classList.add('blue-stripe-item');
+                        } else if (q.stripe === 'green') {
+                            listItem.classList.add('green-stripe-item');
+                        }
+
+                        let questionContentHTML = ``;
+                        const dropdownId = `answer-dropdown-${category}-${index}`; // More robust ID for main answer dropdown
+                        const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`; // ID for extended answer dropdown
+
+                        // Determine if it's a very-short or short category to apply special styling
+                        const isAmoledSection = category === 'very-short' || category === 'short' || category === 'essay';
+                        const dropdownClass = isAmoledSection ? 'answer-dropdown amoled-dropdown' : 'answer-dropdown';
+                        const extendedDropdownClass = isAmoledSection ? 'extended-answer-dropdown amoled-extended-dropdown' : 'extended-answer-dropdown';
+
+                        // All categories now use dropdowns if an answer is provided
+                        if (q.answer !== undefined) { // Check for undefined to allow empty string answers
+                            questionContentHTML = `
+                                <div class="question-main-row">
+                                    <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}" >
+                                        <span>${q.text}</span>
+                                        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                        <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                            AI
+                                        </button>
+                                        <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="${dropdownId}" class="${dropdownClass} hidden">
+                                    ${category === 'essay' ? `
+                                        <div class="answer-content-section">
+                                            ${q.answer}
+                                        </div>
+                                    ` : `
+                                        <div class="short-answer-text-toggle" data-target="${extendedDropdownId}">
+                                            <div class="short-answer-content"></div> <!-- This will hold the HTML content -->
+                                            <svg class="toggle-icon w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                        </div>
+                                    `}
+                                    ${q.extendedAnswer !== undefined ? `
+                                        <div id="${extendedDropdownId}" class="${extendedDropdownClass} hidden">
+                                            ${q.extendedAnswer}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `;
+                        } else {
+                            // If no answer provided, still show AI and Copy buttons, but no dropdown
+                            questionContentHTML = `
+                                <div class="question-main-row">
+                                    <div class="question-text-display flex-1">
+                                        <span>${q.text}</span>
+                                    </div>
+                                    <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                        <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                            AI
+                                        </button>
+                                        <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        listItem.innerHTML = questionContentHTML;
+                        listElement.appendChild(listItem);
+
+                        // After appending, if it's an essay question with code, highlight it
+                        if (category === 'essay' && q.answer) {
+                            // No direct code highlighting for essay answers as they are full HTML
+                            // The answer is already HTML, so no <pre> tag is needed here for highlighting
+                        } else if (q.answer !== undefined && (category === 'very-short' || category === 'short')) {
+                            // For very-short and short answers, set innerHTML for visual styling
+                            const shortAnswerContentDiv = listItem.querySelector(`#${dropdownId} .short-answer-content`);
+                            if (shortAnswerContentDiv) {
+                                shortAnswerContentDiv.innerHTML = q.answer;
+                            }
+                        }
+
+                        // Add event listener for main dropdown toggle
+                        if (q.answer !== undefined) {
+                            const toggleElement = listItem.querySelector('.question-text-toggle');
+                            const toggleIcon = toggleElement.querySelector('.toggle-icon');
+                            toggleElement.addEventListener('click', function() {
+                                const targetId = this.dataset.target;
+                                const dropdown = document.getElementById(targetId);
+                                if (dropdown) {
+                                    dropdown.classList.toggle('hidden');
+                                    toggleIcon.classList.toggle('rotated'); // Rotate icon
+                                }
+                            });
+
+                            // Add event listener for extended answer toggle if it exists
+                            if (q.extendedAnswer !== undefined) {
+                                const extendedToggleElement = listItem.querySelector('.short-answer-text-toggle'); // Select the short answer text, which is now the toggle
+                                if (extendedToggleElement) { // Ensure the element exists
+                                    const extendedToggleIcon = extendedToggleElement.querySelector('.toggle-icon');
+                                    extendedToggleElement.addEventListener('click', function(event) {
+                                        event.stopPropagation(); // Prevent the parent dropdown from closing
+                                        const targetId = this.dataset.target;
+                                        const extendedDropdown = document.getElementById(targetId);
+                                        if (extendedDropdown) {
+                                            extendedDropdown.classList.toggle('hidden');
+                                            extendedToggleIcon.classList.toggle('rotated'); // Rotate icon
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        // Load questions when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>
