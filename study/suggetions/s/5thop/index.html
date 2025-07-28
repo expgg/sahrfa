@@ -3625,21 +3625,1285 @@
                 { text: "৪৬। কার্নেল বলতে কী বুঝায়? (Chapter - 10)", tier: 'epic', answer: '', extendedAnswer: '' }
             ],
             "essay": [
-                { text: "১। অপারেটিং সিস্টেমের কার্যাবলি বর্ণনা কর। (Chapter - 1)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "২। Batch Processing System বর্ণনা কর। (Chapter - 3)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৩। Spooling system বর্ণনা কর। (Chapter - 3)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৪। Process Management এর Synchronization বর্ণনা কর। (Chapter - 4)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৫। Scheduling algorithm -এর বিভিন্ন Criteria-গুলো লেখ। (Chapter - 5)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৬। Round Robin Scheduling Algorithm বর্ণনা কর। (Chapter - 5)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৭। Deadlock দূরীকরণের Algorithm বর্ণনা কর। (Chapter - 6)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৮। Deadlock prevention -এর বিভিন্ন স্তরগুলো বর্ণনা কর। (Chapter - 6)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "৯। চিত্রসহ File System Organization বর্ণনা কর। (Chapter - 9)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "১০। ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট পদ্ধতি বর্ণনা কর। (Chapter - 9)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "১১। লিনাক্স অপারেটিং সিস্টেমের বৈশিষ্ট্যসমূহ বর্ণনা কর। (Chapter - 10)", tier: 'mythic', answer: '', extendedAnswer: '' },
-                { text: "১২। Scheduling queue ও Scheduling Process এর সিনক্রোনাইজেশন বর্ণনা কর। (Legendary)", tier: 'legendary', answer: '', extendedAnswer: '' },
-                { text: "১৩। Linux Kernel-এর বৈশিষ্ট্য বর্ণনা কর। (Legendary)", tier: 'legendary', answer: '', extendedAnswer: '' },
-                { text: "১৪। I/O Software এর বিভিন্ন লেয়ারগুলো বর্ণনা কর। (Legendary)", tier: 'legendary', answer: '', extendedAnswer: '' },
-                { text: "১৫। File System এর বৈশিষ্ট্য বর্ণনা কর। (Legendary)", tier: 'legendary', answer: '', extendedAnswer: '' },
+                { text: "১। অপারেটিং সিস্টেমের কার্যাবলি বর্ণনা কর। (Chapter - 1)", tier: 'mythic', answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপারেটিং সিস্টেম কী? (What is an Operating System?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">অপারেটিং সিস্টেম (OS)</span> হলো কম্পিউটারের <span style="color: #66FCF1;">মেইন সফটওয়্যার</span>। এটি কম্পিউটার হার্ডওয়্যার (যেমন প্রসেসর, মেমরি, হার্ডডিস্ক) এবং সফটওয়্যার রিসোর্স (যেমন প্রোগ্রাম) গুলোকে <span style="color: #66FCF1;">ম্যানেজ করে</span> এবং প্রোগ্রাম চালানোর জন্য একটি প্ল্যাটফর্ম সরবরাহ করে। এটি কম্পিউটারের ম্যানেজার বা কন্ডাক্টর 👨‍✈️, যে সবকিছু গুছিয়ে রাখে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপারেটিং সিস্টেমের কার্যাবলি (Functions of Operating System)</span></h5>
+                        <p class="mb-2">একটি অপারেটিং সিস্টেম কম্পিউটারের প্রধান কাজগুলো নিচে দেওয়া হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. প্রসেস ম্যানেজমেন্ট (Process Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি কম্পিউটারের সমস্ত চলমান কাজকে (প্রসেস) নিয়ন্ত্রণ ও পরিচালনা করে। আপনি একইসাথে Chrome, Word চালালে OS তাদের সময় বন্টন করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ট্র্যাফিক কন্ট্রোলারের মতো 🚦।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. মেমরি ম্যানেজমেন্ট (Memory Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি কম্পিউটারের প্রধান মেমরি (RAM) দক্ষতার সাথে ব্যবহার করে। কোন প্রোগ্রাম RAM-এর কতটুকু জায়গা ব্যবহার করবে, তা OS দেখভাল করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিয়ান, যিনি বইগুলোকে (ডেটা) শেলফে (মেমরি) গুছিয়ে রাখেন। 📚</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ফাইল ম্যানেজমেন্ট (File Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি কম্পিউটারের ফাইল এবং ফোল্ডারগুলোকে সাজানো, সংরক্ষণ, খুঁজে বের করা এবং নিরাপত্তা নিশ্চিত করার কাজ করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> ফাইল সেভ, ওপেন, কপি, ডিলিট করা। 📁</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ইনপুট/আউটপুট (I/O) ম্যানেজমেন্ট:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি সিপিইউ এবং পেরিফেরাল ডিভাইসগুলোর (যেমন কীবোর্ড, প্রিন্টার) মধ্যে যোগাযোগকে নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> কীবোর্ডে টাইপ করা ইনপুটকে কম্পিউটারের বোঝার মতো করে দেয়। 🧑‍💻</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডিভাইস ম্যানেজমেন্ট:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি কম্পিউটারের সমস্ত হার্ডওয়্যার ডিভাইস (যেমন প্রিন্টার, স্ক্যানার, ইউএসবি ড্রাইভ) ইনস্টল করা, তাদের ড্রাইভার ম্যানেজ করা এবং তাদের যোগাযোগের ব্যবস্থা করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> নতুন ইউএসবি লাগালে OS সেটি শনাক্ত করে। ⚙️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. সিকিউরিটি ও সুরক্ষা:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি কম্পিউটার রিসোর্স এবং ডেটাকে অননুমোদিত অ্যাক্সেস, ভাইরাস থেকে রক্ষা করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> ইউজার আইডি, পাসওয়ার্ড দিয়ে সুরক্ষা দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> সিকিউরিটি গার্ড 🔒।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. ইউজার ইন্টারফেস:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি ইউজার এবং কম্পিউটারের মধ্যে যোগাযোগের মাধ্যম তৈরি করে (যেমন GUI দিয়ে আইকন/উইন্ডো, বা CLI দিয়ে কমান্ড টাইপ করে)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> গাড়ির ড্যাশবোর্ড 🚗।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. নেটওয়ার্কিং:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি কম্পিউটারকে অন্য কম্পিউটার বা নেটওয়ার্কের সাথে সংযুক্ত হতে এবং ডেটা আদান-প্রদান করতে সাহায্য করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> ইন্টারনেট কানেকশন ম্যানেজ করা। 🌐</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপারেটিং সিস্টেম কী? (What is an Operating System?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">অপারেটিং সিস্টেম (OS)</span> হলো কম্পিউটারের <span style="color: #66FCF1;">মেইন সফটওয়্যার</span>। এটি কম্পিউটারের হার্ডওয়্যার (যেমন প্রসেসর, মেমরি, হার্ডডিস্ক) এবং সফটওয়্যার রিসোর্স (যেমন প্রোগ্রাম) গুলোকে <span style="color: #66FCF1;">ম্যানেজ করে</span> এবং প্রোগ্রাম চালানোর জন্য একটি প্ল্যাটফর্ম সরবরাহ করে। সহজ কথায়, এটা হলো কম্পিউটারের <span style="color: #66FCF1;">ম্যানেজার বা কন্ডাক্টর</span> 👨‍✈️, যিনি নিশ্চিত করেন যে কম্পিউটারের সব অংশ এবং প্রোগ্রামগুলো যেন একসাথে মিলেমিশে দক্ষতার সাথে কাজ করে। Windows, Linux, macOS, Android – এগুলো সবই এক একটা অপারেটিং সিস্টেম।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপারেটিং সিস্টেমের কার্যাবলি (Functions of Operating System)</span></h5>
+                        <p class="mb-2">একটি অপারেটিং সিস্টেম কম্পিউটারের কার্যকারিতা সঠিকভাবে বজায় রাখার জন্য অনেকগুলো গুরুত্বপূর্ণ কাজ করে। এর প্রধান কার্যাবলিগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. প্রসেস ম্যানেজমেন্ট (Process Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি কম্পিউটারের সমস্ত চলমান প্রোগ্রাম বা কাজকে (যাদেরকে '<span style="color: #66FCF1;">প্রসেস</span>' বলে) <span style="color: #66FCF1;">নিয়ন্ত্রণ ও পরিচালনা</span> করে। একটি প্রসেসকে কখন CPU পাবে, কতক্ষণ কাজ করবে, এবং কখন থামবে –সবই OS দেখাশোনা করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন একইসাথে Chrome, Word, আর একটা গেম চালান, তখন OS এই তিনটাকে এমনভাবে চালায় যাতে সবাই CPU-এর সময় পায় এবং কেউ কারো কাজ আটকে না দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি ট্র্যাফিক কন্ট্রোলারের মতো, যিনি শহরের সব গাড়িকে (প্রসেস) সিগনাল দিয়ে পথ দেখান যাতে কেউ জ্যাম না হয় বা সংঘর্ষ না হয়! 🚦</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. মেমরি ম্যানেজমেন্ট (Memory Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি কম্পিউটারের <span style="color: #66FCF1;">প্রধান মেমরি (RAM) কে দক্ষতার সাথে ব্যবহার</span> করে। কোন প্রোগ্রাম মেমরির কতটুকু জায়গা ব্যবহার করবে, কখন জায়গা খালি হবে, এবং কখন কোন ডেটা কোথায় থাকবে –সবই OS বরাদ্দ ও ডি-বরাদ্দ (allocate and deallocate) করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন অনেকগুলো অ্যাপ খুলেন, OS তাদের জন্য RAM-এ জায়গা করে দেয় এবং যখন অ্যাপ বন্ধ করেন, সেই জায়গা খালি করে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা লাইব্রেরিয়ানের মতো, যিনি বইগুলোকে (ডেটা/প্রোগ্রাম) শেলফে (মেমরি) গোছানো রাখেন এবং কে কোন বই কতক্ষণ থাকবে, তা দেখভাল করেন। 📚</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ফাইল ম্যানেজমেন্ট (File Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি কম্পিউটারে ফাইল এবং ফোল্ডারগুলোকে (<span style="color: #66FCF1;">ডাইরেক্টরি</span>) সাজানো, সংরক্ষণ করা, খুঁজে বের করা এবং নিরাপত্তা নিশ্চিত করার কাজ করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন একটি ফাইল সেভ করেন, ওপেন করেন, কপি করেন, মুভ করেন বা ডিলিট করেন, তখন OS এই কাজগুলো করে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি অফিসের ফাইল ক্লার্কের মতো, যিনি সমস্ত ডকুমেন্ট (ফাইল) সঠিক ফাইলে (ফোল্ডারে) রাখেন যাতে দরকারের সময় সহজেই খুঁজে পাওয়া যায়। 🗃️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ইনপুট/আউটপুট (I/O) ম্যানেজমেন্ট:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি সিপিইউ (CPU) এবং পেরিফেরাল ডিভাইসগুলোর (যেমন কীবোর্ড, মাউস, প্রিন্টার, স্ক্যানার) মধ্যে যোগাযোগকে নিয়ন্ত্রণ করে। OS এই ডিভাইসগুলোয় ডেটা আদান-প্রদানকে সহজ করে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন কীবোর্ডে টাইপ করেন, OS সেই ইনপুটকে কম্পিউটারের বোঝার মতো করে দেয়। যখন আপনি কিছু প্রিন্ট করেন, OS ডেটা প্রিন্টারে পাঠায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি অনুবাদক বা সমন্বয়কারীর মতো, যিনি ভিন্নভাষী ডিভাইসের মধ্যে কথা বলা সম্ভব করে তোলেন। 🧑‍🤝‍🧑</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডিভাইস ম্যানেজমেন্ট (Device Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি কম্পিউটারের সমস্ত হার্ডওয়্যার ডিভাইস (যেমন প্রিন্টার, স্ক্যানার, ওয়েবক্যাম, ইউএসবি ড্রাইভ) কে ইনস্টল করা, তাদের ড্রাইভার (সফটওয়্যার) ম্যানেজ করা এবং তাদের সাথে কম্পিউটারের যোগাযোগের ব্যবস্থা করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> যখন আপনি একটি নতুন ইউএসবি ড্রাইভ কম্পিউটারে লাগান, OS সেটিকে শনাক্ত করে এবং ব্যবহার উপযোগী করে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা হার্ডওয়্যার ম্যানেজারের মতো, যিনি নিশ্চিত করেন যে ফ্যাক্টরির সব মেশিন (ডিভাইস) ঠিকমতো চলছে এবং তাদের প্রয়োজনীয় সফটওয়্যার (ড্রাইভার) আপডেটেড আছে। ⚙️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. সিকিউরিটি ও সুরক্ষা (Security & Protection):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি কম্পিউটারের রিসোর্স এবং ডেটাকে <span style="color: #66FCF1;">অননুমোদিত অ্যাক্সেস, ভাইরাস বা অন্য কোনো বিপদ থেকে রক্ষা</span> করে। এটি ইউজার আইডি, পাসওয়ার্ড, এবং ফায়ারওয়ালের মতো সুরক্ষা ব্যবস্থা নিশ্চিত করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন লগইন করেন, OS আপনার পাসওয়ার্ড চেক করে এবং নিশ্চিত করে যে শুধুমাত্র আপনি আপনার ফাইলগুলো দেখতে পারবেন।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি সিকিউরিটি গার্ডের মতো, যিনি অফিসের মূল্যবান জিনিসপত্র পাহারা দেন এবং নিশ্চিত করে যে শুধু অনুমোদিত লোকেরাই ভেতরে ঢুকতে পারবে। 🔒</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. ইউজার ইন্টারফেস (User Interface):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি ইউজার এবং কম্পিউটারের মধ্যে যোগাযোগের মাধ্যম তৈরি করে। এর মাধ্যমে ইউজাররা কম্পিউটারের সাথে ইন্টারঅ্যাক্ট করতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">প্রকারভেদ:</span>
+                                        <ul style="list-style-type: square; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                            <li><span style="color: #66FCF1;">গ্রাফিক্যাল ইউজার ইন্টারফেস (GUI):</span> আইকন, উইন্ডো, মাউস ক্লিক ব্যবহার করে (যেমন Windows, macOS)।</li>
+                                            <li><span style="color: #66FCF1;">কমান্ড লাইন ইন্টারফেস (CLI):</span> কমান্ড টাইপ করে কাজ করা (যেমন DOS, Linux টার্মিনাল)।</li>
+                                        </ul>
+                                    </li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা গাড়ির ড্যাশবোর্ডের মতো 🚘, যেখানে আপনি স্টিয়ারিং হুইল, বাটন, আর স্ক্রিন দিয়ে গাড়িটকে নিয়ন্ত্রণ করেন।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. নেটওয়ার্কিং (Networking):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি কম্পিউটারকে অন্য কম্পিউটার বা নেটওয়ার্কের সাথে সংযুক্ত হতে এবং ডেটা আদান-প্রদান করতে সাহায্য করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> ইন্টারনেট কানেকশন ম্যানেজ করা, ফাইল শেয়ার করা।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা আপনার অফিসের নেটওয়ার্ক অ্যাডমিনিস্ট্রেটরের মতো, যিনি নিশ্চিত করেন যে সবাই ইন্টারনেটে যুক্ত আছে এবং ফাইল শেয়ার করতে পারছে। 🌐</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২। Batch Processing System বর্ণনা কর। (Chapter - 3)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ব্যাচ প্রসেসিং সিস্টেম বর্ণনা কর।</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ব্যাচ প্রসেসিং সিস্টেম কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ব্যাচ প্রসেসিং সিস্টেম</span> হলো অপারেটিং সিস্টেমের এমন একটি ধরন, যেখানে একই ধরনের কাজগুলোকে (বা প্রোগ্রামগুলোকে) একসাথে গ্রুপ করে (<span style="color: #66FCF1;">ব্যাচ তৈরি করে</span>) কম্পিউটারে চালানো হয়, ইউজারদের সরাসরি কোনো হস্তক্ষেপ ছাড়াই। এটা অনেকটা বেকারিতে একসাথে অনেকগুলো রুটি ওভেনে দেওয়ার মতো 👨‍🍳।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্যপ্রণালি</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. জব সাবমিশন:</span> ইউজাররা কাজ অফলাইনে প্রস্তুত করে অপারেটরের কাছে জমা দেয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ব্যাচ তৈরি:</span> অপারেটর একই ধরনের কাজগুলো একসাথে করে একটি ব্যাচ তৈরি করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ব্যাচ এক্সিকিউশন:</span> তৈরি হওয়া ব্যাচ কম্পিউটারে স্বয়ংক্রিয়ভাবে চলে; একটি শেষ হলে পরেরটি শুরু হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. আউটপুট হ্যান্ডলিং:</span> কাজ শেষ হলে ফলাফল ইউজারকে ফেরত দেওয়া হয়।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুবিধা</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU-এর দক্ষ ব্যবহার:</span> সিপিইউ সবসময় ব্যস্ত থাকে, সময় নষ্ট কম হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. অপারেটরের কম হস্তক্ষেপ:</span> কাজ স্বয়ংক্রিয়ভাবে চলে, তদারকি কম লাগে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. বড় কাজ:</span> বিপুল পরিমাণ ডেটা নিয়ে কাজ করার জন্য ভালো।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অসুবিধা (Disadvantages)</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইউজারের সাথে যোগাযোগ নেই:</span> কাজ চলাকালীন সরাসরি ইন্টার্যাকশন হয় না।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ডিবাগিং কঠিন:</span> প্রোগ্রামে ভুল খুঁজে বের করা ও ঠিক করা কঠিন।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. টার্নঅ্যারাউন্ড টাইম বেশি:</span> ফলাফল পেতে অনেক সময় লাগে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. CPU আইডল টাইম:</span> ইনপুট/আউটপুট অপারেশনের সময় সিপিইউকে বসে থাকতে হয়।</li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                    <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ব্যাচ প্রসেসিং সিস্টেম বর্ণনা কর।</span></h5>
+                    <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ব্যাচ প্রসেসিং সিস্টেম কী? (What is Batch Processing System?)</span></h5>
+                    <p class="mb-2"><span style="color: #66FCF1;">ব্যাচ প্রসেসিং সিস্টেম</span> হলো অপারেটিং সিস্টেমের এমন একটি ধরন, যেখানে একই ধরনের কাজগুলোকে (বা প্রোগ্রামগুলোকে) <span style="color: #66FCF1;">একসাথে গ্রুপ করে (যাকে 'ব্যাচ' বলে) কম্পিউটারে চালানো</span> হয়, এবং এই কাজগুলো শেষ না হওয়া পর্যন্ত ইউজাররা সরাসরি কোনো হস্তক্ষেপ থাকে না। এটি ১৯৬০-এর দশকে কম্পিউটারের প্রাথমিক যুগে ব্যবহৃত হতো, যখন কম্পিউটারগুলো অনেক দামি এবং শক্তিশালী ছিল এবং তাদের প্রতিটি সেকেন্ডের ব্যবহার ছিল গুরুত্বপূর্ণ।</p>
+                    <p class="mb-2">মনে করুন, আপনি একটা বড় বেকারিতে কাজ করেন 👨‍🍳। আপনি একসাথে শত শত রুটি বানান। আপনি প্রতিটি রুটি আলাদা করে না বানিয়ে, প্রথমে সব উপকরণ (ডেটা) একসাথে মিশিয়ে নেন, তারপর সব রুটি তৈরি করে একসাথে ওভেনে (কম্পিউটার) ঢুকিয়ে দেন। একবার ওভেনে ঢোকানো হলে, সব রুটি তৈরি না হওয়া পর্যন্ত আপনার বারবার কিছু করার দরকার পড়ে না। ব্যাচ প্রসেসিং ঠিক একই কাজ করে: এটি একই ধরনের জবগুলোকে একবারে প্রসেস করে, যাতে সিপিইউ (CPU) সবসময় ব্যস্ত থাকে এবং তার সময় নষ্ট না হয়।</p>
+                    <p class="mb-2">এর মূল উদ্দেশ্য ছিল <span style="color: #66FCF1;">সিপিইউ-এর সময়কে ম্যাক্সিমাল দক্ষতা</span>র সাথে ব্যবহার করা।</p>
+
+                    <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্যপ্রণালি (Working Principle)</span></h5>
+                    <p class="mb-2">ব্যাচ প্রসেসিং সিস্টেমের কার্যপ্রণালি বেশ সরল। সাধারণত এটি নিম্নলিখিত ধাপগুলো অনুসরণ করে:</p>
+                    <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. জব সাবমিশন (Job Submission):</span> ইউজাররা তাদের প্রোগ্রাম বা কাজগুলো (যাদেরকে 'জব' বলে) <span style="color: #66FCF1;">অফলাইনে প্রস্তুত</span> করে। এই কাজগুলো সাধারণত পাঞ্চ কার্ড (punch cards) বা ম্যাগনেটিক টেপের (magnetic tapes) মতো ইনপুট ডিভাইসে ডেটা হিসেবে জমা দেওয়া হতো। ইউজাররা সরাসরি কম্পিউটারের সাথে ইন্টারঅ্যাক্ট করত না।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ব্যাচ তৈরি (Batch Creation):</span> কম্পিউটারের অপারেটর তখন ওই জমা পড়া জবগুলোকে একই ধরনের জব (যেমন, যেগুলোর একই রিসোর্স দরকার বা একই ধরনের প্রোগ্রাম চালাত হবে) বাছাই করে। এরপর এই বাছাই করা জবগুলোকে একসাথে গ্রুপ করে একটি '<span style="color: #66FCF1;">ব্যাচ</span>' তৈরি করে। এই ব্যাচগুলো সাধারণত একটি ম্যাগনেটিক টেপে সাজিয়ে রাখা হতো।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ব্যাচ এক্সিকিউশন (Batch Execution):</span> এই তৈরি করা ব্যাচটিকে কম্পিউটার সরাসরি কম্পিউটারে চালানো হয়। এটি একবার চালু হলে, অপারেটিং সিস্টেমের একটি অংশ, যাকে '<span style="color: #66FCF1;">ব্যাচ মনিটর</span>' বলা হতো, স্বয়ংক্রিয়ভাবে প্রতিটি জবকে একে একে এক্সিকিউট করতো। সব জব শেষ হলে, সিপিইউ কোনো বিরতি না নিয়ে স্বয়ংক্রিয়ভাবে পরের জবটি শুরু করত।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. আউটপুট হ্যান্ডলিং (Output Handling):</span> সব জব শেষ হওয়ার পর, ফলাফলগুলো (আউটপুট) সাধারণত প্রিন্টার ব্যবহার করে প্রিন্ট করা হতো বা অন্য কোনো মাধ্যমে সেভ করা হতো। এরপর অপারেটর সেই ফলাফলগুলো ইউজারকে ফেরত দিত।</li>
+                    </ul>
+
+                    <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুবিধা (Advantages)</span></h5>
+                    <p class="mb-2">ব্যাচ প্রসেসিং সিস্টেমের কিছু উল্লেখযোগ্য সুবিধা রয়েছে:</p>
+                    <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU-এর দক্ষ ব্যবহার (Efficient CPU Utilization):</span> যেহেতু সিপিইউকে (CPU) সবসময় কাজ করার জন্য ব্যস্ত রাখা হতো, তাই সিপিইউ-এর অলস সময় (idle time) অনেক কমে যেত। এটি সিপিইউ-এর সময়কে <span style="color: #66FCF1;">সর্বোচ্চ দক্ষতার</span> সাথে ব্যবহার করত।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. অপারেটরের কম হস্তক্ষেপ (Reduced Operator Intervention):</span> একবার একটি ব্যাচ ঢুকিয়ে দিলে, কাজগুলো স্বয়ংক্রিয়ভাবে একের পর একটা চলতে থাকতো। ফলে কাজ চলাকালীন কম্পিউটার অপারেটরের বারবার তদারকি বা হস্তক্ষেপের প্রয়োজন হতো না।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. বড় কাজ:</span> বিপুল পরিমাণ ডেটা বা অনেকক্ষণ ধরে চলার মতো কাজ (যেমন পেরোল প্রসেসিং, বিলিং) দক্ষতার সাথে সম্পন্ন করার জন্য এটি খুবই উপযোগী ছিল।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. শেয়ারড রিসোর্স:</span> অনেক ইউজার একই হার্ডওয়্যার রিসোর্স (যেমন কম্পিউটার) শেয়ার করে কাজ করতে পারতো, যা ব্যয়বহুল সিস্টেমের খরচকে ভাগ করে দিত।</li>
+                    </ul>
+
+                    <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অসুবিধা (Disadvantages)</span></h5>
+                    <p class="mb-2">ব্যাচ প্রসেসিং সিস্টেমের কিছু গুরুত্বপূর্ণ অসুবিধা ছিল, যার কারণে এর জনপ্রিয়তা কমে যায়:</p>
+                    <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইউজারের সাথে সরাসরি যোগাযোগ নেই (No Direct User Interaction):</span> এই সিস্টেমে ইউজাররা সরাসরি কম্পিউটারের সাথে ইন্টারঅ্যাক্ট করতে পারতো না। জব জমা দেওয়ার পর ফলাফল পেতে অনেক সময় লেগে যেত, যাকে '<span style="color: #66FCF1;">টার্নঅ্যারাউন্ড টাইম</span>' (Turnaround Time) বলে।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ডিবাগিং কঠিন (Difficult Debugging):</span> প্রোগ্রামে কোনো ভুল (বাগ) থাকলে তা খুঁজে বের করা এবং ঠিক করা খুবই কঠিন ছিল। কারণ, একটি জব শেষ না হওয়া পর্যন্ত ইউজার কোনো আউটপুট পেত না, ফলে ভুল হলে পুরো জবটাই আবার চালাতে হতো।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. CPU আইডল টাইম (CPU Idle Time during I/O):</span> যদিও সিপিইউ ব্যবহারের দক্ষতা বাড়ানো ছিল এর লক্ষ্য, কিন্তু ইনপুট/আউটপুট (I/O) অপারেশনের (যেমন ডেটা পড়া বা প্রিন্ট করা) সময় সিপিইউকে বসে থাকতে হতো, কারণ I/O ডিভাইসগুলো সিপিইউটি-এর চেয়ে অনেক ধীরগতির।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. অগ্রাধিকারের অভাব (Lack of Priority):</span> এই সিস্টেমে জবগুলো তাদের জমা দেওয়ার ক্রম বা একই ধরনের হওয়ার উপর ভিত্তি করে চালানো হতো, ফলে কোনো জরুরি কাজকে দ্রুত চালানোর জন্য অগ্রাধিকার (priority) দেওয়ার সুযোগ ছিল না।</li>
+                        <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. খরচ বেশি (High Setup Cost):</span> ব্যাচ প্রসেসিংয়ের জন্য বিশেষায়িত হার্ডওয়্যার এবং দক্ষ অপারেটর প্রয়োজন ছিল, যা সিস্টেমের প্রাথমিক সেটআপ খরচ বাড়িয়ে দিত।</li>
+                    </ul>
+                </div>` },
+                { text: "৩। Spooling system বর্ণনা কর। (Chapter - 3)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্পুলিং কী? (What is Spooling?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">স্পুলিং (Spooling)</span> মানে হলো <span style="color: #66FCF1;">Simultaneous Peripheral Operations Online!</span> এটি অপারেটিং সিস্টেমের এমন একটি কৌশল যেখানে এটি <span style="color: #66FCF1;">ইনপুট/আউটপুট (I/O) ডিভাইসগুলোর (যেমন প্রিন্টার) ডেটাকে একটি উচ্চ গতির বাফারে (যেমন হার্ডডিস্ক) সাময়িকভাবে জমা</span> রাখে। এর ফলে সিপিইউ (CPU) বা মূল প্রোগ্রামকে ধীর গতির I/O ডিভাইসের জন্য অপেক্ষা করতে হয় না।</p>
+                        <p class="mb-2">মনে করুন, আপনি একজন সুপার ফাস্ট শেফ 🧑‍🍳, আর আপনার কাছে একজন ধীর গতির ওয়েটার আছে। আপনি যখন একটা রান্না (প্রোগ্রামের কাজ) শেষ করেন, তখন আপনি তৈরি খাবারটা ওয়েটারের জন্য অপেক্ষা না করে একটা গরম কন্টেইনারে (স্পুল এরিয়া) রেখে দেন। এরপর আপনি পরের রান্না শুরু করেন। ওয়েটার তার নিজের গতিতে সেই কন্টেইনার থেকে খাবার তুলে নিয়ে সার্ভ করে। স্পুলিংও ঠিক এটাই করে: সিপিইউ-কে ধীর গতির ডিভাইসের জন্য অলস বসিয়ে না রেখে, ডেটাকে একটি বাফারে জমা রাখে এবং সিপিইউকে পরের কাজ শুরু করতে দেয়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্পুলিং সিস্টেমের কার্যপ্রণালি (Working Principle of Spooling System)</span></h5>
+                        <p class="mb-2">স্পুলিং সিস্টেম সাধারণত নিম্নলিখিত ধাপে কাজ করে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. আউটপুট স্পুলিং:</span> প্রোগ্রাম কোনো আউটপুট (যেমন প্রিন্ট ডেটা) তৈরি করলে, অপারেটিং সিস্টেম সেটিকে সরাসরি প্রিন্টারে না পাঠিয়ে একটি স্পুল এরিয়ায় জমা করে। প্রোগ্রাম এরপর পরের কাজ শুরু করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ইনপুট স্পুলিং:</span> একইভাবে, ইনপুট ডিভাইস থেকে ডেটা আসার কথা থাকলে OS সেটি হার্ডডিস্কের বাফারে দ্রুত নিয়ে আসে। প্রোগ্রাম তখন স্পুল থেকে দ্রুত ইনপুট পায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডেটা ট্রান্সফার:</span> স্পুল থেকে ডেটাগুলো ধীর গতির ডিভাইসগুলোর সাথে তাদের নিজস্ব গতিতে আদান-প্রদান হয়, যা ব্যাকগ্রাউন্ডে চলে।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্পুলিং এর প্রয়োজনীয়তা ও সুবিধা (Necessity & Advantages of Spooling)</span></h5>
+                        <p class="mb-2">স্পুলিং কম্পিউটারের কার্যকারিতা বাড়ানোর জন্য অপরিহার্য এবং এর অনেক সুবিধা রয়েছে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU-এর দক্ষতা বৃদ্ধি:</span> সিপিইউ-কে ধীর গতির I/O ডিভাইসের জন্য অপেক্ষা করা থেকে বাঁচায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. থ্রুপুট বৃদ্ধি:</span> একই সময়ে কম্পিউটার আরও বেশি কাজ সম্পন্ন করতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. I/O ও প্রসেসিং এর ওভারল্যাপিং:</span> ডেটা ট্রান্সফার এবং ডেটা প্রসেসিং একইসাথে চলতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ইউজারের উৎপাদনশীলতা বৃদ্ধি:</span> প্রোগ্রাম দ্রুত শেষ হয় বলে ইউজাররা পরের কাজ দ্রুত শুরু করতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডিভাইস ইন্ডিপেন্ডেন্স:</span> প্রোগ্রামগুলোকে সরাসরি I/O ডিভাইসের সাথে ডিল করতে হয় না।</li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। স্পুলিং কী? (What is Spooling?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">স্পুলিং (Spooling)</span> মানে হলো <span style="color: #66FCF1;">Simultaneous Peripheral Operations Online!</span> এটি অপারেটিং সিস্টেমের এমন একটি কৌশল যেখানে এটি <span style="color: #66FCF1;">ইনপুট/আউটপুট (I/O) ডিভাইসগুলো (যেমন প্রিন্টার, হার্ডডিস্ক)</span> থেকে বা সেগুলোতে ডেটা আদান-প্রদানের সময় সেগুলোকে একটি <span style="color: #66FCF1;">উচ্চ গতির বাফারে (যেমন হার্ডডিস্ক) সাময়িকভাবে জমা</span> রাখা হয়। এর ফলে সিপিইউ (CPU) বা মূল প্রোগ্রামকে ধীর গতির I/O ডিভাইসের জন্য অপেক্ষা করতে হয় না।</p>
+                        <p class="mb-2">মনে করুন, আপনি একজন সুপার ফাস্ট শেফ 🧑‍🍳, আর আপনার কাছে একজন ধীর গতির ওয়েটার আছে। আপনি যখন একটা রান্না (প্রোগ্রামের কাজ) শেষ করেন, তখন আপনি তৈরি খাবারটা ওয়েটারের জন্য অপেক্ষা না করে একটা গরম কন্টেইনারে (হার্ডডিস্কের স্পুল এরিয়া) রেখে দেন। এরপর আপনি পরের রান্না শুরু করেন। ওয়েটার তার নিজের গতিতে সেই কন্টেইনার থেকে খাবার তুলে নিয়ে সার্ভ করে। স্পুলিংও ঠিক এটাই করে: সিপিইউ-কে ধীর গতির ডিভাইসের জন্য অলস বসিয়ে না রেখে, ডেটাকে একটি বাফারে জমা রাখে এবং সিপিইউকে পরের কাজ শুরু করতে দেয়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্পুলিং সিস্টেমের কার্যপ্রণালি (Working Principle of Spooling System)</span></h5>
+                        <p class="mb-2">স্পুলিং সিস্টেম সাধারণত নিম্নলিখিত ধাপে কাজ করে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. জব জেনারেশন ও আউটপুট স্পুলিং (Job Generation & Output Spooling):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>যখন একটি প্রোগ্রাম কোনো আউটপুট (যেমন প্রিন্ট ডেটা) তৈরি করে, তখন অপারেটিং সিস্টেম সরাসরি প্রিন্টারে না পাঠিয়ে সেই ডেটাকে <span style="color: #66FCF1;">হার্ডডিস্কের একটি নির্দিষ্ট বাফারে (স্পুল) জমা</span> করে।</li>
+                                    <li>প্রোগ্রাম বা সিপিইউ এরপর দ্রুত পরের কাজ শুরু করে দিতে পারে, যাতে ধীর গতির প্রিন্টারের জন্য অপেক্ষা করতে হয় না।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ইনপুট স্পুলিং (Input Spooling - যদি থাকে):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>একইভাবে, যদি কোনো ইনপুট ডিভাইস থেকে ডেটা আসার কথা থাকে, তাহলে অপারেটিং সিস্টেম সেই ডেটাকে ইনপুট ডিভাইসের চেয়ে দ্রুত হার্ডডিস্কের বাফারে (স্পুল) নিয়ে আসে।</li>
+                                    <li>এরপর প্রোগ্রাম যখন ইনপুট চায়, তখন সে হার্ডডিস্কের স্পুল থেকে দ্রুত ডেটা পায়, ইনপুট ডিভাইসের জন্য অপেক্ষা করতে হয় না।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডেটা ট্রান্সফার ও ডি-স্পুলিং (Data Transfer & De-Spooling):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>স্পুল এরিয়ায় ডেটা জমা হওয়ার পর, অপারেটিং সিস্টেমের একটি অংশ সেই ডেটাগুলোকে ধীর গতির প্রিন্টার বা ইনপুট ডিভাইসের সাথে তাদের নির্দিষ্ট গতিতে আদান-প্রদান করে।</li>
+                                    <li>এই প্রক্রিয়াটি ব্যাকগ্রাউন্ডে চলতে থাকে এবং সিপিইউ-এর মূল কাজকে প্রভাবিত করে না।</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্পুলিং এর প্রয়োজনীয়তা ও সুবিধা (Necessity & Advantages of Spooling)</span></h5>
+                        <p class="mb-2">স্পুলিং কম্পিউটারের কার্যকারিতা বাড়ানোর জন্য অপরিহার্য এবং এর অনেক সুবিধা রয়েছে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU-এর দক্ষতা বৃদ্ধি (Increased CPU Utilization):</span> স্পুলিং সিপিইউ-কে ধীর গতির I/O ডিভাইসের জন্য অপেক্ষা করা থেকে বাঁচায়। সিপিইউ সবসময় কাজ করতে থাকে, ফলে এর ব্যবহার অনেক বেশি দক্ষ হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. থ্রুপুট বৃদ্ধি (Increased Throughput):</span> সিপিইউ-এর অলস সময় কমার কারণে, কম্পিউটার একই সময়ে আরও বেশি কাজ সম্পন্ন করতে পারে, যা সিস্টেমের মোট থ্রুপুট বাড়ায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. I/O ও প্রসেসিং এর ওভারল্যাপিং (Overlapping I/O and Computation):</span> ডেটা ট্রান্সফার (I/O) এবং ডেটা প্রসেসিং (CPU computation) একইসাথে চলতে পারে। যখন একটি প্রোগ্রাম I/O করে, সিপিইউ তখন অন্য প্রোগ্রাম বা স্পুলিংয়ের কাজ করতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ইউজারের উৎপাদনশীলতা বৃদ্ধি (Increased User Productivity):</span> প্রোগ্রামগুলো দ্রুত শেষ হয় বলে ইউজাররা দ্রুত পরের কাজ শুরু করতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডিভাইস ইন্ডিপেন্ডেন্স (Device Independence):</span> স্পুলিং সিস্টেম প্রোগ্রামগুলোকে সরাসরি নির্দিষ্ট I/O ডিভাইসের সাথে ডিল করতে হয় না। তারা শুধু স্পুল থেকে ডেটা লেখে বা স্পুল থেকে পড়ে, বাকিটা অপারেটিং সিস্টেম দেখে নেয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. ডেটা ম্যানেজমেন্ট (Data Management):</span> ইনপুট এবং আউটপুট ডেটাকে একটি কেন্দ্রীয় স্থানে (স্পুল) দক্ষতার সাথে ম্যানেজ করা যায়, বিশেষ করে মাল্টিটাস্কিং পরিবেশে।</li>
+                        </ul>
+                    </div>` },
+                { text: "৪। Process Management এর Synchronization বর্ণনা কর। (Chapter - 4)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রসেস ম্যানেজমেন্ট সিনক্রোনাইজেশন কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">প্রসেস ম্যানেজমেন্ট সিনক্রোনাইজেশন</span> হলো অপারেটিং সিস্টেমের এমন একটি প্রক্রিয়া, যেখানে একাধিক প্রোগ্রাম যখন একই ডেটা বা রিসোর্স ব্যবহার করতে চায়, তখন তাদের কাজগুলোকে সুনির্দিষ্টভাবে সমন্বয় ও নিয়ন্ত্রণ করা হয়। এটা ট্র্যাফিক রুলসের মতো, যা বিশৃঙ্খলা এড়াতে সাহায্য করে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কেন দরকার?</span></h5>
+                        <p class="mb-2">সিনক্রোনাইজেশন ছাড়া <span style="color: #66FCF1;">রেস কন্ডিশন (ফলাফল কে আগে কাজ শেষ করল তার উপর নির্ভর করা)</span> এবং <span style="color: #66FCF1;">ডেটা অসামঞ্জস্যতা (ডেটা ভুল আপডেট হওয়া)</span> এর মতো সমস্যা হতে পারে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রধান সিনক্রোনাইজেশন কৌশলসমূহ</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. মিউটেক্স (Mutex - Mutual Exclusion):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি সাধারণ তালা (<span style="color: #66FCF1;">Lock</span>)-এর মতো, যা একটি নির্দিষ্ট সময়ে শুধুমাত্র একটি প্রসেসকে শেয়ার্ড রিসোর্স ব্যবহার করতে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বাথরুমে যাওয়ার জন্য একটিমাত্র চাবি। 🔑</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সেমাফোর (Semaphore):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি কাউন্টার বা ফ্ল্যাগ-এর মতো, যা একাধিক প্রসেসের জন্য সীমিত সংখ্যক রিসোর্স অ্যাক্সেস নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> পার্কিং স্পেস ম্যানেজ করে। 🅿️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মনিটর (Monitor):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি মিউটেক্স ও সেমাফোরের চেয়ে উচ্চ-স্তরের কৌশল, যা ডেটা ও ফাংশনগুলোকে একসাথে রাখে এবং একবারে শুধুমাত্র একটি প্রসেসকে অ্যাক্সেস দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি সু-পরিচালিত কেন্দ্রীয় অফিস। 🏢</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হার্ডওয়্যার-ভিত্তিক সমাধান (Hardware-based Solutions):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> প্রসেসরের হার্ডওয়্যার লেভেলে বিশেষ ইনস্ট্রাকশন (যেমন <span style="color: #66FCF1;">TestAndSet</span>) ব্যবহার করে সিনক্রোনাইজেশন করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">উপযোগিতা:</span> এটি খুব দ্রুত কাজ করে এবং অন্যান্য টুলস তৈরির ভিত্তি।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। প্রসেস ম্যানেজমেন্ট সিনক্রোনাইজেশন কী? (What is Process Management Synchronization?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">প্রসেস ম্যানেজমেন্ট সিনক্রোনাইজেশন</span> হলো অপারেটিং সিস্টেমের এমন একটি প্রক্রিয়া, যেখানে একাধিক প্রোগ্রাম (প্রসেস) বা তাদের ভেতরের কাজগুলো (থ্রেড) যখন একই ডেটা বা রিসোর্স (যেমন মেমরি, ফাইল) ব্যবহার করতে চায়, তখন তাদের কাজগুলোকে <span style="color: #66FCF1;">সমন্বিতভাবে সমন্বয় ও নিয়ন্ত্রণ</span> করা হয়। এর মূল উদ্দেশ্য হলো, ডেটার <span style="color: #66FCF1;">ত্রুটি (inconsistency) এড়ানো</span> এবং নিশ্চিত করা যে, ডেটা যেন সঠিকভাবে আপডেট হয় এবং কোনো প্রসেস যেন অন্য প্রসেসের কাজকে এলোমেলো করে না দেয়।</p>
+                        <p class="mb-2">মনে করুন, একটি কোম্পানির একাধিক কর্মী (প্রসেস) একই প্রিন্টার (শেয়ার্ড রিসোর্স) ব্যবহার করতে চায়। যদি তাদের কাজগুলো সিনক্রোনাইজ করা না হয়, তাহলে সবাই একসাথে প্রিন্ট কমান্ড দিলে প্রিন্টার জ্যাম করতে পারে বা ডকুমেন্টের পাতা উল্টোপাল্টা প্রিন্ট হতে পারে। সিনক্রোনাইজেশন হলো সেই ট্র্যাফিক রুলস বা অর্কেস্ট্রা কন্ডাক্টরের মতো 🪓, যিনি নিশ্চিত করেন যে সবাই ঠিকঠাকভাবে নিজেদের কাজ করছে এবং কোনো বিশৃঙ্খলা হচ্ছে না।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সিনক্রোনাইজেশন কেন দরকার? (Why is Synchronization Needed?)</span></h5>
+                        <p class="mb-2">সিনক্রোনাইজেশন ছাড়া প্রধানত দুটো বড় সমস্যা দেখা দিতে পারে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. রেস কন্ডিশন (Race Condition):</span> যখন একাধিক প্রসেস একই শেয়ার্ড রিসোর্স (যেমন একটি ভেরিয়েবল বা ফাইল) একসাথে অ্যাক্সেস বা পরিবর্তন করার চেষ্টা করে, তখন তাদের কাজের চূড়ান্ত ফলাফল নির্ভর করে কে কখন কাজ শেষ করে তার উপর। এটি একটি অপ্রত্যাশিত ভুল হতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ডেটা অসামঞ্জস্যতা (Data Inconsistency):</span> রেস কন্ডিশনের ফলে শেয়ার্ড ডেটা ভুলভাবে আপডেট হতে পারে, যা ডেটাকে অসামঞ্জস্যপূর্ণ করে তোলে।</li>
+                        </ul>
+                        <p class="mb-2">সিনক্রোনাইজেশন এই সমস্যাগুলো প্রতিরোধ করে, ডেটা ঠিক রাখে এবং সিস্টেমের নির্ভরযোগ্যতা বাড়ায়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রধান সিনক্রোনাইজেশন কৌশলসমূহ (Main Synchronization Techniques)</span></h5>
+                        <p class="mb-2">অপারেটিং সিস্টেম বিভিন্ন কৌশল ব্যবহার করে প্রসেস সিনক্রোনাইজেশন সম্পন্ন করে। এর কিছু প্রধান কৌশল নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. মিউটেক্স (Mutex - Mutual Exclusion):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি সাধারণ তালা (<span style="color: #66FCF1;">Lock</span>)-এর মতো, যা একটি শেয়ার্ড রিসোর্স বা কোড অংশে (যাকে '<span style="color: #66FCF1;">ক্রিটিক্যাল সেকশন</span>' বলে) সুরক্ষিত রাখে। একটি নির্দিষ্ট সময়ে শুধুমাত্র একটি প্রসেসই এটি তালা খুলে রিসোর্সটি ব্যবহার করতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> যখন একটি প্রসেস ক্রিটিক্যাল সেকশনে ঢুকতে চায়, সে মিউটেক্সকে '<span style="color: #66FCF1;">লক</span>' করে। কাজ শেষ হলে '<span style="color: #66FCF1;">আনলক</span>' করে দেয়। অন্য প্রসেস লক করা রিসোর্স অ্যাক্সেস করতে চাইলে অপেক্ষা করতে হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা অনেকটা একটি বাথরুমের মতো 🚽, যেখানে একমাত্র চাবি থাকার মতো 🔑। যার কাছে চাবি থাকবে, শুধু সেই বাথরুমে যেতে পারবে। অন্যকে অপেক্ষা করতে হবে।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সেমাফোর (Semaphore):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি <span style="color: #66FCF1;">কাউন্টার বা ফ্ল্যাগ-এর</span> মতো, যা একাধিক প্রসেসের জন্য সীমিত সংখ্যক রিসোর্স অ্যাক্সেসকে নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> সেমাফোরের একটি পূর্ণসংখ্যা মান থাকে, যা রিসোর্সের উপলব্ধতা (availability) দেখায়। প্রসেস রিসোর্স ব্যবহার করার আগে সেমাফোরের মান কমায় (<span style="color: #66FCF1;">वेट/P অপারেশন</span>), এবং কাজ শেষ হলে বাড়ায় (<span style="color: #66FCF1;">सिग्नल/V অপারেশন</span>)। মান শূন্য হলে অন্য প্রসেসকে অপেক্ষা করতে হয়।</li>
+                                    <li><span style="color: #66FCF1;">প্রকার:</span> কাউন্টিং সেমাফোর (গণনাযোগী রিসোর্স) এবং বাইনারি সেমাফোর (শুধুমাত্র ০ বা ১)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা অনেকটা একটি পার্কিং লটের ম্যানেজারের মতো, যিনি পার্কিং স্পেসের সংখ্যা গুণে রাখেন। গাড়ি ঢুকলে একটি স্পেস কমায়, বের হলে বাড়ায়। স্পেস না থাকলে গাড়িগুলোকে অপেক্ষা করতে বলেন। 🅿️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মনিটর (Monitor):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি মিউটেক্স এবং সেমাফোরের চেয়ে <span style="color: #66FCF1;">উচ্চ-স্তরের একটি সিনক্রোনাইজেশন কৌশল</span>। এটি ডেটা এবং ডেটা নিয়ে কাজ করার ফাংশনগুলোকে (procedure) একসাথে প্যাকেজের মধ্যে রাখে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> মনিটর নিশ্চিত করে যে, একটি নির্দিষ্ট সময়ে শুধুমাত্র একটি প্রসেস মনিটরের ভেতরের ডেটা বা ফাংশন অ্যাক্সেস করতে পারে। এটি ডেটা অ্যাক্সেসের জন্য স্বয়ংক্রিয়ভাবে মিউটেক্স ব্যবহার করে প্রসেসগুলোকে অপেক্ষা করানো বা জাগিয়ে তোলার কাজ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি সু-পরিচালিত কেন্দ্রীয় অফিসের মতো, যেখানে অফিসের ডেটা এবং ডেটা নিয়ে কাজ করার নিয়মাবলী সব এক জায়গায় থাকে এবং একজন ম্যানেজার (মনিটর) নিশ্চিত করে যে, একবারে শুধু একজন কর্মী ডেটা নিয়ে কাজ করতে পারবে। 🏢</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হার্ডওয়্যার-ভিত্তিক সমাধান (Hardware-based Solutions):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> কিছু ক্ষেত্রে প্রসেসরের <span style="color: #66FCF1;">হার্ডওয়্যার লেভেলে বিশেষ ইনস্ট্রাকশন</span> ব্যবহার করে সিনক্রোনাইজেশন করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> যেমন, '<span style="color: #66FCF1;">TestAndSet</span>' ইনস্ট্রাকশন। এটি একটি মেমরি লোকেশনের মান পড়ে নেয় এবং সাথে সাথেই সেই লোকেশনের মান সেট (যেমন 1) করে দেয়, এই পুরো কাজটা একটি <span style="color: #66FCF1;">অ্যাটোমিক (atomic) অপারেশন</span>। এটি নিশ্চিত করে যে, একটি প্রসেস যখন এই ইনস্ট্রাকশনটি চালাচ্ছে, তখন অন্য কোনো প্রসেস সেটিকে বাধা দিতে পারবে না।</li>
+                                    <li><span style="color: #66FCF1;">উপযোগিতা:</span> এটি খুব দ্রুত কাজ করে এবং অন্যান্য সিনক্রোনাইজেশন টুলস বাস্তবায়নের ভিত্তি হিসেবে ব্যবহৃত হয়।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1;">সিনক্রোনাইজেশন</span> হলো অপারেটিং সিস্টেমের একটি অপরিহার্য অংশ, যা মাল্টিপ্রোগ্রামিং এবং মাল্টিটাস্কিং পরিবেশে ডেটার সঠিকতা এবং সিস্টেমের স্থিতিশীলতা নিশ্চিত করে।</p>
+                    </div>` },
+                { text: "৫। Scheduling algorithm -এর বিভিন্ন Criteria-গুলো লেখ। (Chapter - 5)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। শিডিউলিং অ্যালগরিদম কী? (What is a Scheduling Algorithm?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">শিডিউলিং শিডিউলার (CPU Scheduling)</span> হলো অপারেটিং সিস্টেমের এমন একটি কাজ, যেখানে এটি সিদ্ধান্ত নেয় যে একাধিক চলমান প্রোগ্রামকে (প্রসেসের) মধ্যে কোন প্রসেসটি কখন সিপিইউ (CPU) পাবে এবং কতক্ষণ ধরে পাবে। এটি অনেকটা একটি ট্র্যাফিক কন্ট্রোলারের মতো 🚦, যিনি গাড়িদের পথ দেখান।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">শিডিউলিং অ্যালগরিদম -এর বিভিন্ন Criteria (Criteria of Scheduling Algorithm)</span></h5>
+                        <p class="mb-2">একটি অপারেটিং সিস্টেমের শিডিউলিং অ্যালগরিদম তার কার্যকারিতা পরিমাপ করার জন্য কিছু মানদণ্ড ব্যবহার করে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU ইউটিলাইজেশন (CPU Utilization):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> সিপিইউ কতক্ষণ ব্যস্ত থাকে, তার পরিমাপ। একটি ভালো শিডিউলার সিপিইউকে সবসময় কাজ দিয়ে রাখে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> কারখানার মেশিন যেন সবসময় চালু থাকে! 🏭</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. থ্রুপুট (Throughput):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> প্রতি ইউনিট সময়ে সফলভাবে সম্পন্ন হওয়া মোট কাজের সংখ্যা। সিস্টেমের উৎপাদনশীলতার পরিমাপ।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> প্রতি ঘণ্টায় তৈরি হওয়া পণ্যের সংখ্যা! 📦</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. টার্নঅ্যারাউন্ড টাইম (Turnaround Time):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> একটি প্রসেস জমা দেওয়া থেকে শুরু করে সম্পূর্ণ শেষ হওয়া পর্যন্ত মোট সময়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> অনলাইন অর্ডার থেকে হাতে পণ্য আসা পর্যন্ত মোট সময়। ⏱️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ওয়েটিং টাইম (Waiting Time):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> একটি প্রসেস CPU পাওয়ার জন্য মোট কতক্ষণ অপেক্ষা করে, সেই সময়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ডাক্তারের চেম্বারে ওয়েটিং টাইম। 🧑‍⚕️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. রেসপন্স টাইম (Response Time):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> ইউজার কোনো রিকুয়েস্ট করার পর সিস্টেমের প্রথম প্রতিক্রিয়া দেখাতে যত সময় লাগে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> বাটনে ক্লিক করার পর স্ক্রিনে প্রথম পরিবর্তন দেখা দিতে যত সময় লাগল। ⚡</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. ফেয়ারনেস (Fairness):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> নিশ্চিত করে যে প্রতিটি প্রসেস যেন সিপিইউ-এর একটি ন্যায্য অংশ পায়, কেউ যেন বঞ্চিত না হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> প্রতিটি খেলোয়াড় যেন খেলার ন্যায্য সুযোগ পায়! ⚽</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. প্রায়োরিটি (Priority):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> কিছু অ্যালগরিদম প্রসেসগুলোকে তাদের গুরুত্ব (priority) অনুযায়ী সিপিইউ বরাদ্দ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> হাসপাতালে মুমূর্ষু রোগীকে আগে সেবা দেওয়া! 🏥</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। শিডিউলিং অ্যালগরিদম কী? (What is a Scheduling Algorithm?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">শিডিউলিং শিডিউলার (CPU Scheduling)</span> হলো অপারেটিং সিস্টেমের এমন একটি কাজ, যেখানে একটি সিগনালকে এবং একাধিক চলমান প্রোগ্রামকে (প্রসেসের) মধ্যে <span style="color: #66FCF1;">কোন প্রোগ্রাম কখন সিপিইউ (CPU) পাবে এবং কতক্ষণ ধরে পাবে</span>, তা নির্ধারণ করে। যখন অনেকগুলো কাজ সিপিইউ ব্যবহার করার জন্য প্রস্তুত থাকে, তখন শিডিউলিং অ্যালগরিদম সেই কাজগুলোকে একটি নির্দিষ্ট নিয়মে সাজায়। এটা অনেকটা একটি ট্র্যাফিক কন্ট্রোলারের মতো 🚦, যিনি শহরের প্রধান চৌরাহায় কোন গাড়িকে (প্রসেস) কখন যেতে দেবেন, তা ঠিক করেন, যাতে জ্যাম না হয় এবং ট্র্যাফিক মসৃণভাবে চলে।</p>
+                        <p class="mb-2">শিডিউলিং অ্যালগরিদম ডিজাইন করার সময় কিছু গুরুত্বপূর্ণ লক্ষ্য বা '<span style="color: #66FCF1;">ক্রাইটেরিয়া</span>' বিবেচনা করা হয়, যাতে সিস্টেমের পারফরমেন্স সবচেয়ে ভালো হয়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">শিডিউলিং অ্যালগরিদম -এর বিভিন্ন Criteria (Criteria of Scheduling Algorithm)</span></h5>
+                        <p class="mb-2">একটি অপারেটিং সিস্টেমের শিডিউলিং অ্যালগরিদম তার কার্যকারিতা পরিমাপ করার জন্য এবং সেরা সিদ্ধান্ত নেওয়ার জন্য কিছু নির্দিষ্ট মানদণ্ড বা '<span style="color: #66FCF1;">ক্রাইটেরিয়া</span>' ব্যবহার করে। প্রধান ক্রাইটেরিয়াগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU ইউটিলাইজেশন (CPU Utilization):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> এই ক্রাইটেরিয়াটি পরিমাপ করে যে <span style="color: #66FCF1;">সিপিইউটি কতক্ষণ ব্যস্ত</span> থাকে। একটি ভালো শিডিউলার সিপিইউকে যত সম্ভাব্য সময় ব্যস্ত রাখে তত ভালো। এটি নিশ্চিত করে যে সিপিইউ সবসময় কাজ করতে থাকে, ফলে এটি বসে থাকে না।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> সিপিইউ একটি ব্যয়বহুল রিসোর্স, তাই এর ব্যবহার সর্বোচ্চ করা উচিত।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি বড় কারখানার ম্যানেজারের মতো, যিনি নিশ্চিত করেন যে কারখানার সব মেশিন (CPU) যেন সবসময় চালু থাকে এবং কোনো মেশিন যেন অলস বসে না থাকে 🏭।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. থ্রুপুট (Throughput):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> থ্রুপুট হলো প্রতি ইউনিট সময়ে সম্পন্ন হওয়া মোট কাজের সংখ্যা। অর্থাৎ, একটি নির্দিষ্ট সময়সীমার মধ্যে সিস্টেমের কতগুলো প্রসেস শুরু থেকে শেষ পর্যন্ত সফলভাবে সম্পন্ন করতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> এটি সিস্টেমের মোট উৎপাদনশীলতার একটি পরিমাপ।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি কারখানার প্রতি ঘণ্টায় কতগুলো পণ্য তৈরি করে ডেলিভারি হচ্ছে, তার হিসাবের মতো। যত বেশি পণ্য, তত ভালো থ্রুপুট! 📦</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. টার্নঅ্যারাউন্ড টাইম (Turnaround Time):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> একটি প্রসেস জমা দেওয়া থেকে শুরু করে সম্পূর্ণরূপে শেষ হওয়া পর্যন্ত মোট সময়কে টার্নঅ্যারাউন্ড টাইম বলা হয়। এর মধ্যে প্রসেসের CPU এক্সিকিউশন টাইম, ওয়েটিং টাইম, I/O টাইম এবং অন্যান্য প্রসেসিং টাইম অন্তর্ভুক্ত।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> ইউজাররা সাধারণত তাদের কাজ যত দ্রুত শেষ হোক।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আপনি একটা অনলাইন অর্ডার দিলেন, আর আপনার হাতে পণ্যটা এসে পৌঁছাতে মোট যত সময় লাগল, সেটা হলো টার্নঅ্যারাউন্ড টাইম। ⏱️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ওয়েটিং টাইম (Waiting Time):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> ওয়েটিং টাইম হলো একটি প্রসেস CPU ব্যবহারের জন্য '<span style="color: #66FCF1;">রেডি কিউতে (ready queue)</span>'-তে মোট কতক্ষণ অপেক্ষা করে, সেই সময়। যখন প্রসেস রান করার জন্য প্রস্তুত, কিন্তু CPU অন্য কাজ করছে, তখন অপেক্ষা করে।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> এই সময়টা যত কম হবে, ইউজারের অভিজ্ঞতা তত ভালো হবে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আপনি ডাক্তারের চেম্বারে সিরিয়াল দিয়ে বসলেন, আর ডাক্তার আপনাকে ডাকার আগ পর্যন্ত যত সময় চেম্বারের বাইরে বসলেন, সেটাই আপনার ওয়েটিং টাইম। ⌛</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. রেসপন্স টাইম (Response Time):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> রেসপন্স টাইম হলো যখন ইউজার কোনো রিকুয়েস্ট করে (যেমন একটি বাটনে ক্লিক করে), তখন সিস্টেমের <span style="color: #66FCF1;">প্রথম প্রতিক্রিয়া দেখাতে যত সময়</span> লাগে। এটি আউটপুট সম্পূর্ণরূপে তৈরি হওয়ার জন্য অপেক্ষা করার বদলে প্রথম রেসপন্সকে পরিমাপ করে।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> ইন্টারঅ্যাক্টিভ সিস্টেমে (যেমন ওয়েব ব্রাউজার, গেমিং) দ্রুত রেসপন্স টাইম ইউজারের এক্সপেরিয়েন্সকে অনেক ভালো করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আপনি একটা ওয়েবসাইটে বাটনে ক্লিক করলেন, আর স্ক্রিনে কিছু একটা লোড হওয়ার বা চেঞ্জ দেখা দিতে যত সময় লাগল। ⚡</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. ফেয়ারনেস (Fairness):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> ফেয়ারনেস নিশ্চিত করে যে প্রতিটি প্রসেস যেন সিপিইউ-এর একটি <span style="color: #66FCF1;">ন্যায্য অংশ</span> পায়, এবং কোনো প্রসেস যেন একবারে বা দীর্ঘ সময় ধরে সিপিইউ থেকে বঞ্চিত না হয়।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> এটি সিস্টেমকে স্থিতিশীল রাখে এবং কোনো ইউজারের অবস্থা বা প্রসেসে সমস্যায় পড়তে দেয় না।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি খেলার মাঠে ম্যানেজার নিশ্চিত করেন যে, প্রতিটি খেলোয়াড় যেন বল খেলার ন্যায্য সুযোগ পায়, কেউ যেন শুধু দর্শক হয়ে বসে না থাকে! ⚽</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. প্রায়োরিটি (Priority):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> কিছু শিডিউলিং অ্যালগরিদম প্রসেসগুলোকে তাদের গুরুত্ব (<span style="color: #66FCF1;">priority</span>) অনুযায়ী সিপিইউ বরাদ্দ করে। উচ্চ প্রায়োরিটির প্রসেসগুলো কম প্রায়োরিটির প্রসেসগুলোর চেয়ে আগে সিপিইউ পায়।</li>
+                                    <li><span style="color: #66FCF1;">কেন দরকার?:</span> সিস্টেমের কিছু কাজ (যেমন সিস্টেমের নিজস্ব কাজ) ইউজারদের কাজের চেয়ে বেশি গুরুত্বপূর্ণ হতে পারে এবং সেগুলোকে আগে এক্সিকিউট করতে হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি জরুরি সেবায় (যেমন হাসপাতাল) মুমূর্ষু রোগীকে (উচ্চ প্রায়োরিটি) অন্য রোগীদের চেয়ে আগে সেবা দেওয়া হয়। 🏥</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2">একটি কার্যকর শিডিউলিং অ্যালগরিদম এই সব ক্রাইটেরিয়ার মধ্যে একটি <span style="color: #66FCF1;">ভারসাম্য বজায়</span> রাখার চেষ্টা করে, কারণ সব ক্রাইটেরিয়া একসাথে অপটিমাইজ করা প্রায় অসম্ভব।</p>
+                    </div>` },
+                { text: "৬। Round Robin Scheduling Algorithm বর্ণনা কর। (Chapter - 5)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। Round Robin Scheduling Algorithm কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">Round Robin (RR) শিডিউলিং অ্যালগরিদম</span> হলো <span style="color: #66FCF1;">টাইম-শেয়ারিং সিস্টেমের</span> জন্য ডিজাইন করা একটি <span style="color: #66FCF1;">প্রিএমপ্টিভ (preemptive) অ্যালগরিদম</span>। এখানে প্রতিটি প্রসেসকে সিপিইউ (CPU) ব্যবহারের জন্য একটি নির্দিষ্ট, ছোট সময়সীমা (<span style="color: #66FCF1;">টাইম কোয়ান্টাম</span>) দেওয়া হয়। এটা অনেকটা একটি ঘূর্ণায়মান টেবিলের মতো 🔄, যেখানে সবাই পালাক্রমে খাবার পায়, কেউ বেশি সময় নেয় না।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্যপ্রণালি</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. রেডি কিউ:</span> সিপিইউ ব্যবহারের জন্য প্রস্তুত সব প্রসেস একটি সারিতে অপেক্ষা করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. টাইম কোয়ান্টাম বরাদ্দ:</span> অপারেটিং সিস্টেম রেডি কিউ-এর প্রথম প্রসেসটিকে একটি নির্দিষ্ট '<span style="color: #66FCF1;">টাইম কোয়ান্টাম</span>' এর জন্য সিপিইউ দেয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. প্রসেস এক্সিকিউশন:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>প্রসেস টাইম কোয়ান্টামের মধ্যে শেষ হলে, সিপিইউ ছেড়ে দেয়।</li>
+                                    <li>শেষ না হলে, টাইম কোয়ান্টাম শেষ হওয়ার সাথে সাথে প্রসেসটিকে সিপিইউ থেকে সরিয়ে রেডি কিউ-এর শেষে যুক্ত করা হয়।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. পুনরাবৃত্তি:</span> এই প্রক্রিয়াটি চলতে থাকে, সবাই পালাক্রমে সিপিইউ পায়।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুবিধা</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ফেয়ারনেস:</span> প্রতিটি প্রসেস সিপিইউ-এর একটি ন্যায্য অংশ পায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. দ্রুত রেসপন্স টাইম:</span> ইন্টারঅ্যাক্টিভ সিস্টেমে দ্রুত প্রতিক্রিয়াশীল মনে হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. স্টারভেশন নেই:</span> কোনো প্রসেসকে সিপিইউ থেকে বঞ্চিত হতে হয় না।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অসুবিধা</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. টাইম কোয়ান্টামের উপর নির্ভরশীলতা:</span> খুব ছোট বা খুব বড় টাইম কোয়ান্টাম সিস্টেমের দক্ষতা কমাতে পারে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. কনটেক্সট সুইচিং ওভারহেড:</span> প্রসেস পরিবর্তনের জন্য অতিরিক্ত সময় নষ্ট হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. প্রায়োরিটি ম্যানেজমেন্ট নেই:</span> প্রসেসগুলোর কোনো অগ্রাধিকার বিবেচনা করা হয় না।</li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। Round Robin Scheduling Algorithm কী? (What is Round Robin Scheduling Algorithm?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">Round Robin (RR) শিডিউলিং অ্যালগরিদম</span> হলো <span style="color: #66FCF1;">টাইম-শেয়ারিং সিস্টেমের (time-sharing system)</span> জন্য ডিজাইন করা একটি <span style="color: #66FCF1;">প্রিএমপ্টিভ (preemptive) শিডিউলিং অ্যালগরিদম</span>। এখানে প্রতিটি প্রসেসকে সিপিইউ (CPU) ব্যবহারের জন্য একটি নির্দিষ্ট, ছোট সময়সীমা বরাদ্দ করা হয়, যাকে '<span style="color: #66FCF1;">টাইম কোয়ান্টাম</span>' (time quantum) বা '<span style="color: #66FCF1;">টাইম স্লাইস</span>' (time slice) বলে। এই অ্যালগরিদমটি নিশ্চিত করে যে, কোনো প্রসেস যেন সিপিইউকে দীর্ঘক্ষণ ধরে দখল করে রাখতে না পারে, ফলে প্রতিটি প্রসেস একটি ন্যায্য সুযোগ পায় এবং ইউজারদের কাছে সিস্টেমটি দ্রুত প্রতিক্রিয়াশীল (responsive) মনে হয়।</p>
+                        <p class="mb-2">এটা অনেকটা একটি ঘূর্ণায়মান টেবিলের মতো 🔄, যেখানে সবাই বসে আছে। প্রতিটি প্রসেসকে (ব্যক্তি) একটি নির্দিষ্ট সময় (টাইম কোয়ান্টাম) দেওয়া হয় খাবার খাওয়ার জন্য। সময় শেষ হলে, প্লেটটা পরের জনের কাছে চলে যায়, এবং সে তার পালা পায়। এভাবে সবাই পালাক্রমে খাবার পায়, কেউ বেশি সময় নিয়ে বসে থাকে না।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্যপ্রণালি (Working Principle)</span></h5>
+                        <p class="mb-2">Round Robin শিডিউলিং অ্যালগরিদম নিম্নলিখিত ধাপে কাজ করে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. রেডি কিউ (Ready Queue):</span> সমস্ত প্রসেস যারা সিপিইউ ব্যবহারের জন্য প্রস্তুত, তারা একটি সারিতে (সাধারণত <span style="color: #66FCF1;">FIFO - First-In, First-Out</span>) অপেক্ষা করে, যাকে '<span style="color: #66FCF1;">রেডি কিউ</span>' বলে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. টাইম কোয়ান্টাম বরাদ্দ (Time Quantum Allocation):</span> অপারেটিং সিস্টেম রেডি কিউ-এর প্রথম প্রসেসটিকে সিপিইউ বরাদ্দ করে, কিন্তু শুধুমাত্র একটি নির্দিষ্ট '<span style="color: #66FCF1;">টাইম কোয়ান্টাম</span>' (যেমন 10-100 মিলিসেকেন্ড) এর জন্য।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. প্রসেস এক্সিকিউশন (Process Execution):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>যদি প্রসেস টাইম কোয়ান্টামের মধ্যে শেষ হয়: যদি প্রসেসটি তার বরাদ্দকৃত টাইম কোয়ান্টামের মধ্যেই তার কাজ শেষ করে ফেলে, তাহলে সেটি সিপিইউ ছেড়ে দেয় এবং টার্মিনেট (terminate) হয়ে যায়। এরপর রেডি কিউ-এর পরবর্তী প্রসেস সিপিইউ পায়।</li>
+                                    <li>যদি প্রসেস টাইম কোয়ান্টামের মধ্যে শেষ না হয়: যদি প্রসেসটি তার বরাদ্দকৃত টাইম কোয়ান্টামের মধ্যে শেষ না হয়, তাহলে টাইম কোয়ান্টাম শেষ হওয়ার সাথে সাথে অপারেটিং সিস্টেম সেই প্রসেসটিকে সিপিইউ থেকে সরিয়ে নেয় (<span style="color: #66FCF1;">প্রিএম্প্ট</span> করে)। এরপর প্রসেসটিকে রেডি কিউ-এর একেবারে শেষে আবার যুক্ত করা হয়, যাতে সে পরবর্তীতে সিপিইউ পাওয়ার সুযোগ পায়।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. পুনরাবৃত্তি (Repetition):</span> এই প্রক্রিয়াটি চলতে থাকে, যেখানে প্রতিটি প্রসেস পালাক্রমে সিপিইউ পায় এবং টাইম কোয়ান্টাম শেষ হলে বা কাজ শেষ হলে সিপিইউ ছেড়ে নেয়।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উদাহরণ:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>ধরা যাক, P1, P2, P3 তিনটি প্রসেস আছে, এবং টাইম কোয়ান্টাম হলো 4ms।</li>
+                            <li>P1 (4ms) -> P2 (4ms) -> P3 (যদি বাকি থাকে) -> P1 (যদি বাকি থাকে) -> ...</li>
+                            <li>এভাবে প্রতিটি প্রসেস পালাক্রমে সিপিইউ ব্যবহার করে, যতক্ষণ না তাদের কাজ শেষ হয়।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুবিধা (Advantages)</span></h5>
+                        <p class="mb-2">Round Robin শিডিউলিং অ্যালগরিদমের কিছু গুরুত্বপূর্ণ সুবিধা রয়েছে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ফেয়ারনেস (Fairness):</span> এটি প্রতিটি প্রসেসকে সিপিইউ-এর একটি <span style="color: #66FCF1;">ন্যায্য অংশ</span> নিশ্চিত করে। কোনো প্রসেসকে অনির্দিষ্টকালের জন্য বঞ্চিত করে না।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. দ্রুত রেসপন্স টাইম (Good Response Time):</span> ইন্টারঅ্যাক্টিভ সিস্টেমে এটি খুব ভালো কাজ করে, কারণ প্রতিটি প্রসেস দ্রুতই সিপিইউ-এর অংশ পায়, ফলে ইউজারদের কাছে সিস্টেমটি দ্রুত প্রতিক্রিয়াশীল মনে হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. স্টারভেশন নেই (No Starvation):</span> কোনো প্রসেসকে অনির্দিষ্টকালের জন্য সিপিইউ থেকে বঞ্চিত (<span style="color: #66FCF1;">starve</span>) হতে হয় না, কারণ প্রতিটি প্রসেসকে পালাক্রমে সিপিইউ পাওয়ার সুযোগ দেওয়া হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. বাস্তবায়ন সহজ (Easy to Implement):</span> এর কার্যপ্রণালি তুলনামূলকভাবে সরল, তাই এটি বাস্তবায়ন করা সহজ।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অসুবিধা (Disadvantages)</span></h5>
+                        <p class="mb-2">Round Robin শিডিউলিং অ্যালগরিদমের কিছু অসুবিধা রয়েছে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. টাইম কোয়ান্টামের উপর নির্ভরশীলতা (Dependency on Time Quantum):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">খুব ছোট টাইম কোয়ান্টাম:</span> যদি টাইম কোয়ান্টাম খুব ছোট হয়, তাহলে '<span style="color: #66FCF1;">কনটেক্সট সুইচিং</span>' (context switching - একটি প্রসেস থেকে অন্য প্রসেসে সিপিইউ নিয়ন্ত্রণ পরিবর্তন করার প্রক্রিয়া) এর ওভারহেড (অতিরিক্ত সময়) অনেক বেড়ে যায়। এতে সিপিইউ বেশিরভাগ সময় প্রসেস পরিবর্তন করতেই ব্যয় করে, আসল কাজ কম হয়।</li>
+                                    <li><span style="color: #66FCF1;">খুব বড় টাইম কোয়ান্টাম:</span> যদি টাইম কোয়ান্টাম খুব বড় হয়, তাহলে এটি <span style="color: #66FCF1;">FIFO (First-In, First-Out) বা FCFS (First-Come, First-Served) শিডিউলিং-এর মতো</span> আচরণ করে, যা টাইম-শেয়ারিং সিস্টেমের মূল উদ্দেশ্যকে ব্যাহত করে।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. টার্নঅ্যারাউন্ড টাইম বেশি হতে পারে (Potentially High Turnaround Time):</span> ছোট প্রসেসগুলোর জন্য রেসপন্স টাইম ভালো হলেও, বড় প্রসেসগুলোর জন্য এটি FCFS-এর চেয়ে বেশি টার্নঅ্যারাউন্ড টাইম দিতে পারে, কারণ তাদের বারবার সিপিইউটি ছেড়ে দিতে হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. প্রায়োরিটি ম্যানেজমেন্ট নেই (No Priority Management):</span> এই অ্যালগরিদমে প্রসেসগুলোর কোনো প্রায়োরিটি বিবেচনা করা হয় না। সব প্রসেসকে সমানভাবে দেখা হয়, যা কিন্তু সিস্টেমের জন্য উপযুক্ত নাও হতে পারে।</li>
+                        </ul>
+                        <p class="mb-2">Round Robin শিডিউলিং অ্যালগরিদম তার সরলতা এবং ফেয়ারনেসের কারণে টাইম-শেয়ারিং এবং মাল্টিটাস্কিং অপারেটিং সিস্টেমে ব্যাপকভাবে ব্যবহৃত হয়।</p>
+                    </div>` },
+                { text: "৭। Deadlock দূরীকরণের Algorithm বর্ণনা কর। (Chapter - 6)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ডেডলক কী? (What is a Deadlock?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক (Deadlock)</span> হলো অপারেটিং সিস্টেমে এমন একটি পরিস্থিতি, যেখানে <span style="color: #66FCF1;">দুই বা ততোধিক প্রোগ্রাম একে অপরের জন্য রিসোর্স (যেমন ফাইল, প্রিন্টার) ছেড়ে দেওয়ার অপেক্ষায় অনির্দিষ্টকালের জন্য আটকে থাকে</span>, ফলে কেউই আর কাজ করতে পারে না। এটা অনেকটা মোড়ে আটকে পড়া গাড়ির জ্যামের মতো 🚗!</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক দূরীকরণ বা রিকভারি কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক দূরীকরণ বা রিকভারি</span> মানে হলো, যখন সিস্টেমে ডেডলক ঘটে যায়, তখন তাকে ভেঙে ফেলার জন্য অপারেটিং সিস্টেম যে কৌশলগুলো ব্যবহার করে, সেগুলোকে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক দূরীকরণের প্রধান অ্যালগরিদম/পদ্ধতিসমূহ</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. প্রসেস টার্মিনেশন (Process Termination - প্রোগ্রাম বন্ধ করা):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ডেডলকে আটকে পড়া কিছু বা সমস্ত প্রোগ্রামকে জোর করে বন্ধ করে দেওয়া হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> মোড় থেকে কিছু গাড়িকে জোর করে সরিয়ে নেওয়া 🚧।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. রিসোর্স প্রিএম্পশন (Resource Preemption - রিসোর্স কেড়ে নেওয়া):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> অপারেটিং সিস্টেম ডেডলকে আটকে পড়া একটি প্রসেসের কাছ থেকে জোর করে একটি রিসোর্স কেড়ে নেয় এবং সেটি অন্য প্রসেসকে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ট্র্যাফিক পুলিশ একটি গাড়িকে সাময়িকভাবে সরিয়ে নেয় 🅿️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. রোলব্যাক (Rollback - পূর্বের অবস্থায় ফিরে যাওয়া):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> অপারেটিং সিস্টেম প্রসেসগুলোকে তাদের পূর্বের নিরাপদ অবস্থায় ফিরিয়ে নেয় এবং সেখান থেকে আবার কাজ শুরু করায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ভিডিও গেমে আনডু বা 'সেভ লোড' করে আগের পয়েন্টে ফেরা 🎮।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ডেডলক কী? (What is a Deadlock?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক (Deadlock)</span> হলো অপারেটিং সিস্টেমের এমন একটি পরিস্থিতি, যেখানে <span style="color: #66FCF1;">দুই বা ততোধিক প্রোগ্রাম (প্রসেস) একে অপরের জন্য একটি রিসোর্স (যেমন ফাইল, প্রিন্টার) ছেড়ে দেওয়ার অপেক্ষায় অনির্দিষ্টকালের জন্য আটকে থাকে, ফলে কেউই আর কাজ করতে পারে না</span>।</p>
+                        <p class="mb-2">মনে করুন, একটা চার মাথার মোড়ে দুটো গাড়ি (প্রসেস) আটকে আছে। একটা গাড়ি সামনের গাড়ির জন্য অপেক্ষা করছে, আর সামনের গাড়িটাও তার সামনের গাড়ির জন্য অপেক্ষা করছে, আর এইভাবে সবাই সবার জন্য অপেক্ষা করছে। কেউই নড়তে পারছে না, ফলে একটা জ্যাম তৈরি হয়। ডেডলক ঠিক এটাই। 🚗</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক দূরীকরণ বা রিকভারি কী? (What is Deadlock Removal/Recovery?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক দূরীকরণ বা রিকভারি</span> মানে হলো, যখন সিস্টেমে ডেডলক ঘটে যায়, তখন সিস্টেমকে ডেডলক কেলার জন্য এবং সিস্টেমকে আবার <span style="color: #66FCF1;">স্বাভাবিক অবস্থায় ফিরিয়ে আনার</span> জন্য অপারেটিং সিস্টেমে যে কৌশলগুলো ব্যবহার করে, সেগুলোকে। এটা হলো ডেডলক হয়ে যাওয়ার পর ঠিক করার প্ল্যান।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক দূরীকরণের প্রধান অ্যালগরিদম/পদ্ধতিসমূহ (Main Algorithms/Methods for Deadlock Removal)</span></h5>
+                        <p class="mb-2">অপারেটিং সিস্টেম ডেডলক থেকে সিস্টেমকে উদ্ধার করার জন্য বিভিন্ন পদ্ধতি ব্যবহার করে। প্রধান পদ্ধতিগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. প্রসেস টার্মিনেশন (Process Termination - প্রোগ্রাম বন্ধ করা):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> এই পদ্ধতিতে ডেডলককে আটকাড়ে পড়া কিছু বা সমস্ত প্রসেসকে জোর করে বন্ধ করে দেওয়া হয়। ডেডলক থেকে ফেরার একটি সাধারণ কিন্তু কঠোর উপায়।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span>
+                                        <ul style="list-style-type: square; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                            <li><span style="color: #66FCF1;">সব প্রসেস মেরে ফেলা (Kill all deadlocked processes):</span> সবচেয়ে সহজ উপায় হলো ডেডলকে জড়িত সব প্রসেসকে একবারে বন্ধ করে দেওয়া। এতে ডেডলক দ্রুত সমাধান হয়, কিন্তু অনেক কাজ নষ্ট হতে পারে।</li>
+                                            <li><span style="color: #66FCF1;">একটার পর একটা মেরে ফেলা (Kill one by one until deadlock is resolved):</span> এই পদ্ধতিতে অপারেটিং সিস্টেম ডেডলকে জড়িত প্রসেসগুলোর মধ্য থেকে একে একে '<span style="color: #66FCF1;">শিকার</span>' (victim) হিসেবে বেছে নেয় এবং তাকে বন্ধ করে দেয়। এরপর আবার চেক করে ডেডলক ঠিক হয়েছে কিনা। ঠিক না হলে অন্য একটিকে বেছে নেয়, যতক্ষণ না ডেডলক দূর হয়।</li>
+                                        </ul>
+                                    </li>
+                                    <li><span style="color: #66FCF1;">শিকার নির্বাচনের মানদণ্ড:</span> অপারেটিং সিস্টেম সাধারণত কিছু বিষয় বিবেচনা করে '<span style="color: #66FCF1;">শিকার</span>' করতে বা ঠিক করে, যেমন: প্রসেসের প্রায়োরিটি (গুরুত্ব), প্রসেস কত সময় ধরে চলছে, সে কতগুলো রিসোর্স দখল করে আছে, তাকে বন্ধ করলে কত কাজ নষ্ট হবে ইত্যাদি।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> মোড়ে আটকে পড়া গাড়িগুলোর থেকে কিছু গাড়িকে জোর করে টেনে সরিয়ে নেওয়া বা সরিয়ে ফেলার ব্যবস্থা করা যাতে বাকিরা নড়তে পারে। 🚧</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. রিসোর্স প্রিএম্পশন (Resource Preemption - রিসোর্স কেড়ে নেওয়া):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> এই পদ্ধতিতে অপারেটিং সিস্টেম ডেডলকে আটকে পড়া প্রসেসের কাছ থেকে <span style="color: #66FCF1;">জোর করে একটি রিসোর্স কেড়ে</span> নেয় এবং সেটি অন্য একটি প্রসেসকে দেয়, যাতে সেই প্রসেসটি তার কাজ শেষ করতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span>
+                                        <ul style="list-style-type: square; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                            <li><span style="color: #66FCF1;">নির্বাচন (Selection of a victim):</span> অপারেটিং সিস্টেমকে সিদ্ধান্ত নিতে হয় কোন প্রসেসের কাছ থেকে কোন রিসোর্স কেড়ে নেবে।</li>
+                                            <li><span style="color: #66FCF1;">রোলব্যাক (Rollback):</span> যে প্রসেসের কাছ থেকে রিসোর্স কেড়ে নেওয়া হয়, তাকে প্রায়শই একটি পূর্বের '<span style="color: #66FCF1;">নিরাপদ অবস্থা</span>' (safe state) ফিরিয়ে আনা হয়, যাতে পরবর্তীতে সঠিকভাবে কাজ শুরু করতে পারে।</li>
+                                            <li><span style="color: #66FCF1;">স্টারভেশন (Starvation):</span> যদি বারবার একই প্রসেসের কাছ থেকে রিসোর্স কেড়ে নেওয়া হয়, তাহলে সে কখনোই তার কাজ শেষ করতে পারবে না, যাকে '<span style="color: #66FCF1;">স্টারভেশন</span>' বলে। অপারেটিং সিস্টেমকে এটা এড়াতে হয়।</li>
+                                        </ul>
+                                    </li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটা ট্র্যাফিক পুলিশ এসে মোড়ের একটা গাড়িকে সাময়িকভাবে একটু পিছিয়ে নিতে বা অন্য কোথাও পার্ক করতে বাধ্য করে, যাতে অন্য গাড়িটা যেতে পারে। পরে সেই গাড়িটা আবার তার জায়গায় ফিরে আসে। 🅿️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. রোলব্যাক (Rollback - পূর্বের অবস্থায় ফিরে যাওয়া):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> এই পদ্ধতিতে অপারেটিং সিস্টেম নিয়মিত বিরতিতে প্রসেসগুলোর একটি <span style="color: #66FCF1;">স্ন্যাপশট (snapshot) বা চেকপয়েন্ট (checkpoint)</span> তৈরি করে (অর্থাৎ তাদের অবস্থা মেমরিতে সেভ করে রাখে)। যদি ডেডলক ঘটে, তাহলে সিস্টেম ডেডলকে জড়িত প্রসেসগুলোকে তাদের পূর্বের সেই নিরাপদ চেকপয়েন্টে ফিরিয়ে নিয়ে যায় এবং সেখান থেকে আবার কাজ শুরু করায়।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> প্রসেসগুলো একটি নিরাপদ চেকপয়েন্টে আসার পর, তাদের আবার চালানো হয়, এই আশায় যে এবার তারা ভিন্ন পথে চলবে এবং ডেডলকে পড়বে না।</li>
+                                    <li><span style="color: #66FCF1;">উপযোগিতা:</span> এটি ডেটা লস কমায়, কারণ পুরো কাজটা শুরু থেকে করতে হয় না, শুধু শেষ চেকপয়েন্ট থেকে শুরু হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আপনি একটা ভিডিও গেম খেলছেন, আর কোনো কারণে আটকে গেলেন। তখন আপনি আনডু (<span style="color: #66FCF1;">Undo</span>) বা 'লোডিং সেভ' (<span style="color: #66FCF1;">Load Save</span>) অপশন দিয়ে গেমটাকে আগের একটা সেভ পয়েন্টে ফিরিয়ে নিয়ে গেলেন, যাতে আবার আটকে যাওয়া এড়াতে পারেন। 🎮</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক দূরীকরণ</span> একটি জটিল প্রক্রিয়া, কারণ এটি ডেটা লস বা সিস্টেমের কার্যকারিতা ব্যাহত করতে পারে। অপারেটিং সিস্টেমকে সাবধানে এই পদ্ধতিগুলো ব্যবহার করতে হয়।</p>` },
+                { text: "৮। Deadlock Detection এর  Algorithm বর্ণনা কর। (Chapter - 6)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ডেডলক ডিটেকশন কী? (What is Deadlock Detection?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক ডিটেকশন</span> হলো অপারেটিং সিস্টেমের এমন একটি প্রক্রিয়া যেখানে এটি পর্যায়ক্রমে পরীক্ষা করে দেখে যে সিস্টেমে কোনো <span style="color: #66FCF1;">ডেডলক ঘটেছে</span> কিনা। এটি অনেকটা একটি সিকিউরিটি সিস্টেমের মতো 🚨, যা সমস্যা (ডেডলক) হওয়ার পর আপনাকে অ্যালার্ট করে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক ডিটেকশন কেন দরকার?</span></h5>
+                        <p class="mb-2">কিন্তু সিস্টেমে ডেডলক প্রতিরোধ বা এড়িয়ে যাওয়া সম্ভব হয় না বা ব্যয়বহুল হয়। এক্ষেত্রে, ডেডলক ঘটলে তাকে দ্রুত শনাক্ত করা প্রয়োজন, যাতে সমাধানের ব্যবস্থা নেওয়া যায়।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক ডিটেকশন অ্যালগরিদম</span></h5>
+                        <p class="mb-2">একটি ডেডলক ডিটেকশন অ্যালগরিদমের মূল উদ্দেশ্য হলো, কোন প্রসেসগুলো আটকে আছে তা খুঁজে বের করা। এর জন্য সাধারণত গ্রাফ-ভিত্তিক পদ্ধতি ব্যবহার করা হয়, যেমন রিসোর্স-অ্যালোকেশন গ্রাফ। গ্রাফে চক্র (Cycle) দেখলে ডেডলকের সম্ভাবনা থাকে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অ্যালগরিদম ধাপ (Simplified Steps):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ডেটা বজায় রাখা:</span> সিস্টেমের রিসোর্স উপলব্ধতা ও প্রসেসের অনুরোধের তথ্য রাখে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সেফটি চেক:</span> পরীক্ষা করে দেখে সব প্রসেস কাজ শেষ করতে পারবে কিনা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. শনাক্তকরণ:</span> যদি কোনো প্রসেস শেষ করার ক্রম না পাওয়া যায়, তাহলে ডেডলক হয়েছে ঘোষণা করে।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অ্যালগরিদম চালানোর সময়</span></h5>
+                        <p class="mb-2">অ্যালগরিদমটি চালানো হয় যখন:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. কোনো রিসোর্স রিকুয়েস্ট দেওয়া যায় না।</span></li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. নির্দিষ্ট সময় পর পর।</span></li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. সিপিইউ ব্যবহার কমে গেলো।</span></li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুবিধা ও অসুবিধা</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1;">সুবিধা:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. রিসোর্স ব্যবহার আরও নমনীয় ও দক্ষ।</span></li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. কম সীমাবদ্ধতা আরোপ করে।</span></li>
+                        </ul>
+                        <h5 class="mb-2"><span style="color: #66FCF1;">অসুবিধা:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. শনাক্তকরণের জন্য সিপিইউ টাইম খরচ হয় (ওভারহেড)।</span></li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. শনাক্ত করার পর সমাধানের জন্য প্রসেস বন্ধ করা বা রোলব্যাক করার মতো ব্যয়বহুল পদ্ধতি লাগে।</span></li>
+                        </ul>
+                    </div>`
+                
+                , extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ডেডলক ডিটেকশন কী? (What is Deadlock Detection?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক ডিটেকশন</span> হলো অপারেটিং সিস্টেমের এমন একটি প্রক্রিয়া যেখানে এটি পর্যায়ক্রমে পরীক্ষা করে দেখে যে সিস্টেমে কোনো <span style="color: #66FCF1;">ডেডলক ঘটেছে</span> কিনা। ডেডলক ঘটার আগে এটিকে <span style="color: #66FCF1;">প্রতিরোধ (prevention) বা এড়িয়ে যাওয়া (avoidance)</span> সম্ভব হয় না বা সেটি খুব ব্যয়বহুল হয়। সে ক্ষেত্রে, সিস্টেম ডেডলকে ঘটতে দেয়, তবে তা ঘটলে যেন সেটিকে দ্রুত শনাক্ত করতে পারে এবং তারপর সমাধানের জন্য ব্যবস্থা নিতে পারে।</p>
+                        <p class="mb-2">এটা অনেকটা একটি সিকিউরিটি সিস্টেমের মতো 🚨, যা প্রতি নির্দিষ্ট সময় পর পর চেক করে দেখে আপনার বাড়িতে কোনো চুরি বা সমস্যা (ডেডলক) ঘটেছে কিনা। যখন সমস্যা ধরা পড়ে, তখন আপনি তা ঠিক করার জন্য ব্যবস্থা নেন।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক ডিটেকশন কেন দরকার? (Why is Deadlock Detection Needed?)</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">নমনীয়তা:</span> কিছু অ্যাপ্লিকেশনের জন্য ডেডলক প্রতিরোধ বা এড়িয়ে যাওয়া সম্ভব হয় না বা সিস্টেমে রিসোর্স ব্যবহারের ক্ষেত্রে অনেক সীমাবদ্ধতা নিয়ে আসে। ডেডলক ডিটেকশন এক্ষেত্রে সিস্টেমে বেশি নমনীয়তা দেয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">রিসোর্স ব্যবহার:</span> এটি রিসোর্সগুলোকে আরও ভালোভাবে ব্যবহার করতে দেয়, কারণ ডেডলক প্রতিরোধ বা এড়ানোর জন্য রিসোর্সকে অকারণে আটকে রাখা হয় না।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ত্রুটি সংশোধন:</span> ডেডলক শনাক্ত করার পর সিস্টেম রিকভারি পদ্ধতি ব্যবহার করে স্বাভাবিক অবস্থায় ফিরে আসতে পারে।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক ডিটেকশন অ্যালগরিদম (Deadlock Detection Algorithm)</span></h5>
+                        <p class="mb-2">একটি ডেডলক ডিটেকশন অ্যালগরিদমের মূল উদ্দেশ্য হলো, বর্তমানে কোন প্রসেসগুলো আটকে আছে এবং তারা কোন রিসোর্সের জন্য অপেক্ষা করছে তা খুঁজে বের করা। এর জন্য সাধারণত গ্রাফ-ভিত্তিক পদ্ধতি ব্যবহার করা হয় ।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. রিসোর্স-অ্যালোকেশন গ্রাফ (Resource-Allocation Graph):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী?:</span> এটি একটি গ্রাফ যা সিস্টেমে প্রসেস এবং রিসোর্সগুলোর মধ্যকার সম্পর্ককে ভিজ্যুয়ালি দেখায়।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span>
+                                        <ul style="list-style-type: square; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                            <li><span style="color: #66FCF1;">নোড (Nodes):</span> প্রসেস (বৃত্ত দ্বারা চিত্রিত) এবং রিসোর্স টাইপ (আয়তক্ষেত্র দ্বারা চিত্রিত)।</li>
+                                            <li><span style="color: #66FCF1;">এজ (Edges):</span>
+                                                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                                    <li><span style="color: #66FCF1;">অ্যাসাইনমেন্ট এজ (Assignment Edge):</span> একটি রিসোর্স থেকে একটি প্রসেসের দিকে তীর, যা নির্দেশ করে যে রিসোর্সটি ওই প্রসেস দ্বারা ব্যবহৃত হচ্ছে।</li>
+                                                    <li><span style="color: #66FCF1;">রিকুয়েস্ট এজ (Request Edge):</span> একটি প্রসেস থেকে একটি রিসোর্স টাইপের দিকে তীর, যা নির্দেশ করে যে প্রসেসটি ওই রিসোর্সের জন্য অপেক্ষা করছে।</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><span style="color: #66FCF1;">ডেডলক শনাক্তকরণ:</span> যদি এই গ্রাফে কোনো <span style="color: #66FCF1;">চক্র বা সাইকেল (Cycle) তৈরি হয়</span>, তাহলে তা ডেডলকের সম্ভাবনা নির্দেশ করে। যদি প্রতিটি রিসোর্স টাইপের একটি মাত্র ইনসট্যান্স থাকে, তবে সাইকেল মানেই ডেডলক। একাধিক ইনসট্যান্স থাকলে ডেডলক হতেও পারে, নাও হতে পারে; তখন আরও বিশ্লেষণ প্রয়োজন।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি শহরের ম্যাপের মতো, যেখানে গাড়িগুলো (প্রসেস) এবং ট্র্যাফিক লাইটগুলো (রিসোর্স) একে অপরের সাথে কিভাবে যুক্ত, তা দেখা যায়। ম্যাপে যদি কোনো চক্র দেখেন যেখানে সবাই একে অপরের জন্য অপেক্ষা করছে, তাহলে সেটা ডেডলক।</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">২. অ্যালগরিদমের ধাপসমূহ (Simplified Algorithm Steps):</span></h5>
+                        <p class="mb-2">একটি ডেডলক ডিটেকশন অ্যালগরিদম পর্যায়ক্রমে নিচের কাজগুলো করে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ডেটা অবস্থার বজায় রাখা:</span> সিস্টেমের বর্তমান অবস্থা সম্পর্কে তথ্য রাখে, যেমন:
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">Available :</span> কতগুলো রিসোর্স টাইপ বর্তমানে উপলব্ধ আছে।</li>
+                                    <li><span style="color: #66FCF1;">Allocation :</span> প্রতিটি প্রসেস কোন রিসোর্স টাইপের কতগুলো ইনসট্যান্স দখল করে আছে।</li>
+                                    <li><span style="color: #66FCF1;">Request :</span> প্রতিটি প্রসেস কোন রিসোর্স টাইপের কতগুলো ইনসট্যান্সের জন্য অপেক্ষা করছে।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সেফটি অ্যালগরিদম প্রয়োগ:</span> অ্যালগরিদমটি পরীক্ষা করে দেখে যে, সিস্টেমে এমন কোনো সিকোয়েন্স বা ক্রম (sequence) আছে কিনা যেখানে সমস্ত প্রসেস নিরাপদে কাজ শেষ করতে পারে। এটি প্রতিটি প্রসেসকে এক এক করে পরীক্ষা করে দেখে যে তার অনুরোধকৃত রিসোর্সগুলো উপলব্ধ আছে কিনা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডেডলক ঘোষণা:</span> যদি এমন কোনো সিকোয়েন্স খুঁজে না পাওয়া যায় যেখানে সমস্ত প্রসেসের কাজ শেষ করতে পারে, তাহলে সিস্টেমে ডেডলক ঘটেছে বলে ঘোষণা করা হয়।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অ্যালগরিদম চালানোর সময় (When to Invoke the Algorithm?)</span></h5>
+                        <p class="mb-2">অপারেটিং সিস্টেম বিভিন্ন পরিস্থিতিতে ডেডলক ডিটেকশন অ্যালগরিদম চালাতে পারে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>যখন কোনো রিকুয়েস্ট গ্রান্ট করা যায় না: যখন একটি প্রসেস একটি রিসোর্সের জন্য অনুরোধ করে এবং সেটি তৎক্ষণাৎ দেওয়া যায় না।</li>
+                            <li>নির্দিষ্ট সময় পর পর: সিস্টেম পর্যায়ক্রমে (যেমন প্রতি ১ ঘণ্টায় বা নির্দিষ্ট সংখ্যক রিকুয়েস্টের পর) অ্যালগরিদমটি চালায়।</li>
+                            <li>সিপিইউ ইউটিলাইজেশন কম: যখন সিপিইউ ইউটিলাইজেশন (ব্যবহার) একটি নির্দিষ্ট থ্রেশহোল্ডের নিচে নেমে যায়, যা ডেডলকের কারণে হতে পারে।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক ডিটেকশনের সুবিধা ও অসুবিধা (Advantages & Disadvantages of Deadlock Detection)</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1;">সুবিধা (Advantages):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">রিসোর্স ব্যবহার অপ্টিমাইজ:</span> ডেডলক প্রতিরোধ বা এড়ানোর চেয়ে রিসোর্সগুলো আরও বেশি নমনীয়ভাবে এবং দক্ষতার সাথে ব্যবহার করা যায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">কম সীমাবদ্ধতা:</span> সিস্টেমে রিসোর্স ব্যবহারের ক্ষেত্রে এটি কম সীমাবদ্ধতা আরোপ করে।</li>
+                        </ul>
+                        <h5 class="mb-2"><span style="color: #66FCF1;">অসুবিধা (Disadvantages):</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ওভারহেড (Overhead):</span> ডেডলক শনাক্ত করার জন্য অ্যালগরিদম চালানোর জন্য সিপিইউ টাইম এবং মেমরি খরচ হয়, যা একটি অতিরিক্ত ব্যয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">রিকভারি খরচ:</span> ডেডলক শনাক্ত করার পর সিস্টেমকে স্বাভাবিক অবস্থায় ফিরিয়ে আনতে প্রায়শই প্রসেস বন্ধ করা (killing processes) বা রোলব্যাক করার (rollback) মতো ব্যয়বহুল পদ্ধতির প্রয়োজন হয়, যা ডেটা লস বা কাজের ক্ষতি করতে পারে。</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">জটিলতা:</span> অ্যালগরিদমগুলো জটিল হতে পারে, বিশেষ করে বড় সিস্টেমে।</li>
+                        </ul>
+                        <p class="mb-2">ডেডলক ডিটেকশন হলো এমন একটি কৌশল যা সিস্টেমে ডেডলককে ঘটতে দেয়, কিন্তু তাকে শনাক্ত করে সমাধানের জন্য প্রস্তুত থাকে ।</p>
+                    </div>` },
+                { text: "৯। চিত্রসহ File System Organization বর্ণনা কর। (Chapter - 9)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপটিক্যাল মাউস কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">অপটিক্যাল মাউস</span> হলো এমন এক ধরনের মাউস যা নড়াচড়া শনাক্ত করতে <span style="color: #66FCF1;">আলো (LED/লেজার) এবং একটি ছোট ক্যামেরা</span> ব্যবহার করে। এর নিচে কোনো বল থাকে না।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">গঠন</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. LED/লেজার লাইট:</span> মাউসের নিচে <span style="color: #66FCF1;">আলো তৈরি</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ইমেজ সেন্সর (ক্যামেরা):</span> মাউসের নিচের পৃষ্ঠের <span style="color: #66FCF1;">ছবি তোলে</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. DSP (Digital Signal Processor):</span> ছবির পরিবর্তন বিশ্লেষণ করে মাউসের <span style="color: #66FCF1;">গতিবিধি হিসাব</span> করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. মাইক্রোকন্ট্রোলার:</span> ডেটা প্রক্রিয়াকরণ করে <span style="color: #66FCF1;">কম্পিউটারে পাঠায়</span>।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্যনীতি</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. LED/লেজার আলো</span> পৃষ্ঠের উপর পড়ে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ইমেজ সেন্সর প্রতি সেকেন্ডে হাজার হাজার ছবি</span> তোলে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. DSP এই ছবিগুলোর মধ্যে পরিবর্তন বিশ্লেষণ</span> করে মাউসের নড়াচড়া হিসাব করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. মাইক্রোকন্ট্রোলার এই তথ্যকে ডিজিটাল সিগনালে রূপান্তর</span> করে কম্পিউটারে পাঠায়, ফলে কার্সরের নড়াচড়া করে। 🖱️</li>
+                        </ul>
+                    </div>`,
+                
+                extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। চিত্রসহ File System Organization বর্ণনা কর।</span></h5>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">File System Organization কী? (What is File System Organization?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">File System Organization</span> হলো অপারেটিং সিস্টেমের এমন একটি পদ্ধতি, যেখানে কম্পিউটার তার স্টোরেজ ডিভাইসে (<span style="color: #66FCF1;">যেমন হার্ডডিস্ক</span>) ফাইল এবং ফোল্ডারগুলোকে (<span style="color: #66FCF1;">ডাইরেক্টরি</span>) কীভাবে সাজায়, সংরক্ষণ করে এবং ম্যানেজ করে, তার একটি নির্দিষ্ট কাঠামো। এর মূল উদ্দেশ্য হলো, ব্যবহারকারী এবং প্রোগ্রামগুলো যাতে সহজেই ডেটা খুঁজে পায়, সংরক্ষণ করতে পারে এবং দক্ষতার সাথে ডেটা অ্যাক্সেস করতে পারে।</p>
+                        <p class="mb-2">মনে করুন, এটা একটা বিশাল লাইব্রেরি (<span style="color: #66FCF1;">library</span>) ম্যানেজমেন্ট সিস্টেমের মতো 📚। লাইব্রেরিতে শুধু বই রাখলেই চলে না, সেগুলোকে বিষয়ভিত্তিক, লেখক বা টাইটেল অনুযায়ী সুনির্দিষ্টভাবে সাজাতে হয়, যাতে দরকারের সময় সহজেই খুঁজে পাওয়া যায়। ফাইল সিস্টেমও ঠিক একই কাজ করে, তবে ডিজিটাল ডেটার জন্য।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রধান উপাদানসমূহ এবং কার্যপ্রণালি (Main Components and Working Principle)</span></h5>
+                        <p class="mb-2">একটি ফাইল সিস্টেম সাধারণত কয়েকটি স্তরে (<span style="color: #66FCF1;">layers</span>) বিভক্ত থাকে, যেখানে প্রতিটি স্তরের নির্দিষ্ট কাজ রয়েছে। এই স্তরগুলো একসাথে কাজ করে ব্যবহারকারীর ফাইল রিকুয়েস্টকে হার্ডওয়্যারের কাছে পৌঁছে দেয় এবং হার্ডওয়্যার থেকে ডেটাকে ব্যবহারকারীর কাছে নিয়ে আসে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ফাইল সিস্টেম অর্গানাইজেশন এর স্তর-ভিত্তিক চিত্র:</span></h5>
+                        <p class="mb-2">(এটি একটি চিত্রের ধারণামূলক উপস্থাপন)</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb1.jpg" alt="File System Organization Layered Diagram" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রতিটি স্তরের কার্যপ্রণালি:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. লজিক্যাল ফাইল সিস্টেম (Logical File System):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি ফাইল সিস্টেমের সবচেয়ে উপরের স্তর, যা ব্যবহারকারী এবং অ্যাপ্লিকেশন প্রোগ্রামগুলো সরাসরি দেখে। এটি ফাইল এবং ফোল্ডারের নাম, তাদের গঠন, অ্যাক্সেসের অনুমতি (<span style="color: #66FCF1;">permissions</span>) এবং অন্যান্য লজিক্যাল বৈশিষ্ট্যগুলো পরিচালনা করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন কম্পিউটারে একটি ফাইলের নাম দেন (যেমন <span style="color: #66FCF1;">my_document.docx</span>) বা ফোল্ডারে সেভ করেন।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরির ক্যাটালগ বা সূচিপত্র, যেখানে বইয়ের নাম, লেখক এবং বিভাগ লেখা থাকে। 📚</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ফাইল-অর্গানাইজেশন মডিউল (File-Organization Module):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি লজিক্যাল ফাইল সিস্টেম থেকে আসা ফাইল অ্যাক্সেসের অনুরোধকে হার্ডডিস্কের <span style="color: #66FCF1;">ফিজিক্যাল ডেটা ব্লকে রূপান্তর</span> করে। এটি হার্ডডিস্কে ডেটা রাখা, খালি জায়গা কোথায় আছে, এবং ডেটা কিভাবে ব্লকে ভাগ করা হবে, তা দেখাশোনা করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> একটি ফাইলকে যখন সেভ করা হয়, তখন এই ইউনিট ফাইলটিকে হার্ডডিস্কের কোন কোন ফিজিক্যাল ব্লকে জমা হবে তা নির্ধারণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরির বুকশেফ ম্যানেজার, যিনি ক্যাটালগ দেখে ঠিক করেন কোন কোন বই শেফের নির্দিষ্ট জায়গায় রাখবে। 🗄️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. বেসিক ফাইল সিস্টেম (Basic File System):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি ফাইল-অর্গানাইজেশন মডিউল থেকে প্রাপ্ত ফিজিক্যাল ব্লক অ্যাড্রেস নিয়ে সরাসরি হার্ডডিস্কের <span style="color: #66FCF1;">কাঁচা (raw) ফিজিক্যাল ব্লকগুলোতে পড়া এবং লেখার</span> কাজ করে। এটি ফাইলগুলোকে ব্লকে ভাগ করে ডিস্কে লেখে বা ডিস্ক থেকে পড়ে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> ডিস্ক ড্রাইভারকে একটি নির্দিষ্ট ব্লক নম্বর দিয়ে বলা, "এই ব্লকটা পড়ে দাও!"</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরির কর্মী, যিনি বুকশেফ ম্যানেজারের থেকে পাওয়া নির্দেশনা অনুযায়ী সরাসরি শেলফ থেকে বই তুলে আনেন বা রেখে দেন। 📦</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. I/O কন্ট্রোল (I/O Control):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এই ইউনিট <span style="color: #66FCF1;">ডিভাইস ড্রাইভার (device driver)</span> এবং হার্ডওয়্যারের সাথে সরাসরি যোগাযোগ করে। এটি কম্পিউটারের CPU এবং স্টোরেজ ডিভাইসের (যেমন হার্ডডিস্ক) মধ্যে ডেটা ব্লক ট্রান্সফার নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> হার্ডডিস্ক কন্ট্রোলারের সাথে যোগাযোগ করা, ডেটা ট্রান্সফার শুরু করা।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরির ডেলিভারি সার্ভিস, যারা সরাসরি হার্ডডিস্কের মতো শেলফের সাথে যুক্ত এবং ডেটা ব্লকগুলোকে (ব্লক) আদান-প্রদান করে। 🚚</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডিভাইস (Devices):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি হলো আসল ফিজিক্যাল স্টোরেজ হার্ডওয়্যার, যেখানে ডেটা আসলে সংরক্ষিত থাকে। যেমন <span style="color: #66FCF1;">হার্ডডিস্ক ড্রাইভ (HDD), সলিড স্টেট ড্রাইভ (SSD), বা USB ফ্ল্যাশ ড্রাইভ</span>।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনার ল্যাপটপের SSD।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরির আসল বই শেখ বা গুদাম। 📦</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্যপ্রণালি (Working Principle):</span></h5>
+                        <p class="mb-2">যখন কোনো ব্যবহারকারী একটি ফাইল রিড বা রাইট করতে চায়, তখন অনুরোধটি প্রথমে লজিক্যাল ফাইল সিস্টেমে আসে। এটি সেই অনুরোধটিকে ধাপে ধাপে নিচের স্তরগুলোতে পাঠায়। প্রতিটি স্তর তার নিজের কাজ করে এবং ডেটাকে পরের স্তরের বোঝার উপযোগী করে তোলে, যতক্ষণ না এটি আসল ডিভাইসে পৌঁছে। ডেটা ডিভাইসে পড়া বা লেখার পর, একই প্রক্রিয়া উল্টা দিকে কাজ করে, অর্থাৎ ডেটা স্তরগুলোর মধ্য দিয়ে ইউজারের কাছে ফেরত আসে। এই স্তর-ভিত্তিক কাঠামো ফাইল ম্যানেজমেন্টকে অত্যন্ত দক্ষ এবং নির্ভরযোগ্য করে তোলে।</p>
+                    </div>` },
+                { text: "১০। ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট পদ্ধতি বর্ণনা কর। (Chapter - 9)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট</span> হলো অপারেটিং সিস্টেমের (OS) এমন একটি পদ্ধতি, যেখানে কম্পিউটার তার স্টোরেজ ডিভাইসের অব্যবহৃত (ফ্রি) জায়গাগুলোকে কিভাবে ট্র্যাক করে এবং নতুন ফাইল সেভ করার সময় সেই ফাঁকা জায়গাগুলো কিভাবে বরাদ্দ (allocate) করে, তা দেখাশোনা করে। এটা অনেকটা একটি পার্কিং লট ম্যানেজারের মতো 🅿️।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কেন দরকার?</span></h5>
+                        <p class="mb-2">ডিস্কের জায়গা দক্ষতার সাথে ব্যবহার, পারফরমেন্স বৃদ্ধি এবং ডেটা সংরক্ষণে সমস্যা এড়ানোর জন্য এটি অপরিহার্য।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্টের প্রধান পদ্ধতিসমূহ</span></h5>
+                        <p class="mb-2">অপারেটিং সিস্টেম ডিস্কের খালি জায়গা ট্র্যাক করার জন্য প্রধানত চারটি পদ্ধতি ব্যবহার করে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. বিটম্যাপ (Bitmap / Bit Vector):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> একটি বিট (0 বা 1) এর ম্যাপ, যেখানে ডিস্কের প্রতিটি ছোট ব্লকের জন্য একটি করে বিট থাকে (0=খালি, 1=ব্যবহৃত)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> পার্কিং স্পটের ডিজিটাল ম্যাপ যেখানে লাইট জ্বলে। 🟢🔴</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. লিঙ্কড লিস্ট (Linked List / Free List):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ডিস্কের সমস্ত খালি ব্লকগুলো একটি চেইন বা লিঙ্কড লিস্টের মাধ্যমে যুক্ত থাকে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ট্রেজার হান্ট, যেখানে প্রতিটি খালি চেস্ট পরেরটির ঠিকানা বলে। 🗺️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. গ্রুপিং (Grouping):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> লিঙ্কড লিস্টের উন্নত সংস্করণ। প্রথম খালি ব্লকটি একাধিক (যেমন ১০০টি) খালি ব্লকের ঠিকানা একসাথে সংরক্ষণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি ট্রেজার চেস্ট যেখানে অনেকগুলো ক্লু একসাথে দেওয়া। 🥳</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. কাউন্টার (Counting):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> যদি একাধিক পরপর খালি ব্লক থাকে, তাহলে শুধু প্রথম খালি ব্লকের ঠিকানা এবং সেই খালি ব্লকগুলোর মোট সংখ্যা (count) সংরক্ষণ করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> বলা হয় "ব্লক 100 থেকে শুরু করে মোট 50টি ব্লক খালি আছে।"</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট কী? (What is Disk Free Space Management?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট</span> হলো অপারেটিং সিস্টেমের (OS) এমন একটি পদ্ধতি, যেখানে কম্পিউটার তার <span style="color: #66FCF1;">হার্ডডিস্ক বা অন্য স্টোরেজ ডিভাইসের (যেমন SSD) অব্যবহৃত (ফ্রি) জায়গাগুলোকে কিভাবে ট্র্যাক করে (কোথায় ফাঁকা আছে), এবং নতুন ফাইল সেভ করার সময় সেই ফাঁকা জায়গাগুলো কিভাবে বরাদ্দ (allocate) করে</span>, তা দেখাশোনা করে। এর মূল উদ্দেশ্য হলো, ডিস্কের জায়গাকে দক্ষতার সাথে ব্যবহার করা এবং ডেটা সংরক্ষণে কোনো সমস্যা না হয়।</p>
+                        <p class="mb-2">মনে করুন, আপনি একটা বিশাল পার্কিং লট (<span style="color: #66FCF1;">parking lot</span>) ম্যানেজারের মতো 🅿️। ম্যানেজারকে জানতে হয় কোন স্পটগুলো খালি আছে, যাতে নতুন গাড়ি এলে সেগুলোকে পার্ক করতে নিয়ে পারে। ডিস্ক ফ্রি স্পেস ম্যানেজমেন্টও একই কাজ করে, তবে ডিস্কের ব্লকগুলোর (ছোট ছোট স্টোরেজ ইউনিট) জন্য।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট কেন দরকার? (Why is it needed?)</span></h5>
+                        <p class="mb-2">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্ট অপরিহার্য, কারণ:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. দক্ষ ব্যবহার:</span> এটি নিশ্চিত করে যে ডিস্কের জায়গা যেন অপচয় না হয় এবং নতুন ফাইল সেভ করার জন্য সবসময় খালি জায়গা খুঁজে পাওয়া যায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. পারফরমেন্স:</span> খালি জায়গা দ্রুত খুঁজে পেলে ডেটা সেভ করা বা মুভ করা দ্রুত হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডেটা অখণ্ডতা:</span> সঠিক ব্যবস্থাপনার ছাড়া এলোমেলোভাাবে সেভ হতে পারে, যা সিস্টেমের স্থায়িত্ব নষ্ট করতে পারে।</li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডিস্ক ফ্রি স্পেস ম্যানেজমেন্টের প্রধান পদ্ধতিসমূহ (Main Methods of Disk Free Space Management)</span></h5>
+                        <p class="mb-2">অপারেটিং সিস্টেম বিভিন্ন কৌশল ব্যবহার করে ডিস্কের খালি জায়গাগুলো ট্র্যাক করে। প্রধান পদ্ধতিগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. বিটম্যাপ (Bitmap / Bit Vector):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি <span style="color: #66FCF1;">বিট (0 বা 1) এর অ্যারে বা ম্যাপ</span>, যেখানে ডিস্কের প্রতিটি ছোট ব্লকের জন্য একটি করে বিট থাকে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> যদি একটি বিটের মান '<span style="color: #66FCF1;">0</span>' হয়, তাহলে সংশ্লিষ্ট ডিস্ক ব্লকটি খালি আছে। আর যদি '<span style="color: #66FCF1;">1</span>' হয়, তাহলে ব্লকটি ব্যবহৃত হয়েছে। যখন OS-এর খালি জায়গা দরকার হয়, তখন সে বিটম্যাপ স্ক্যান করে '<span style="color: #66FCF1;">0</span>' খুঁজে বের করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটি পার্কিং লটের ডিজিটাল ম্যাপের মতো, যেখানে প্রতিটি পার্কিং স্পটের উপর একটি সবুজ (খালি) বা লাল (ভরা) লাইট জ্বলে থাকে। ম্যানেজার ম্যাপ দেখে খালি জায়গা খুঁজে নেন। 🟢🔴</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. লিঙ্কড লিস্ট (Linked List / Free List):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এই পদ্ধতিতে সিস্টেমের সমস্ত খালি ব্লকগুলো একটি চেইন বা লিঙ্কড লিস্টের মাধ্যমে যুক্ত থাকে। প্রতিটি খালি ব্লক পরের খালি ব্লকের ঠিকানা ধরে রাখে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> অপারেটিং সিস্টেম একটি ডেডিকেটেড হেড পয়েন্টার ব্যবহার করে প্রথম খালি ব্লকটি খুঁজে পায়। এরপর সেই ব্লকটি পরের খালি ব্লকের ঠিকানা দেয়, এইভাবে একটি চেইন তৈরি হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা ট্রেজার হান্টের (<span style="color: #66FCF1;">treasure hunt</span>) মতো, যেখানে প্রতিটি খালি চেস্ট (<span style="color: #66FCF1;">ডিস্ক ব্লক</span>) আপনাকে পরের খালি চেস্টের ঠিকানা (<span style="color: #66FCF1;">key</span>) বলে দেয়। 🗺️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. গ্রুপিং (Grouping):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি লিঙ্কড লিস্ট পদ্ধতিরই একটি উন্নত সংস্করণ। এই পদ্ধতিতে, প্রথম খালি ব্লকটি শুধু পরের খালি ব্লকের ঠিকানা না দিয়ে, বরং <span style="color: #66FCF1;">একাধিক (যেমন ১০০টি) খালি ব্লকের ঠিকানা একসাথে সংরক্ষণ</span> করে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> যখন OS-এর খালি জায়গা দরকার হয়, তখন এটি একটি ব্লক থেকে অনেকগুলো খালি ব্লকের ঠিকানা পেয়ে যায়, ফলে বারবার মেমরিতে খুঁজতে যেতে হয় না। এই ১০০টি ব্লকের মধ্যে প্রথমটি আবার পরবর্তী ১০০টি খালি ব্লকের ঠিকানা ধরে রাখে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা এমন একটি ট্রেজার চেস্ট, যেখানে শুধু একটি ক্যুই না, বরং পরের ১০০টি চেস্টের ঠিকানা একসাথে দেওয়া আছে! 🥳</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. কাউন্টার (Counting):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এই পদ্ধতিতে, যদি ডিস্কে একাধিক পরপর খালি ব্লক থাকে, তাহলে শুধু প্রথম খালি ব্লকের ঠিকানা এবং সেই খালি ব্লকগুলোর মোট সংখ্যা (<span style="color: #66FCF1;">count</span>) সংরক্ষণ করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> অপারেটিং সিস্টেম একটি এন্ট্রি দেখে বুঝতে পারে যে এই অ্যাড্রেস থেকে এতগুলো ব্লক খালি আছে। এতে অনেক বড় আকারের পরপর খালি জায়গা ট্র্যাক করা সহজ হয়।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> বিটম্যাপ বা লিঙ্কড লিস্টের মতো প্রতিটি ব্লকের জন্য আলাদাভাবে ট্র্যাক না করে, শুধু বলা হয় "<span style="color: #66FCF1;">ব্লক ১০০ থেকে শুরু করে মোট ৫০টি ব্লক খালি আছে</span>!"</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> পার্কিং লটের ম্যানেজার প্রতিটি খালি স্পট আলাদাভাবে না লিখে, বলেন "স্পট ৫০ থেকে ১০০ পর্যন্ত সব খালি!" 🅿️</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2">এই পদ্ধতিগুলো ডিস্কের স্থানকে দক্ষতার সাথে ব্যবহার করতে এবং নতুন ফাইল সংরক্ষণের প্রক্রিয়াকে দ্রুত ও ঝামেলামুক্ত রাখতে সাহায্য করে।</p>
+                    </div>` },
+                { text: "১১। Linux kernel এর বৈশিষ্ট্য বর্ণনা করো (Chapter - 10)", tier: 'mythic', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্নেল কী? (What is a Kernel?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">কার্নেল</span> হলো একটি অপারেটিং সিস্টেমের (OS) <span style="color: #66FCF1;">মূল অংশ বা মস্তিষ্ক</span> 🧠। এটি কম্পিউটার হার্ডওয়্যার এবং অন্যান্য সফটওয়্যারের মধ্যে <span style="color: #66FCF1;">সেতুর মতো কাজ</span> করে, সবকিছু ম্যানেজ করে। এটি অপারেটিং সিস্টেমের <span style="color: #66FCF1;">কন্ডাক্টরের</span> মতো 👨‍✈️ ।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Linux Kernel এর বৈশিষ্ট্য (Characteristics of Linux Kernel)</span></h5>
+                        <p class="mb-2">Linux কার্নেলের কিছু বিশেষ বৈশিষ্ট্য নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ওপেন সোর্স (Open Source):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেলের সোর্স কোড সবার জন্য উন্মুক্ত এবং বিনামূল্যে উপলব্ধ।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> কমিউনিটি-বিল্ট রেসিপি বই 🧑‍🍳।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. মনোলিথিক আর্কিটেকচার (Monolithic Architecture):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> OS এর সমস্ত কোর সার্ভিস একটি একক, বড় কোডের ব্লক হিসেবে কার্নেলের মধ্যেই থাকে। এটি দ্রুত কাজ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> 'অল-ইন-ওয়ান' সুপার ম্যানেজার 🧑‍💼।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মাল্টিটাস্কিং (Multitasking):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একই সময়ে একাধিক প্রোগ্রাম বা প্রসেসকে কার্যকর করতে দেয়, যা সিস্টেমকে প্রতিক্রিয়াশীল ও দক্ষ করে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একজন বাজিকরের অনেকগুলো বল একসাথে সামলায় 🤹।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. মাল্টি-ইউজার (Multi-user):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> একাধিক ইউজারকে একই কম্পিউটার সিস্টেমে একইসাথে লগইন করে রিসোর্স ব্যবহার করতে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বড় অফিস যেখানে সবাই একই বিল্ডিং শেয়ার করে 🏢।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. পোর্টেবিলিটি (Portability):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল অত্যন্ত পোর্টেবল, অর্থাৎ এটি বিভিন্ন ধরনের হার্ডওয়্যার আর্কিটেকচারে (যেমন x86, ARM) চলতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি অভিযোজিত ভাষা 🌍।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. স্থিতিশীলতা ও নির্ভরযোগ্যতা (Stability & Reliability):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি তার উচ্চ স্থিতিশীলতা এবং নির্ভরযোগ্যতার জন্য পরিচিত। খুব কম ক্র্যাশ করে এবং দীর্ঘ সময় ধরে নির্বিঘ্নে চলতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> পাথরের মতো মজবুত ভিত্তি ⛰️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. মডুলার ডিজাইন (Modular Design):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> নির্দিষ্ট ফিচার বা ডিভাইস ড্রাইভারগুলোকে আলাদা মডিউল হিসেবে কার্নেলে যোগ বা সরিয়ে ফেলা যায় রানটাইমে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লেগো সেটের মতো, নতুন অংশ সহজেই যোগ করা যায় 🧱।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। কার্নেল কী? (What is a Kernel?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">কার্নেল</span> হলো একটি অপারেটিং সিস্টেমের (OS) <span style="color: #66FCF1;">মূল অংশ বা মস্তিষ্ক</span> 🧠। এটি সেই কোর প্রোগ্রাম যা কম্পিউটার হার্ডওয়্যার এবং অন্যান্য সফটওয়্যারের মধ্যে <span style="color: #66FCF1;">সেতুর মতো কাজ</span> করে। যখন আপনি কোনো প্রোগ্রাম চালান, হার্ডওয়্যার ব্যবহার করতে চান বা কোনো ফাইল সেভ করতে চান, তখন কার্নেলই সেই কাজগুলো ম্যানেজ করে। এটা অনেকটা একটি অর্কেস্ট্রার কন্ডাক্টরের মতো 🎻, যিনি সব যন্ত্রকে (হার্ডওয়্যার) আর সুরকারকে (সফটওয়্যার) একসাথে সুরে বাজাতে সাহায্য করেন।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Linux Kernel এর বৈশিষ্ট্য (Characteristics of Linux Kernel)</span></h5>
+                        <p class="mb-2">Linux কার্নেলের কিছু বিশেষ বৈশিষ্ট্য রয়েছে, যা এটিকে অত্যন্ত শক্তিশালী, নমনীয় এবং জনপ্রিয় করে তুলেছে। এর প্রধান বৈশিষ্ট্যগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ওপেন সোর্স (Open Source):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেলের সোর্স কোড সবার জন্য উন্মুক্ত এবং বিনামূল্যে উপলব্ধ। যে কেউ এটি দেখতে, পরিবর্তন করতে এবং নিজের প্রয়োজন অনুযায়ী ব্যবহার করতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এই উন্মুক্ততার কারণে সারা বিশ্বের লক্ষ লক্ষ ডেভেলপার এতে অবদান রাখে, ফলে এটি দ্রুত উন্নতি করে এবং বাগগুলো দ্রুত ঠিক করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা কমিউনিটি-বিল্ট রেসিপি বইয়ের মতো 🧑‍🍳, যেখানে সবাই সেরা রেসিপি দেয় এবং সবাই সেটি ব্যবহার করে বা উন্নত করতে পারে।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. মনোলিথিক আর্কিটেকচার (Monolithic Architecture):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল একটি <span style="color: #66FCF1;">মনোলিথিক আর্কিটেকচার</span> অনুসরণ করে। এর মানে হলো, অপারেটিং সিস্টেমের প্রায় সমস্ত কোর সার্ভিস (যেমন প্রসেস ম্যানেজমেন্ট, মেমরি ম্যানেজমেন্ট, ফাইল সিস্টেম, ডিভাইস ড্রাইভার) একটি একক, বড় কোডের ব্লক হিসেবে কার্নেলের মধ্যেই থাকে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি দ্রুত কাজ করে কারণ সব সার্ভিস একই জায়গায় থাকে, ফলে তাদের মধ্যে যোগাযোগ দ্রুত হয়। তবে এটি আকারে বড় হতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা 'অল-ইন-ওয়ান' সুপার ম্যানেজারের মতো, যিনি একইসাথে প্রোডাকশন, ডেলিভারি, এবং কোয়ালিটি কন্ট্রোল –সবকিছু নিজে দেখাশোনা করেন! 🧑‍💼</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মাল্টিটাস্কিং (Multitasking):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল একটি <span style="color: #66FCF1;">প্রিএমপ্টিভ মাল্টিটাস্কিং</span> অপারেটিং সিস্টেম। এটি একই সময়ে একাধিক প্রোগ্রাম বা প্রসেসকে কার্য (execute) করতে পারে, যদিও তারা আসলে পালাক্রমে চলে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এর ফলে ব্যবহারকারী একসাথে গান শুনতে, ব্রাউজ করতে এবং একটি ডকুমেন্ট এডিট করতে পারে, যা সিস্টেমকে অনেক বেশি প্রতিক্রিয়াশীল এবং দক্ষ করে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একজন বাজিকরের মতো, যিনি একইসাথে অনেকগুলো বলকে বাতাসে ধরে রাখেন, মনে হয় যেন সব বল একইসাথে উড়ছে! 🤹</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. মাল্টি-ইউজার (Multi-user):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল একাধিক ইউজারকে একই কম্পিউটার সিস্টেমে একসাথে লগইন করে রিসোর্স ব্যবহার করতে দেয়। প্রতিটি ইউজারের নিজস্ব ফাইল, সেটিংস এবং প্রসেস থাকে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> সার্ভার পরিবেশে এবং শেয়ারড কম্পিউটার সিস্টেমে এটি অত্যন্ত গুরুত্বপূর্ণ, যেখানে অনেক ইউজারকে একই হার্ডওয়্যার ব্যবহার করতে হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বড় অফিসের মতো, যেখানে অনেক কর্মচারী একই বিল্ডিং (কম্পিউটার) এবং তার রিসোর্সগুলো (প্রিন্টার, নেটওয়ার্ক) একসাথে ব্যবহার করতে পারে। 🏢</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. পোর্টেবিলিটি (Portability):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল অত্যন্ত পোর্টেবল। এর মানে হলো, এটি <span style="color: #66FCF1;">বিভিন্ন ধরনের হার্ডওয়্যার আর্কিটেকচারে (যেমন x86, ARM, PowerPC) চলতে পারে</span>।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এর ফলে Linux ডেস্কটপ কম্পিউটার, সার্ভার, স্মার্টফোন (অ্যান্ড্রয়েড), এমবেডেড সিস্টেম (যেমন রাউটার) –সব জায়গায় ব্যবহার করা যায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি অভিযোজিত ভাষার মতো, যা বিভিন্ন দেশে এবং সংস্কৃতিতে ব্যবহার করা যায়। 🌍</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. স্থিতিশীলতা ও নির্ভরযোগ্যতা (Stability & Reliability):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল তার <span style="color: #66FCF1;">উচ্চ স্থিতিশীলতা এবং নির্ভরযোগ্যতার</span> জন্য পরিচিত। এটি খুব কম ক্র্যাশ করে এবং দীর্ঘ সময় ধরে নির্বিঘ্নে (without reboot) চলতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> সার্ভার এবং ক্রিটিক্যাল সিস্টেমের জন্য এটি খুবই গুরুত্বপূর্ণ, যেখানে একটানা কাজ করা অপরিহার্য।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি পাথরের মতো মজবুত বিল্ডিং, যা ঝড়বাট্টা বা ভূমিকম্পেও সহজে নড়ে না। ⛰️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. মডুলার ডিজাইন (Modular Design):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেলকে <span style="color: #66FCF1;">মডুলারভাবে ডিজাইন</span> করা হয়েছে, যার অর্থ হলো নির্দিষ্ট ফিচার বা ডিভাইস ড্রাইভারগুলোকে আলাদা '<span style="color: #66FCF1;">মডিউল</span>' হিসেবে কার্নেলে যোগ বা সরিয়ে ফেলা যায় রানটাইমে, পুরো কার্নেল রি-কম্পাইল না করেই।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি কার্নেলের আকার ছোট রাখে এবং সিস্টেমকে নমনীয় করে। যখন কোনো নতুন হার্ডওয়্যার যোগ করা হয়, শুধু তার মডিউলটি লোড করলেই চলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা লেগো সেটের মতো, যেখানে আপনি প্রয়োজন অনুযায়ী নতুন অংশ (মডিউল) যোগ বা সরাতে পারেন। 🧱</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2">এই বৈশিষ্ট্যগুলো Linux কার্নেলকে আধুনিক কম্পিউটার জগতে একটি শক্তিশালী এবং বহুমুখী ভিত্তি হিসেবে প্রতিষ্ঠিত করেছে।</p>
+                    </div>` },
+                { text: "১২। Scheduling queue ও Scheduling Process এর সিনক্রোনাইজেশন বর্ণনা কর। (Legendary)", tier: 'legendary', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রসেস ম্যানেজমেন্ট সিনক্রোনাইজেশন কী?</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">প্রসেস ম্যানেজমেন্ট সিনক্রোনাইজেশন</span> হলো অপারেটিং সিস্টেমের এমন একটি প্রক্রিয়া, যেখানে একাধিক প্রোগ্রাম যখন একই ডেটা বা রিসোর্স ব্যবহার করতে চায়, তখন তাদের কাজগুলোকে সুনির্দিষ্টভাবে সমন্বয় ও নিয়ন্ত্রণ করা হয়। এটা ট্র্যাফিক রুলসের মতো, যা বিশৃঙ্খলা এড়াতে সাহায্য করে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কেন দরকার?</span></h5>
+                        <p class="mb-2">সিনক্রোনাইজেশন ছাড়া <span style="color: #66FCF1;">রেস কন্ডিশন (ফলাফল কে আগে কাজ শেষ করল তার উপর নির্ভর করা)</span> এবং <span style="color: #66FCF1;">ডেটা অসামঞ্জস্যতা (ডেটা ভুল আপডেট হওয়া)</span> এর মতো সমস্যা হতে পারে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রধান সিনক্রোনাইজেশন কৌশলসমূহ</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. মিউটেক্স (Mutex - Mutual Exclusion):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি সাধারণ তালা (<span style="color: #66FCF1;">Lock</span>)-এর মতো, যা একটি নির্দিষ্ট সময়ে শুধুমাত্র একটি প্রসেসকে শেয়ার্ড রিসোর্স ব্যবহার করতে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বাথরুমে যাওয়ার জন্য একটিমাত্র চাবি। 🔑</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সেমাফোর (Semaphore):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি কাউন্টার বা ফ্ল্যাগ-এর মতো, যা একাধিক প্রসেসের জন্য সীমিত সংখ্যক রিসোর্স অ্যাক্সেস নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> পার্কিং স্পেস ম্যানেজ করে। 🅿️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মনিটর (Monitor):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি মিউটেক্স ও সেমাফোরের চেয়ে উচ্চ-স্তরের কৌশল, যা ডেটা ও ফাংশনগুলোকে একসাথে রাখে এবং একবারে শুধুমাত্র একটি প্রসেসকে অ্যাক্সেস দেয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি সু-পরিচালিত কেন্দ্রীয় অফিস। 🏢</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হার্ডওয়্যার-ভিত্তিক সমাধান (Hardware-based Solutions):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> প্রসেসরের হার্ডওয়্যার লেভেলে বিশেষ ইনস্ট্রাকশন (যেমন <span style="color: #66FCF1;">TestAndSet</span>) ব্যবহার করে সিনক্রোনাইজেশন করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">উপযোগিতা:</span> এটি খুব দ্রুত কাজ করে এবং অন্যান্য টুলস তৈরির ভিত্তি।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। সিপিইউ কিউ এবং প্রসেস কী? (What are Scheduling Queues and Processes?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">কম্পিউটারে অপারেটিং সিস্টেম (OS) যখন কোনো প্রোগ্রাম চালায়, তখন তাকে 'প্রসেস' বলে।</span> এই প্রসেসগুলো <span style="color: #66FCF1;">সিপিইউ (CPU) বা অন্য কোনো রিসোর্স (যেমন হার্ডডিস্ক) ব্যবহার করার জন্য প্রস্তুত</span> হলে বা সেগুলোর জন্য অপেক্ষা করলে, তারা বিভিন্ন সারিতে (লাইনে বা কিউতে) অপেক্ষা করে। এই সারিগুলোকে <span style="color: #66FCF1;">শিডিউলিং কিউ (যেমন রেডি কিউ, ডিভাইস কিউ)</span> বলে। অপারেটিং সিস্টেমের একটি অংশ, যাকে <span style="color: #66FCF1;">শিডিউলার (Scheduler)</span> বলে, সে এই কিউগুলোর প্রসেসগুলোকে ম্যানেজ করে এবং কে কখন সিপিইউ পাবে তা ঠিক করে।</p>
+                        <p class="mb-2">মনে করুন, একটি বড় রেস্টুরেন্টে অনেক কাস্টমার (প্রসেস) আছে। এই কাস্টমাররা খাবারের অর্ডার দেওয়ার জন্য, ওয়েটার পাওয়ার জন্য, বা খাবার প্রস্তুত হওয়ার জন্য বিভিন্ন লাইনে (কিউ) অপেক্ষা করে। রেস্টুরেন্টের ম্যানেজার (শিডিউলার) এই লাইনগুলো থেকে কাস্টমারদের পালা অনুযায়ী খাবার খেতে দেন।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">শিডিউলিং কিউ এবং প্রসেস সিনক্রোনাইজেশন কেন দরকার? (Why is Synchronization Needed for Scheduling Queues and Processes?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">শিডিউলিং কিউ এবং প্রসেসগুলোর সিনক্রোনাইজেশন অত্যন্ত গুরুত্বপূর্ণ</span>, কারণ:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ডেটা অসামঞ্জস্যতা (Data Consistency):</span> শিডিউলিং কিউ বা বিভিন্ন প্রসেস একইসাথে কিউতে প্রসেস যোগ বা সরাতে পারে। যদি এই কাজগুলো <span style="color: #66FCF1;">সমন্বিত (synchronized) না হয়</span>, তাহলে কিউয়ের ডেটা এলোমেলো হয়ে যেতে পারে (যেমন, একটি প্রসেস দুবার সিপিইউ পেয়ে গেল বা একটি প্রসেস কিউ থেকে হারিয়ে গেল)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. রেস কন্ডিশন (Race Condition) এড়ানো:</span> একাধিক প্রসেস বা শিডিউলারের অংশ একইসাথে একটি কিউ অ্যাক্সেস করার চেষ্টা করলে <span style="color: #66FCF1;">রেস কন্ডিশন তৈরি হয়</span>, যার ফলে ভুল ফলাফল আসে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডেডলক প্রতিরোধ (Preventing Deadlock):</span> সঠিকভাবে সিনক্রোনাইজ না করলে প্রসেসগুলো একে অপরের জন্য রিসোর্সের জন্য অনির্দিষ্টকালের জন্য আটকে যেতে পারে (<span style="color: #66FCF1;">ডেডলক</span>)।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. সিস্টেমের স্থিতিশীলতা (System Stability):</span> সিনক্রোনাইজেশন ছাড়া কিউগুলো বিশৃঙ্খল হতে পারে, যার ফলে সিস্টেম ক্র্যাশ করতে পারে বা অনির্দিষ্ট হতে পারে।</li>
+                        </ul>
+                        <p class="mb-2">এটা অনেকটা একটি ফ্লাইট কন্ট্রোল টাওয়ারের (শিডিউলার) মতো, যারা রানওয়েতে (সিপিইউ) প্লেনগুলোকে (প্রসেস) ওঠানামা করায়। যদি প্লেনগুলো কখন লাইনে আসবে বা কখন রানওয়েতে যাবে তার জন্য সামঞ্জস্যপূর্ণ (যোগাযোগ) না করে, তাহলে প্লেনগুলো আকাশে বা লাইনে সংঘর্ষে (ডেডলক/ডেটা অসামঞ্জস্যতা) পড়তে পারে। ✈️</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সিনক্রোনাইজেশন কার্যপ্রণালি/কৌশল (Mechanisms/Techniques for Synchronization)</span></h5>
+                        <p class="mb-2">অপারেটিং সিস্টেম বিভিন্ন কৌশল ব্যবহার করে প্রসেস সিনক্রোনাইজেশন সম্পন্ন করে। এর কিছু প্রধান কৌশল নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. মিউটেক্স (Mutex - Mutual Exclusion / Lock):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি সাধারণ তালা (<span style="color: #66FCF1;">Lock</span>)-এর মতো, যা একটি কিউকে (বা কিউ ম্যানেজারের কোডকে) সুরক্ষিত রাখে। একটি নির্দিষ্ট সময়ে শুধুমাত্র একটি প্রসেস বা শিডিউলারের অংশ সেই কিউতে ডেটা যোগ বা সরাতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> যখন শিডিউলার কোনো প্রসেসকে কিউতে যোগ করে বা সরায়, সে মিউটেক্সকে '<span style="color: #66FCF1;">লক</span>' করে। কাজ শেষ হলে '<span style="color: #66FCF1;">আনলক</span>' করে দেয়। অন্য কেউ অ্যাক্সেস করতে চাইলে অপেক্ষা করতে হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে বই ফেরত নেওয়ার একমাত্র ড্রপ-বক্স, যেখানে একবারে শুধু একজন বই ঢোকাতে পারে, যাতে বইগুলো উল্টোপাল্টা না হয়। 🔒</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সেমাফোর (Semaphore):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এটি একটি <span style="color: #66FCF1;">কাউন্টার বা ফ্ল্যাগ-এর</span> মতো, যা একাধিক প্রসেসের জন্য সীমিত সংখ্যক রিসোর্স (যেমন, CPU কোর বা I/O ডিভাইসের সংখ্যা) অ্যাক্সেসকে নিয়ন্ত্রণ করে, এবং প্রসেসগুলোকে কিউতে অপেক্ষা করানো বা সেখান থেকে সরানোর জন্য সিগনাল দেয়।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> সেমাফোরের একটি মান থাকে, যা উপলভ্য রিসোর্সের সংখ্যা দেখায়। প্রসেস রিসোর্স ব্যবহার করার আগে সেমাফোরের মান কমায় এবং কাজ শেষ হলে বাড়ায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি সীমিত সংখ্যক টয়লেটের জন্য কিউ ম্যানেজ করা, যেখানে কতজন ভেতরে আছে তার একটি কাউন্টার থাকে। 🚻</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ইভেন্ট (Events) / কন্ডিশন ভেরিয়েবল (Condition Variables):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> এই কৌশলগুলো প্রসেস এবং শিডিউলারের মধ্যে <span style="color: #66FCF1;">সিগনালিং (signaling) বা বার্তা আদান-প্রদান</span> করার জন্য ব্যবহৃত হয়। যখন একটি প্রসেস একটি নির্দিষ্ট অবস্থার জন্য অপেক্ষা করে (যেমন I/O শেষ হওয়া), তখন এটি ঘুমিয়ে যায় এবং অন্য প্রসেস (বা ডিভাইস) সেই অবস্থা তৈরি হলে তাকে জাগিয়ে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> প্রসেস একটি কন্ডিশন ভেরিয়েবলে '<span style="color: #66FCF1;">ওয়েট</span>' (wait) করে ঘুমিয়ে থাকে। যখন কোনো ঘটনা ঘটে, তখন অন্য প্রসেস সেই কন্ডিশন ভেরিয়েবলে '<span style="color: #66FCF1;">সিগনাল</span>' (signal) পাঠায় প্রসেসটিকে জাগিয়ে তোলার জন্য।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> একটি প্রসেস যখন প্রিন্টার ব্যবহারের জন্য অপেক্ষা করে, তখন সে স্লিপ মোডে থাকে। প্রিন্টার ফ্রি হলে অপারেটিং সিস্টেম তাকে 'জাগিয়ে' দেয়! 🖨️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. অ্যাটোমিক অপারেশন (Atomic Operations):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> কিছু অতি ক্ষুদ্র এবং মৌলিক কাজ আছে, যা অপারেটিং সিস্টেম নিশ্চিত করে যে, একবার শুরু হলে পুরোপুরি শেষ না হওয়া পর্যন্ত এটিকে বাধা দিতে পারবে না।</li>
+                                    <li><span style="color: #66FCF1;">কীভাবে কাজ করে:</span> একটি প্রসেস কিউতে যোগ করা বা সরানো –এই কাজগুলো অ্যাটোমিক অপারেশনের মাধ্যমে করা হয়, যাতে এর মাঝখানে অন্য কোনো প্রসেস বা শিডিউলারের অংশ কিউতে কোনো পরিবর্তন না আনতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আপনি একটা ফর্মের একটি গুরুত্বপূর্ণ অংশ লিখছেন, আর আপনাকে নিশ্চিত করা হলো যে এই লাইনটি শেষ না হওয়া পর্যন্ত কেউ আপনাকে কলম নিতে পারবে না। 🖊️</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1;">শিডিউলিং কিউ এবং প্রসেস সিনক্রোনাইজেশন</span> অপারেটিং সিস্টেমের একটি জটিল কিন্তু অত্যাবশ্যকীয় অংশ, যা মাল্টিটাস্কিং পরিবেশে সিস্টেমের ডেটা সঠিকতা, স্থিতিশীলতা এবং কার্যকারিতা নিশ্চিত করে।</p>
+                    </div>` },
+                { text: "১৩। Linux Kernel-এর বৈশিষ্ট্য বর্ণনা কর। (Legendary)", tier: 'legendary', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software কী? (What is I/O Software?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">I/O (ইনপুট/আউটপুট) Software</span> হলো অপারেটিং সিস্টেমের সেই অংশ যা কম্পিউটার সিপিইউ এবং I/O ডিভাইসগুলোর মধ্যে যোগাযোগ এবং ডেটা আদান-প্রদান ম্যানেজ করে। এটা একটি সুপার অর্গানাইজড ডেলিভারি সার্ভিসের মতো 🚚।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software এর বিভিন্ন লেয়ারগুলো (Various Layers of I/O Software)</span></h5>
+                        <p class="mb-2">I/O Software সাধারণত কয়েকটি স্তরে বিভক্ত থাকে, যা ব্যবহারকারীর রিকুয়েস্টকে হার্ডওয়্যারে এবং হার্ডওয়্যার থেকে ডেটাকে ইউজারের কাছে নিয়ে আসে :</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইউজার-স্পেস I/O সফটওয়্যার (User-Space I/O Software):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি I/O সফটওয়্যারের সবচেয়ে উপরের স্তর, যার সাথে ব্যবহারকারী এবং অ্যাপ্লিকেশন প্রোগ্রামগুলো সরাসরি ইন্টারঅ্যাক্ট করে। (যেমন Word-এ 'Save' ক্লিক করা)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> গ্রাহক বা প্যাকেজ পাঠানোর ব্যক্তি।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. কার্নেল I/O সাবসিস্টেম (Kernel I/O Subsystem):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি অপারেটিং সিস্টেমের কার্নেলের অংশ, যা I/O অপারেশনগুলোকে সেন্ট্রালি ম্যানেজ করে। রিকুয়েস্ট ভেরিফাই ও ডেটা বাফারিংয়ের কাজ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ডেলিভারি সার্ভিসের সেন্ট্রাল হাব।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডিভাইস ড্রাইভার (Device Drivers):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>প্রতিটি হার্ডওয়্যার ডিভাইসের জন্য একটি নির্দিষ্ট সফটওয়্যার, যা কার্নেল থেকে নির্দেশ নিয়ে হার্ডওয়্যারকে বোঝায় কিভাবে কাজ করতে হবে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> বিশেষায়িত ডেলিভারি ট্রাকের ড্রাইভার।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হার্ডওয়্যার কন্ট্রোলার (Hardware Controller):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি একটি ফিজিক্যাল চিপ যা হার্ডওয়্যার ডিভাইসের সাথে সরাসরি যুক্ত থাকে। ডিভাইস ড্রাইভার থেকে নির্দেশ নিয়ে ডিভাইসের যন্ত্রাংশ নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ট্রাকের ইলেকট্রনিক কন্ট্রোল প্যানেল।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. হার্ডওয়্যার ডিভাইস (Hardware Device):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি হলো আসল ফিজিক্যাল I/O পেরিফেরাল, যা ডেটা গ্রহণ বা তৈরি করে। (যেমন কীবোর্ড, প্রিন্টার, হার্ডডিস্ক)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আসল ডেলিভারি ট্রাক বা মেশিন।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: '' },
+                { text: "১৪। I/O Software এর বিভিন্ন লেয়ারগুলো বর্ণনা কর। (Legendary)", tier: 'legendary', answer: '', extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। I/O Software কী? (What is I/O Software?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">I/O (ইনপুট/আউটপুট) Software</span> হলো অপারেটিং সিস্টেমের (OS) সেই অংশ যা কম্পিউটার প্রসেসর (CPU) এবং ইনপুট/আউটপুট ডিভাইসগুলোর (যেমন কীবোর্ড, মাউস, প্রিন্টার, হার্ডডিস্ক) মধ্যে <span style="color: #66FCF1;">যোগাযোগ এবং ডেটা আদান-প্রদানকে ম্যানেজ</span> করে। সহজ কথায়, এটা একটি সুপার অর্গানাইজড ডেলিভারি সার্ভিসের মতো 🚚, যা নিশ্চিত করে যে সঠিক ডেটা সঠিক ডিভাইসে সঠিক সময়ে পৌঁছেছে এবং ডিভাইস থেকে ডেটা সিপিইউতে আসছে। এর মূল উদ্দেশ্য হলো, অ্যাপ্লিকেশন প্রোগ্রামগুলোকে হার্ডওয়্যারের খুঁটিনাটি বিষয় থেকে মুক্ত রাখা এবং I/O অপারেশনকে সহজ ও দক্ষ করা।।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software এর বিভিন্ন লেয়ারগুলো (Various Layers of I/O Software)</span></h5>
+                        <p class="mb-2">I/O Software সাধারণত কয়েকটি স্তরে (layers) বিভক্ত থাকে, যেখানে প্রতিটি স্তরের নির্দিষ্ট কাজ রয়েছে। এই স্তরগুলো একসাথে কাজ করে ইউজারের I/O রিকুয়েস্টকে হার্ডওয়্যারের কাছে পৌঁছে দেয় এবং হার্ডওয়্যার থেকে ডেটাকে ইউজারের অ্যাপ্লিকেশন বা অপারেটিং সিস্টেমে ফিরিয়ে আনে।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software এর স্তর-ভিত্তিক গঠন:</span></h5>
+                        <p class="mb-2">(এটি একটি চিত্রের ধারণামূলক উপস্থাপন)</p>
+                        <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                            <img src="rb1.jpg" alt="I/O Software Layered Structure" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                        </div>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রতিটি স্তরের কার্যপ্রণালি:</span></h5>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইউজার-স্পেস I/O সফটওয়্যার (User-Space I/O Software):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি সফটওয়্যারের সবচেয়ে উপরের স্তর, যার সাথে ব্যবহারকারী এবং অ্যাপ্লিকেশন প্রোগ্রামগুলো সরাসরি ইন্টারঅ্যাক্ট করে। ফাইল ওপেন করা, কীবোর্ড থেকে ইনপুট দেওয়া, প্রিন্ট কমান্ড দেওয়া –সব রিকুয়েস্ট এই স্তর থেকেই শুরু করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> আপনি যখন Word-এ 'Save' বাটনে ক্লিক করেন বা ব্রাউজারে কিছু টাইপ করেন।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা হলো গ্রাহক বা প্যাকেজ পাঠানোর বা গ্রহণ করার ব্যক্তি, যিনি ডেলিভারি সার্ভিসে (I/O Software) তার অনুরোধ জানান।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. কার্নেল I/O সাবসিস্টেম (Kernel I/O Subsystem):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি অপারেটিং সিস্টেমের কার্নেলের একটি অংশ, যা I/O অপারেশনগুলোকে সেন্ট্রালি ম্যানেজ করে। এই স্তরটি I/O রিকুয়েস্টগুলোকে ভেরিফাই করে, সিকিউরিটি চেক করে, বাফার (buffer) ব্যবহার করে ডেটা সাময়িকভাবে জমা রাখে, এবং I/O এরর হ্যান্ডেল করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> কোনো প্রোগ্রামের প্রিন্ট রিকুয়েস্ট এলে, কার্নেল সেটি চেক করে এবং প্রিন্টারের জন্য প্রস্তুত করে স্পুলিং (spooling) বা বাফারিংয়ের ব্যবস্থা করে.।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা হলো ডেলিভারি সার্ভিসের সেন্ট্রাল অফিস বা হাব, যেখানে সমস্ত প্যাকেজ আসে, সেগুলোকে স্ক্রুটিনি করা হয়, এবং কোনো সমস্যা হলে তা সমাধান করা হয়।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডিভাইস ড্রাইভার (Device Drivers):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> প্রতিটি হার্ডওয়্যার ডিভাইসের জন্য একটি করে নির্দিষ্ট <span style="color: #66FCF1;">ডিভাইস ড্রাইভার</span> থাকে। এই ড্রাইভার হলো একটি সফটওয়্যার, যা কার্নেল I/O সাবসিস্টেম থেকে নির্দেশ নিয়ে সেই হার্ডওয়্যার ডিভাইসকে বোঝায় কিভাবে ডেটা গ্রহণ বা তৈরি করতে হবে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> প্রিন্টারের ড্রাইভার কম্পিউটারের ভাষাকে প্রিন্টারের বোঝার মতো সিগনালে রূপান্তর করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা হলো বিশেষায়িত ডেলিভারি ট্রাকের ড্রাইভার, যিনি জানেন কিভাবে তার নির্দিষ্ট গাড়ি (প্রিন্টার, স্ক্যানার) চালাতে হয় এবং নির্দিষ্ট ডেলিভারি (ডেটা) গ্রহণ বা পাঠাতে হয়।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হার্ডওয়্যার কন্ট্রোলার (Hardware Controller):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি একটি <span style="color: #66FCF1;">ফিজিক্যাল চিপ</span> যা হার্ডওয়্যার ডিভাইসের সাথে সরাসরি যুক্ত থাকে। ডিভাইস ড্রাইভার থেকে আসা নির্দেশগুলোকে এটি গ্রহণ করে এবং ডিভাইসের ইলেকট্রনিক যন্ত্রাংশগুলোকে নিয়ন্ত্রণ করে ডেটা আদান-প্রদান সম্পন্ন করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> হার্ডডিস্ক কন্ট্রোলার হার্ডডিস্কের রিড/রাইট হেড নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা হলো ডেলিভারি ট্রাকের ভেতরের ইলেকট্রনিক কন্ট্রোল প্যানেল, যা ড্রাইভারের (ডিভাইস ড্রাইভার) নির্দেশগুলোকে ট্রাকের যন্ত্রাংশকে (ডিভাইস) কাজ করার জন্য সিগনালে রূপান্তর করে।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. হার্ডওয়্যার ডিভাইস (Hardware Device):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কাজ:</span> এটি হলো আসল ফিজিক্যাল I/O পেরিফেরাল, যা ডেটা গ্রহণ বা তৈরি করে।</li>
+                                    <li><span style="color: #66FCF1;">উদাহরণ:</span> কীবোর্ড, মাউস, প্রিন্টার, স্ক্যানার, হার্ডডিস্ক।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা হলো আসল ডেলিভারি ট্রাক বা মেশিন, যা পণ্য পরিবহন বা উৎপাদন করে।</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software এর গুরুত্ব:</span></h5>
+                        <p class="mb-2">এই স্তর-ভিত্তিক কাঠামো অপারেটিং সিস্টেমকে '<span style="color: #66FCF1;">ডিভাইস ইন্ডিপেন্ডেন্স</span>' (Device Independence) প্রদান করে, যার অর্থ হলো অ্যাপ্লিকেশন প্রোগ্রামগুলোকে প্রতিটি হার্ডওয়্যারের খুঁটিনাটি বিষয় নিয়ে চিন্তা করতে হয় না। তারা শুধু I/O রিকুয়েস্ট পাঠায়, আর I/O Software এর স্তরগুলো বাকিটা দেখাশোনা করে। এটি I/O অপারেশনকে সহজ, দক্ষ এবং নির্ভরযোগ্য করে তোলে।।</p>
+                    </div>` },
+                { text: "১৫। File System এর বৈশিষ্ট্য বর্ণনা কর। (Legendary)", tier: 'legendary', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। File System কী? (What is a File System?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">File System (ফাইল সিস্টেম)</span> হলো অপারেটিং সিস্টেমের (OS) এমন একটি পদ্ধতি, যেখানে কম্পিউটার তার <span style="color: #66FCF1;">স্টোরেজ ডিভাইসে (যেমন হার্ডডিস্ক) ফাইল এবং ফোল্ডারগুলোকে (ডাইরেক্টরি) কীভাবে সাজায়, সংরক্ষণ করে, খুঁজে বের করে এবং ম্যানেজ করে</span>, তার একটি নির্দিষ্ট কাঠামো। এর মূল উদ্দেশ্য হলো, ব্যবহারকারী এবং প্রোগ্রামগুলো যাতে সহজেই ডেটা খুঁজে পায়, সংরক্ষণ করতে পারে এবং দক্ষতার সাথে ডেটা অ্যাক্সেস করতে পারে।</p>
+                        <p class="mb-2">মনে করুন, এটা একটা বিশাল লাইব্রেরির ম্যানেজমেন্ট সিস্টেমের মতো 📚। লাইব্রেরিতে শুধু বই রাখলেই চলে না, সেগুলোকে বিষয়ভিত্তিক, লেখক বা টাইটেল অনুযায়ী সুনির্দিষ্টভাবে সাজাতে হয়, যাতে দরকারের সময় সহজেই খুঁজে পাওয়া যায়। ফাইল সিস্টেমও ঠিক একই কাজ করে, তবে ডিজিটাল ডেটার জন্য।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">File System এর বৈশিষ্ট্য (Characteristics of a File System)</span></h5>
+                        <p class="mb-2">একটি কার্যকর ফাইল সিস্টেমের কিছু প্রধান বৈশিষ্ট্য নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ফাইল নামকরণ (File Naming):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম ফাইল এবং ফোল্ডারগুলোর (ডাইরেক্টরি) জন্য নামকরণের নিয়ম নির্ধারণ করে, যাতে ফাইল সহজে চেনা যায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে বইয়ের ইউনিক টাইটেল 🏷️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ডাইরেক্টরি স্ট্রাকচার (Directory Structure):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইলগুলোকে একটি শ্রেণিবিভাগ বা হায়ারার্কিকাল কাঠামোতে (যেমন ফোল্ডারের ভেতরে ফোল্ডার) সাজায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> অফিসের ফাইল ফাইলিং ক্যাবিনেট 🗄️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. অ্যাক্সেস কন্ট্রোল ও সুরক্ষা (Access Control & Security):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> কোন ইউজার বা প্রোগ্রাম কোন ফাইলের কী কাজ করতে পারবে, তা নিয়ন্ত্রণ করে ডেটা সুরক্ষা নিশ্চিত করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরির কিছু বই শুধু লাইব্রেরিয়ানই অ্যাক্সেস করতে পারে 🔒।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. স্টোরেজ ম্যানেজমেন্ট (Storage Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ডিস্কের ফাঁকা এবং ব্যবহৃত জায়গাগুলোকে ট্র্যাক করে, নতুন ফাইল সেভ করার জন্য জায়গা বরাদ্দ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> পার্কিং লটের ম্যানেজার 🅿️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডেটা অখণ্ডতা (Data Integrity):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ডিস্কে ডেটা সঠিকভাবে সংরক্ষিত হয়েছে এবং পরবর্তীতে তা সঠিক ও অপরিবর্তিত থাকবে, তা নিশ্চিত করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> বইয়ের কোনো পাতা যেন হারিয়ে না যায় ✅।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. স্থায়িত্ব (Durability / Persistence):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> পাওয়ার অফ বা সিস্টেম ক্র্যাশ করলেও সংরক্ষিত ডেটা যেন স্থায়ীভাবে ডিস্কে থাকে এবং হারিয়ে না যায়, তা নিশ্চিত করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> বইগুলো এমনভাবে রাখা হয় যাতে নষ্ট না হয় 🏛️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. পারফরমেন্স (Performance):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ডেটা পড়া এবং লেখার কাজকে দ্রুত এবং দক্ষতার সাথে সম্পন্ন করে, ক্যাশিং ব্যবহার করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> দ্রুত বই খুঁজে পাওয়া! ⚡</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. ডিভাইস ইন্ডিপেন্ডেন্স (Device Independence):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> অ্যাপ্লিকেশন প্রোগ্রামগুলোকে স্টোরেজ ডিভাইসের খুঁটিনাটি বিষয় থেকে মুক্ত রাখে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে বইয়ের নাম বলা, তার শেলফ নিয়ে চিন্তা না করা।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। File System কী? (What is a File System?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">File System (ফাইল সিস্টেম)</span> হলো অপারেটিং সিস্টেমের (OS) এমন একটি পদ্ধতি, যেখানে কম্পিউটার তার <span style="color: #66FCF1;">স্টোরেজ ডিভাইসে (যেমন হার্ডডিস্ক) ফাইল এবং ফোল্ডারগুলোকে (ডাইরেক্টরি) কীভাবে সাজায়, সংরক্ষণ করে, খুঁজে বের করে এবং ম্যানেজ করে</span>, তার একটি নির্দিষ্ট কাঠামো। এর মূল উদ্দেশ্য হলো, ব্যবহারকারী এবং প্রোগ্রামগুলো যাতে সহজেই ডেটা খুঁজে পায়, সংরক্ষণ করতে পারে এবং দক্ষতার সাথে ডেটা অ্যাক্সেস করতে পারে।</p>
+                        <p class="mb-2">মনে করুন, এটা একটা বিশাল লাইব্রেরির ম্যানেজমেন্ট সিস্টেমের মতো 📚। লাইব্রেরিতে শুধু বই রাখলেই চলে না, সেগুলোকে বিষয়ভিত্তিক, লেখক বা টাইটেল অনুযায়ী সুনির্দিষ্টভাবে সাজাতে হয়, যাতে দরকারের সময় সহজেই খুঁজে পাওয়া যায়। ফাইল সিস্টেমও ঠিক একই কাজ করে, তবে ডিজিটাল ডেটার জন্য।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">File System এর বৈশিষ্ট্য (Characteristics of a File System)</span></h5>
+                        <p class="mb-2">একটি কার্যকর ফাইল সিস্টেমের কিছু গুরুত্বপূর্ণ বৈশিষ্ট্য রয়েছে, যা এটি সঠিকভাবে কাজ করার জন্য অপরিহার্য। প্রধান বৈশিষ্ট্যগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ফাইল নামকরণ (File Naming):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম ফাইল এবং ফোল্ডারগুলোর (ডাইরেক্টরি) জন্য নামকরণের কিছু নিয়ম নির্ধারণ করে। এতে ফাইলের নাম কত লম্বা হতে পারে, কোন অক্ষর ব্যবহার করা যাবে, বা কোন অক্ষর ব্যবহার করা যাবে না – এসব থাকে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এই নিয়মগুলো ফাইলগুলোকে সহজে চেনা এবং ম্যানেজ করতে সাহায্য করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে প্রতিটি বইয়ের জন্য একটি ইউনিক টাইটেল থাকে, যাতে সেগুলোকে সহজেই শনাক্ত করা যায়। 🏷️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ডাইরেক্টরি স্ট্রাকচার (Directory Structure):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম ফাইলগুলোকে শ্রেণিবিভাগ বা হায়ারার্কিকাল (hierarchical) কাঠামোতে (যেমন গাছ বা ফোল্ডারের ভেতরের ফোল্ডার) সাজায়। এতে করে ফাইলগুলো ফোল্ডারের সুসংগঠিত থাকে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি ফাইলগুলোকে গোছানো রাখে এবং নির্দিষ্ট খুঁজে বের করা সহজ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বিশাল অফিসের ফাইল ফাইলিং ক্যাবিনেট, যেখানে মূল ক্যাবিনেটের ভেতরে ড্রয়ার, ড্রয়ারের ভেতরে ফোল্ডার, আর ফোল্ডারের ভেতরে ডকুমেন্ট থাকে 🗄️।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. অ্যাক্সেস কন্ট্রোল ও সুরক্ষা (Access Control & Security):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম কোন ইউজার বা প্রোগ্রাম ফাইল কী ধরনের কাজ করতে পারবে (যেমন ফাইল পড়তে পারবে, লিখতে পারবে, বা ডিলিট করতে পারবে), তা নিয়ন্ত্রণ করে। এটি ডেটা সুরক্ষা নিশ্চিত করে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> অননুমোদিত অ্যাক্সেস থেকে ডেটা রক্ষা করে এবং ডেটার গোপনীয়তা বজায় রাখে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে কিছু বই শুধু লাইব্রেরিয়ানই অ্যাক্সেস করতে পারে, অথবা কিছু বই শুধু নির্দিষ্ট কার্ডধারীরা নিতে পারে। 🔒</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. স্টোরেজ ম্যানেজমেন্ট (Storage Management):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম ডিস্কের ফাঁকা এবং ব্যবহৃত জায়গাগুলোকে ট্র্যাক করে। এটি নতুন ফাইল সেভ করার জন্য ফাঁকা জায়গা বরাদ্দ (allocate) করে এবং ফাইল ডিলিট করার পর সেই জায়গাগুলোকে আবার ফ্রি করে দেয়।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> ডিস্কের জায়গাকে দক্ষতার সাথে ব্যবহার করে এবং ডিস্ক fragmentation (ডেটা ছড়ানো ছিটানো থাকা) কমাতে সাহায্য করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি পার্কিং লট ম্যানেজার, যিনি খালি স্পটগুলো ট্র্যাক করেন এবং নতুন গাড়ি এলে সেগুলোকে পার্ক করতে দেন। 🅿️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডেটা অখণ্ডতা (Data Integrity):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম নিশ্চিত করে যে, ডিস্কে ডেটা সঠিকভাবে সংরক্ষণ হয়েছে এবং পরবর্তীতে সেই ডেটা যখন পড়া হবে, তখন তা সঠিক এবং অপরিবর্তিত থাকবে। এটি ডেটা করাপশন (corruption) প্রতিরোধ করে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> ফাইল সিস্টেমে ত্রুটি (errors) শনাক্ত ও সংশোধন করার মেকানিজম থাকে (যেমন চেকসাম)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বইয়ের প্রতিটি পাতা যেন সঠিকভাবে প্রিন্ট হয়েছে এবং কোনো পাতা যেন হারিয়ে না যায়, তা নিশ্চিত করা। ✅</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. স্থায়িত্ব (Durability / Persistence):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম নিশ্চিত করে যে, পাওয়ার অফ হয়ে গেলেও বা সিস্টেম ক্র্যাশ করলেও সংরক্ষিত ডেটা যেন স্থায়ীভাবে ডিস্কে থাকে এবং হারিয়ে না যায়।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি ইউজারদের ডেটা নিরাপত্তা এবং নির্ভরযোগ্যতা প্রদান করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে বইগুলো এমনভাবে সংরক্ষণ করা হয় যাতে ঝড়বৃষ্টি বা অন্য কোনো প্রাকৃতিক দুর্যোগেও সেগুলো নষ্ট না হয়। 🏛️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. পারফরমেন্স (Performance):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> একটি ভালো ফাইল সিস্টেম ডেটা পড়া ও লেখার কাজকে দ্রুত এবং দক্ষতার সাথে সম্পন্ন করে। এটি ক্যাশিং (caching) এবং বাফারিং (buffering) এর মতো কৌশল ব্যবহার করে পারফরমেন্স বাড়ায়।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> দ্রুত ফাইল অ্যাক্সেস ইউজারের এক্সপেরিয়েন্সকে অনেক ভালো করে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> লাইব্রেরিতে বইগুলো এমনভাবে সাজানো যাতে দরকারের সময় দ্রুত খুঁজে বের করা যায়। ⚡</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. ডিভাইস ইন্ডিপেন্ডেন্স (Device Independence):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> ফাইল সিস্টেম অ্যাপ্লিকেশন প্রোগ্রামগুলোকে স্টোরেজ ডিভাইসের খুঁটিনাটি বিষয় থেকে মুক্ত রাখে। অ্যাপ্লিকেশনকে জানতে হয় না যে ডেটা হার্ডডিস্কে আছে নাকি SSD-তে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি প্রোগ্রামিংকে সহজ করে এবং প্রোগ্রামগুলোকে বিভিন্ন ধরনের স্টোরেজ ডিভাইসে চলতে সাহায্য করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আপনি লাইব্রেরিতে একটি বইয়ের নাম বলেন, কোন শেফ বা গুদামে বইটি রাখা আছে, তা নিয়ে আপনাকে চিন্তা করতে হয় না।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>` },
                 { text: "১৬। ডাইনামিক্যালি রিলোকেট্যাবল পদ্ধতি বর্ণনা কর। (Chapter - 7)", tier: 'epic', answer: '', extendedAnswer: '' },
                 { text: "১৭। চিত্রসহ Segmented allocation বর্ণনা কর। (Chapter - 7)", tier: 'epic', answer: '', extendedAnswer: '' },
                 { text: "১৮। চিত্রসহ Segmented paged allocation বর্ণনা কর। (Chapter - 7)", tier: 'epic', answer: '', extendedAnswer: '' },
@@ -3670,8 +4934,8 @@
                         const dropdownId = `answer-dropdown-${category}-${index}`;
                         const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`;
 
-                        // Determine AMOLED styling based on category (as per original logic, though not strictly needed for questions-only)
-                        const isAmoledSection = (category === 'very-short' || category === 'short');
+                        // Determine AMOLED styling based on category (now including essay category)
+                        const isAmoledSection = (category === 'very-short' || category === 'short' || category === 'essay');
                         const dropdownClass = isAmoledSection ? 'answer-dropdown amoled-dropdown' : 'answer-dropdown';
                         const extendedDropdownClass = isAmoledSection ? 'extended-answer-dropdown amoled-extended-dropdown' : 'extended-answer-dropdown';
 
