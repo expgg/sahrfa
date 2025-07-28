@@ -4725,8 +4725,103 @@
                                 </ul>
                             </li>
                         </ul>
-                    </div>`, extendedAnswer: '' },
-                { text: "১৪। I/O Software এর বিভিন্ন লেয়ারগুলো বর্ণনা কর। (Legendary)", tier: 'legendary', answer: '', extendedAnswer: `<div class="answer-content-section">
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। কার্নেল কী? (What is a Kernel?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">কার্নেল</span> হলো একটি অপারেটিং সিস্টেমের (OS) <span style="color: #66FCF1;">মূল অংশ বা মস্তিষ্ক</span> 🧠। এটি সেই কোর প্রোগ্রাম যা কম্পিউটার হার্ডওয়্যার এবং অন্যান্য সফটওয়্যারের মধ্যে <span style="color: #66FCF1;">সেতুর মতো কাজ</span> করে। যখন আপনি কোনো প্রোগ্রাম চালান, হার্ডওয়্যার ব্যবহার করতে চান বা কোনো ফাইল সেভ করতে চান, তখন কার্নেলই সেই কাজগুলো ম্যানেজ করে। এটা অনেকটা একটি অর্কেস্ট্রার কন্ডাক্টরের মতো 🎻, যিনি সব যন্ত্রকে (হার্ডওয়্যার) আর সুরকারকে (সফটওয়্যার) একসাথে সুরে বাজাতে সাহায্য করেন।</p>
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Linux Kernel এর বৈশিষ্ট্য (Characteristics of Linux Kernel)</span></h5>
+                        <p class="mb-2">Linux কার্নেলের কিছু বিশেষ বৈশিষ্ট্য নিচে বর্ণনা করা হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ওপেন সোর্স (Open Source):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেলের সোর্স কোড সবার জন্য উন্মুক্ত এবং বিনামূল্যে উপলব্ধ। যে কেউ এটি দেখতে, পরিবর্তন করতে এবং নিজের প্রয়োজন অনুযায়ী ব্যবহার করতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এই উন্মুক্ততার কারণে সারা বিশ্বের লক্ষ লক্ষ ডেভেলপার এতে অবদান রাখে, ফলে এটি দ্রুত উন্নতি করে এবং বাগগুলো দ্রুত ঠিক করা হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> কমিউনিটি-বিল্ট রেসিপি বই 🧑‍🍳।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. মনোলিথিক আর্কিটেকচার (Monolithic Architecture):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল একটি <span style="color: #66FCF1;">মনোলিথিক আর্কিটেকচার</span> অনুসরণ করে। এর মানে হলো, অপারেটিং সিস্টেমের প্রায় সমস্ত কোর সার্ভিস (যেমন প্রসেস ম্যানেজমেন্ট, মেমরি ম্যানেজমেন্ট, ফাইল সিস্টেম, ডিভাইস ড্রাইভার) একটি একক, বড় কোডের ব্লক হিসেবে কার্নেলের মধ্যেই থাকে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি দ্রুত কাজ করে কারণ সব সার্ভিস একই জায়গায় থাকে, ফলে তাদের মধ্যে যোগাযোগ দ্রুত হয়। তবে এটি আকারে বড় হতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> 'অল-ইন-ওয়ান' সুপার ম্যানেজার 🧑‍💼।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. মাল্টিটাস্কিং (Multitasking):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল একটি <span style="color: #66FCF1;">প্রিএমপ্টিভ মাল্টিটাস্কিং</span> অপারেটিং সিস্টেম। এটি একই সময়ে একাধিক প্রোগ্রাম বা প্রসেসকে কার্য (execute) করতে দেয়, যদিও একটি সিপিইউতে তারা আসলে পালাক্রমে দ্রুত চলে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এর ফলে ব্যবহারকারী একসাথে গান শুনতে, ব্রাউজ করতে এবং একটি ডকুমেন্ট এডিট করতে পারে, যা সিস্টেমকে অনেক বেশি প্রতিক্রিয়াশীল এবং দক্ষ করে তোলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একজন বাজিকরের অনেকগুলো বল একসাথে সামলায় 🤹।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. মাল্টি-ইউজার (Multi-user):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল একাধিক ইউজারকে একই কম্পিউটার সিস্টেমে একইসাথে লগইন করে রিসোর্স ব্যবহার করতে দেয়। প্রতিটি ইউজারের নিজস্ব ফাইল, সেটিংস এবং প্রসেস থাকে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> সার্ভার পরিবেশে এবং শেয়ারড কম্পিউটার সিস্টেমে এটি অত্যন্ত গুরুত্বপূর্ণ, যেখানে অনেক ইউজারকে একই হার্ডওয়্যার ব্যবহার করতে হয়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি বড় অফিস যেখানে সবাই একই বিল্ডিং শেয়ার করে 🏢।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. পোর্টেবিলিটি (Portability):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল অত্যন্ত পোর্টেবল, অর্থাৎ এটি বিভিন্ন ধরনের হার্ডওয়্যার আর্কিটেকচারে (যেমন x86, ARM, PowerPC) চলতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এর ফলে Linux ডেস্কটপ কম্পিউটার, সার্ভার, স্মার্টফোন (অ্যান্ড্রয়েড), এমবেডেড সিস্টেম (যেমন রাউটার) –সব জায়গায় ব্যবহার করা যায়।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি অভিযোজিত ভাষার মতো, যা বিভিন্ন দেশে এবং সংস্কৃতিতে ব্যবহার করা যায়। 🌎</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. স্থিতিশীলতা ও নির্ভরযোগ্যতা (Stability & Reliability):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেল তার <span style="color: #66FCF1;">উচ্চ স্থিতিশীলতা এবং নির্ভরযোগ্যতার</span> জন্য পরিচিত। এটি খুব কম ক্র্যাশ করে এবং দীর্ঘ সময় ধরে নির্বিঘ্নে (without reboot) চলতে পারে।</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> সার্ভার এবং ক্রিটিক্যাল সিস্টেমের জন্য এটি খুবই গুরুত্বপূর্ণ, যেখানে একটানা কাজ করা অপরিহার্য।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> একটি পাথরের মতো মজবুত বিল্ডিং, যা ঝড়বাট্টা বা ভূমিকম্পেও সহজে নড়ে না। ⛰️</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. মডুলার ডিজাইন (Modular Design):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">কী:</span> Linux কার্নেলকে <span style="color: #66FCF1;">মডুলারভাবে ডিজাইন</span> করা হয়েছে, যার অর্থ হলো নির্দিষ্ট ফিচার বা ডিভাইস ড্রাইভারগুলোকে আলাদা '<span style="color: #66FCF1;">মডিউল</span>' হিসেবে কার্নেলে যোগ বা সরিয়ে ফেলা যায় রানটাইমে, পুরো কার্নেল রি-কম্পাইল না করেই。</li>
+                                    <li><span style="color: #66FCF1;">গুরুত্ব:</span> এটি কার্নেলের আকার ছোট রাখে এবং সিস্টেমকে নমনীয় করে। যখন কোনো নতুন হার্ডওয়্যার যোগ করা হয়, শুধু তার মডিউলটি লোড করলেই চলে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> এটা একটা লেগো সেটের মতো, যেখানে আপনি প্রয়োজন অনুযায়ী নতুন অংশ (মডিউল) যোগ বা সরাতে পারেন। 🧱</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2">এই বৈশিষ্ট্যগুলো Linux কার্নেলকে আধুনিক কম্পিউটার জগতে একটি শক্তিশালী এবং বহুমুখী ভিত্তি হিসেবে প্রতিষ্ঠিত করেছে ।</p>
+                    </div>` },
+                { text: "১৪। I/O Software এর বিভিন্ন লেয়ারগুলো বর্ণনা কর। (Legendary)", tier: 'legendary', answer: `<div class="answer-content-section">
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software কী? (What is I/O Software?)</span></h5>
+                        <p class="mb-2"><span style="color: #66FCF1;">I/O (ইনপুট/আউটপুট) Software</span> হলো অপারেটিং সিস্টেমের (OS) সেই অংশ যা কম্পিউটার সিপিইউ এবং I/O ডিভাইসগুলোর মধ্যে যোগাযোগ এবং ডেটা আদান-প্রদান ম্যানেজ করে। এটা একটি সুপার অর্গানাইজড ডেলিভারি সার্ভিসের মতো 🚚।</p>
+
+                        <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">I/O Software এর বিভিন্ন লেয়ারগুলো (Various Layers of I/O Software)</span></h5>
+                        <p class="mb-2">I/O Software সাধারণত কয়েকটি স্তরে বিভক্ত থাকে, যা ব্যবহারকারীর রিকুয়েস্টকে হার্ডওয়্যারে এবং হার্ডওয়্যার থেকে ডেটাকে ইউজারের কাছে নিয়ে আসে :</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ইউজার-স্পেস I/O সফটওয়্যার (User-Space I/O Software):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি I/O সফটওয়্যারের সবচেয়ে উপরের স্তর, যার সাথে ব্যবহারকারী এবং অ্যাপ্লিকেশন প্রোগ্রামগুলো সরাসরি ইন্টারঅ্যাক্ট করে। (যেমন Word-এ 'Save' ক্লিক করা)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> গ্রাহক বা প্যাকেজ পাঠানোর ব্যক্তি।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. কার্নেল I/O সাবসিস্টেম (Kernel I/O Subsystem):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি অপারেটিং সিস্টেমের কার্নেলের অংশ, যা I/O অপারেশনগুলোকে সেন্ট্রালি ম্যানেজ করে। রিকুয়েস্ট ভেরিফাই ও ডেটা বাফারিংয়ের কাজ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ডেলিভারি সার্ভিসের সেন্ট্রাল হাব।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ডিভাইস ড্রাইভার (Device Drivers):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>প্রতিটি হার্ডওয়্যার ডিভাইসের জন্য একটি নির্দিষ্ট সফটওয়্যার, যা কার্নেল থেকে নির্দেশ নিয়ে হার্ডওয়্যারকে বোঝায় কিভাবে কাজ করতে হবে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> বিশেষায়িত ডেলিভারি ট্রাকের ড্রাইভার।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হার্ডওয়্যার কন্ট্রোলার (Hardware Controller):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি একটি ফিজিক্যাল চিপ যা হার্ডওয়্যার ডিভাইসের সাথে সরাসরি যুক্ত থাকে। ডিভাইস ড্রাইভার থেকে নির্দেশ নিয়ে ডিভাইসের যন্ত্রাংশ নিয়ন্ত্রণ করে।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> ট্রাকের ইলেকট্রনিক কন্ট্রোল প্যানেল।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. হার্ডওয়্যার ডিভাইস (Hardware Device):</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li>এটি হলো আসল ফিজিক্যাল I/O পেরিফেরাল, যা ডেটা গ্রহণ বা তৈরি করে। (যেমন কীবোর্ড, প্রিন্টার, হার্ডডিস্ক)।</li>
+                                    <li><span style="color: #66FCF1;">তুলনা:</span> আসল ডেলিভারি ট্রাক বা মেশিন।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>`, extendedAnswer: `<div class="answer-content-section">
                         <h5 class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">১। I/O Software কী? (What is I/O Software?)</span></h5>
                         <p class="mb-2"><span style="color: #66FCF1;">I/O (ইনপুট/আউটপুট) Software</span> হলো অপারেটিং সিস্টেমের (OS) সেই অংশ যা কম্পিউটার প্রসেসর (CPU) এবং ইনপুট/আউটপুট ডিভাইসগুলোর (যেমন কীবোর্ড, মাউস, প্রিন্টার, হার্ডডিস্ক) মধ্যে <span style="color: #66FCF1;">যোগাযোগ এবং ডেটা আদান-প্রদানকে ম্যানেজ</span> করে। সহজ কথায়, এটা একটি সুপার অর্গানাইজড ডেলিভারি সার্ভিসের মতো 🚚, যা নিশ্চিত করে যে সঠিক ডেটা সঠিক ডিভাইসে সঠিক সময়ে পৌঁছেছে এবং ডিভাইস থেকে ডেটা সিপিইউতে আসছে। এর মূল উদ্দেশ্য হলো, অ্যাপ্লিকেশন প্রোগ্রামগুলোকে হার্ডওয়্যারের খুঁটিনাটি বিষয় থেকে মুক্ত রাখা এবং I/O অপারেশনকে সহজ ও দক্ষ করা।।</p>
 
