@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opss</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importing Noto Sans Bengali for better readability */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif; /* Prioritize Noto Sans Bengali */
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack main row and dropdown */
+            align-items: flex-start; /* Align items to the start */
+            padding: 8px 15px; /* Adjusted vertical padding */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* Style for Mythic (Red) stripe items */
+        .red-mythic-item {
+            border-left: 4px solid #FF0000; /* Red stripe */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .red-mythic-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for Legendary (Gold) stripe items */
+        .gold-legendary-item {
+            border-left: 4px solid #FFD700; /* Gold stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .gold-legendary-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for Epic (Purple) stripe items */
+        .purple-epic-item {
+            border-left: 4px solid #800080; /* Purple stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .purple-epic-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+            font-size: 1.25rem; /* Ensure icon is visible */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #ABB2BF; /* Default code text color */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Styles for dropdown answers */
+        .answer-dropdown {
+            background-color: #3a475a; /* Slightly lighter dark background for dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            width: 100%; /* Ensure it takes full width of its parent */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* New style for extended answer dropdown */
+        .extended-answer-dropdown {
+            background-color: #5a6b80; /* Even lighter dark background for extended dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Specific styles for AMOLED black dropdowns in "very-short" and "short" sections */
+        .amoled-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #ffffff; /* White to pop on black */
+        }
+
+        .amoled-extended-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #a78bfa; /* Vibrant purple to pop for extended */
+        }
+
+        /* Style for the short answer text itself, now a toggle */
+        .short-answer-text-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0; /* Add some padding */
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex; /* To align text and icon */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .short-answer-text-toggle:hover {
+            background-color: #4a5568; /* Slightly lighter on hover */
+        }
+
+
+        .question-text-toggle {
+            cursor: pointer;
+            flex-grow: 1; /* Allow text to grow */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
+        }
+        .question-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure this row takes full width of question-item */
+            min-height: 2.5rem; /* Set a minimum height for the row */
+        }
+        .question-item .button-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        /* Custom styles for visually enhanced answers */
+        .answer-content-section {
+            margin-bottom: 1rem;
+        }
+        .answer-content-section h5 {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for sub-headings */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .answer-content-section p {
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul li {
+            margin-bottom: 0.25rem;
+        }
+        .highlight-text {
+            color: #a78bfa; /* Purple for highlighting important info */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <header class="header">
+            <h1>OPSS</h1>
+            <p class="subtitle">SS</p>
+        </header>
+
+        <!-- Question categories -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <!-- AI Answer Modal -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = ""; // Leave this empty, Canvas will provide it at runtime
+
+        // Dummy syntax highlighting function for template
+        function highlightJavaCode(codeString) {
+            // This is a placeholder. In a real app, you'd have a more robust highlighter.
+            return codeString.replace(/(\b(?:import|public|class|static|void|int|double|float|String|new|return|extends|if|else|for|while|try|catch|finally|this|super|null|true|false)\b)/g, '<span style="color: #89DDFF;">$1</span>') // Keywords
+                           .replace(/(".*?")/g, '<span style="color: #C3E88D;">$1</span>') // Strings
+                           .replace(/(\b\d+\b)/g, '<span style="color: #F78C6C;">$1</span>') // Numbers
+                           .replace(/(\/\/.*)/g, '<span style="color: #6A737D; font-style: italic;">$1</span>'); // Comments
+        }
+
+        window.copyQuestionText = (button) => {
+            const questionItem = button.closest('.question-item');
+            const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
+            const targetId = questionTextElement.dataset.target;
+            let textToCopy = questionTextElement.textContent.trim();
+
+            if (targetId) {
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const shortAnswerContent = dropdown.querySelector('.short-answer-content');
+                    const extendedAnswerContent = dropdown.querySelector('.extended-answer-dropdown');
+                    if (shortAnswerContent && extendedAnswerContent) {
+                        textToCopy = `Short Answer: ${shortAnswerContent.textContent.trim()}\n\nExtended Answer: ${extendedAnswerContent.textContent.trim()}`;
+                    } else if (shortAnswerContent) {
+                        textToCopy = shortAnswerContent.textContent.trim();
+                    }
+                }
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        async function generateAnswer(question, questionCategory) {
+            const loadingSpinner = document.querySelector('#aiAnswerModal .loading-spinner');
+            const modalAnswerPlaceholder = document.querySelector('#aiAnswerModal #modalAnswerPlaceholder');
+            const modalAnswerParts = document.querySelector('#aiAnswerModal #modalAnswerParts');
+
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = '';
+
+            // This is a placeholder for AI generation
+            setTimeout(() => {
+                const dummyAnswer = `
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ৩: একদম সহজ ব্যাখ্যা</h4>
+                        <p>এখানে প্রশ্নের একদম সহজ ব্যাখ্যা থাকবে, যা ক্লাস ২ এর বাচ্চাও বুঝবে।</p>
+                    </div>
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ২: সহজ ভাষায় ব্যাখ্যা</h4>
+                        <p>এখানে সহজ ভাষায় উদাহরণ দিয়ে ব্যাখ্যা থাকবে, যা ঘরোয়া পরিবেশে বোঝানো যাবে।</p>
+                    </div>
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ১: পরীক্ষায় লেখার জন্য</h4>
+                        <p>এখানে পরীক্ষার জন্য উপযুক্ত ফরমাল বাংলা ভাষায় উত্তর থাকবে।</p>
+                        <pre><code><span style="color: #89DDFF;">public class</span> <span style="color: #FFCB6B;">Example</span> {
+    <span style="color: #89DDFF;">public static void</span> <span style="color: #C792EA;">main</span>(<span style="color: #FFCB6B;">String</span>[] <span style="color: #FFEA7A;">args</span>) {
+        <span style="color: #FFEA7A;">System</span>.<span style="color: #FFEA7A;">out</span>.<span style="color: #C792EA;">println</span>(<span style="color: #C3E88D;">"Hello, World!"</span>); <span style="color: #6A737D; font-style: italic;">// This is a comment</span>
+    }
+}</code></pre>
+                    </div>
+                `;
+                modalAnswerParts.innerHTML = dummyAnswer;
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }, 1500); // Simulate network delay
+        }
+
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            document.getElementById('modalQuestionText').textContent = question;
+            document.getElementById('aiAnswerModal').classList.add('active');
+            generateAnswer(question, questionCategory);
+        };
+
+        document.getElementById('aiModalCloseButton').addEventListener('click', () => {
+            document.getElementById('aiAnswerModal').classList.remove('active');
+        });
+
+        document.getElementById('aiAnswerModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('aiAnswerModal')) {
+                document.getElementById('aiAnswerModal').classList.remove('active');
+            }
+        });
+
+        const questions = {
+            "very-short": [
+                { text: "১। অপারেটিং সিস্টেম কাকে বলে? কিছু জনপ্রিয় অপারেটিং সিস্টেম এর উদাহরণ দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপারেটিং সিস্টেম (OS)</span> হলো একটি <span style="color: #66FCF1;">সিস্টেম সফটওয়্যার</span> যা কম্পিউটার <span style="color: #66FCF1;">হার্ডওয়্যার ও সফটওয়্যার রিসোর্স পরিচালনা</span> করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> Windows, macOS, Linux।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২। অপারেটিং সিস্টেম এর প্রকারভেদ লিখো? বিভিন্ন প্রকার কম্পিউটার এনভায়রনমেন্ট গুলোর নাম লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">OS এর প্রকারভেদ:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">সিঙ্গেল-ইউজার</span>, <span style="color: #66FCF1;">মাল্টি-ইউজার</span>, <span style="color: #66FCF1;">মাল্টিটাস্কিং</span>, <span style="color: #66FCF1;">ডিস্ট্রিবিউটেড</span> ইত্যাদি।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">এনভায়রনমেন্ট:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ব্যাচ</span>, <span style="color: #66FCF1;">টাইম-শেয়ারিং</span>, <span style="color: #66FCF1;">রিয়েল-টাইম</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৩। ওপেন সোর্স অপারেটিং সিস্টেম / মাল্টিইউজার / মাল্টিটাস্কিং / GUI এর সংজ্ঞা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ওপেন সোর্স অপারেটিং সিস্টেম:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>যে OS এর <span style="color: #66FCF1;">সোর্স কোড বিনামূল্যে</span> পাওয়া যায় ও পরিবর্তন করা যায়।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মাল্টিইউজার:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>যে OS একই সময়ে <span style="color: #66FCF1;">একাধিক ব্যবহারকারীকে সমর্থন</span> করে।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মাল্টিটাস্কিং:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>যে OS একই সময়ে <span style="color: #66FCF1;">একাধিক কাজ পরিচালনা</span> করতে পারে।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">GUI:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">আইকন ও উইন্ডো-ভিত্তিক</span> ইউজার ইন্টারফেস।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৪। মনিটর প্রোগ্রাম কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মনিটর প্রোগ্রাম</span> হলো সিস্টেমের <span style="color: #66FCF1;">কার্যকলাপ পর্যবেক্ষণ ও নিয়ন্ত্রণকারী</span> একটি প্রোগ্রাম।</p>
+                    </div>
+                ` },
+                { text: "৫। ব্যাচ প্রসেসিং সিস্টেম বলতে কী বুঝায়?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ব্যাচ প্রসেসিং সিস্টেম</span> হলো এমন একটি সিস্টেম যা <span style="color: #66FCF1;">একই ধরনের কাজগুলোকে একত্রিত করে</span> একটি ব্যাচে সম্পন্ন করে।</p>
+                    </div>
+                ` },
+                { text: "৬। প্রসেস / থ্রেড / প্রসেস সিডিউলিং এর সংজ্ঞা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রসেস:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>একটি <span style="color: #66FCF1;">চলমান প্রোগ্রাম</span>।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">থ্রেড:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>প্রসেসের মধ্যে <span style="color: #66FCF1;">এক্সিকিউশনের ক্ষুদ্রতম একক</span>।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রসেস সিডিউলিং:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>প্রসেসগুলোকে <span style="color: #66FCF1;">সিপিইউ ব্যবহারের জন্য নির্বাচন</span> করার প্রক্রিয়া।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৭। সিপিইউ সিডিউলিং এর সংজ্ঞা দাও। সিডিউলিং অ্যালগরিদম কত প্রকার ও কী কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সিপিইউ সিডিউলিং</span> হলো <span style="color: #66FCF1;">সিপিইউ ব্যবহারের জন্য প্রসেস নির্বাচন ও পরিচালনার</span> প্রক্রিয়া।</p>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রকার:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">FCFS</span>, <span style="color: #66FCF1;">SJF</span>, <span style="color: #66FCF1;">Priority Scheduling</span>, <span style="color: #66FCF1;">Round Robin</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৮। মাল্টিপ্রসেসিং সিডিউলিং এর সংজ্ঞা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মাল্টিপ্রসেসিং সিডিউলিং</span> হলো <span style="color: #66FCF1;">একাধিক সিপিইউ ব্যবহার করে একাধিক প্রসেসকে সমান্তরালভাবে</span> চালানোর প্রক্রিয়া।</p>
+                    </div>
+                ` },
+                { text: "৯। ডেডলক কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক</span> হলো এমন একটি অবস্থা যেখানে <span style="color: #66FCF1;">দুটি বা ততোধিক প্রসেস একে অপরের রিসোর্সের জন্য অপেক্ষা করে</span> আটকে থাকে।</p>
+                    </div>
+                ` },
+                { text: "১০। Resource কত প্রকার ও কী কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রিসোর্স প্রধানত দুই প্রকার:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ফিজিক্যাল রিসোর্স</span> (যেমন: CPU)</li>
+                            <li><span style="color: #66FCF1;">লজিক্যাল রিসোর্স</span> (যেমন: ফাইল)।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১১। মেমরি ম্যানেজমেন্ট বলতে কী বুঝায়? / মেমরি ম্যানেজমেন্ট Requirement সমূহ লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মেমরি ম্যানেজমেন্ট</span> হলো কম্পিউটারের <span style="color: #66FCF1;">মেমরিকে দক্ষতার সাথে পরিচালনা</span> করার প্রক্রিয়া।</p>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">Requirement:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">রিলোকেশন</span></li>
+                            <li><span style="color: #66FCF1;">প্রোটেকশন</span></li>
+                            <li><span style="color: #66FCF1;">শেয়ারিং</span></li>
+                            <li><span style="color: #66FCF1;">লজিক্যাল অর্গানাইজেশন</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১২। সোয়াপিং কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সোয়াপিং</span> হলো একটি প্রসেসকে <span style="color: #66FCF1;">মেমরি থেকে ডিস্কে সরানো</span> এবং আবার মেমরিতে ফিরিয়ে আনার কৌশল।</p>
+                    </div>
+                ` },
+                { text: "১৩। ভার্চুয়াল মেমরি বলতে কী বুঝ? ভার্চুয়াল মেমরি সুবিধা-অসুবিধাগুলো লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ভার্চুয়াল মেমরি</span> হলো একটি কৌশল যা ব্যবহারকারীকে মনে করায় যে তার কাছে <span style="color: #66FCF1;">ফিজিক্যাল মেমরির চেয়ে বেশি মেমরি</span> আছে।</p>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুবিধা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>প্রোগ্রাম লোড করতে <span style="color: #66FCF1;">সহজ</span>।</li>
+                            <li><span style="color: #66FCF1;">বেশি প্রোগ্রাম</span> চালানো যায়।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অসুবিধা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">পারফরম্যান্স ধীর</span> হতে পারে।</li>
+                            <li><span style="color: #66FCF1;">থ্রেশিং সমস্যা</span> হতে পারে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৪। RAID স্ট্রাকচারের সংজ্ঞা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">RAID (Redundant Array of Independent Disks)</span> হলো <span style="color: #66FCF1;">একাধিক ডিস্ককে একসাথে ব্যবহার</span> করে স্টোরেজ পারফরম্যান্স ও নির্ভরযোগ্যতা বাড়ানোর কৌশল।</p>
+                    </div>
+                ` },
+                { text: "১৫। ডিস্ক সিডিউলিং এর উপাদান কয়টি ও কী কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডিস্ক সিডিউলিং এর উপাদানগুলো হলো:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">কিউ অফ রিকোয়েস্ট (Queue of requests)</span></li>
+                            <li>এবং <span style="color: #66FCF1;">হেডের বর্তমান অবস্থান</span>।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৬। ফাইল সিস্টেম বলতে কী বুঝায়? ফাইল পয়েন্টার কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ফাইল সিস্টেম:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>ডেটা স্টোরেজ ডিভাইসে <span style="color: #66FCF1;">ফাইলগুলোকে সংগঠিত করার পদ্ধতি</span>।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ফাইল পয়েন্টার:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>একটি ফাইলের <span style="color: #66FCF1;">বর্তমান পড়ার বা লেখার অবস্থান</span> নির্দেশকারী ভেরিয়েবল।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৭। বিট ভেক্টর কী?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">বিট ভেক্টর</span> হলো ডিস্কের <span style="color: #66FCF1;">ফ্রি স্পেস ম্যানেজ</span> করার একটি পদ্ধতি যেখানে প্রতিটি ব্লক একটি বিট দ্বারা চিহ্নিত হয় (<span style="color: #66FCF1;">0=খালি, 1=ভরা</span>)।</p>
+                    </div>
+                ` }
+            ],
+            "short": [
+                { text: "১। কার্নেল কী? কার্নেলের কার্যাবলী বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কার্নেল কী?</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">কার্নেল</span> হলো অপারেটিং সিস্টেমের <span style="color: #66FCF1;">মূল অংশ</span> যা হার্ডওয়্যার এবং সফটওয়্যারের মধ্যে <span style="color: #66FCF1;">সরাসরি যোগাযোগ</span> স্থাপন করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> তুমি যখন একটা অ্যাপ ক্লিক করো, কার্নেল সেই নির্দেশটা সিপিইউ-এর কাছে পাঠায়। এটা যেন একটা অফিসের প্রধান ম্যানেজারের মতো, যে সব কাজ পরিচালনা করে। 🧑‍💼</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২। অপারেটিং সিস্টেম ও কার্নেলের মধ্যে পার্থক্য লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অপারেটিং সিস্টেম ও কার্নেলের মধ্যে পার্থক্য</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">অপারেটিং সিস্টেম</span> হলো একটি সম্পূর্ণ সিস্টেম যা ব্যবহারকারীকে ইন্টারফেস দেয়, আর <span style="color: #66FCF1;">কার্নেল</span> হলো সেই সিস্টেমের মূল অংশ যা হার্ডওয়্যারকে নিয়ন্ত্রণ করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> অপারেটিং সিস্টেম হলো পুরো একটা গাড়ি, যা দেখতে সুন্দর, ব্যবহার করা সহজ। আর কার্নেল হলো সেই গাড়ির ইঞ্জিন, যা সবথেকে গুরুত্বপূর্ণ কাজগুলো করে। 🚗</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৩। গ্রাফিক্যাল ইউজার ইন্টারফেসের বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">গ্রাফিক্যাল ইউজার ইন্টারফেসের বর্ণনা</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">গ্রাফিক্যাল ইউজার ইন্টারফেস (GUI)</span> হলো একটি ইউজার ইন্টারফেস যা <span style="color: #66FCF1;">আইকন, উইন্ডো, বাটন এবং মেনু</span> ব্যবহার করে ব্যবহারকারীকে সিস্টেমের সাথে ইন্টারঅ্যাক্ট করতে সাহায্য করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> উইন্ডোজের ডেস্কটপ হলো একটি GUI, যেখানে তুমি মাউস দিয়ে আইকনে ক্লিক করে ফাইল খুলতে পারো, কমান্ড লিখে নয়। এটা যেন একটা সুন্দর ড্রয়িং বোর্ড, যেখানে তুমি রঙ দিয়ে ছবি আঁকো, শুধু পেনসিল নয়। 🎨</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৪। টাচস্ক্রিন ইন্টারফেসের সুবিধা-অসুবিধা লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">টাচস্ক্রিন ইন্টারফেসের সুবিধা-অসুবিধা</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">টাচস্ক্রিন ইন্টারফেস</span> সরাসরি আঙুলের স্পর্শে কাজ করে, যা ব্যবহার সহজ করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">সুবিধা:</span> এটি ব্যবহার করা <span style="color: #66FCF1;">সহজ ও স্বজ্ঞাত</span>, কোনো অতিরিক্ত ইনপুট ডিভাইসের প্রয়োজন হয় না।</li>
+                            <li><span style="color: #66FCF1;">অসুবিধা:</span> স্ক্রিন ছোট হলে <span style="color: #66FCF1;">বাটন চাপা কঠিন</span> হয়, আর স্ক্রিনে সহজেই <span style="color: #66FCF1;">দাগ পড়ে</span>।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> স্মার্টফোন একটি টাচস্ক্রিন ডিভাইস। সুবিধা হলো আঙুল দিয়ে সব কাজ করা যায়, অসুবিধা হলো বৃষ্টির দিনে বা গ্লাভস পরে ব্যবহার করা কঠিন। 📱</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৫। iOS সিস্টেম / Android সিস্টেম এর বর্ণনা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">iOS সিস্টেম / Android সিস্টেম এর বর্ণনা</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">iOS</span> হলো অ্যাপলের মোবাইল অপারেটিং সিস্টেম যা আইফোন, আইপ্যাডের জন্য তৈরি করা হয়েছে এবং এর ইকোসিস্টেম খুবই <span style="color: #66FCF1;">সুরক্ষিত</span>। অন্যদিকে, <span style="color: #66FCF1;">Android</span> হলো গুগলের <span style="color: #66FCF1;">ওপেন-সোর্স</span> মোবাইল অপারেটিং সিস্টেম যা বিভিন্ন ব্র্যান্ডের ডিভাইসে ব্যবহৃত হয় এবং এটি <span style="color: #66FCF1;">কাস্টমাইজযোগ্য</span>।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> iOS একটা ব্র্যান্ডেড দোকানের মতো, যেখানে সবকিছু খুব গোছানো এবং সুরক্ষিত থাকে, শুধু তাদের নির্দিষ্ট ফোনগুলোতে চলে। Android হলো একটা বড় সুপারমার্কেটের মতো, যেখানে অনেক ব্র্যান্ডের জিনিস পাওয়া যায় এবং তুমি তোমার পছন্দমতো অনেক কিছু পরিবর্তন করতে পারো। 🍎🤖</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৬। ব্যাচ প্রসেসিং-এর সুবিধা ও অসুবিধা লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ব্যাচ প্রসেসিং-এর সুবিধা ও অসুবিধা</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">ব্যাচ প্রসেসিং</span> হলো এমন একটি সিস্টেম যা একই ধরনের কাজগুলোকে একত্রিত করে <span style="color: #66FCF1;">একসাথে সম্পন্ন</span> করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">সুবিধা:</span> এটি <span style="color: #66FCF1;">স্বয়ংক্রিয়ভাবে কাজ</span> করে, সিপিইউ-এর ব্যবহার বাড়ায় এবং সময় বাঁচায়।</li>
+                            <li><span style="color: #66FCF1;">অসুবিধা:</span> এতে ব্যবহারকারীর <span style="color: #66FCF1;">সরাসরি হস্তক্ষেপ করা যায় না</span> এবং কোনো জবে ত্রুটি হলে পুরো ব্যাচ প্রভাবিত হতে পারে।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> একটা ফ্যাক্টরিতে যখন একবারে হাজার হাজার বোতলে লেবেল লাগানো হয়, তখন সেটা ব্যাচ প্রসেসিং। সুবিধা হলো কম সময়ে অনেক কাজ হয়, অসুবিধা হলো যদি লেবেল প্রিন্টিং মেশিনে কোনো ভুল হয়, তাহলে সব বোতলে ভুল লেবেল লেগে যাবে। 🏭</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৭। জব কন্ট্রোল ল্যাঙ্গুয়েজ এর ব্যবহার লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জব কন্ট্রোল ল্যাঙ্গুয়েজ এর ব্যবহার</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">জব কন্ট্রোল ল্যাঙ্গুয়েজ (JCL)</span> হলো একটি <span style="color: #66FCF1;">স্ক্রিপ্টিং ভাষা</span> যা অপারেটিং সিস্টেমকে একটি কাজ (job) চালানোর জন্য প্রয়োজনীয় নির্দেশনা দেয়।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> JCL ব্যবহার করে আমরা কম্পিউটারকে বলতে পারি, "এই প্রোগ্রামটি চালাও, এই ডেটা ফাইলটি ব্যবহার করো, এবং কাজটি শেষ হলে আউটপুটটি এই ফাইলে সংরক্ষণ করো।" এটা অনেকটা রান্নার রেসিপির মতো, যেখানে প্রতিটি ধাপ বিস্তারিতভাবে লেখা থাকে। 📝</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৮। স্পুলিং এর প্রয়োজনীয়তা লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্পুলিং এর প্রয়োজনীয়তা</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">স্পুলিং</span> হলো একটি <span style="color: #66FCF1;">বাফার মেমরি</span> ব্যবহার করে ডেটা বা কাজগুলোকে অস্থায়ীভাবে সংরক্ষণ করা, যা সিপিইউ এবং ধীরগতির I/O ডিভাইসের মধ্যে <span style="color: #66FCF1;">গতি পার্থক্য দূর</span> করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> তুমি যখন প্রিন্ট দাও, তোমার ডকুমেন্টটা স্পুলিং-এ জমা হয় আর প্রিন্টার আস্তে আস্তে সেগুলো প্রিন্ট করে। এতে তোমার কম্পিউটার প্রিন্ট শেষ হওয়া পর্যন্ত অপেক্ষা না করে অন্য কাজ করতে পারে। এটা যেন একটা ব্রেকফাস্ট কাউন্টারের মতো, যেখানে রান্না করা খাবার জমা থাকে আর লোক আস্তে আস্তে সেগুলো নিয়ে যায়। 🍽️</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৯। প্রসেস ও প্রোগ্রামের মধ্যে পার্থক্য লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রসেস ও প্রোগ্রামের মধ্যে পার্থক্য</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">প্রোগ্রাম</span> হলো <span style="color: #66FCF1;">স্থির কোডের সেট</span> যা ডিস্কে থাকে, আর <span style="color: #66FCF1;">প্রসেস</span> হলো সেই প্রোগ্রাম যখন মেমরিতে লোড হয়ে <span style="color: #66FCF1;">এক্সিকিউশন শুরু</span> করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> একটা গানের CD হলো প্রোগ্রাম, আর তুমি যখন প্লেয়ারে গানটা চালাচ্ছো, তখন সেটা প্রসেস। একটি CD থেকে অনেকগুলো প্রসেস তৈরি হতে পারে, কিন্তু একটি প্রসেস একটি নির্দিষ্ট প্রোগ্রাম চালায়। 💿</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১০। সিডিউলিং ক্রাইটেরিয়া গুলো লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সিডিউলিং ক্রাইটেরিয়া গুলো</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">সিডিউলিং ক্রাইটেরিয়া</span> হলো সিডিউলিং অ্যালগরিদমের কার্যকারিতা মূল্যায়নের জন্য ব্যবহৃত মাপকাঠি।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. CPU ইউটিলাইজেশন:</span> সিপিইউ কতটা সময় ব্যস্ত থাকে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ওয়েটিং টাইম:</span> একটি কাজের লাইনে কতক্ষণ অপেক্ষা করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. টার্নঅ্যারাউন্ড টাইম:</span> একটি কাজ শুরু থেকে শেষ হতে মোট কত সময় নেয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. থ্রুপুট:</span> এক ঘণ্টায় কতগুলো কাজ শেষ হয়।</li>
+                            <li><span style="color: #66FCF1;">তুলনা:</span> এগুলো যেন কোনো দলের পারফরম্যান্স যাচাই করার জন্য খেলার স্কোরবোর্ডের মতো। 📋</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১১। ডেডলকের সুবিধা ও অসুবিধা লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলকের অসুবিধা</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলকের কোনো সুবিধা নেই।</span> এটি সিস্টেমের কার্যকারিতা পুরোপুরি বন্ধ করে দেয়।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>যে প্রসেসগুলো ডেডলকে থাকে, সেগুলো কোনো কাজ করতে পারে না, ফলে <span style="color: #66FCF1;">রিসোর্সগুলো অকারণে আটকে</span> থাকে।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> ডেডলক হলে দুইটা গাড়ি একটা সরু রাস্তায় মুখোমুখি আটকে থাকার মতো অবস্থা হয়। কেউ এগোতে পারে না, ফলে পুরো রাস্তাটা ব্লক হয়ে যায়। 🚗🚧</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১২। ডেডলকের প্রয়োজনীয় শর্তাবলী লিখ / ডেডলক থেকে মুক্তি পাওয়ার পদ্ধতিগুলো লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলকের প্রয়োজনীয় শর্তাবলী</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">ডেডলক হওয়ার জন্য চারটি শর্ত</span> একসাথে পূরণ হতে হয়:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">মিউচুয়াল এক্সক্লুশন (একচেটিয়া ব্যবহার)</span></li>
+                            <li><span style="color: #66FCF1;">হোল্ড অ্যান্ড ওয়েট (ধরে রেখে অপেক্ষা)</span></li>
+                            <li><span style="color: #66FCF1;">নো প্রিয়েম্পশন (জোর করে না নেওয়া)</span></li>
+                            <li><span style="color: #66FCF1;">সার্কুলার ওয়েট (চক্রাকার অপেক্ষা)</span></li>
+                        </ul>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> দুইজন বন্ধু একটা কলম ও একটা পেন্সিল ভাগ করে নিয়েছে। একজন কলম ধরে রেখে পেন্সিল চায়, অন্যজন পেন্সিল ধরে রেখে কলম চায়। কেউ কাউকে ছাড়ছে না, ফলে তারা আটকে আছে। 🤝</li>
+                        </ul>
+                        
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেডলক থেকে মুক্তি পাওয়ার পদ্ধতিগুলো</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডেডলক প্রিভেনশন:</span> ডেডলক যাতে না হয় সেভাবে ডিজাইন করা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডেডলক অ্যাভয়েডেন্স:</span> সাবধানে রিসোর্স বরাদ্দ করা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডেডলক ডিটেকশন ও রিকভারি:</span> ডেডলক হলে খুঁজে বের করে ঠিক করা।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> জ্যামে আটকে থাকা গাড়িগুলো সরিয়ে দেওয়া বা ট্র্যাফিক লাইট ব্যবহার করে জ্যাম হওয়া থেকে বাঁচানো। 🚥</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৩। স্মৃতি ব্যবস্থাপনার পদ্ধতি বা কৌশলসমূহ লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">স্মৃতি ব্যবস্থাপনার পদ্ধতি বা কৌশলসমূহ</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">স্মৃতি ব্যবস্থাপনা (Memory Management)</span> এর প্রধান কৌশলগুলো হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">কনটিগিয়াস মেমরি অ্যালোকেশন:</span> একটি প্রসেসের জন্য মেমরিতে একটানা একটা বড় ব্লক বরাদ্দ করা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">পেজিং:</span> মেমরিকে সমান ছোট অংশে ভাগ করে এলোমেলোভাবে ডেটা রাখা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সেগমেন্টেশন:</span> মেমরিকে অসম আকারের অংশে ভাগ করে ডেটা রাখা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সোয়াপিং:</span> প্রয়োজনে ডেটা মেমরি থেকে হার্ডডিস্কে সরানো।</li>
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> এগুলো যেন একটা বইয়ের পৃষ্ঠা বা অধ্যায় সাজানোর বিভিন্ন পদ্ধতি। 📖</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৪। সিরিয়াল অ্যাকসেস স্টোরেজ ডিভাইস ও ডাইরেক্ট অ্যাকসেস স্টোরেজ ডিভাইসের মধ্যে পার্থক্য লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সিরিয়াল অ্যাকসেস ও ডাইরেক্ট অ্যাকসেস স্টোরেজ ডিভাইসের মধ্যে পার্থক্য</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">সিরিয়াল অ্যাকসেস স্টোরেজ ডিভাইসে</span> ডেটা <span style="color: #66FCF1;">ক্রমানুসারে অ্যাকসেস</span> করা হয়, আর <span style="color: #66FCF1;">ডাইরেক্ট অ্যাকসেস স্টোরেজ ডিভাইসে</span> ডেটা <span style="color: #66FCF1;">সরাসরি যেকোনো অবস্থান থেকে</span> অ্যাকসেস করা যায়।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> সিরিয়াল অ্যাকসেস হলো একটি গানের ক্যাসেট টেপ। মাঝখানের গান শুনতে চাইলে প্রথম থেকে ফাস্ট ফরোয়ার্ড করতে হয়। ডাইরেক্ট অ্যাকসেস হলো একটি MP3 প্লেয়ার বা পেনড্রাইভ। তুমি সরাসরি যেকোনো গান ক্লিক করে শুনতে পারো। 📼💿</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৫। ফাইল অ্যাট্রিবিউট গুলো বর্ণনা কর / মৌলিক ফাইল অপারেশন গুলো বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ফাইল অ্যাট্রিবিউট</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">ফাইল অ্যাট্রিবিউট</span> হলো একটি ফাইলের বৈশিষ্ট্য বা মেটাডেটা, যেমন <span style="color: #66FCF1;">নাম, আকার, তৈরির তারিখ</span> এবং <span style="color: #66FCF1;">অ্যাক্সেস পারমিশন</span>।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> তোমার একটা ছবির ফাইলের অ্যাট্রিবিউট হলো সেটার নাম (photo.jpg), ফাইলের আকার, আর কখন সেটা তোলা হয়েছে। 🖼️</li>
+                        </ul>
+
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মৌলিক ফাইল অপারেশন</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">মৌলিক ফাইল অপারেশনগুলো</span> হলো: <span style="color: #66FCF1;">তৈরি করা, খোলা, পড়া, লেখা, ক্লোজ করা</span> এবং <span style="color: #66FCF1;">মুছে ফেলা</span>।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> তুমি যখন একটা ডকুমেন্ট তৈরি করো, সেটা একটা ক্রিয়েট অপারেশন; যখন সেটা পড়ো, সেটা রিড অপারেশন। 📝</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৬। উইন্ডোজ, লিনাক্স এবং ডস এর মধ্যে পার্থক্য লিখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উইন্ডোজ, লিনাক্স এবং ডস এর মধ্যে পার্থক্য</span></p>
+                        <p class="mb-2"><span style="color: #66FCF1;">উইন্ডোজ</span> একটি <span style="color: #66FCF1;">গ্রাফিক্যাল, ক্লোজড-সোর্স ও ব্যবহারকারী-বান্ধব</span> OS। <span style="color: #66FCF1;">লিনাক্স</span> একটি <span style="color: #66FCF1;">ওপেন-সোর্স, নিরাপদ ও কাস্টমাইজযোগ্য</span> OS। <span style="color: #66FCF1;">ডস</span> একটি পুরোনো, <span style="color: #66FCF1;">কমান্ড-লাইন ভিত্তিক ও সিঙ্গেল-টাস্কিং</span> OS।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদাহরণ:</span> উইন্ডোজ একটা বিলাসবহুল সেডান গাড়ির মতো, যা চালাতে সহজ ও দেখতে সুন্দর। লিনাক্স একটা রেসিং গাড়ির মতো, যা কাস্টমাইজ করা যায়, খুব দ্রুত ও নিরাপদ, কিন্তু চালাতে কিছুটা শেখার প্রয়োজন হয়। ডস একটা সাইকেলের মতো, যা চালানো সহজ, কিন্তু গতি কম ও অনেক আধুনিক সুবিধা নেই। 🚘💻🚲</li>
+                        </ul>
+                    </div>
+                ` },
+                
+            ],
+            "essay": [
+                
+                
+            ]
+        };
+
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    listElement.innerHTML = ''; 
+
+                    questions[category].forEach((q, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        
+                        if (q.tier === 'mythic') {
+                            listItem.classList.add('red-mythic-item');
+                        } else if (q.tier === 'legendary') {
+                            listItem.classList.add('gold-legendary-item');
+                        } else if (q.tier === 'epic') {
+                            listItem.classList.add('purple-epic-item');
+                        }
+
+                        const dropdownId = `answer-dropdown-${category}-${index}`;
+                        const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`;
+
+                        const isAmoledSection = true;
+                        const dropdownClass = isAmoledSection ? 'answer-dropdown amoled-dropdown' : 'answer-dropdown';
+                        const extendedDropdownClass = isAmoledSection ? 'extended-answer-dropdown amoled-extended-dropdown' : 'extended-answer-dropdown';
+
+                        listItem.innerHTML = `
+                            <div class="question-main-row">
+                                <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}">
+                                    <span>${q.text}</span>
+                                    <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                    <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                        AI
+                                    </button>
+                                    <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="${dropdownId}" class="${dropdownClass} hidden">
+                                <div class="short-answer-text-toggle" data-target="${extendedDropdownId}">
+                                    <div class="short-answer-content">${q.answer}</div>
+                                    <svg class="toggle-icon w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </div>
+                                <div id="${extendedDropdownId}" class="${extendedDropdownClass} hidden">
+                                    ${q.extendedAnswer}
+                                </div>
+                            </div>
+                        `;
+                        
+                        listElement.appendChild(listItem);
+
+                        const toggleElement = listItem.querySelector('.question-text-toggle');
+                        const toggleIcon = toggleElement.querySelector('.toggle-icon');
+                        toggleElement.addEventListener('click', function() {
+                            const targetId = this.dataset.target;
+                            const dropdown = document.getElementById(targetId);
+                            if (dropdown) {
+                                dropdown.classList.toggle('hidden');
+                                toggleIcon.classList.toggle('rotated');
+                            }
+                        });
+
+                        const extendedToggleElement = listItem.querySelector('.short-answer-text-toggle');
+                        if (extendedToggleElement) {
+                            const extendedToggleIcon = extendedToggleElement.querySelector('.toggle-icon');
+                            extendedToggleElement.addEventListener('click', function(event) {
+                                event.stopPropagation();
+                                const targetId = this.dataset.target;
+                                const extendedDropdown = document.getElementById(targetId);
+                                if (extendedDropdown) {
+                                    extendedDropdown.classList.toggle('hidden');
+                                    extendedToggleIcon.classList.toggle('rotated');
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>
