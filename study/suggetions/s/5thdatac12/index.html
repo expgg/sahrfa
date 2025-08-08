@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>datac12</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importing Noto Sans Bengali for better readability */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif; /* Prioritize Noto Sans Bengali */
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack main row and dropdown */
+            align-items: flex-start; /* Align items to the start */
+            padding: 8px 15px; /* Adjusted vertical padding */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* Style for Mythic (Red) stripe items */
+        .red-mythic-item {
+            border-left: 4px solid #FF0000; /* Red stripe */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .red-mythic-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for Legendary (Gold) stripe items */
+        .gold-legendary-item {
+            border-left: 4px solid #FFD700; /* Gold stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .gold-legendary-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for Epic (Purple) stripe items */
+        .purple-epic-item {
+            border-left: 4px solid #800080; /* Purple stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .purple-epic-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+            font-size: 1.25rem; /* Ensure icon is visible */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #ABB2BF; /* Default code text color */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Styles for dropdown answers */
+        .answer-dropdown {
+            background-color: #3a475a; /* Slightly lighter dark background for dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            width: 100%; /* Ensure it takes full width of its parent */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* New style for extended answer dropdown */
+        .extended-answer-dropdown {
+            background-color: #5a6b80; /* Even lighter dark background for extended dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Specific styles for AMOLED black dropdowns in "very-short" and "short" sections */
+        .amoled-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #ffffff; /* White to pop on black */
+        }
+
+        .amoled-extended-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #a78bfa; /* Vibrant purple to pop for extended */
+        }
+
+        /* Style for the short answer text itself, now a toggle */
+        .short-answer-text-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0; /* Add some padding */
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex; /* To align text and icon */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .short-answer-text-toggle:hover {
+            background-color: #4a5568; /* Slightly lighter on hover */
+        }
+
+
+        .question-text-toggle {
+            cursor: pointer;
+            flex-grow: 1; /* Allow text to grow */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
+        }
+        .question-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure this row takes full width of question-item */
+            min-height: 2.5rem; /* Set a minimum height for the row */
+        }
+        .question-item .button-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        /* Custom styles for visually enhanced answers */
+        .answer-content-section {
+            margin-bottom: 1rem;
+        }
+        .answer-content-section h5 {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for sub-headings */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .answer-content-section p {
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul li {
+            margin-bottom: 0.25rem;
+        }
+        .highlight-text {
+            color: #a78bfa; /* Purple for highlighting important info */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <header class="header">
+            <h1>Data Communication</h1>
+            <p class="subtitle">গুরুত্বপূর্ণ প্রশ্নাবলী - 12 AUG</p>
+        </header>
+
+        <!-- Question categories -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <!-- AI Answer Modal -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = ""; // Leave this empty, Canvas will provide it at runtime
+
+        // Dummy syntax highlighting function for template
+        function highlightJavaCode(codeString) {
+            // This is a placeholder. In a real app, you'd have a more robust highlighter.
+            return codeString.replace(/(\b(?:import|public|class|static|void|int|double|float|String|new|return|extends|if|else|for|while|try|catch|finally|this|super|null|true|false)\b)/g, '<span style="color: #89DDFF;">$1</span>') // Keywords
+                           .replace(/(".*?")/g, '<span style="color: #C3E88D;">$1</span>') // Strings
+                           .replace(/(\b\d+\b)/g, '<span style="color: #F78C6C;">$1</span>') // Numbers
+                           .replace(/(\/\/.*)/g, '<span style="color: #6A737D; font-style: italic;">$1</span>'); // Comments
+        }
+
+        window.copyQuestionText = (button) => {
+            const questionItem = button.closest('.question-item');
+            const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
+            const targetId = questionTextElement.dataset.target;
+            let textToCopy = questionTextElement.textContent.trim();
+
+            if (targetId) {
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const shortAnswerContent = dropdown.querySelector('.short-answer-content');
+                    const extendedAnswerContent = dropdown.querySelector('.extended-answer-dropdown');
+                    if (shortAnswerContent && extendedAnswerContent) {
+                        textToCopy = `Short Answer: ${shortAnswerContent.textContent.trim()}\n\nExtended Answer: ${extendedAnswerContent.textContent.trim()}`;
+                    } else if (shortAnswerContent) {
+                        textToCopy = shortAnswerContent.textContent.trim();
+                    }
+                }
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        async function generateAnswer(question, questionCategory) {
+            const loadingSpinner = document.querySelector('#aiAnswerModal .loading-spinner');
+            const modalAnswerPlaceholder = document.querySelector('#aiAnswerModal #modalAnswerPlaceholder');
+            const modalAnswerParts = document.querySelector('#aiAnswerModal #modalAnswerParts');
+
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = '';
+
+            // This is a placeholder for AI generation
+            setTimeout(() => {
+                const dummyAnswer = `
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ৩: একদম সহজ ব্যাখ্যা</h4>
+                        <p>এখানে প্রশ্নের একদম সহজ ব্যাখ্যা থাকবে, যা ক্লাস ২ এর বাচ্চাও বুঝবে।</p>
+                    </div>
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ২: সহজ ভাষায় ব্যাখ্যা</h4>
+                        <p>এখানে সহজ ভাষায় উদাহরণ দিয়ে ব্যাখ্যা থাকবে, যা ঘরোয়া পরিবেশে বোঝানো যাবে।</p>
+                    </div>
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ১: পরীক্ষায় লেখার জন্য</h4>
+                        <p>এখানে পরীক্ষার জন্য উপযুক্ত ফরমাল বাংলা ভাষায় উত্তর থাকবে।</p>
+                        <pre><code><span style="color: #89DDFF;">public class</span> <span style="color: #FFCB6B;">Example</span> {
+    <span style="color: #89DDFF;">public static void</span> <span style="color: #C792EA;">main</span>(<span style="color: #FFCB6B;">String</span>[] <span style="color: #FFEA7A;">args</span>) {
+        <span style="color: #FFEA7A;">System</span>.<span style="color: #FFEA7A;">out</span>.<span style="color: #C792EA;">println</span>(<span style="color: #C3E88D;">"Hello, World!"</span>); <span style="color: #6A737D; font-style: italic;">// This is a comment</span>
+    }
+}</code></pre>
+                    </div>
+                `;
+                modalAnswerParts.innerHTML = dummyAnswer;
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }, 1500); // Simulate network delay
+        }
+
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            document.getElementById('modalQuestionText').textContent = question;
+            document.getElementById('aiAnswerModal').classList.add('active');
+            generateAnswer(question, questionCategory);
+        };
+
+        document.getElementById('aiModalCloseButton').addEventListener('click', () => {
+            document.getElementById('aiAnswerModal').classList.remove('active');
+        });
+
+        document.getElementById('aiAnswerModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('aiAnswerModal')) {
+                document.getElementById('aiAnswerModal').classList.remove('active');
+            }
+        });
+
+        const questions = {
+            "very-short": [
+                {
+        text: "১। ডাটা কমিউনিকেশন কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডাটা কমিউনিকেশন</span> হলো এক <span style="color: #66FCF1;">ডিভাইস</span> থেকে অন্য <span style="color: #66FCF1;">ডিভাইসে</span> ডেটা বা তথ্য স্থানান্তরের প্রক্রিয়া।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো যখন তোমার <span style="color: #66FCF1;">ফোন</span> থেকে বন্ধুর <span style="color: #66FCF1;">ফোনে</span> একটা মেসেজ বা ছবি পাঠাও। মাঝখানে যে ডেটা আসা-যাওয়া করে, সেটাকেই <span style="color: #66FCF1; text-decoration: underline;">ডাটা কমিউনিকেশন</span> বলে। 📲</p>
+            </div>
+        `
+    },
+    {
+        text: "২। ইলেকট্রনিক কমিউনিকেশন কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ইলেকট্রনিক কমিউনিকেশন</span> হলো বৈদ্যুতিক সংকেত ব্যবহার করে তথ্য আদান-প্রদান করা।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো যখন ইলেকট্রনিক ডিভাইস, যেমন <span style="color: #66FCF1;">ফোন</span> বা <span style="color: #66FCF1;">কম্পিউটার</span>, ব্যবহার করে একে অপরের সাথে কথা বলা বা মেসেজ পাঠানো হয়।</p>
+            </div>
+        `
+    },
+    {
+        text: "৩। ওয়‍্যারলেস কমিউনিকেশন কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ওয়্যারলেস কমিউনিকেশন</span> হলো তারবিহীন মাধ্যমে, যেমন <span style="color: #66FCF1;">রেডিও তরঙ্গ</span> বা <span style="color: #66FCF1;">ইনফ্রারেড</span>, ডেটা আদান-প্রদান করা।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো <span style="color: #66FCF1;">ওয়াইফাই</span> বা <span style="color: #66FCF1;">ব্লুটুথের</span> মতো। যখন কোনো তার ছাড়াই তোমার <span style="color: #66FCF1;">ফোন</span> ইন্টারনেট বা অন্য ডিভাইসের সাথে যুক্ত হয়, সেটাকেই <span style="color: #66FCF1; text-decoration: underline;">ওয়্যারলেস কমিউনিকেশন</span> বলে।</p>
+            </div>
+        `
+    },
+    {
+        text: "৪। যোগাযোগ পরিভাষা (সবগুলো উপাদানের সংজ্ঞা লিখ)?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">যোগাযোগ পরিভাষা</span> হলো: <span style="color: #66FCF1;">উৎস</span> (যে ডেটা পাঠায়), <span style="color: #66FCF1;">প্রেরক</span> (যে সিগন্যালে রূপান্তর করে), <span style="color: #66FCF1;">মাধ্যম</span> (ডেটা যাওয়ার পথ), <span style="color: #66FCF1;">গ্রাহক</span> (যে সিগন্যাল গ্রহণ করে), এবং <span style="color: #66FCF1;">গন্তব্য</span> (যে ডেটা পায়)।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>একটা চিঠি পাঠানোর মতো। তুমি চিঠি লেখো (<span style="color: #66FCF1;">উৎস</span>), পোস্ট অফিসে দাও (<span style="color: #66FCF1;">প্রেরক</span>), পোস্ট অফিসের গাড়ি চিঠি নিয়ে যায় (<span style="color: #66FCF1;">মাধ্যম</span>), তোমার বন্ধু চিঠি পায় (<span style="color: #66FCF1;">গ্রাহক</span>), আর সে চিঠিটা পড়ে (<span style="color: #66FCF1;">গন্তব্য</span>)।</p>
+            </div>
+        `
+    },
+    {
+        text: "৫। ডাটা কমিউনিকেশন সিস্টেম এর উপাদান কয়টি ও কি কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডাটা কমিউনিকেশন সিস্টেমের উপাদান</span> পাঁচটি: <span style="color: #66FCF1;">বার্তা (Message)</span>, <span style="color: #66FCF1;">প্রেরক (Sender)</span>, <span style="color: #66FCF1;">গ্রাহক (Receiver)</span>, <span style="color: #66FCF1;">মাধ্যম (Medium)</span>, এবং <span style="color: #66FCF1;">প্রটোকল (Protocol)</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>একটা কথোপকথনের জন্য যে জিনিসগুলো লাগে, সেগুলোই এর উপাদান। যেমন, তুমি যা বলো (<span style="color: #66FCF1;">বার্তা</span>), তুমি নিজে (<span style="color: #66FCF1;">প্রেরক</span>), তোমার বন্ধু (<span style="color: #66FCF1;">গ্রাহক</span>), বাতাস যার মাধ্যমে কথা যায় (<span style="color: #66FCF1;">মাধ্যম</span>), আর তুমি যেভাবে কথা বলো (<span style="color: #66FCF1;">প্রটোকল</span>)।</p>
+            </div>
+        `
+    },
+    {
+        text: "৬। ট্রান্সমিশন মিডিয়া কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ট্রান্সমিশন মিডিয়া</span> হলো ডেটা স্থানান্তরের জন্য ব্যবহৃত ভৌত পথ বা মাধ্যম।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো ডেটা যাওয়ার রাস্তা। যেমন, তোমার ইন্টারনেট কানেকশনের জন্য যে <span style="color: #66FCF1;">তার বা ক্যাবল</span> ব্যবহার করা হয়, সেটাই <span style="color: #66FCF1; text-decoration: underline;">ট্রান্সমিশন মিডিয়া</span>। ওয়াইফাইয়ের জন্য বাতাসও একটা মিডিয়া।</p>
+            </div>
+        `
+    },
+    {
+        text: "৭। মডুলেশন কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মডুলেশন</span> হলো তথ্যের সিগন্যালকে ক্যারিয়ার সিগন্যালের সাথে পরিবর্তন করে প্রেরণযোগ্য করার প্রক্রিয়া।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো একটা ডেটাকে দূরপাল্লায় পাঠানোর জন্য একটা শক্তিশালী সিগন্যালে বসিয়ে দেওয়া। যেমন, তোমার <span style="color: #66FCF1;">ভয়েস সিগন্যালকে রেডিও তরঙ্গে</span> বসিয়ে দেওয়া হয় যাতে তা অনেক দূরে যেতে পারে।</p>
+            </div>
+        `
+    },
+    {
+        text: "৮। ডিমডুলেশন কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডিমডুলেশন</span> হলো <span style="color: #66FCF1;">মডুলেশনের বিপরীত প্রক্রিয়া</span>, যেখানে ক্যারিয়ার সিগন্যাল থেকে আসল তথ্য সিগন্যালকে পৃথক করা হয়।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো যখন একটা শক্তিশালী সিগন্যাল থেকে আসল তথ্যটাকে বের করে নেওয়া। যেমন, রেডিও স্টেশনে মডুলেশন হয় আর তোমার রেডিওতে <span style="color: #66FCF1; text-decoration: underline;">ডিমডুলেশন</span> হয়, তখন তুমি গান শুনতে পাও।</p>
+            </div>
+        `
+    },
+    {
+        text: "৯। ডিজিটাল মডুলেশনের কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডিজিটাল মডুলেশন</span> হলো ডিজিটাল ডেটাকে অ্যানালগ ক্যারিয়ার সিগন্যালে এনকোড করার প্রক্রিয়া।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো তোমার কম্পিউটারের <span style="color: #66FCF1;">বাইনারি ডেটা</span> (<span style="color: #66FCF1;">0</span> আর <span style="color: #66FCF1;">1</span>) কে একটা তরঙ্গে পাল্টে ফেলা, যাতে এটা বাতাস বা তার দিয়ে পাঠানো যায়।</p>
+            </div>
+        `
+    },
+    {
+        text: "১০। মডুলেশনের প্রকারভেদ লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মডুলেশন</span> প্রধানত <span style="color: #66FCF1;">দুই প্রকার</span>: <span style="color: #66FCF1;">অ্যানালগ মডুলেশন</span> (<span style="color: #66FCF1;">Amplitude Modulation, Frequency Modulation, Phase Modulation</span>) এবং <span style="color: #66FCF1;">ডিজিটাল মডুলেশন</span> (<span style="color: #66FCF1;">ASK, FSK, PSK</span>)।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মডুলেশন</span> দুই ধরনের হয়। একটা হলো <span style="color: #66FCF1;">অ্যানালগ</span>, যেখানে তরঙ্গকে ব্যবহার করা হয়; আরেকটা হলো <span style="color: #66FCF1;">ডিজিটাল</span>, যেখানে <span style="color: #66FCF1;">0s</span> আর <span style="color: #66FCF1;">1s</span> কে ব্যবহার করা হয়।</p>
+            </div>
+        `
+    },
+    {
+        text: "১১। লাইন কোডিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">লাইন কোডিং</span> হলো বাইনারি ডেটা (<span style="color: #66FCF1;">0</span> এবং <span style="color: #66FCF1;">1</span>) কে বৈদ্যুতিক বা আলোক সিগন্যালে রূপান্তরের পদ্ধতি।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো তোমার <span style="color: #66FCF1;">কম্পিউটার ডেটা</span> (<span style="color: #66FCF1;">0s</span> আর <span style="color: #66FCF1;">1s</span>) কে এমনভাবে পাল্টে ফেলা যাতে তা তার বা <span style="color: #66FCF1;">ফাইবার অপটিক</span> দিয়ে পাঠানো যায়।</p>
+            </div>
+        `
+    },
+    {
+        text: "১২। ব্লক কোডিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ব্লক কোডিং</span> হলো ডেটার একটি ব্লক নিয়ে তার সাথে কিছু অতিরিক্ত বিট যোগ করে ত্রুটি শনাক্ত বা সংশোধনের কৌশল।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো তোমার ডেটাকে ছোট ছোট প্যাকেটে ভাগ করে তার সাথে একটা <span style="color: #66FCF1;">চেকিং কোড</span> দিয়ে দেওয়া। এতে যদি ডেটা পাঠাতে কোনো <span style="color: #66FCF1;">ভুল</span> হয়, তাহলে তা সহজেই ধরা যায়।</p>
+            </div>
+        `
+    },
+    {
+        text: "১৩। মাল্টিপ্লেক্সিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মাল্টিপ্লেক্সিং</span> হলো একটি মাত্র <span style="color: #66FCF1;">কমিউনিকেশন চ্যানেলের</span> মাধ্যমে একাধিক ডেটা স্ট্রিমকে একত্রে পাঠানোর কৌশল।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো একটা রাস্তা দিয়ে একসাথে অনেকগুলো গাড়িকে পাঠানো। এতে রাস্তাটা পুরোপুরি ব্যবহার হয়। 🛣️</p>
+            </div>
+        `
+    },
+    {
+        text: "১৪। ডিমাল্টিপ্লেক্সিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডিমাল্টিপ্লেক্সিং</span> হলো <span style="color: #66FCF1;">মাল্টিপ্লেক্সিং-এর বিপরীত প্রক্রিয়া</span>, যেখানে একটি চ্যানেল থেকে আসা একাধিক ডেটা স্ট্রিমকে পৃথক করা হয়।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো যখন রাস্তা থেকে আসা অনেকগুলো গাড়িকে আবার আলাদা আলাদা গন্তব্যে পাঠিয়ে দেওয়া।</p>
+            </div>
+        `
+    },
+    {
+        text: "১৫। মাল্টিপ্লেক্সিং কত প্রকার?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মাল্টিপ্লেক্সিং</span> প্রধানত <span style="color: #66FCF1;">তিন প্রকার</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মাল্টিপ্লেক্সিং</span> তিন ধরনের হয়।</p>
+            </div>
+        `
+    },
+    {
+        text: "১৬। মাল্টিপ্লেক্সিং এর প্রকারভেদ কি কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মাল্টিপ্লেক্সিং এর প্রকারভেদ</span> হলো: <span style="color: #66FCF1;">Frequency Division Multiplexing (FDM)</span>, <span style="color: #66FCF1;">Time Division Multiplexing (TDM)</span> এবং <span style="color: #66FCF1;">Wave Division Multiplexing (WDM)</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এই তিন ধরনের <span style="color: #66FCF1;">মাল্টিপ্লেক্সিং</span> হলো ডেটাকে ভিন্ন ফ্রিকোয়েন্সি, ভিন্ন সময় বা ভিন্ন আলোর তরঙ্গ ব্যবহার করে পাঠানো।</p>
+            </div>
+        `
+    },
+    {
+        text: "১৭। ডাটা ফ্লো কন্ট্রোল কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডাটা ফ্লো কন্ট্রোল</span> হলো প্রেরকের ডেটা পাঠানোর গতিকে গ্রাহকের ডেটা গ্রহণের গতির সাথে সামঞ্জস্যপূর্ণ রাখা।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো নিশ্চিত করা যে তুমি যত দ্রুত কথা বলো, তোমার বন্ধু যেন তত দ্রুতই শুনতে পারে। এতে ডেটা হারিয়ে যায় না।</p>
+            </div>
+        `
+    },
+    {
+        text: "১৮। এরর এর সংজ্ঞা লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">এরর</span> হলো ডেটা ট্রান্সমিশনের সময় ডেটার মূল মানের সাথে প্রাপ্ত মানের পার্থক্য।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো ডেটা পাঠানোর সময় যদি ডেটা পরিবর্তন হয়ে যায়। যেমন, তুমি <span style="color: #66FCF1;">'A'</span> পাঠালে, কিন্তু তোমার বন্ধু <span style="color: #66FCF1;">'B'</span> পেলো।</p>
+            </div>
+        `
+    },
+    {
+        text: "১৯। TCP/IP মডেল কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">TCP/IP মডেল</span> হলো ইন্টারনেট কমিউনিকেশনের জন্য ব্যবহৃত প্রটোকলের একটি সেট, যা <span style="color: #66FCF1;">চারটি লেয়ারে</span> বিভক্ত।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো ইন্টারনেটের নিয়মকানুনের একটা প্যাকেজ। এই নিয়মগুলো ঠিক করে কিভাবে ডেটা ইন্টারনেটে এক কম্পিউটার থেকে আরেক কম্পিউটারে যাবে।</p>
+            </div>
+        `
+    },
+    {
+        text: "২০। OSI মডেলের স্তর কতটি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">OSI মডেলের স্তর</span> <span style="color: #66FCF1;">সাতটি</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">OSI মডেলের</span> সাতটা ধাপ আছে।</p>
+            </div>
+        `
+    },
+    {
+        text: "২১। OSI মডেলের স্তর কি কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">OSI মডেলের স্তরগুলো</span> হলো: <span style="color: #66FCF1;">Physical</span>, <span style="color: #66FCF1;">Data Link</span>, <span style="color: #66FCF1;">Network</span>, <span style="color: #66FCF1;">Transport</span>, <span style="color: #66FCF1;">Session</span>, <span style="color: #66FCF1;">Presentation</span> এবং <span style="color: #66FCF1;">Application layer</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এই সাতটা লেয়ার হলো ডেটা পাঠানোর জন্য বিভিন্ন ধাপ।</p>
+            </div>
+        `
+    },
+    {
+        text: "২২। DDL কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">DDL</span> এর পূর্ণরূপ হলো <span style="color: #66FCF1; text-decoration: underline;">Data Definition Language</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা <span style="color: #66FCF1;">ডেটাবেজ</span> তৈরির একটা ভাষা।</p>
+            </div>
+        `
+    },
+    {
+        text: "২৩। DDCL কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">DDCL</span> এর পূর্ণরূপ হলো <span style="color: #66FCF1; text-decoration: underline;">Data Control Language</span>।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা <span style="color: #66FCF1;">ডেটাবেজ</span> ম্যানেজ করার একটা ভাষা।</p>
+            </div>
+        `
+    },
+    {
+        text: "২৪। সুইচিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">সুইচিং</span> হলো একাধিক ডেটা পাথ বা চ্যানেলের মধ্যে ডেটা প্রেরণের জন্য উপযুক্ত পথ নির্বাচন করার প্রক্রিয়া।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো একটা ডেটাকে এক জায়গা থেকে অন্য জায়গায় পাঠানোর জন্য সঠিক পথ খুঁজে বের করা।</p>
+            </div>
+        `
+    },
+    {
+        text: "২৫। নেটওয়ার্ক অ্যাড্রেসিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">নেটওয়ার্ক অ্যাড্রেসিং</span> হলো নেটওয়ার্কে সংযুক্ত প্রতিটি ডিভাইসকে একটি অনন্য ঠিকানা দ্বারা চিহ্নিত করার প্রক্রিয়া।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো তোমার কম্পিউটারকে ইন্টারনেটে একটা ইউনিক নাম দেওয়া, যেন অন্য কম্পিউটার তাকে খুঁজে পায়।</p>
+            </div>
+        `
+    },
+    {
+        text: "২৬। IP অ্যাড্রেসিং কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">IP অ্যাড্রেসিং</span> হলো একটি নির্দিষ্ট নিয়ম অনুযায়ী প্রতিটি নেটওয়ার্ক ডিভাইসের জন্য একটি <span style="color: #66FCF1;">IP (Internet Protocol) অ্যাড্রেস</span> নির্ধারণ করা।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো তোমার ফোনের বা কম্পিউটারের অনলাইন ঠিকানা। এটা দেখে ইন্টারনেট ডেটা পাঠায়।</p>
+            </div>
+        `
+    },
+    {
+        text: "২৭। MAC Address কাকে বলে?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">MAC (Media Access Control) Address</span> হলো প্রতিটি নেটওয়ার্ক ইন্টারফেস কার্ডের (<span style="color: #66FCF1;">NIC</span>) একটি অনন্য হার্ডওয়্যার ঠিকানা।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>এটা হলো তোমার ডিভাইসের একটা <span style="color: #66FCF1;">ইউনিক ফিজিক্যাল আইডি</span>। এটা হার্ডওয়্যারে সেভ করা থাকে আর পরিবর্তন করা যায় না।</p>
+            </div>
+        `
+    }
+            ],
+            "short": [
+                {
+        text: "১। কমিউনিকেশরেন মৌলিক উপাদান গুলো বর্ণনা করো?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">কমিউনিকেশনের মৌলিক উপাদানগুলো</span> হলো: <span style="color: #66FCF1;">উৎস, প্রেরক, মাধ্যম, গ্রাহক এবং গন্তব্য</span>। <span style="color: #66FCF1;">উৎস</span> ডেটা তৈরি করে, <span style="color: #66FCF1;">প্রেরক</span> সেই ডেটাকে ট্রান্সমিশন উপযোগী সিগন্যালে রূপান্তরিত করে, <span style="color: #66FCF1;">মাধ্যম</span> সেই সিগন্যাল বহন করে, <span style="color: #66FCF1;">গ্রাহক</span> সিগন্যাল গ্রহণ করে এবং তাকে ডেটাতে রূপান্তর করে, আর <span style="color: #66FCF1;">গন্তব্য</span> সেই ডেটা পেয়ে থাকে। এই পাঁচটি উপাদান একটি সফল যোগাযোগ প্রক্রিয়া সম্পন্ন করার জন্য অপরিহার্য।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2">একটা চিঠি পাঠানোর মতো সহজভাবে ভাবা যাক।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উৎস (Source):</span> তুমি যখন একটা চিঠি লেখো, তখন তুমিই হচ্ছো <span style="color: #66FCF1;">উৎস</span>। তুমিই সেই ডেটা বা বার্তাটা তৈরি করছো। 💌</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">প্রেরক (Transmitter):</span> তুমি যখন চিঠিটা পোস্ট অফিসে জমা দাও, তখন <span style="color: #66FCF1;">পোস্ট অফিস</span> হলো প্রেরক। তারা চিঠিটাকে এমনভাবে প্যাকেজ করে যাতে তা দূরে পাঠানো যায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মাধ্যম (Medium):</span> যে পথ দিয়ে চিঠিটা যায়, যেমন পোস্ট অফিসের গাড়ি বা প্লেন, সেটাই হলো <span style="color: #66FCF1;">মাধ্যম</span>। ডেটার জন্য এটা হতে পারে তার, ক্যাবল বা বাতাস।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গ্রাহক (Receiver):</span> তোমার বন্ধু যখন তার বাড়ির পোস্টবক্সে চিঠিটা পায়, তখন সেই পোস্টবক্স হলো <span style="color: #66FCF1;">গ্রাহক</span>। সে চিঠিটা পায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গন্তব্য (Destination):</span> তোমার বন্ধু যখন চিঠিটা পড়ে, তখন সেই বন্ধুই হলো <span style="color: #66FCF1;">গন্তব্য</span>। সে ডেটাটা পেয়ে তার প্রয়োজন মতো ব্যবহার করছে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২। ডাটা কমিউনিকেশন ও ভয়েস কমিউনিকেশনের মধ্যে পার্থক্য?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ডাটা কমিউনিকেশন</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ভয়েস কমিউনিকেশন</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ডেটার ধরন</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ডিজিটাল ডেটা (0s ও 1s)</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">অ্যানালগ ডেটা (শব্দ তরঙ্গ)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">মিডিয়া</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সাধারণত <span style="color: #66FCF1;">ডিজিটাল চ্যানেল</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সাধারণত <span style="color: #66FCF1;">অ্যানালগ চ্যানেল</span> (টেলিফোন)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ট্রান্সমিশন</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">প্যাকেট সুইচিং</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">সার্কিট সুইচিং</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">লক্ষ্য</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ডেটা আদান-প্রদান</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">কথা বলা বা শব্দ আদান-প্রদান</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ইমেল, ওয়েব ব্রাউজিং</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">টেলিফোন কল</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ডাটা কমিউনিকেশন</span> আর <span style="color: #66FCF1; text-decoration: underline;">ভয়েস কমিউনিকেশন</span> হলো দুইভাবে কথা বলা।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডাটা কমিউনিকেশন:</span> এটা হলো যখন তুমি কম্পিউটারে মেসেজ পাঠাও বা কোনো ফাইল ডাউনলোড করো। এখানে সব তথ্য <span style="color: #66FCF1;">0</span> আর <span style="color: #66FCF1;">1</span> আকারে যায়। এটা অনেকটা একটা প্যাকেজ পাঠানোর মতো, যেখানে সব তথ্য ছোট ছোট প্যাকেটে ভাগ করে পাঠানো হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ভয়েস কমিউনিকেশন:</span> এটা হলো যখন তুমি ফোনে সরাসরি কথা বলো। এখানে তোমার ভয়েস সিগন্যাল <span style="color: #66FCF1;">অ্যানালগ তরঙ্গে</span> যায়। এটা অনেকটা সরাসরি কথা বলার মতো, যেখানে একটা চ্যানেল পুরো সময় তোমার জন্য বরাদ্দ থাকে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৩। ডিজিটাল কমিউনিকেশন ও অ্যানালগ কমিউনিকেশনের মধ্যে পার্থক্য?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ডিজিটাল কমিউনিকেশন</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">অ্যানালগ কমিউনিকেশন</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ডেটার ধরন</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">বিচ্ছিন্ন সংকেত (Discrete)</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">নিরবিচ্ছিন্ন সংকেত (Continuous)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ডেটা</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">0s ও 1s</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">শব্দ, আলো বা ভোল্টেজ</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">প্রসেসিং</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">নয়েজ-মুক্ত ও ত্রুটি সংশোধন সম্ভব</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">নয়েজ-প্রবণ, ত্রুটি সংশোধন কঠিন</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">গুণগত মান</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">উচ্চ মানের</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">কম মানের, সংকেত ক্ষয় হয়</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">কম্পিউটার নেটওয়ার্ক, মোবাইল ফোন</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">রেডিও, পুরোনো টেলিফোন</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ডিজিটাল</span> আর <span style="color: #66FCF1; text-decoration: underline;">অ্যানালগ কমিউনিকেশন</span> হলো ডেটা পাঠানোর দুইটা ভিন্ন স্টাইল।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অ্যানালগ কমিউনিকেশন:</span> এটা অনেকটা ঢেউয়ের মতো। একটা অ্যানালগ সিগন্যাল যখন যায়, তখন বাতাসের শব্দ বা অন্য কোনো সিগন্যাল তার সাথে মিশে যায়। এতে সিগন্যালটা দুর্বল হয়ে যায় বা বিকৃত হয়ে যায়। পুরোনো রেডিও বা টেলিফোন এই পদ্ধতি ব্যবহার করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিজিটাল কমিউনিকেশন:</span> এটা হলো একটা স্ট্রেট লাইন বা 0s আর 1s। এই সিগন্যালকে নয়েজ বা অন্য কিছু দিয়ে নষ্ট করা কঠিন। এতে ডেটা প্রায় নিখুঁতভাবে যায়। তোমার মোবাইল বা ইন্টারনেট এই ডিজিটাল পদ্ধতি ব্যবহার করে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৪। ডাটা কমিউনিকেশন উপাদান বর্ণনা কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p>একটি <span style="color: #66FCF1; text-decoration: underline;">ডাটা কমিউনিকেশন সিস্টেমের</span> পাঁচটি মৌলিক উপাদান আছে:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">বার্তা (Message):</span> ডেটা বা তথ্য যা আদান-প্রদান করা হয়।</li>
+                    <li><span style="color: #66FCF1;">প্রেরক (Sender):</span> যে ডিভাইস ডেটা পাঠায়।</li>
+                    <li><span style="color: #66FCF1;">গ্রাহক (Receiver):</span> যে ডিভাইস ডেটা গ্রহণ করে।</li>
+                    <li><span style="color: #66FCF1;">মাধ্যম (Medium):</span> ডেটা পরিবহনের পথ।</li>
+                    <li><span style="color: #66FCF1;">প্রটোকল (Protocol):</span> ডেটা আদান-প্রদানের নিয়মাবলী।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>ডাটা কমিউনিকেশনের জন্য এই ৫টা জিনিস থাকা জরুরি।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">বার্তা:</span> তুমি যা পাঠাও, যেমন একটা ছবি বা একটা ইমেল। এটাই হলো বার্তা।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">প্রেরক:</span> তোমার ফোন বা কম্পিউটার যা থেকে তুমি মেসেজটা পাঠাও।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গ্রাহক:</span> তোমার বন্ধুর ফোন বা কম্পিউটার যা মেসেজটা গ্রহণ করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মাধ্যম:</span> যে বাতাস বা ক্যাবল দিয়ে ডেটা যায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">প্রটোকল:</span> তোমার ফোন আর তোমার বন্ধুর ফোন কীভাবে ডেটা আদান-প্রদান করবে, তার নিয়ম। এটা না থাকলে কেউ কারো কথা বুঝতে পারবে না।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৫। ব্লক ডায়াগ্রাম সহ সাধারণ ডাটা কমিউনিকেশ সিস্টেম বর্ণনা কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p>একটি সাধারণ <span style="color: #66FCF1;">ডাটা কমিউনিকেশন সিস্টেমের</span> ব্লক ডায়াগ্রামে, ডেটা প্রথমে একটি <span style="color: #66FCF1;">উৎস (Source)</span> থেকে আসে। <span style="color: #66FCF1;">প্রেরক (Transmitter)</span> সেই ডেটাকে সিগন্যালে রূপান্তরিত করে। সিগন্যালটি <span style="color: #66FCF1;">ট্রান্সমিশন মাধ্যম (Transmission Medium)</span> দিয়ে যায়। <span style="color: #66FCF1;">গ্রাহক (Receiver)</span> সেই সিগন্যালকে গ্রহণ করে ডেটাতে রূপান্তর করে। সবশেষে, ডেটা <span style="color: #66FCF1;">গন্তব্যে (Destination)</span> পৌঁছায়। এটি একটি রৈখিক প্রক্রিয়া যা ডেটার সফল আদান-প্রদান নিশ্চিত করে।</p>
+                <div class="flex justify-center my-4" style="width: 100%; overflow: hidden;">
+                    <img src="rb5.jpg" alt="সাধারণ ডাটা কমিউনিকেশ সিস্টেমের ব্লক ডায়াগ্রাম" style="width: 100%; height: auto; object-fit: cover; display: block;">
+                </div>
+                <p>(এটি একটি চিত্রের ধারণামূলক উপস্থাপন)</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p>একটা <span style="color: #66FCF1;">ডাটা কমিউনিকেশন সিস্টেমকে</span> তুমি একটা ফ্যাক্টরির মতো ভাবতে পারো।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উৎস:</span> প্রথমে <span style="color: #66FCF1;">উৎস</span> থেকে একটা কাঁচামাল আসে (ডেটা)।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">প্রেরক:</span> তারপর <span style="color: #66FCF1;">প্রেরক</span> সেটাকে একটা প্যাকেটে ভরে (সিগন্যাল)।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মাধ্যম:</span> সেই প্যাকেটটা একটা রাস্তা দিয়ে যায় (<span style="color: #66FCF1;">ট্রান্সমিশন মাধ্যম</span>)।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গ্রাহক:</span> রাস্তার শেষে <span style="color: #66FCF1;">গ্রাহক</span> প্যাকেটটা গ্রহণ করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গন্তব্য:</span> সবশেষে, <span style="color: #66FCF1;">গন্তব্য</span> প্যাকেটটা খুলে আসল জিনিসটা পেয়ে যায়।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৬। অ্যাসিনক্রোনাস ও সিনক্রোনাস ট্রান্সমিশনের মধ্যে পার্থক্য?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">অ্যাসিনক্রোনাস ট্রান্সমিশন</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">সিনক্রোনাস ট্রান্সমিশন</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ক্লক সিগন্যাল</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">প্রয়োজন নেই</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">প্রয়োজন হয়</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ডেটা ব্লক</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ছোট ব্লক (<span style="color: #66FCF1;">এক বাইট</span>)</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">বড় ব্লক (<span style="color: #66FCF1;">ফ্রেম</span>)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">দক্ষতা</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">কম দক্ষ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">বেশি দক্ষ</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">কমপ্লেক্সিটি</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সহজ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">জটিল</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">কীবোর্ড থেকে ইনপুট</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ইথারনেট, ডেটা ফাইল ট্রান্সফার</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">অ্যাসিনক্রোনাস</span> আর <span style="color: #66FCF1; text-decoration: underline;">সিনক্রোনাস ট্রান্সমিশন</span> হলো দুইটা ভিন্ন স্টাইলে কথা বলা।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অ্যাসিনক্রোনাস:</span> এটা হলো একটার পর একটা অক্ষর পাঠানো। প্রতিটি অক্ষরের শুরুতে একটা '<span style="color: #66FCF1;">শুরু</span>'র সিগন্যাল আর শেষে একটা '<span style="color: #66FCF1;">শেষ</span>'-এর সিগন্যাল থাকে। অনেকটা তোমার বন্ধুর সাথে মেসেজ পাঠানোর মতো—একবারে একটা শব্দ পাঠালে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সিনক্রোনাস:</span> এটা হলো একটা বড় প্যাকেট একসাথে পাঠানো। এখানে কোনো '<span style="color: #66FCF1;">শুরু</span>' বা '<span style="color: #66FCF1;">শেষ</span>'-এর সিগন্যাল লাগে না। অনেকটা একটা ইমেল পাঠানোর মতো—অনেকগুলো তথ্য একসাথে যায়।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৭। ব্যান্ডউইডথ ও ডাটা রেটের মধ্যে পার্থক্য লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ব্যান্ডউইডথ</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ডাটা রেট</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সংজ্ঞা</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">একটি চ্যানেলের সর্বোচ্চ ক্ষমতা</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">প্রতি সেকেন্ডে স্থানান্তরিত ডেটার পরিমাণ</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">একক</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">Hz (হার্জ)</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">bps (বিট পার সেকেন্ড)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ধারণা</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">তাত্ত্বিক পরিমাপ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">প্রকৃত পরিমাপ</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">500 MHz ফ্রিকোয়েন্সির রেঞ্জ</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">100 Mbps ইন্টারনেট স্পিড</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ব্যান্ডউইডথ</span> আর <span style="color: #66FCF1; text-decoration: underline;">ডাটা রেট</span> হলো ইন্টারনেট স্পিডের দুইটা ভিন্ন হিসাব।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ব্যান্ডউইডথ:</span> এটা হলো একটা রাস্তার ক্ষমতা। ধরো, একটা রাস্তা দিয়ে একসাথে ১০০টা গাড়ি যেতে পারে। এটাই ব্যান্ডউইডথ।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডাটা রেট:</span> এটা হলো ওই রাস্তা দিয়ে এক সেকেন্ডে কয়টা গাড়ি যাচ্ছে। যদি ৫০টা যায়, তাহলে ডাটা রেট হলো ৫০।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৮। ট্রান্সমিশন মিডিয়া ক্যাটাগরিগুলোর দেখাও?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ট্রান্সমিশন মিডিয়া</span> প্রধানত <span style="color: #66FCF1;">দুই ভাগে বিভক্ত</span>:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">গাইডেড (Guided Media):</span> ডেটা ফিজিক্যাল পাথ বা তারের মাধ্যমে যায়। উদাহরণ: <span style="color: #66FCF1;">টুইস্টেড পেয়ার, কো-এক্সিয়াল ক্যাবল, অপটিক্যাল ফাইবার</span>।</li>
+                    <li><span style="color: #66FCF1;">আনগাইডেড (Unguided Media):</span> ডেটা তারবিহীন মাধ্যমে যায়। উদাহরণ: <span style="color: #66FCF1;">রেডিও তরঙ্গ, মাইক্রোওয়েভ, ইনফ্রারেড</span>।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ট্রান্সমিশন মিডিয়া</span> হলো ডেটা যাওয়ার দুই ধরনের রাস্তা।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গাইডেড:</span> এটা হলো সেই রাস্তা যার একটা নির্দিষ্ট ফিজিক্যাল পথ আছে। যেমন, তোমার ইন্টারনেট ক্যাবল বা ফোনের তার।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">আনগাইডেড:</span> এটা হলো সেই রাস্তা যার কোনো ফিজিক্যাল পথ নেই। যেমন, ওয়াইফাইয়ের জন্য বাতাস বা রেডিও তরঙ্গের জন্য বায়ু।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "৯। Guided ট্রান্সমিশন এর শ্রেণীবিভাগ দেখাও?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">গাইডেড ট্রান্সমিশন মিডিয়া</span> প্রধানত <span style="color: #66FCF1;">তিন প্রকার</span>:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">টুইস্টেড পেয়ার ক্যাবল (Twisted-Pair Cable):</span> এটি দুটি বা তার বেশি ইনস্যুলেটেড তামার তারকে প্যাঁচানো অবস্থায় থাকে।</li>
+                    <li><span style="color: #66FCF1;">কো-এক্সিয়াল ক্যাবল (Co-axial Cable):</span> এটি একটি কেন্দ্রীয় পরিবাহীকে ইনস্যুলেটিং লেয়ার দিয়ে ঘিরে রাখে।</li>
+                    <li><span style="color: #66FCF1;">অপটিক্যাল ফাইবার (Optical Fiber):</span> এটি কাঁচ বা প্লাস্টিকের তৈরি পাতলা তন্তু যা আলোর মাধ্যমে ডেটা পাঠায়।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">গাইডেড মিডিয়ার</span> ৩টা প্রধান প্রকারভেদ হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">টুইস্টেড পেয়ার ক্যাবল:</span> তোমার ফোনের পুরোনো তার বা ইথারনেট ক্যাবল, যেখানে কিছু তার প্যাঁচানো থাকে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">কো-এক্সিয়াল ক্যাবল:</span> তোমার ডিশ বা টিভির ক্যাবল।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অপটিক্যাল ফাইবার:</span> এটা হলো কাঁচের খুব পাতলা তার, যার ভেতর দিয়ে আলো দিয়ে ডেটা পাঠানো হয়। এটা অনেক ফাস্ট।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১০। STP এর গঠন সম্পর্কে আলোচনা কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">STP (Shielded Twisted-Pair) ক্যাবল</span> হলো এক ধরনের <span style="color: #66FCF1;">টুইস্টেড পেয়ার ক্যাবল</span>। এর প্রতিটি প্যাঁচানো জোড়া তার একটি <span style="color: #66FCF1;">শিল্ড বা ইনস্যুলেশন</span> দিয়ে আবৃত থাকে, যা <span style="color: #66FCF1;">EMI (ইলেক্ট্রোম্যাগনেটিক ইন্টারফারেন্স)</span> থেকে সিগন্যালকে রক্ষা করে। একটি অতিরিক্ত ব্রেডেড শিল্ড পুরো ক্যাবলটিকে ঘিরে রাখে। এর ফলে <span style="color: #66FCF1;">UTP</span>-এর চেয়ে এটি বেশি সুরক্ষিত এবং ডেটা ট্রান্সমিশনের মান উন্নত হয়।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">STP</span> হলো একটা সুরক্ষিত ক্যাবল।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>এটা দেখতে <span style="color: #66FCF1;">UTP ক্যাবলের</span> মতোই, কিন্তু এর প্রতিটি তারের জোড়াকে একটা এক্সট্রা <span style="color: #66FCF1;">শিল্ড</span> দিয়ে ঢেকে দেওয়া হয়।</li>
+                    <li>এতে যদি কোনো বাইরে থেকে কোনো ইলেকট্রিক সিগন্যাল আসে, তাহলে সেটা তোমার ডেটাকে নষ্ট করতে পারে না।</li>
+                    <li>এটা অনেকটা একটা চিঠিকে খামের ভেতর দিয়ে আবার আরেকটা প্যাকেট দিয়ে মুড়ে ফেলার মতো, যাতে চিঠিটা নিরাপদ থাকে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১১। UTP এর গঠন সম্পর্কে আলোচনা কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">UTP (Unshielded Twisted-Pair) ক্যাবল</span> হলো সবচেয়ে সাধারণ <span style="color: #66FCF1;">টুইস্টেড পেয়ার ক্যাবল</span>। এর অভ্যন্তরে ইনস্যুলেটেড তামার তারের জোড়াগুলো পেঁচানো থাকে, কিন্তু কোনো অতিরিক্ত <span style="color: #66FCF1;">শিল্ড বা ইনস্যুলেশন</span> থাকে না। প্রতিটি জোড়ার প্যাঁচানো দিক তারের মধ্যে <span style="color: #66FCF1;">ক্রসস্টল (Crosstalk)</span> কমায়। এটি কম খরচে তৈরি হয় এবং <span style="color: #66FCF1;">LAN (Local Area Network)</span> এর জন্য বহুল ব্যবহৃত হয়।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">UTP</span> হলো একটা সাধারণ ইন্টারনেট ক্যাবল।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>এটার ভেতরে অনেকগুলো তার পেঁচানো থাকে। কিন্তু কোনো এক্সট্রা সুরক্ষা থাকে না।</li>
+                    <li>এটা সবচেয়ে বেশি ব্যবহার হয়, কারণ এটা সস্তা আর সহজে ইন্সটল করা যায়।</li>
+                    <li>এটা অনেকটা একটা চিঠিকে সরাসরি খামে ভরে পাঠানোর মতো। যদি কোনো ইলেকট্রিক সিগন্যাল আসে, তাহলে সেটা তোমার ডেটাকে প্রভাবিত করতে পারে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১২। মডুলেশনের প্রয়োজনীয়তা লেখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মডুলেশনের প্রধান প্রয়োজনীয়তা</span> হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">দূরপাল্লার ট্রান্সমিশন:</span> অ্যানালগ ডেটাকে দূরপাল্লায় প্রেরণের জন্য উপযুক্ত করা।</li>
+                    <li><span style="color: #66FCF1;">অ্যান্টেনা সাইজ:</span> অ্যানালগ ডেটাকে উচ্চ ফ্রিকোয়েন্সিতে রূপান্তর করে অ্যান্টেনাকে ছোট করা।</li>
+                    <li><span style="color: #66FCF1;">মাল্টিপ্লেক্সিং:</span> একাধিক সিগন্যালকে একসাথে একটি চ্যানেলে পাঠানোর সুযোগ তৈরি করা।</li>
+                    <li><span style="color: #66FCF1;">নয়েজ প্রতিরোধ:</span> মডুলেশনের মাধ্যমে ডেটা সিগন্যালকে নয়েজ থেকে রক্ষা করা।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">মডুলেশন</span> দরকার হয় কিছু কাজের জন্য:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>তুমি যখন গান গাইছো, তখন তোমার ভয়েস সিগন্যাল খুব দুর্বল। এটা দূর পর্যন্ত যায় না। তাই এটাকে একটা শক্তিশালী সিগন্যালে বসিয়ে দেওয়া হয় যাতে তা অনেক দূর যেতে পারে।</li>
+                    <li>এটা অনেকটা এমন যে তোমার ছোট ভয়েসকে একটা মাইক্রোফোনের মাধ্যমে বড় করে দেওয়া, যাতে তা অনেক মানুষ শুনতে পারে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৩। ASK এর সুবিধা-অসুবিধা লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ASK (Amplitude Shift Keying):</span></p>
+                <p>সুবিধা:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">বাস্তবায়ন সহজ</span> এবং খরচ কম।</li>
+                    <li>ব্যান্ডউইডথ কম লাগে।</li>
+                </ul>
+                <p>অসুবিধা:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>নয়েজের প্রতি সংবেদনশীল।</li>
+                    <li>কম দক্ষতা।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ASK</span> হলো একটা মডুলেশন টেকনিক।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সুবিধা:</span> এটা বানাতে খুব সহজ আর খরচ কম হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অসুবিধা:</span> এর সবচেয়ে বড় সমস্যা হলো নয়েজ। যদি সিগন্যাল যাওয়ার সময় কোনো নয়েজ আসে, তাহলে সেটা ডেটাকে নষ্ট করে দিতে পারে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৪। FSK এর সুবিধা-অসুবিধা লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">FSK (Frequency Shift Keying):</span></p>
+                <p>সুবিধা:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">নয়েজের প্রতি কম সংবেদনশীল</span>।</li>
+                    <li>তুলনামূলকভাবে ভালো কর্মক্ষমতা।</li>
+                </ul>
+                <p>অসুবিধা:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>ব্যান্ডউইডথ বেশি লাগে।</li>
+                    <li>বাস্তবায়ন কিছুটা জটিল।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">FSK</span> হলো আরেকটা মডুলেশন টেকনিক।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সুবিধা:</span> এটা ASK এর চেয়ে নয়েজের প্রতি কম সংবেদনশীল।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অসুবিধা:</span> এর জন্য বেশি ব্যান্ডউইডথ লাগে, আর এটা বানাতে একটু জটিল।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৫। PSK(BPSK) এর সুবিধা-অসুবিধা লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">PSK (Phase Shift Keying):</span></p>
+                <p>সুবিধা:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">নয়েজের প্রতি খুবই প্রতিরোধী</span>।</li>
+                    <li>উচ্চ দক্ষতা।</li>
+                </ul>
+                <p>অসুবিধা:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>বাস্তবায়ন জটিল।</li>
+                    <li>বেশি ব্যান্ডউইডথ লাগে।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">PSK</span> হলো সবচেয়ে উন্নত মডুলেশন টেকনিক।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সুবিধা:</span> এটা নয়েজের প্রতি খুবই প্রতিরোধী।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অসুবিধা:</span> এটা বানাতে খুব জটিল আর এর জন্য অনেক বেশি ব্যান্ডউইডথ লাগে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৬। ব্লক কোডিং এর ধাপ গুলো দেখাও ও বর্ণন কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ব্লক কোডিং এর ধাপগুলো</span> হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">ডিভিশন (Division):</span> ডেটাকে ছোট ছোট ব্লকে বিভক্ত করা হয়।</li>
+                    <li><span style="color: #66FCF1;">ব্লক গঠন (Block Formation):</span> প্রতিটি ব্লকের সাথে অতিরিক্ত বিট (<span style="color: #66FCF1;">redundant bits</span>) যোগ করা হয়।</li>
+                    <li><span style="color: #66FCF1;">কোডিং (Coding):</span> প্রতিটি ব্লক কোড করা হয়।</li>
+                    <li><span style="color: #66FCF1;">চেকসাম গণনা (Checksum Calculation):</span> অতিরিক্ত বিটগুলো দিয়ে ত্রুটি শনাক্তকরণের জন্য <span style="color: #66FCF1;">চেকসাম</span> গণনা করা হয়।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ব্লক কোডিং</span> হলো একটা টেকনিক যা ডেটাকে সুরক্ষিত করে।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>তুমি যখন একটা ডেটা পাঠাও, তখন সেটাকে ছোট ছোট ব্লকে ভাগ করা হয়।</li>
+                    <li>প্রতিটি ব্লকের সাথে একটা এক্সট্রা কোড যোগ করে দেওয়া হয়।</li>
+                    <li>যদি ডেটা পাঠানোর সময় কোনো ভুল হয়, তাহলে এই কোডটা ভুলটা ধরে ফেলে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৭। লাইন কোডিং এর ধাপ গুলো দেখাও ও বর্ণন কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">লাইন কোডিং এর ধাপগুলো</span> হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">এনকোডিং (Encoding):</span> ডিজিটাল ডেটাকে বৈদ্যুতিক সিগন্যালে রূপান্তর করা হয়।</li>
+                    <li><span style="color: #66FCF1;">প্যাকেট তৈরি (Packet Formation):</span> সিগন্যালকে ছোট ছোট প্যাকেটে বিভক্ত করা হয়।</li>
+                    <li><span style="color: #66FCF1;">ট্রান্সমিশন (Transmission):</span> প্যাকেটগুলো ট্রান্সমিশন মিডিয়ার মাধ্যমে পাঠানো হয়।</li>
+                    <li><span style="color: #66FCF1;">ডিকোডিং (Decoding):</span> গ্রাহক প্রাপ্ত সিগন্যালকে আবার ডিজিটাল ডেটাতে রূপান্তর করে।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">লাইন কোডিং</span> হলো ডিজিটাল ডেটাকে তার দিয়ে পাঠানোর একটা পদ্ধতি।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>তুমি যখন কম্পিউটারে কিছু টাইপ করো, তখন সেটা <span style="color: #66FCF1;">0s</span> আর <span style="color: #66FCF1;">1s</span> এ পাল্টে যায়।</li>
+                    <li><span style="color: #66FCF1;">লাইন কোডিং</span> এই <span style="color: #66FCF1;">0s</span> আর <span style="color: #66FCF1;">1s</span> কে বিদ্যুতের সিগন্যালে পাল্টে দেয়।</li>
+                    <li>তারপর এটা তার দিয়ে যায় আর অন্য কম্পিউটার সেটাকে আবার <span style="color: #66FCF1;">0s</span> আর <span style="color: #66FCF1;">1s</span> এ পাল্টে ফেলে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৮। অ্যানালগ ও ডিজিটাল মডুলেশনের মধ্যে পার্থক্য লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">অ্যানালগ মডুলেশন</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ডিজিটাল মডুলেশন</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ডেটার ধরন</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">নিরবিচ্ছিন্ন (Continuous)</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">বিচ্ছিন্ন (Discrete)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">প্রসেসিং</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সহজ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">জটিল</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">নয়েজ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">নয়েজ-প্রবণ</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">নয়েজ-মুক্ত</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">AM, FM, PM</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ASK, FSK, PSK</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">অ্যানালগ</span> আর <span style="color: #66FCF1; text-decoration: underline;">ডিজিটাল মডুলেশন</span> হলো দুইটা ভিন্ন স্টাইলে ডেটা পাঠানো।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অ্যানালগ:</span> এটা হলো যখন তোমার ভয়েস সিগন্যালকে একটা তরঙ্গে বসিয়ে দেওয়া হয়। এখানে নয়েজ মিশে যেতে পারে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিজিটাল:</span> এটা হলো যখন তোমার কম্পিউটারের ডেটাকে (<span style="color: #66FCF1;">0s</span> আর <span style="color: #66FCF1;">1s</span>) একটা তরঙ্গে বসিয়ে দেওয়া হয়। এখানে ডেটা নয়েজ-মুক্ত থাকে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "১৯। TDM ও FDM এর মধ্যে পার্থক্য লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">TDM (Time Division Multiplexing)</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">FDM (Frequency Division Multiplexing)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">কৌশল</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">সময় ভাগ করা হয়</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ফ্রিকোয়েন্সি ভাগ করা হয়</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">ব্যান্ডউইডথ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">একটি চ্যানেল</span> ব্যবহার করে</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">একাধিক চ্যানেল</span> ব্যবহার করে</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">মোবাইল ফোন নেটওয়ার্ক</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">রেডিও, টিভি ব্রডকাস্টিং</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">TDM</span> আর <span style="color: #66FCF1; text-decoration: underline;">FDM</span> হলো ডেটা পাঠানোর দুইটা টেকনিক।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">TDM:</span> এটা হলো একটা রাস্তা দিয়ে অনেকগুলো গাড়িকে পাঠানো, কিন্তু একটা নির্দিষ্ট সময়ে শুধুমাত্র একটা গাড়ি যায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">FDM:</span> এটা হলো একটা রাস্তা দিয়ে অনেকগুলো লেন তৈরি করা, আর প্রতিটি লেনে আলাদা আলাদা গাড়ি যায়।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২০। বেসব্যান্ড ও ব্রডব্যান্ড ট্রান্সমিশনের মধ্যে পার্থক্য লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বেসব্যান্ড ট্রান্সমিশন</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">ব্রডব্যান্ড ট্রান্সমিশন</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সিগন্যাল</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ডিজিটাল সিগন্যাল</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">অ্যানালগ সিগন্যাল</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">চ্যানেল</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">সিঙ্গেল চ্যানেল</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">একাধিক চ্যানেল</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">দ্বিমুখী যোগাযোগ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">দ্বিমুখী</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">দ্বিমুখী (<span style="color: #66FCF1;">একসাথে</span>)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">উদাহরণ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ইথারনেট</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">ক্যাবল টিভি, ইন্টারনেট</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">বেসব্যান্ড</span> আর <span style="color: #66FCF1; text-decoration: underline;">ব্রডব্যান্ড</span> হলো ডেটা পাঠানোর দুইটা পদ্ধতি।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">বেসব্যান্ড:</span> এটা হলো যখন একটা ডেটা একটা তার দিয়ে যায়। তুমি যখন একটা ফাইল পাঠাও, তখন পুরো তারটা সেই ফাইলটা পাঠানোর জন্য ব্যবহার হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ব্রডব্যান্ড:</span> এটা হলো যখন একটা তার দিয়ে একাধিক ডেটা পাঠানো যায়। যেমন, তোমার ক্যাবল টিভিতে একসাথে অনেকগুলো চ্যানেল দেখতে পাওয়া।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২১। ডাটা ফ্লো কন্ট্রোল-এর প্রয়োজনীয়তা লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডাটা ফ্লো কন্ট্রোলের প্রয়োজনীয়তা</span> হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">ডেটা লস প্রতিরোধ:</span> প্রেরকের ডেটা পাঠানোর গতিকে গ্রাহকের ডেটা গ্রহণের গতির সাথে সামঞ্জস্যপূর্ণ রাখা।</li>
+                    <li><span style="color: #66FCF1;">ডেটা ওভারফ্লো প্রতিরোধ:</span> গ্রাহকের বাফারে ডেটা ওভারফ্লো হওয়া থেকে বাঁচানো।</li>
+                    <li><span style="color: #66FCF1;">দক্ষতা বৃদ্ধি:</span> সিস্টেমের কর্মক্ষমতা বৃদ্ধি করা।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ডেটা ফ্লো কন্ট্রোল</span> দরকার হয় কিছু কাজের জন্য:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li>তুমি যখন খুব দ্রুত কথা বলো, তখন তোমার বন্ধু সব কথা বুঝতে পারে না। ডেটা ফ্লো কন্ট্রোল নিশ্চিত করে যে তুমি যত দ্রুত কথা বলো, তোমার বন্ধু যেন তত দ্রুতই শুনতে পারে।</li>
+                    <li>এটা ডেটা হারিয়ে যাওয়া থেকে বাঁচায়।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২২। ত্রুটি কত প্রকার ও কি কি?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ত্রুটি</span> দুই প্রকার:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">সিঙ্গেল-বিট এরর (Single-bit Error):</span> একটি ডেটা ইউনিটের শুধুমাত্র একটি বিট ভুল হয়।</li>
+                    <li><span style="color: #66FCF1;">বার্স্ট এরর (Burst Error):</span> একটি ডেটা ইউনিটের একাধিক বিট ভুল হয়।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">এরর</span> দুই ধরনের হয়।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সিঙ্গেল-বিট এরর:</span> এটা হলো যখন তুমি '<span style="color: #66FCF1;">1</span>' পাঠালে, কিন্তু তোমার বন্ধু '<span style="color: #66FCF1;">0</span>' পেলো।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">বার্স্ট এরর:</span> এটা হলো যখন তুমি '<span style="color: #66FCF1;">101</span>' পাঠালে, কিন্তু তোমার বন্ধু '<span style="color: #66FCF1;">010</span>' পেলো।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২৩। বিভিন্ন ধরনের ত্রুটি শনাক্তকরণ কৌশল লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p>বিভিন্ন ধরনের <span style="color: #66FCF1; text-decoration: underline;">ত্রুটি শনাক্তকরণ কৌশলগুলো</span> হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">প্যারিটি চেক (Parity Check):</span> একটি অতিরিক্ত প্যারিটি বিট যোগ করে ত্রুটি শনাক্ত করা হয়।</li>
+                    <li><span style="color: #66FCF1;">চেকসাম (Checksum):</span> ডেটার ব্লকগুলোর যোগফল নিয়ে চেকসাম তৈরি করা হয়।</li>
+                    <li><span style="color: #66FCF1;">সাইক্লিক রিডানড্যান্সি চেক (CRC):</span> এটি ডেটা পলিনমিয়াল ব্যবহার করে ত্রুটি শনাক্ত করে।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">এরর শনাক্ত</span> করার জন্য কিছু টেকনিক ব্যবহার করা হয়।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">প্যারিটি চেক:</span> এটা হলো ডেটার সাথে একটা এক্সট্রা বিট যোগ করে দেওয়া, যাতে ডেটা ভুল হলে তা ধরা যায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চেকসাম:</span> এটা হলো ডেটা ব্লকগুলোর যোগফল নিয়ে একটা চেকিং কোড তৈরি করা।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">CRC:</span> এটা হলো একটা উন্নত টেকনিক যা প্যারিটি চেক বা চেকসামের চেয়ে বেশি নির্ভুল।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২৪। TCP/IP মডেল বর্ণনা কর?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">TCP/IP মডেল</span> হলো ইন্টারনেট কমিউনিকেশনের জন্য ব্যবহৃত একটি ৪-স্তর বিশিষ্ট প্রটোকল স্যুট। স্তরগুলো হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">অ্যাপ্লিকেশন লেয়ার:</span> ব্যবহারকারী ইন্টারফেস (HTTP, FTP)।</li>
+                    <li><span style="color: #66FCF1;">ট্রান্সপোর্ট লেয়ার:</span> ডেটা পরিবহন (TCP, UDP)।</li>
+                    <li><span style="color: #66FCF1;">ইন্টারনেট লেয়ার:</span> নেটওয়ার্ক অ্যাড্রেসিং (IP)।</li>
+                    <li><span style="color: #66FCF1;">নেটওয়ার্ক অ্যাক্সেস লেয়ার:</span> ফিজিক্যাল ডেটা ট্রান্সমিশন (ইথারনেট)।</li>
+                </ul>
+                <p>এটি ডেটা যোগাযোগের জন্য একটি কার্যকরী ফ্রেমওয়ার্ক প্রদান করে।</p>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">TCP/IP মডেল</span> হলো ইন্টারনেটের নিয়মকানুনের একটা প্যাকেজ।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অ্যাপ্লিকেশন লেয়ার:</span> তুমি যখন ফেসবুক ব্যবহার করো, তখন এই লেয়ারটা কাজ করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ট্রান্সপোর্ট লেয়ার:</span> এই লেয়ারটা ডেটাকে ছোট ছোট প্যাকেটে ভাগ করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ইন্টারনেট লেয়ার:</span> এই লেয়ারটা ডেটাকে পাঠানোর জন্য সবচেয়ে ভালো রাস্তা খুঁজে বের করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">নেটওয়ার্ক অ্যাক্সেস লেয়ার:</span> এই লেয়ারটা ডেটাকে তার বা ক্যাবল দিয়ে পাঠানোর জন্য প্রস্তুত করে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২৫। ডাটা লিংক লেয়ারের কাজ লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডাটা লিংক লেয়ারের প্রধান কাজগুলো</span> হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1;">ফ্রেমিং (Framing):</span> নেটওয়ার্ক লেয়ার থেকে প্রাপ্ত ডেটাকে ফ্রেমে বিভক্ত করা।</li>
+                    <li><span style="color: #66FCF1;">ফিজিক্যাল অ্যাড্রেসিং (Physical Addressing):</span> ডেটা ফ্রেমে MAC অ্যাড্রেস যুক্ত করা।</li>
+                    <li><span style="color: #66FCF1;">ফ্লো কন্ট্রোল (Flow Control):</span> প্রেরকের ডেটা পাঠানোর গতিকে গ্রাহকের ডেটা গ্রহণের গতির সাথে সামঞ্জস্যপূর্ণ রাখা।</li>
+                    <li><span style="color: #66FCF1;">এরর কন্ট্রোল (Error Control):</span> ডেটা ট্রান্সমিশনের সময় ত্রুটি শনাক্ত ও সংশোধন করা।</li>
+                </ul>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">ডাটা লিংক লেয়ারের</span> কাজগুলো হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ফ্রেমিং:</span> এটা হলো ডেটাকে ছোট ছোট প্যাকেটে ভাগ করা।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ফিজিক্যাল অ্যাড্রেসিং:</span> এটা হলো ডেটা প্যাকেটে তোমার ডিভাইসের ফিজিক্যাল অ্যাড্রেস যোগ করে দেওয়া, যাতে সঠিক ডিভাইসে পৌঁছায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ফ্লো কন্ট্রোল:</span> এটা নিশ্চিত করে যে ডেটা ওভারফ্লো না হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">এরর কন্ট্রোল:</span> এটা ডেটা পাঠানোর সময় ভুলটা ধরে ফেলে।</li>
+                </ul>
+            </div>
+        `
+    },
+    {
+        text: "২৬। IPv4 এবং IPv6 এর মধ্যে পার্থক্য লিখ?",
+        tier: 'mythic',
+        answer: `
+            <div class="answer-content-section">
+                <div class="overflow-x-auto my-4">
+                    <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">বৈশিষ্ট্য</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">IPv4</th>
+                                <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem; background-color: #4299E1; color: white;">IPv6</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">অ্যাড্রেস সাইজ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">32-বিট</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">128-বিট</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">অ্যাড্রেস ফরম্যাট</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">দশমিক (e.g., 192.168.1.1)</span></td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;"><span style="color: #66FCF1;">হেক্সাডেসিমেল (e.g., 2001:0db8...)</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">অ্যাড্রেসের সংখ্যা</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">সীমিত</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">প্রায় অসীম</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">নিরাপত্তা</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">কম নিরাপদ</td>
+                                <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem; background-color: #4A5568;">বেশি নিরাপদ (<span style="color: #66FCF1;">IPsec বিল্ট-ইন</span>)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `,
+        extendedAnswer: `
+            <div class="answer-content-section">
+                <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline;">IPv4</span> আর <span style="color: #66FCF1; text-decoration: underline;">IPv6</span> হলো ইন্টারনেটের ঠিকানার দুইটা ভার্সন।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">IPv4:</span> এটা হলো ইন্টারনেটের পুরোনো ঠিকানা। এটা ৩২-বিট এর, তাই এটার ঠিকানা সীমিত।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">IPv6:</span> এটা হলো ইন্টারনেটের নতুন ঠিকানা। এটা ১২৮-বিট এর, তাই এটার ঠিকানা প্রায় অসীম। এটা আরও বেশি সুরক্ষিত।</li>
+                </ul>
+            </div>
+        `
+    }
+            ],
+            "essay": [
+                // Mythic Questions
+    {
+        text: "সাধারণ ব্লক ডায়াগ্রামসহ কমিউনিকেশন সিস্টেম বর্ণনা করো?*****",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "কমিউনিকেশন মোেড সিমপ্লেক্স, হাফ-ডুপ্লেক্স এবং ফুল-ডুপ্লেক্স বর্ণনা কর?*****",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "Fiber-Optical Cable গঠন প্রনালী চিত্রসহ বর্ণন কর?*****",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "ব্লক ডায়াগ্রামসহ ডিজিটাল কমিউনিকেশন বর্ণনা কর?*****",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "ব্লক ডায়াগ্রামসহ ফ্রিকুয়েন্সি ডিভিশন মাল্টিপ্লেক্সিং টেকনিক বর্ণনা কর?*****",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "হামিং কোড এর এরর কারেকশন পদ্ধতি বর্ণনা করো?**",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "OSI মডেলের প্রতিটি লেয়ারের কাজ চিত্রসহ বর্ণনা কর?***",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "IP Address এর শ্রেণিবিভাগ বর্ণনা কর?**",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "মাইক্রোওয়েভ কমিউনিকেশন সিস্টম চিত্রসহ বর্ণনা কর?*****",
+        tier: 'mythic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+
+    // Legendary Questions
+    {
+        text: "Co-oxial cable গঠন প্রনালী চিত্রসহ বর্ণন কর?*****",
+        tier: 'legendary',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "মডুলেশনের প্রকারভেদ আলোচনা করো?**",
+        tier: 'legendary',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "ব্লক ডায়াগ্রামসহ ফ্রিকুয়েন্সি ডিভিশন ডিমাল্টিপ্লেক্সিং টেকনিক বর্ণনা কর?*****",
+        tier: 'legendary',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "TCP/IP এবং OSI মডেলের আন্তঃসংযোগ বর্ণনা কর?**",
+        tier: 'legendary',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "সুইচিং এর প্রকারভেদ আলোচনা কর?**",
+        tier: 'legendary',
+        answer: ``,
+        extendedAnswer: ``
+    },
+
+    // Epic Questions
+    {
+        text: "চিত্রসহ সিনক্রোনাস ও অ্যাসিনক্রোনাস কমিউনিকেশন পদ্ধতি আলোচনা কর।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "ASK, FSK, PSK-এর সুবিধা ও অসুবিধাসমূহ লেখ।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "প্রয়োজনীয় Waveform এর চিত্রসহ FM, PM এবং AM বর্ণনা দাও।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "4B/5B কোডিং ব্যবহার করে NRZ-I লাইন কোডিং স্কিম বর্ণনা কর।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "ব্লক কোডিং সিস্টেম বর্ণনা কর।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "টাইম ডিভিশন মাল্টিপ্লেক্সিং-এর বর্ণনা দাও।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "TCP ও FTP প্রটোকল বর্ণনা কর।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    },
+    {
+        text: "রেডিও, মাইক্রোওয়েভ এবং ইনফ্রারেড কমিউনিকেশনের বর্ণনা দাও।",
+        tier: 'epic',
+        answer: ``,
+        extendedAnswer: ``
+    }
+            ]
+        };
+
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    listElement.innerHTML = ''; 
+
+                    questions[category].forEach((q, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        
+                        if (q.tier === 'mythic') {
+                            listItem.classList.add('red-mythic-item');
+                        } else if (q.tier === 'legendary') {
+                            listItem.classList.add('gold-legendary-item');
+                        } else if (q.tier === 'epic') {
+                            listItem.classList.add('purple-epic-item');
+                        }
+
+                        const dropdownId = `answer-dropdown-${category}-${index}`;
+                        const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`;
+
+                        const isAmoledSection = true;
+                        const dropdownClass = isAmoledSection ? 'answer-dropdown amoled-dropdown' : 'answer-dropdown';
+                        const extendedDropdownClass = isAmoledSection ? 'extended-answer-dropdown amoled-extended-dropdown' : 'extended-answer-dropdown';
+
+                        listItem.innerHTML = `
+                            <div class="question-main-row">
+                                <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}">
+                                    <span>${q.text}</span>
+                                    <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                    <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                        AI
+                                    </button>
+                                    <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="${dropdownId}" class="${dropdownClass} hidden">
+                                <div class="short-answer-text-toggle" data-target="${extendedDropdownId}">
+                                    <div class="short-answer-content">${q.answer}</div>
+                                    <svg class="toggle-icon w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </div>
+                                <div id="${extendedDropdownId}" class="${extendedDropdownClass} hidden">
+                                    ${q.extendedAnswer}
+                                </div>
+                            </div>
+                        `;
+                        
+                        listElement.appendChild(listItem);
+
+                        const toggleElement = listItem.querySelector('.question-text-toggle');
+                        const toggleIcon = toggleElement.querySelector('.toggle-icon');
+                        toggleElement.addEventListener('click', function() {
+                            const targetId = this.dataset.target;
+                            const dropdown = document.getElementById(targetId);
+                            if (dropdown) {
+                                dropdown.classList.toggle('hidden');
+                                toggleIcon.classList.toggle('rotated');
+                            }
+                        });
+
+                        const extendedToggleElement = listItem.querySelector('.short-answer-text-toggle');
+                        if (extendedToggleElement) {
+                            const extendedToggleIcon = extendedToggleElement.querySelector('.toggle-icon');
+                            extendedToggleElement.addEventListener('click', function(event) {
+                                event.stopPropagation();
+                                const targetId = this.dataset.target;
+                                const extendedDropdown = document.getElementById(targetId);
+                                if (extendedDropdown) {
+                                    extendedDropdown.classList.toggle('hidden');
+                                    extendedToggleIcon.classList.toggle('rotated');
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>
