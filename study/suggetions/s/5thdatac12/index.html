@@ -1789,56 +1789,323 @@
     {
         text: "সাধারণ ব্লক ডায়াগ্রামসহ কমিউনিকেশন সিস্টেম বর্ণনা করো?*****",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p>একটি <span style="color: #66FCF1; text-decoration: underline;">যোগাযোগ ব্যবস্থা (Communication System)</span> হলো এমন একটি স্বয়ংসম্পূর্ণ প্রক্রিয়া যার মাধ্যমে এক স্থান থেকে অন্য স্থানে তথ্যকে একটি নির্দিষ্ট মাধ্যমে সফলভাবে প্রেরণ, গ্রহণ এবং পুনরুদ্ধার করা হয়। এর মূল লক্ষ্য হলো তথ্যকে তার মৌলিক বৈশিষ্ট্য অক্ষুণ্ণ রেখে নির্ভুলভাবে স্থানান্তর করা। এই সিস্টেমের মৌলিক উপাদানগুলো একে অপরের সাথে সংযুক্ত থেকে একটি সুশৃঙ্খল কার্যপ্রবাহ তৈরি করে।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">তথ্য উৎস (Information Source):</span> এটি হলো সেই উপাদান যা প্রাথমিকভাবে তথ্য উৎপাদন করে। এই তথ্য অডিও (যেমন: মানুষের কথা), ভিডিও, টেক্সট, বা ডিজিটাল ডেটা হতে পারে। এর কাজ হলো গ্রহণযোগ্য সিগন্যাল তৈরির জন্য প্রাথমিক ডেটা সরবরাহ করা।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ট্রান্সমিটার (Transmitter):</span> এটি তথ্য উৎস থেকে প্রাপ্ত ডেটাকে গ্রহণ করে এবং তাকে এমন একটি ইলেকট্রনিক সংকেতে রূপান্তর করে যা চ্যানেলের মধ্য দিয়ে পাঠানো সম্ভব। এই প্রক্রিয়ায় সংকেতকে <span style="color: #66FCF1;">শক্তিশালী করা হয় (amplification)</span>, <span style="color: #66FCF1;">এনকোড</span> করা হয় এবং <span style="color: #66FCF1;">মডুলেশন</span> করা হয় যাতে এটি <span style="color: #66FCF1;">নয়েজ (noise)</span> এবং অন্যান্য বাধা প্রতিরোধ করতে পারে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চ্যানেল (Channel):</span> এটি হলো সেই ভৌত মাধ্যম যার মধ্য দিয়ে সংকেত চলাচল করে। এটি তারযুক্ত (যেমন: কো-অক্সিয়াল কেবল, ফাইবার অপটিক) বা তারবিহীন (যেমন: বায়ু, শূন্যস্থান) হতে পারে। চ্যানেলের প্রধান চ্যালেঞ্জ হলো সিগন্যালকে নির্বিঘ্নে পৌঁছে দেওয়া, কারণ এখানে সিগন্যালের দুর্বলতা (<span style="color: #66FCF1;">attenuation</span>) এবং নয়েজ যুক্ত হতে পারে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">রিসিভার (Receiver):</span> এটি চ্যানেল থেকে প্রাপ্ত সংকেতকে গ্রহণ করে এবং এর কাজ হলো দুর্বল ও নয়েজ-যুক্ত সংকেতকে গ্রহণ করা। এটি সিগন্যাল থেকে নয়েজ বাদ দেয়, <span style="color: #66FCF1;">ডি-মডুলেশন</span> করে এবং <span style="color: #66FCF1;">ডিকোডিং</span> প্রক্রিয়ার মাধ্যমে সংকেতকে পুনরায় তার আসল তথ্যে রূপান্তর করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গন্তব্য (Destination):</span> এটি হলো কমিউনিকেশন সিস্টেমের শেষ প্রান্ত, যেখানে পুনর্গঠিত তথ্য দ্রুতগতিতে ব্যবহারকারীর কাছে পৌঁছায় (যেমন: স্পিকার, মনিটর, প্রিন্টার)।</li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, একটা <span style="color: #66FCF1; text-decoration: underline;">কমিউনিকেশন সিস্টেম</span> আসলে একটা <span style="color: #66FCF1;">ডেটা ডেলিভারি সার্ভিস</span>। এটা এমন একটা ব্যবস্থা, যা ইনফরমেশনকে তার আসল চেহারা ঠিক রেখে এক জায়গা থেকে আরেক জায়গায় পাঠায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. তথ্য উৎস (Information Source):</span> এটা হলো তোমার "<span style="color: #66FCF1;">প্যাকেজ</span>"। তুমি যা কিছু পাঠাতে চাও, সেটাই হলো এই প্যাকেজ। যেমন, তুমি একটা ভয়েস মেসেজ রেকর্ড করছো। তোমার ভয়েসটাই হলো আসল ডেটা।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ট্রান্সমিটার (Transmitter):</span> এটা হলো সেই <span style="color: #66FCF1;">কুরিয়ার সার্ভিস</span>, যে তোমার প্যাকেজটা ডেলিভারির জন্য রেডি করে। তোমার ভয়েস মেসেজটাকে একটা <span style="color: #66FCF1;">ইলেক্ট্রনিক সিগন্যাল</span> প্যাকেজ করে নেয়। এই প্যাকেজিংয়ের সময় সিগন্যালটাকে মজবুত বানানো হয় এবং এর উপর কিছু কোড লাগানো হয়, যাতে মাঝপথে কেউ এটাকে নষ্ট করতে না পারে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. চ্যানেল (Channel):</span> এটা হলো সেই ডেলিভারির রাস্তা। এই রাস্তাটা হতে পারে একটি <span style="color: #66FCF1;">কেবল</span>, অথবা বাতাসের মধ্য দিয়ে যাওয়া <span style="color: #66FCF1;">রেডিও ওয়েভ</span>। এই রাস্তায় অনেক <span style="color: #66FCF1;">জ্যাম (noise)</span> থাকে, তাই প্যাকেজটা একটু দুর্বল হয়ে যেতে পারে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. রিসিভার (Receiver):</span> এটা হলো সেই <span style="color: #66FCF1;">কুরিয়ার সার্ভিস</span> যে প্যাকেজটা গ্রহণ করে। সে প্যাকেজটা খুলে ভেতরের সিগন্যালটা নেয়, দুর্বল সিগন্যালকে আবার শক্তিশালী করে, আর মাঝপথে যা কিছু নয়েজ ঢুকেছিল সেগুলো পরিষ্কার করে দেয়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. গন্তব্য (Destination):</span> এটা হলো সেই মানুষ যার কাছে প্যাকেজটা পৌঁছানোর কথা ছিল। সে তখন তোমার ভয়েস মেসেজটা শুনতে পায়।</p>
+                <p>এই পুরো সিস্টেমটা একটা টিমের মতো কাজ করে, কিন্তু প্রত্যেকের কাজ আলাদা, কিন্তু সবার লক্ষ্য একটাই—তথ্যটাকে নির্ভুলভাবে পৌঁছে দেওয়া।</p>
+            </div>`
     },
     {
         text: "কমিউনিকেশন মোেড সিমপ্লেক্স, হাফ-ডুপ্লেক্স এবং ফুল-ডুপ্লেক্স বর্ণনা কর?*****",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">যোগাযোগ মোড (Communication Mode)</span> হলো ডেটা আদান-প্রদানের দিকনির্দেশনা (<span style="color: #66FCF1;">direction of data flow</span>) নির্ধারণের একটি পদ্ধতি। এটি মূলত একটি নেটওয়ার্কের দুটি ডিভাইসের মধ্যে কীভাবে তথ্য প্রবাহিত হবে তা সংজ্ঞায়িত করে। এর ওপর ভিত্তি করে নেটওয়ার্কের কার্যকারিতা এবং ডেটা আদান-প্রদানের গতি নির্ভর করে। প্রধানত তিন ধরনের <span style="color: #66FCF1;">যোগাযোগ মোড</span> প্রচলিত আছে:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সিমপ্লেক্স (Simplex):</span> এই মোডে ডেটা শুধুমাত্র একমুখী (<span style="color: #66FCF1;">one-way</span>) প্রবাহিত হয়। ডেটা প্রেরক শুধুমাত্র ডেটা পাঠাতে পারে, কিন্তু গ্রহণ করতে পারে না। একইভাবে, প্রাপক শুধুমাত্র ডেটা গ্রহণ করতে পারে, কিন্তু পাঠাতে পারে না। এই ধরনের মোডে, যোগাযোগ চ্যানেলের ক্ষমতাটি শুধুমাত্র একটি দিকে ডেটা প্রবাহের জন্য নিবেদিত থাকে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ:</span> <span style="color: #66FCF1;">রেডিও বা টেলিভিশন সম্প্রচার</span>, যেখানে শুধুমাত্র ডেটা গ্রহণ করা সম্ভব। এছাড়াও, কম্পিউটারের <span style="color: #66FCF1;">কীবোর্ড</span> থেকে সিপিইউতে ডেটা পাঠানো হয় সিমপ্লেক্স মোডে, কারণ কীবোর্ড শুধুমাত্র ডেটা ইনপুট দেয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">হাফ-ডুপ্লেক্স (Half-Duplex):</span> এই মোডে ডেটা উভয় দিকেই (<span style="color: #66FCF1;">two-way</span>) প্রবাহিত হতে পারে, তবে একই সময়ে নয়। প্রেরক এবং প্রাপক পর্যায়ক্রমে ডেটা আদান-প্রদান করে। যখন একজন ডেটা পাঠায়, তখন অন্যজন কেবল তা গ্রহণ করতে পারে এবং ডেটা পাঠাতে পারে না অথবা ডেটা পাঠানো শেষ না হওয়া পর্যন্ত অপেক্ষা করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ:</span> <span style="color: #66FCF1;">ওয়াকি-টকি (walkie-talkie)</span> হলো এর একটি আদর্শ উদাহরণ। এখানে, একজন ব্যবহারকারীকে কথা শেষ করে "<span style="color: #66FCF1;">ওভার</span>" বলতে হয়, যাতে অন্যজন কথা বলা শুরু করতে পারে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ফুল-ডুপ্লেক্স (Full-Duplex):</span> এই মোডে ডেটা একই সময়ে উভয় দিকেই (<span style="color: #66FCF1;">two-way simultaneously</span>) প্রবাহিত হতে পারে। প্রেরক এবং প্রাপক একই সময়ে ডেটা পাঠাতে এবং গ্রহণ করতে পারে। এই মোডের জন্য দুটি ভিন্ন ফ্রিকোয়েন্সি ব্যবহার করা হয় অথবা আলাদা দুটি চ্যানেলের প্রয়োজন হয়, যাতে ডেটা একই সময়ে দুটি দিকে প্রবাহিত হতে পারে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ:</span> <span style="color: #66FCF1;">মোবাইল ফোন এবং টেলিফোন কথোপকথন</span>। আধুনিক <span style="color: #66FCF1;">ইথারনেট নেটওয়ার্ক (LAN)</span> এবং ভিডিও কনফারেন্সিং সিস্টেমও এই মোড ব্যবহার করে।</li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">কমিউনিকেশন মোড</span> মানে হলো ডেটা কোন দিকে যায়, সেই রাস্তার নিয়ম। এটা অনেকটা ডেটা আদান-প্রদানের রাস্তার মতো।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সিমপ্লেক্স (Simplex):</span> এটা হলো <span style="color: #66FCF1;">ওয়ান-ওয়ে ট্রাফিকের রাস্তা</span>। গাড়ি শুধু একদিকেই যেতে পারে, কোনোভাবেই ফেরত আসতে পারে না। যেমন, যখন তুমি টিভি দেখো, তুমি শুধু প্রোগ্রাম দেখতে পারো আর শুনতে পারো, তুমি কোনো ডেটা টিভির কাছে ফেরত পাঠাতে পারো না। এটা হলো <span style="color: #66FCF1;">একমুখী যোগাযোগ</span>।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">হাফ-ডুপ্লেক্স (Half-Duplex):</span> এটা হলো একটা <span style="color: #66FCF1;">সিঙ্গেল-লেনের ব্রিজ</span>। গাড়িগুলো দুদিকের থেকে আসতে পারে, কিন্তু একই সময়ে নয়। একজন আগে পার হবে, তারপর অন্যজন। ঠিক ওয়াকি-টকির মতো। যখন তুমি কথা বলছো, তখন তোমার বন্ধুকে চুপ করে শুনতে হয়। তোমার কথা শেষ হলে তুমি "<span style="color: #66FCF1;">ওভার</span>" বলো, তারপর সে কথা বলা শুরু করে। দুজনে এক সাথে কথা বললে কেউ কারোটা শুনতে পাবে না।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ফুল-ডুপ্লেক্স (Full-Duplex):</span> এটা হলো একটা <span style="color: #66FCF1;">হাইওয়ে</span>, যেখানে দুদিকের দিয়েই গাড়ি একই সময়ে যেতে পারে। যেমন, আমরা যখন ফোনে কথা বলি, তখন দুজনই একসাথে কথা বলতে পারি এবং শুনতে পারি, কোনো বিরতি ছাড়াই। ডেটা একই সময়ে দুই দিকেই প্রবাহিত হয়, কোনো ঝামেলা ছাড়াই। No kizzy.</li>
+                </ul>
+            </div>`
     },
     {
         text: "Fiber-Optical Cable গঠন প্রনালী চিত্রসহ বর্ণন কর?*****",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p>একটি <span style="color: #66FCF1; text-decoration: underline;">ফাইবার অপটিক্যাল কেবল</span> হলো এমন একটি ডেটা ট্রান্সমিশন মাধ্যম যা আলোর সংকেত ব্যবহার করে ডেটা স্থানান্তর করে। এটি সাধারণত কয়েকটি প্রধান স্তর দিয়ে গঠিত হয়, যা সিগনালকে সুরক্ষা প্রদান করে এবং সুদূরপ্রসারী ডেটা পরিবহনে সহায়তা করে। এর গঠন নিচে বর্ণনা করা হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. কোর (Core):</span> এটি হলো ফাইবারের কেন্দ্রস্থল। এটি খুবই স্বচ্ছ কাঁচ বা প্লাস্টিকের তৈরি। এই অংশের মধ্য দিয়েই আলোর সংকেত প্রবাহিত হয়। কোরের প্রতিসরাঙ্ক (<span style="color: #66FCF1;">refractive index</span>) ক্ল্যাডিংয়ের চেয়ে বেশি হওয়ায় এখানে <span style="color: #66FCF1;">পূর্ণ অভ্যন্তরীণ প্রতিফলন (Total Internal Reflection)</span> নীতি ব্যবহার করে আলো সিগনালকে কেবলের মধ্যে আবদ্ধ রাখা হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ক্ল্যাডিং (Cladding):</span> এটি কোরের চারপাশে থাকা একটি স্বচ্ছ কাঁচ বা প্লাস্টিকের স্তর। ক্ল্যাডিংয়ের প্রতিসরাঙ্ক কোরের চেয়ে কম, যা আলোক রশ্মিকে কোরের সীমানায় মধ্যে প্রতিফলিত করে রাখতে সাহায্য করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. বাফার কোটিং (Buffer Coating):</span> এটি ক্ল্যাডিংকে ঘিরে থাকে এবং একটি শক্ত প্লাস্টিকের তৈরি হয়। এর প্রধান কাজ হলো কোর এবং ক্ল্যাডিংকে আর্দ্রতা, ঘষা এবং বাহ্যিক চাপ থেকে রক্ষা করা।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. স্ট্রেংথ মেম্বারস (Strength Members):</span> এই অংশটি ফাইবার অপটিক কেবলের স্থায়িত্বতা (<span style="color: #66FCF1;">tensile strength</span>) প্রদান করে। এটি সাধারণত <span style="color: #66FCF1;">কেভলার</span> সুতা বা গ্লাস ফাইবারের মতো শক্তিশালী উপাদান দিয়ে তৈরি হয়, যা কেবলকে টান পড়া বা ভেঙে যাওয়া থেকে রক্ষা করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. আউটার জ্যাকেট (Outer Jacket):</span> এটি হলো কেবলের বাইরের প্রতিরক্ষামূলক আবরণ। এটি সাধারণত <span style="color: #66FCF1;">পিভিছি (PVC)</span> বা <span style="color: #66FCF1;">পলিথিন</span> দিয়ে তৈরি হয় এবং কেবলকে আর্দ্রতা, তাপমাত্রা এবং অন্যান্য পরিবেশগত ক্ষয়ক্ষতি থেকে চূড়ান্ত সুরক্ষা দেয়।</li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">ফাইবার অপটিক কেবল</span> হলো একটা <span style="color: #66FCF1;">ডেটা ডেলিভারি পাইপলাইন</span>, কিন্তু পানির বদলে এর ভেতর দিয়ে <span style="color: #66FCF1;">আলো</span> যায়। এটা একটা প্যাকেজ, যেখানে ডেটাকে প্রোটেকশনের জন্য অনেকগুলো লেয়ার আছে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. কোর (Core):</span> এটা হলো পাইপের ভেতরের খালি জায়গা। লাইট সিগন্যাল (তোমার ডেটা) এই পাইপের ভেতর দিয়ে যায়। এটা কাঁচের তৈরি হয়, যাতে লাইট সোজা চলে যেতে পারে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ক্ল্যাডিং (Cladding):</span> এটা হলো পাইপের দেয়াল। এই দেয়ালটাও কাঁচের তৈরি, তবে এর ক্ষমতা এমন যে ভেতরের আলো বাইরে যেতে পারে না, বারবার ধাক্কা খেয়ে ভেতরের দিকেই ফিরে আসে। এটাই হলো আসল ম্যাজিক।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. বাফার কোটিং (Buffer Coating):</span> পাইপের দেয়ালের বাইরে একটা শক্ত প্লাস্টিকের ইনসুলেশন আছে। এটা হালকা চাপ বা ঘষা থেকে পাইপটাকে বাঁচায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. স্ট্রেংথ মেম্বারস (Strength Members):</span> এটা হলো এক ধরনের দড়ি বা সুতা (যেমন <span style="color: #66FCF1;">কেভলার</span>), যা পুরো পাইপটাকে শক্ত করে ধরে রাখে। যদি কেবলটাকে কেউ টানে, এই সুতাগুলো ছিঁড়ে যাওয়া থেকে বাঁচায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. আউটার জ্যাকেট (Outer Jacket):</span> এটা হলো প্যাকেজের বাইরের শক্ত কভার। এটা পুরো কেবলটাকে পানি, তাপ, বা বাইরের অন্য কোনো ক্ষতি থেকে রক্ষা করে।</p>
+                <p>সহজ কথায়, <span style="color: #66FCF1; text-decoration: underline;">ফাইবার অপটিক কেবল</span> হলো একটা শক্ত সুরক্ষিত রাস্তা, যার ভেতর দিয়ে ডেটা আলোর গতিতে যায়।</p>
+            </div>`
     },
     {
         text: "ব্লক ডায়াগ্রামসহ ডিজিটাল কমিউনিকেশন বর্ণনা কর?*****",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ডিজিটাল কমিউনিকেশন</span> হলো এমন একটি যোগাযোগ ব্যবস্থা যেখানে তথ্যকে <span style="color: #66FCF1;">বাইনারি ডেটা (0 এবং 1)</span> হিসেবে সংকেত রূপান্তর করে ইলেকট্রনিক মাধ্যমে প্রেরণ, প্রক্রিয়াজাত এবং গ্রহণ করা হয়। এটি অ্যানালগ কমিউনিকেশনের তুলনায় উন্নত, কারণ এটি নয়েজ প্রতিরোধে অধিক সক্ষম, অধিক সুরক্ষিত এবং ডেটা সংরক্ষণে কার্যকরী। একটি সাধারণ ডিজিটাল কমিউনিকেশন সিস্টেমের প্রধান অংশগুলো নিচে বর্ণনা করা হলো:</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">তথ্য উৎস (Information Source):</span> যেখান থেকে ডেটা বা তথ্য (যেমন: ভয়েস, ছবি) তৈরি হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অ্যানালগ-টু-ডিজিটাল কনভার্টার (A/D Converter):</span> এটি অ্যানালগ সংকেতকে স্যাম্পলিং, কোয়ান্টাইজেশন এবং এনকোডিং প্রক্রিয়ার মাধ্যমে ডিজিটাল সংকেতে (বিট স্ট্রীম) রূপান্তর করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সোর্স এনকোডার (Source Encoder):</span> এটি ডিজিটাল ডেটার অপ্রয়োজনীয় অংশ (<span style="color: #66FCF1;">redundancy</span>) বাদ দিয়ে ডেটাকে সংকুচিত করে, যাতে ব্যান্ডউইথের সর্বোচ্চ ব্যবহার নিশ্চিত হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চ্যানেল এনকোডার (Channel Encoder):</span> এটি ডেটায় অতিরিক্ত কিছু বিট যুক্ত করে, যা ডেটা প্রেরণের সময় কোনো ত্রুটি হলে তা শনাক্ত এবং সংশোধন করতে সাহায্য করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিজিটাল মডুলেটর (Digital Modulator):</span> এটি ডিজিটাল ডেটাকে চ্যানেলের মধ্য দিয়ে প্রেরণের জন্য উপযোগী অ্যানালগ সংকেতে রূপান্তর করে (যেমন: <span style="color: #66FCF1;">ASK, FSK, PSK</span>)।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চ্যানেল (Channel):</span> এটি হলো সেই মাধ্যম যার মধ্য দিয়ে ডেটা প্রবাহিত হয়, যেমন তার বা বায়ুমণ্ডল।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিজিটাল ডিমডুলেটর (Digital Demodulator):</span> এটি চ্যানেল থেকে আগত অ্যানালগ সংকেতকে গ্রহণ করে এবং তাকে আবার ডিজিটাল ডেটাতে রূপান্তর করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চ্যানেল ডিকোডার (Channel Decoder):</span> এটি অতিরিক্ত বিট ব্যবহার করে চ্যানেলের কারণে সৃষ্ট ত্রুটি সংশোধন করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সোর্স ডিকোডার (Source Decoder):</span> এটি সংকুচিত ডেটাকে তার মূল অবস্থায় ফিরিয়ে আনে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিজিটাল-টু-অ্যানালগ কনভার্টার (D/A Converter):</span> এটি ডিজিটাল ডেটাকে তার আসল অ্যানালগ রূপে (যেমন: ভয়েস) রূপান্তর করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">তথ্য গন্তব্য (Information Sink):</span> এটি হলো সেই স্থান যেখানে চূড়ান্তভাবে পুনর্গঠিত তথ্য পৌঁছায়।</li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">ডিজিটাল কমিউনিকেশন</span> হলো একটা <span style="color: #66FCF1;">সিক্রেট মেসেজ পাঠানোর সিস্টেম</span>। এটা অনেকটা এমন:</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. তথ্য উৎস:</span> তুমি তোমার বন্ধুকে একটি কথা বলতে চাও। এটাই তোমার আসল মেসেজ।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. A/D কনভার্টার:</span> তুমি তোমার কথাটাকে একটি কোডে (যেমন শুধু <span style="color: #66FCF1;">0</span> এবং <span style="color: #66FCF1;">1</span>) রূপান্তর করে নিলে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. সোর্স এনকোডার:</span> তুমি কোডটা আরও ছোট করে নিলে, যাতে কম জায়গায় লেখা যায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. চ্যানেল এনকোডার:</span> তুমি কোডটার সাথে কিছু একটা <span style="color: #66FCF1;">সিক্রেট সিগনাল</span> লাগিয়ে দিলে, যাতে যদি মাঝপথে কোডটার কোনো অংশ হারিয়ে যায়, তাহলে তোমার বন্ধু বুঝতে পারে যে কোথায় ভুল হয়েছে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ডিজিটাল মডুলেটর:</span> এবার তুমি কোডটা এমন একটা রূপে বদলে নিলে, যেটা সাধারণ ডাকঘর (চ্যানেল) দিয়ে পাঠানো যায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. চ্যানেল:</span> এটা হলো ডাকঘর বা কুরিয়ার সার্ভিস। তোমার মেসেজটা এর মধ্য দিয়ে যায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. ডিমডুলেটর এবং ডিকোডার:</span> তোমার বন্ধুর কাছে যখন মেসেজটা পৌঁছায়, সে সবার আগে দেখে মেসেজে কোনো ভুল আছে কিনা এবং তা ঠিক করে নেয়। এরপর সে তোমার পাঠানো কোডটা আবার আসল কোডে বদলে নেয়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৮. D/A কনভার্টার:</span> সবশেষে, সে তোমার কোডটাকে আবার তোমার আসল কথায় রূপান্তর করে, যাতে সে বুঝতে পারে।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৯. তথ্য গন্তব্য:</span> তোমার বন্ধু কথাটি শুনতে পায়।</p>
+                <p>এভাবে মেসেজ পাঠানো হলে ডেটা নষ্ট হওয়ার সম্ভাবনা কম থাকে আর অনেক বেশি সিকিউর থাকে। এটাই হলো ডিজিটাল কমিউনিকেশনের মূল মন্ত্র। No kizzy.</p>
+            </div>`
     },
     {
         text: "ব্লক ডায়াগ্রামসহ ফ্রিকুয়েন্সি ডিভিশন মাল্টিপ্লেক্সিং টেকনিক বর্ণনা কর?*****",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">ফ্রিকুয়েন্সি ডিভিশন মাল্টিপ্লেক্সিং (FDM)</span> হলো একটি ডেটা ট্রান্সমিশন কৌশল, যেখানে একাধিক ডেটা সংকেতকে একই সময়ে একটি কমিউনিকেশন চ্যানেলের মাধ্যমে প্রেরণ করা হয়। এই পদ্ধতিতে, চ্যানেলের মোট ব্যান্ডউইডথকে কয়েকটি ছোট, <span style="color: #66FCF1;">নন-ওভারল্যাপিং (non-overlapping) ফ্রিকুয়েন্সি ব্যান্ডে</span> ভাগ করা হয়। প্রতিটি সংকেতকে তার নিজস্য ব্যান্ডে প্রেরণ করা হয়।</p>
+                <h5>কার্যপ্রণালি (ব্লক ডায়াগ্রামসহ):</h5>
+                <p><strong>ট্রান্সমিটার সাইড:</strong></p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ইনপুট সংকেত (Input Signals):</span> প্রথমে বিভিন্ন উৎস থেকে একাধিক অ্যানালগ সংকেত গ্রহণ করা হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মডুলেটর (Modulator):</span> প্রতিটি সংকেতকে একটি নির্দিষ্ট উচ্চ ফ্রিকুয়েন্সির ক্যারিয়ার সংকেতের সাথে মডুলেট করে তার নিজস্ব ফ্রিকুয়েন্সি ব্যান্ডে স্থানান্তরিত করা হয়। প্রতিটি সংকেতের জন্য আলাদা আলাদা ফ্রিকুয়েন্সি ব্যান্ড ব্যবহার করা হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মাল্টিপ্লেক্সার (Multiplexer):</span> এই মডুলেটেড সংকেতগুলোকে একত্রিত করে একটি <span style="color: #66FCF1;">যৌগিক সংকেত (composite signal)</span> তৈরি করা হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গার্ড ব্যান্ড (Guard Band):</span> প্রতিটি ফ্রিকুয়েন্সি ব্যান্ডের মধ্যে সামান্য ফাঁকা জায়গা রাখা হয়, যা <span style="color: #66FCF1;">গার্ড ব্যান্ড</span> নামে পরিচিত। এটি সংকেতগুলোর মধ্যে হস্তক্ষেপ (<span style="color: #66FCF1;">interference</span>) রোধ করে।</li>
+                    <li>যৌগিক সংকেতটি তখন চ্যানেল দিয়ে পাঠানো হয়।</li>
+                </ul>
+                <p><strong>রিসিভার সাইড:</strong></p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিমাল্টিপ্লেক্সার (Demultiplexer):</span> এটি চ্যানেল থেকে আগত যৌগিক সংকেতকে গ্রহণ এবং সেটিকে আবার তার মূল ফ্রিকুয়েন্সি ব্যান্ডগুলোতে বিভক্ত করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ডিমডুলেটর (Demodulator):</span> প্রতিটি ফ্রিকুয়েন্সি ব্যান্ড থেকে মূল সংকেতকে পুনরুদ্ধার করা হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">আউটপুট সংকেত (Output Signals):</span> পুনরুদ্ধার করা সংকেতগুলো তাদের নিজ নিজ গন্তব্যে পৌঁছায়।</li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">FDM</span>-কে তুমি একটা <span style="color: #66FCF1;">মাল্টি-লেন হাইওয়ের</span> সাথে তুলনা করতে পারো। একটা হাইওয়ে (<span style="color: #66FCF1;">কমিউনিকেশন চ্যানেল</span>) অনেক চওড়া, আর এর মধ্যে অনেকগুলো <span style="color: #66FCF1;">লেন</span> আছে (<span style="color: #66FCF1;">ফ্রিকুয়েন্সি ব্যান্ড</span>)।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">FDM ছাড়া:</span> যদি একটা লম্বা এক-লেনের রাস্তা থাকে, তাহলে সব গাড়ি (<span style="color: #66FCF1;">সিগন্যাল</span>) লাইন ধরে একটার পর একটা যেতে হবে। এতে অনেক সময় লাগে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">FDM টেকনিক:</span> FDM ওই এক-লেনের রাস্তাকে অনেকগুলো লেন ভাগ করে দেয়। এবার সব গাড়ি (<span style="color: #66FCF1;">সিগন্যাল</span>) একসাথেই তাদের আলাদা আলাদা লেনে যেতে পারে।</li>
+                </ul>
+                <h5>কিভাবে কাজ করে?</h5>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">শুরুর দিকে:</span> যখন তুমি একটা গাড়ি (<span style="color: #66FCF1;">সিগন্যাল</span>) পাঠাতে চাও, তুমি সেটাকে একটি নির্দিষ্ট লেনে উঠিয়ে দাও। এটাই হলো <span style="color: #66FCF1;">মডুলেশন</span>।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মাঝখানে:</span> সব গাড়ি (<span style="color: #66FCF1;">সিগন্যাল</span>) হাইওয়েতে দিয়ে একসাথে যায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গার্ড ব্যান্ড:</span> লেনের মাঝখানে যে সাদা দাগগুলো থাকে, সেগুলো হলো <span style="color: #66FCF1;">গার্ড ব্যান্ড</span>। এগুলোর কাজ হলো, এক লেনের গাড়ি যেন অন্য লেনে ঢুকে দুর্ঘটনা না ঘটায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">শেষের দিকে:</span> হাইওয়ে থেকে যখন গাড়িগুলো বের হয়, তখন তারা আবার তাদের নিজস্ব লেন থেকে আলাদা হয়ে যায়। এটাই হলো <span style="color: #66FCF1;">ডিমাল্টিপ্লেক্সিং</span> এবং <span style="color: #66FCF1;">ডিমডুলেশন</span>।</li>
+                </ul>
+                <p>সবচেয়ে সহজ উদাহরণ হলো <span style="color: #66FCF1;">রেডিও</span>। তুমি যখন ৯০.০ এফএম শোনো, তখন একই সময়ে অন্য একজন ৯২.২ এফএম শুনতে পারে। সব রেডিও স্টেশন একই বাতাসের মধ্যে দিয়ে সংকেত পাঠাচ্ছে, কিন্তু আলাদা আলাদা ফ্রিকুয়েন্সি ব্যান্ডের কারণে কোনো সংকেত একে অপরের সাথে মিশে যায় না। No kizzy.</p>
+            </div>`
     },
     {
         text: "হামিং কোড এর এরর কারেকশন পদ্ধতি বর্ণনা করো?**",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">হ্যামিং কোড</span> হলো এক ধরনের লিনিয়ার ব্লক কোড যা ডেটা প্রেরণের সময় সৃষ্ট <span style="color: #66FCF1;">সিঙ্গেল-বিট এরর (single-bit error)</span> শনাক্ত ও সংশোধন করতে ব্যবহৃত হয়। এর মূল পদ্ধতি হলো ডেটার সাথে কৌশলগতভাবে কিছু অতিরিক্ত বিট, বা <span style="color: #66FCF1;">প্যারিটি বিট (parity bits)</span>, যুক্ত করা। এই প্যারিটি বিটগুলো নির্দিষ্ট ডেটা বিটগুলোর ওপর ভিত্তি করে তৈরি হয় এবং ত্রুটি সংশোধন প্রক্রিয়ার ভিত্তি হিসেবে কাজ করে।</p>
+                <h5>এরর কারেকশন পদ্ধতি:</h5>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. প্যারিটি বিট তৈরি:</span> প্রথমে, ডেটা বিটগুলোর সাথে প্যারিটি বিট যুক্ত করা হয়। প্যারিটি বিটগুলো সাধারণত <span style="color: #66FCF1;">2ⁿ</span> পজিশনে রাখা হয় (যেমন: ১, ২, ৪, ৮, ...)। প্রতিটি প্যারিটি বিট ডেটা বিটের একটি নির্দিষ্ট সেট থেকে গণনা করা হয়।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">প্যারিটি বিট ১ (P₁):</span> সকল বিজোড় পজিশনের বিটগুলো (1, 3, 5, 7, ...) চেক করে।</li>
+                            <li><span style="color: #66FCF1;">প্যারিটি বিট ২ (P₂):</span> পজিশন ২-এর সাথে সম্পর্কিত বিটগুলো (2, 3, 6, 7, ...) চেক করে।</li>
+                            <li><span style="color: #66FCF1;">প্যারিটি বিট ৪ (P₄):</span> পজিশন ৪-এর সাথে সম্পর্কিত বিটগুলো (4, 5, 6, 7, ...) চেক করে।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সংকেত প্রেরণ ও গ্রহণ:</span> ডেটা এবং প্যারিটি বিটসহ সম্পূর্ণ কোডটি প্রেরণ করা হয়। রিসিভার এই সম্পূর্ণ কোডটি গ্রহণ করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ত্রুটি শনাক্তকরণ ও সংশোধন:</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রিসিভার প্রান্তে,</span> প্যারিটি বিটগুলো আবার গণনা করা হয় এবং প্রেরিত প্যারিটি বিটগুলোর সাথে তুলনা করা হয়।</li>
+                            <li>যদি কোনো প্যারিটি চেক ভুল হয়, তবে একটি <span style="color: #66FCF1;">সিনড্রোম ওয়ার্ড (syndrome word)</span> তৈরি হয়। এই সিনড্রোম ওয়ার্ডটি বাইনারি সংখ্যায় গঠিত হয়, যেখানে ভুল প্যারিটি বিটের অবস্থানগুলো <span style="color: #66FCF1;">1</span> দ্বারা চিহ্নিত হয়।</li>
+                            <li>এই সিনড্রোম ওয়ার্ডের বাইনারি মানটি সরাসরি ত্রুটিযুক্ত বিটের অবস্থান নির্দেশ করে। উদাহরণস্বরূপ, যদি <span style="color: #66FCF1;">P₁</span> এবং <span style="color: #66FCF1;">P₄</span> ভুল হয়, তাহলে সিনড্রোম হয় <span style="color: #66FCF1;">101₂ = 5₁₀</span>, যার অর্থ পঞ্চম বিটে ত্রুটি রয়েছে।</li>
+                            <li>রিসিভার তখন সেই নির্দিষ্ট বিটটির মান উল্টে দিয়ে (0 কে 1 বা 1 কে 0) ত্রুটি সংশোধন করে নেয়।</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>এই পদ্ধতিটি কার্যকরভাবে একটি সিঙ্গেল-বিট ত্রুটি শনাক্ত ও সংশোধন করতে সক্ষম।</p>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">হ্যামিং কোড</span> অনেকটা এমন একটা সিস্টেম, যেখানে তুমি তোমার ডেটাকে কিছু <span style="color: #66FCF1;">সিক্রেট চেকিং বিট</span> দিয়ে মুড়িয়ে দিচ্ছো। এই চেকিং বিটগুলো এমনভাবে সাজানো থাকে যে যদি একটা বিটও উল্টাপাল্টা হয়ে যায়, তাহলে এই বিটগুলো তোমাকে বলে দেবে যে কোন বিটটা ভুল হয়েছে।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">প্যারিটি বিট:</span> ধরো, তোমার কাছে কিছু ডেটা আছে। তুমি এই ডেটার মধ্যে ফাঁকা জায়গায় <span style="color: #66FCF1;">প্যারিটি বিট</span> নামে কিছু এক্সট্রা বিট বসিয়ে দিলে। এই প্যারিটি বিটগুলো ডেটার নির্দিষ্ট কিছু গ্রুপকে ফলো করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চেক করা:</span> যখন ডেটাটা পাঠানো হয়, রিসিভার সেই প্যারিটি বিটগুলোর সব গ্রুপ আবার চেক করে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ভুল ধরা:</span> যদি সব গ্রুপ ঠিকঠাক থাকে, তার মানে কোনো ভুল নেই। কিন্তু যদি একটা বা একাধিক গ্রুপে ভুল পাওয়া যায়, তাহলে ওই ভুল গ্রুপগুলোর সমন্বয় থেকে একটা সংখ্যা বের হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সংশোধন:</span> এই সংখ্যাটা এমনভাবে ডিজাইন করা যে এটা সরাসরি বলে দেয় কোন বিটটা উল্টাপাল্টা হয়েছে। উদাহরণস্বরূপ, যদি সংখ্যাটা <span style="color: #66FCF1;">৫</span> হয়, তাহলে রিসিভার বুঝে যাবে যে ৫ নং বিটটাই ভুল। তখন সে ওই ৫ নং বিটটাকে উল্টে দেয় (যেমন <span style="color: #66FCF1;">0</span> থাকলে <span style="color: #66FCF1;">1</span> করে দেয়)।</li>
+                </ul>
+                <p>এভাবেই <span style="color: #66FCF1;">হ্যামিং কোড</span> শুধু ভুলটা ধরে না, বরং কোন জায়গায় ভুল হয়েছে সেটাও বের করে নিজে নিজেই ঠিক করে ফেলে। এটা অনেকটা ডেটার জন্য একটা <span style="color: #66FCF1;">অটো-কারেক্ট সিস্টেম</span>। No kizzy.</p>
+            </div>`
     },
     {
         text: "OSI মডেলের প্রতিটি লেয়ারের কাজ চিত্রসহ বর্ণনা কর?***",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">OSI (Open Systems Interconnection) মডেল</span> হলো একটি নেটওয়ার্ক কমিউনিকেশনের একটি ধারণামূলক ফ্রেমওয়ার্ক, যা সাতটি ভিন্ন লেয়ারে বিভক্ত। এই মডেলটি বিভিন্ন হার্ডওয়্যার এবং সফটওয়্যারের মধ্যে যোগাযোগের প্রক্রিয়াকে একটি মানসম্মত রূপ দেয়। প্রতিটি লেয়ারের নির্দিষ্ট কিছু কাজ রয়েছে যা নিচের দিকে প্রবাহিত হয় (<span style="color: #66FCF1;">ডেটা প্রেরণের সময়</span>) এবং উপরের দিকে প্রবাহিত হয় (<span style="color: #66FCF1;">ডেটা গ্রহণের সময়</span>)।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. অ্যাপ্লিকেশন লেয়ার (Application Layer - লেয়ার ৭):</span> এটি ব্যবহারকারীর সাথে সরাসরি সম্পর্কিত। এই লেয়ারটি এমন অ্যাপ্লিকেশনগুলোর জন্য ইন্টারফেস প্রদান করে যা নেটওয়ার্ক ব্যবহার করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> ইমেইল, ফাইল ট্রান্সফার, ওয়েব ব্রাউজিং ইত্যাদি সার্ভিস প্রদান করা। (<span style="color: #66FCF1;">প্রটোকল: HTTP, FTP, SMTP</span>)</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. প্রেজেন্টেশন লেয়ার (Presentation Layer - লেয়ার ৬):</span> এই লেয়ারটি ডেটা ফরম্যাটিং এবং এনকোডিংয়ের কাজ করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> ডেটার এনক্রিপশন, ডিক্রিপশন এবং কম্প্রেশন করা। (<span style="color: #66FCF1;">প্রটোকল: SSL, TLS, JPEG</span>)</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. সেশন লেয়ার (Session Layer - লেয়ার ৫):</span> এটি দুটি ডিভাইসের মধ্যে সেশন (<span style="color: #66FCF1;">session</span>) স্থাপন, পরিচালনা এবং সমাপ্ত করার কাজ করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> সংযোগের শুরু ও শেষ নিয়ন্ত্রণ এবং ডেটা সিঙ্ক্রোনাইজেশন নিশ্চিত করা।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ট্রান্সপোর্ট লেয়ার (Transport Layer - লেয়ার ৪):</span> এটি <span style="color: #66FCF1;">এন্ড-টু-এন্ড</span> ডেটা ডেলিভারি নিশ্চিত করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> ডেটাকে সেগমেন্টে বিভক্ত করা, ফ্লো কন্ট্রোল এবং এরর কন্ট্রোল করা। (<span style="color: #66FCF1;">প্রটোকল: TCP, UDP</span>)</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. নেটওয়ার্ক লেয়ার (Network Layer - লেয়ার ৩):</span> এই লেয়ারটি ডেটা প্যাকেটগুলোকে <span style="color: #66FCF1;">লজিক্যাল অ্যাড্রেস (IP Address)</span> ব্যবহার করে এক নেটওয়ার্ক থেকে অন্য নেটওয়ার্কে রাউট করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> ডেটা প্যাকেটের জন্য সবচেয়ে কার্যকর পথ (<span style="color: #66FCF1;">route</span>) খুঁজে বের করা। (<span style="color: #66FCF1;">প্রটোকল: IP</span>)</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. ডেটা লিংক লেয়ার (Data Link Layer - লেয়ার ২):</span> এটি <span style="color: #66FCF1;">ফিজিক্যাল অ্যাড্রেস (MAC Address)</span> ব্যবহার করে একই নেটওয়ার্কে থাকা ডিভাইসগুলোর মধ্যে ডেটা ফ্রেমের নির্ভরযোগ্য আদান-প্রদান নিশ্চিত করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> ডেটা ফ্রেম তৈরি করা, এরর ডিটেকশন করা এবং ফিজিক্যাল অ্যাড্রেসিং করা। (<span style="color: #66FCF1;">প্রটোকল: Ethernet</span>)</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. ফিজিক্যাল লেয়ার (Physical Layer - লেয়ার ১):</span> এটি সবচেয়ে নিচের লেয়ার এবং এটি একটি ফিজিক্যাল মাধ্যমে (যেমন কেবল) বিট আকারে ডেটা প্রেরণ ও গ্রহণের কাজ করে।
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">কাজ:</span> ভোল্টেজ লেভেল, ডেটা রেট এবং ফিজিক্যাল কানেকশনের বিবরণ নির্ধারণ করা।</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">OSI মডেল</span> হলো একটা <span style="color: #66FCF1;">চিঠি পাঠানোর প্রক্রিয়ার</span> মতো, যেখানে প্রতিটি লেয়ারের আলাদা আলাদা কাজ আছে।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৭. অ্যাপ্লিকেশন লেয়ার:</span> এটা হলো তুমি নিজে। তুমি <span style="color: #66FCF1;">চিঠি</span> লিখছো।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৬. প্রেজেন্টেশন লেয়ার:</span> এবার তুমি চিঠিটাকে একটি <span style="color: #66FCF1;">ভাষা থেকে আরেকটা ভাষায় অনুবাদ</span> করছো (যদি দরকার হয়) এবং সেটিকে একটা খামে ভরে দিচ্ছো।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. সেশন লেয়ার:</span> তুমি ঠিক করছো যে কখন <span style="color: #66FCF1;">চিঠিটা পাঠাবে</span>, নাকি পরে।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ট্রান্সপোর্ট লেয়ার:</span> যদি চিঠিটা অনেক বড় হয়, তুমি সেটিকে কয়েকটা পৃষ্ঠায় ভাগ করেছো এবং পৃষ্ঠাগুলোতে নাম্বার দিয়ে দিচ্ছো, যাতে প্রাপক সব পৃষ্ঠা ঠিকমতো পায়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. নেটওয়ার্ক লেয়ার:</span> তুমি প্রতিটি পৃষ্ঠার ওপর প্রাপকের বাড়ির ঠিকানা (<span style="color: #66FCF1;">IP অ্যাড্রেস</span>) লিখে দিচ্ছো।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ডেটা লিংক লেয়ার:</span> তোমার স্থানীয় পোস্ট অফিসের কর্মচারী তোমার পৃষ্ঠার প্যাকেটে নিয়ে সেটির ওপর তার নিজস্ব একটা কোড (<span style="color: #66FCF1;">MAC অ্যাড্রেস</span>) বসিয়ে দেয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ফিজিক্যাল লেয়ার:</span> এবার তোমার চিঠিটা একটা ট্রাক বা বাইকে করে গন্তব্যের দিকে রওনা হয়। এটাই হলো <span style="color: #66FCF1;">ফিজিক্যাল যোগাযোগ</span>।</li>
+                </ul>
+                <p>এভাবেই প্রতিটি লেয়ারের কাজ আলাদা হলেও সবাই মিলে একটি মেসেজকে ঠিকঠাক জায়গায় পৌঁছে দেয়। No kizzy.</p>
+            </div>`
     },
     {
         text: "IP Address এর শ্রেণিবিভাগ বর্ণনা কর?**",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">IP অ্যাড্রেস (IP Address)</span> হলো একটি সংখ্যাসূচক লেবেল যা কম্পিউটার নেটওয়ার্কে যুক্ত প্রতিটি ডিভাইসকে শনাক্ত করতে ব্যবহার করা হয়। <span style="color: #66FCF1;">IPv4 (IP version 4)</span> সিস্টেমে, IP অ্যাড্রেসকে পাঁচটি প্রধান শ্রেণীতে ভাগ করা হয়, যা <span style="color: #66FCF1;">ক্লাস (Class)</span> নামে পরিচিত। প্রতিটি অ্যাড্রেস তিনটি ভিন্ন ভাগ বা অক্টেট (প্রথম আট বিট) দ্বারা নির্ধারিত হয় এবং এটি নেটওয়ার্ক ও হোস্ট অ্যাড্রেসের জন্য ব্যবহৃত হয়।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ক্লাস A (Class A):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রেঞ্জ:</span> ০ থেকে ১২৬ পর্যন্ত।</li>
+                            <li><span style="color: #66FCF1;">ডিফল্ট সাবনেট মাস্ক:</span> ২৫৫.০.০.০</li>
+                            <li><span style="color: #66FCF1;">গঠন:</span> প্রথম অক্টেট নেটওয়ার্ক আইডি এবং বাকি তিনটি অক্টেট হোস্ট আইডি হিসেবে ব্যবহৃত হয়। এটি খুবই বড় নেটওয়ার্কের জন্য ডিজাইন করা হয়েছিল।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ক্লাস B (Class B):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রেঞ্জ:</span> ১২৮ থেকে ১৯১ পর্যন্ত।</li>
+                            <li><span style="color: #66FCF1;">ডিফল্ট সাবনেট মাস্ক:</span> ২৫৫.২৫৫.০.০</li>
+                            <li><span style="color: #66FCF1;">গঠন:</span> প্রথম দুটি অক্টেট নেটওয়ার্ক আইডি এবং শেষ দুটি অক্টেট হোস্ট আইডি হিসেবে ব্যবহৃত হয়। এটি মাঝারি থেকে বড় আকারের নেটওয়ার্কের জন্য উপযুক্ত।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ক্লাস C (Class C):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রেঞ্জ:</span> ১৯২ থেকে ২২৩ পর্যন্ত।</li>
+                            <li><span style="color: #66FCF1;">ডিফল্ট সাবনেট মাস্ক:</span> ২৫৫.২৫৫.২৫৫.০</li>
+                            <li><span style="color: #66FCF1;">গঠন:</span> প্রথম তিনটি অক্টেট নেটওয়ার্ক আইডি এবং শেষ এক অক্টেট হোস্ট আইডি হিসেবে ব্যবহৃত হয়। এটি ছোট আকারের নেটওয়ার্কের জন্য ব্যবহৃত হয়।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. ক্লাস D (Class D):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রেঞ্জ:</span> ২২৪ থেকে ২৩৯ পর্যন্ত।</li>
+                            <li><span style="color: #66FCF1;">উদ্দেশ্য:</span> এই ক্লাসটি <span style="color: #66FCF1;">মাল্টিকাস্টিং (multicasting)</span> এর জন্য সংরক্ষিত। এটি একই সময়ে একাধিক হোস্টে একটি গ্রুপে ডেটা পাঠানোর জন্য ব্যবহার করা হয়।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. ক্লাস E (Class E):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রেঞ্জ:</span> ২৪০ থেকে ২৫৫ পর্যন্ত।</li>
+                            <li><span style="color: #66FCF1;">উদ্দেশ্য:</span> এই ক্লাসটি পরীক্ষামূলক বা গবেষণামূলক কাজের জন্য সংরক্ষিত। এটি সাধারণত পাবলিক নেটওয়ার্কে ব্যবহৃত হয় না।</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">IP অ্যাড্রেস ক্লাস</span> হলো একটা বড় শহরকে বিভিন্ন এলাকায় ভাগ করার মতো।</p>
+                <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ক্লাস A:</span> এটা হলো একটা বিশাল বড় এলাকা, যেমন একটা দেশ। এখানে প্রথম সংখ্যাটা দেশের নাম আর বাকি সব সংখ্যা হলো ওই দেশের মানুষের বাড়ির ঠিকানা। তাই এটা দিয়ে অনেক বড় নেটওয়ার্ককে ম্যানেজ করা হয়।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ক্লাস B:</span> এটা হলো একটা প্রদেশ বা রাজ্য। এখানে প্রথম দুটো সংখ্যা হলো রাজ্যের নাম আর বাকি দুটো সংখ্যা হলো মানুষের বাড়ির ঠিকানা। এটা মাঝারি আকারের নেটওয়ার্কের জন্য ভালো।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ক্লাস C:</span> এটা হলো একটা ছোট শহর বা পাড়া। এখানে প্রথম তিনটা সংখ্যা হলো পাড়ার নাম আর শেষ একটা সংখ্যা হলো মানুষের বাড়ির ঠিকানা। এটা ছোট নেটওয়ার্কের জন্য পারফেক্ট।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ক্লাস D:</span> এটা হলো একটা বিশেষ ঠিকানা, যেটা দিয়ে সবাইকে এক সাথে মেসেজ পাঠানো যায়, যেমন একটা নোটিস বোর্ডের ঠিকানা। এটা শুধু গ্রুপে মেসেজ পাঠানোর জন্য।</li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ক্লাস E:</span> এটা হলো এমন কিছু ঠিকানা যা ভবিষ্যতের জন্য বা গবেষণার জন্য আলাদা করে রাখা হয়েছে, সাধারণ ব্যবহারের জন্য নয়।</li>
+                </ul>
+                <p>এই ক্লাসিফিকেশন সিস্টেমটা এখন খুব একটা ব্যবহার করা হয় না, কারণ এখন আরও স্মার্ট উপায় আছে, কিন্তু এর বেসিকটা বোঝা খুব ইম্পর্ট্যান্ট। No kizzy.</p>
+            </div>`
     },
     {
         text: "মাইক্রোওয়েভ কমিউনিকেশন সিস্টম চিত্রসহ বর্ণনা কর?*****",
         tier: 'mythic',
-        answer: ``,
-        extendedAnswer: ``
+        answer: `<div class="answer-content-section">
+                <p><span style="color: #66FCF1; text-decoration: underline;">মাইক্রোওয়েভ কমিউনিকেশন সিস্টেম</span> হলো এমন একটি যোগাযোগ ব্যবস্থা যা তথ্য প্রেরণের জন্য <span style="color: #66FCF1;">মাইক্রোওয়েভ রেডিও তরঙ্গ</span> ব্যবহার করে। এই তরঙ্গগুলো উচ্চ ফ্রিকুয়েন্সির কারণে এক সরলরেখায় (<span style="color: #66FCF1;">line-of-sight</span>) চলাচল করে। এটি সাধারণত দীর্ঘ দূরত্বে উচ্চ গতি ও ব্যান্ডউইডথের ডেটা স্থানান্তরের জন্য ব্যবহৃত হয়। এই সিস্টেমের মূল উপাদানগুলো হলো:</p>
+                <ol style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;">
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ট্রান্সমিটার (Transmitter):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">মডুলেটর:</span> ইনপুট সংকেতকে একটি উচ্চ ফ্রিকুয়েন্সির <span style="color: #66FCF1;">মাইক্রোওয়েভ ক্যারিয়ারের</span> সাথে যুক্ত করে।</li>
+                            <li><span style="color: #66FCF1;">পাওয়ার অ্যাম্পলিফায়ার:</span> মডুলেটেড সংকেতের শক্তি বাড়িয়ে দেয় যাতে এটি দীর্ঘ দূরত্ব অতিক্রম করতে পারে।</li>
+                            <li><span style="color: #66FCF1;">ট্রান্সমিট অ্যান্টেনা:</span> একটি <span style="color: #66FCF1;">প্যারাবোলিক ডিশ অ্যান্টেনা (parabolic dish antenna)</span> ব্যবহার করে সংকেতকে একটি সংকীর্ণ ও শক্তিশালী রশ্মি (<span style="color: #66FCF1;">beam</span>) হিসেবে প্রেরণ করে।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">চ্যানেল (Channel):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">মাইক্রোওয়েভ সংকেত</span> বায়ুমণ্ডলের মধ্য দিয়ে সরলরেখায় ভ্রমণ করে। যেহেতু পৃথিবীর পৃষ্ঠ গোলাকার, তাই দীর্ঘ দূরত্বে সংকেত প্রেরণের জন্য নির্দিষ্ট দূরত্ব পর পর <span style="color: #66FCF1;">রিপিটার স্টেশন (repeater station)</span> স্থাপন করা হয়। এই স্টেশনগুলো সংকেত গ্রহণ করে, শক্তিশালী করে এবং পরবর্তী স্টেশনে প্রেরণ করে।</li>
+                        </ul>
+                    </li>
+                    <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">রিসিভার (Receiver):</span>
+                        <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;">
+                            <li><span style="color: #66FCF1;">রিসিভিং অ্যান্টেনা:</span> ট্রান্সমিটারের মতো একটি <span style="color: #66FCF1;">প্যারাবোলিক ডিশ অ্যান্টেনা</span> দিয়ে আগত সংকেতকে গ্রহণ করা হয়।</li>
+                            <li><span style="color: #66FCF1;">ডিমডুলেটর:</span> এটি ক্যারিয়ার তরঙ্গ থেকে মূল সংকেতকে আলাদা করে।</li>
+                            <li><span style="color: #66FCF1;">আউটপুট:</span> পুনরুদ্ধার করা সংকেতটি ব্যবহারকারীর কাছে পৌঁছায়।</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>`,
+        extendedAnswer: `<div class="answer-content-section">
+                <p>দেখো, <span style="color: #66FCF1; text-decoration: underline;">মাইক্রোওয়েভ কমিউনিকেশন</span> অনেকটা শক্তিশালী <span style="color: #66FCF1;">টর্চলাইট</span> দিয়ে সিগন্যাল পাঠানোর মতো।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ট্রান্সমিটার:</span> তুমি যখন কথা বলতে চাও, তখন একটা <span style="color: #66FCF1;">টর্চলাইট (অ্যান্টেনা)</span> নিয়ে কথাটাকে লাইট সিগন্যালে বদলে ফেলো। এই লাইটটা অনেক শক্তিশালী, যাতে অনেক দূর পর্যন্ত যায়।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. চ্যানেল:</span> তোমার আর তোমার বন্ধুর মাঝে একটা ফাঁকা, সোজা রাস্তা আছে। তোমার লাইট সিগন্যালটা ওই রাস্তা দিয়েই সরাসরি যায়। কিন্তু রাস্তাটা যদি অনেক লম্বা হয়, তাহলে মাঝপথে একজন বন্ধুকে রেখে দিতে হয়, যে তোমার সিগন্যালটা নিয়ে আবার একই শক্তিশালী টর্চলাইট দিয়ে আরেকজনকে পাঠাবে। এই মাঝের বন্ধুটা হলো <span style="color: #66FCF1;">রিপিটার স্টেশন</span>।</p>
+                <p><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. রিসিভার:</span> তোমার বন্ধু আরেকটা <span style="color: #66FCF1;">টর্চলাইট (অ্যান্টেনা)</span> নিয়ে তোমার পাঠানো লাইট সিগন্যালটা ধরে। এরপর সে ওই লাইট থেকে তোমার আসল কথাটি আবার বের করে নেয়।</p>
+                <p><span style="color: #66FCF1;">মাইক্রোওয়েভ কমিউনিকেশন</span> ঠিক এভাবেই কাজ করে। এটা খুব দ্রুত ডেটা পাঠাতে পারে, কিন্তু সমস্যা হলো মাঝখানে কোনো কিছু থাকলে (যেমন বিল্ডিং বা পাহাড়) সিগন্যাল আটকে যেতে পারে। তাই একটা ক্লিয়ার রাস্তা দরকার হয়। No kizzy.</p>
+            </div>`
     },
 
     // Legendary Questions
