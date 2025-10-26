@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Curved Display Camera Phones Under 34,000 BDT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #007bff; /* Vibrant Blue */
+            --color-secondary: #6c757d;
+            --color-accent: #ffc107; /* Yellow */
+            --color-success: #28a745; /* Green - Tier 1 */
+            --color-warning: #fd7e14; /* Orange - Tier 2 */
+            --color-danger: #dc3545; /* Red - Tier 3 */
+            --color-bg: #f4f7fa; /* Light background */
+            --color-card-bg: #ffffff;
+            --color-text: #343a40;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            margin: 0;
+            padding: 30px 20px;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+       .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        /* --- Ranking Cards Layout --- */
+       .ranking-container {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+       .phone-card {
+            background-color: var(--color-card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: calc(33.33% - 25px);
+            min-width: 320px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+       .phone-card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* --- Card Header & Rank --- */
+       .card-header {
+            background: linear-gradient(135deg, var(--color-primary), #0056b3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+       .rank-badge {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-text);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+       .rank-1.card-header { background: linear-gradient(135deg, var(--color-success), #1e7e34); }
+       .rank-2.card-header { background: linear-gradient(135deg, var(--color-warning), #c86300); }
+       .rank-3.card-header { background: linear-gradient(135deg, var(--color-danger), #b02a37); }
+
+       .phone-name {
+            font-family: var(--font-serif);
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+       .phone-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: var(--color-secondary);
+        }
+
+        /* --- Key Specs Section (Iconography) --- */
+       .key-specs {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 10px;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+        }
+        
+       .spec-item {
+            flex-basis: 30%;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        
+       .spec-item i {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        
+       .spec-item span {
+            display: block;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* TIER COLORS FOR KEY STATS */
+       .tier-1 { color: var(--color-success); background-color: rgba(40, 167, 69, 0.08); }
+       .tier-2 { color: var(--color-warning); background-color: rgba(253, 126, 20, 0.08); }
+       .tier-3 { color: var(--color-danger); background-color: rgba(220, 53, 69, 0.08); }
+       .tier-mixed { color: #8e24aa; background-color: rgba(142, 36, 170, 0.08); } /* Purple for mixed results */
+        
+        /* --- Detailed Specs List --- */
+       .specs-list {
+            padding: 20px 25px;
+            list-style: none;
+        }
+
+       .specs-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dotted #f1f1f1;
+            font-size: 0.95em;
+        }
+
+       .specs-list li:last-child {
+            border-bottom: none;
+        }
+
+       .specs-list strong {
+            font-weight: 600;
+        }
+        
+       .spec-value {
+            font-weight: 500;
+            color: var(--color-text);
+        }
+        
+        /* --- Pricing & Rationale --- */
+       .pricing-section {
+            padding: 20px 25px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+       .pricing-section h4 {
+            margin-top: 0;
+            color: var(--color-primary);
+            font-size: 1.1em;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+       .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        
+       .price-variant { font-weight: 500; }
+       .price-value { font-weight: 700; color: var(--color-danger); }
+
+        /* --- Rationale Section Styling --- */
+       .rationale-section {
+            background-color: var(--color-card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-top: 40px;
+        }
+        
+       .rationale-section h2 {
+            font-family: var(--font-serif);
+            color: var(--color-primary);
+            text-align: left;
+            border-bottom: 3px solid var(--color-accent);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+       .rationale-point {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-left: 5px solid;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+       .rationale-point h3 {
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+       .rationale-point.rank-badge {
+            margin-right: 15px;
+            min-width: 30px;
+            justify-content: center;
+        }
+        
+       .rationale-point.rank-1 { border-left-color: var(--color-success); }
+       .rationale-point.rank-2 { border-left-color: var(--color-warning); }
+       .rationale-point.rank-3 { border-left-color: var(--color-danger); }
+        
+       .highlight-text {
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 1200px) {
+          .phone-card {
+                width: calc(50% - 25px);
+            }
+        }
+        @media (max-width: 768px) {
+          .phone-card {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><i class="fas fa-camera-retro"></i> Expert Comparative Analysis: Curved Display Phones <i class="fas fa-mobile-alt"></i></h1>
+    <h2>Prioritizing Camera Quality & Smooth Casual Use (Budget: ~34,000 BDT)</h2>
+    
+    <div class="ranking-container" id="phone-cards-container">
+        </div>
+
+    <section class="rationale-section">
+        <h2><i class="fas fa-balance-scale-left"></i> The Final Verdict: Why the Ranking?</h2>
+
+        <div class="rationale-point rank-1">
+            <h3 class="rank-badge rank-1"><i class="fas fa-crown"></i> #1</h3>
+            <h3>Vivo V60e: Unmatched Endurance and Specialized Camera</h3>
+            <p>The Vivo V60e achieves the top rank by fulfilling the <strong>Camera Priority</strong> and eliminating battery anxiety. It provides a superior camera setup with a <strong>200 MP main sensor and a highly specialized 50 MP front camera</strong>, perfect for high-quality social media content and portraits.[span_0](start_span)[span_0](end_span) The market-leading <strong>6500 mAh battery with 90W fast charging</strong> ensures maximum operational time.[span_1](start_span)[span_1](end_span) Crucially, Vivo’s promise of 3 major Android updates and 5 years of security patches ensures the device maintains <span class="highlight-text">excellent long-term software stability and smoothness</span>, a core requirement for daily use.[span_2](start_span)[span_2](end_span)</p>
+        </div>
+
+        <div class="rationale-point rank-2">
+            <h3 class="rank-badge rank-2"><i class="fas fa-shield-alt"></i> #2</h3>
+            <h3>Motorola Edge 50 Fusion: Stability, Loyalty, and Value</h3>
+            <p>The Motorola Edge 50 Fusion is the strongest alternative, ranking #2 due to its guaranteed user experience and strict adherence to budget/brand loyalty. Its price (starting at BDT 26,490) fits comfortably within the budget.[span_3](start_span)[span_3](end_span) While its 50 MP OIS camera is less dominant on paper, its performance is highly reliable and backed by Motorola’s <span class="highlight-text">"Pure Android" software</span>, which guarantees the smoothest possible daily performance for scrolling and light use, avoiding the software instability pitfalls of rivals.[span_4](start_span)[span_4](end_span) The primary drawback is its <strong>5000 mAh battery</strong>, which offers lower tested endurance than the competition.[span_5](start_span)[span_5](end_span)</p>
+        </div>
+
+        <div class="rationale-point rank-3">
+            <h3 class="rank-badge rank-3"><i class="fas fa-exclamation-triangle"></i> #3</h3>
+            <h3>Redmi Note 14 Pro Plus: High Hardware, High Software Risk</h3>
+            <p>Despite offering a massive 200 MP sensor and good theoretical battery life (5500 mAh endurance score of 13h 44m), the Redmi Note 14 Pro Plus ranks last. This is due to a failure in the essential secondary requirement: <span class="highlight-text">Smooth Daily Use</span>. Its HyperOS 2 software is critically rated 1/5, described as "rancid" and prone to lag and bloat, making the smooth scrolling requirement unreliable.[span_6](start_span)[span_6](end_span) Furthermore, the high-megapixel camera suffers from "poor color accuracy," which undermines the quality of casual photography that the user prioritizes.[span_7](start_span)[span_7](end_span) This device represents a high risk for a casual user.</p>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const phoneData =
+        },
+        {
+            rank: 2,
+            name: "Motorola Edge 50 Fusion",
+            imageUrl: "placeholder-moto-e50-fusion.jpg",
+            chipset: "Snapdragon 7s Gen 2 / 6 Gen 1",
+            ram_base: "8 GB",
+            display: {
+                type: "P-OLED, 120Hz/144Hz, Curved",
+                size: '6.7" (1600 nits Peak)'
+            },
+            camera: {
+                rear: "50 MP OIS (Primary) + 13 MP (Ultrawide)",
+                front: "32 MP (4K UHD Video Recording)",
+                video: "4K UHD @ 30fps",
+                tier: 'tier-2'
+            },
+            battery: {
+                capacity: "5000 mAh (Lower Endurance Score)",
+                charging: "68W Fast Charging",
+                tier: 'tier-3'
+            },
+            software_stability: {
+                rating: "Very High (Pure Android, Highly Stable)",
+                tier: 'tier-1'
+            },
+            durability: "Gorilla Glass 5",
+            pricing:
+        },
+        {
+            rank: 3,
+            name: "Redmi Note 14 Pro Plus",
+            imageUrl: "placeholder-redmi-n14-pro-plus.jpg",
+            chipset: "MediaTek Helio G100 Ultra",
+            ram_base: "8 GB",
+            display: {
+                type: "Curved AMOLED, 120Hz",
+                size: '6.67" (446 PPI Detail)'
+            },
+            camera: {
+                rear: "200 MP OIS (Primary) + 8 MP + 2 MP",
+                front: "20 MP (1080p Video Recording)",
+                video: "4K UHD @ 30fps",
+                tier: 'tier-mixed' /* High MP but poor color accuracy & software issues */
+            },
+            battery: {
+                capacity: "5500 mAh (Highest Endurance Score)",
+                charging: "45W Turbo Charging",
+                tier: 'tier-2'
+            },
+            software_stability: {
+                rating: "Very Low (HyperOS 2, Bloat/Lag Risk)",
+                tier: 'tier-3'
+            },
+            durability: "Gorilla Glass Victus 2",
+            pricing:
+        }
+    ];
+
+    const container = document.getElementById('phone-cards-container');
+
+    phoneData.forEach(phone => {
+        const card = document.createElement('div');
+        card.className = `phone-card rank-${phone.rank}`;
+        
+        // Determine icons and tiers for the key specs section
+        const cameraIconClass = phone.camera.tier === 'tier-1'? 'fa-video' : 'fa-camera-retro';
+        const batteryIconClass = phone.battery.tier === 'tier-1'? 'fa-bolt' : 'fa-battery-full';
+        const stabilityIconClass = phone.software_stability.tier === 'tier-1'? 'fa-thumbs-up' : 'fa-hand-paper';
+
+        card.innerHTML = `
+            <div class="card-header">
+                <span class="rank-badge">Rank #${phone.rank}</span>
+                <div class="phone-name">${phone.name}</div>
+                <small>${phone.rank === 1? 'BEST OVERALL CAMERA & ENDURANCE' : phone.rank === 2? 'BEST VALUE & STABILITY' : 'HIGH HARDWARE, HIGH RISK'}</small>
+            </div>
+            
+            <div class="phone-image">
+                <i class="fas fa-image"></i> Image Placeholder: ${phone.imageUrl}
+            </div>
+
+            <div class="key-specs">
+                <div class="spec-item ${phone.camera.tier}">
+                    <i class="fas ${cameraIconClass}"></i>
+                    <span>Camera Focus</span>
+                    <small>| ${phone.camera.rear.split('(')} |</small>
+                </div>
+                <div class="spec-item ${phone.battery.tier}">
+                    <i class="fas ${batteryIconClass}"></i>
+                    <span>Battery Focus</span>
+                    <small>| ${phone.battery.capacity.split('(')} |</small>
+                </div>
+                <div class="spec-item ${phone.software_stability.tier}">
+                    <i class="fas ${stabilityIconClass}"></i>
+                    <span>Stability Focus</span>
+                    <small>| ${phone.software_stability.rating.split('(')} |</small>
+                </div>
+            </div>
+
+            <ul class="specs-list">
+                <li><strong>Display (Curved)</strong> <span class="spec-value">${phone.display.size} ${phone.display.type}</span></li>
+                <li><strong>Front Camera/Video</strong> <span class="spec-value">${phone.camera.front}</span></li>
+                <li><strong>Video Recording Max</strong> <span class="spec-value">${phone.camera.video}</span></li>
+                <li><strong>Charging Speed</strong> <span class="spec-value">${phone.battery.charging}</span></li>
+                <li><strong>Processor</strong> <span class="spec-value">${phone.chipset} (${phone.ram_base} Base RAM)</span></li>
+                <li><strong>Durability Rating</strong> <span class="spec-value">${phone.durability}</span></li>
+            </ul>
+
+            <div class="pricing-section">
+                <h4>Approximate Price Range (BDT)</h4>
+                ${phone.pricing.map(p => `
+                    <div class="price-row">
+                        <span class="price-variant">${p.variant}</span>
+                        <span class="price-value">${p.price}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
+
