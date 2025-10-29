@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Ghost Connect - Stealth Oversight Protocol</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d1a; /* Dark background */
+            color: #e5e7eb;
+        }
+        .step-card {
+            background-color: #1a1a30; /* Darker card */
+            border-left: 5px solid #6366f1; /* Indigo stripe */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .code-block {
+            background-color: #000000;
+            color: #34d399; /* Green for code */
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .phase-title {
+            color: #fcd34d; /* Yellow for phase titles */
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-2 text-center">Project: Ghost Connect 👻</h1>
+        <p class="text-xl text-indigo-400 mb-8 text-center">Final Deployment Protocol for Persistent Remote Access</p>
+
+        <div class="mb-10 p-6 rounded-xl bg-gray-800/70 border border-gray-700">
+            <h2 class="text-2xl font-bold text-red-400 mb-3">⚠️ CRITICAL MISSION WARNING: ADB PERSISTENCE</h2>
+            <p class="text-gray-300 text-lg">
+                No cap, bro, if your lil sis reboots that Samsung Galaxy A9, the default ADB connection dies. The <span class="font-bold">Persistence Hack</span> (Phase 2) is the only way to make this setup self-healing and survive her rebooting the tablet like a hacker. Every single step below is mandatory for the long-distance mission to succeed. We only get one shot at this setup.
+            </p>
+        </div>
+
+        <h2 class="phase-title text-3xl font-extrabold mb-6">PHASE 0: GATHERING THE GEAR (PRE-FLIGHT CHECK)</h2>
+        <div class="space-y-6 mb-10">
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">0.1 The Arsenal (Downloads)</h3>
+                <p class="text-gray-400">Download these tools onto the <span class="font-bold">temporary PC</span> you are using now. This PC will be wiped clean later.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-1 text-lg">
+                    <li><span class="font-bold">ADB/Platform Tools:</span> This is the base system for remote control.</li>
+                    <li><span class="font-bold">scrcpy:</span> (Screen Copy) - This is the app that gives you the live video feed.</li>
+                    <li><span class="font-bold">Tailscale Client:</span> This creates the secure, long-distance VPN tunnel.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="phase-title text-3xl font-extrabold mb-6">PHASE 1: THE ONE-TIME DEPLOYMENT (TABLET ACCESS)</h2>
+        <p class="text-gray-300 mb-6">You will only do these steps ONCE while you have the tablet in your hands and the cable plugged into the temporary PC.</p>
+
+        <div class="space-y-6">
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">1.1 UNLOCKING DEBUG MODE 🔓</h3>
+                <p class="text-gray-400">This is how we open the backdoor. It is mandatory for ADB to work.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li>On the Galaxy A9, navigate to <span class="font-bold">Settings</span> $\rightarrow$ <span class="font-bold">About tablet</span> $\rightarrow$ <span class="font-bold">Software information</span>.</li>
+                    <li>Tap <span class="font-bold">Build number</span> quickly, seven times. A message will pop up saying, "You are now a developer!" No cap, you're the coder now.</li>
+                    <li>Go back to <span class="font-bold">Settings</span> and find the new <span class="font-bold">Developer options</span> menu.</li>
+                    <li>Inside <span class="font-bold">Developer options</span>, turn <span class="font-bold">ON</span> the <span class="font-bold">USB debugging</span> toggle. When the prompt appears, check <span class="font-bold">"Always allow from this computer"</span> and hit <span class="font-bold">Allow</span>.</li>
+                </ul>
+            </div>
+
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">1.2 INSTALLING THE COVERT APPS 📲</h3>
+                <p class="text-gray-400">Install the two essential apps needed for the long haul. Make sure they are downloaded directly onto the tablet via the Play Store.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li>Install <span class="font-bold">Tailscale:</span> This is the zero-config VPN tunnel that makes the tablet appear next to your remote PC. Log in using your account.</li>
+                    <li>Install <span class="font-bold">MacroDroid:</span> This is the free automation engine that will force ADB to turn back on after a reboot.</li>
+                </ul>
+            </div>
+
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">1.3 GRANTING PERSISTENCE POWER (ADB Command) 🔑</h3>
+                <p class="text-gray-400">This is the most critical step. We use the temporary PC to grant MacroDroid the special permission (<code class="text-yellow-400">WRITE_SECURE_SETTINGS</code>) it needs to survive restarts. This command is executed <span class="font-bold">only once</span>.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li>Connect the Galaxy A9 to the <span class="font-bold">temporary PC</span> using the Type-C cable.</li>
+                    <li>Open your Terminal/CMD in the <span class="font-bold">`platform-tools`</span> folder.</li>
+                    <li><span class="font-bold">Run the Grant Command:</span> This command gives MacroDroid system-level control over secure settings (like the ADB toggle).</li>
+                </ul>
+                <div class="code-block p-3 rounded-lg mt-3">
+                    adb shell pm grant com.arlosoft.macrodroid android.permission.WRITE_SECURE_SETTINGS
+                </div>
+                <p class="text-gray-400 mt-2">The command should return nothing, which means it succeeded. No cap, that's the signal you're looking for.</p>
+            </div>
+        </div>
+
+        <h2 class="phase-title text-3xl font-extrabold mt-10 mb-6">PHASE 2: THE PERSISTENCE HACK (MACRODROID CONFIG)</h2>
+        <p class="text-gray-300 mb-6">Now we set up the macro to automatically re-enable the Ghost Connect tunnel after any reboot or power-off, ensuring persistence.</p>
+
+        <div class="space-y-6">
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">2.1 CONFIGURE TAILSCALE & BATTERY 🔋</h3>
+                <p class="text-gray-400">Android loves to kill apps running in the background. We have to tell the system to let the tunnel live, fr.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li>On the A9, open <span class="font-bold">Tailscale</span>. Log in if prompted.</li>
+                    <li>Go to <span class="font-bold">Settings</span> $\rightarrow$ <span class="font-bold">Apps</span> $\rightarrow$ <span class="font-bold">Tailscale</span> $\rightarrow$ <span class="font-bold">Battery</span> $\rightarrow$ Set to <span class="font-bold">"Unrestricted"</span> (or similar option that says "Allow background activity").</li>
+                </ul>
+            </div>
+
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">2.2 CREATE THE AUTO-RECONNECT MACRO (MacroDroid) 🤖</h3>
+                <p class="text-gray-400">This macro is the magic. It watches for a reboot and instantly turns ADB back on.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li><span class="font-bold">Trigger:</span> Select "Triggers" and choose <span class="font-bold">"Device Boot"</span>.</li>
+                    <li><span class="font-bold">Action 1 (ADB Re-Enable):</span> Select "Actions" $\rightarrow$ search for <span class="font-bold">"Secure Settings"</span> $\rightarrow$ Select <span class="font-bold">"ADB Wi-Fi Setting"</span> $\rightarrow$ Set to <span class="font-bold">Enabled</span>.</li>
+                    <li><span class="font-bold">Action 2 (Tunnel Restart):</span> Select "Actions" $\rightarrow$ search for <span class="font-bold">"Launch Application"</span> $\rightarrow$ Choose <span class="font-bold">Tailscale</span>. (This ensures the VPN fires up immediately after the device starts listening for ADB).</li>
+                    <li><span class="font-bold">Save:</span> Name the Macro something low-key, like "System Fix" or "Battery Optimizer," and save it.</li>
+                </ul>
+            </div>
+
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">2.3 CLEANUP AND DEPLOY 🧹</h3>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li>On the A9, go to <span class="font-bold">Developer options</span> and turn <span class="font-bold">OFF</span> <span class="font-bold">USB debugging</span> (this leaves the secure persistence mechanism running but removes the visible toggle).</li>
+                    <li><span class="font-bold">WIPE THE EVIDENCE:</span> On the <span class="font-bold">temporary PC</span>, delete the <span class="font-bold">`platform-tools`</span> folder and the <span class="font-bold">`Tailscale`</span> client. No trace is left on the temporary asset.</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="phase-title text-3xl font-extrabold mt-10 mb-6">PHASE 3: REMOTE COMMAND (300 KM AWAY)</h2>
+        <p class="text-gray-300 mb-6">You are now back at your home PC. The tablet is 300km away. You can connect anytime.</p>
+
+        <div class="space-y-6">
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">3.1 ARMING YOUR HOME PC 💻</h3>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li>Install <span class="font-bold">ADB/scrcpy</span> and the <span class="font-bold">Tailscale client</span> on your personal, permanent PC. Log in to Tailscale.</li>
+                </ul>
+            </div>
+
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">3.2 ESTABLISHING GHOST CONNECT 👻</h3>
+                <p class="text-gray-400">Open your Terminal/CMD and execute these commands whenever you want to check in.</p>
+                <ul class="list-disc list-inside ml-4 mt-2 space-y-2 text-lg">
+                    <li><span class="font-bold">Get the IP:</span> Find the tablet's <span class="font-bold">100.x.x.x</span> private IP from your Tailscale app. This IP never changes, even if she changes Wi-Fi.</li>
+                    <li><span class="font-bold">Connect the ADB Tunnel:</span> Use the connect command with the port.</li>
+                </ul>
+                <div class="code-block p-3 rounded-lg mt-3">
+                    adb connect &lt;Tablet's_Tailscale_IP&gt;:5555
+                </div>
+            </div>
+
+            <div class="step-card p-4 rounded-lg">
+                <h3 class="text-xl font-bold text-white mb-2">3.3 LIVE SCREEN FEED (DISCORD STYLE) 🔥</h3>
+                <p class="text-gray-400">Once connected, run scrcpy to see the live feed. It's fully visible and controllable.</p>
+                <div class="code-block p-3 rounded-lg mt-3">
+                    scrcpy
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 p-6 rounded-xl bg-gray-800/70 border border-gray-700">
+            <h2 class="text-2xl font-bold text-indigo-400 mb-3">✅ Final Confirmation: You Are Good</h2>
+            <p class="text-gray-300 text-lg">
+                We locked in on all four points, fam: one-time setup is complete, the temporary PC is clean, your remote PC can connect over the distance via Tailscale, and MacroDroid handles the persistence hack to keep ADB alive after reboots. This script is bussin' fr.
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>
