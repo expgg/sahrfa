@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street View Coordinate Parser</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; }
+    </style>
+</head>
+<body class="p-6 md:p-10 flex flex-col items-center min-h-screen">
+
+    <div class="bg-white shadow-xl rounded-xl p-6 md:p-8 w-full max-w-2xl border-t-4 border-indigo-500">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-4">Coordinate Extractor 🗺️</h1>
+        <p class="text-gray-600 mb-6">Just drop the Street View data string and we'll pull the clean Lat/Lon constants. No cap.</p>
+
+        <!-- Input Area -->
+        <div class="mb-4">
+            <label for="inputData" class="block text-sm font-medium text-gray-700 mb-2">Input Data String (e.g., @25.07...,...)</label>
+            <input type="text" id="inputData" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" value="@25.0723411,91.4106641,3a,75y,106.44h,63.18t" />
+        </div>
+
+        <!-- Button -->
+        <button id="parseButton" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-150 transform hover:scale-[1.01] focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50">
+            Parse Coordinates 🔥
+        </button>
+
+        <!-- Output Area -->
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-3">Extracted Constants:</h2>
+            <pre id="outputCode" class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+const SHOP_LATITUDE = "25.0723411";
+const SHOP_LONGITUDE = "91.4106641";</pre>
+            <button id="copyButton" class="mt-3 py-2 px-4 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 transition duration-150">
+                Copy Code
+            </button>
+            <p id="copyMessage" class="text-sm text-green-600 mt-2 opacity-0 transition-opacity duration-300">Copied!</p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputField = document.getElementById('inputData');
+            const outputBlock = document.getElementById('outputCode');
+            const parseButton = document.getElementById('parseButton');
+            const copyButton = document.getElementById('copyButton');
+            const copyMessage = document.getElementById('copyMessage');
+
+            // Core logic to parse the data
+            const parseData = (inputString) => {
+                try {
+                    // Split by '@' to get the coordinate/view part
+                    const coordsPart = inputString.split('@')[1];
+
+                    if (!coordsPart) {
+                        return { lat: "ERROR", lon: "ERROR", error: "Invalid format: Missing '@' or coordinates." };
+                    }
+
+                    // Split the coordinate part by comma and take the first two elements
+                    const parts = coordsPart.split(',');
+                    const lat = parts[0];
+                    const lon = parts[1];
+
+                    if (!lat || !lon) {
+                         return { lat: "ERROR", lon: "ERROR", error: "Invalid format: Could not find Latitude/Longitude." };
+                    }
+
+                    // Return the clean values
+                    return { lat, lon };
+
+                } catch (e) {
+                    console.error("Parsing Error:", e);
+                    return { lat: "ERROR", lon: "ERROR", error: "An unexpected parsing error occurred." };
+                }
+            };
+
+            const updateOutput = () => {
+                const inputString = inputField.value.trim();
+                const { lat, lon, error } = parseData(inputString);
+
+                if (error) {
+                    outputBlock.textContent = `// Error: ${error}`;
+                    outputBlock.classList.replace('text-green-400', 'text-red-400');
+                    copyButton.disabled = true;
+                } else {
+                    const output = `const SHOP_LATITUDE = "${lat}";\nconst SHOP_LONGITUDE = "${lon}";`;
+                    outputBlock.textContent = output;
+                    outputBlock.classList.replace('text-red-400', 'text-green-400');
+                    copyButton.disabled = false;
+                }
+            };
+
+            // Initial run on load
+            updateOutput();
+
+            // Event listener for button click
+            parseButton.addEventListener('click', updateOutput);
+            
+            // Event listener for input changes (real-time update)
+            inputField.addEventListener('input', updateOutput);
+
+
+            // Copy functionality (using deprecated execCommand for broader iFrame compatibility)
+            copyButton.addEventListener('click', () => {
+                const textToCopy = outputBlock.textContent;
+                
+                // Create a temporary textarea element
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                
+                // Select and copy
+                tempTextArea.select();
+                document.execCommand('copy');
+                
+                // Clean up
+                document.body.removeChild(tempTextArea);
+
+                // Show confirmation message
+                copyMessage.classList.remove('opacity-0');
+                setTimeout(() => {
+                    copyMessage.classList.add('opacity-0');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
