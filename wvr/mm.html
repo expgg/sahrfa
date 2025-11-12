@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ADDED data-unc to body -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মনির মামা</title>
+    <!-- Global styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Page-specific styles -->
+    <link rel="stylesheet" href="video-page.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-unc="mm">
+
+    <!-- NEW: Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- NEW: Content is wrapped and hidden by default via CSS -->
+    <div id="pageContent">
+        <div class="container">
+            <h2>মনির মামা</h2>
+            <div class="video-grid pb-safe">
+                
+                <!-- Video 1 -->
+                <div class="video-item">
+                    <h3 class="video-title">শুরু</h3>
+                    <div class="video-container"
+                         data-mega-id="9FUwWQgR#YpEgcXvSqjvhqhRm5QL2vkQS-v3FC5d3WTP_uvA7lf0"
+                         data-youtube-id="gGnr2NjUiYw?si=u1sFrl5yg5ELpy6p"
+                         data-gdrive-id="1iplPaNbmU79lRuOLEYfPkEF7eTpfORZ8">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-item">
+                    <h3 class="video-title">শুরু ২</h3>
+                    <div class="video-container"
+                         data-mega-id="pJEUgCBT#h1Jlnej3TMNx0ocHA4G6rtVMm7LkVJ6dyU7y7Rrt-TQ"
+                         data-youtube-id="ZY0mQ-XiYqY?si=tS4hRyrjM0xzmvOz"
+                         data-gdrive-id="1pAcBiKp3V9pRZejDK9U2JhCcXFZSowob">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+                
+                <!-- Video 3 -->
+                <div class="video-item">
+                    <h3 class="video-title">ছবি</h3>
+                    <div class="video-container"
+                         data-mega-id="MNkmlBra#p8ipJVu5cVBja4fV4qRi_6bCd4kkRcWFTmMzyfNxcWw"
+                         data-youtube-id="jFzSJOEkazw?si=lhFJ1pd7Y0nttgbr"
+                         data-gdrive-id="1R6onQTud2YuOtqyvhRTnFiUr-qXf3XoV">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <div class="video-item">
+                    <h3 class="video-title">গায়ে হলুদ</h3>
+                    <div class="video-container"
+                         data-mega-id="FFEVkQKQ#MoPdHruerkuBSeLWLsaQLV-yQ_UiP6GZ75BnAWOgo-Q"
+                         data-youtube-id="y14kGyAKoJ8?si=UTNht73TTpAuohxd"
+                         data-gdrive-id="1l_eqGoojrre3a5MHl37Idym9A2_5-MQW">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <div class="video-item">
+                    <h3 class="video-title">গায়ে হলুদ ২</h3>
+                    <div class="video-container"
+                         data-mega-id="IRVjVRzZ#IFRdv8hau143no5nvG-apDGCbvzH-pPbmL1l3drgimg"
+                         data-youtube-id="kLGY97xyUw0?si=DyP24NbK_3sVoZSy"
+                         data-gdrive-id="19D7l-8bwFKEYAVPmaJEaD83lBWvTnvcR">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <div class="video-item">
+                    <h3 class="video-title">শুভবিবাহ</h3>
+                    <div class="video-container"
+                         data-mega-id="ZU8SlToL#LqcYAAJdG_7hnylF3xRXL82YfaAvhtnync8Yeikf89s"
+                         data-youtube-id="3DBBwLO05jA?si=jKSGc8CFH3VsghSx"
+                         data-gdrive-id="1j6qC1S_0MMFnnp_FVm_0YN2Y5VGqnQ1p">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NEW: Nav is wrapped and hidden by default via CSS -->
+    <div id="pageNav">
+        <!-- Stream Switch Menu (Hidden by default) -->
+        <div class="menu-backdrop" id="menuBackdrop"></div>
+        <div class="stream-menu" id="streamMenu">
+            <div class="stream-menu-header">Select Stream Source</div>
+            <button class="stream-option" data-provider="mega">Mega</button>
+            <button class="stream-option" data-provider="youtube">YouTube</button>
+            <button class="stream-option" data-provider="gdrive">Google Drive</button>
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="bottom-bar">
+            <a href="index.html" class="bar-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Back</span>
+            </a>
+            <button class="bar-btn" id="switchStreamBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s5.333-8 10-8 10 8 10 8-5.333 8-10 8-10-8-10-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span>Switch</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- NEW: Password Modal Structure (needed on every page) -->
+    <div class="password-modal-backdrop" id="passModalBackdrop"></div>
+    <div class="password-modal-content" id="passModal">
+        <div class="modal-header">
+            <h3 id="passModalTitle">Password Required</h3>
+            <button class="modal-close-btn" id="passModalCloseBtn">&times;</button>
+        </div>
+        <form class="modal-form" id="passForm">
+            <p>Enter the password to continue:</p>
+            <input type="password" id="passInput" class="pass-input" placeholder="Password...">
+            <p class="pass-error" id="passError"></p>
+            <button type="submit" class="pass-submit-btn">Unlock</button>
+        </form>
+    </div>
+
+    <!-- UPDATED: Scripts are now modules -->
+    <script src="stream-switcher.js" type="module"></script>
+    <script src="auth.js" type="module"></script>
+    <script src="video-page.js" type="module"></script>
+
+</body>
+</html>
