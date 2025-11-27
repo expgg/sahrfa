@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn" class="light">
+<html lang="bn" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -21,10 +21,10 @@
                         sans: ['Poppins', 'Hind Siliguri', 'sans-serif'],
                     },
                     colors: {
-                        dark: '#121212',
-                        cardDark: '#1E1E1E',
+                        dark: '#0f172a', // Deeper blue-black for better contrast
+                        cardDark: '#1e293b',
                         light: '#F3F4F6',
-                        cardLight: 'rgba(255, 255, 255, 0.95)',
+                        cardLight: 'rgba(255, 255, 255, 0.90)',
                     },
                     animation: {
                         'gradient-x': 'gradient-x 15s ease infinite',
@@ -59,7 +59,24 @@
     <style>
         /* Smooth transitions */
         body, .card, .toggle-btn, h1, p, span, div, button {
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Particle Canvas (Dark Mode) */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.dark #particle-canvas {
+            opacity: 1;
         }
 
         /* Animated Background for Light Mode */
@@ -71,8 +88,8 @@
 
         /* Dark Mode Background */
         body.dark {
-            background-color: #121212;
-            background-image: radial-gradient(circle at 50% 50%, #1f2937 0%, #121212 100%);
+            background-color: #0f172a;
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 75%);
         }
         
         /* Glassmorphism for Cards */
@@ -87,26 +104,20 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Custom Scrollbar for sleek look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #888; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555; 
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body class="text-gray-800 dark:text-gray-100 min-h-screen flex flex-col items-center py-6 px-4 selection:bg-indigo-500 selection:text-white">
+<body class="dark text-gray-800 dark:text-gray-100 min-h-screen flex flex-col items-center py-6 px-4 selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+
+    <!-- Background Canvas for Particles -->
+    <canvas id="particle-canvas"></canvas>
 
     <!-- Header & Controls -->
-    <header class="w-full max-w-md flex justify-between items-center mb-8 glass-panel bg-white/80 dark:bg-cardDark/80 p-4 rounded-2xl shadow-lg sticky top-2 z-50 ring-1 ring-white/20">
+    <header class="w-full max-w-md flex justify-between items-center mb-8 glass-panel bg-white/80 dark:bg-cardDark/80 p-4 rounded-2xl shadow-lg sticky top-2 z-50 ring-1 ring-white/20 dark:ring-white/5">
         <div class="text-xl font-bold gradient-text truncate pr-2 flex items-center">
             <i class="fa-solid fa-calculator mr-2 text-indigo-500"></i> <span id="site-title">বয়স ক্যালকুলেটর</span>
         </div>
@@ -119,7 +130,7 @@
 
             <!-- Theme Toggle -->
             <button onclick="toggleTheme()" class="toggle-btn w-10 h-10 rounded-xl bg-white dark:bg-gray-700 shadow-sm hover:shadow-md flex items-center justify-center border border-gray-100 dark:border-gray-600 active:scale-95 transition-transform text-indigo-500">
-                <i id="theme-icon" class="fa-solid fa-moon"></i>
+                <i id="theme-icon" class="fa-solid fa-sun"></i>
             </button>
         </div>
     </header>
@@ -140,7 +151,7 @@
         
         // State
         let currentLang = 'bn'; 
-        let currentTheme = 'light';
+        let currentTheme = 'dark'; // Default to Dark
 
         // Dictionary
         const dict = {
@@ -196,7 +207,71 @@
             }
         ];
 
-        // --- 2. UTILITY FUNCTIONS ---
+        // --- 2. PARTICLE SYSTEM (Dark Mode Only) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.1; // Small stars
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Wrap around screen
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            resizeCanvas();
+            particlesArray = [];
+            // Optimize count for mobile: 60 particles max
+            const numberOfParticles = Math.min(60, (canvas.width * canvas.height) / 10000);
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            if (currentTheme === 'dark') {
+                resizeCanvas();
+                initParticles(); // Re-init to adjust density
+            }
+        });
+
+        // --- 3. UTILITY FUNCTIONS ---
 
         function toBengaliNumber(num) {
             const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
@@ -210,7 +285,7 @@
             let minutes = date.getMinutes();
             const ampm = hours >= 12 ? dict[lang].pm : dict[lang].am;
             hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
+            hours = hours ? hours : 12; 
             minutes = minutes < 10 ? '0' + minutes : minutes;
             
             let timeStr = `${hours}:${minutes}`;
@@ -234,7 +309,6 @@
 
         function getPreciseAge(birthDate) {
             const now = new Date();
-            
             let years = now.getFullYear() - birthDate.getFullYear();
             let months = now.getMonth() - birthDate.getMonth();
             let days = now.getDate() - birthDate.getDate();
@@ -255,7 +329,7 @@
             return { years, months, days, hours, minutes, seconds };
         }
 
-        // --- 3. RENDER LOGIC ---
+        // --- 4. RENDER LOGIC ---
 
         function init() {
             const container = document.getElementById('cards-container');
@@ -269,9 +343,6 @@
                 card.className = `card glass-panel animate-float bg-cardLight dark:bg-cardDark p-6 rounded-3xl shadow-xl ${sib.shadow} border-t-4 ${sib.color} flex flex-col items-center relative overflow-hidden group`;
                 card.id = `card-${sib.id}`;
                 
-                // Copy Button ID
-                const copyBtnId = `copy-${sib.id}`;
-
                 card.innerHTML = `
                     <!-- Background Icon Decoration -->
                     <div class="absolute -top-6 -right-6 p-4 opacity-5 dark:opacity-10 transform rotate-12 transition-transform group-hover:rotate-45 duration-700">
@@ -280,7 +351,7 @@
 
                     <!-- Header Section: Name & Copy -->
                     <div class="w-full flex justify-between items-start mb-1 z-10 relative">
-                        <div class="flex-1 text-center pl-8"> <!-- Padding to offset copy button for centering -->
+                        <div class="flex-1 text-center pl-8"> 
                              <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white leading-tight" id="name-${sib.id}">
                                 ${sib.name[currentLang]}
                             </h2>
@@ -315,6 +386,12 @@
 
             updateUI(); 
             setInterval(updateTimer, 1000); 
+            
+            // Start particles if dark mode (default)
+            if (currentTheme === 'dark') {
+                initParticles();
+                animateParticles();
+            }
         }
 
         function generateTimeBox(id, type) {
@@ -351,11 +428,9 @@
         }
 
         function updateUI() {
-            // Update Title
             document.getElementById('site-title').innerText = dict[currentLang].title;
             document.getElementById('toast-msg').innerText = dict[currentLang].copySuccess;
             
-            // Update Labels, Names, and DOB text
             siblings.forEach(sib => {
                 document.getElementById(`name-${sib.id}`).innerText = sib.name[currentLang];
                 document.getElementById(`label-born-${sib.id}`).innerText = dict[currentLang].bornPrefix;
@@ -369,18 +444,13 @@
             updateTimer();
         }
 
-        // --- 4. ACTION FUNCTIONS ---
-
         function copySiblingInfo(id) {
             const sib = siblings.find(s => s.id === id);
             if (!sib) return;
 
             const age = getPreciseAge(sib.dob);
-            
-            // Format Numbers for Copy Text
             const formatNum = (n) => currentLang === 'bn' ? toBengaliNumber(n) : n;
 
-            // Construct Copy Text
             let text = "";
             text += `${sib.name[currentLang]}\n`;
             text += `${dict[currentLang].bornPrefix} ${getFormattedBirthDate(sib.dob, currentLang)}\n`;
@@ -391,12 +461,10 @@
                 text += `Age: ${age.years} Years ${age.months} Months ${age.days} Days`;
             }
 
-            // Copy to Clipboard
             navigator.clipboard.writeText(text).then(() => {
                 showToast();
             }).catch(err => {
-                console.error('Failed to copy: ', err);
-                // Fallback for older browsers
+                // Fallback
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 document.body.appendChild(textArea);
@@ -429,6 +497,7 @@
             const icon = document.getElementById('theme-icon');
             
             if (currentTheme === 'light') {
+                // Switch to Dark
                 currentTheme = 'dark';
                 html.classList.add('dark');
                 html.classList.remove('light');
@@ -436,7 +505,12 @@
                 body.classList.remove('light');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
+                
+                // Start Particles
+                initParticles();
+                animateParticles();
             } else {
+                // Switch to Light
                 currentTheme = 'light';
                 html.classList.remove('dark');
                 html.classList.add('light');
@@ -444,6 +518,10 @@
                 body.classList.add('light');
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
+                
+                // Stop Particles (Save Battery)
+                cancelAnimationFrame(animationId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
         }
 
