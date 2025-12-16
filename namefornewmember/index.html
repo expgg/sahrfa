@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name For new Member</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --text-color: #f0f0f0;
+            --accent-color: #00d4ff;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .name-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            border: 2px solid transparent;
+            word-wrap: break-word; /* Prevents long words from breaking layout */
+        }
+        
+        .name-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--accent-color);
+        }
+
+        .name-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .name-card p {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 0;
+        }
+
+        .bengali-text {
+            display: block;
+            margin-top: 10px;
+            font-weight: 400;
+            color: #b0b0b0;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>আবিহার ভাই এর নাম </h1>
+    <div class="container" id="names-container"></div>
+
+    <script>
+        const namesData = `
+Aaban / Aban (আ'বান / আবান) – Mountain’s Name; More clear; Clear; Eloquent; Distinct; 8th Persian month; Name of a Companion | পাহাড়ের নাম; পরিষ্কার; বাগ্মী; স্বতন্ত্র; ৮ম ফার্সি মাস; একজন সাহাবীর নাম
+Aabdar (আবদার) – Bright | উজ্জ্বল
+Aabid / Abid / Aabideen (আবিদ / আবিদীন) – Worshipper of God; Worshipers; Followers | আল্লাহর উপাসক; উপাসক; অনুসারী
+Abadeen / Abidian (আবাদিন / আবিদিয়ান) – Worshippers | উপাসকগণ
+
+Abbas (আব্বাস) – Stern; Lion; Brave; Serious; Grim-faced; Description of a lion | গম্ভীর; সিংহ; সাহসী; গুরুতর; ভয়ংকর চেহারা; সিংহের বর্ণনা
+Abeer (আবীর) – Scent; Perfume; Fragrance | সুগন্ধ; আতর; সুবাস
+Abir (আবির) – Aroma; Strong | সুগন্ধ; শক্তিশালী
+Abraham (আব্রাহাম) – Father of a multitude | বহুজনের পিতা
+Abu (আবু) – Father | পিতা
+Abu Bakr / Abubakar (আবু বকর / আবুবকর) – Companion of Prophet; Noble | নবীর সঙ্গী; সম্মানিত
+Abu Zar (আবু জার) – Father of money; Rich; Wealthy | অর্থের পিতা; ধনী; সম্পদশালী
+Abu hurairah (আবু হুরায়রাহ) – Father of a kitten | বিড়ালের পিতা
+Abu-Turab (আবু তুরাব) – Clay’s father; Attributive of Caliph Ali | মাটির পিতা; খলিফা আলীর উপাধি
+Abudah (আবূদাহ) – Devoted to God | আল্লাহর প্রতি নিবেদিত
+Abiz (আবিজ) – Spark of Fire | আগুনের স্ফুলিঙ্গ
+Abis / Abisali (আবিস / আবীসালি) – Quick; Alert; Swift; Warrior | দ্রুত; সতর্ক; দ্রুতগামী; যোদ্ধা
+Abaan / Aaban (আ'বান / আ'বান) – See above | উপরে দেখুন
+Abad (আবাদ) – Everlasting; Eternal | চিরন্তন; অনন্ত
+Ababil (আবাবিল) – Crowd; Band; Swallow | ভিড়; দল; আবাবিল পাখি
+Aadeel / Adeel (আ'দিল / আদিল) – One who acts with justice and fairness; Moderate; Virtuous; Excellent in character; Honest | যিনি ন্যায় ও সততার সঙ্গে কাজ করেন; মধ্যপন্থী; সৎ; উত্তম চরিত্র; সৎ
+Aadhil (আ'ধিল) – Honorable Judge | সম্মানিত বিচারক
+Aadil / Adil (আ'দিল / আদিল) – Justice; Fairness; Just | ন্যায়; সততা; ন্যায়পরায়ণ
+Aafa / Aafi / Aafeen (আফা / আফি / আফিন) – Forgiver; Those who forgive; To forgive mistakes | ক্ষমাকারী; যারা ক্ষমা করে; ভুল ক্ষমা করা
+Afreen / Aafreen (আফরিন / আফরীন) – Beautiful; Trustworthy; Excellent; Lucky | সুন্দর; বিশ্বস্ত; চমৎকার; ভাগ্যবান
+Afan (আফান) – To Forgive; A person who forgives; Modest | ক্ষমা করা; যে ব্যক্তি ক্ষমা করে; বিনয়ী
+Aaqib / Aqib (আকিব) – Successor; Final; Following; Subsequent; Follower of Allah | উত্তরাধিকারী; চূড়ান্ত; পরবর্তী; অনুসারী
+Aaqil / Aqil / Aqeel (আকিল) – Intelligent; Wise; Thoughtful; Sensible; Leader | বুদ্ধিমান; জ্ঞানী; চিন্তাশীল; সংবেদনশীল; নেতা
+Aarib / Aarib (আ'রিব) – Handsome; Healthy | সুদর্শন; সুস্থ
+Aarif / Arif (আরিফ) – Knowledgeable; Learned; Expert; Authority | জ্ঞানী; শিক্ষিত; বিশেষজ্ঞ; কর্তৃপক্ষ
+Aariz / Ariz (আরিজ) – Respectable man; Intelligent; Firmly; Strong | সম্মানিত ব্যক্তি; বুদ্ধিমান; দৃঢ়; শক্তিশালী
+Aaryan / Aryan (আরিয়ান) – One who belongs to the noble people; Best of the best; Warrior; Related to Arya people | যিনি অভিজাত জনগণের অন্তর্গত; সর্বোত্তম; যোদ্ধা; আর্য জনগণের সাথে সম্পর্কিত
+Aashif (আ'শিফ) – Courageous | সাহসী
+Aashir / Ashir (আ'শির) – Fascinating; Wealthy; Grateful; Thankful | আকর্ষণীয়; ধনী; কৃতজ্ঞ; ধন্যবাদপূর্ণ
+Aasim / Asim (আ'সিম) – Guardian; Protector; Shield; Rescuer; Safe | অভিভাবক; রক্ষক; ঢাল; উদ্ধারকারী; নিরাপদ
+Aas (আস) – Name of a leading Sahabi | একজন নেতৃস্থানীয় সাহাবীর নাম
+Aat (আ'ত) – Someone who is daring | একজন সাহসী ব্যক্তি
+Aatif / Atif (আ'তিফ) – Compassionate; Sympathetic; Kind-hearted; Generous; United; Joined; Together | সহানুভূতিশীল; দয়ালু; উদার; সংযুক্ত; একত্রিত; একসাথে
+Aatiq / Atiq (আ'তিক) – Kind; Affectionate; Free; Liberated | দয়ালু; স্নেহশীল; মুক্ত; স্বাধীন
+Aatish (আ'তিশ) – Purifying; Brilliance | বিশুদ্ধকারী; উজ্জ্বলতা
+Aazad / Azad (আজাদ) – Independent; Free | স্বাধীন; মুক্ত
+Aazim / Azim (আ'জিম) – Great; Famous; Magnificent; Admirable; Splendid; Protector; Defender | মহান; বিখ্যাত; অসাধারণ; প্রশংসনীয়; চমৎকার; রক্ষক; প্রতিরোধক
+Aazrang (আজরাং) – Bright | উজ্জ্বল
+Adan / Adnan (আদনান) – Paradise; Heaven; Garden of Heaven; Settler; One who settles for a long time; Paradise | জান্নাত; স্বর্গ; জান্নাতের বাগান; বসতি স্থাপনকারী; যিনি দীর্ঘকাল বসতি স্থাপন করেন; জান্নাত
+Adheem (আ'ধীম) – Great | মহান
+Adib / Adeeb (আদিব) – Scholar; Cultured; Author; Ethical behaviour; Civil; Well-mannered | পণ্ডিত; সংস্কৃতিবান; লেখক; নৈতিক আচরণ; সভ্য; সুশিক্ষিত
+Adlah (আদলাহ) – Fairness | সততা
+Adut (আদুত) – Gift of God | আল্লাহর দান
+Afaf / Afeef (আফাফ / আফিফ) – Pure; Chaste; Modest; Decent | পবিত্র; বিশুদ্ধ; বিনয়ী; সভ্য
+Afjal / Afzal (আফজাল) – Most excellent; Grace | সবচেয়ে চমৎকার; অনুগ্রহ
+Afsar (আফসার) – Best | সেরা
+Afran (আফরান) – Noble man | সম্মানিত ব্যক্তি
+Afraz (আফরাজ) – Very learned in Divine law | ঐশ্বরিক আইন সম্পর্কে অত্যন্ত জ্ঞানী
+Aftab (আফতাব) – The Sun | সূর্য
+Ahsan (আহসান) – Perfection; The best; The most beautiful; Superior | পূর্ণতা; সর্বোত্তম; সবচেয়ে সুন্দর; শ্রেষ্ঠ
+Ahmad / Ahmed (আহমাদ / আহমেদ) – Commendable; Praiseworthy; Noble; Admirable; Name of Prophet Muhammad (PBUH) | প্রশংসনীয়; প্রশংসার যোগ্য; সম্মানিত; প্রশংসনীয়; নবী মুহাম্মদ (সাঃ)-এর নাম
+Ahil / Ahil (আহিল) – Emperor; Ruler; Great leader | সম্রাট; শাসক; মহান নেতা
+Ahnaf (আহনাফ) – The straight path; Worshiper of Allah | সঠিক পথ; আল্লাহর উপাসক
+Ahad (আহাদ) – One; Unique; Matchless; Another name for God | এক; অনন্য; অদ্বিতীয়; আল্লাহর আরেকটি নাম
+Ahmar (আহমার) – Red coloured | লাল রঙের
+Ahyan (আহয়ান) – Eras; Ages; Times | যুগ; সময়
+Aiman / Ayman (আইমান) – Lucky; On the right | ভাগ্যবান; ডান দিকে
+Ajeeb / Ajmal (আজমল) – Extremely beautiful; Handsome | অত্যন্ত সুন্দর; সুদর্শন
+Ajamil (আজামিল) – A mythological king | একজন পৌরাণিক রাজা
+Ajmeer (আজমীর) – Presence of the foremost one | অগ্রগণ্য ব্যক্তির উপস্থিতি
+Akbar (আকবর) – Powerful; Great | শক্তিশালী; মহান
+Akeem (আকিম) – Wise | জ্ঞানী
+Akhi (আখি) – My Brother | আমার ভাই
+Akhtar (আখতার) – Star; Good Luck | তারকা; সৌভাগ্য
+Akif / Aakif (আকিফ) – Attached; Intent; Given | সংযুক্ত; আগ্রহী; নিবেদিত
+Akmal (আকমাল) – Complete | সম্পূর্ণ
+Akram (আকরাম) – Most Generous; Generous; Excellent | সবচেয়ে উদার; উদার; চমৎকার
+Alaa (আলা) – Nobility; Excellence | আভিজাত্য; শ্রেষ্ঠত্ব
+Ala'-Uddin (আলা'-উদ্দিন) – Excellence of Religion | ধর্মের শ্রেষ্ঠত্ব
+Al-Amin (আল-আমিন) – An epithet of Prophet Muhammad (SAW) | নবী মুহাম্মদ (সাঃ)-এর একটি উপাধি
+Alif (আলিফ) – The first character in Hijaiyah; To Love | হিজাইয়াহ-এর প্রথম অক্ষর; ভালোবাসা
+Ali (আলি) – Eminent; Noble; High in rank; Lofty; Sublime; Excellent | বিশিষ্ট; সম্মানিত; উচ্চ পদে; উন্নত; মহিমান্বিত; চমৎকার
+Ali Raza (আলি রাজা) – The High; Exalted One; Hope | উচ্চ; মহিমান্বিত; আশা
+Alam / Aalam (আলম / আলাম) – The whole world; World; Universe | সমগ্র বিশ্ব; বিশ্ব; মহাবিশ্ব
+Almir (আলমির) – Prince | রাজকুমার
+Altamash (আলতামাশ) – Army Chief | সেনাবাহিনীর প্রধান
+Altaf (আলতাফ) – Kinder; More gentle; Gracious; Tender | দয়ালু; আরও কোমল; করুণাময়; স্নেহশীল
+Amal (আমল) – Aspiration | উচ্চাকাঙ্ক্ষা
+Aman / Amaan (আমান) – Safety; Protection; Peace; Without fear | নিরাপত্তা; সুরক্ষা; শান্তি; ভয়হীন
+Ameen / Amin (আমিন) – Trustworthy; Honest; Faithful | বিশ্বস্ত; সৎ; বিশ্বস্ত
+Amir / Ameer (আমির / আমীর) – Ruler; Prince; Rich; Prosperous; Populous | শাসক; রাজকুমার; ধনী; সমৃদ্ধ; জনবহুল
+Amjad (আমজাদ) – Greater Glory; More Glorious | অধিক মহিমা; অধিক গৌরবময়
+Ammar (আম্মার) – Prosperous; Long-lived; God-fearing; Pious; The builder; Constructor | সমৃদ্ধ; দীর্ঘজীবী; আল্লাহ-ভীরু; ধার্মিক; নির্মাতা; কারিগর
+Amr (আমর) – Old Arabic name | একটি পুরোনো আরবি নাম
+Anam (আনম) – Blessing; Grace; Reward | আশীর্বাদ; অনুগ্রহ; পুরস্কার
+Anas (আনাস) – Affection; Love; Pleasant companionship; Friendliness; A group of people | স্নেহ; ভালোবাসা; আনন্দদায়ক সাহচর্য; বন্ধুত্ব; একদল লোক
+Anees / Anis (আনিস) – Companion; Close friend; Friendly; Lover; Genial | সঙ্গী; ঘনিষ্ঠ বন্ধু; বন্ধুত্বপূর্ণ; প্রেমিক; প্রফুল্ল
+Anjum (আনজুম) – Stars | তারকা
+Ansar / Ansari (আনসার / আনসারী) – The first people who converted to Islam; Helpful; Relation through ancestry | যারা প্রথমে ইসলাম গ্রহণ করেছিলেন; সহায়ক; বংশগত সম্পর্ক
+Antar (আন্তার) – Rush boldly into danger | সাহসের সাথে বিপদে ঝাঁপিয়ে পড়া
+Anwar (আনওয়ার) – Light; Most bright; Most beautiful | আলো; সবচেয়ে উজ্জ্বল; সবচেয়ে সুন্দর
+Aqib (আকিব) – See Aaqib | Aaqib দেখুন
+Arabi / Arab (আরবি / আরব) – Arabian; Wish; Desire | আরবীয়; ইচ্ছা; আকাঙ্ক্ষা
+Arfan (আরফান) – Intelligent | বুদ্ধিমান
+Arham (আরহাম) – Mercy; Compassion; Kindness; Compassionate; Kind | দয়া; সহানুভূতি; করুণা; সহানুভূতিশীল; দয়ালু
+Arish (আরিশ) – Righteous; Noble; A brave soldier | ধার্মিক; সম্মানিত; একজন সাহসী সৈনিক
+Ariz / Aariz (আরিস / আরিজ) – Respectable man; Strong; Intelligent | সম্মানিত ব্যক্তি; শক্তিশালী; বুদ্ধিমান
+Arman / Armaan (আরমান) – Wish; Ultimate goal; Greatest desire; Soldier; Famous bearer | ইচ্ছা; চূড়ান্ত লক্ষ্য; সবচেয়ে বড় ইচ্ছা; সৈনিক; বিখ্যাত ধারক
+Arqam (আরকাম) – Writer; The best recorder | লেখক; সর্বোত্তম রেকর্ডকারী
+Arsal (আরসাল) – The one who was sent | যাকে পাঠানো হয়েছিল
+Arshan (আরশান) – Strong and brave man; A character in Shahnameh (Kavous' brother) | শক্তিশালী এবং সাহসী মানুষ; শাহনামেহ-এর একটি চরিত্র (কাভৌসের ভাই)
+Arshad (আরশাদ) – Better guided; Honest; Most rightly guided; Reasonable; Upright; Well-guided | আরও ভালোভাবে পরিচালিত; সৎ; সবচেয়ে সঠিক পথে পরিচালিত; যুক্তিসঙ্গত; ন্যায়পরায়ণ; ভালোভাবে পরিচালিত
+Arshman (আরশমান) – Pride of sky; Prince throne; King of the heavens | আকাশের গর্ব; রাজসিংহাসন; স্বর্গের রাজা
+Arslan / Arsalan / Aslan / Azlan (আরসালান / আরসালান / আস্লান / আজলান) – Lion; Brave man; Warrior; Fearless; Courageous man | সিংহ; সাহসী মানুষ; যোদ্ধা; নির্ভীক; সাহসী মানুষ
+Ashar (আশার) – Wise; Prudent; One who has wisdom; Liveliness | জ্ঞানী; বিচক্ষণ; যার প্রজ্ঞা আছে; প্রাণবন্ততা
+Ashfaq (আশফাক) – Noble Prince | সম্মানিত রাজকুমার
+Ashiq (আশিক) – Lover; Fancier | প্রেমিক; ভক্ত
+Ashraf (আশরাফ) – Most honourable | সবচেয়ে সম্মানিত
+Ashur (আশুর) – Month in the Islamic calendar | ইসলামিক ক্যালেন্ডারের একটি মাস
+As'ad (আস'আদ) – Fortunate; Virtuous; Happy | ভাগ্যবান; সৎ; সুখী
+Asaad (আস'আদ) – Happy; Fortunate; Virtuous | সুখী; ভাগ্যবান; সৎ
+Asad (আসাদ) – Lion; Virtuous; Fortunate; Severe; Excessive | সিংহ; সৎ; ভাগ্যবান; কঠোর; অতিরিক্ত
+Asgar (আসগার) – Devotee | ভক্ত
+Asif (আসিফ) – Forgiveness; Strong; Powerful; Fierce; Bold; Courageous; Companion of Prophet Suleiman | ক্ষমা; শক্তিশালী; পরাক্রমশালী; হিংস্র; সাহসী; বীর; নবী সুলাইমান (আঃ)-এর সঙ্গী
+Asim (আ'সিম) – Guardian; Protector; Shield; Rescuer | অভিভাবক; রক্ষক; ঢাল; উদ্ধারকারী
+Aslam (আসলাম) – Safer; Very safe; Safeguarded; Freer | আরও নিরাপদ; খুব নিরাপদ; সুরক্ষিত; আরও মুক্ত
+Aslan / Azlan / Arsalan (আস্লান / আজলান / আরসালান) – See above (Lion) | উপরে দেখুন (সিংহ)
+As-Samad (আস-সামাদ) – The eternal (included if needed) | চিরন্তন (যদি প্রয়োজন হয়)
+Aswad (আসওয়াদ) – Black | কালো
+Athar (আথার) – Very pious; Neat and clean; Pure; Chaste | খুব ধার্মিক; পরিচ্ছন্ন; বিশুদ্ধ; পবিত্র
+Atah / Ataa (আ'তা / আ'তা) – Gift | উপহার
+Atif / Aatif (আতিফ) – Compassionate; Kind; Generous; Sympathetic | সহানুভূতিশীল; দয়ালু; উদার; সহানুভূতিশীল
+Aun (আউন) – Friend; Helper | বন্ধু; সহায়ক
+Auman / Amun (আওমান / আমুন) – Trustworthy; God of Mystery; Strong; Bold | বিশ্বস্ত; রহস্যের দেবতা; শক্তিশালী; সাহসী
+Ayaan / Aayan / Ayyan / Ayan (আয়্যান / আয়ান) – Gift of God; God’s Gift; Reward; Blessing; Generosity; Manifest; Time; Era; Epoch | আল্লাহর দান; আল্লাহর উপহার; পুরস্কার; আশীর্বাদ; উদারতা; প্রকাশ; সময়; যুগ; অধ্যায়
+Ayaz (আইয়াজ) – Cool breeze; Night breeze; A servant of Sultan Mehmood | ঠাণ্ডা বাতাস; রাতের বাতাস; সুলতান মাহমুদ-এর একজন সেবক
+Ayub / Ayoub (আইয়ুব) – A Prophet's name; Job (Biblical equivalent) | একজন নবীর নাম; জব (বাইবেলের সমতুল্য)
+Ayyash (আইয়্যাশ) – Bread seller | রুটি বিক্রেতা
+Azal (আজল) – That which does not have a beginning | যার কোনো শুরু নেই
+Azam / Azzam (আজম / আজ্জাম) – Great; Determined; Resolved | মহান; দৃঢ়প্রতিজ্ঞ; সংকল্পবদ্ধ
+Azaan / Azan (আযান) – Call to prayer; Announcement; Power; Strength | নামাজের জন্য আহ্বান; ঘোষণা; শক্তি; ক্ষমতা
+Azhaan (আজহান) – Geniuses; Intellects; Wits; Abilities | প্রতিভাবান; বুদ্ধিমান; তীক্ষ্ণবুদ্ধি; ক্ষমতা
+Azhar (আজহার) – Flowers; Blossoms; The most shining; Luminous | ফুল; পুষ্প; সবচেয়ে উজ্জ্বল; দীপ্তিময়
+Aziz (আজিজ) – Noble; Exalted; Lofty; Extraordinary; Powerful; Mighty | সম্মানিত; উন্নত; উচ্চ; অসাধারণ; শক্তিশালী; পরাক্রমশালী
+Azli (আজলি) – From the beginning | শুরু থেকে
+Azmat (আজমত) – The greatness | মহত্ত্ব
+        `.trim();
+
+        const namesContainer = document.getElementById('names-container');
+
+        const names = namesData.split('\n').filter(line => line.trim() !== '');
+
+        names.forEach(line => {
+            const [nameSection, meaningSection] = line.split('–');
+            if (nameSection && meaningSection) {
+                const [englishMeaning, bengaliMeaning] = meaningSection.split('|');
+
+                const card = document.createElement('div');
+                card.className = 'name-card';
+
+                const nameHeader = document.createElement('h3');
+                nameHeader.textContent = nameSection.trim();
+
+                const englishMeaningParagraph = document.createElement('p');
+                englishMeaningParagraph.textContent = englishMeaning.trim();
+
+                const bengaliMeaningSpan = document.createElement('span');
+                bengaliMeaningSpan.className = 'bengali-text';
+                bengaliMeaningSpan.textContent = bengaliMeaning.trim();
+
+                card.appendChild(nameHeader);
+                card.appendChild(englishMeaningParagraph);
+                card.appendChild(bengaliMeaningSpan);
+                namesContainer.appendChild(card);
+            }
+        });
+    </script>
+</body>
+</html>

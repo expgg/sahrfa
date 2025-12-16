@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Tracker</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for dark theme and Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F172A; /* Slate 900 */
+            color: #E2E8F0; /* Slate 200 */
+        }
+        .container {
+            max-width: 960px;
+        }
+        .medicine {
+            transition: all 0.3s ease-in-out;
+        }
+        .medicine:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        /* Custom checkbox styling */
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #60A5FA; /* Blue 400 */
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            background-color: #1E293B; /* Slate 800 */
+            transition: all 0.2s ease-in-out;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #60A5FA; /* Blue 400 */
+            border-color: #60A5FA;
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: '\2713'; /* Checkmark character */
+            display: block;
+            color: #1E293B; /* Slate 800 */
+            font-size: 18px;
+            text-align: center;
+            line-height: 22px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .time-slot.completed .time-text {
+            text-decoration: line-through;
+            color: #94A3B8; /* Slate 400 */
+        }
+        /* Collapsible content styles */
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .collapsible-content.expanded {
+            max-height: 2000px; /* Increased to accommodate more content */
+            transition: max-height 0.6s ease-in;
+        }
+        .toggle-arrow {
+            transition: transform 0.3s ease-in-out;
+        }
+        .toggle-arrow.rotate {
+            transform: rotate(180deg);
+        }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #1a202c; /* Dark background for modal */
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limit height for responsiveness */
+            overflow-y: auto; /* Enable scrolling for long content */
+            color: #e2e8f0; /* Light text */
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            color: #e2e8f0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #60A5FA;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Lock screen specific styles */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0F172A; /* Dark background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000; /* Ensure it's on top of everything */
+            color: #E2E8F0;
+            text-align: center;
+        }
+        #lockScreen.hidden {
+            display: none;
+        }
+        .lock-form {
+            background-color: #1a202c;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .lock-form input[type="text"],
+        .lock-form input[type="password"] {
+            background-color: #2D3748; /* Darker input background */
+            border: 1px solid #4A5568;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #E2E8F0;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .lock-form input::placeholder {
+            color: #A0AEC0;
+        }
+        .lock-form button {
+            background-color: #4299E1; /* Blue for login button */
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .lock-form button:hover {
+            background-color: #3182CE;
+        }
+        #loginError {
+            color: #FC8181; /* Red for error message */
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        /* Hide main content initially */
+        #mainContent {
+            display: none;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8 flex justify-center items-center min-h-screen">
+    <!-- Lock Screen -->
+    <div id="lockScreen">
+        <div class="lock-form">
+            <h2 class="text-3xl font-bold text-sky-400 mb-4">লক স্ক্রীন (Lock Screen)</h2>
+            <input type="text" id="usernameInput" placeholder="ইউজারনেম (Username)">
+            <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড (Password)">
+            <button id="loginButton">লগইন করুন (Login)</button>
+            <p id="loginError" class="text-red-400 hidden">ভুল ইউজারনেম বা পাসওয়ার্ড (Incorrect username or password)</p>
+        </div>
+    </div>
+
+    <!-- Main Content (initially hidden) -->
+    <div id="mainContent" class="container bg-slate-800 p-6 sm:p-8 rounded-xl shadow-2xl w-full border border-slate-700">
+        <!-- Header for Medication Plan -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-sky-400 mb-3 rounded-lg p-3 bg-slate-700 shadow-inner">আপনার ঔষধের তালিকা</h1>
+            <p class="text-lg sm:text-xl text-slate-300">Your Medication List</p>
+            <button id="clearCheckmarks" class="mt-4 px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition duration-300">
+                <i class="fas fa-undo mr-2"></i> সমস্ত চেকমার্ক সরান
+            </button>
+        </header>
+
+        <!-- Medication Plan Section -->
+        <section class="mb-8 p-4 bg-slate-700 rounded-lg shadow-lg border border-slate-600">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-emerald-300"><i class="fas fa-pills mr-2"></i> ঔষধের বিবরণ:</h2>
+            <div id="medication-list" class="space-y-6">
+                <!-- Medication items will be rendered here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- General Advice Section -->
+        <section class="p-4 bg-slate-700 rounded-lg shadow-lg border border-slate-600">
+            <h2 class="text-xl sm:text-2xl font-bold mb-3 text-amber-300"><i class="fas fa-lightbulb mr-2"></i> গুরুত্বপূর্ণ সাধারণ পরামর্শ:</h2>
+            <ul class="list-disc pl-6 text-slate-200">
+                <li class="mb-2">নিয়মিতভাবে সব ঔষধ সেবন করুন।</li>
+                <li class="mb-2">প্রস্রাব ও পায়খানার পর কুসুম গরম লবণ পানি ব্যবহার করুন।</li>
+                <li class="mb-2">মাসিকের সময় ৬ ঘণ্টার বেশি স্যানিটারি প্যাড রাখবেন না।</li>
+                <li class="mb-2">পুষ্টিকর খাবার খান।</li>
+                <li class="mb-2">কিছু বুঝতে সমস্যা হলে ডাক্তারের সাথে যোগাযোগ করুন।</li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- Alternative Meds Modal Structure -->
+    <div id="alternativesModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <h2 id="modalTitle" class="text-2xl font-bold text-sky-400 mb-4"></h2>
+            <div id="modalContent">
+                <!-- Alternatives will be loaded here -->
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+                <button id="generateMoreAlternativesBtn" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 transition duration-300">
+                    <i class="fas fa-sync-alt mr-2"></i> আরও বিকল্প তৈরি করুন
+                </button>
+                <button id="copyAlternativesBtn" class="px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-75 transition duration-300">
+                    <i class="fas fa-copy mr-2"></i> বিকল্পগুলি কপি করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Lock Screen Logic ---
+        const lockScreen = document.getElementById('lockScreen');
+        const mainContent = document.getElementById('mainContent');
+        const usernameInput = document.getElementById('usernameInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginButton = document.getElementById('loginButton');
+        const loginError = document.getElementById('loginError');
+
+        const CORRECT_USERNAME = 'gamli';
+        const CORRECT_PASSWORD = '5600';
+
+        loginButton.addEventListener('click', () => {
+            const enteredUsername = usernameInput.value;
+            const enteredPassword = passwordInput.value;
+
+            if (enteredUsername === CORRECT_USERNAME && enteredPassword === CORRECT_PASSWORD) {
+                lockScreen.classList.add('hidden');
+                mainContent.style.display = 'block'; // Show the main content
+                renderMedications(); // Render medications once logged in
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        // Optional: Allow pressing Enter to log in
+        passwordInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                loginButton.click();
+            }
+        });
+
+        // Hide main content on initial load until logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            mainContent.style.display = 'none'; // Ensure main content is hidden initially
+            lockScreen.classList.remove('hidden'); // Ensure lock screen is visible
+        });
+
+        // --- Existing Medication Tracker Logic (rest of your script) ---
+
+        const medicationData = [
+            {
+                id: "ciprocin",
+                name: "Ciprocin 500 mg",
+                nameBn: "সিপ্রোসিন ৫০০ মি.গ্রা.",
+                purpose: "Antibiotic to treat bacterial infections.",
+                purposeBn: "ভিতরের ইনফেকশন সারানোর জন্য অ্যান্টিবায়োটিক।",
+                howToUse: "Take with water. Finish the full course of medication even if you feel better.",
+                howToUseBn: "পানির সাথে গ্রহণ করুন। সুস্থ বোধ করলেও ঔষধের পুরো কোর্স শেষ করুন।",
+                schedule: {
+                    morning: { dose: "1 tablet", quantity: 1 },
+                    midday: { dose: "", quantity: 0 },
+                    evening: { dose: "1 tablet", quantity: 1 },
+                    night: { dose: "", quantity: 0 }
+                },
+                scheduleBn: {
+                    morning: "১ টি ট্যাবলেট",
+                    midday: "",
+                    evening: "১ টি ট্যাবলেট",
+                    night: ""
+                },
+                duration: "7 days",
+                durationBn: "৭ দিন",
+                tags: ["Antibiotic", "Infection"],
+                tagsBn: ["অ্যান্টিবায়োটিক", "সংক্রমণ"],
+                unitPrice: 15.05, // Price per tablet (৳)
+                courseDurationDays: 7,
+                details: {
+                    indications: `সিপ্রোসিন একক সংক্রমণ এবং দুই বা ততোধিক সংবেদনশীল অনুজীব দ্বারা সৃষ্ট মিশ্র সংক্রমণে নির্দেশিত। এ্যামাইনোগ্লাইকোসাইড, পেনিসিলিনসমূহ এবং সেফালোসপরিনসহ অন্য এন্টিবায়টিকে রেজিস্ট্যান্ট অনুজীব দ্বারা সৃষ্ট সংক্রমণেও এর ব্যবহার হয়ে থাকে। যেহেতু মুখে সেবনের পর সিপ্রোসিন সেরামে, টিস্যুতে এবং মুত্রে ব্যাকটেরিয়া বিরোধী ঘনত্বে উপস্থিত থাকে, সেহেতু সংবেদশীল অনুজীব দ্বারা সৃষ্ট বহুবিধ সংক্রমণের চিকিৎসায় যথা মুত্রতন্ত্র ও শ্বাসতন্ত্রের সংক্রমণ, গণোরিয়া, সেপটিসেমিয়া ইত্যাদিতে সিপ্রোসিন নির্দেশিত হয়। টিস্যুতে ব্যাপক অন্তর্ভেদ এবং অধিকতর ব্যকটেরিয়া বিরোধী কার্যক্ষমতার জন্যে (সিডোমোনাস বিরোধী কার্যক্ষমতাসহ) সিপ্রোসিনকে সেনসিটিভিটি পরীক্ষা ব্যাতিরেকেই এককভাবে বা এ্যামাইনোগ্লাইকোসাইড/বিটা ল্যাকটাম এন্টিবায়োটিক সহযোগে, তীব্র নিউট্রোপেনিয়ায় ব্যবহার করা যায় অথবা ব্যাকটেরয়েডস ফ্রাজিলিস এর উপস্থিতি ধারণা করা হলে এ্যানারোব এর বিরুদ্ধে কার্যকরী এন্টিবায়োটিকের সাথেও সিপ্রোসিন ব্যবহার করা হয়। সিপ্রোসিন সংবেদশীল ব্যাকটেরিয়া দ্বারা সৃষ্ট নিম্নলিখিত সংক্রমণ সমূহে নির্দেশিত হয়ঃ<br><br><strong>তীব্র সিসটেমিক সংক্রমণ</strong>: সেপটিসেনিয়া, ব্যাকটেরিমিয়া, পেরিটোনাইটিস, হেমাটোলজিক্যাল অথবা কঠিন টিউমার সম্বলিত ইমিউনো সাপ্রেসড রোগীদের সংক্রমণে এবং ইনটেনসিভ কেয়ার ইউনিটে অবস্থিত রোগী যাদের নির্দিষ্ট কোন জটিলতা যথা সংক্রমিত ক্ষত রয়েছে এদের ক্ষেত্রে। <br><br><strong>শ্বাসতন্ত্র সংক্রমণ</strong>: লোবার নিউমোনিয়া, ব্রঙ্কোনিউমোনিয়া, তীব্র ও জটিল ব্রঙ্কাইটিস, সিসটিক ফাইব্রোসিসের জটিলতা, ব্রঙ্কিয়েকটেসিস এবং এমপায়িমা।<br><br><strong>মূত্রতন্ত্র সংক্রমণ</strong>: জটিল এবং জটিল নয় এরূপ মূত্রনালীর সংক্রমণ, সিসটাইটিস, পাইলোনেফ্রাইটিস, প্রস্টেটাইটিস, ইপিডিডাইমিটিস। <br><br><strong>ত্বক ও কোমল কোষ কলার সংক্রমণ</strong>: সংক্রমণযুক্ত আলসার, ক্ষতের সংক্রমণ, এ্যাবসেস, সেলুলাইটিস, ওটাইটিস এক্সটারনা, ইরিসিপেলাস, সংক্রমিত ক্ষত। <br><br><strong>পাকান্ত্রিক সংক্রমণ</strong>: আন্ত্রিক জ্বর সংক্রমনজনিত ডায়ারিয়া। <br><br><strong>বিলিয়ারীপথের সংক্রমণ</strong>: কলানজাইটিস, কলেসিসটাইটিস, গলব্লাডারে পুজসঞ্চায়ন। <br><br><strong>অন্ত:উদরীয় সংক্রমন</strong>: পেরিটোনাইটিস, অন্ত: উদরীয় এ্যাবসেস। <br><br><strong>অস্থি ও অস্থিসন্ধির সংক্রমণ</strong>: অষ্টিওমাইলাইটিস, সেপটিক আর্থ্রাইটিস।<br><br><strong>পেলভিক সংক্রমণ</strong>: স্যালপিনজাইটিস, এন্ডোমেট্রাইটিস, পেলভিক ইনফ্লামেটরী ব্যাধি।<br><br><strong>চোখ, নাক, কান ও গলার সংক্রমণ</strong>: ওটাইটিস মিডিয়া, সাইনুসাইটিস ম্যাসটয়ডাইটিস, টনসিলাইটিস। <br><br><strong>গনোরিয়া</strong>: ইউরেথ্রাল, রেকটাল এবং ফ্যারিঞ্জিয়াল গনোরিয়াসহ বিটা ল্যাকটামেজ নি:সরণকারী জীবাণু বা পেনিসিলিনে মাঝারী ধরনের সংবেদনশীল জীবাণু দ্বারা সৃষ্ট গনোরিয়া<br><br><strong>মাইক্রোবায়োলজি</strong>: দেহ বহির্ভূত পরীক্ষায় দেখা গেছে যে সিপ্রোসিনের বাকটেরিয়া বিরোধী কার্যকারিতা, ব্যাকটেরিয়ার ডি.এন.এ জাইরেজ এর প্রশমনের দরুন হয়ে থাকে। সিপ্রোসিনের কার্যকারিতার এই পদ্ধতি অন্যান্য এন্টিবায়োটিক যথা পেনিসিলিন, সেফালোসপরিন, এ্যামাইনোগ্লাইকোসাইড এবং টেট্রাসাইক্লিনের তুলনায় ভিন্ন সুতরাং এসব এন্টিবায়োটিকে রেজিস্ট্যান্ট অনুজীব সমূহ সাধারনত: সিপ্রোসিনের প্রতি সংবেদনশীল হয়ে থাকে।`,
+                    pharmacology: `সিপ্রোফ্লক্সাসিন একটি কুইনোলোন গ্রুপের একটি সংক্রমণ রোধী ওষুধ। সিপ্রোফ্লক্সাসিন একটি প্রশস্ত বর্ণালীর এন্টিবায়োটিক। ইহা বেশীর ভাগ গ্রাম-নেগেটিভ এরোবিক ব্যাকটেরিয়া যেমন এন্টারোব্যাকটেরিয়েসি, স্যুডোমোনাস এরোজিনোসা এর বিরুদ্ধে কার্যকরী। সিপ্রোফ্লক্সাসিন গ্রাম-পজেটিভ ব্যাকটেরিয়া যেমন পেনিসিলিনেজ উৎপাদনকারী ব্যাকটেরিয়া, যে সমস্ত ব্যাকটেরিয়া পেনিসিলিনেজ তৈরী করতে পারে না এবং মেথিসিলিন রেজিস্ট্যান্ট স্ট্যাফাইলোকক্কাই এর বিরুদ্ধে কার্যকরী, যদিও সিপ্রোফ্লক্সাসিন স্ট্যাফাইলোকক্কাই এর অনেক স্ট্রেইন এর বিরুদ্ধে রেজিস্ট্যান্ট। সিপ্রোফ্লক্সাসিন ডিএনএ জাইরেজ এনজাইমের সাথে যুক্ত হয়ে ব্যাকটেরিয়ার ডিএনএ সংশ্লেষনে বাধা দান করে।<br><br>মুখে খাবার পর সিপ্রোফ্লক্সাসিন দ্রুত ভালভাবে পরিপাকনালী থেকে বিশোষিত হয় এবং দেহ তন্ত্র ও দেহ রসে খুব ভাল ভাবে বিস্তৃত হয়। ইহার হাফ-লাইফ ৩.৫ ঘন্টা। মুখে খাওয়ার পর ৩০%-৫০% সিপ্রোফ্লক্সাসিন মুত্রের সাথে অপরিবর্তিত এবং কার্যকরী মেটাবোলাইট হিসাবে ২৪ ঘণ্টায় দেহ থেকে নিঃসরিত হয়।`,
+                    sideEffects: `পরিপাকতান্ত্রিক অসুবিধা যেমন- বমিভাব, ডায়রিয়া, বমি, হজমক্রিয়ায় গোলযোগ, তলপেটে ব্যথা। কেন্দ্রীয় স্নায়ুতন্ত্রের অসুবিধা যেমন- মাথা ব্যথা, ঝিমুনি, বিভ্রান্তি, খিচুনি এবং রেটিনাল বিচ্ছিন্নতার ঝুঁকি। অতিসংবেদনশীলতা যেমন- গায়ে ফুসকুড়ি (কদাচিৎ স্টিভেন-জনসন সিনড্রোম এবং টক্সিক এপিডারমাল নেক্রোলাইসিস), প্রুরাইটিস এবং সম্ভাব্য সিস্টেমিক বিক্রিয়া। অন্যান্য বিরল পার্শ্বপ্রতিক্রিয়াগুলো হলো- অস্থিসন্ধিতে ব্যথা, যকৃত এনজাইম, বিলিরুবিন, ইউরিয়া অথবা ক্রিয়েটিনাইন-এর সাময়িক বৃদ্ধি। হাইপোগ্লাইসেমিয়া ও মানসিক স্বাস্থ্যের উপর বিরুপ প্রতিক্রিয়ার ঝুঁকি। টেনডিনাইটিস ও টেনডন রাপচার এর ঝুঁকি বৃদ্ধি করতে পারে।`,
+                    drugInteraction: `ম্যাগনেসিয়াম/এ্যালুমিনিয়াম জাতীয় এন্টাসিড, সুক্রালফেট অথবা ক্যালসিয়াম, আয়রন এবং জিংক এর উপস্থিতি আছে এমন কোন ঔষধ সিপ্রোসিনের সাথে সেবনযোগ্য নয়। এগুলো সেবনের ছয় ঘন্টা পূর্বে অথবা দুই ঘন্টা পর সিপ্রোসিন সেবনযোগ্য। দুধ অথবা দুগ্ধজাত খাবারের সাথে সিপ্রোসিন সেবনযোগ্য নয়। কারণ এতে করে সিপ্রোসিন এর পরিশোষণ দারুণভাবে কমে যায়। খাদ্যের ক্যালসিয়াম সিপ্রোসিন এর শোষণকে প্রভাবিত করে না।`,
+                    contraindications: `সিপ্রোফ্লক্সাসিন এবং অন্যান্য কুইনোলোন গ্রুপের ওষুধের প্রতি অতিসংবেদনশীল রোগীদের ক্ষেত্রে এই ওষুধ দেয়া যাবে না।`,
+                    pregnancyLactation: `ইঁদুর, খরগোশ ইত্যাদির ক্ষেত্রে সিপ্রোফ্লক্সাসিন মুখে সেবনের পর এবং ইনজেকশন দেবার পর বংশ বৃদ্ধির প্রক্রিয়া পর্যবেক্ষণ করে ভ্রুণের গঠন বিকৃতি, বংশ বিস্তার ক্ষমতার ক্ষতি হওয়া, প্রসবপূর্ব বা প্রসবোত্তর কালীন সময়ে বৃদ্ধির উপর এর কোন প্রভাব দেখা যায় নি। তবে অন্যান্য কুইনোলোনের মত সিপ্রোফ্লক্সাসিন অপরিণত জীবের ক্ষেত্রে আর্থোপ্যাথি সৃষ্টি করতে পারে এবং সে কারণে গর্ভকালীন অবস্থায় এর ব্যবহার নিদের্শিত নয়। ইঁদুরের উপর পরীক্ষায় দেখা গেছে যে সিপ্রোফ্লক্সাসিন দুগ্ধে নিঃসৃত হয় কাজেই স্তন্যদানরত মায়েদের ক্ষেত্রে এর ব্যবহার সুপারিশ করা হয় না।`,
+                    precautions: `যে সমস্ত রোগীর স্নায়ুতন্ত্রীয় অসুস্থতা যেমন: আর্টারিওসক্লেরোসিস অথবা এপিলেপসি অথবা সেইজর এবং খিঁচুনী হওয়ার সম্ভাবনা আছে এমন রোগীদের ক্ষেত্রে সিপ্রোসিন সাবধানতার সাথে দিতে হবে।<br><br>সিপ্রোসিন আহারের পূর্বে অথবা পরে খাওয়া যায়, সাথে প্রচুর পানীয় নেয়া প্রয়োজন।<br><br>ম্যাগনেসিয়াম / এলুমিনিয়াম এন্টাসিড, সুক্রালফেট অথবা ক্যালসিয়াম, আয়রণ এবং জিংক এর উপস্থিতি আছে এমন কোন ওষুধ সিপ্রোসিনের সাথে সেবনযোগ্য নয়। এগুলো সেবনের ছয় ঘন্টা পূর্বে অথবা দুই ঘন্টা পর সেবনযোগ্য।<br><br>দুধ এবং দুগ্ধজাত পণ্য এর সাথে সিপ্রোসিন সেবনযোগ্য নয়। কারণ এতে করে সিপ্রোসিন এর শোষণ দারুণভাবে কমে যায়। খাদ্যের ক্যালসিয়াম সিপ্রোসিন এর শোষণকে প্রভাবিত করে না।`,
+                    storage: `আলো ও আর্দ্রতা থেকে দূরে, ৩০°সেঃ তাপমাত্রার নীচে রাখুন। শিশুদের নাগালের বাইরে রাখুন।`
+                }
+            },
+            {
+                id: "filmet",
+                name: "Filmet 400 mg",
+                nameBn: "ফিলমেট ৪০০ মি.গ্রা.",
+                purpose: "An antimicrobial medication used to treat various bacterial and parasitic infections.",
+                purposeBn: "বিভিন্ন ব্যাকটেরিয়া ও পরজীবী সংক্রমণ সারাতে ব্যবহৃত একটি অ্যান্টিমাইক্রোবিয়াল ঔষধ।",
+                howToUse: "Take with water, preferably with food to avoid stomach upset.",
+                howToUseBn: "পানির সাথে গ্রহণ করুন, পেটের অস্বস্তি এড়াতে খাবারের সাথে সেবন করা ভালো।",
+                schedule: {
+                    morning: { dose: "1 tablet", quantity: 1 },
+                    midday: { dose: "", quantity: 0 },
+                    evening: { dose: "1 tablet", quantity: 1 },
+                    night: { dose: "1 tablet", quantity: 1 }
+                },
+                scheduleBn: {
+                    morning: "১ টি ট্যাবলেট",
+                    midday: "",
+                    evening: "১ টি ট্যাবলেট",
+                    night: "১ টি ট্যাবলেট"
+                },
+                duration: "5 days",
+                durationBn: "৫ দিন",
+                tags: ["Antibiotic", "Triple Dose"],
+                tagsBn: ["অ্যান্টিবায়োটিক", "ট্রিপল ডোজ"],
+                unitPrice: 1.70, // Price per tablet (৳)
+                courseDurationDays: 5,
+                details: {
+                    indications: `ফিলমেট নিম্নলিখিত রোগের চিকিৎসায় ব্যবহৃত হয়ঃ<br>
+<ul>
+<li>এনারুবিক ব্যাকটেরিয়া জনিত (বিশেষ করে ব্যাকটেরয়েড ও এনারুবিক স্ট্রেপটোকক্কি) অস্ত্রোপচার পরবর্তী সংক্রমণ প্রতিরোধে।</li>
+<li>এনারুবিক জীবাণু দ্বারা সংক্রমিত সেপটিসেমিয়া, ব্যাকটেরেমিয়া, পেরিটোনাইটিস, ব্রেইন এব্সেস, পেলভিক এব্সেস, পেলভিক সেলুলাইটিস ও অস্ত্রোপচার পরবর্তী ক্ষতের সংক্রমণের চিকিৎসায়।</li>
+<li>ইউরোজেনিটাল ট্রাইকোমোনিয়াসিসের চিকিৎসায়।</li>
+<li>ব্যাকটেরিয়াল ভ্যাজিনোসিস (যা নন-স্পেসিফিক ভ্যাজিনোসিস হিসেবে পরিচিত)।</li>
+<li>সকল ধরনের এ্যামেবিয়াসিস (ইনটেস্টিনাল, এক্সট্রা-ইনটেস্টিনাল এবং রোগের লক্ষণবিহীন কিন্তু সিস্ট&nbsp; বহনকারী অবস্থা)।</li>
+<li>জিয়ারডিয়াসিস।</li>
+<li>তীব্র আলসারেটিভ জিনজিভাইটিস।</li>
+<li>এনারুবিক জীবাণু দ্বারা সংক্রমিত পায়ের ঘা এবং প্রেসার র্সোস।</li>
+<li>এনারুবিক জীবাণুজনিত দাঁতের তীব্র সংক্রমণ।</li>
+<li>এন্টিবায়োটিক ব্যবহারজনিত সিউডোমেমব্রেনাস কলাইটিস।</li>
+</ul>`,
+                    pharmacology: `মেট্রোনিডাজল ইমিডাজল জাতীয় একটি ব্যাকটেরিয়া বিরোধী ঔষধ এবং চিকিৎসাক্ষেত্রে এটি প্রোটোজোয়া বিরোধী হিসেবে কাজ করে। এনারুবিক জীবাণু দ্বারা মেট্রোনিডাজলের ৫-নাইট্রো গ্রূপটি বিজারিত হয় এবং পরীক্ষণে দেখা যায় যে, এই বিজারিত মেট্রোনিডাজল এনারুবিক জীবাণুর DNA-এর উপর কাজ করে ব্যাকটেরিসাইডাল কার্যকারিতা দেয়।`,
+                    sideEffects: `চিকিৎসার সময় ধাতব স্বাদ, বমি বমি ভাব, বমি, ডায়রিয়া, তন্দ্রাচ্ছন্নতা, রেশ দেখা যেতে পারে।`,
+                    drugInteraction: `<strong>ডাইসালফাইরাম</strong>: ফিলমেট এবং ডাইসালফাইরাম এক সাথে ব্যবহার করলে মানসিক প্রতিক্রিয়ার উদ্ভব হতে পারে বলে রিপোর্ট পাওয়া গেছে।<br><br><strong>অ্যালকোহল</strong>: ফিলমেট দ্বারা চিকিৎসা চলাকালীন সময় এবং শেষ হবার অন্তত ১ দিন পর পর্যন্ত রোগীদের অ্যালকোহল জাতীয় পানীয় সেবন করা থেকে বিরত থাকার পরামর্শ দিতে হবে কারন সেটা ডাইসালফাইরাম প্রতিক্রিয়ার (অ্যানটাবউস ইফেক্ট- ত্বকে অত্যধিক রক্ত সরবরাহ, বমি, দ্রুত হৃদস্পন্দন) কারন হতে পারে।<br><br><strong>এন্টিকোয়াগুলেন্ট চিকিৎসা (ওয়ারফেরিন জাতীয়)</strong>: হেপাটিক ক্যাটাবলিসম কমে যাওয়ার কারনে এন্টিকোয়াগুলেন্ট এর প্রভাব বৃদ্ধি পায় এবং রক্তক্ষরন এর সম্ভবনা বেড়ে যায়। ফিলমেট এর সাথে দেওয়া হলে নিয়মিত প্রোথ্রম্বিন টাইম পর্যবেক্ষণ করতে হবে এবং এন্টিকোয়াগুলেন্ট-এর মাত্রা সমন্বয় করতে হবে।<br><br><strong>লিথিয়াম</strong>: ফিলমেট দ্বারা রক্তের প্লাজমা তে লিথিয়াম এর মাত্রা বৃদ্ধি পেতে পারে।<br><br><strong>সাইক্লোস্পরিন</strong>: সেরাম এ সাইক্লোস্পরিন এবং ক্রিয়েটিনিন এর মাত্রা নিবির ভাবে পর্যবেক্ষণ করতে হবে যদি ফিলমেট এর সাথে দেওয়া হয়।<br><br><strong>ফেনাইটয়েন অথবা ফেনোবারবিটাল</strong>: ফিলমেট নিঃসরণ এর মাত্রা বেড়ে যাওয়ায় প্লাজমাতে পরিমান কমে যায়। <br><br><strong>৫-ফ্লুরোইউরাসিল</strong>: শরীর থেকে নিঃসরণ এর মাত্রা কমে যাওয়ায় ৫-ফ্লুরোইউরাসিল দ্বারা বিষক্রিয়ার সম্ভবনা বৃদ্ধি পায়।<br><br><strong>বিউসালফান</strong>: ফিলমেট প্লাজমাতে বিউসালফান এর পরিমান বাড়িয়ে দেয় যা বিউসালফান জনিত বিষক্রিয়া সৃষ্টি করতে পারে।`,
+                    contraindications: `মেট্রোনিডাজল ও অন্যান্য নাইট্রোইমিডাজল জাতীয় ডেরিভেটিভের প্রতি অতিসংবেদনশীল রোগীদের ক্ষেত্রে মেট্রোনিডাজল ব্যবহার প্রতিনির্দেশিত।`,
+                    pregnancyLactation: `US FDA প্রেগন্যান্সি ক্যাটাগরী অনুযায়ী মেট্রোনিডাজল 'B' জাতীয় ঔষধ । অর্থাৎ, গর্ভাবস্থায় ব্যবহারের সুনিয়ন্ত্রিত ও পর্যাপ্ত তথ্য নেই। যেহেতু প্রাণিজ প্রজনন গবেষণা সর্বদা মানবদেহে কার্যকারিতা সম্বন্ধে পূর্ব ধারণা দেয় না, সেহেতু এই ঔষধটি গর্ভাবস্থায় সুনির্দিষ্টভাবে প্রয়োজন হলেই ব্যবহার করা উচিত। মেট্রোনিডাজল স্তন্যদুগ্ধে নিঃসৃত হয়। সুতরাং, স্তন্যদাত্রী মায়েদের ক্ষেত্রে মেট্রোনিডাজল ব্যবহারে সতর্কতা অবলম্বন করা উচিত ।`,
+                    precautions: `যদি কোন কারনবশত নির্ধারিত সময়কালের অধিক সময় ধরে ফিলমেট দ্বারা চিকিৎসা করতে হয় সেক্ষেত্রে সেবনকারীর রক্ত পরীক্ষা, বিশেষ করে শ্বেত রক্তকনিকার সংখ্যা, নিয়মিত পরীক্ষা করা এবং রোগীর বিরূপ প্রতিক্রিয়া, যেমন- প্রান্তিক ও কেন্দ্রীয় স্নায়ুরোগ (পারেসথেশিয়া অ্যাটাকশিয়া, ঝিম ঝিম লাগা, খিঁচুনি), পর্যবেক্ষণ এর জন্য নজরদারিতে রাখতে হবে।<br><br>ফিলমেট হেপাটিক এনসেফেলোপ্যাথি রোগীদের সতর্কতার সাথে প্রয়োগ করা উচিত।<br><br>রোগীদের সতর্ক করা উচিত যে ফিলমেট মূত্রকে ডার্ক করতে পারে।`,
+                    storage: `৩০° সে তাপমাত্রার নিচে সংরক্ষন করতে হবে। আলো থেকে দূরে রাখতে হবে। শিশুদের নাগালের বাইরে রাখতে হবে। মেয়াদউত্তীর্ণ হয়ে যাওয়ার পর ব্যবহার করা যাবে না।`
+                }
+            },
+            {
+                id: "micosone",
+                name: "Micosone Cream",
+                nameBn: "মাইকোসোন ক্রিম",
+                purpose: "A topical antifungal and anti-inflammatory cream to relieve itching, redness, and irritation.",
+                purposeBn: "চুলকানি, লালভাব এবং জ্বালা উপশমের জন্য একটি টপিকাল অ্যান্টিফাঙ্গাল ও অ্যান্টি-ইনফ্ল্যামেটরি ক্রিম।",
+                howToUse: "Apply a thin layer around the vagina. Wash hands before and after application.",
+                howToUseBn: "যোনির চারপাশে পাতলা করে লাগান। লাগানোর আগে ও পরে হাত ধুয়ে নিন।",
+                schedule: {
+                    morning: { dose: "Apply", quantity: 1 },
+                    midday: { dose: "Apply", quantity: 1 },
+                    evening: { dose: "Apply", quantity: 1 },
+                    night: { dose: "", quantity: 0 }
+                },
+                scheduleBn: {
+                    morning: "প্রয়োগ করুন",
+                    midday: "প্রয়োগ করুন",
+                    evening: "প্রয়োগ করুন",
+                    night: ""
+                },
+                duration: "2 weeks",
+                durationBn: "২ সপ্তাহ",
+                tags: ["Cream", "Antifungal"],
+                tagsBn: ["ক্রিম", "অ্যান্টিফাঙ্গাল"],
+                unitPrice: 50.00, // Price per tube (৳)
+                isCream: true, // Flag to indicate it's a cream and price is per tube
+                details: {
+                    indications: `প্রদাহজনিত ত্বকের রোগে, যেখানে সংবেদনশীল জীবাণু সংক্রমণ ও প্রদাহ যুগ্মভাবে অবস্থান করে যেমন: ইন্টারট্রিগো এবং সংক্রমিত একজিমা-এর বাহ্যিক চিকিৎসায় ব্যবহার্য। শুষ্ক বা আর্দ্র একজিমার জন্য বা এটপিক একজিমা বা প্রাথমিক চুলকানি বা কন্টাক্ট এলার্জিক একজিমা বা সেবরিক একজিমাসহ ব্রন জাতীয় চর্মরোগে ব্যবহার্য। ইনফ্লেমেটরী ইন্টারট্রিগো, পেরিএনাল ও জেনিটাল চর্মরোগ জাতীয় ইন্টারট্রিজিনাস একজিমাতে ব্যবহার্য।`,
+                    pharmacology: `এই ক্রীম মাইকোনাজল নাইট্রেট এবং হাইড্রোকর্টিসন এর সংমিশ্রন। এজোল পরিবারের ইমিডাজল গ্রুপের মাইকোনাজল, সুপার ফেসিয়াল ক্যান্ডিডিয়াসিস, ত্বকের ডার্মাটোফাইটোসিস এবং পিটাইরিয়াসিস ভারসিকালার, একান্থা‌মিবা, স্করবিক ডার্মাটাইটিস এর জন্য খুবই উপকারী। এস্পা‌রজিলাস স্পেসিস, ক্রিপ্‌টোকক্কাকাস নিউফরম্যান্স, সিউডালেশ্চিরিয়া বয়ডি এবং স্টেফাইলোকক্কি এবং স্ট্রেপটোকক্কি সহ কিছু গ্রাম পজিটিভ ব্যাকটেরিয়া এর বিরুদ্ধে খুবই কার্যকরী।<br><br>প্রাকৃতিকভাবে গ্লুকোকরটিকয়েড থেকে প্রাপ্ত হাইড্রোকর্টিসন এখন রাসায়নিক ভাবে তৈরী করা হচ্ছে। ইহা ত্বকের ক্ষত যেমনঃ প্রদাহ জনিত ক্ষত সারাতে গুরুত্বপূর্ণ কাজ করে। ইহার এন্টিপ্রোরাইটিক, এন্টিমাইকোটিক এবং ভেসোকসট্রিকটির কার্যকারিতা আছে। <br><br>কার্যকারিতাঃ মাইকোনাজল একটি ইমিডাজল জাতীয় ছত্রাক বিরোধী উপাদান যা আর্গষ্টেরল তৈরীতে প্রতিবন্ধকতা সৃষ্টি করে। ফলে সংবেদনশীল ফানজাই এর কোষ আবরনীর ভেদ্যতা পরিবর্তিত হয়ে যায়। যা ফানজাই এর মৃত্যু ঘটায়। যখন চামড়ায় প্রয়োগ করা হয় তখন হাইড্রোকর্টিসন চামড়ার কোষে প্রবেশ করে কিছু রাসায়নিক উপাদান নিঃসরনে প্রতিবন্ধকতা তৈরী করে যা প্রদাহের জন্য দায়ী। এভাবে হাইড্রোকর্টিসন প্রদাহ কমায়।`,
+                    sideEffects: `স্থানীয়ভাবে সংবেদনশীলতার ঘটনা বিরল। দীর্ঘদিন ব্যবহারে এ্যাড্রেনাল গ্রন্থি থেকে স্বাভাবিক হরমোন নিঃসরন কমিয়ে দিতে পারে।`,
+                    drugInteraction: `মাইকোনাজলের কার্যক্রমে অ্যাম্ফোটেরিসিন প্রতিবন্ধকতা সৃষ্টি করতে পারে।`,
+                    contraindications: `এই ক্রীম এর প্রতি অথবা এর যে কোন উপাদানের প্রতি সংবেদনশীল রোগীর ক্ষেত্রে ইহা ব্যবহার করা উচিত নয়। চিকিৎসকের পরামর্শ ছাড়া গর্ভবর্তী ও দুগ্ধ প্রদানকারী মায়ের ক্ষেত্রে ব্যবহার করা উচিত নয়।`,
+                    pregnancyLactation: `গর্ভবতী মহিলাদের কর্টিকোস্টেরয়েড প্রয়োগের কারনে ভ্রূণের বিকাশের অস্বাভাবিকতা সৃষ্টি করতে পারে। টপিকাল স্টেরয়েডগুলি গর্ভাবস্থায় ব্যাপকভাবে ব্যবহার করা উচিত নয়।`,
+                    precautions: `রেজিষ্টার্ড চিকিৎসকের পরামর্শক্রমে কেবলমাত্র সরবরাহযোগ্য। শিশুদের নাগালের বাইরে রাখুন। শিশু ও বয়স্কদের জন্য দীর্ঘদিন ব্যবহারের ক্ষেত্রে চিকিৎসকের সাথে পরামর্শ করুন বা সতর্কতা অবলম্বন করুন।`,
+                    storage: `আলো ও আর্দ্রতা থেকে দূরে, ৩০ ডিগ্রী সেঃ তাপমাত্রার নীচে রাখুন। শিশুদের নাগালের বাইরে রাখুন।`
+                }
+            },
+            {
+                id: "hpr",
+                name: "HPR 250 mg",
+                nameBn: "এইচপিআর ২৫০ মি.গ্রা.",
+                purpose: "Likely an analgesic (pain reliever) for menstrual cramps.",
+                purposeBn: "মাসিকের ব্যথার জন্য ব্যথানাশক (ব্যথা উপশমকারী)।",
+                howToUse: "Take on a full stomach when you experience pain during menstruation.",
+                howToUseBn: "মাসিকের সময় ব্যথা হলে ভরা পেটে গ্রহণ করুন।",
+                schedule: {
+                    morning: { dose: "", quantity: 0 },
+                    midday: { dose: "1 tablet (as needed)", quantity: 1 }, // Assuming 1 tablet per dose
+                    evening: { dose: "", quantity: 0 },
+                    night: { dose: "", quantity: 0 }
+                },
+                scheduleBn: {
+                    morning: "",
+                    midday: "১ টি ট্যাবলেট (প্রয়োজনে)",
+                    evening: "",
+                    night: ""
+                },
+                duration: "As needed during menstruation",
+                durationBn: "মাসিকের সময় প্রয়োজনে",
+                tags: ["Pain Relief", "Menstrual"],
+                tagsBn: ["ব্যথা উপশম", "মাসিক"],
+                unitPrice: 4.00, // Price per tablet (৳)
+                // For "as needed", estimating a typical course of 5 days (10 tablets)
+                courseDurationDays: 5,
+                dailyDose: 2, // Assuming 2 tablets/day if used consistently during pain
+                details: {
+                    indications: `এইচপিআর নম্নোক্ত উপসর্গে নির্দেশিত-<br>
+<ul>
+<li>জ্বর</li>
+<li>দাঁতের ব্যথা</li>
+<li>মাথার ব্যথা</li>
+<li>মাইগ্রেন</li>
+<li>প্রাথমিক ডিসমেনোরিয়া</li>
+<li>মেনোরেজিয়া</li>
+<li>বাতের ব্যথা</li>
+<li>কম থেকে মাঝারি মাত্রার ট্রমাটিক ব্যথা</li>
+<li>কোমরের ব্যথা</li>
+<li>তরুণ বয়সে দীর্ঘদিন ধরে বাতের ব্যথা।</li>
+</ul>`,
+                    pharmacology: `এতে রয়েছে মেফিনামিক এসিড যা ননস্টেরইডাল ব্যথানাশক, জ্বরনাশক এবং প্রদাহনাশক হিসেবে কাজ করে। এটি প্রোস্টাগ্লানডিন এর উপর দুইভাবে কাজ করে। এটি প্রোস্টাগ্লানডিন তৈরীর জন্য দরকারী এনজাইম প্রোস্টাগ্লানডিন সিন্থেটেজকে বাধা দেয় এবং প্রোস্টাগ্লানডিন এর কর্মক্ষমতাকে কমিয়ে দেয়।`,
+                    sideEffects: `আন্ত্রিক ব্যথা, কোষ্ঠকাঠিন্য, ডায়রিয়া, পেটফাঁপা, ঢেকুর ওঠা, বমিবমি ভাব, গ্যাস্ট্রিক আলসার, বমি, ঝিমুনিভাব, কিডনীর সমস্যা, চুলকানি, ত্বকে ফুসকুঁড়ি, ইত্যাদি দেখা দিতে পারে এবং ১-১০% রোগীদের এ উপসর্গগুলো বেশী মাত্রায় দেখা দিতে পারে।`,
+                    drugInteraction: `অন্যান্য ননস্টেরয়েড এন্টিইনফ্লামেটেরী ওষুধ এর ন্যায় এইচপিআর এবং অ্যাসপিরিন একসাথে গ্রহণ করা সাধারনত অনুমোদিত নয় কারণ এতে পার্শ্বপ্রতিক্রিয়ার মাত্রা বেড়ে যেতে পারে। এইচপিআর ওয়ারফেরিন এর সাথে আন্তঃক্রিয়া করে প্লাটিলেট জড়ো হওয়াকে বাধা দিতে পারে এবং প্রথ্রোম্বিন সময় বাড়িয়ে দিতে পারে।`,
+                    contraindications: `যাদের মেফিনামিক এসিড এর প্রতি জানা অতিসংবেদনশীলতা রয়েছে তাদের ক্ষেত্রে ওষুধটি প্রতিনির্দেশিত। পেপটিক আলসার, আন্ত্রিক প্রদাহ, যকৃত ও কিডনীর সমস্যা রয়েছে এমন রোগীদের ক্ষেত্রে এই ওষুধ সেবন গ্রহণ করা উচিত নয়। এছাড়া যেসব রোগীদের অ্যাসপিরিন এবং অ্যাসপিরিন এর ন্যায় অন্যান্য ননস্টেরয়েড এন্টিইনফ্লামেটেরী ওষুধ কর্তৃক উৎপন্ন ব্রঙ্কোস্প্যাজম, ত্বকের ফুসকুঁড়ি দেখা দেয় তাদের ক্ষেত্রে এ ওষুধ গ্রহণ করা উচিত নয়।`,
+                    pregnancyLactation: `গর্ভাবস্থায় মেফিনামিক এসিড নিরাপদ কিনা তা এখন পর্যন্ত প্রতিষ্ঠিত হয়নি। কাজেই ক্ষতির চেয়ে যদি উপকারের মাত্রা বেশী হয় তবে গর্ভাবস্থায় ব্যবহার করা যেতে পারে। খুব অল্প পরিমাণ মেফিনামিক এসিড মাতৃদুগ্ধে নিঃসরণ এবং তা নবজাতকের দেহে প্রবেশ করে। কাজেই স্তন্যদানরত মায়েদের এই ওষুধ গ্রহণ থেকে বিরত থাকা উচিত যাতে নবজাতকের রক্তসংবহনতন্ত্রের কোন ক্ষতি না করে।`,
+                    precautions: `হাঁপানির রোগীদের বিশেষ করে যাদের এলার্জি রয়েছে তাদের ক্ষেত্রে সতর্কতার সাথে ওষুধ গ্রহণ করা উচিত। ডায়রিয়া, ত্বকে ফুসকুঁড়ি, কোলেস্টেটিক জন্ডিস, থ্রম্বোসাইটোপেনিয়া, হিমোলাইটিক অ্যানিমিয়া দেখা দিলে ওষুধ গ্রহণ বন্ধ করতে হবে।`,
+                    storage: `আলো থেকে দূরে, ঠান্ডা ও শুষ্ক স্থানে এবং শিশুদের নাগালের বাইরে রাখুন।`
+                }
+            },
+            {
+                id: "remmo",
+                name: "Remmo 20 mg",
+                nameBn: "রেমো ২০ মি.গ্রা.",
+                purpose: "Often a muscle relaxant or for anxiety relief, it may help with discomfort.",
+                purposeBn: "সাধারণত একটি পেশী শিথিলকারী বা উদ্বেগের জন্য, এটি অস্বস্তি দূর করতে সাহায্য করতে পারে।",
+                howToUse: "Take with water.",
+                howToUseBn: "পানির সাথে গ্রহণ করুন।",
+                schedule: {
+                    morning: { dose: "1 tablet", quantity: 1 },
+                    midday: { dose: "", quantity: 0 },
+                    evening: { dose: "", quantity: 0 },
+                    night: { dose: "", quantity: 0 }
+                },
+                scheduleBn: {
+                    morning: "১ টি ট্যাবলেট",
+                    midday: "",
+                    evening: "",
+                    night: ""
+                },
+                duration: "7 days",
+                durationBn: "৭ দিন",
+                tags: ["Stomach Care", "Proton Pump Inhibitor"],
+                tagsBn: ["পেটের যত্ন", "প্রোটন পাম্প ইনহিবিটর"],
+                unitPrice: 10.00, // Price per tablet (৳)
+                courseDurationDays: 7,
+                details: {
+                    indications: `রেমো নিম্নোক্ত উপসর্গে নির্দেশিত-<br>
+<ul>
+<li>গ্যাস্ট্রোইসােফ্যাজিয়াল রিফ্লাক্স ডিজিজ (জিইআরডি)</li>
+<li>NSAID ওষুধ দ্বারা চিকিৎসার ফলে সৃষ্ট গ্যাস্ট্রিক আলসার</li>
+<li>হেলিকোব্যাকটার পাইলােরি চিকিৎসায় (ট্রিপল থেরাপী)</li>
+<li>জলিঞ্জার ইলিশন সিনড্রোম।</li>
+</ul>`,
+                    pharmacology: `ইসোমিপ্রাজল একটি প্রোটন পাম্প ইনহিবিটর যা গ্যাষ্ট্রিক প্যারাইটাল কোষে অবস্থিত H<sup>+</sup>/K<sup>+</sup> ATPase এনজাইম সিস্টেমের সাথে কোভালেন্ট বন্ধনের মাধ্যমে যুক্ত এসিড নিঃসরণের প্রধান ধাপকে বাধাগ্রস্থ করে। ইসোমিপ্রাজল (ওমিপ্রাজলের S-আইসোমার), প্রোটন পাম্প ইনহিবিটরের প্রথম একক অপটিক্যাল আইসোমার যা রেসিমিক প্রোটন পাম্প অপেক্ষাকৃত অধিকতর এসিড নিয়ন্ত্রণ করে।`,
+                    sideEffects: `মৃদু ও অস্থায়ী পার্শ্বপ্রতিক্রিয়ার মধ্যে রয়েছে মাথাব্যথা, ডায়রিয়া, বমি বমি ভাব, তলপেটে ব্যথা, কোষ্টকাঠিন্য ইত্যাদি।`,
+                    drugInteraction: `ইসােমিপ্রাজল ব্যবহারের সময় ফেনিটয়েন, ওয়ারফেরিন, কুইনিডিন, ক্লারিথ্রোমাইসিন, এমােক্সিসিলিন এর মিথস্ক্রিয়ার কোন প্রমাণ নেই। তবে ডায়াজিপামের সাথে ইসােমিপ্রাজল ব্যবহারের ক্ষেত্রে ডায়াজিপামের নিঃসরণ প্রক্রিয়া বিলম্ব হতে পারে। ইসােমিপ্রাজল কিটোকোনাজল, ডিগােক্সিন এবং লৌহ জাতীয় ওষুধের শােষণের ক্ষেত্রে বাধা সৃষ্টি করতে পারে।`,
+                    contraindications: `ইসােমিপ্রাজলের প্রতি অতিসংবেদনশীল রােগীর ক্ষেত্রে এর ব্যবহার পরিহার করা উচিত।`,
+                    pregnancyLactation: `গর্ভাবস্থায় সাবধানতা অবলম্বন করতে হবে। স্তন্যদানকারী মায়েদের ক্ষেত্রে মাতৃদুগ্ধের সাথে ইসােমিপ্রাজল নিঃসৃত হয় কিনা তা জানা যায়নি।`,
+                    precautions: `ইসােমিপ্রাজল গ্যাস্ট্রিক আলসারে ব্যবহারের পূর্বে অবশ্যই ম্যালিগ্ন্যা‌ন্‌সির সম্ভাব্যতা যাচাই করে নিতে হবে। তা না হলে ইসােমিপ্রাজল রােগের লক্ষণসমূহকে ঢেকে দিয়ে রােগ নিরুপণে বিলম্ব ঘটাতে পারে।`,
+                    storage: `আলো থেকে দূরে শুষ্ক স্থানে ২৫º সেলসিয়াস তাপমাত্রার নীচে সংরক্ষন করুন। সকল প্রকার ঔষধ শিশুদের নাগালের বাইরে রাখুন।`
+                }
+            },
+            {
+                id: "feglo",
+                name: "Feglo Fz",
+                nameBn: "ফেগলো এফজেড",
+                purpose: "Likely an iron and folic acid supplement, essential for red blood cell production, especially useful for menstrual irregularities or anemia.",
+                purposeBn: "সম্ভবত আয়রন এবং ফলিক অ্যাসিড সাপ্লিমেন্ট, লোহিত রক্তকণিকা উৎপাদনের জন্য অপরিহার্য, বিশেষ করে মাসিকের অনিয়ম বা রক্তাল্পতার জন্য উপকারী।",
+                howToUse: "Take with water, ideally at night as prescribed.",
+                howToUseBn: "পানির সাথে গ্রহণ করুন, প্রেসক্রিপশন অনুযায়ী রাতে সেবন করা ভালো।",
+                schedule: {
+                    morning: { dose: "", quantity: 0 },
+                    midday: { dose: "", quantity: 0 },
+                    evening: { dose: "", quantity: 0 },
+                    night: { dose: "2 tablets", quantity: 2 }
+                },
+                scheduleBn: {
+                    morning: "",
+                    midday: "",
+                    evening: "",
+                    night: "২ টি ট্যাবলেট"
+                },
+                duration: "2 months",
+                durationBn: "২ মাস",
+                tags: ["  Iron", "Blood Recovery"],
+                tagsBn: ["আয়রন", "রক্ত পুনরুদ্ধার"],
+                unitPrice: 7.00, // Price per tablet (৳)
+                courseDurationDays: 60, // 2 months approx 60 days
+                details: {
+                    indications: `এই প্রিপারেশনটি আয়রন ঘাটতির প্রোফাইল্যাক্সিসে নির্দেশিত, বিশেষত যখন অপর্যাপ্ত ডায়েটের কারনে গর্ভাবস্থায় এবং রক্তস্বল্পতার সময় পরিপূরক জিংক এবং আয়রনের প্রয়োজন হয়।`,
+                    pharmacology: `এই প্রিপারেশনটি ফেরাস অ্যাসকরবেট, ফলিক এসিড এবং জিংক এই তিনটি পুষ্টিকর পরিপূরকের সংমিশ্রণ দ্বারা তৈরী। ফেরাস অ্যাসকরবেট, আয়রন এবং ভিটামিন সি এর সংমিশ্রণে তৈরী। আয়রন আমাদের দেহে সঞ্চয় হয় এবং আয়রনের ঘাটতিজনিত রক্তস্বল্পতা দূর করে। দেহে আয়রনের শোষণ বাড়ানোর জন্য ভিটামিন সি (অ্যাসকরবেট) যুক্ত করা হয়। ফলিক অ্যাসিড ভিটামিন বি এর একটি ফর্ম যা রক্তের লাল কোষ গঠনে গুরুত্বপূর্ণ ভূমিকা পালন করে এবং যা সারা শরীর জুড়ে অক্সিজেন বহন করে। অনাগত শিশুর মস্তিষ্ক এবং মেরুদণ্ডের বিকাশের ক্ষেত্রে ভূমিকা রাখার কারণে এটি গর্ভাবস্থায়ও প্রয়োজনীয়। জিঙ্ক এমন একটি মাইক্রোমাইনাল যা পুষ্টি সরবরাহ করে।`,
+                    sideEffects: `আয়রন, ফলিক এসিড এবং জিংক সাপলিমেন্টের পার্শ্ব প্রতিক্রিয়াগুলি হালকা এবং ক্ষণস্থায়ী হয়। এর মধ্যে এপিগ্যাস্ট্রিক ব্যথা, বমিবমি ভাব, কোষ্ঠকাঠিন্য, বমি, ডায়রিয়া, হার্ট জ্বালাপোড়া ইত্যাদি অন্তর্ভুক্ত।`,
+                    drugInteraction: `টেট্রাসাইক্লাইন এবং আয়রন একত্রে চিলেট ফর্ম করে। যেহেতু মুখে সেবনযোগ্য আয়রন ওরাল টেট্রাসাইক্লিন অ্যান্টিবায়োটিক এর শোষণে বাঁধা সৃস্টি করে, তাই এই দুটি ঔষধ একত্রে দুই ঘন্টার মধ্যে নেওয়া উচিৎ নয়। মাঝে মাঝে খাবার গ্রহণের মাধ্যমে গ্যাস্ট্রোইনটেস্টাইনাল অস্বস্তি হ্রাস করা যেতে পারে। পেনিসিলামাইন এবং অ্যান্টাসিড একযোগে গ্রহণের ফলে আয়রনের শোষণ ক্ষতিগ্রস্থ হতে পারে। বৃক্কীয় অকার্যকর রোগীদের মধ্যে শরীরে জিংক জমে যাওয়ার ঝুঁকি থাকতে পারে।`,
+                    contraindications: `এটি হিমোলাইটিক রক্তস্বল্পতাজনিত রোগীদের ক্ষেত্রে এবং এর যে কোনও উপাদানের প্রতি হাইপারসেন্সিটিভিটি আছে এমন রোগীদের ক্ষেত্রে ইহা প্রতিনির্দেশিত। শরীরে আয়রনের আধিক্য থাকলেও ইহা প্রতিনির্দেশিত।`,
+                    pregnancyLactation: `যদি গর্ভবতী হন, বা গর্ভবতী হওয়ার পরিকল্পনা করছেন বা বর্তমানে বুকের দুধ খাওয়ান ঔষধ গ্রহণ বা চালিয়ে যাওয়ার আগে দয়া করে আপনার চিকিৎসকের সাথে যোগাযোগ করুন। গর্ভাবস্থার প্রথম ট্রাইমিস্টারে এই প্রিপারেশন প্রয়োগের আগে আয়রন ঘাটতির সুনির্দিষ্ট প্রমাণ না দেখলে এড়ানো উচিৎ। গর্ভাবস্থার অবশিষ্ট সময় বিশেষত যখন জিংক পরিপূরক প্রয়োজন হয়, তখন আয়রনের ঘাটতির প্রফাইল্যাক্সিস ন্যায়সঙ্গত।`,
+                    precautions: `যে সকল রোগীদের আয়রন ওভারলোড হতে পারে, যেমন হেমোক্রোম্যাটোসিস, হেমোলাইটিক অ্যানিমিয়া বা রেড সেল এপ্ল্যাসিয়া রয়েছে তাদের ব্যাপারে সতর্ক থাকা উচিৎ। চিকিৎসায় কার্যকারিতার অভাব রক্তস্বল্পতার অন্যান্য কারণগুলি নির্দেশ করতে পারে এবং এ বিষয়ে আরও পর্যবেক্ষণ করার প্রয়োজন হতে পারে।`,
+                    storage: `আলো ও আর্দ্রতা থেকে দূরে, ৩০° সেঃ তাপমাত্রার নীচে রাখুন। শিশুদের নাগালের বাইরে রাখুন।`
+                }
+            },
+            {
+                id: "santogen",
+                name: "Santogen",
+                nameBn: "স্যান্টোজেন",
+                purpose: "Likely a multivitamin or calcium supplement, supporting overall health and bone density.",
+                purposeBn: "সম্ভবত একটি মাল্টিভিটামিন বা ক্যালসিয়াম সাপ্লিমেন্ট, যা সামগ্রিক স্বাস্থ্য এবং হাড়ের ঘনত্বকে সমর্থন করে।",
+                howToUse: "Take with water, as directed.",
+                howToUseBn: "পানির সাথে নির্দেশ অনুযায়ী গ্রহণ করুন।",
+                schedule: {
+                    morning: { dose: "", quantity: 0 },
+                    midday: { dose: "1 tablet", quantity: 1 },
+                    evening: { dose: "", quantity: 0 },
+                    night: { dose: "", quantity: 0 }
+                },
+                scheduleBn: {
+                    morning: "",
+                    midday: "১ টি ট্যাবলেট",
+                    evening: "",
+                    night: ""
+                },
+                duration: "30 days",
+                durationBn: "৩০ দিন",
+                tags: ["Multivitamin", "Recovery"],
+                tagsBn: ["মাল্টিভিটামিন", "পুনরুদ্ধার"],
+                unitPrice: 11.00, // Price per tablet (৳)
+                courseDurationDays: 30,
+                details: {
+                    indications: `ইহা ভিটামিন ও মিনারেলের ঘাটতি রোধে নির্দেশিত। পুরোপুরি দৈনন্দিন চাহিদা মেটাতে এটি বাড়তি ভিটামিন ও মিনারেল সাপ্লিমেন্ট হিসেবে সেবন করা যাবে। যেমনঃ শারীরিক ও মানসিক চাপ, দীর্ঘমেয়াদী রোগ, সংক্রমনজনিত রোগ, হাড়ের ক্ষয় রোগ, আঘাত বা ক্ষত, অস্ত্রোপচার, কম হজমক্ষমতা, বার্ধক্য, গর্ভাবস্থায় ও স্তন্যদানকালে ক্ষুধামন্দা, অতিরিক্ত ডায়েটিং, পরিবেশের দূষণজনিত রোগ, অতিরিক্ত ব্যায়াম ইত্যাদি।`,
+                    pharmacology: `ইহা ৩২টি উচ্চ ক্ষমতা সম্পন্ন ভিটামিন ও মিনারেলের সমন্বয়ে তৈরী একটি ফিল্ম কোটেড ট্যাবলেট। এটি সুস্বাস্থ্য ও সুন্দর কর্মক্ষম জীবন বজায় রাখে।`,
+                    sideEffects: `সাধারণত, ঔষধটি সুসহনীয়। বিটা ক্যারোটিনের কারণে মাঝে মাঝে ডায়রিয়া হতে পারে এবং ত্বকের রং সামান্য হলদেটে বিবর্ণ হতে পারে। ভিটামিন সি ও ভিটামিন ই-এর কারণে ডায়রিয়া এবং পরিপাকতন্ত্রের অন্যান্য সমস্যা তৈরী হতে পারে।`,
+                    drugInteraction: `অন্য ঔষধের সাথে সেবনে কোন প্রতিক্রিয়া পরিলক্ষিত হয়নি।`,
+                    contraindications: `এই ঔষধটির কোন উপাদানের প্রতি অতিসংবেদনশীলতার ক্ষেত্রে এটি সেবন করা যাবে না।`,
+                    pregnancyLactation: `চিকিৎসকের পরামর্শ অনুযায়ী সেবন করতে হবে।`,
+                    precautions: `বহুদিন ধরে উচ্চ মাত্রায় ভিটামিন এ সেবনে (বিটা ক্যারোটিন উৎস ব্যতীত) postmenopausal মহিলাদের হাড়ের ক্ষয় রোগের ঝুঁকি বেড়ে যেতে পারে।`,
+                    storage: `আলো ও তাপ থেকে দূরে, শুষ্ক স্থানে রাখুন। শিশুদের নাগালের বাইরে রাখুন।`
+                }
+            }
+        ];
+
+        const medicationList = document.getElementById('medication-list');
+        const clearCheckmarksButton = document.getElementById('clearCheckmarks');
+        const alternativesModal = document.getElementById('alternativesModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const generateMoreAlternativesBtn = document.getElementById('generateMoreAlternativesBtn');
+        const copyAlternativesBtn = document.getElementById('copyAlternativesBtn');
+
+        let currentAlternatives = []; // Store the currently displayed alternatives for copying
+
+        // Function to calculate total course cost for a medicine
+        function calculateCourseCost(med) {
+            let totalQuantity = 0;
+            if (med.isCream) {
+                return med.unitPrice.toFixed(2); // For creams, assuming price is per tube and one tube is enough for the course
+            } else {
+                let dailyTotal = 0;
+                if (med.schedule.morning.quantity) dailyTotal += med.schedule.morning.quantity;
+                if (med.schedule.midday.quantity) dailyTotal += med.schedule.midday.quantity;
+                if (med.schedule.evening.quantity) dailyTotal += med.schedule.evening.quantity;
+                if (med.schedule.night.quantity) dailyTotal += med.schedule.night.quantity;
+
+                if (med.id === "hpr") {
+                    totalQuantity = med.dailyDose * med.courseDurationDays; // Special case for as-needed meds
+                } else {
+                    totalQuantity = dailyTotal * med.courseDurationDays;
+                }
+            }
+            return (totalQuantity * med.unitPrice).toFixed(2);
+        }
+
+        // Function to fetch alternatives using Gemini API
+        async function fetchAlternatives(medicationDetails) {
+            // Construct a detailed prompt for the LLM to get alternative medications
+            const prompt = `Given the following medicine details, suggest 3-5 alternative medications.
+            Prioritize alternatives that are:
+            1. Different brands of the exact same generic compound.
+            2. Cheaper options with the same generic compound.
+            3. Medications with similar therapeutic effects or belonging to the same drug class if exact generic matches are not common.
+
+            Provide the response in JSON format, as an array of objects. Each object should have the following properties:
+            - 'alternativeName': English name of the alternative medicine (e.g., brand name or generic name if only generic is known).
+            - 'alternativeNameBn': Bengali name of the alternative medicine (if known, otherwise use English name or "N/A").
+            - 'generic': The generic name of the alternative.
+            - 'notes': A brief explanation of why it's an alternative (e.g., "Same generic, different brand", "Cheaper option", "Similar therapeutic effect", "Different generic in same class").
+
+            If no relevant alternatives can be found, return an empty JSON array: [].
+
+            Here are the details of the original medicine:
+            Name: ${medicationDetails.name}
+            Bengali Name: ${medicationDetails.nameBn}
+            Purpose: ${medicationDetails.purposeBn}
+            Drug Class/Tags: ${medicationDetails.tagsBn.join(', ')}.
+            Generic (if known from context, otherwise infer): ${medicationDetails.generic || 'Not explicitly provided, infer if possible'}.
+
+            Example for format:
+            [
+              {
+                "alternativeName": "ExampleDrug A",
+                "alternativeNameBn": "উদাহরণ ঔষধ ক",
+                "generic": "Generic Substance X",
+                "notes": "Same generic, different brand."
+              },
+              {
+                "alternativeName": "ExampleDrug B",
+                "alternativeNameBn": "উদাহরণ ঔষধ খ",
+                "generic": "Generic Substance X",
+                "notes": "Cheaper option, same generic."
+              }
+            ]
+            `;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+            const payload = {
+                contents: chatHistory,
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                "alternativeName": { "type": "STRING" },
+                                "alternativeNameBn": { "type": "STRING" },
+                                "generic": { "type": "STRING" },
+                                "notes": { "type": "STRING" }
+                            },
+                            required: ["alternativeName", "generic", "notes"] // 'alternativeNameBn' is optional
+                        }
+                    }
+                }
+            };
+
+            const apiKey = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // User provided API Key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                // Safely parse the response to ensure it matches the expected JSON structure
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const jsonText = result.candidates[0].content.parts[0].text;
+                    try {
+                        const parsedJson = JSON.parse(jsonText);
+                        // Ensure it's an array and each item has required properties
+                        if (Array.isArray(parsedJson) && parsedJson.every(item => item.alternativeName && item.generic && item.notes)) {
+                            return parsedJson;
+                        } else {
+                            console.error("Gemini API response did not match expected schema:", parsedJson);
+                            return []; // Return empty array if structure is incorrect
+                        }
+                    } catch (jsonError) {
+                        console.error("Failed to parse Gemini API JSON response:", jsonError, jsonText);
+                        return [];
+                    }
+                } else {
+                    console.warn("No candidates or content parts in Gemini API response:", result);
+                    return [];
+                }
+            } catch (error) {
+                console.error("Error fetching alternatives from Gemini API:", error);
+                return [];
+            }
+        }
+
+        // Function to display alternatives in a modal
+        async function showAlternativesModal(alternatives, medicineName, fetchNew = false, medIndex = null) {
+            modalTitle.textContent = `বিকল্প ঔষধ: ${medicineName} (Alternative Meds for ${medicineName})`;
+            modalContent.innerHTML = ''; // Clear previous content
+            generateMoreAlternativesBtn.style.display = 'block'; // Ensure button is visible
+
+            if (fetchNew && medIndex !== null) {
+                // Show loading spinner for new generation
+                modalContent.innerHTML = '<div class="loading-spinner"></div><p class="text-center text-slate-400 mt-2">আরও বিকল্পের জন্য অনুসন্ধান করা হচ্ছে... (Searching for more alternatives...)</p>';
+                generateMoreAlternativesBtn.disabled = true;
+                copyAlternativesBtn.disabled = true;
+
+                const selectedMed = medicationData[medIndex];
+                const newAlternatives = await fetchAlternatives(selectedMed);
+                alternatives = newAlternatives; // Update alternatives with newly fetched ones
+                generateMoreAlternativesBtn.disabled = false;
+                copyAlternativesBtn.disabled = false;
+            }
+
+            currentAlternatives = alternatives; // Store for copying
+
+            if (alternatives && alternatives.length > 0) {
+                const ul = document.createElement('ul');
+                ul.className = 'list-disc pl-5 space-y-3';
+                alternatives.forEach(alt => {
+                    const li = document.createElement('li');
+                    li.className = 'bg-slate-700 p-3 rounded-md shadow-inner text-slate-200';
+                    li.innerHTML = `
+                        <strong class="text-sky-300">${alt.alternativeNameBn || alt.alternativeName}</strong> (${alt.alternativeName})<br>
+                        <span class="text-slate-400">Generic: ${alt.generic}</span><br>
+                        <span class="text-slate-400">Notes: ${alt.notes}</span>
+                    `;
+                    ul.appendChild(li);
+                });
+                modalContent.innerHTML = ''; // Clear loading spinner or previous "no alternatives" message
+                modalContent.appendChild(ul);
+            } else {
+                const p = document.createElement('p');
+                p.className = 'text-center text-slate-400';
+                p.textContent = "কোন বিকল্প ঔষধ পাওয়া যায়নি। (No alternative medications found.)";
+                modalContent.innerHTML = ''; // Clear loading spinner
+                modalContent.appendChild(p);
+            }
+            alternativesModal.classList.add('active'); // Show the modal
+        }
+
+        // Function to close the modal
+        function closeAlternativesModal() {
+            alternativesModal.classList.remove('active');
+            modalContent.innerHTML = ''; // Clear content when closing
+            // Reset button states when modal closes
+            generateMoreAlternativesBtn.disabled = false;
+            copyAlternativesBtn.disabled = false;
+        }
+
+        // Event listener for closing modal
+        closeModalBtn.addEventListener('click', closeAlternativesModal);
+        alternativesModal.addEventListener('click', (event) => {
+            if (event.target === alternativesModal) { // Close if clicked outside content
+                closeAlternativesModal();
+            }
+        });
+
+        // Event listener for "Generate More Alternatives" button
+        generateMoreAlternativesBtn.addEventListener('click', async () => {
+            const lastClickedMedIndex = generateMoreAlternativesBtn.dataset.lastClickedMedIndex;
+            if (lastClickedMedIndex !== undefined) {
+                await showAlternativesModal(null, medicationData[lastClickedMedIndex].name, true, lastClickedMedIndex);
+            }
+        });
+
+        // Event listener for "Copy Alternatives" button
+        copyAlternativesBtn.addEventListener('click', () => {
+            if (currentAlternatives.length > 0) {
+                const namesToCopy = currentAlternatives.map(alt => `${alt.alternativeNameBn || alt.alternativeName} (${alt.alternativeName})`).join(', ');
+                
+                // Use a temporary textarea to copy text to clipboard
+                const textarea = document.createElement('textarea');
+                textarea.value = namesToCopy;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    copyAlternativesBtn.textContent = 'কপি করা হয়েছে! (Copied!)';
+                    setTimeout(() => {
+                        copyAlternativesBtn.textContent = 'বিকল্পগুলি কপি করুন (Copy Alternatives)';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    copyAlternativesBtn.textContent = 'কপি করা যায়নি (Failed to copy)';
+                    setTimeout(() => {
+                        copyAlternativesBtn.textContent = 'বিকল্পগুলি কপি করুন (Copy Alternatives)';
+                    }, 2000);
+                }
+                document.body.removeChild(textarea);
+            } else {
+                copyAlternativesBtn.textContent = 'কোন বিকল্প নেই (No alternatives)';
+                setTimeout(() => {
+                    copyAlternativesBtn.textContent = 'বিকল্পগুলি কপি করুন (Copy Alternatives)';
+                }, 2000);
+            }
+        });
+
+
+        function renderMedications() {
+            medicationList.innerHTML = ''; // Clear previous content
+            medicationData.forEach((med, index) => {
+                const medItem = document.createElement('div');
+                medItem.className = 'medicine bg-slate-800 p-4 rounded-xl shadow-md border-l-8 border-sky-500 mb-6';
+
+                // Retrieve checkbox states from local storage
+                const savedStates = JSON.parse(localStorage.getItem(`medicationTracker_${med.id}`) || '{}');
+
+                const courseCost = calculateCourseCost(med);
+
+                const scheduleHtml = `
+                    <div class="mt-4 p-3 bg-slate-900 rounded-lg shadow-inner">
+                        <h4 class="font-bold text-slate-300 mb-2">দৈনিক সময়সূচী:</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-400">
+                            ${med.schedule.morning.dose ? `<div class="time-slot flex items-center space-x-2 p-2 rounded-md ${savedStates.morning ? 'completed' : ''}">
+                                <input type="checkbox" id="check-${med.id}-morning" data-med-id="${med.id}" data-slot="morning" ${savedStates.morning ? 'checked' : ''}>
+                                <label for="check-${med.id}-morning" class="time-text text-slate-200">সকাল: ${med.scheduleBn.morning}</label>
+                            </div>` : ''}
+                            ${med.schedule.midday.dose ? `<div class="time-slot flex items-center space-x-2 p-2 rounded-md ${savedStates.midday ? 'completed' : ''}">
+                                <input type="checkbox" id="check-${med.id}-midday" data-med-id="${med.id}" data-slot="midday" ${savedStates.midday ? 'checked' : ''}>
+                                <label for="check-${med.id}-midday" class="time-text text-slate-200">দুপুর: ${med.scheduleBn.midday}</label>
+                            </div>` : ''}
+                            ${med.schedule.evening.dose ? `<div class="time-slot flex items-center space-x-2 p-2 rounded-md ${savedStates.evening ? 'completed' : ''}">
+                                <input type="checkbox" id="check-${med.id}-evening" data-med-id="${med.id}" data-slot="evening" ${savedStates.evening ? 'checked' : ''}>
+                                <label for="check-${med.id}-evening" class="time-text text-slate-200">সন্ধ্যা: ${med.scheduleBn.evening}</label>
+                            </div>` : ''}
+                            ${med.schedule.night.dose ? `<div class="time-slot flex items-center space-x-2 p-2 rounded-md ${savedStates.night ? 'completed' : ''}">
+                                <input type="checkbox" id="check-${med.id}-night" data-med-id="${med.id}" data-slot="night" ${savedStates.night ? 'checked' : ''}>
+                                <label for="check-${med.id}-night" class="time-text text-slate-200">রাত: ${med.scheduleBn.night}</label>
+                            </div>` : ''}
+                            ${!med.schedule.morning.dose && !med.schedule.midday.dose && !med.schedule.evening.dose && !med.schedule.night.dose ? '<div class="text-slate-400">নির্দিষ্ট দৈনিক সময়সূচী নেই, "কিভাবে ব্যবহার করবেন" অনুসরণ করুন।</div>' : ''}
+                        </div>
+                    </div>
+                `;
+
+                medItem.innerHTML = `
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-xl sm:text-2xl font-semibold text-sky-300">${med.nameBn} <span class="text-base text-slate-400">(${med.name})</span></h3>
+                        <button class="alternative-btn px-3 py-1 bg-blue-600 text-white text-sm font-semibold rounded-md hover:bg-blue-700 focus:outline-none transition-colors duration-200" data-med-index="${index}">
+                            বিকল্প ঔষধ (Alternative Meds)
+                        </button>
+                    </div>
+                    <div>
+                        <p class="text-slate-300 mb-2"><strong class="text-slate-100">উদ্দেশ্য:</strong> ${med.purposeBn}</p>
+                        <p class="text-slate-300 mb-2"><strong class="text-slate-100">কীভাবে ব্যবহার করবেন:</strong> ${med.howToUseBn}</p>
+                        <p class="text-slate-300 mb-2"><strong class="text-slate-100">সময়কাল:</strong> ${med.durationBn}</p>
+                        <p class="text-slate-300 mb-2"><strong class="text-slate-100">ইউনিট মূল্য:</strong> ৳ ${med.unitPrice.toFixed(2)} ${med.isCream ? ' (প্রতি টিউব)' : ' (প্রতি ট্যাবলেট)'}</p>
+                        <p class="text-slate-300 mb-2"><strong class="text-slate-100">কোর্সের মোট খরচ (আনুমানিক):</strong> ৳ ${courseCost}</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            ${med.tagsBn.map((tag, i) => `<span class="tag bg-slate-600 text-slate-100 px-3 py-1 rounded-full text-sm">${tag}</span>`).join('')}
+                        </div>
+                        ${scheduleHtml}
+
+                        ${(med.details.indications || med.details.pharmacology || med.details.sideEffects || med.details.drugInteraction || med.details.contraindications || med.details.pregnancyLactation || med.details.precautions || med.details.storage) ? `
+                            <div class="additional-info mt-4 p-3 bg-slate-900 rounded-lg shadow-inner">
+                                <div class="flex justify-between items-center cursor-pointer" data-detail-index="${index}">
+                                    <h5 class="font-bold text-slate-300">আরও তথ্য (More Info):</h5>
+                                    <button class="toggle-detail-content text-sky-400 hover:text-sky-200 focus:outline-none transition-transform transform rotate-0 toggle-arrow" data-detail-index="${index}">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
+                                <div id="detail-content-${index}" class="collapsible-content">
+                                    ${med.details.indications ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">নির্দেশনা (Indications):</h5><p class="text-slate-400 text-sm mb-3">${med.details.indications}</p>` : ''}
+                                    ${med.details.pharmacology ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">ফার্মাকোলজি (Pharmacology):</h5><p class="text-slate-400 text-sm mb-3">${med.details.pharmacology}</p>` : ''}
+                                    ${med.details.sideEffects ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">পার্শ্ব প্রতিক্রিয়া (Side Effects):</h5><p class="text-slate-400 text-sm mb-3">${med.details.sideEffects}</p>` : ''}
+                                    ${med.details.drugInteraction ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">ঔষধের মিথস্ক্রিয়া (Drug Interaction):</h5><p class="text-slate-400 text-sm mb-3">${med.details.drugInteraction}</p>` : ''}
+                                    ${med.details.contraindications ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">প্রতিনির্দেশনা (Contraindications):</h5><p class="text-slate-400 text-sm mb-3">${med.details.contraindications}</p>` : ''}
+                                    ${med.details.pregnancyLactation ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">গর্ভাবস্থায় ও স্তন্যদানকালে (Pregnancy & Lactation):</h5><p class="text-slate-400 text-sm mb-3">${med.details.pregnancyLactation}</p>` : ''}
+                                    ${med.details.precautions ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">সতর্কতা (Precautions):</h5><p class="text-slate-400 text-sm mb-3">${med.details.precautions}</p>` : ''}
+                                    ${med.details.storage ? `<h5 class="font-bold text-slate-300 mt-2 mb-1">সংরক্ষণ (Storage):</h5><p class="text-slate-400 text-sm mb-3">${med.details.storage}</p>` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                medicationList.appendChild(medItem);
+            });
+
+            // Add event listeners for toggling full details
+            document.querySelectorAll('.flex.justify-between.items-center.cursor-pointer[data-detail-index]').forEach(header => {
+                header.addEventListener('click', (event) => {
+                    const index = event.currentTarget.dataset.detailIndex;
+                    const detailContentDiv = document.getElementById(`detail-content-${index}`);
+                    const toggleButton = event.currentTarget.querySelector('.toggle-detail-content');
+                    const arrowIcon = toggleButton.querySelector('.fas');
+
+                    if (detailContentDiv.classList.contains('expanded')) {
+                        detailContentDiv.classList.remove('expanded');
+                        detailContentDiv.style.maxHeight = '0';
+                        arrowIcon.classList.remove('rotate');
+                    } else {
+                        detailContentDiv.classList.add('expanded');
+                        detailContentDiv.style.maxHeight = detailContentDiv.scrollHeight + 'px';
+                        arrowIcon.classList.add('rotate');
+                    }
+                });
+            });
+
+            // Add event listeners for "Alternative Meds" buttons
+            document.querySelectorAll('.alternative-btn').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const medIndex = event.target.dataset.medIndex;
+                    const selectedMed = medicationData[medIndex];
+                    generateMoreAlternativesBtn.dataset.lastClickedMedIndex = medIndex; // Store for "Generate More" button
+
+                    // Show loading state
+                    event.target.textContent = 'Searching...';
+                    event.target.disabled = true;
+                    modalContent.innerHTML = '<div class="loading-spinner"></div><p class="text-center text-slate-400 mt-2">বিকল্প ঔষধের জন্য অনুসন্ধান করা হচ্ছে... (Searching for alternative medications...)</p>';
+                    alternativesModal.classList.add('active');
+                    generateMoreAlternativesBtn.disabled = true;
+                    copyAlternativesBtn.disabled = true; // Disable copy button during search
+
+                    const alternatives = await fetchAlternatives(selectedMed);
+                    showAlternativesModal(alternatives, selectedMed.name);
+
+                    // Reset button state
+                    event.target.textContent = 'বিকল্প ঔষধ (Alternative Meds)';
+                    event.target.disabled = false;
+                    generateMoreAlternativesBtn.disabled = false;
+                    copyAlternativesBtn.disabled = false; // Enable copy button after search
+                });
+            });
+
+            // Add event listeners for checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', (event) => {
+                    const medId = event.target.dataset.medId;
+                    const slot = event.target.dataset.slot;
+                    const isChecked = event.target.checked;
+                    const timeSlotDiv = event.target.closest('.time-slot');
+
+                    let savedStates = JSON.parse(localStorage.getItem(`medicationTracker_${medId}`) || '{}');
+                    savedStates[slot] = isChecked;
+                    localStorage.setItem(`medicationTracker_${medId}`, JSON.stringify(savedStates));
+
+                    if (isChecked) {
+                        timeSlotDiv.classList.add('completed');
+                    } else {
+                        timeSlotDiv.classList.remove('completed');
+                    }
+                });
+            });
+        }
+
+        // Event listener for the "Clear All Checkmarks" button
+        clearCheckmarksButton.addEventListener('click', () => {
+            if (confirm("আপনি কি সমস্ত চেকমার্ক সরাতে নিশ্চিত? (Are you sure you want to clear all checkmarks?)")) {
+                medicationData.forEach(med => {
+                    localStorage.removeItem(`medicationTracker_${med.id}`);
+                });
+                renderMedications(); // Re-render the medications to reflect cleared states
+            }
+        });
+
+        // Adjust max-height on window resize for collapsible content
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.collapsible-content.expanded').forEach(detailsDiv => {
+                detailsDiv.style.maxHeight = detailsDiv.scrollHeight + 'px';
+            });
+        });
+    </script>
+</body>
+</html>

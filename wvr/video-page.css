@@ -1,0 +1,248 @@
+/* --- Video Page (uncX.html) Styles --- */
+
+/* NEW: Hide content by default for auth check */
+#pageContent,
+#pageNav {
+    display: none;
+}
+
+/* NEW: Page Loader styles */
+.page-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+}
+.loader-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #555;
+    border-bottom-color: #1e88e5;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.video-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem; /* rem unit */
+}
+
+.video-item {
+    background-color: #1a1a1a;
+    border-radius: 0.75rem; /* rem unit */
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.video-title {
+    font-size: 1.1rem; /* rem unit */
+    font-weight: 600;
+    padding: 1rem 1.25rem; /* rem unit */
+    text-align: center;
+    background-color: #222;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    background-color: #000; /* Black bg while iframe loads */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* --- The NEW Bottom Bar --- */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid #333;
+    z-index: 1000;
+    /* This padding respects the iPhone bottom "safe area" */
+    padding: 0.75rem 1rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+}
+
+.bar-btn {
+    /* Use flex to align icon and text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    
+    background-color: transparent;
+    border: none;
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 0.8rem; /* Smaller text for app-style */
+    font-weight: 600;
+    padding: 0.25rem;
+    border-radius: 8px;
+    transition: background-color 0.1s ease-out;
+    cursor: pointer;
+}
+
+.bar-btn svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    stroke: #f0f0f0;
+}
+
+.bar-btn:active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- NEW: Stream Switch Menu --- */
+
+/* This backdrop dims the background when the menu is open */
+.menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1001;
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.menu-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.stream-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1c1c1c;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    z-index: 1002;
+    padding-bottom: env(safe-area-inset-bottom);
+    
+    /* Hidden by default, slides up */
+    transform: translateY(100%);
+    transition: transform 0.25s ease-out;
+}
+
+.stream-menu.show {
+    transform: translateY(0);
+}
+
+.stream-menu-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #aaa;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.stream-option {
+    display: block;
+    width: 100%;
+    padding: 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e88e5; /* Blue accent */
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+/* Remove border from last button */
+.stream-option:last-child {
+    border-bottom: none;
+}
+
+.stream-option:active {
+    background-color: rgba(30, 136, 229, 0.1);
+}
+
+/* --- This class adds a "safe area" at the bottom --- */
+/* So the floating button doesn't cover the last video */
+.pb-safe {
+    /* Increased to account for the new bar */
+    padding-bottom: 6rem; /* rem unit */
+}
+
+/* --- Responsive (PC) --- */
+@media (min-width: 600px) {
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* On desktop, the bar and menu are less useful. Let's center them. */
+    .bottom-bar {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 600px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .stream-menu {
+        left: 50%;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 12px;
+        /* Adjust bottom position when it's not full-width */
+        bottom: 1.5rem;
+        transform: translateY(100%) translateX(-50%);
+    }
+
+    .stream-menu.show {
+         transform: translateY(0) translateX(-50%);
+    }
+
+    .menu-backdrop {
+        /* On desktop, a full backdrop is annoying. 
+           We'll just make it cover the center. */
+        max-width: 600px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (min-width: 900px) {
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

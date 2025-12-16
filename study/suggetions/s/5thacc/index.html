@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACC 5th</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importing Noto Sans Bengali for better readability */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif; /* Prioritize Noto Sans Bengali */
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack main row and dropdown */
+            align-items: flex-start; /* Align items to the start */
+            padding: 8px 15px; /* Adjusted vertical padding */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* Style for Mythic (Red) stripe items */
+        .red-mythic-item {
+            border-left: 4px solid #FF0000; /* Red stripe */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .red-mythic-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for Legendary (Gold) stripe items */
+        .gold-legendary-item {
+            border-left: 4px solid #FFD700; /* Gold stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .gold-legendary-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for Epic (Purple) stripe items */
+        .purple-epic-item {
+            border-left: 4px solid #800080; /* Purple stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .purple-epic-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+            font-size: 1.25rem; /* Ensure icon is visible */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #ABB2BF; /* Default code text color */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Styles for dropdown answers */
+        .answer-dropdown {
+            background-color: #3a475a; /* Slightly lighter dark background for dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            width: 100%; /* Ensure it takes full width of its parent */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* New style for extended answer dropdown */
+        .extended-answer-dropdown {
+            background-color: #5a6b80; /* Even lighter dark background for extended dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Specific styles for AMOLED black dropdowns in "very-short" and "short" sections */
+        .amoled-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #ffffff; /* White to pop on black */
+        }
+
+        .amoled-extended-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #a78bfa; /* Vibrant purple to pop for extended */
+        }
+
+        /* Style for the short answer text itself, now a toggle */
+        .short-answer-text-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0; /* Add some padding */
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex; /* To align text and icon */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .short-answer-text-toggle:hover {
+            background-color: #4a5568; /* Slightly lighter on hover */
+        }
+
+
+        .question-text-toggle {
+            cursor: pointer;
+            flex-grow: 1; /* Allow text to grow */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
+        }
+        .question-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure this row takes full width of question-item */
+            min-height: 2.5rem; /* Set a minimum height for the row */
+        }
+        .question-item .button-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        /* Custom styles for visually enhanced answers */
+        .answer-content-section {
+            margin-bottom: 1rem;
+        }
+        .answer-content-section h5 {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for sub-headings */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .answer-content-section p {
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul li {
+            margin-bottom: 0.25rem;
+        }
+        .highlight-text {
+            color: #a78bfa; /* Purple for highlighting important info */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <header class="header">
+            <h1>ACC5TH</h1>
+            <p class="subtitle">গুরুত্বপূর্ণ প্রশ্নাবলী</p>
+        </header>
+
+        <!-- Question categories -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <!-- AI Answer Modal -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = ""; // Leave this empty, Canvas will provide it at runtime
+
+        // Dummy syntax highlighting function for template
+        function highlightJavaCode(codeString) {
+            // This is a placeholder. In a real app, you'd have a more robust highlighter.
+            return codeString.replace(/(\b(?:import|public|class|static|void|int|double|float|String|new|return|extends|if|else|for|while|try|catch|finally|this|super|null|true|false)\b)/g, '<span style="color: #89DDFF;">$1</span>') // Keywords
+                           .replace(/(".*?")/g, '<span style="color: #C3E88D;">$1</span>') // Strings
+                           .replace(/(\b\d+\b)/g, '<span style="color: #F78C6C;">$1</span>') // Numbers
+                           .replace(/(\/\/.*)/g, '<span style="color: #6A737D; font-style: italic;">$1</span>'); // Comments
+        }
+
+        window.copyQuestionText = (button) => {
+            const questionItem = button.closest('.question-item');
+            const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
+            const targetId = questionTextElement.dataset.target;
+            let textToCopy = questionTextElement.textContent.trim();
+
+            if (targetId) {
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const shortAnswerContent = dropdown.querySelector('.short-answer-content');
+                    const extendedAnswerContent = dropdown.querySelector('.extended-answer-dropdown');
+                    if (shortAnswerContent && extendedAnswerContent) {
+                        textToCopy = `Short Answer: ${shortAnswerContent.textContent.trim()}\n\nExtended Answer: ${extendedAnswerContent.textContent.trim()}`;
+                    } else if (shortAnswerContent) {
+                        textToCopy = shortAnswerContent.textContent.trim();
+                    }
+                }
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        async function generateAnswer(question, questionCategory) {
+            const loadingSpinner = document.querySelector('#aiAnswerModal .loading-spinner');
+            const modalAnswerPlaceholder = document.querySelector('#aiAnswerModal #modalAnswerPlaceholder');
+            const modalAnswerParts = document.querySelector('#aiAnswerModal #modalAnswerParts');
+
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = '';
+
+            // This is a placeholder for AI generation
+            setTimeout(() => {
+                const dummyAnswer = `
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ৩: একদম সহজ ব্যাখ্যা</h4>
+                        <p>এখানে প্রশ্নের একদম সহজ ব্যাখ্যা থাকবে, যা ক্লাস ২ এর বাচ্চাও বুঝবে।</p>
+                    </div>
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ২: সহজ ভাষায় ব্যাখ্যা</h4>
+                        <p>এখানে সহজ ভাষায় উদাহরণ দিয়ে ব্যাখ্যা থাকবে, যা ঘরোয়া পরিবেশে বোঝানো যাবে।</p>
+                    </div>
+                    <div class="ai-answer-part">
+                        <h4 class="answer-part-heading">পার্ট ১: পরীক্ষায় লেখার জন্য</h4>
+                        <p>এখানে পরীক্ষার জন্য উপযুক্ত ফরমাল বাংলা ভাষায় উত্তর থাকবে।</p>
+                        <pre><code><span style="color: #89DDFF;">public class</span> <span style="color: #FFCB6B;">Example</span> {
+    <span style="color: #89DDFF;">public static void</span> <span style="color: #C792EA;">main</span>(<span style="color: #FFCB6B;">String</span>[] <span style="color: #FFEA7A;">args</span>) {
+        <span style="color: #FFEA7A;">System</span>.<span style="color: #FFEA7A;">out</span>.<span style="color: #C792EA;">println</span>(<span style="color: #C3E88D;">"Hello, World!"</span>); <span style="color: #6A737D; font-style: italic;">// This is a comment</span>
+    }
+}</code></pre>
+                    </div>
+                `;
+                modalAnswerParts.innerHTML = dummyAnswer;
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }, 1500); // Simulate network delay
+        }
+
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            document.getElementById('modalQuestionText').textContent = question;
+            document.getElementById('aiAnswerModal').classList.add('active');
+            generateAnswer(question, questionCategory);
+        };
+
+        document.getElementById('aiModalCloseButton').addEventListener('click', () => {
+            document.getElementById('aiAnswerModal').classList.remove('active');
+        });
+
+        document.getElementById('aiAnswerModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('aiAnswerModal')) {
+                document.getElementById('aiAnswerModal').classList.remove('active');
+            }
+        });
+
+        const questions = {
+            "very-short": [
+                { 
+                    text: "১। হিসাববিজ্ঞানের জনক কে? (অধ্যায়-১)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">লুকা ডি প্যাসিওলিকে</span> হিসাববিজ্ঞানের জনক বলা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লুকা ডি প্যাসিওলি একজন <span style="color: #66FCF1;">ইতালীয় গণিতবিদ</span>। তিনি <span style="color: #66FCF1;">১৪৯৪ সালে</span> একটি বই লিখেছিলেন যেখানে <span style="color: #66FCF1;">দু'তরফা দাখিলা পদ্ধতি (Double-Entry System)</span> ব্যাখ্যা করেছিলেন, যা আজকের হিসাববিজ্ঞানের ভিত্তি। তিনি যেমন একাই এই নিয়মগুলো আবিষ্কার করেছেন, তাই তাকে জনক বলা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "২। দু'তরফা দাখিলা পদ্ধতি বলতে কী বুঝ?", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">দু'তরফা দাখিলা পদ্ধতি</span> হলো এমন একটি হিসাব পদ্ধতি যেখানে প্রতিটি লেনদেনের <span style="color: #66FCF1;">দুটি পক্ষ ডেবিট ও ক্রেডিট দিকে সমান পরিমাণ টাকায়</span> লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা অনেকটা এমন একটা নিয়ম যেখানে একটা লেনদেন হলে দুইটা দিকে সমান টাকা দিতে হয়। যেমন, তুমি যদি ৫০ টাকার একটা কলম কেন, তাহলে তোমার পকেট থেকে ৫০ টাকা যাবে (<span style="color: #66FCF1;">ক্রেডিট</span>) আর তোমার কলমের সংগ্রহে ৫০ টাকার কলম আসবে (<span style="color: #66FCF1;">ডেবিট</span>)। এটাই ডাবল-এন্ট্রি সিস্টেম।</p>
+                    ` 
+                },
+                { 
+                    text: "৩। ডেবিট বলতে কী বুঝ?", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেবিট</span> হলো লেনদেনের সুবিধা গ্রহণকারী পক্ষ অথবা <span style="color: #66FCF1;">সম্পদ বৃদ্ধি</span> এবং <span style="color: #66FCF1;">ব্যয় বৃদ্ধির</span> দিক।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">ডেবিটকে তুমি '<span style="color: #66FCF1;">টাকা এসেছে</span>' বা '<span style="color: #66FCF1;">কিছু পেয়েছি</span>' ভাবতে পারো। যেমন, তুমি যখন কোনো পণ্য কিনলে, তোমার পণ্যের স্টক বাড়লো, তাই সেটা ডেবিট। তোমার ব্যাংকে টাকা জমা হলে, সেটা তোমার জন্য ডেবিট।</p>
+                    ` 
+                },
+                { 
+                    text: "৪। ক্রেডিট বলতে কী বুঝ?", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ক্রেডিট</span> হলো লেনদেনের সুবিধা প্রদানকারী পক্ষ অথবা <span style="color: #66FCF1;">দায় বৃদ্ধি</span>, <span style="color: #66FCF1;">আয় বৃদ্ধি</span> এবং <span style="color: #66FCF1;">সম্পদ হ্রাসের</span> দিক।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">ক্রেডিটকে তুমি '<span style="color: #66FCF1;">টাকা চলে গেছে</span>' বা '<span style="color: #66FCF1;">কিছু দিয়েছি</span>' ভাবতে পারো। যেমন, তুমি যখন কোনো পণ্য বিক্রি করলে, তোমার পণ্যের স্টক কমলো, তাই সেটা ক্রেডিট। তুমি যখন কাউকে টাকা দিলে, সেটা তোমার জন্য ক্রেডিট।</p>
+                    ` 
+                },
+                { 
+                    text: "৫। হিসাবের জের বলতে কী বুঝ? (অধ্যায়-৪)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাবের জের</span> হলো একটি নির্দিষ্ট সময়ের শেষে কোনো হিসাবে <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট দিকের যোগফলের পার্থক্য</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জেরকে তুমি মাসের শেষে তোমার জমা খরচের হিসাবের মতো ভাবতে পারো। ধরো, এক মাসে তুমি <span style="color: #66FCF1;">১০০ টাকা পেয়েছো</span> আর <span style="color: #66FCF1;">৫০ টাকা খরচ</span> করেছো। মাসের শেষে তোমার কাছে <span style="color: #66FCF1;">৫০ টাকা আছে</span>, এটাই জের।</p>
+                    ` 
+                },
+                { 
+                    text: "৬। ডেবিট ব্যালেন্স বলতে কী বুঝ? (অধ্যায়-৪)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ডেবিট ব্যালেন্স</span> হলো যখন কোনো হিসাবে <span style="color: #66FCF1;">ডেবিট দিকের যোগফল ক্রেডিট দিকের চেয়ে বেশি</span> হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">ডেবিট ব্যালেন্স মানে হলো তোমার কাছে টাকা বা সম্পদ আছে। যেমন, তোমার ব্যাংক অ্যাকাউন্টে যদি <span style="color: #66FCF1;">৫০০ টাকা জমা</span> থাকে এবং <span style="color: #66FCF1;">৩০০ টাকা তুলে নাও</span>, তাহলে তোমার ডেবিট ব্যালেন্স হলো <span style="color: #66FCF1;">২০০ টাকা</span>। অর্থাৎ, তোমার কাছে টাকা আছে।</p>
+                    ` 
+                },
+                { 
+                    text: "৭। ক্রেডিট ব্যালেন্স বলতে কী বুঝ? (অধ্যায়-৪)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ক্রেডিট ব্যালেন্স</span> হলো যখন কোনো হিসাবে <span style="color: #66FCF1;">ক্রেডিট দিকের যোগফল ডেবিট দিকের চেয়ে বেশি</span> হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">ক্রেডিট ব্যালেন্স মানে হলো তোমার দায় বা খরচ বেশি। যেমন, তুমি ক্রেডিট কার্ডে <span style="color: #66FCF1;">৫০০ টাকার জিনিস কিনলে</span> কিন্তু এখনো টাকা পরিশোধ করোনি। তাহলে তোমার ক্রেডিট ব্যালেন্স হলো <span style="color: #66FCF1;">৫০০ টাকা</span>, মানে তোমার কাছে টাকাটা বকেয়া।</p>
+                    ` 
+                },
+                { 
+                    text: "৮। হিসাবের জেরটানা কী? (অধ্যায়-৪)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাবের জেরটানা</span> হলো একটি হিসাবের <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট দিকের পার্থক্য বের করে</span> হিসাবটি সাময়িকভাবে বন্ধ করার প্রক্রিয়া।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা হলো মাসের শেষে তোমার জমা খরচের খাতাটা বন্ধ করে পরের মাসের জন্য নতুন হিসাব খোলা। আগের মাসের শেষ জেরটা পরের মাসের শুরুতে নিয়ে যাওয়া হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৯। জাবেদা বহিকে কী কী নামে অভিহিত করা হয়? (অধ্যায়-৫)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2">জাবেদা বহিকে <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">দৈনিক বহি, সহকারী বহি, অথবা প্রাথমিক লিপিবদ্ধকরণের বহি</span> বলা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদা হলো তোমার ব্যবসার প্রতিদিনকার লেনদেনের একটা ডাতা, যেন প্রতিদিনকার ডায়েরি। তাই এটাকে দৈনিক বহি বলা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "১০। খতিয়ান বলতে কী বুঝ?", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খতিয়ান</span> হলো জাবেদা থেকে লেনদেনগুলোকে <span style="color: #66FCF1;">শ্রেণীবদ্ধভাবে এবং স্থায়ীভাবে লিপিবদ্ধ</span> করার একটি প্রধান হিসাবের বই।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খতিয়ান হলো তোমার ব্যবসার সব লেনদেনকে আলাদা আলাদা ফোল্ডারে ভাগ করে রাখা। যেমন, তুমি যদি কলম, পেনসিল, খাতা কিনো, তাহলে কলমের জন্য একটা ফোল্ডার, পেনসিলের জন্য আরেকটা ফোল্ডার — এটাই খতিয়ান।</p>
+                    ` 
+                },
+                { 
+                    text: "১১। পৃষ্ঠা চিহ্নিকরণ কী? (অধ্যায়-৬)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">পৃষ্ঠা চিহ্নিকরণ</span> হলো জাবেদা থেকে খতিয়ানে ডেটা স্থানান্তরের সময় <span style="color: #66FCF1;">জাবেদা ও খতিয়ান পৃষ্ঠার নম্বর</span> উল্লেখ করা।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা অনেকটা বইয়ের রেফারেন্সের মতো। তুমি যখন জাবেদা থেকে খতিয়ানে ডেটা লেখ, তখন তুমি কোন পৃষ্ঠা থেকে লিখছ আর কোন পৃষ্ঠায় লিখছ, সেটার নম্বর লিখে রাখো। এতে পরে দরকার হলে সহজে খুঁজে পাওয়া যায়।</p>
+                    ` 
+                },
+                { 
+                    text: "১২। সমাপনী জের কী? (অধ্যায়-৬)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সমাপনী জের</span> হলো একটি হিসাবকালের শেষে হিসাবের <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট দিকের পার্থক্য</span>, যা পরবর্তী হিসাবকালের <span style="color: #66FCF1;">প্রারম্ভিক জের</span> হিসেবে স্থানান্তরিত হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">সমাপনী জের হলো বছরের শেষে তোমার হাতে কত টাকা বা কী কী সম্পদ আছে তার চূড়ান্ত হিসাব। এই জেরটাই পরের বছর শুরুর সময় তোমার প্রারম্ভিক হিসাব হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "১৩। নগদান বই কী? (অধ্যায়-৭)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নগদান বই</span> হলো এমন একটি বই যেখানে শুধুমাত্র <span style="color: #66FCF1;">নগদ অর্থ ও ব্যাংক সম্পর্কিত সকল লেনদেন</span> লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নগদান বই হলো তোমার ক্যাশ আর ব্যাংক অ্যাকাউন্টের একটা আলাদা খাতা। এখানে শুধু কত টাকা তোমার হাতে আছে বা ব্যাংকে আছে, সেই হিসাবটা রাখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "১৪। কারবারি বাট্টা কী? (অধ্যায়-৭)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কারবারি বাট্টা</span> হলো পণ্যের বিক্রয় মূল্য থেকে যে পরিমাণ <span style="color: #66FCF1;">ছাড় দেওয়া</span> হয়, যা হিসাবের বইতে লিপিবদ্ধ করা হয় না।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কারবারি বাট্টা হলো দোকানদাররা যে ছাড় দেয়, সেটা। যেমন, ১০০ টাকার জিনিস ৯০ টাকায় বিক্রি করলে ১০ টাকা ডিসকাউন্ট। এই ডিসকাউন্টটা তুমি তোমার হিসাবে লেখো না।</p>
+                    ` 
+                },
+                { 
+                    text: "১৫। কন্ট্রা এন্ট্রি কাকে বলে? (অধ্যায়-৭)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কন্ট্রা এন্ট্রি</span> হলো নগদান বইয়ের যে লেনদেনগুলো <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট উভয় দিকেই</span> লিপিবদ্ধ হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কন্ট্রা এন্ট্রি হলো যখন তোমার নিজেরই দুইটা অ্যাকাউন্টের মধ্যে টাকা আদান-প্রদান হয়। যেমন, তুমি যদি তোমার ব্যাংকের অ্যাকাউন্ট থেকে কিছু টাকা তুলে নাও, তাহলে তোমার নগদ টাকা বাড়বে আর ব্যাংকের টাকা কমবে।</p>
+                    ` 
+                },
+                { 
+                    text: "১৬। রেওয়ামিলের সংজ্ঞা দাও। (অধ্যায়-৮)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রেওয়ামিল</span> হলো খতিয়ানের সকল <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট ব্যালেন্স</span> নিয়ে প্রস্তুতকৃত একটি তালিকা, যা হিসাবের <span style="color: #66FCF1;">গাণিতিক নির্ভুলতা</span> যাচাই করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">রেওয়ামিল হলো তোমার সব হিসাবের জের (ডেবিট আর ক্রেডিট) নিয়ে বানানো একটা লিস্ট। এই লিস্টে ডেবিট আর ক্রেডিট দুই দিকের যোগফল সমান হলে তুমি জানতে পারো যে তোমার হিসাবে গাণিতিকভাবে কোনো ভুল নেই।</p>
+                    ` 
+                },
+                { 
+                    text: "১৭। নীতিগত ভুল কী? (অধ্যায়-৮)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নীতিগত ভুল</span> হলো হিসাববিজ্ঞানের <span style="color: #66FCF1;">মূলনীতি না মেনে</span> কোনো ভুল করা।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নীতিগত ভুল মানে হলো তুমি যখন কোনো ভুল নিয়মের কারণে ভুল করো। যেমন, একটা স্থায়ী সম্পদ (মেশিন) কেনার খরচকে সাধারণ খরচ হিসেবে লিখে ফেলা, যা হিসাববিজ্ঞানের নিয়ম অনুযায়ী ভুল।</p>
+                    ` 
+                },
+                { 
+                    text: "১৮। চুড়ান্ত হিসাব কাকে বলে? (অধ্যায়-৯)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">চূড়ান্ত হিসাব</span> হলো একটি হিসাবকালের শেষে ব্যবসায়ের <span style="color: #66FCF1;">লাভ বা ক্ষতি এবং আর্থিক অবস্থা</span> জানার জন্য প্রস্তুতকৃত বিবরণী।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">চূড়ান্ত হিসাব হলো তোমার ব্যবসার বছরের শেষে একটা ফাইনাল রিপোর্ট। এই রিপোর্ট দেখে তুমি জানতে পারো যে তোমার ব্যবসায়ে কত টাকা লাভ বা ক্ষতি হয়েছে, আর তোমার হাতে এখন কী কী আছে।</p>
+                    ` 
+                },
+                { 
+                    text: "১৯। উদ্বৃত্তপত্র কী? (অধ্যায়-৯)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উদ্বৃত্তপত্র</span> হলো একটি নির্দিষ্ট তারিখে কোনো প্রতিষ্ঠানের <span style="color: #66FCF1;">সম্পদ, দায় এবং মালিকানা স্বত্বের বিবরণী</span>, যা আর্থিক অবস্থা প্রকাশ করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">উদ্বৃত্তপত্রকে তুমি তোমার ফাইনাল ব্যালেন্স শিট ভাবতে পারো। এটা একটা নির্দিষ্ট দিনে তোমার পকেটে কত টাকা আছে, কার কাছে কত পাওনা, আর তোমার নিজের কী আছে – সবকিছুর একটা চিত্র।</p>
+                    ` 
+                },
+                { 
+                    text: "২০। কুঋণ কী? (অধ্যায়-৯)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কুঋণ</span> হলো এমন পাওনা টাকা যা <span style="color: #66FCF1;">আদায় হওয়ার সম্ভাবনা নেই</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কুঋণ হলো এমন বকেয়া টাকা, যা তুমি কোনো কাস্টমারের কাছে পাও, কিন্তু এখন মনে হচ্ছে সে আর এই টাকা দেবে না। তাই তুমি সেই টাকাটা হিসাব থেকে বাদ দিয়ে দাও।</p>
+                    ` 
+                },
+                { 
+                    text: "২১। অবচয় কাকে বলে? (অধ্যায়-৯)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অবচয়</span> হলো কোনো স্থায়ী সম্পদের <span style="color: #66FCF1;">ব্যবহার বা সময়ের সাথে সাথে তার মূল্য হ্রাস</span> পাওয়া।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">অবচয় মানে হলো তোমার কোনো স্থায়ী সম্পদ (যেমন গাড়ি) ব্যবহার করলে তার দাম কমে যাওয়া। যেমন, একটা নতুন গাড়ি এক বছর চালালে তার মূল্য কিছুটা কমে যায়। এই কমে যাওয়া মূল্যই অবচয়।</p>
+                    ` 
+                },
+                { 
+                    text: "২২। অগ্রিম খরচ কী? এটি কীভাবে হিসাবভুক্ত করা হয়। (অধ্যায়-৯)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অগ্রিম খরচ</span> হলো এমন ব্যয় যা <span style="color: #66FCF1;">ভবিষ্যতে সেবার জন্য অগ্রিম প্রদান</span> করা হয়েছে। এটি <span style="color: #66FCF1;">সম্পদ</span> হিসেবে হিসাবভুক্ত করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">অগ্রিম খরচ হলো তুমি আগে থেকে কোনো কিছুর জন্য টাকা দিয়ে দেওয়া। যেমন, তুমি যদি এক বছরের জন্য বাড়ি ভাড়া আগে থেকে দিয়ে দাও, তাহলে এটা তোমার জন্য সম্পদ। কারণ তুমি এক বছর সেই বাড়িটা ব্যবহার করার অধিকার পেয়েছো।</p>
+                    ` 
+                },
+                { 
+                    text: "২৩। আয়কর কী? (অধ্যায়-১০)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">আয়কর</span> হলো ব্যক্তি বা প্রতিষ্ঠানের <span style="color: #66FCF1;">আয়ের ওপর সরকার কর্তৃক ধার্যকৃত কর</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">আয়কর হলো তোমার আয়ের ওপর সরকারের ট্যাক্স। তুমি যদি কোনো বেতন বা ব্যবসা থেকে আয় করো, তাহলে তার একটা অংশ সরকারকে দিতে হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "২৪। হিসাববিজ্ঞান কী এবং এর প্রথম গ্রন্থের নাম কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাববিজ্ঞান</span> হলো <span style="color: #66FCF1;">আর্থিক লেনদেন লিপিবদ্ধ, শ্রেণীবদ্ধ ও বিশ্লেষণের একটি প্রক্রিয়া</span>। এর প্রথম গ্রন্থের নাম হলো "<span style="color: #66FCF1;">সুম্মা ডি অ্যারিথমেটিকা, জিওমেট্রিকা, প্রোপোশনি এট প্রোপোশনালিটা</span>" (Summa de Arithmetica, Geometria, Proportioni et Proportionalita)।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাববিজ্ঞান হলো একটা কোম্পানির টাকার হিসাব রাখার নিয়ম। এই নিয়মগুলো প্রথমে একটা বইতে লেখা হয়েছিল। সেই বইটার নাম অনেকটা ধাঁধার মতো ছিল, কিন্তু এটাই ছিল আধুনিক হিসাবের প্রথম বই।</p>
+                    ` 
+                },
+                { 
+                    text: "২৫। লুকা প্যাসিওলি কেন বিখ্যাত?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">লুকা প্যাসিওলি বিখ্যাত</span> কারণ তিনি <span style="color: #66FCF1;">দু'তরফা দাখিলা পদ্ধতির ওপর প্রথম লিখিত গ্রন্থ</span> প্রকাশ করেন, যা আধুনিক হিসাববিজ্ঞানের ভিত্তি স্থাপন করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লুকা প্যাসিওলি বিখ্যাত কারণ তিনি এমন একটা পদ্ধতি আবিষ্কার করেন যেখানে প্রতিটি লেনদেনের দুইটা দিক থাকে (পাওয়া আর দেওয়া)। এটা এমন একটা আবিষ্কার ছিল যে এখনো সব ব্যবসা তার নিয়ম ব্যবহার করে।</p>
+                    ` 
+                },
+                { 
+                    text: "২৬। এক তরফা বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">একতরফা দাখিলা পদ্ধতি</span> হলো একটি <span style="color: #66FCF1;">অসম্পূর্ণ হিসাব পদ্ধতি</span> যেখানে প্রতিটি লেনদেনের জন্য <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট উভয় দিক সমানভাবে লিপিবদ্ধ করা হয় না</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">একতরফা হিসাব হলো শুধু তোমার নগদ টাকা আর ব্যক্তিগত হিসাব রাখার মতো। যেমন, একটা ছোট দোকানের মালিক শুধু তার হাতে কত টাকা আছে, আর কে তাকে কত টাকা দেবে, তার হিসাব রাখে, বাকি কিছু রাখে না।</p>
+                    ` 
+                },
+                { 
+                    text: "২৭। কৃষ্ণণ বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">'কৃষ্ণণ' শব্দটি সম্ভবত 'কমিশন' বা 'কুঋণ' বোঝানো হয়েছে।</span> যদি '<span style="color: #66FCF1;">কুঋণ</span>' হয়, তাহলে এটি হলো এমন পাওনা টাকা যা <span style="color: #66FCF1;">আদায় হওয়ার সম্ভাবনা নেই</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">'কমিশন' হলো যখন তুমি কোনো কিছু বিক্রি করে তার একটা অংশ লাভ হিসেবে পাও। আর 'কুঋণ' হলো যখন তুমি কারো কাছে টাকা পাও, কিন্তু এখন মনে হয় সে আর টাকা দেবে না।</p>
+                    ` 
+                },
+                { 
+                    text: "২৮। হিসাব চক্র বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব চক্র</span> হলো একটি প্রতিষ্ঠানের হিসাব কার্যক্রমের <span style="color: #66FCF1;">ধারাবাহিক ধাপগুলো</span>, যা লেনদেন চিহ্নিতকরণ থেকে শুরু করে চূড়ান্ত হিসাব প্রস্তুতি পর্যন্ত চলে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাব চক্র হলো একটা কোম্পানির হিসাব রাখার একটা পুরো সাইকেল। এটা বছরের শুরুতে লেনদেন থেকে শুরু করে বছরের শেষে ফাইনাল রিপোর্ট তৈরি করা পর্যন্ত চলে। অনেকটা একটা ছবির মতো, যেখানে সবকিছু ধাপে ধাপে দেখানো হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "২৯। দেনাদার বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">দেনাদার</span> হলো সেই ব্যক্তি বা প্রতিষ্ঠান যারা <span style="color: #66FCF1;">বাকিতে পণ্য বা সেবা গ্রহণ</span> করেছে এবং ভবিষ্যতে তার জন্য টাকা পরিশোধ করবে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">দেনাদার মানে হলো যারা তোমার কাছ থেকে বাকিতে জিনিসপত্র কিনেছে। যেমন, তোমার দোকান থেকে যদি তোমার বন্ধু একটা পেনসিল নেয়, আর বলে যে কালকে টাকা দেবে, তাহলে সে তোমার দেনাদার।</p>
+                    ` 
+                },
+                { 
+                    text: "৩০। পাওনাদার বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">পাওনাদার</span> হলো সেই ব্যক্তি বা প্রতিষ্ঠান যারা <span style="color: #66FCF1;">বাকিতে পণ্য বা সেবা সরবরাহ</span> করেছে এবং তার জন্য ভবিষ্যতে টাকা পাবে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">পাওনাদার মানে হলো যার কাছ থেকে তুমি বাকিতে জিনিসপত্র নিয়েছো। যেমন, তুমি যদি তোমার বন্ধুর দোকান থেকে একটা পেনসিল নাও, আর বলো কালকে টাকা দেবে, তাহলে তোমার বন্ধু তোমার পাওনাদার।</p>
+                    ` 
+                },
+                { 
+                    text: "৩১। জাবেদা বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জাবেদা</span> হলো লেনদেন সংঘটিত হওয়ার পর <span style="color: #66FCF1;">তারিখের ক্রমানুসারে প্রথম যে বইতে</span> ডেবিট ও ক্রেডিট পক্ষ উল্লেখ করে লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদা হলো তোমার ব্যবসার একটা ডায়েরি। এখানে প্রতিদিন কী কী লেনদেন হয়েছে, তা লেখা হয়। যেমন, তুমি কখন, কত টাকার জিনিস বিক্রি করেছো, সেটা এখানে লেখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৩২। প্রকৃত জাবেদা বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">প্রকৃত জাবেদা</span> হলো এমন জাবেদা যেখানে শুধু সেই লেনদেনগুলো লিপিবদ্ধ করা হয়, যা <span style="color: #66FCF1;">বিশেষ কোনো জাবেদা বইতে লিপিবদ্ধ করা যায় না</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">প্রকৃত জাবেদা হলো একটা মিসেলানিয়াস জাবেদা। যেমন, তোমার যদি কোনো অপ্রয়োজনীয় লেনদেন হয়, যা তুমি কোনো ক্যাশ বইতে বা অন্য কোনো বইতে লিখতে পারো না, তখন সেটা তুমি প্রকৃত জাবেদা বইতে লেখ।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৩। খতিয়ানকে হিসাবের পাকা বা চূড়ান্ত বহি এবং সকল বইয়ের রাজা বলা হয় কেন?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খতিয়ানকে হিসাবের পাকা বহি</span> বলা হয় কারণ এখানে লেনদেনগুলোকে <span style="color: #66FCF1;">চূড়ান্তভাবে শ্রেণীবদ্ধ করে স্থায়ীভাবে</span> লিপিবদ্ধ করা হয়। এটিকে <span style="color: #66FCF1;">সকল বইয়ের রাজা</span> বলা হয় কারণ জাবেদা, নগদান বইসহ সব হিসাবের উৎসই হলো খতিয়ান।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খতিয়ানকে হিসাবের রাজা বলা হয় কারণ এখানে সবকিছু ফাইনালি গোছানো থাকে। যেমন, তোমার যদি একটা লাইব্রেরি থাকে, সেখানে অনেক বই এলোমেলো আছে। কিন্তু তুমি যদি একটা আলাদা ক্যাবিনেটে সব বিজ্ঞান বই আর আরেকটা ক্যাবিনেটে সব সাহিত্য বই রাখ, তাহলে সেই ক্যাবিনেটগুলোই হলো খতিয়ান।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৪। খুচরা নগদান বই বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খুচরা নগদান বই</span> হলো এমন একটি বই যেখানে প্রতিষ্ঠানের <span style="color: #66FCF1;">ছোটখাটো ও কম মূল্যের নগদ খরচগুলো</span> লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খুচরা নগদান বই হলো তোমার পকেটে থাকা খুচরা টাকার হিসাব। যেমন, তুমি যদি কলম, পেনসিল, খাতা কিনো, আর তোমার ক্যাশিয়ারকে বলো, সে তার খুচরা বইতে সেই হিসাবটা রাখে।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৫। নগদ বাট্টা বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নগদ বাট্টা</span> হলো প্রাপ্য বা প্রদেয় টাকা <span style="color: #66FCF1;">দ্রুত পরিশোধ করার জন্য</span> যে ছাড় দেওয়া হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নগদ বাট্টা হলো এমন ছাড়, যা তুমি যদি কারো থেকে টাকা দ্রুত আদায় করতে চাও, তাহলে তাকে দাও। যেমন, তুমি যদি কারো কাছে ১০০ টাকা পাও, আর সে যদি তোমাকে ৯০ টাকা দেয় আর তুমি তাকে ১০ টাকা ছাড় দাও, তাহলে সেটাই নগদ বাট্টা।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৬। একঘরা নগদান বই বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">একঘরা নগদান বই</span> হলো এমন নগদান বই যেখানে শুধুমাত্র <span style="color: #66FCF1;">নগদ অর্থ সংক্রান্ত লেনদেনগুলো</span> লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">একঘরা নগদান বই হলো তোমার ক্যাশ বক্সের হিসাব। এখানে শুধু কত টাকা তোমার হাতে আছে, আর কত টাকা চলে যাচ্ছে, সেই হিসাব রাখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৭। 'ঘরা নগদান বই বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">এটি সম্ভবত 'দুগরা নগদান বই' বা 'দুই ঘরা নগদান বই' বোঝানো হয়েছে,</span> যেখানে <span style="color: #66FCF1;">নগদ এবং ব্যাংক উভয় সংক্রান্ত লেনদেন</span> লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">দুই ঘরা নগদান বই হলো তোমার ক্যাশ আর ব্যাংক অ্যাকাউন্টের একটা আলাদা খাতা। এখানে শুধু কত টাকা তোমার হাতে আছে বা ব্যাংকে আছে, সেই হিসাবটা রাখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৮। পরিপূরক ভুল বলতে কী বুঝ?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">পরিপূরক ভুল</span> হলো এমন দুটি ভুল যা <span style="color: #66FCF1;">একে অপরের প্রভাবকে বাতিল</span> করে দেয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">পরিপূরক ভুল হলো যখন দুইটা ভুল মিলে একটা সঠিক উত্তর দেয়। যেমন, তুমি যদি একটা হিসাবে <span style="color: #66FCF1;">১০ টাকা ডেবিট কম লেখো</span> আর আরেকটা হিসাবে <span style="color: #66FCF1;">১০ টাকা ক্রেডিট কম লেখো</span>, তাহলে তোমার ফাইনাল রেজাল্ট সঠিক দেখাবে, যদিও দুইটা ভুল হয়েছে।</p>
+                    ` 
+                },
+                { 
+                    text: "৩৯। সমাপনি মজুদ পণ্য কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সমাপনী মজুদ পণ্য</span> হলো একটি হিসাবকালের শেষে <span style="color: #66FCF1;">বিক্রয় না হওয়া পণ্যের মজুদ</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">সমাপনী মজুদ পণ্য হলো তোমার দোকানে বছরের শেষে যে জিনিসগুলো বিক্রি হয়নি, সেগুলো।</p>
+                    ` 
+                },
+                { 
+                    text: "৪০। নিট লাভ কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নিট লাভ</span> হলো একটি নির্দিষ্ট হিসাবকালে <span style="color: #66FCF1;">মোট আয় থেকে সকল খরচ বাদ দেওয়ার পর</span> যে অতিরিক্ত টাকা থাকে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নিট লাভ হলো তোমার ব্যবসার আসল লাভ। তুমি যদি এক মাসে <span style="color: #66FCF1;">৫০০ টাকা আয়</span> করেছো আর <span style="color: #66FCF1;">২৫০ টাকা খরচ</span> করেছো, তাহলে তোমার নিট লাভ হলো <span style="color: #66FCF1;">২৫০ টাকা</span>।</p>
+                    ` 
+                },
+                { 
+                    text: "৪১। অনাদায়ী দেনা কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অনাদায়ী দেনা</span> হলো এমন প্রাপ্য টাকা যা <span style="color: #66FCF1;">আদায় হওয়ার সম্ভাবনা নেই</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">অনাদায়ী দেনা হলো এমন বকেয়া টাকা, যা তুমি কোনো কাস্টমারের কাছে পাও, কিন্তু এখন মনে হচ্ছে সে আর এই টাকা দেবে না। তাই তুমি সেই টাকাটা হিসাব থেকে বাদ দিয়ে দাও।</p>
+                    ` 
+                },
+                { 
+                    text: "৪২। সুনাম বলতে কী বুঝায়?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সুনাম</span> হলো একটি প্রতিষ্ঠানের <span style="color: #66FCF1;">খ্যাতি বা সুনাম</span>, যার ফলে এটি অন্যান্য প্রতিষ্ঠানের তুলনায় <span style="color: #66FCF1;">অধিক মুনাফা</span> অর্জন করতে পারে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">সুনাম হলো তোমার দোকানের ভালো নাম। যেমন, কোনো দোকান যদি অনেক ভালো জিনিস বিক্রি করে, তাহলে মানুষ সেখান থেকে জিনিস কিনতে চায়। এটাই সেই দোকানের সুনাম।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৩। শিক্ষানবিশ সেলামি বলতে কী বুঝায়?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">শিক্ষানবিশ সেলামি</span> হলো কোনো প্রতিষ্ঠানে <span style="color: #66FCF1;">কাজ শেখার জন্য</span> একজন শিক্ষার্থীকে যে টাকা দেওয়া হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">শিক্ষানবিশ সেলামি হলো যখন তুমি কোনো প্রতিষ্ঠানে কাজ শিখতে যাও, তখন তোমাকে যে টাকা দেওয়া হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৪। অনাদায়ী দেনা বলতে কী বুঝায়?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অনাদায়ী দেনা</span> হলো এমন প্রাপ্য টাকা যা <span style="color: #66FCF1;">আদায় হওয়ার সম্ভাবনা নেই</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">অনাদায়ী দেনা হলো এমন বকেয়া টাকা, যা তুমি কোনো কাস্টমারের কাছে পাও, কিন্তু এখন মনে হচ্ছে সে আর এই টাকা দেবে না। তাই তুমি সেই টাকাটা হিসাব থেকে বাদ দিয়ে দাও।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৫। অনাদায়ী দেনা সঞ্চিতি বলতে কী বুঝায়?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">অনাদায়ী দেনা সঞ্চিতি</span> হলো ভবিষ্যতের সম্ভাব্য কুঋণের জন্য একটি প্রতিষ্ঠানের <span style="color: #66FCF1;">লাভ থেকে নির্দিষ্ট পরিমাণ টাকা সরিয়ে রাখা</span>।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">অনাদায়ী দেনা সঞ্চিতি হলো যখন তুমি কোনো লাভ করো, তখন তার একটা অংশ ভবিষ্যতের জন্য সরিয়ে রাখো। যদি কোনো কাস্টমার টাকা না দেয়, তাহলে তুমি সেই টাকাটা এই সঞ্চিতি থেকে পূরণ করতে পারো।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৬। কর অবকাশ কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কর অবকাশ</span> হলো সরকার কর্তৃক কোনো প্রতিষ্ঠানকে <span style="color: #66FCF1;">নির্দিষ্ট সময়ের জন্য আয়কর থেকে মুক্তি</span> দেওয়া।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কর অবকাশ হলো যখন সরকার কোনো নতুন প্রতিষ্ঠানকে বলে, "তোমাকে প্রথম কয়েক বছর ট্যাক্স দিতে হবে না।" এটা নতুন ব্যবসাকে উৎসাহিত করার জন্য করা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৭। কর প্রণোদনা কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কর প্রণোদনা</span> হলো সরকার কর্তৃক নির্দিষ্ট কিছু কাজ বা বিনিয়োগের জন্য করদাতাকে <span style="color: #66FCF1;">কর ছাড় বা বিশেষ সুবিধা</span> দেওয়া।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কর প্রণোদনা হলো যখন সরকার কিছু কাজ করার জন্য তোমাকে ট্যাক্সে ছাড় দেয়। যেমন, যদি তুমি কোনো বিশেষ খাতে বিনিয়োগ করো, তাহলে তোমাকে কম ট্যাক্স দিতে হবে।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৮। করবর্ষ কী?", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">করবর্ষ</span> হলো একটি নির্দিষ্ট সময়ের মধ্যে <span style="color: #66FCF1;">অর্জিত আয়ের ওপর কর নির্ণয়</span> করা হয়, যা সাধারণত <span style="color: #66FCF1;">১২ মাস</span> হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">করবর্ষ হলো এক বছর, যার ওপর তোমার আয়কর হিসাব করা হয়। যেমন, জুলাই ১ থেকে জুন ৩০ পর্যন্ত।</p>
+                    ` 
+                },
+                { 
+                    text: "৪৯। হিসাববিজ্ঞান কাকে বলে? (অধ্যায়-১)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাববিজ্ঞান</span> হলো কোনো প্রতিষ্ঠানের <span style="color: #66FCF1;">আর্থিক লেনদেনগুলো লিপিবদ্ধকরণ, শ্রেণীবদ্ধকরণ, সংক্ষিপ্তকরণ, বিশ্লেষণ ও প্রতিবেদন তৈরির একটি সুশৃঙ্খল প্রক্রিয়া</span>। এর মাধ্যমে প্রতিষ্ঠানের <span style="color: #66FCF1;">আর্থিক অবস্থা ও কার্যফলের চিত্র</span> পাওয়া যায়, যা সিদ্ধান্ত গ্রহণে সহায়তা করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাববিজ্ঞান হলো তোমার ব্যবসার টাকার হিসাব রাখার একটা পুরো সিস্টেম। এটা অনেকটা তোমার বাড়ির বাজেট তৈরির মতো। তুমি কত টাকা পাও, কত খরচ করো, কত জমা থাকে, কত বাকি থাকে – সবকিছুর একটা পূর্ণাঙ্গ চিত্র দেয়, যাতে তুমি বুঝতে পারো তোমার ব্যবসা ভালো চলছে কিনা।</p>
+                    ` 
+                },
+                { 
+                    text: "৫০। লুকা ডি প্যাসিওলিকে হিসাববিজ্ঞানের জনক বলা হয় কেন? (অধ্যায়-১)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">লুকা ডি প্যাসিওলিকে হিসাববিজ্ঞানের জনক বলা হয়</span> কারণ তিনি <span style="color: #66FCF1;">১৪৯৪ সালে তার 'সুম্মা ডি অ্যারিথমেটিকা' নামক গ্রন্থে দু'তরফা দাখিলা পদ্ধতির ওপর বিস্তারিত আলোচনা</span> করেন। এই পদ্ধতি আধুনিক হিসাববিজ্ঞানের ভিত্তি স্থাপন করে। প্রতিটি লেনদেনের দুটি পক্ষ (<span style="color: #66FCF1;">ডেবিট ও ক্রেডিট</span>) থাকবে, যা <span style="color: #66FCF1;">সমান</span> হবে—এই ধারণাটি তার অবদানেই জনপ্রিয়তা পায়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লুকা ডি প্যাসিওলি বিখ্যাত কারণ তিনি একটা নিয়ম তৈরি করেছেন যা আজও সব ব্যবসা ব্যবহার করে। তিনি বলেছিলেন, "প্রতিটি লেনদেনের দুইটা দিক আছে: একটা দেওয়া আর একটা নেওয়া।" এই সহজ নিয়মটাই পুরো হিসাবের দুনিয়া পাল্টে দিয়েছে।</p>
+                    ` 
+                },
+                { 
+                    text: "৫১। লেনদেন এবং কারবারি লেনদেন বলতে কী বুঝায়? (অধ্যায়-২)", 
+                    tier: 'epic', 
+                    answer: `
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">লেনদেন:</span> কোনো ঘটনা যা <span style="color: #66FCF1;">অর্থের পরিমাপে প্রকাশ</span> করা যায় এবং যা দুটি পক্ষের মধ্যে আদান-প্রদান হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">কারবারি লেনদেন:</span> এটি এমন ঘটনা যা একটি প্রতিষ্ঠানের <span style="color: #66FCF1;">আর্থিক অবস্থার পরিবর্তন</span> ঘটায়। যেমন, পণ্য ক্রয়-বিক্রয়, বেতন প্রদান, ভাড়া গ্রহণ ইত্যাদি। সব লেনদেনই কারবারি লেনদেন নয়, কিন্তু সব কারবারি লেনদেনই লেনদেন।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লেনদেন মানে হলো যে কোনো আদান-প্রদান। যেমন, বন্ধুর সাথে দেখা করা একটা ঘটনা, কিন্তু টাকা-পয়সা না থাকলে সেটা লেনদেন নয়। কারবারি লেনদেন মানে হলো সেই সব আদান-প্রদান যা তোমার ব্যবসার টাকার হিসাব পরিবর্তন করে। যেমন, দোকানে একটা জিনিস বিক্রি করা।</p>
+                    ` 
+                },
+                { 
+                    text: "৫২। দ্বৈত সত্তা বলতে কী বুঝায়? (অধ্যায়-২)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">দ্বৈত সত্তা</span> হলো দু'তরফা দাখিলা পদ্ধতির একটি মূলনীতি, যেখানে প্রতিটি লেনদেনের <span style="color: #66FCF1;">দুটি পক্ষ বা সত্তা</span> থাকে। একটি পক্ষ <span style="color: #66FCF1;">সুবিধা গ্রহণ</span> করে (ডেবিট), অন্য পক্ষ <span style="color: #66FCF1;">সুবিধা প্রদান</span> করে (ক্রেডিট)। এই দুটি পক্ষ সমান অঙ্কের টাকায় লিপিবদ্ধ করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">দ্বৈত সত্তা মানে হলো যেকোনো লেনদেনের দুইটা দিক আছে। তুমি যখন একটা জিনিস কিনো, তখন একটা জিনিস পাও (<span style="color: #66FCF1;">ডেবিট</span>), আর তার বিনিময়ে টাকা দাও (<span style="color: #66FCF1;">ক্রেডিট</span>)। একটা হাত থেকে টাকা গেলে আরেক হাতে জিনিস আসে, এটাই দ্বৈত সত্তা।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৩। হিসাব-নিকাশের ভিত্তি কী? (অধ্যায়-২)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব-নিকাশের ভিত্তি</span> হলো <span style="color: #66FCF1;">দু'তরফা দাখিলা পদ্ধতি (Double-Entry System)</span>। এই পদ্ধতিতে প্রতিটি লেনদেনকে ডেবিট ও ক্রেডিট দুটি অংশে ভাগ করা হয়, যা <span style="color: #66FCF1;">সমান অঙ্কের টাকায়</span> লিপিবদ্ধ করা হয়। এটি হিসাবের নির্ভুলতা ও নির্ভরযোগ্যতা নিশ্চিত করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাবের ভিত্তি হলো ডাবল-এন্ট্রি সিস্টেম। এটা হলো এমন একটা মূল নিয়ম, যার ওপর দাঁড়িয়ে সব হিসাব করা হয়। এটা নিশ্চিত করে যে তুমি যখন কোনো হিসাব কর, তখন তার দুইটা দিকই লিখতে হবে।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৪। সব লেনদেনই কি দৃশ্যমান? (অধ্যায়-২)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2">না, <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সব লেনদেনই দৃশ্যমান নয়</span>। কিছু লেনদেন অদৃশ্যমান বা অলক্ষ্যণীয় হতে পারে, যেমন <span style="color: #66FCF1;">অবচয় এবং অনাদায়ী পাওনা</span>। এই লেনদেনগুলো <span style="color: #66FCF1;">আর্থিক মূল্য বহন</span> করে, কিন্তু এদের কোনো শারীরিক বা দৃশ্যমান রূপ থাকে না।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">না, সব লেনদেন দেখা যায় না। যেমন, একটা নতুন গাড়ি কিনলে তুমি সেটা দেখতে পাও। কিন্তু সেই গাড়ির দাম এক বছর পরে কিছুটা কমে যায় (<span style="color: #66FCF1;">অবচয়</span>), এটা একটা লেনদেন, কিন্তু তুমি দেখতে পাও না।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৫। দু'তরফা দাখিলা পদ্ধতির জনক কে? তিনি কেন বিখ্যাত? (অধ্যায়-৩)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2">দু'তরফা দাখিলা পদ্ধতির জনক হলেন <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">লুকা ডি প্যাসিওলি</span>। তিনি <span style="color: #66FCF1;">১৪৯৪ সালে তার বইতে এই পদ্ধতির ওপর বিস্তারিত লেখেন</span>। তিনি বিখ্যাত কারণ তার এই পদ্ধতি প্রতিটি লেনদেনের দুটি দিক (<span style="color: #66FCF1;">ডেবিট ও ক্রেডিট</span>) সমানভাবে লিপিবদ্ধ করার একটি বিজ্ঞানসম্মত ও নির্ভরযোগ্য নিয়ম তৈরি করে, যা আধুনিক হিসাববিজ্ঞানের ভিত্তি।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লুকা ডি প্যাসিওলি হলেন হিসাবের প্রথম বস। তিনি ১৪৯৪ সালে একটা বই লিখে একটা নিয়ম তৈরি করেন, যেখানে প্রতিটি লেনদেনের জন্য দুইটা পক্ষ থাকে। এই নিয়মটা আজও ব্যবহার করা হয়, তাই তিনি বিখ্যাত।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৬। দু'তরফা দাখিলা পদ্ধতির মূলনীতি কী? (অধ্যায়-৩)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">দু'তরফা দাখিলা পদ্ধতির মূলনীতি</span> হলো প্রতিটি লেনদেনের <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট দুটি দিক সমান অঙ্কের টাকায় লিপিবদ্ধ</span> করা। এর ফলে হিসাবের সমীকরণ (সম্পদ = দায় + মালিকানা স্বত্ব) সবসময় ঠিক থাকে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">দু'তরফা দাখিলা পদ্ধতির মূলনীতি হলো 'যত টাকা আসবে, ঠিক তত টাকাই যাবে'। যেমন, তুমি যদি <span style="color: #66FCF1;">১০০ টাকার একটা জিনিস কিনো</span>, তাহলে তোমার থেকে <span style="color: #66FCF1;">১০০ টাকা যাবে</span>, আর তোমার কাছে <span style="color: #66FCF1;">১০০ টাকার জিনিস আসবে</span>।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৭। একতরফা দাখিলা পদ্ধতি বলতে কী বুঝায়? (অধ্যায়-৩)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">একতরফা দাখিলা পদ্ধতি</span> হলো একটি <span style="color: #66FCF1;">অসম্পূর্ণ হিসাব পদ্ধতি</span>, যেখানে প্রতিটি লেনদেনের জন্য <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট দুটি দিক সমানভাবে লিপিবদ্ধ করা হয় না</span>। এতে শুধু নগদ হিসাব এবং ব্যক্তিগত হিসাব রাখা হয়, যা প্রতিষ্ঠানের লাভ-ক্ষতি ও আর্থিক অবস্থা সঠিকভাবে নির্ণয় করতে পারে না।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">একতরফা হিসাব হলো একটা অগোছালো হিসাব পদ্ধতি। এটা অনেকটা শুধু তোমার পকেটে কত টাকা আছে, আর কে তোমাকে কত টাকা দেবে, তার হিসাব রাখার মতো। এখানে সব হিসাব রাখা হয় না, তাই এটা নির্ভুল নয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৮। হিসাব কী? (অধ্যায়-৪)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব</span> হলো একটি নির্দিষ্ট শিরোনামের অধীনে আর্থিক লেনদেনগুলো <span style="color: #66FCF1;">শ্রেণীবদ্ধভাবে সংক্ষিপ্ত আকারে লিপিবদ্ধ</span> করার একটি প্রক্রিয়া। এর মাধ্যমে একটি নির্দিষ্ট সময়ে কোনো বিষয়ের (যেমন: নগদ, বিক্রয়, ক্রয়) মোট পরিমাণ জানা যায়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাব হলো তোমার ব্যবসার একটা নির্দিষ্ট বিষয়ের সব লেনদেনের সারসংক্ষেপ। যেমন, তোমার '<span style="color: #66FCF1;">নগদ হিসাব</span>' বলে একটা খাতা আছে, যেখানে শুধু তুমি কত টাকা পেয়েছো আর কত টাকা খরচ করেছো, তার হিসাব রাখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৫৯। আয়- ব্যয় হিসাব কী? (অধ্যায়-৪)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">আয়-ব্যয় হিসাব</span> হলো ব্যবসায়ের আয় এবং ব্যয় সম্পর্কিত সকল লেনদেন লিপিবদ্ধ করার হিসাব। এটি একটি <span style="color: #66FCF1;">সাময়িক হিসাব</span> যা একটি হিসাবকালের শেষে প্রতিষ্ঠানের <span style="color: #66FCF1;">লাভ বা ক্ষতির পরিমাণ</span> নির্ণয়ে সাহায্য করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">আয়-ব্যয় হিসাব হলো তোমার ব্যবসার লাভ-ক্ষতির খাতা। এখানে তোমার কত টাকা আয় হয়েছে, আর কত টাকা খরচ হয়েছে, সেটার হিসাব রাখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৬০। হিসাব প্রস্তুত করার মূল উদ্দেশ্য কী? (অধ্যায়-৪)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব প্রস্তুত করার মূল উদ্দেশ্য</span> হলো ব্যবসায়ের <span style="color: #66FCF1;">আর্থিক অবস্থা ও ফলাফল সঠিকভাবে জানা</span>। এর মাধ্যমে প্রতিষ্ঠানের লাভ-ক্ষতি, সম্পদ, দায় এবং মালিকানা স্বত্বের সঠিক চিত্র পাওয়া যায়, যা ব্যবস্থাপনার সিদ্ধান্ত গ্রহণে সহায়তা করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাব প্রস্তুত করার মূল উদ্দেশ্য হলো তোমার ব্যবসার রিপোর্ট কার্ড তৈরি করা। এটা দেখে তুমি জানতে পারো যে তোমার ব্যবসা ভালো চলছে কিনা, লাভ হচ্ছে নাকি ক্ষতি, আর তোমার হাতে কী কী আছে।</p>
+                    ` 
+                },
+                { 
+                    text: "৬১। বুককিপিং এর স্বর্ণসূত্র কী? (অধ্যায়-৪)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">বুককিপিং এর স্বর্ণসূত্র</span> হলো ডেবিট ও ক্রেডিট নির্ণয়ের তিনটি নিয়ম:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. ব্যক্তিবাচক হিসাব:</span> সুবিধা গ্রহণকারী ডেবিট, সুবিধা প্রদানকারী ক্রেডিট।</li>
+                            <li><span style="color: #66FCF1;">২. সম্পত্তিবাচক হিসাব:</span> যা আসে ডেবিট, যা যায় ক্রেডিট।</li>
+                            <li><span style="color: #66FCF1;">৩. নামিক হিসাব:</span> খরচ ও ক্ষতি ডেবিট, আয় ও লাভ ক্রেডিট।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">বুককিপিং এর স্বর্ণসূত্র হলো হিসাব রাখার তিনটি সহজ নিয়ম। তুমি কোন হিসাব ডেবিট আর কোন হিসাব ক্রেডিট করবে, এই নিয়মগুলো সেটাই শেখায়।</p>
+                    ` 
+                },
+                { 
+                    text: "৬২। হিসাব চক্রের ধাপগুলো লেখ। (অধ্যায়-৪)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব চক্রের ধাপগুলো</span> হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. লেনদেন চিহ্নিতকরণ</span></li>
+                            <li><span style="color: #66FCF1;">২. জাবেদাভুক্তকরণ</span></li>
+                            <li><span style="color: #66FCF1;">৩. খতিয়ান স্থানান্তর</span></li>
+                            <li><span style="color: #66FCF1;">৪. রেওয়ামিল তৈরি</span></li>
+                            <li><span style="color: #66FCF1;">৫. সমন্বয় সাধন</span></li>
+                            <li><span style="color: #66FCF1;">৬. চূড়ান্ত হিসাব প্রস্তুতকরণ</span></li>
+                            <li><span style="color: #66FCF1;">৭. হিসাব বন্ধকরণ (closing entries)</span></li>
+                            <li><span style="color: #66FCF1;">৮. সমন্বিত রেওয়ামিল তৈরি</span>।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাব চক্র হলো একটা পুরো বছরের হিসাব রাখার সাইকেল। এটা প্রথমে যখন লেনদেন হয়, তখন থেকে শুরু করে বছরের শেষে ফাইনাল রিপোর্ট তৈরি করা পর্যন্ত চলে। এটা একটা ছবির মতো, যেখানে সবকিছু ধাপে ধাপে দেখানো হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৩। জাবেদা কাকে বলে? (অধ্যায়-৫)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জাবেদা</span> হলো লেনদেন সংঘটিত হওয়ার পর <span style="color: #66FCF1;">তারিখের ক্রমানুসারে প্রথম যে বইতে</span> ডেবিট ও ক্রেডিট পক্ষ উল্লেখ করে লিপিবদ্ধ করা হয়। এটিকে <span style="color: #66FCF1;">প্রাথমিক লিপিবদ্ধকরণের বহি</span> বলা হয় কারণ প্রতিটি লেনদেন প্রথমে এখানেই লেখা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদা হলো তোমার ব্যবসার প্রতিদিনের ডায়েরি। এখানে প্রতিদিন কী কী লেনদেন হয়েছে, তা লেখা হয়। যেমন, তুমি কখন, কত টাকার জিনিস বিক্রি করেছো, সেটা এখানে লেখা হয়।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৪। সাহায্যকারী হিসাবের বই কাকে বলে? (অধ্যায়-৫)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">সাহায্যকারী হিসাবের বই</span> হলো এমন বই যেখানে লেনদেনগুলো <span style="color: #66FCF1;">প্রথম পর্যায়ে লিপিবদ্ধ</span> করা হয়, যেমন জাবেদা। এটি খতিয়ানে স্থানান্তর করার আগে লেনদেনের একটি বিস্তারিত রেকর্ড সরবরাহ করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">সাহায্যকারী হিসাবের বই হলো তোমার প্রথম ধাপের হিসাবের খাতা। এখানে তুমি তোমার প্রতিদিনকার সব লেনদেন লেখো। এটা অনেকটা একটা রাফ খাতার মতো, যা তোমাকে পরে ফাইনাল হিসাব করতে সাহায্য করে।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৫। জাবেদাকে দৈনিক বহি বলা হয় কেন? (অধ্যায়-৫)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জাবেদাকে দৈনিক বহি</span> বলা হয় কারণ এখানে লেনদেনগুলো প্রতিদিন সংঘটিত হওয়ার সাথে সাথে <span style="color: #66FCF1;">তারিখের ক্রমানুসারে লিপিবদ্ধ</span> করা হয়। এটি লেনদেনগুলোর একটি ঐতিহাসিক এবং বিস্তারিত রেকর্ড রাখে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদাকে দৈনিক বহি বলা হয় কারণ এটা প্রতিদিনের হিসাব রাখে। তুমি যখন একটা লেনদেন করো, তুমি সেটা সেই দিনই লিখে ফেলো।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৬। খতিয়ানের সংজ্ঞা দাও। (অধ্যায়-৬)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খতিয়ান</span> হলো জাবেদা থেকে লেনদেনগুলোকে <span style="color: #66FCF1;">শ্রেণীবদ্ধভাবে এবং স্থায়ীভাবে লিপিবদ্ধ</span> করার একটি প্রধান হিসাবের বই। প্রতিটি হিসাবের জন্য এখানে একটি আলাদা পাতা বা অ্যাকাউন্ট থাকে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খতিয়ান হলো তোমার ব্যবসার সব লেনদেনকে আলাদা আলাদা ফোল্ডারে ভাগ করে রাখা। যেমন, তুমি যদি কলম, পেনসিল, খাতা কিনো, তাহলে কলমের জন্য একটা ফোল্ডার, পেনসিলের জন্য আরেকটা ফোল্ডার — এটাই খতিয়ান।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৭। খতিয়ান ভূক্তকরণ বা Posting কী? (অধ্যায়-৬)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">পোস্টিং</span> হলো জাবেদা থেকে লেনদেনগুলোকে <span style="color: #66FCF1;">খতিয়ানের নির্দিষ্ট হিসাবে স্থানান্তর</span> করার প্রক্রিয়া। এটি জাবেদা থেকে তথ্য নিয়ে খতিয়ানের সঠিক ডেবিট ও ক্রেডিট দিকে লিপিবদ্ধ করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">পোস্টিং মানে হলো জাবেদা থেকে খতিয়ানে তথ্য সরানো। এটা অনেকটা তোমার ডায়েরি থেকে তথ্য নিয়ে আলাদা আলাদা ফোল্ডারে সাজানোর মতো।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৮। ব্যাংক চার্জ কী? (অধ্যায়-৭)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">ব্যাংক চার্জ</span> হলো ব্যাংক কর্তৃক প্রদত্ত বিভিন্ন সেবার জন্য <span style="color: #66FCF1;">গ্রাহকের হিসাব থেকে কেটে নেওয়া অর্থ</span>। যেমন, এটিএম ব্যবহার, চেক বই ইস্যু, অ্যাকাউন্টের বার্ষিক ফি ইত্যাদি।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">ব্যাংক চার্জ হলো ব্যাংকের সার্ভিস ফি। তুমি যখন ব্যাংক ব্যবহার কর, তখন ব্যাংক তোমাকে কিছু টাকা চার্জ করে। যেমন, এটিএম ব্যবহার করা, চেকবুক নেওয়া ইত্যাদি।</p>
+                    ` 
+                },
+                { 
+                    text: "৬৯। নগদ বই কেন প্রস্তুত করা হয়? (অধ্যায়-৭)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নগদ বই প্রস্তুত করা হয়</span> <span style="color: #66FCF1;">নগদ অর্থ ও ব্যাংকে জমা অর্থের পরিমাণ ও তার পরিবর্তন জানতে</span>। এটি নগদ লেনদেনগুলোর একটি বিস্তারিত রেকর্ড রাখে এবং একটি নির্দিষ্ট সময়ে নগদ উদ্বৃত্ত বা ঘাটতি সম্পর্কে তথ্য দেয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নগদ বই প্রস্তুত করা হয় তোমার ক্যাশ আর ব্যাংক অ্যাকাউন্টের হিসাব রাখার জন্য। এটা দেখে তুমি জানতে পারো যে তোমার হাতে কত টাকা আছে, আর কত টাকা ব্যাংকে আছে।</p>
+                    ` 
+                },
+                { 
+                    text: "৭০। রেওয়ামিল কী হিসাবের অংশ? (অধ্যায়-৮)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2">না, <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রেওয়ামিল হিসাবের কোনো অংশ নয়</span>। এটি একটি <span style="color: #66FCF1;">সহায়ক বিবরণী</span> যা খতিয়ানের ডেবিট ও ক্রেডিট ব্যালেন্সের তালিকা দিয়ে হিসাবের <span style="color: #66FCF1;">গাণিতিক নির্ভুলতা</span> যাচাই করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">রেওয়ামিল হলো তোমার হিসাবের একটা চেক লিস্ট। এটা হিসাবের কোনো অংশ নয়। এটা শুধু চেক করে যে তোমার করা হিসাবগুলো গাণিতিকভাবে ঠিক আছে কিনা।</p>
+                    ` 
+                },
+                { 
+                    text: "৭১। রেওয়ামিল তৈরি করার পদ্ধতিসমূহ কী কী? (অধ্যায়-৮)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রেওয়ামিল তৈরি করার পদ্ধতিগুলো</span> হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. মোট জের পদ্ধতি:</span> সকল হিসাবের ডেবিট ও ক্রেডিট দিকের মোট যোগফল ব্যবহার করা হয়।</li>
+                            <li><span style="color: #66FCF1;">২. উদ্বৃত্ত পদ্ধতি:</span> সকল হিসাবের সমাপনী জের ব্যবহার করা হয়।</li>
+                            <li><span style="color: #66FCF1;">৩. মোট ও উদ্বৃত্ত পদ্ধতি:</span> কিছু হিসাবের মোট জের এবং কিছু হিসাবের সমাপনী জের ব্যবহার করা হয়।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">রেওয়ামিল তৈরির কয়েকটা নিয়ম আছে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">টোটাল যোগ করে:</span> সব ডেবিট আর ক্রেডিট যোগ করে।</li>
+                            <li><span style="color: #66FCF1;">ফাইনাল রেজাল্ট দেখে:</span> শুধু ফাইনাল রেজাল্ট (জের) ব্যবহার করে।</li>
+                            <li><span style="color: #66FCF1;">দুইটা পদ্ধতি একসাথে:</span> কিছু হিসাবের জন্য প্রথম পদ্ধতি আর কিছু হিসাবের জন্য দ্বিতীয় পদ্ধতি ব্যবহার করে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৭২। উদ্বৃত্তপত্র কেন প্রস্তুত করা হয়? (অধ্যায়-৯)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উদ্বৃত্তপত্র প্রস্তুত করা হয়</span> একটি নির্দিষ্ট তারিখে প্রতিষ্ঠানের <span style="color: #66FCF1;">সম্পদ, দায় এবং মালিকানা স্বত্বের একটি চিত্র</span> দেখানোর জন্য। এর মাধ্যমে ব্যবসায়ের <span style="color: #66FCF1;">আর্থিক অবস্থা সম্পর্কে তথ্য</span> পাওয়া যায়, যা প্রতিষ্ঠানের ভবিষ্যৎ পরিকল্পনা ও সিদ্ধান্ত গ্রহণে সহায়ক হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">উদ্বৃত্তপত্র প্রস্তুত করা হয় তোমার ব্যবসার ফাইনাল রিপোর্ট। এটা দেখে তুমি জানতে পারো যে তোমার হাতে কত টাকা আছে, কার কাছে কত পাওনা, আর তোমার নিজের কী আছে – সবকিছুর একটা চিত্র।</p>
+                    ` 
+                },
+                { 
+                    text: "৭৩। মূলধ জাতীয় ব্যয়ের ৪টি উদাহরণ দাও। (অধ্যায়-৯)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">মূলধ জাতীয় ব্যয়ের চারটি উদাহরণ</span> হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. জমি ক্রয়</span></li>
+                            <li><span style="color: #66FCF1;">২. দালানকোঠা নির্মাণ</span></li>
+                            <li><span style="color: #66FCF1;">৩. যন্ত্রপাতি ক্রয়</span></li>
+                            <li><span style="color: #66FCF1;">৪. আসবাবপত্র ক্রয়</span></li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">মূলধ জাতীয় ব্যয় মানে হলো বড় বড় খরচ। এই খরচগুলো অনেকদিন পর্যন্ত তোমার ব্যবসাকে সাহায্য করবে। যেমন, একটা নতুন কারখানা কেনা বা বড় একটা মেশিন কেনা।</p>
+                    ` 
+                },
+                { 
+                    text: "৭৪। কর রেয়াত কী? (অধ্যায়-১০)", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">কর রেয়াত</span> হলো করদাতার আয় থেকে একটি <span style="color: #66FCF1;">নির্দিষ্ট পরিমাণ টাকা বাদ দেওয়ার সুবিধা</span>, যার ওপর কর দিতে হয় না। এর ফলে করদাতার মোট প্রদেয় করের পরিমাণ হ্রাস পায়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কর রেয়াত হলো সরকারের দেওয়া একটা ছাড়। যেমন, তুমি যদি কোনো খাতে বিনিয়োগ করো, তাহলে সরকার তোমাকে বলে, "তোমার আয়ের এতটুকু অংশের ওপর তোমাকে আর ট্যাক্স দিতে হবে না।" এটা অনেকটা একটা ডিসকাউন্টের মতো।</p>
+                    ` 
+                }
+            ],
+            "short": [
+                { 
+                    text: "১। 'প্রত্যেকটি ঘটনা লেনদেন নয়। কিন্তু প্রত্যেকটি লেনদেনই ঘটনা।' উক্তিটি ব্যাখ্যা কর। (অধ্যায়-২)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2">উক্তিটি <span style="color: #66FCF1;">সত্য</span>। একটি ঘটনাকে লেনদেন হতে হলে অবশ্যই দুটি শর্ত পূরণ করতে হয়: <span style="color: #66FCF1;">আর্থিক মূল্য</span> থাকতে হবে এবং প্রতিষ্ঠানের <span style="color: #66FCF1;">আর্থিক অবস্থার পরিবর্তন</span> ঘটাতে হবে। যখন একটি ঘটনা এই শর্তগুলো পূরণ করে, তখন তা লেনদেন হিসেবে গণ্য হয়। কিন্তু প্রতিটি লেনদেনই কোনো না কোনো ঘটনা থেকে উদ্ভূত হয়। যেমন, ম্যানেজার নিয়োগ একটি ঘটনা, কিন্তু এটি আর্থিক অবস্থার পরিবর্তন ঘটায় না বলে লেনদেন নয়। অন্যদিকে, বেতন প্রদান একটি ঘটনা যা আর্থিক অবস্থার পরিবর্তন ঘটায়, তাই এটি লেনদেন।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা অনেকটা এমন একটা কথা যে, "<span style="color: #66FCF1;">সবাই মানুষ, কিন্তু সবাই তো আর ডাক্তার নয়।</span>"</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">'প্রত্যেকটি ঘটনা লেনদেন নয়...':</span> তোমার জীবনে অনেক কিছু ঘটে। যেমন, তুমি একটা নতুন বাড়ি দেখলে, বা তোমার বন্ধু তোমাকে একটা ভালো খবর দিল। এগুলো <span style="color: #66FCF1;">ঘটনা</span>, কিন্তু তোমার পকেটের টাকা বা তোমার সম্পদের পরিমাণ পরিবর্তন করে না। তাই এগুলো <span style="color: #66FCF1;">লেনদেন নয়</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">"...কিন্তু প্রত্যেকটি লেনদেনই ঘটনা।":</span> কিন্তু যখন তুমি একটা জিনিস কিনো, তখন তোমার পকেট থেকে টাকা যায় আর তোমার কাছে জিনিসটা আসে। এটা একটা <span style="color: #66FCF1;">লেনদেন</span>, আর অবশ্যই এটা একটা <span style="color: #66FCF1;">ঘটনা</span>। অর্থাৎ, লেনদেন হতে হলে ঘটনা হতেই হবে। একটা ঘটনা যখন টাকা-পয়সার সাথে জড়িয়ে যায়, তখনই সেটা লেনদেন হয়।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২। 'লেনদেন সর্বদা অর্থের মাপকাঠিতে নিরূপণযোগ্য' ব্যাখ্যা কর। (অধ্যায়-২)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2">উক্তিটি <span style="color: #66FCF1;">সত্য</span>। হিসাববিজ্ঞানে শুধুমাত্র সেইসব ঘটনাকে লেনদেন হিসেবে লিপিবদ্ধ করা হয়, যা <span style="color: #66FCF1;">অর্থের পরিমাপে প্রকাশ</span> করা যায়। কোনো ঘটনা যতই গুরুত্বপূর্ণ হোক না কেন, যদি তার <span style="color: #66FCF1;">আর্থিক মূল্য না থাকে</span>, তবে তা লেনদেন হিসেবে গণ্য হয় না। যেমন, দক্ষ ম্যানেজার নিয়োগ একটি গুরুত্বপূর্ণ ঘটনা, কিন্তু তার আর্থিক মূল্য নির্ধারণ করা না গেলে তা লেনদেন হিসেবে লিপিবদ্ধ করা যায় না। শুধুমাত্র অর্থের মাপকাঠিতেই লেনদেনের ডেবিট ও ক্রেডিট দিক চিহ্নিত করা সম্ভব।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা হলো হিসাবের মূল নিয়ম। যেমন, একটা ক্লাসে শুধুমাত্র সেইসব ছাত্রদের নামই লেখা হয় যারা উপস্থিত থাকে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">'লেনদেন সর্বদা অর্থের মাপকাঠিতে নিরূপণযোগ্য':</span> হিসাববিজ্ঞান শুধু <span style="color: #66FCF1;">টাকার কথা বোঝে</span>। তোমার দোকানে একটা খুবই ভালো কর্মী এলো, সে খুব ভালো কাজ করছে – এটা একটা ভালো খবর, কিন্তু তার কারণে তোমার ক্যাশবাক্সে কত টাকা বেড়েছে, তা তুমি বলতে পারবে না। তাই এটা লেনদেন নয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">টাকার গুরুত্ব:</span> কিন্তু যখন তুমি সেই ভালো কর্মীকে বেতন দাও, তখন তোমার পকেট থেকে টাকা যায়। তখন সেটা লেনদেন হয়। অর্থাৎ, হিসাবের খাতায় কোনো কিছু লিখতে হলে সেটাকে টাকায় মাপা যেতে হবে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৩। দু'তরফা দাখিলা পদ্ধতিতে হিসাবরক্ষণ দ্বিগুণ কাজ বুঝায় কি? (অধ্যায়-৩)", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2">না, দু'তরফা দাখিলা পদ্ধতিতে হিসাবরক্ষণ <span style="color: #66FCF1;">দ্বিগুণ কাজ বুঝায় না</span>। এই পদ্ধতিতে প্রতিটি লেনদেনের <span style="color: #66FCF1;">দুটি পক্ষ (ডেবিট ও ক্রেডিট)</span> লিপিবদ্ধ করা হয়, যার ফলে হিসাবের একটি সম্পূর্ণ ও নির্ভুল চিত্র পাওয়া যায়। যদিও একটি লেনদেন দুটি দিকে লিপিবদ্ধ করা হয়, এটি প্রতিটি লেনদেনের সম্পূর্ণ প্রভাব দেখায় এবং হিসাবের <span style="color: #66FCF1;">গাণিতিক নির্ভুলতা যাচাই</span> করা সহজ করে। এতে বরং ভুল হওয়ার সম্ভাবনা কমে এবং হিসাবের বিশ্বাসযোগ্যতা বৃদ্ধি পায়, যা দীর্ঘমেয়াদে কাজকে সহজ করে তোলে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা হলো এমন একটা নিয়ম যেখানে তুমি যখন একটা কাজ কর, তার দুইটা দিকই লেখ।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">দ্বিগুণ কাজ নয়, দ্বিগুণ সুবিধা:</span> এটা শুনে মনে হতে পারে যে দ্বিগুণ কাজ। কিন্তু আসলে এটা তোমার কাজ সহজ করে। ধরো, তুমি ৫০ টাকার একটা কলম কিনলে। যদি তুমি শুধু লেখো যে "কলম কিনলাম ৫০ টাকা", তাহলে এটা অসম্পূর্ণ।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সম্পূর্ণতা ও নির্ভুলতা:</span> কিন্তু যখন তুমি লেখো যে "<span style="color: #66FCF1;">কলম পেলাম ৫০ টাকার (ডেবিট)</span>" আর "<span style="color: #66FCF1;">৫০ টাকা চলে গেল (ক্রেডিট)</span>", তখন তোমার হিসাবটা সম্পূর্ণ হয়। এতে যদি কোনো ভুল হয়, তাহলে দুই দিকের যোগফল মিলবে না, আর তুমি ভুলটা সহজেই খুঁজে পাবে। তাই এটা কাজের দ্বিগুণ পরিমাণ নয়, বরং নির্ভুলতার জন্য গুরুত্বপূর্ণ।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৪। দু'তরফা দাখিলা পদ্ধতি একতরফা দাখিলা পদ্ধতি অপেক্ষা উন্নততম কেন? (অধ্যায়-৩) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2">দু'তরফা দাখিলা পদ্ধতি একতরফা পদ্ধতি অপেক্ষা উন্নত কারণ এটি একটি <span style="color: #66FCF1;">সম্পূর্ণ ও বিজ্ঞানসম্মত পদ্ধতি</span>। দু'তরফা পদ্ধতিতে প্রতিটি লেনদেনের ডেবিট ও ক্রেডিট দিক সমান টাকায় লিপিবদ্ধ হওয়ায় হিসাবের <span style="color: #66FCF1;">গাণিতিক নির্ভুলতা যাচাই</span> করা সম্ভব হয়। এর মাধ্যমে প্রতিষ্ঠানের <span style="color: #66FCF1;">লাভ-ক্ষতি ও আর্থিক অবস্থা সম্পর্কে পূর্ণাঙ্গ তথ্য</span> পাওয়া যায়। অন্যদিকে, একতরফা পদ্ধতি অসম্পূর্ণ এবং এতে শুধু নগদ ও ব্যক্তিগত হিসাব রাখা হয়, যা সঠিক আর্থিক প্রতিবেদন তৈরি করতে ব্যর্থ হয় এবং ভুল হওয়ার সম্ভাবনা বেশি থাকে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা হলো এমন একটা তুলনা, যেমন একটা স্মার্টফোন আর একটা পুরোনো ফিচার ফোন।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">দু'তরফা (স্মার্টফোন):</span> এটা একটা <span style="color: #66FCF1;">সম্পূর্ণ সিস্টেম</span>। তুমি যখন কিছু কিনো, তখন তুমি লেখো যে কী পেয়েছো আর কী দিয়েছো। এতে তোমার সব হিসাব ঠিকঠাক থাকে। তোমার বছরের শেষে কত লাভ বা ক্ষতি হয়েছে, সেটা তুমি নির্ভুলভাবে জানতে পারো।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">একতরফা (ফিচার ফোন):</span> এটা <span style="color: #66FCF1;">অসম্পূর্ণ</span>। এখানে শুধু তুমি কত টাকা পেয়েছো আর কত টাকা দিয়েছো, সেই হিসাব রাখা হয়। তোমার কার কাছে কত পাওনা, আর কে তোমার কাছে কত পাবে, সেই হিসাবটা থাকে না। তাই এটা ভুল হওয়ার সম্ভাবনা বেশি এবং ব্যবসার প্রকৃত অবস্থা জানা যায় না।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৫। বুক কিপিং এর স্বর্ণসূত্র উল্লেখ করে বিভিন্ন শ্রেণির হিসাবের ডেবিট ও ক্রেডিট নির্ণয় করার নিয়মাবলি বর্ণনা কর। (অধ্যায়-৪) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">বুককিপিং এর স্বর্ণসূত্র</span> অনুযায়ী, হিসাবকে প্রধানত তিন ভাগে ভাগ করা যায়:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ব্যক্তিবাচক হিসাব:</span> এর নিয়ম হলো, <span style="color: #66FCF1;">সুবিধা গ্রহণকারীকে ডেবিট এবং সুবিধা প্রদানকারীকে ক্রেডিট</span> করতে হয়। যেমন, রহিমকে টাকা প্রদান করলে, রহিম হিসাব ডেবিট হবে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সম্পত্তিবাচক হিসাব:</span> এর নিয়ম হলো, <span style="color: #66FCF1;">যা আসে তা ডেবিট এবং যা যায় তা ক্রেডিট</span> করতে হয়। যেমন, আসবাবপত্র ক্রয় করলে, আসবাবপত্র হিসাব ডেবিট হবে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. নামিক হিসাব:</span> এর নিয়ম হলো, <span style="color: #66FCF1;">সকল খরচ ও ক্ষতি ডেবিট এবং সকল আয় ও লাভ ক্রেডিট</span> করতে হয়। যেমন, বেতন প্রদান করলে, বেতন হিসাব ডেবিট হবে।</li>
+                        </ul>
+                        <p class="mb-2">এই তিনটি নিয়ম ব্যবহার করে প্রতিটি লেনদেনের ডেবিট ও ক্রেডিট পক্ষ নির্ণয় করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">বুককিপিং এর স্বর্ণসূত্র হলো হিসাবের তিনটা সহজ নিয়ম। এই নিয়মগুলো ব্যবহার করে তুমি বুঝতে পারবে যে কখন ডেবিট আর কখন ক্রেডিট হবে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ব্যক্তিবাচক (মানুষ):</span> যখন কোনো মানুষ বা প্রতিষ্ঠান তোমাকে কিছু দেয়, তখন সেটা ক্রেডিট, আর যখন তুমি তাকে কিছু দাও, তখন সেটা ডেবিট।</li>
+                            <li><span style="color: #66FCF1;">সম্পত্তিবাচক (জিনিস):</span> যখন তোমার কাছে কোনো জিনিস (যেমন টাকা, গাড়ি) আসে, তখন সেটা ডেবিট, আর যখন চলে যায়, তখন সেটা ক্রেডিট।</li>
+                            <li><span style="color: #66FCF1;">নামিক (খরচ/আয়):</span> যখন তোমার কোনো খরচ বা ক্ষতি হয়, তখন সেটা ডেবিট, আর যখন তোমার কোনো আয় বা লাভ হয়, তখন সেটা ক্রেডিট।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৬। জাবেদাকে হিসাবের প্রাথমিক বহি বলা হয় কেন? (অধ্যায়-৫) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জাবেদাকে হিসাবের প্রাথমিক বহি</span> বলা হয় কারণ প্রতিটি লেনদেন সংঘটিত হওয়ার পর <span style="color: #66FCF1;">প্রথম এটিতেই তারিখের ক্রমানুসারে লিপিবদ্ধ</span> করা হয়। এখানে লেনদেনের ডেবিট ও ক্রেডিট পক্ষ, টাকার পরিমাণ এবং একটি সংক্ষিপ্ত ব্যাখ্যাসহ সম্পূর্ণ তথ্য লিপিবদ্ধ থাকে। অন্য কোনো হিসাবের বইতে স্থানান্তরের আগে লেনদেনের উৎস হিসেবে জাবেদা কাজ করে, তাই এটিকে <span style="color: #66FCF1;">প্রাথমিক লিপিবদ্ধকরণের বহি</span> বলা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটাকে প্রাথমিক বহি বলা হয় কারণ যেকোনো লেনদেন হলে প্রথমে এখানেই লেখা হয়।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">শুরুর খাতা:</span> তুমি যখন কোনো লেনদেন কর, তখন তুমি প্রথমে একটা কাঁচা খাতা বা ডায়েরিতে লিখে রাখো। জাবেদা হলো সেই ডায়েরি।</li>
+                            <li><span style="color: #66FCF1;">সবকিছু একসাথে:</span> এখানে তুমি লেনদেনের তারিখ, কোন হিসাব ডেবিট হবে, কোনটা ক্রেডিট হবে, আর কত টাকা লেনদেন হলো – সব কিছু এক জায়গায় লেখো। পরে অন্য হিসাবের বইতে এই তথ্যগুলো থেকে সাজিয়ে লেখা হয়। তাই এটি হলো সকল হিসাবের প্রথম ধাপ।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৭। জাবেদাকে সহকারী বা সাহায্যকারী হিসাবের বহি বলা হয় কেন? (অধ্যায়-৫) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জাবেদাকে সহকারী বা সাহায্যকারী হিসাবের বহি</span> বলা হয় কারণ এটি সরাসরি প্রতিষ্ঠানের আর্থিক ফলাফল বা অবস্থা প্রকাশ করে না, বরং <span style="color: #66FCF1;">খতিয়ান প্রস্তুত করতে সাহায্য</span> করে। জাবেদা থেকে তথ্য সংগ্রহ করে খতিয়ানের বিভিন্ন হিসাবে স্থানান্তর করা হয়। এটি লেনদেনের একটি বিস্তারিত রেকর্ড সরবরাহ করে, যা পরবর্তী সময়ে খতিয়ানে ভুল হলে তা খুঁজে বের করতে সহায়তা করে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটাকে সাহায্যকারী বহি বলা হয় কারণ এটা তোমার আসল হিসাবের (খতিয়ান) একটা সহকারী।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">সাহায্য করা:</span> তুমি যখন একটা হিসাব কর, তখন প্রথমে জাবেদায় সব কিছু লেখো। তারপর সেই জাবেদা থেকে তথ্য নিয়ে তোমার আসল হিসাবের (খতিয়ান) বইতে লেখো।</li>
+                            <li><span style="color: #66FCF1;">ভুল হলে:</span> যদি তোমার আসল হিসাবে কোনো ভুল হয়, তাহলে তুমি জাবেদা থেকে সহজেই ভুলটা খুঁজে বের করতে পারো। তাই জাবেদা হলো তোমার আসল হিসাবের একটি সাহায্যকারী বই।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৮। খতিয়ানকে হিসাবের পাকা বা চূড়ান্ত বহি বলা হয় কেন? (অধ্যায়-৬) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খতিয়ানকে হিসাবের পাকা বা চূড়ান্ত বহি</span> বলা হয় কারণ এখানে জাবেদা থেকে লেনদেনগুলো <span style="color: #66FCF1;">শ্রেণীবদ্ধভাবে স্থায়ীভাবে লিপিবদ্ধ</span> করা হয়। প্রতিটি হিসাবের জন্য আলাদা পৃষ্ঠা বা অ্যাকাউন্ট থাকে, যা একটি নির্দিষ্ট সময়ের শেষে ঐ হিসাবের <span style="color: #66FCF1;">চূড়ান্ত অবস্থা বা জের</span> প্রকাশ করে। খতিয়ানের জের থেকেই রেওয়ামিল, লাভ-ক্ষতি হিসাব ও উদ্বৃত্তপত্র প্রস্তুত করা হয়, যা হিসাবের চূড়ান্ত ফলাফল ও আর্থিক অবস্থা দেখায়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খতিয়ানকে পাকা বা চূড়ান্ত বহি বলা হয় কারণ এখানে সব কিছু ফাইনালি গোছানো থাকে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ফাইনাল রেকর্ড:</span> এটা তোমার প্রতিদিনকার ডায়েরি নয়, বরং সবকিছুকে আলাদা আলাদা ফোল্ডারে সাজিয়ে রাখা। যেমন, নগদ লেনদেনের জন্য একটা ফোল্ডার, বিক্রয় লেনদেনের জন্য আরেকটা ফোল্ডার।</li>
+                            <li><span style="color: #66FCF1;">চূড়ান্ত তথ্য:</span> এই ফোল্ডারগুলোর শেষে তুমি সহজেই জানতে পারো যে তোমার হাতে কত নগদ টাকা আছে, কত টাকার জিনিস বিক্রি হয়েছে। এই চূড়ান্ত তথ্যগুলোই তোমার ফাইনাল রিপোর্ট তৈরি করতে কাজে লাগে। তাই এটা হলো চূড়ান্ত হিসাবের বই।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৯। খতিয়ানকে সকল বহির রাজা বলা হয় কেন? (অধ্যায়-৬) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খতিয়ানকে সকল বহির রাজা</span> বলা হয় কারণ হিসাববিজ্ঞানের অন্যান্য সকল বই, যেমন জাবেদা, নগদান বই ইত্যাদি থেকে প্রাপ্ত তথ্যগুলো <span style="color: #66FCF1;">খতিয়ানেই চূড়ান্তভাবে স্থানান্তরিত</span> হয়। খতিয়ানের জের থেকেই প্রতিষ্ঠানের লাভ-ক্ষতি ও আর্থিক অবস্থা জানার জন্য <span style="color: #66FCF1;">চূড়ান্ত হিসাব প্রস্তুত</span> করা হয়। তাই, খতিয়ানকে হিসাববিজ্ঞানের কেন্দ্রবিন্দু হিসেবে ধরা হয় এবং এর গুরুত্বের কারণে এটিকে 'সকল বহির রাজা' বলা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খতিয়ানকে সব বইয়ের রাজা বলা হয় কারণ সব হিসাব এখানেই আসে আর এখান থেকেই অন্যসব রিপোর্ট তৈরি হয়।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">রাজার মতো নিয়ন্ত্রণ:</span> একটা রাজা যেমন রাজ্যের সব কিছু নিয়ন্ত্রণ করে, তেমনি খতিয়ানও তোমার ব্যবসার সব হিসাব নিয়ন্ত্রণ করে।</li>
+                            <li><span style="color: #66FCF1;">সবকিছু এখানে:</span> তুমি যখন জাবেদা বইতে কিছু লেখো, তখন সেই তথ্যগুলো খতিয়ানে আসে। আবার যখন তুমি ফাইনাল রিপোর্ট বানাও, তখন খতিয়ান থেকেই তথ্য নিয়ে বানাও। তাই সবকিছুর কেন্দ্রবিন্দুতে খতিয়ানই থাকে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১০। জাবেদা ও খতিয়ানের মধ্যে পার্থক্য অলোচনা কর। (অধ্যায়-৬) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">বৈশিষ্ট্য</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">জাবেদা</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">খতিয়ান</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদ্দেশ্য</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">লেনদেন প্রাথমিকভাবে লিপিবদ্ধ</span> করা।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">লেনদেন শ্রেণীবদ্ধভাবে চূড়ান্তভাবে লিপিবদ্ধ</span> করা।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অবস্থান</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাব চক্রের <span style="color: #66FCF1;">প্রথম ধাপ</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাব চক্রের <span style="color: #66FCF1;">দ্বিতীয় ও প্রধান ধাপ</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ভিত্তি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">লেনদেন সংঘটিত হওয়ার <span style="color: #66FCF1;">তারিখ</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাবের <span style="color: #66FCF1;">ধরন অনুযায়ী</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">লেনদেনের রূপ</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">লেনদেনের <span style="color: #66FCF1;">বিস্তারিত ও সম্পূর্ণ বর্ণনা</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">শুধুমাত্র <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট জের</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">পরিণতি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">গাণিতিক শুদ্ধতা যাচাই</span> করা সম্ভব নয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">রেওয়ামিল প্রস্তুত</span> করা যায়।</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদা আর খতিয়ান হলো একটা ডায়েরি আর একটা ফাইল ক্যাবিনেটের মতো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">জাবেদা (ডায়েরি):</span> এটা হলো তোমার প্রতিদিনকার সব ঘটনার একটা ডায়েরি। তুমি দিনে যা যা করেছো, তার সবকিছু এখানে লিখে রাখো। এখানে সব কিছু তারিখ অনুযায়ী থাকে।</li>
+                            <li><span style="color: #66FCF1;">খতিয়ান (ফাইল ক্যাবিনেট):</span> এটা হলো তোমার সেই ডায়েরি থেকে তথ্য নিয়ে আলাদা আলাদা ফোল্ডারে সাজিয়ে রাখা। এখানে তুমি সব নগদ লেনদেন একটা ফোল্ডারে, সব বিক্রয় লেনদেন আরেকটা ফোল্ডারে সাজিয়ে রাখো। এটা হলো তোমার চূড়ান্ত হিসাবের বই।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১১। কারবারি বাট্টা ও নগদ বাট্টার মধ্যে পার্থক্য দেখাও। (অধ্যায়-৭) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">বৈশিষ্ট্য</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">কারবারি বাট্টা</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">নগদ বাট্টা</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদ্দেশ্য</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">পণ্যের বিক্রয় বাড়ানো</span> বা দ্রুত বিক্রি করা।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">প্রাপ্য বা প্রদেয় অর্থ <span style="color: #66FCF1;">দ্রুত পরিশোধে উৎসাহিত</span> করা।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">লিপিবদ্ধকরণ</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাবের বইতে <span style="color: #66FCF1;">লিপিবদ্ধ করা হয় না</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাবের বইতে <span style="color: #66FCF1;">লিপিবদ্ধ করা হয়</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সময়</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">বিক্রয় বা ক্রয়ের <span style="color: #66FCF1;">সময়ই দেওয়া</span> হয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">নির্ধারিত সময়ের <span style="color: #66FCF1;">আগে টাকা পরিশোধ</span> করলে দেওয়া হয়।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">শর্ত</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">কোনো <span style="color: #66FCF1;">শর্ত থাকে না</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">শর্ত সাপেক্ষে</span> দেওয়া হয়।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">১০০ টাকার পণ্য <span style="color: #66FCF1;">৯০ টাকায় বিক্রি</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">বাকিতে পণ্য বিক্রির টাকা <span style="color: #66FCF1;">৩০ দিনের বদলে ১০ দিনে</span> পরিশোধ করলে ছাড়।</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কারবারি বাট্টা আর নগদ বাট্টা হলো দুই ধরনের ডিসকাউন্ট।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">কারবারি বাট্টা (দোকানের ডিসকাউন্ট):</span> এটা হলো যখন দোকানদাররা কোনো ডিসকাউন্ট দেয়, যেমন "<span style="color: #66FCF1;">১০% ডিসকাউন্ট</span>"। তুমি যখন কোনো পণ্য কিনো, তখন এই ডিসকাউন্টটা তুমি তোমার হিসাবে লেখো না।</li>
+                            <li><span style="color: #66FCF1;">নগদ বাট্টা (টাকার ডিসকাউন্ট):</span> এটা হলো যখন তুমি কারো কাছে টাকা পাও, আর সে তোমাকে যদি <span style="color: #66FCF1;">দ্রুত টাকা দেয়</span>, তখন তুমি তাকে যে ছাড় দাও, সেটা। এই ডিসকাউন্টটা তুমি তোমার হিসাবে লেখো।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১২। 'নগদান বই জাবেদা ও খতিয়ান উভয়ই'- ব্যাখ্যা কর। (অধ্যায়-৭) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নগদান বইকে জাবেদা ও খতিয়ান উভয়ই বলা হয়</span> কারণ এটিতে লেনদেন প্রথমে <span style="color: #66FCF1;">তারিখের ক্রমানুসারে লিপিবদ্ধ</span> করা হয়, যা <span style="color: #66FCF1;">জাবেদার কাজ</span>। একইসাথে, এতে নগদ এবং ব্যাংক হিসাবের লেনদেনগুলো আলাদাভাবে শ্রেণীবদ্ধ করে তার জের নির্ণয় করা হয়, যা <span style="color: #66FCF1;">খতিয়ানের কাজ</span>। তাই নগদান বই জাবেদা এবং খতিয়ান উভয়ের বৈশিষ্ট্য ধারণ করে এবং এটি একটি বিশেষ ধরনের বই।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নগদান বইকে জাবেদা ও খতিয়ান উভয়ই বলা হয় কারণ এটা দুইটা কাজ একসাথে করে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">জাবেদা (ডায়েরি):</span> তুমি যখন কোনো লেনদেন করো, তখন তুমি সেটা তোমার নগদান বইতে তারিখ অনুযায়ী লেখো। এটা জাবেদার কাজ।</li>
+                            <li><span style="color: #66FCF1;">খতিয়ান (ফাইল ক্যাবিনেট):</span> একইসাথে তুমি তোমার নগদ আর ব্যাংকের লেনদেনগুলোকে আলাদা করে লেখো। তারপর তার একটা ফাইনাল রেজাল্ট (জের) বের করো। এটা খতিয়ানের কাজ। তাই নগদান বই হলো এমন একটা বই যা দুইটা কাজ একসাথে করে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৩। 'নগদান বই সর্বাবস্থায় ডেবিট ব্যালেন্স প্রকাশ করে' ব্যাখ্যা কর। (অধ্যায়-৭) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">নগদান বই সর্বদা ডেবিট ব্যালেন্স প্রকাশ করে</span>, কারণ কোনো প্রতিষ্ঠানের হাতে থাকা নগদ টাকার পরিমাণ বা ব্যাংকে জমা টাকার পরিমাণ কখনো <span style="color: #66FCF1;">ঋণাত্মক হতে পারে না</span>। কোনো প্রতিষ্ঠান তার হাতে থাকা বা ব্যাংকে জমা টাকার চেয়ে <span style="color: #66FCF1;">বেশি টাকা খরচ করতে পারে না</span>। তাই নগদ টাকার প্রাপ্তি (ডেবিট) সবসময় নগদ প্রদানের (ক্রেডিট) চেয়ে সমান বা বেশি হবে, যার ফলে নগদান বই সবসময় ডেবিট ব্যালেন্স দেখায়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">নগদান বই সবসময় ডেবিট ব্যালেন্স দেখায় কারণ তোমার পকেট থেকে যত টাকা যাবে, তার থেকে বেশি টাকা যেতে পারে না।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">পকেট খালি:</span> ধরো, তোমার পকেটে ১০০ টাকা আছে। তুমি ১০০ টাকা খরচ করতে পারো, বা ৫০ টাকা খরচ করতে পারো। কিন্তু তুমি ১২০ টাকা খরচ করতে পারবে না।</li>
+                            <li><span style="color: #66FCF1;">কখনো মাইনাস হয় না:</span> তাই তোমার ক্যাশ বা ব্যাংক ব্যালেন্স কখনো মাইনাস হবে না। নগদান বইয়ে ডেবিট দিক হলো টাকা আসা আর ক্রেডিট দিক হলো টাকা যাওয়া। তাই টাকা আসাটা হয় যাওয়া থেকে বেশি, না হয় সমান হবে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৪। রেওয়ামিলের প্রস্তুতের উদ্দেশ্যসমূহ কী কী? (অধ্যায়-৮) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রেওয়ামিল প্রস্তুতের প্রধান উদ্দেশ্যগুলো</span> হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. গাণিতিক নির্ভুলতা যাচাই:</span> এটি খতিয়ানের ডেবিট ও ক্রেডিট ব্যালেন্সের যোগফল সমান হয়েছে কিনা তা পরীক্ষা করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. ভুল নির্ণয়:</span> কোনো ভুল হয়ে থাকলে তা খুঁজে বের করতে সাহায্য করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. চূড়ান্ত হিসাব প্রস্তুত:</span> রেওয়ামিলের তথ্যের উপর ভিত্তি করে লাভ-ক্ষতি হিসাব ও উদ্বৃত্তপত্র তৈরি করা সহজ হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. হিসাব সংক্ষিপ্তকরণ:</span> সকল হিসাবের জেরকে একটি মাত্র বিবরণীতে নিয়ে আসে।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">রেওয়ামিল বানানোর কিছু কারণ আছে, যা তোমার হিসাবকে আরও ভালো করে তোলে।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">চেক করা:</span> এটা অনেকটা তোমার পরীক্ষার খাতা রিভিউ করার মতো। তুমি যখন তোমার সব হিসাব করে ফেলো, তখন তুমি রেওয়ামিল বানিয়ে চেক করো যে তোমার সব হিসাব ঠিকঠাক আছে কিনা।</li>
+                            <li><span style="color: #66FCF1;">ভুল ধরা:</span> যদি তোমার কোনো ভুল হয়, তাহলে তোমার ডেবিট আর ক্রেডিটের যোগফল মিলবে না। তখন তুমি জানতে পারবে যে তোমার হিসাবে কোনো ভুল আছে।</li>
+                            <li><span style="color: #66FCF1;">সহজ করা:</span> এটা তোমার সব হিসাবের একটা সামারি তৈরি করে, যা তোমার ফাইনাল রিপোর্ট বানাতে সাহায্য করে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৫। রেওয়ামিলের দুই পার্শ্বেরও যোগফল সমান হয় কেন? (অধ্যায়-৮) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রেওয়ামিলের দুই পাশের যোগফল সমান হয়</span> কারণ এটি <span style="color: #66FCF1;">দু'তরফা দাখিলা পদ্ধতির</span> উপর ভিত্তি করে তৈরি। এই পদ্ধতিতে প্রতিটি লেনদেনের জন্য <span style="color: #66FCF1;">সমপরিমাণ টাকা ডেবিট ও ক্রেডিট</span> করা হয়। যখন এই ডেবিট ও ক্রেডিট ব্যালেন্সগুলোকে খতিয়ান থেকে রেওয়ামিলে আনা হয়, তখন সকল ডেবিট জেরের যোগফল সকল ক্রেডিট জেরের যোগফলের সমান হয়, যদি হিসাবরক্ষণ প্রক্রিয়ায় কোনো গাণিতিক ভুল না থাকে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">রেওয়ামিলের দুই পাশের যোগফল সমান হয় কারণ তুমি যত টাকা দিয়েছো, তত টাকাই পেয়েছো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">সমান সমান:</span> এটা হলো যখন তুমি একটা জিনিস কেনো, তখন তোমার থেকে যত টাকা যায়, তত টাকারই জিনিস তোমার কাছে আসে।</li>
+                            <li><span style="color: #66FCF1;">ভুল হলে:</span> যদি তোমার কোনো ভুল হয়, তাহলে তোমার দুই দিকের যোগফল সমান হবে না। তখন তুমি জানতে পারবে যে তোমার হিসাবে কোনো ভুল আছে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৬। কোন কোন ভুল রেওয়ামিলে ধরা পড়ে না- আলোচনা কর। (অধ্যায়-৮) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2">কিছু ভুল আছে যা <span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">রেওয়ামিলে ধরা পড়ে না</span> কারণ সেগুলো ডেবিট ও ক্রেডিট ব্যালেন্সের সমতাকে প্রভাবিত করে না। এই ভুলগুলো হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. বাদ পড়ার ভুল:</span> যখন কোনো লেনদেন জাবেদা বা খতিয়ান থেকে সম্পূর্ণভাবে বাদ পড়ে।</li>
+                            <li><span style="color: #66FCF1;">২. লেখার ভুল:</span> যখন ভুল টাকার পরিমাণ ডেবিট ও ক্রেডিট উভয় দিকেই লেখা হয়।</li>
+                            <li><span style="color: #66FCF1;">৩. নীতিগত ভুল:</span> যখন হিসাববিজ্ঞানের নিয়ম না মেনে কোনো ভুল করা হয়।</li>
+                            <li><span style="color: #66FCF1;">৪. বেঠিক হিসাবে লেখা:</span> যখন সঠিক অঙ্কের টাকা ভুল হিসাবে লিপিবদ্ধ করা হয়।</li>
+                            <li><span style="color: #66FCF1;">৫. পরিপূরক ভুল:</span> যখন দুটি ভুল একে অপরের প্রভাব বাতিল করে দেয়।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">কিছু ভুল আছে যা তুমি রেওয়ামিলে ধরতে পারবে না।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ভুলে যাওয়া:</span> তুমি যদি একটা লেনদেন পুরোটা ভুলে যাও, তাহলে তোমার ডেবিট আর ক্রেডিট দুই দিকেই যোগ হবে না। তাই যোগফল ঠিকই থাকবে, কিন্তু হিসাব ভুল হবে।</li>
+                            <li><span style="color: #66FCF1;">ডাবল ভুল:</span> তুমি যদি ডেবিট দিকে ১০০ টাকার জায়গায় ৫০ টাকা লেখ, আর ক্রেডিট দিকেও ১০০ টাকার জায়গায় ৫০ টাকা লেখ, তাহলে তোমার যোগফল ঠিক থাকবে।</li>
+                            <li><span style="color: #66FCF1;">ভুল নিয়মে:</span> তুমি যদি কোনো নিয়ম ভুল কর, কিন্তু দুই দিকের টাকা ঠিক লেখ, তাহলেও তোমার যোগফল ঠিক থাকবে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৭। উদ্বৃত্তপত্র দুটি পাশ মিলে যাওয়ার কারণ কী? (অধ্যায়-৯) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">উদ্বৃত্তপত্র দুটি পাশ মিলে যাওয়ার কারণ</span> হলো হিসাবের সমীকরণ (<span style="color: #66FCF1;">সম্পদ = দায় + মালিকানা স্বত্ব</span>) সর্বদা সত্য থাকে। উদ্বৃত্তপত্রের একপাশে প্রতিষ্ঠানের সকল সম্পদ (ডেবিট) লিপিবদ্ধ করা হয় এবং অন্যপাশে দায় ও মালিকানা স্বত্ব (ক্রেডিট) লিপিবদ্ধ করা হয়। যেহেতু প্রতিটি লেনদেনের ডেবিট ও ক্রেডিট উভয় দিকে সমান অঙ্কের টাকা লিপিবদ্ধ করা হয়, তাই সম্পদের মোট পরিমাণ সর্বদা দায় ও মালিকানা স্বত্বের মোট পরিমাণের সমান হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">উদ্বৃত্তপত্র দুটি পাশ মিলে যায় কারণ তোমার কাছে যত টাকা বা জিনিস আছে, তার উৎস হলো দুইটা: হয় তুমি নিজে টাকাটা দিয়েছো, না হয় তুমি কারো থেকে ধার নিয়েছো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">দুইটা পাশ:</span> উদ্বৃত্তপত্রের একপাশে থাকে তোমার কাছে কী কী আছে (<span style="color: #66FCF1;">সম্পদ</span>)। অন্যপাশে থাকে তুমি কোথা থেকে এই জিনিসগুলো পেয়েছো (<span style="color: #66FCF1;">দায় আর মালিকানা স্বত্ব</span>)।</li>
+                            <li><span style="color: #66FCF1;">সমান সমান:</span> যেহেতু তুমি যা পেয়েছো তার উৎস হলো এই দুইটা জিনিস, তাই এই দুইটা পাশ সবসময় সমান হবে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৮। রেওয়ামিল ও উদ্বৃত্তপত্রের পার্থক্য লেখ। (অধ্যায়-৯) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">বৈশিষ্ট্য</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">রেওয়ামিল</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">উদ্বৃত্তপত্র</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদ্দেশ্য</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাবের <span style="color: #66FCF1;">গাণিতিক নির্ভুলতা যাচাই</span> করা।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">প্রতিষ্ঠানের <span style="color: #66FCF1;">আর্থিক অবস্থা প্রকাশ</span> করা।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">গঠন</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">খতিয়ানের সকল <span style="color: #66FCF1;">জেরের তালিকা</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">নির্দিষ্ট তারিখের <span style="color: #66FCF1;">সম্পদ, দায় ও মালিকানা স্বত্বের বিবরণী</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সময়</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">একটি নির্দিষ্ট <span style="color: #66FCF1;">তারিখের জন্য</span> প্রস্তুত করা হয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">একটি নির্দিষ্ট <span style="color: #66FCF1;">তারিখে</span> প্রতিষ্ঠানের অবস্থা দেখায়।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">অবশ্যকতা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">বাধ্যতামূলক নয়</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি হিসাবের <span style="color: #66FCF1;">চূড়ান্ত অংশ</span> এবং বাধ্যতামূলক।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ভিত্তি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">ডেবিট ও ক্রেডিট <span style="color: #66FCF1;">ব্যালেন্স</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">হিসাব সমীকরণ (<span style="color: #66FCF1;">সম্পদ = দায় + মালিকানা স্বত্ব</span>)।</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">রেওয়ামিল আর উদ্বৃত্তপত্র হলো তোমার ব্যবসার দুইটা ভিন্ন রিপোর্ট।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">রেওয়ামিল:</span> এটা হলো তোমার সব হিসাবের একটা চেক লিস্ট। তুমি এখানে সব হিসাবের জের বসিয়ে দেখো যে তোমার ডেবিট আর ক্রেডিট দুই দিকের যোগফল সমান হয়েছে কিনা। এটা হলো তোমার হিসাবের একটা ডায়াগনোসিস।</li>
+                            <li><span style="color: #66FCF1;">উদ্বৃত্তপত্র:</span> এটা হলো তোমার ব্যবসার একটা ফাইনাল রিপোর্ট। এখানে তোমার হাতে কত টাকা আছে, কার কাছে কত পাওনা, আর তোমার নিজের কী আছে – সবকিছুর একটা চিত্র।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "১৯। মূলধন ও মুনাফা জাতীয় ব্যয়ের মধ্যে সংক্ষিপ্ত পার্থক্য নির্ণয় কর। (অধ্যায়-৯) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">বৈশিষ্ট্য</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">মূলধন জাতীয় ব্যয়</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">মুনাফা জাতীয় ব্যয়</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদ্দেশ্য</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">দীর্ঘমেয়াদী সুবিধা</span> অর্জন করা।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">দৈনিক বা <span style="color: #66FCF1;">নিয়মিত কাজ</span> পরিচালনা করা।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">সময়সীমা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এক বছরের <span style="color: #66FCF1;">বেশি সময়ের</span> জন্য সুবিধা দেয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">সাধারণত <span style="color: #66FCF1;">এক বছরের মধ্যে</span> সুবিধা শেষ হয়।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">জমি ক্রয়, যন্ত্রপাতি ক্রয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">বেতন প্রদান, ভাড়া প্রদান।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">আর্থিক অবস্থা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">উদ্বৃত্তপত্রে <span style="color: #66FCF1;">সম্পদ</span> হিসেবে দেখানো হয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">আয়-ব্যয় হিসাবে <span style="color: #66FCF1;">খরচ</span> হিসেবে দেখানো হয়।</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">মূলধন আর মুনাফা জাতীয় ব্যয় হলো বড় আর ছোট খরচের মতো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">মূলধন জাতীয় ব্যয়:</span> এটা হলো যখন তুমি কোনো বড় খরচ করো, যা তোমার ব্যবসাকে অনেক দিন পর্যন্ত সাহায্য করবে। যেমন, একটা নতুন ল্যাপটপ কেনা, যা তুমি অনেক দিন ব্যবহার করবে।</li>
+                            <li><span style="color: #66FCF1;">মুনাফা জাতীয় ব্যয়:</span> এটা হলো তোমার প্রতিদিনকার খরচ। যেমন, তোমার দোকানের ভাড়া, কর্মচারীর বেতন ইত্যাদি। এই খরচগুলো তোমার প্রতিদিনের কাজকে সাহায্য করে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২০। আয়করের উদ্দেশ্য লেখ। (অধ্যায়-১০) Mythic", 
+                    tier: 'mythic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">আয়করের প্রধান উদ্দেশ্যগুলো</span> হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. রাজস্ব সংগ্রহ:</span> সরকারের রাজস্বের প্রধান উৎস হিসেবে কাজ করে, যা দিয়ে সরকার দেশের উন্নয়নমূলক কাজ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. বৈষম্য হ্রাস:</span> ধনী ও গরিবের মধ্যে আয়ের বৈষম্য হ্রাস করা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. অর্থনৈতিক নিয়ন্ত্রণ:</span> সরকার আয়কর নীতির মাধ্যমে অর্থনীতির বিভিন্ন খাতে বিনিয়োগ ও সঞ্চয় নিয়ন্ত্রণ করে।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. সামাজিক ন্যায়বিচার:</span> সমাজের সকলের কাছ থেকে তাদের আয়ের ওপর ভিত্তি করে একটি ন্যায্য কর আদায় করা।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">আয়কর নেওয়ার কিছু কারণ আছে, যা আমাদের দেশের জন্য খুব দরকারি।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">দেশের উন্নয়ন:</span> সরকার আয়কর থেকে যে টাকা পায়, তা দিয়ে রাস্তা, হাসপাতাল, স্কুল তৈরি করে।</li>
+                            <li><span style="color: #66FCF1;">সমান সমান:</span> যারা বেশি আয় করে, তাদের থেকে বেশি ট্যাক্স নিয়ে যারা কম আয় করে তাদের সাহায্য করা হয়।</li>
+                            <li><span style="color: #66FCF1;">অর্থনীতি নিয়ন্ত্রণ:</span> সরকার ট্যাক্স বাড়িয়ে বা কমিয়ে অর্থনীতিকে নিয়ন্ত্রণ করতে পারে।</li>
+                            <li><span style="color: #66FCF1;">সবার জন্য ভালো:</span> এটা নিশ্চিত করে যে সমাজের সবাই তাদের আয়ের ওপর ভিত্তি করে দেশের জন্য কিছু অবদান রাখছে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২১। হিসাববিজ্ঞানের উদ্দেশ্য, সুবিধা ও প্রয়োজনীয়তা লেখ। Legendary", 
+                    tier: 'legendary', 
+                    answer: `
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদ্দেশ্য:</span> হিসাববিজ্ঞানের প্রধান উদ্দেশ্য হলো <span style="color: #66FCF1;">আর্থিক লেনদেন লিপিবদ্ধ করে প্রতিষ্ঠানের আর্থিক অবস্থা ও ফলাফল সঠিকভাবে নির্ণয়</span> করা। এটি ব্যবস্থাপনাকে সিদ্ধান্ত গ্রহণে প্রয়োজনীয় তথ্য সরবরাহ করে।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1;">সুবিধা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. আর্থিক অবস্থা সম্পর্কে ধারণা পাওয়া যায়।</span></li>
+                            <li><span style="color: #66FCF1;">২. লাভ-ক্ষতি সহজে নির্ণয় করা যায়।</span></li>
+                            <li><span style="color: #66FCF1;">৩. খরচ নিয়ন্ত্রণ করা যায়।</span></li>
+                            <li><span style="color: #66FCF1;">৪. প্রতারণা ও জালিয়াতি প্রতিরোধ করা যায়।</span></li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1;">প্রয়োজনীয়তা:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. সরকারের কাছে সঠিক ট্যাক্স প্রদান করা যায়।</span></li>
+                            <li><span style="color: #66FCF1;">২. বিনিয়োগকারীদের আকর্ষণ করা যায়।</span></li>
+                            <li><span style="color: #66FCF1;">৩. ঋণ পেতে সাহায্য করে।</span></li>
+                            <li><span style="color: #66FCF1;">৪. প্রতিষ্ঠানের দক্ষতা ও কার্যকারিতা বাড়ায়।</span></li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাববিজ্ঞান হলো একটা কোম্পানির স্বাস্থ্য পরীক্ষার রিপোর্ট।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">উদ্দেশ্য:</span> এর উদ্দেশ্য হলো তোমার ব্যবসা কেমন চলছে, লাভ হচ্ছে নাকি ক্ষতি – সব কিছু জানা।</li>
+                            <li><span style="color: #66FCF1;">সুবিধা:</span> তুমি জানবে তোমার হাতে কত টাকা আছে, কত লাভ বা ক্ষতি হয়েছে, তোমার খরচ বেশি হচ্ছে নাকি কম, সেটা তুমি জানতে পারবে।</li>
+                            <li><span style="color: #66FCF1;">প্রয়োজনীয়তা:</span> সরকারকে সঠিক ট্যাক্স দিতে হবে। যদি তুমি কোনো ব্যাংক থেকে লোন নিতে চাও, তাহলে তারা তোমার হিসাব চাইবে। যদি কোনো বিনিয়োগকারী তোমার ব্যবসায় বিনিয়োগ করতে চায়, তাহলে তারা তোমার হিসাব দেখবে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২২। লেনদেন ও হিসাব কী? Legendary", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">লেনদেন:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>অর্থের পরিমাপে প্রকাশ করা যায় এবং প্রতিষ্ঠানের <span style="color: #66FCF1;">আর্থিক অবস্থার পরিবর্তন</span> ঘটায় এমন ঘটনাকে লেনদেন বলা হয়। এটি কোনো ঘটনা বা আদান-প্রদান হতে পারে।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li>হিসাব হলো একটি নির্দিষ্ট শিরোনামের অধীনে <span style="color: #66FCF1;">আর্থিক লেনদেনগুলো শ্রেণীবদ্ধভাবে সংক্ষিপ্ত আকারে লিপিবদ্ধ</span> করার একটি প্রক্রিয়া। এর মাধ্যমে একটি নির্দিষ্ট সময়ে কোনো বিষয়ের (যেমন: নগদ, বিক্রয়, ক্রয়) মোট পরিমাণ জানা যায়।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লেনদেন আর হিসাব হলো ঘটে যাওয়া ঘটনা আর সেই ঘটনার হিসাব রাখার জায়গা।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">লেনদেন:</span> এটা হলো যখন তুমি কিছু কিনো বা বিক্রি করো। যেমন, তুমি যদি <span style="color: #66FCF1;">৫০ টাকার একটা কলম কিনো</span>, তাহলে এটা একটা লেনদেন।</li>
+                            <li><span style="color: #66FCF1;">হিসাব:</span> হিসাব হলো তোমার সেই লেনদেনগুলো কোথায় লেখো, সেটা। যেমন, কলম কেনার জন্য তুমি তোমার '<span style="color: #66FCF1;">নগদ হিসাব</span>' আর '<span style="color: #66FCF1;">ক্রয় হিসাব</span>' এ লিখবে।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৩। লেনদেন এবং হিসাব এর প্রকারভেদ বর্ণনা কর। Legendary", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">লেনদেনের প্রকারভেদ:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. আর্থিক অবস্থা পরিবর্তনকারী:</span> নগদ লেনদেন, ব্যাংক লেনদেন, ধারে লেনদেন।</li>
+                            <li><span style="color: #66FCF1;">২. দৃশ্যমানতা:</span> দৃশ্যমান লেনদেন (পণ্য ক্রয়), অদৃশ্য লেনদেন (অবচয়)।</li>
+                            <li><span style="color: #66FCF1;">৩. আন্তঃলেনদেন ও বহিঃলেনদেন:</span> আন্তঃলেনদেন (দুই বিভাগের মধ্যে) ও বহিঃলেনদেন (বাইরের প্রতিষ্ঠানের সাথে)।</li>
+                        </ul>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাবের প্রকারভেদ:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. ব্যক্তিবাচক হিসাব:</span> দেনাদার, পাওনাদার।</li>
+                            <li><span style="color: #66FCF1;">২. সম্পত্তিবাচক হিসাব:</span> নগদ, যন্ত্রপাতি, জমি।</li>
+                            <li><span style="color: #66FCF1;">৩. নামিক হিসাব:</span> ক্রয়, বিক্রয়, বেতন, ভাড়া, সুদ।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">লেনদেন আর হিসাব হলো ঘটনা আর সেই ঘটনার ধরণ।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">লেনদেন:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">টাকার লেনদেন:</span> যখন তুমি সরাসরি টাকা দিয়ে কিছু কিনো বা বিক্রি করো।</li>
+                                    <li><span style="color: #66FCF1;">অদৃশ্য লেনদেন:</span> যেমন, তোমার গাড়ির দাম কমে যাওয়া (অবচয়)।</li>
+                                    <li><span style="color: #66FCF1;">ঘরের মধ্যে লেনদেন:</span> যখন তোমার ব্যবসার এক বিভাগ অন্য বিভাগের সাথে লেনদেন করে।</li>
+                                </ul>
+                            </li>
+                            <li><span style="color: #66FCF1;">হিসাব:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">ব্যক্তিগত হিসাব:</span> তোমার কোনো কাস্টমারের নাম, বা যেখান থেকে তুমি জিনিস কিনো, তার নাম।</li>
+                                    <li><span style="color: #66FCF1;">জিনিসপত্রের হিসাব:</span> তোমার হাতে কত টাকা আছে, কত টাকার জিনিসপত্র আছে।</li>
+                                    <li><span style="color: #66FCF1;">খরচ আর লাভের হিসাব:</span> তোমার কত টাকা খরচ হয়েছে, কত টাকা লাভ হয়েছে।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৪। এক তরফা ও দু'তরফা দাখিলা পদ্ধতি-এর মধ্যে পার্থক্য কী? Legendary", 
+                    tier: 'legendary', 
+                    answer: `
+                        <div class="overflow-x-auto my-4">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #2D3748; color: #E2E8F0; border-radius: 8px; overflow: hidden; border: 1px solid black;">
+                                <thead style="background-color: #4299E1; color: white;">
+                                    <tr>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">বৈশিষ্ট্য</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">এক তরফা দাখিলা পদ্ধতি</th>
+                                        <th style="padding: 8px 10px; text-align: left; border: 1px solid black; font-size: 0.85rem;">দু'তরফা দাখিলা পদ্ধতি</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">মূলনীতি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">এটি <span style="color: #66FCF1;">অসম্পূর্ণ</span>, ডেবিট ও ক্রেডিট সমান নয়।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">প্রতিটি লেনদেনের <span style="color: #66FCF1;">দুটি দিক সমান অঙ্কে</span> লেখা হয়।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">নির্ভরযোগ্যতা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">কম নির্ভরযোগ্য</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1;">অত্যন্ত নির্ভরযোগ্য</span> ও বিজ্ঞানসম্মত।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">লাভ-ক্ষতি</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">সঠিক লাভ-ক্ষতি নির্ণয় করা <span style="color: #66FCF1;">কঠিন</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">নির্ভুল লাভ-ক্ষতি <span style="color: #66FCF1;">নির্ণয় করা যায়</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ব্যবহার</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">ছোট ও অসংগঠিত প্রতিষ্ঠানের জন্য।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">সকল ধরনের প্রতিষ্ঠানের জন্য <span style="color: #66FCF1;">উপযুক্ত</span>।</td>
+                                    </tr>
+                                    <tr style="background-color: #4A5568;">
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">ভুল সম্ভাবনা</span></td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">ভুল হওয়ার সম্ভাবনা <span style="color: #66FCF1;">বেশি</span>।</td>
+                                        <td style="padding: 8px 10px; border: 1px solid black; font-size: 0.85rem;">ভুল <span style="color: #66FCF1;">সহজে ধরা যায়</span>।</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা হলো কাঁচা হিসাব আর পাকা হিসাবের মতো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">এক তরফা:</span> এটা হলো কাঁচা হিসাব। এখানে তুমি শুধু তোমার পকেটের টাকা আর ব্যক্তিগত লেনদেন লেখো। তোমার পুরো ব্যবসার আসল চিত্র পাওয়া যায় না।</li>
+                            <li><span style="color: #66FCF1;">দু'তরফা:</span> এটা হলো পাকা হিসাব। এখানে তুমি প্রতিটি লেনদেনের দুইটা দিকই লেখো। তোমার পুরো ব্যবসার আসল চিত্র পাওয়া যায়, আর কোনো ভুল হলে তা সহজে ধরা যায়।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৫। হিসাব কেন সংরক্ষণ করা হয়? Legendary", 
+                    tier: 'legendary', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব সংরক্ষণ করার মূল উদ্দেশ্য</span> হলো প্রতিষ্ঠানের আর্থিক লেনদেনগুলোর একটি <span style="color: #66FCF1;">সুশৃঙ্খল রেকর্ড</span> রাখা। এর মাধ্যমে প্রতিষ্ঠানের আর্থিক অবস্থা ও কার্যফল জানা যায়। এটি ব্যবস্থাপনাকে গুরুত্বপূর্ণ সিদ্ধান্ত গ্রহণে সহায়তা করে, যেমন:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. প্রতিষ্ঠানের লাভ বা ক্ষতি নির্ণয়।</span></li>
+                            <li><span style="color: #66FCF1;">২. খরচ নিয়ন্ত্রণ ও মুনাফা বৃদ্ধি।</span></li>
+                            <li><span style="color: #66FCF1;">৩. আর্থিক প্রতিবেদন প্রস্তুত।</span></li>
+                            <li><span style="color: #66FCF1;">৪. সরকারের সঠিক ট্যাক্স প্রদান।</span></li>
+                            <li><span style="color: #66FCF1;">৫. বিনিয়োগকারী ও ঋণদাতাদের বিশ্বাস অর্জন।</span></li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাব সংরক্ষণ করার কারণ হলো তোমার ব্যবসার সব কিছুর একটা রেকর্ড রাখা।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ভুল না হওয়ার জন্য:</span> তুমি যদি সব কিছু লিখে রাখো, তাহলে তুমি কোনো কিছু ভুলে যাবে না।</li>
+                            <li><span style="color: #66FCF1;">টাকা-পয়সার হিসাব:</span> তোমার কত টাকা আসছে, কত টাকা যাচ্ছে, কত টাকা বাকি আছে – সব কিছু তুমি জানতে পারবে।</li>
+                            <li><span style="color: #66FCF1;">সিদ্ধান্ত নেওয়ার জন্য:</span> তোমার ব্যবসা কেমন চলছে, সেটা দেখে তুমি জানতে পারবে যে তোমার কী কী পরিবর্তন করা উচিত।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৬। আন্তঃলেনদেন ও বহিঃলেনদেন বলতে কী বুঝায়। (অধ্যায়-২) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">আন্তঃলেনদেন:</span> একটি প্রতিষ্ঠানের <span style="color: #66FCF1;">বিভিন্ন বিভাগের মধ্যে সংঘটিত</span> লেনদেনকে আন্তঃলেনদেন বলা হয়। যেমন, একটি কোম্পানির উৎপাদন বিভাগ থেকে বিক্রয় বিভাগে পণ্য স্থানান্তর। এই লেনদেনগুলো প্রতিষ্ঠানের অভ্যন্তরে ঘটে।</p>
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">বহিঃলেনদেন:</span> একটি প্রতিষ্ঠানের সাথে <span style="color: #66FCF1;">বাইরের কোনো পক্ষ বা প্রতিষ্ঠানের</span> মধ্যে সংঘটিত লেনদেনকে বহিঃলেনদেন বলা হয়। যেমন, সরবরাহকারীর কাছ থেকে পণ্য ক্রয় বা গ্রাহকের কাছে পণ্য বিক্রয়। এই লেনদেনগুলো প্রতিষ্ঠানের বাইরে ঘটে।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">এটা হলো ঘরের ভেতরের লেনদেন আর বাইরের লেনদেনের মতো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">আন্তঃলেনদেন:</span> এটা হলো যখন তোমার ব্যবসার এক বিভাগ অন্য বিভাগের সাথে লেনদেন করে। যেমন, তোমার কারখানার এক বিভাগ থেকে আরেক বিভাগে কিছু কাঁচামাল পাঠানো। এখানে কোনো বাইরের পক্ষ নেই।</li>
+                            <li><span style="color: #66FCF1;">বহিঃলেনদেন:</span> এটা হলো যখন তোমার ব্যবসার বাইরের কোনো লোকের সাথে লেনদেন হয়। যেমন, তুমি যখন কোনো কাস্টমারের কাছে জিনিস বিক্রি করো, তখন এটা বহিঃলেনদেন।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৭। দু'তরফা দাখিলা পদ্ধতি ব্যাখ্যা কর। (অধ্যায়-৩) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">দু'তরফা দাখিলা পদ্ধতি</span> হলো হিসাববিজ্ঞানের একটি <span style="color: #66FCF1;">বিজ্ঞানসম্মত ও সম্পূর্ণ পদ্ধতি</span>, যেখানে প্রতিটি লেনদেনের <span style="color: #66FCF1;">দুটি পক্ষ ডেবিট ও ক্রেডিট সমান অঙ্কের টাকায়</span> লিপিবদ্ধ করা হয়। এই পদ্ধতির মূলনীতি হলো প্রতিটি লেনদেনের একটি <span style="color: #66FCF1;">সুবিধা গ্রহণকারী পক্ষ (ডেবিট)</span> এবং একটি <span style="color: #66FCF1;">সুবিধা প্রদানকারী পক্ষ (ক্রেডিট)</span> থাকবে। এই পদ্ধতিতে হিসাব সংরক্ষণ করলে প্রতিষ্ঠানের <span style="color: #66FCF1;">গাণিতিক নির্ভুলতা যাচাই</span> করা যায় এবং সঠিক আর্থিক ফলাফল ও অবস্থা নির্ণয় করা সম্ভব হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">দু'তরফা দাখিলা পদ্ধতি হলো হিসাব রাখার একটা নিখুঁত সিস্টেম।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">দুইটা দিক:</span> এই সিস্টেমে তুমি যখন কোনো লেনদেন করো, তখন তুমি তার দুইটা দিকই লেখো। যেমন, তুমি <span style="color: #66FCF1;">১০০ টাকার জিনিস কিনলে</span>, তুমি লেখো যে <span style="color: #66FCF1;">১০০ টাকার জিনিস পেয়েছো</span> আর <span style="color: #66FCF1;">১০০ টাকা দিয়েছো</span>।</li>
+                            <li><span style="color: #66FCF1;">সবকিছু ঠিক:</span> এর ফলে তোমার সব হিসাব ঠিকঠাক থাকে। তোমার বছরের শেষে কত লাভ বা ক্ষতি হয়েছে, সেটা তুমি নির্ভুলভাবে জানতে পারো।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৮। হিসাব কত প্রকার ও কী কী? উদাহরণ লেখ। (অধ্যায়-৪) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">হিসাব প্রধানত তিন প্রকার:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. ব্যক্তিবাচক হিসাব:</span> দেনাদার, পাওনাদার, মূলধন, উত্তোলন। (<span style="color: #66FCF1;">উদাহরণ: করিম হিসাব, রহিম হিসাব, মূলধন হিসাব</span>)</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. সম্পত্তিবাচক হিসাব:</span> নগদ, ব্যাংক, আসবাবপত্র, দালানকোঠা। (<span style="color: #66FCF1;">উদাহরণ: নগদ হিসাব, আসবাবপত্র হিসাব</span>)</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. নামিক হিসাব:</span> ক্রয়, বিক্রয়, বেতন, ভাড়া, সুদ। (<span style="color: #66FCF1;">উদাহরণ: বেতন হিসাব, বিক্রয় হিসাব</span>)</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">হিসাবকে তিন ভাগে ভাগ করা হয়, যেন তোমার স্কুলের ক্লাসের মতো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ব্যক্তিবাচক হিসাব:</span> এই ক্লাসে শুধু মানুষ আর প্রতিষ্ঠানের নাম থাকে। যেমন, তোমার বন্ধু করিম, যে তোমার কাছে টাকা পাবে।</li>
+                            <li><span style="color: #66FCF1;">সম্পত্তিবাচক হিসাব:</span> এই ক্লাসে জিনিসপত্র আর টাকার হিসাব থাকে। যেমন, তোমার কাছে কত টাকা আছে, কত টাকার ল্যাপটপ আছে।</li>
+                            <li><span style="color: #66FCF1;">নামিক হিসাব:</span> এই ক্লাসে শুধু খরচ আর আয়ের হিসাব থাকে। যেমন, তোমার কর্মচারীদের বেতন, আর তুমি কত টাকা বিক্রি করেছো।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "২৯। দেনাদার ও পাওনাদার বলতে কী বুঝায়? উদাহরণসহ লেখ। (অধ্যায়-৪) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">দেনাদার:</span> দেনাদার হলো সেই ব্যক্তি বা প্রতিষ্ঠান যারা <span style="color: #66FCF1;">বাকিতে পণ্য বা সেবা গ্রহণ</span> করেছে এবং ভবিষ্যতে তার জন্য টাকা পরিশোধ করবে। তারা প্রতিষ্ঠানের জন্য <span style="color: #66FCF1;">সম্পদ</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ:</span> রহিম আমাদের কাছ থেকে ৫০০ টাকার পণ্য বাকিতে ক্রয় করেছে। এখানে রহিম আমাদের দেনাদার।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">পাওনাদার:</span> পাওনাদার হলো সেই ব্যক্তি বা প্রতিষ্ঠান যারা <span style="color: #66FCF1;">বাকিতে পণ্য বা সেবা সরবরাহ</span> করেছে এবং তার জন্য ভবিষ্যতে টাকা পাবে। তারা প্রতিষ্ঠানের জন্য <span style="color: #66FCF1;">দায়</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">উদাহরণ:</span> আমরা করিমের কাছ থেকে ১০০০ টাকার পণ্য বাকিতে ক্রয় করেছি। এখানে করিম আমাদের পাওনাদার।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">দেনাদার:</span> এটা হলো সেই লোক, যে তোমার কাছে টাকা বাকি রেখেছে। যেমন, তোমার বন্ধু তোমার কাছ থেকে একটা পেনসিল নিয়ে বললো কাল টাকা দেবে। তাহলে সে তোমার দেনাদার।</li>
+                            <li><span style="color: #66FCF1;">পাওনাদার:</span> এটা হলো সেই লোক, যার কাছে তুমি টাকা বাকি রেখেছো। যেমন, তুমি তোমার বন্ধুর দোকান থেকে একটা পেনসিল নিলে আর বললে কাল টাকা দেবে। তাহলে তোমার বন্ধু তোমার পাওনাদার।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৩০। মূলধন দায় কেন? (অধ্যায়-৪) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2">হিসাববিজ্ঞানের '<span style="color: #66FCF1;">ব্যবসায়িক সত্তা নীতি</span>' অনুযায়ী, একটি প্রতিষ্ঠান তার মালিক থেকে <span style="color: #66FCF1;">আলাদা একটি সত্তা</span>। যখন মালিক প্রতিষ্ঠানে অর্থ বা সম্পদ বিনিয়োগ করেন, তখন প্রতিষ্ঠানটি <span style="color: #66FCF1;">মালিকের কাছে একটি দায়বদ্ধতা</span> সৃষ্টি করে। এই কারণে, প্রতিষ্ঠানকে মালিকের বিনিয়োগ (<span style="color: #66FCF1;">মূলধন</span>) ফেরত দিতে হয় বলে এটিকে একটি <span style="color: #66FCF1;">দায়</span> হিসেবে গণ্য করা হয়।</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">মূলধন দায় কারণ ব্যবসা আর মালিক দুইটা আলাদা সত্তা।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">আলাদা সত্তা:</span> এটা হলো এমন একটা নিয়ম যেখানে তুমি আর তোমার ব্যবসা দুইটা আলাদা জিনিস।</li>
+                            <li><span style="color: #66FCF1;">ঋণ:</span> যখন তুমি তোমার ব্যবসায় টাকা দাও, তখন ব্যবসাটা তোমার কাছে টাকাটা ঋণ নেয়। আর যে কোনো ঋণ হলো দায়। তাই মূলধনকেও ব্যবসার জন্য একটা দায় হিসেবে ধরা হয়।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৩১। জাবেদার নমুনা ছক দেখাও। (অধ্যায়-৫) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2">(এখানে একটি নমুনা ছক দেওয়া সম্ভব নয়। তবে একটি জাবেদার ছক <span style="color: #66FCF1;">পাঁচটি কলাম</span> নিয়ে গঠিত হয়: <span style="color: #66FCF1;">তারিখ, বিবরণ, খতিয়ান পৃষ্ঠা, ডেবিট টাকা এবং ক্রেডিট টাকা</span>।)</p>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদার নমুনা ছক হলো তোমার ডায়েরির ফরম্যাট।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">কলামগুলো:</span>
+                                <ul style="list-style-type: circle; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                                    <li><span style="color: #66FCF1;">তারিখ:</span> কবে লেনদেন হয়েছে, সেই তারিখ।</li>
+                                    <li><span style="color: #66FCF1;">বিবরণ:</span> লেনদেনটা কী, সেটা বর্ণনা।</li>
+                                    <li><span style="color: #66FCF1;">খতিয়ান পৃষ্ঠা:</span> পরে খতিয়ানে কোন পৃষ্ঠায় লেখা হয়েছে, সেই নম্বর।</li>
+                                    <li><span style="color: #66FCF1;">ডেবিট টাকা:</span> কত টাকা ডেবিট হয়েছে।</li>
+                                    <li><span style="color: #66FCF1;">ক্রেডিট টাকা:</span> কত টাকা ক্রেডিট হয়েছে।</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="mb-2">এই ছকটা তোমার হিসাবকে গোছানো আর বুঝতে সহজ করে তোলে।</p>
+                    ` 
+                },
+                { 
+                    text: "৩২। জাবেদার প্রধান উদ্দেশ্যগুলো লেখ। (অধ্যায়-৫) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">জাবেদার প্রধান উদ্দেশ্যগুলো</span> হলো:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">১. লেনদেনের তারিখের ক্রমানুসারে লিপিবদ্ধকরণ:</span> প্রতিটি লেনদেন সংঘটিত হওয়ার সাথে সাথে লিপিবদ্ধ করা।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">২. হিসাবের প্রাথমিক উৎস:</span> এটি লেনদেনের <span style="color: #66FCF1;">প্রথম ও বিস্তারিত রেকর্ড</span>।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৩. ভবিষ্যতের রেফারেন্স:</span> ভবিষ্যতে কোনো ভুল হলে তা জাবেদা থেকে সহজে খুঁজে বের করা যায়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৪. খতিয়ান প্রস্তুতের ভিত্তি:</span> জাবেদা থেকে তথ্য নিয়ে খতিয়ান প্রস্তুত করা হয়।</li>
+                            <li><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.5);">৫. লেনদেনের সম্পূর্ণতা নিশ্চিতকরণ:</span> প্রতিটি লেনদেনের <span style="color: #66FCF1;">ডেবিট ও ক্রেডিট উভয় দিকই</span> এখানে লিপিবদ্ধ হয়।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">জাবেদা রাখার কিছু কারণ আছে:</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">ভুলে না যাওয়ার জন্য:</span> তুমি যদি একটা লেনদেন করো, তাহলে তুমি সেটা সেই দিনই লিখে ফেলো, যাতে পরে ভুলে না যাও।</li>
+                            <li><span style="color: #66FCF1;">সম্পূর্ণ হিসাব:</span> তুমি যখন একটা লেনদেন করো, তখন তুমি তার দুইটা দিকই লেখো।</li>
+                            <li><span style="color: #66FCF1;">খুঁজে বের করা সহজ:</span> যদি কোনো ভুল হয়, তাহলে তুমি জাবেদা থেকে সহজেই ভুলটা খুঁজে বের করতে পারো।</li>
+                        </ul>
+                    ` 
+                },
+                { 
+                    text: "৩৩। খতিয়ান থেকে একজন ব্যবসায়ী কী কী তথ্যদি পেতে পারে? (অধ্যায়-৬) Epic", 
+                    tier: 'epic', 
+                    answer: `
+                        <p class="mb-2"><span style="color: #66FCF1; text-decoration: underline; background-color: rgba(167, 139, 250, 0.7);">খতিয়ান থেকে একজন ব্যবসায়ী যে তথ্যগুলো পেতে পারে:</span></p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">১. প্রতিষ্ঠানের আর্থিক অবস্থা:</span> প্রতিটি হিসাবের সমাপনী জের থেকে ব্যবসার আর্থিক অবস্থা জানা যায়।</li>
+                            <li><span style="color: #66FCF1;">২. লাভ-ক্ষতি:</span> আয়-ব্যয় হিসাবের জের থেকে লাভ বা ক্ষতির পরিমাণ জানা যায়।</li>
+                            <li><span style="color: #66FCF1;">৩. আর্থিক বিবরণী তৈরি:</span> উদ্বৃত্তপত্র এবং লাভ-ক্ষতি হিসাবের জন্য প্রয়োজনীয় সকল তথ্য পাওয়া যায়।</li>
+                            <li><span style="color: #66FCF1;">৪. খরচ নিয়ন্ত্রণ:</span> বিভিন্ন খরচের হিসাব থেকে খরচ নিয়ন্ত্রণ করা সহজ হয়।</li>
+                            <li><span style="color: #66FCF1;">৫. ব্যবস্থাপনার সিদ্ধান্ত গ্রহণ:</span> ভবিষ্যতের পরিকল্পনা ও সিদ্ধান্ত গ্রহণের জন্য প্রয়োজনীয় তথ্য পাওয়া যায়।</li>
+                        </ul>
+                    `,
+                    extendedAnswer: `
+                        <p class="mb-2">খতিয়ান থেকে তুমি তোমার ব্যবসার সবকিছু জানতে পারো।</p>
+                        <ul style="list-style-type: disc; margin-left: 1.5rem; color: #a78bfa;" class="mb-2">
+                            <li><span style="color: #66FCF1;">তোমার অবস্থা:</span> তোমার কাছে কত টাকা আছে, কত টাকার জিনিসপত্র আছে, কার কাছে কত টাকা পাওনা, সব কিছু তুমি জানতে পারো।</li>
+                            <li><span style="color: #66FCF1;">লাভ-ক্ষতি:</span> তোমার কত লাভ বা ক্ষতি হয়েছে, সেটা তুমি জানতে পারো।</li>
+                            <li><span style="color: #66FCF1;">ভবিষ্যৎ পরিকল্পনা:</span> এই তথ্যগুলো থেকে তুমি তোমার ভবিষ্যৎ পরিকল্পনা করতে পারো।</li>
+                        </ul>
+                    ` 
+                }
+            ],
+            "essay": [
+                { 
+                    text: "১। No big questions", 
+                    tier: 'mythic', 
+                    answer: `এখানে মিথিক রচনামূলক প্রশ্নের উত্তর।`, 
+                    extendedAnswer: `এখানে মিথিক রচনামূলক প্রশ্নের বিস্তারিত উত্তর।` 
+                },
+                
+            ]
+        };
+
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    listElement.innerHTML = ''; 
+
+                    questions[category].forEach((q, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        
+                        if (q.tier === 'mythic') {
+                            listItem.classList.add('red-mythic-item');
+                        } else if (q.tier === 'legendary') {
+                            listItem.classList.add('gold-legendary-item');
+                        } else if (q.tier === 'epic') {
+                            listItem.classList.add('purple-epic-item');
+                        }
+
+                        const dropdownId = `answer-dropdown-${category}-${index}`;
+                        const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`;
+
+                        const isAmoledSection = true;
+                        const dropdownClass = isAmoledSection ? 'answer-dropdown amoled-dropdown' : 'answer-dropdown';
+                        const extendedDropdownClass = isAmoledSection ? 'extended-answer-dropdown amoled-extended-dropdown' : 'extended-answer-dropdown';
+
+                        listItem.innerHTML = `
+                            <div class="question-main-row">
+                                <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}">
+                                    <span>${q.text}</span>
+                                    <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </div>
+                                <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                    <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                        AI
+                                    </button>
+                                    <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="${dropdownId}" class="${dropdownClass} hidden">
+                                <div class="short-answer-text-toggle" data-target="${extendedDropdownId}">
+                                    <div class="short-answer-content">${q.answer}</div>
+                                    <svg class="toggle-icon w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </div>
+                                <div id="${extendedDropdownId}" class="${extendedDropdownClass} hidden">
+                                    ${q.extendedAnswer}
+                                </div>
+                            </div>
+                        `;
+                        
+                        listElement.appendChild(listItem);
+
+                        const toggleElement = listItem.querySelector('.question-text-toggle');
+                        const toggleIcon = toggleElement.querySelector('.toggle-icon');
+                        toggleElement.addEventListener('click', function() {
+                            const targetId = this.dataset.target;
+                            const dropdown = document.getElementById(targetId);
+                            if (dropdown) {
+                                dropdown.classList.toggle('hidden');
+                                toggleIcon.classList.toggle('rotated');
+                            }
+                        });
+
+                        const extendedToggleElement = listItem.querySelector('.short-answer-text-toggle');
+                        if (extendedToggleElement) {
+                            const extendedToggleIcon = extendedToggleElement.querySelector('.toggle-icon');
+                            extendedToggleElement.addEventListener('click', function(event) {
+                                event.stopPropagation();
+                                const targetId = this.dataset.target;
+                                const extendedDropdown = document.getElementById(targetId);
+                                if (extendedDropdown) {
+                                    extendedDropdown.classList.toggle('hidden');
+                                    extendedToggleIcon.classList.toggle('rotated');
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>

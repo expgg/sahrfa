@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importing Noto Sans Bengali for better readability */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif; /* Prioritize Noto Sans Bengali */
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            line-height: 1.6;
+            padding-bottom: 40px; /* Add padding to body to prevent footer from overlapping content */
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d3748; /* Darker border for dark mode */
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #cbd5e0; /* Lighter color for the main title */
+            margin-bottom: 5px;
+        }
+        .header .subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #90cdf4; /* Lighter blue for the subtitle */
+        }
+        .branding {
+            background-color: #2d3748; /* Dark background for branding */
+            color: white;
+            padding: 15px 20px;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .branding .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .branding .tagline {
+            font-size: 1rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #a0aec0; /* Adjusted for dark mode */
+        }
+        .branding .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .question-category {
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .category-header {
+            background-color: #4299e1; /* Slightly brighter blue for contrast */
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3182ce; /* Darker border for dark mode */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .question-list {
+            padding: 20px;
+            background-color: #2d3748; /* Darker background for the list */
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+        }
+        .question-item {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack main row and dropdown */
+            align-items: flex-start; /* Align items to the start */
+            padding: 8px 15px; /* Adjusted vertical padding */
+            margin-bottom: 8px; /* Space between items */
+            background-color: #4a5568; /* Distinct dark background for each item */
+            border-radius: 6px; /* Rounded corners for question items */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Animation for hover */
+            color: #e2e8f0; /* Light text for questions */
+        }
+        .question-item:last-child {
+            margin-bottom: 0; /* No bottom margin for the last item */
+        }
+        .question-item:hover {
+            background-color: #636b7f; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+        /* Style for blue stripe items */
+        .blue-stripe-item {
+            border-left: 4px solid #4299e1; /* Blue stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .blue-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+        /* Style for green stripe items */
+        .green-stripe-item {
+            border-left: 4px solid #48bb78; /* Green stripe on the left */
+            padding-left: 11px; /* Adjust padding to account for the border */
+            background-color: #4a5568; /* Keep original background for subtle effect */
+            color: #e2e8f0; /* Keep original text color */
+        }
+        .green-stripe-item:hover {
+            background-color: #636b7f; /* Maintain hover effect */
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Consistent with branding background */
+            color: #a0aec0; /* Lighter text */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* Darker shadow for dark mode */
+            z-index: 1000;
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center content */
+            justify-content: center;
+            align-items: center;
+            padding: 0.25rem 0.5rem; /* Padding for text button */
+            border-radius: 0.25rem; /* Rounded corners for button */
+            font-size: 0.875rem; /* Adjust font size for text button */
+            font-weight: 500;
+            background-color: #3182ce; /* Blue background for AI button */
+            color: white;
+            border: none;
+        }
+        .action-button:hover {
+            background-color: #4299e1; /* Lighter blue on hover */
+            color: white; /* Keep text white on hover */
+        }
+        /* Specific style for the copy button to maintain icon look */
+        .copy-button {
+            width: 1.5rem; /* Revert width */
+            height: 1.5rem; /* Revert height */
+            background-color: transparent; /* No background for icon button */
+            color: #7F8C8D; /* Icon color */
+            padding: 0; /* Remove padding for icon button */
+            font-size: 1.25rem; /* Ensure icon is visible */
+        }
+        .copy-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+            background-color: transparent; /* Keep background transparent */
+        }
+
+        /* AI Modal specific positioning for true centering (from index.html) */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833; /* Dark background for modal */
+            color: #C5C6C7; /* Light gray text */
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+        .ai-modal-close-button {
+            background: none;
+            border: none;
+            color: #C5C6C7;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .ai-modal-close-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #66FCF1;
+        }
+
+        /* AI Modal Answer Styling (from index.html) */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #ABB2BF; /* Default code text color */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        /* Syntax highlighting colors */
+        .code-keyword { color: #89DDFF; } /* Light blue/cyan */
+        .code-string { color: #C3E88D; } /* Light green */
+        .code-number { color: #F78C6C; } /* Orange */
+        .code-class { color: #FFCB6B; } /* Yellow/orange */
+        .code-method { color: #C792EA; } /* Purple */
+        .code-variable { color: #FFEA7A; } /* Lighter yellow */
+        .code-comment { color: #6A737D; font-style: italic; } /* Gray, italic */
+        .code-operator { color: #FF5370; } /* Red/pink */
+        .code-punctuation { color: #ABB2BF; } /* Light gray */
+
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part ul {
+            list-style-type: disc; /* Ensure bullet points for lists */
+            margin-left: 1.25rem; /* Indent for list items */
+        }
+        .ai-answer-part li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-part-heading {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for headings within answer parts */
+            margin-bottom: 0.5rem;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #66FCF1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar Styles for AI modal content (from index.html) */
+        .ai-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        .ai-modal-content {
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Styles for dropdown answers */
+        .answer-dropdown {
+            background-color: #3a475a; /* Slightly lighter dark background for dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            color: #d1d5db;
+            width: 100%; /* Ensure it takes full width of its parent */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* New style for extended answer dropdown */
+        .extended-answer-dropdown {
+            background-color: #5a6b80; /* Even lighter dark background for extended dropdown */
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Specific styles for AMOLED black dropdowns in "very-short" and "short" sections */
+        .amoled-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #ffffff; /* White to pop on black */
+        }
+
+        .amoled-extended-dropdown {
+            background-color: #000000; /* Pure black for AMOLED */
+            color: #a78bfa; /* Vibrant purple to pop for extended */
+        }
+
+        /* Style for the short answer text itself, now a toggle */
+        .short-answer-text-toggle {
+            cursor: pointer;
+            padding: 0.5rem 0; /* Add some padding */
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex; /* To align text and icon */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .short-answer-text-toggle:hover {
+            background-color: #4a5568; /* Slightly lighter on hover */
+        }
+
+
+        .question-text-toggle {
+            cursor: pointer;
+            flex-grow: 1; /* Allow text to grow */
+            display: flex; /* Enable flex for icon positioning */
+            justify-content: space-between; /* Push icon to the right */
+            align-items: center;
+        }
+        .question-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure this row takes full width of question-item */
+            min-height: 2.5rem; /* Set a minimum height for the row */
+        }
+        .question-item .button-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        /* Custom styles for visually enhanced answers */
+        .answer-content-section {
+            margin-bottom: 1rem;
+        }
+        .answer-content-section h5 {
+            font-weight: 600;
+            color: #66FCF1; /* Cyan for sub-headings */
+            margin-bottom: 0.5rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .answer-content-section p {
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .answer-content-section ul li {
+            margin-bottom: 0.25rem;
+        }
+        .highlight-text {
+            color: #a78bfa; /* Purple for highlighting important info */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Branding section is now directly on the body background -->
+    <!-- Removed Branding Section -->
+
+    <div class="main-content">
+        <header class="header">
+            <h1>ওয়েভ ডিজাইন অ্যান্ড ডেভেলপমেন্ট- 2</h1>
+            <p class="subtitle">Short suggestion</p>
+        </header>
+
+        <!-- Question categories without card styling -->
+        <div class="question-category">
+            <div class="category-header" data-category="very-short">
+                <span>অতি সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="very-short-questions">
+                <!-- Very Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="short">
+                <span>সংক্ষিপ্ত</span>
+            </div>
+            <div class="question-list" id="short-questions">
+                <!-- Short Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="question-category">
+            <div class="category-header" data-category="essay">
+                <span>রচনামূলক</span>
+            </div>
+            <div class="question-list" id="essay-questions">
+                <!-- Essay Questions will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <!-- AI Answer Modal (from index.html) -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your API key (from index.html)
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; // Keep this as provided by the user.
+
+        // Define the questions categorized
+        const questions = {
+            "very-short": [
+                { text: "১। DOM কী?", answer: "DOM হলো HTML/XML ডকুমেন্টের প্রোগ্রামিং ইন্টারফেস।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">DOM (Document Object Model)</span> হলো HTML এবং XML ডকুমেন্টগুলির জন্য একটি <span class="highlight-text">প্রোগ্রামিং ইন্টারফেস</span>।</p>
+                        <h5 class="mb-2">DOM এর মূল কাজ:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এটি ওয়েব পেজের কাঠামোকে একটি <span class="highlight-text">ট্রি-এর মতো করে উপস্থাপন</span> করে, যেখানে প্রতিটি HTML উপাদান একটি নোড হিসেবে থাকে।</li>
+                            <li><span class="highlight-text">জাভাস্ক্রিপ্ট ব্যবহার করে</span> এই DOM নোডগুলিকে অ্যাক্সেস, পরিবর্তন বা ডিলিট করা যায়।</li>
+                            <li>এর ফলে ওয়েব পেজের বিষয়বস্তু, স্টাইল এবং কাঠামো <span class="highlight-text">ডায়নামিকভাবে পরিবর্তন</span> করা সম্ভব হয়।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২। HTML-এলিমেন্টকে জাভাস্ক্রিপ্ট দ্বারা সিলেক্ট করার পদ্ধতি লেখ।", answer: "getElementById(), querySelector() ইত্যাদি।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">HTML এলিমেন্টকে জাভাস্ক্রিপ্ট দ্বারা সিলেক্ট করার জন্য বিভিন্ন পদ্ধতি রয়েছে, যার মাধ্যমে ওয়েব পেজের নির্দিষ্ট উপাদানগুলিকে খুঁজে বের করে সেগুলিতে পরিবর্তন আনা যায়।</p>
+                        <h5 class="mb-2">প্রধান পদ্ধতিগুলি:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><span class="highlight-text">getElementById()</span>: ID দ্বারা সিলেক্ট।</li>
+                            <li><span class="highlight-text">getElementsByClassName()</span>: ক্লাস নেম দ্বারা সিলেক্ট।</li>
+                            <li><span class="highlight-text">getElementsByTagName()</span>: ট্যাগ নেম দ্বারা সিলেক্ট।</li>
+                            <li><span class="highlight-text">querySelector()</span>: CSS সিলেক্টর দ্বারা প্রথম ম্যাচিং এলিমেন্ট সিলেক্ট।</li>
+                            <li><span class="highlight-text">querySelectorAll()</span>: CSS সিলেক্টর দ্বারা সব ম্যাচিং এলিমেন্ট সিলেক্ট।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৩। ক্লায়েন্ট সাইড ফ্রেমওয়ার্ক কী?", answer: "ক্লায়েন্ট সাইড ফ্রেমওয়ার্ক হলো ব্রাউজারে রান হওয়া ওয়েব অ্যাপ তৈরির কাঠামো।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ক্লায়েন্ট সাইড ফ্রেমওয়ার্ক</span> হলো এমন একটি কাঠামো যা ওয়েব ব্রাউজারে (ক্লায়েন্ট সাইডে) রান হওয়া ওয়েব অ্যাপ্লিকেশন তৈরির জন্য ব্যবহৃত হয়।</p>
+                        <h5 class="mb-2">মূল সুবিধা:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>ডেভেলপারদেরকে ইউজার ইন্টারফেস (UI) তৈরি, ডেটা ম্যানেজমেন্ট এবং অ্যাপ্লিকেশন লজিক সংগঠিত করার জন্য <span class="highlight-text">পূর্ব-লিখিত কোড এবং টুলস</span> সরবরাহ করে।</li>
+                            <li>এর ফলে দ্রুত এবং সহজে <span class="highlight-text">ইন্টারঅ্যাক্টিভ ও ডায়নামিক ওয়েব অ্যাপ্লিকেশন</span> তৈরি করা যায়, যেমন সিঙ্গেল পেজ অ্যাপ্লিকেশন (SPA)।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৪। জেকুয়েরি (jQuery) কী?", answer: "জেকুয়েরি হলো HTML ও Ajax সহজ করার জাভাস্cripts লাইব্রেরি।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">জেকুয়েরি (jQuery)</span> হলো একটি দ্রুত, ছোট এবং ফিচার-সমৃদ্ধ জাভাস্ক্রিপ্ট লাইব্রেরি।</p>
+                        <h5 class="mb-2">এর কাজ:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>HTML ডকুমেন্ট ট্রাভার্সাল, ইভেন্ট হ্যান্ডলিং, অ্যানিমেশন, এবং Ajax ইন্টারঅ্যাকশনকে <span class="highlight-text">সহজ করার জন্য</span> ডিজাইন করা হয়েছে।</li>
+                            <li>'<span class="highlight-text">Write less, do more</span>' এই স্লোগান নিয়ে এটি জাভাস্ক্রিপ্ট কোডিংকে অনেক সহজ করে তুলেছে, বিশেষ করে DOM ম্যানিপুলেশনের ক্ষেত্রে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৫। স্ট্যাটিক ওয়েবসাইট কী?", answer: "স্ট্যাটিক ওয়েবসাইট হলো স্থির বিষয়বস্তুর ওয়েবসাইট।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">স্ট্যাটিক ওয়েবসাইট</span> হলো এমন ওয়েবসাইট যার বিষয়বস্তু <span class="highlight-text">স্থির</span> এবং ব্যবহারকারীর অনুরোধের উপর ভিত্তি করে পরিবর্তিত হয় না।</p>
+                        <h5 class="mb-2">বৈশিষ্ট্য:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>সাধারণত HTML, CSS এবং জাভাস্ক্রিপ্ট ফাইল দিয়ে তৈরি হয় এবং সার্ভারে সরাসরি স্টোর করা থাকে।</li>
+                            <li>প্রতিটি ব্যবহারকারী <span class="highlight-text">একই কন্টেন্ট</span> দেখতে পায়।</li>
+                            <li>ডেটাবেজের সাথে এর কোনো সংযোগ থাকে না।</li>
+                        </ul>
+                        <p>ছোট ব্যবসা বা ব্যক্তিগত পোর্টফোলিওর জন্য এটি উপযুক্ত।</p>
+                    </div>
+                ` },
+                { text: "৬। ডায়নামিক ওয়েবসাইট কী?", answer: "ডায়নামিক ওয়েবসাইট হলো পরিবর্তনশীল বিষয়বস্তুর ওয়েবসাইট।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ডায়নামিক ওয়েবসাইট</span> হলো এমন ওয়েবসাইট যার বিষয়বস্তু ব্যবহারকারীর অনুরোধ বা ডেটাবেজের তথ্যের উপর ভিত্তি করে <span class="highlight-text">পরিবর্তিত হয়</span>।</p>
+                        <h5 class="mb-2">বৈশিষ্ট্য:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>সার্ভার-সাইড স্ক্রিপ্টিং ভাষা (যেমন PHP, Python, Node.js) এবং ডেটাবেজ (যেমন MySQL, PostgreSQL) ব্যবহার করে তৈরি হয়।</li>
+                            <li>ই-কমার্স সাইট, সোশ্যাল মিডিয়া প্ল্যাটফর্ম এবং ব্লগগুলি ডায়নামিক ওয়েবসাইটের উদাহরণ।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৭। ফ্রেমওয়ার্ক কী?", answer: "ফ্রেমওয়ার্ক হলো সফটওয়্যার তৈরির পূর্ব-প্রতিষ্ঠিত কাঠামো।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ফ্রেমওয়ার্ক</span> হলো সফটওয়্যার অ্যাপ্লিকেশন তৈরির জন্য একটি <span class="highlight-text">পূর্ব-প্রতিষ্ঠিত কাঠামো এবং টুলসেট</span>।</p>
+                        <h5 class="mb-2">সুবিধা:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>ডেভেলপারদেরকে অ্যাপ্লিকেশন তৈরির জন্য একটি ভিত্তি সরবরাহ করে।</li>
+                            <li>সাধারণ কাজগুলি করার জন্য রেডিমেড কম্পোনেন্ট এবং লাইব্রেরি থাকে।</li>
+                            <li>ডেভেলপমেন্ট প্রক্রিয়া দ্রুত হয়, কোডের মান উন্নত হয় এবং কোড রক্ষণাবেক্ষণ সহজ হয়।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৮। ডায়নামিক ওয়েবসাইট তৈরির কয়েকটি ফ্রেমওয়ার্কের নাম লেখ।", answer: "রিঅ্যাক্ট, লারাভেল, জ্যাঙ্গো।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">ডায়নামিক ওয়েবসাইট তৈরির জন্য বেশ কিছু জনপ্রিয় ফ্রেমওয়ার্ক রয়েছে।</p>
+                        <h5 class="mb-2">উদাহরণ:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><span class="highlight-text">ক্লায়েন্ট-সাইড (ফ্রন্ট-এন্ড)</span>: রিঅ্যাক্ট (React), অ্যাঙ্গুলার (Angular), ভিউ.জেএস (Vue.js)।</li>
+                            <li><span class="highlight-text">সার্ভার-সাইড (ব্যাক-এন্ড)</span>: লারাভেল (Laravel - PHP), জ্যাঙ্গো (Django - Python), এক্সপ্রেস.জেএস (Express.js - Node.js)।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৯। ডাটাবেজ কী?", answer: "ডেটাবেজ হলো সুসংগঠিত ডেটার সংগ্রহ।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ডেটাবেজ</span> হলো সুসংগঠিত ডেটার একটি সংগ্রহ যা সহজে অ্যাক্সেস, পরিচালনা এবং আপডেট করা যায়।</p>
+                        <h5 class="mb-2">গুরুত্ব:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এটি তথ্যকে একটি সুনির্দিষ্ট ফরম্যাটে সংরক্ষণ করে, যাতে প্রয়োজনে দ্রুত তথ্য খুঁজে বের করা যায় এবং ব্যবহার করা যায়।</li>
+                            <li>বিভিন্ন ধরনের হতে পারে, যেমন রিলেশনাল ডেটাবেজ (MySQL, PostgreSQL) বা NoSQL ডেটাবেজ (MongoDB, Cassandra)।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১০। DDL কী?", answer: "DDL হলো ডেটাবেজ কাঠামো সংজ্ঞায়িত করার কমান্ড।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">DDL (Data Definition Language)</span> হলো ডেটাবেজের কাঠামো বা স্কিমা সংজ্ঞায়িত করার জন্য ব্যবহৃত কমান্ড সেট।</p>
+                        <h5 class="mb-2">প্রধান কমান্ড:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><span class="highlight-text">CREATE</span>: ডেটাবেজ অবজেক্ট তৈরি।</li>
+                            <li><span class="highlight-text">ALTER</span>: ডেটাবেজ অবজেক্ট পরিবর্তন।</li>
+                            <li><span class="highlight-text">DROP</span>: ডেটাবেজ অবজেক্ট মুছে ফেলা।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১১। DML কী?", answer: "DML হলো ডেটাবেজে ডেটা পরিবর্তনের কমান্ড।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">DML (Data Manipulation Language)</span> হলো ডেটাবেজে ডেটা সন্নিবেশ (Insert), পরিবর্তন (Update), মুছে ফেলা (Delete) এবং পুনরুদ্ধার (Retrieve) করার জন্য ব্যবহৃত কমান্ড সেট।</p>
+                        <h5 class="mb-2">প্রধান কমান্ড:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><span class="highlight-text">SELECT</span>: ডেটা পুনরুদ্ধার।</li>
+                            <li><span class="highlight-text">INSERT</span>: ডেটা সন্নিবেশ।</li>
+                            <li><span class="highlight-text">UPDATE</span>: ডেটা পরিবর্তন।</li>
+                            <li><span class="highlight-text">DELETE</span>: ডেটা মুছে ফেলা।</li>
+                        </ul>
+                        <p>এই কমান্ডগুলি ডেটাবেজের ডেটা নিয়ে কাজ করে, কিন্তু এর কাঠামো পরিবর্তন করে না।</p>
+                    </div>
+                ` },
+                { text: "১২। কনটেন্ট ম্যানেজমেন্ট সিস্টেম কী?", answer: "CMS হলো ডিজিটাল কনটেন্ট ব্যবস্থাপনা সফটওয়্যার।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">কনটেন্ট ম্যানেজমেন্ট সিস্টেম (CMS)</span> হলো একটি সফটওয়্যার অ্যাপ্লিকেশন যা ডিজিটাল কনটেন্ট তৈরি, ব্যবস্থাপনা, এবং সংশোধনে সাহায্য করে।</p>
+                        <h5 class="mb-2">সুবিধা:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>ব্যবহারকারীদেরকে <span class="highlight-text">কোডিং জ্ঞান ছাড়াই</span> ওয়েবসাইট বা ডিজিটাল কন্টেন্ট তৈরি ও আপডেট করার সুবিধা দেয়।</li>
+                            <li>ওয়ার্ডপ্রেস, জুমলা, এবং ড্রুপাল হলো জনপ্রিয় CMS এর উদাহরণ।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৩। শপিফাই কী?", answer: "শপিফাই হলো একটি অনলাইন স্টোর তৈরির প্ল্যাটফর্ম।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">শপিফাই (Shopify)</span> হলো একটি জনপ্রিয় ই-কমার্স প্ল্যাটফর্ম যা ব্যক্তি এবং ব্যবসাকে সহজে অনলাইন স্টোর তৈরি ও পরিচালনা করতে সাহায্য করে।</p>
+                        <h5 class="mb-2">কার্যকারিতা:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>পণ্য তালিকা তৈরি করা, অর্ডার ম্যানেজ করা, পেমেন্ট গ্রহণ করা এবং শিপিং সেটআপ করা যায়।</li>
+                            <li>এটি একটি ক্লাউড-ভিত্তিক সমাধান, তাই সার্ভার বা হোস্টিং নিয়ে চিন্তা করতে হয় না।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৪। সিএমএস-এর দুটি সুবিধা লেখ।", answer: "কোডিং ছাড়া ওয়েবসাইট তৈরি; সহজে কনটেন্ট আপডেট।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">সিএমএস (CMS)</span> ব্যবহারের দুটি প্রধান সুবিধা হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><span class="highlight-text">কোডিং জ্ঞান ছাড়াই</span> ওয়েবসাইট তৈরি ও কনটেন্ট আপডেট করা যায়, যা অ-প্রযুক্তিগত ব্যবহারকারীদের জন্য ওয়েবসাইট পরিচালনা সহজ করে তোলে।</li>
+                            <li>এটি একটি ব্যবহারকারী-বান্ধব ইন্টারফেস সরবরাহ করে, যার মাধ্যমে সহজেই টেক্সট, ছবি, ভিডিও এবং অন্যান্য মিডিয়া যুক্ত ও সম্পাদনা করা যায়।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৫। ই-কমার্স কী?", answer: "ই-কমার্স হলো ইন্টারনেট ব্যবহার করে পণ্য কেনা-বেচা।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ই-কমার্স (E-commerce)</span> হলো ইলেকট্রনিক মাধ্যম, বিশেষ করে ইন্টারনেট ব্যবহার করে পণ্য বা পরিষেবা কেনা-বেচা।</p>
+                        <h5 class="mb-2">অন্তর্ভুক্ত বিষয়:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>অনলাইন শপিং, অনলাইন ব্যাংকিং, ইলেকট্রনিক পেমেন্ট সিস্টেম এবং অনলাইন টিকিট বুকিং ইত্যাদি।</li>
+                            <li>ই-কমার্স ব্যবসাগুলিকে বিশ্বব্যাপী গ্রাহকদের কাছে পৌঁছাতে এবং ২৪/৭ পরিষেবা প্রদান করতে সাহায্য করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৬। ক্রিপ্টোকারেন্সি কী?", answer: "ক্রিপ্টোকারেন্সি হলো ক্রিপ্টোগ্রাফি দ্বারা সুরক্ষিত ডিজিটাল মুদ্রা।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ক্রিপ্টোকারেন্সি</span> হলো একটি ডিজিটাল বা ভার্চুয়াল মুদ্রা যা <span class="highlight-text">ক্রিপ্টোগ্রাফি দ্বারা সুরক্ষিত</span> এবং বিকেন্দ্রীভূত নেটওয়ার্কে (<span class="highlight-text">ব্লockচেইন</span>) কাজ করে।</p>
+                        <h5 class="mb-2">বৈশিষ্ট্য:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এটি সাধারণত কোনো কেন্দ্রীয় ব্যাংক বা সরকারের নিয়ন্ত্রণাধীন নয়।</li>
+                            <li>বিটকয়েন (Bitcoin) এবং ইথেরিয়াম (Ethereum) হলো সবচেয়ে পরিচিত ক্রিপ্টোকারেন্সি।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৭। ডোমেইন কী?", answer: "ডোমেইন হলো ওয়েবসাইটের ঠিকানা।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ডোমেইন (Domain)</span> হলো একটি ওয়েবসাইটের ঠিকানা যা ইন্টারনেটে একটি ওয়েবসাইটকে চিহ্নিত করে (যেমন, example.com)।</p>
+                        <h5 class="mb-2">গুরুত্ব:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এটি আইপি অ্যাড্রেসের (যেমন, 192.168.1.1) একটি সহজবোধ্য নাম, যা মনে রাখা সহজ।</li>
+                            <li>ব্যবহারকারীরা এই ডোমেইন নামটি ব্রাউজারে টাইপ করে ওয়েবসাইটে প্রবেশ করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১৮। BTCL ও BTRC কী?", answer: "BTCL বাংলাদেশের প্রধান টেলিযোগাযোগ সংস্থা; BTRC নিয়ন্ত্রক সংস্থা।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">BTCL (Bangladesh Telecommunications Company Limited)</span> হলো বাংলাদেশের প্রধান টেলিযোগাযোগ সংস্থা যা টেলিফোন, ইন্টারনেট এবং অন্যান্য টেলিযোগাযোগ পরিষেবা প্রদান করে।</p>
+                        <p class="mb-2">অন্যদিকে, <span class="highlight-text">BTRC (Bangladesh Telecommunication Regulatory Commission)</span> হলো বাংলাদেশের টেলিযোগাযোগ নিয়ন্ত্রক সংস্থা, যা দেশের টেলিযোগাযোগ খাতের নিয়মকানুন প্রণয়ন ও বাস্তবায়ন করে এবং লাইসেন্স প্রদান করে।</p>
+                    </div>
+                ` },
+                { text: "১৯। ওয়েব সিকিউরিটি কী?", answer: "ওয়েব সিকিউরিটি হলো সাইবার আক্রমণ থেকে ওয়েবসাইট রক্ষা।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ওয়েব সিকিউরিটি</span> হলো ওয়েব অ্যাপ্লিকেশন, সার্ভার এবং ডেটাবেজকে সাইবার আক্রমণ, ডেটা চুরি, এবং অন্যান্য অনলাইন হুমকি থেকে রক্ষা করার প্রক্রিয়া।</p>
+                        <h5 class="mb-2">অন্তর্ভুক্ত বিষয়:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>ডেটা এনক্রিপশন, ফায়ারওয়াল ব্যবহার, নিয়মিত নিরাপত্তা অডিট, এবং দুর্বলতা পরীক্ষা করা।</li>
+                            <li>এর লক্ষ্য হলো ব্যবহারকারীর ডেটা এবং ওয়েবসাইটের কার্যকারিতা সুরক্ষিত রাখা।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২০। ফায়ারওয়াল কী?", answer: "ফায়ারওয়াল হলো নেটওয়ার্ক ট্র্যাফিক নিয়ন্ত্রণকারী নিরাপত্তা সিস্টেম।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ফায়ারওয়াল (Firewall)</span> হলো একটি নেটওয়ার্ক সিকিউরিটি সিস্টেম যা পূর্বনির্ধারিত নিরাপত্তা নিয়মের ভিত্তিতে ইনকামিং ও আউটগোয়িং নেটওয়ার্ক ট্র্যাফিক নিয়ন্ত্রণ করে।</p>
+                        <h5 class="mb-2">কার্যকারিতা:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এটি একটি সুরক্ষা প্রাচীর হিসেবে কাজ করে যা অনুমোদিত ট্র্যাফিককে পাস করতে দেয় এবং অননুমোদিত বা ক্ষতিকারক ট্র্যাফিককে ব্লক করে।</li>
+                            <li>এটি হার্ডওয়্যার বা সফটওয়্যার উভয় রূপে থাকতে পারে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২১। অ্যান্টিভাইরাস কী?", answer: "অ্যান্টিভাইরাস হলো ভাইরাস থেকে কম্পিউটার রক্ষাকারী সফটওয়্যার।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">অ্যান্টিভাইরাস</span> হলো একটি সফটওয়্যার যা কম্পিউটারকে ভাইরাস, ম্যালওয়্যার, স্পাইওয়্যার এবং অন্যান্য ক্ষতিকারক প্রোগ্রাম থেকে রক্ষা করে।</p>
+                        <h5 class="mb-2">কার্যকারিতা:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এটি সিস্টেমে ক্ষতিকারক ফাইল স্ক্যান করে, সনাক্ত করে এবং সেগুলিকে মুছে ফেলে বা কোয়ারেন্টাইন করে।</li>
+                            <li>নিয়মিত আপডেট এবং স্ক্যানিং অ্যান্টিভাইরাসের কার্যকারিতা বজায় রাখতে সাহায্য করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২২। ফিশিং কী?", answer: "ফিশিং হলো প্রতারণামূলক তথ্য হাতিয়ে নেওয়ার সাইবার কৌশল।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ফিশিং (Phishing)</span> হলো প্রতারণামূলকভাবে সংবেদনশীল তথ্য (যেমন ইউজারনেম, পাসওয়ার্ড, ক্রেডিট কার্ডের বিবরণ) হাতিয়ে নেওয়ার একটি সাইবার আক্রমণ কৌশল।</p>
+                        <h5 class="mb-2">পদ্ধতি:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>আক্রমণকারীরা নিজেদেরকে বিশ্বস্ত সত্তা (যেমন ব্যাংক, পরিচিত কোম্পানি) হিসেবে উপস্থাপন করে।</li>
+                            <li>ইমেল, মেসেজ বা ভুয়া ওয়েবসাইটের মাধ্যমে ব্যবহারকারীদেরকে ব্যক্তিগত তথ্য দিতে প্রলুব্ধ করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২৩। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়?", answer: "হ্যাকিং হলো অনুমতি ছাড়া সিস্টেমে প্রবেশ; হ্যাকার হলো যে এই কাজ করে।", extendedAnswer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">হ্যাকিং কী? (What is Hacking?)</h5>
+                        <p class="mb-2"><span class="highlight-text">হ্যাকিং</span> হলো কম্পিউটার সিস্টেম, নেটওয়ার্ক বা সফটওয়্যারের দুর্বলতা খুঁজে বের করে সেগুলোতে <span class="highlight-text">অননুমোদিতভাবে প্রবেশ করা</span> বা সেগুলোর কাজকে নিজের নিয়ন্ত্রণে নিয়ে নেওয়া। এর উদ্দেশ্য ভালো বা খারাপ, দুটোই হতে পারে।</p>
+
+                        <h5 class="mb-2">হ্যাকার কী? (What is a Hacker?)</h5>
+                        <p class="mb-2">একজন <span class="highlight-text">হ্যাকার</span> হলেন সেই ব্যক্তি যিনি এই হ্যাকিং কাজটি করেন। অর্থাৎ, তিনি একজন টেকনিক্যাল এক্সপার্ট যিনি সিস্টেমের নিরাপত্তা দুর্বলতা খুঁজে বের করতে সক্ষম।</p>
+
+                        <h5 class="mb-2">হ্যাকারের প্রকারভেদ (Types of Hackers)</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">হোয়াইট হ্যাট হ্যাকার (White Hat Hacker)</span></strong>: এথিক্যাল হ্যাকার, সিস্টেমের সুরক্ষাকে মজবুত করে। 😇</li>
+                            <li><strong><span class="highlight-text">ব্ল্যাক হ্যাট হ্যাকার (Black Hat Hacker)</span></strong>: খারাপ হ্যাকার, ব্যক্তিগত লাভের জন্য হামলা করে। 😈</li>
+                            <li><strong><span class="highlight-text">গ্রে হ্যাট হ্যাকার (Grey Hat Hacker)</span></strong>: হোয়াইট ও ব্ল্যাক হ্যাটের মাঝামাঝি, দুর্বলতা জানিয়ে দেয়। ⚖️</li>
+                            <li><strong><span class="highlight-text">স্ক্রিপ্ট কিডিস (Script Kiddies)</span></strong>: কম জ্ঞানসম্পন্ন, অন্যের টুলস ব্যবহার করে। 👶</li>
+                            <li><strong><span class="highlight-text">অ্যাক্টিভিস্ট (Hacktivist)</span></strong>: সামাজিক বা রাজনৈতিক উদ্দেশ্য নিয়ে হ্যাকিং করে। ✊</li>
+                        </ul>
+                    </div>
+                ` }
+            ],
+            "short": [
+                { text: "১। HTML tree structure লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">HTML ডকুমেন্টকে একটি গাছের মতো গোছানো কাঠামোতে (DOM) উপস্থাপন করা হয়</span>, যা ব্রাউজার ও জাভাস্ক্রিপ্টকে পেজ বুঝতে ও নিয়ন্ত্রণ করতে সাহায্য করে। 🌳</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">HTML ট্রি স্ট্রাকচার, যা <span class="highlight-text">DOM (Document Object Model) ট্রি</span> নামেও পরিচিত, হলো একটি HTML ডকুমেন্টকে <span class="highlight-text">নোডের (node) একটি শ্রেণিবিন্যাসিত কাঠামো (hierarchical structure)</span> হিসেবে উপস্থাপন করার পদ্ধতি।</p>
+                        <h5 class="mb-2">মূল পয়েন্ট:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এর শুরু হয় <span class="highlight-text">document অবজেক্ট</span> থেকে, যা মূল বা রুট নোড।</li>
+                            <li>HTML-এর প্রতিটি এলিমেন্ট (যেমন &lt;html&gt;, &lt;head&gt;, &lt;body&gt;, &lt;p&gt;, &lt;div&gt;), অ্যাট্রিবিউট এবং টেক্সট কন্টেন্ট এই ট্রিতে একটি করে <span class="highlight-text">নোড</span> হিসেবে থাকে।</li>
+                            <li>এই কাঠামো <span class="highlight-text">ব্রাউজারকে ওয়েবপেজকে সঠিকভাবে সাজিয়ে দেখাতে</span> এবং <span class="highlight-text">জাভাস্ক্রিপ্টকে পেজের যেকোনো অংশ পরিবর্তন বা নিয়ন্ত্রণ করতে</span> সাহায্য করে।</li>
+                        </ul>
+                        <p>এটা অনেকটা একটা পারিবারিক গাছের মতো, যেখানে বিভিন্ন এলিমেন্ট ধাপে ধাপে একে অপরের ভেতরে সাজানো থাকে। 🌳💻</p>
+                    </div>
+                ` },
+                { text: "২। DOM-এর প্রয়োজনীয় কয়েকটি ফাংশনের সংক্ষিপ্ত বর্ণনা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">এগুলি হলো <span class="highlight-text">জাভাস্ক্রিপ্টের টুলস</span> যা HTML ডকুমেন্টের এলিমেন্টগুলোকে খুঁজে বের করতে, নতুন এলিমেন্ট তৈরি করতে, বা পুরোনো এলিমেন্ট সরাতে ব্যবহৃত হয়। যেমন, <span class="highlight-text">getElementById()</span> কোনো নির্দিষ্ট ID-এর এলিমেন্টকে খুঁজে বের করে, <span class="highlight-text">createElement()</span> নতুন এলিমেন্ট তৈরি করে, <span class="highlight-text">element.remove()</span> এলিমেন্টকে পেজ থেকে সরিয়ে দেয়, এবং <span class="highlight-text">console.log()</span> ডেভেলপার কনসোলে মেসেজ বা ডেটা দেখায় কোড ডিবাগ করার জন্য। 🛠️</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">DOM (Document Object Model) হলো ওয়েবপেজকে জাভাস্ক্রিপ্ট দিয়ে কন্ট্রোল করার একটা <span class="highlight-text">ব্লুপ্রিন্ট</span>। এর কিছু সহজ ফাংশন নিচে দেওয়া হলো:</p>
+                        <h5 class="mb-2">গুরুত্বপূর্ণ ফাংশন:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">getElementById()</span></strong>: এটি HTML ডকুমেন্ট থেকে একটি নির্দিষ্ট ID ব্যবহার করে কোনো এলিমেন্টকে খুঁজে বের করে। যেমন, একটি বাক্সের ID যদি "myBox" হয়, তাহলে এই ফাংশন দিয়ে আমরা সেই বাক্সটিকে ধরতে পারি। 🔍</li>
+                            <li><strong><span class="highlight-text">createElement()</span></strong>: এটি নতুন HTML এলিমেন্ট যেমন, &lt;div&gt; বা &lt;button&gt; তৈরি করে। মনে করুন, আপনি একটি নতুন খেলনা বানাচ্ছেন, কিন্তু এখনো সেটি খেলছেন না। 🧱</li>
+                            <li><strong><span class="highlight-text">element.remove()</span></strong>: এটি পেজ থেকে যেকোনো এলিমেন্টকে একেবারে সরিয়ে ফেলে। ঠিক যেমন, কোনো কিছু আর দরকার না হলে ডিলিট করে দেওয়া। ❌</li>
+                            <li><strong><span class="highlight-text">console.log()</span></strong>: এটি আপনার কোডে কী হচ্ছে তা দেখতে সাহায্য করে। কোনো ভেরিয়েবলের মান বা মেসেজ ব্রাউজারের কনসোলে দেখায়। কোড চলার সময় ভুল খুঁজে বের করার জন্য এটা বেস্ট ফ্রেন্ড। 🕵️‍♂️</li>
+                        </ul>
+                        <p>এই ফাংশনগুলো ব্যবহার করে আমরা ওয়েবপেজে নতুন কিছু যোগ করতে পারি, পুরোনো কিছু সরাতে পারি, বা এর ভেতরের লেখা পরিবর্তন করতে পারি, যা ওয়েবপেজকে ইন্টারঅ্যাক্টিভ করে তোলে। 🔥</p>
+                    </div>
+                ` },
+                { text: "৩। জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্ট বলতে কী বুঝায়? কয়েকটি রানটাইমের এনভায়রনমেন্টের নাম লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">এটি হলো সেই বিশেষ <span class="highlight-text">প্ল্যাটফর্ম বা পরিবেশ</span> যেখানে জাভাস্ক্রিপ্ট কোড চলে (execute হয়)। জাভাস্ক্রিপ্ট নিজে সরাসরি চলতে পারে না; এর জন্য <span class="highlight-text">মেমরি, টাইমার, বা ফাইল অ্যাক্সেসের মতো প্রয়োজনীয় টুলস</span> সরবরাহকারী একটি এনভায়রনমেন্ট দরকার হয়। এর উদাহরণ হলো <span class="highlight-text">ওয়েব ব্রাউজার (Chrome, Firefox), সার্ভার-সাইডের জন্য Node.js ও Deno, ডেস্কটপ অ্যাপের জন্য Electron, এবং মোবাইল অ্যাপের জন্য React Native</span>। 🎮</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্ট</span> হলো সেই "জায়গা" যেখানে জাভাস্ক্রিপ্ট কোডগুলো চলে (execute হয়)। জাভাস্ক্রিপ্ট একা চলতে পারে না, এর জন্য একটি <span class="highlight-text">সাপোর্টিং পরিবেশ</span> দরকার হয় যা প্রয়োজনীয় টুলস ও সুযোগ-সুবিধা দেয়। এটা অনেকটা একটি গেম কনসোলের মতো, যেখানে গেম চলার জন্য কনসোল অপরিহার্য। 🎮</p>
+                        <h5 class="mb-2">প্রধান জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্ট:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">ওয়েব ব্রাউজার (Web Browsers)</span></strong>: যেমন Google Chrome বা Firefox। ওয়েবপেজকে ইন্টারেক্টিভ করার জন্য জাভাস্ক্রিপ্ট এখানেই চলে।</li>
+                            <li><strong><span class="highlight-text">Node.js</span></strong>: এটি জাভাস্ক্রিপ্টকে ব্রাউজারের বাইরে, যেমন সার্ভারে বা কম্পিউটারে চালানোর সুযোগ দেয়।</li>
+                            <li><strong><span class="highlight-text">Deno</span></strong>: Node.js-এর একটি আধুনিক বিকল্প, যা সার্ভার বা কমান্ড-লাইন টুলের জন্য ব্যবহৃত হয়।</li>
+                            <li><strong><span class="highlight-text">Electron</span></strong>: জাভাস্ক্রিপ্ট দিয়ে ডেস্কটপ অ্যাপ্লিকেশন (যেমন VS Code) বানানোর জন্য এটি ব্যবহার করা হয়।</li>
+                            <li><strong><span class="highlight-text">React Native</span></strong>: মোবাইল অ্যাপস (iOS ও Android) তৈরির জন্য জাভাস্ক্রিপ্ট এখানেই চলে। 📱</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৪। স্ট্যাটিক ও ডায়নামিক ওয়েবসাইট বলতে কী বুঝায়?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ফিক্সড কন্টেন্টের ওয়েবসাইট</span>, যা সার্ভারে যেমন আছে তেমনই HTML, CSS, JavaScript ফাইল হিসেবে ইউজারের ব্রাউজারে দেখায়। এখানে কোনো ডাটাবেস বা সার্ভার-সাইড প্রসেসিং থাকে না; কন্টেন্ট পরিবর্তন করতে হলে সরাসরি ফাইল এডিট করতে হয়। 📚</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">স্ট্যাটিক ওয়েবসাইট (Static Website)</h5>
+                        <p class="mb-2">একটি <span class="highlight-text">স্ট্যাটিক ওয়েবসাইট</span> হলো এমন একটি ওয়েবসাইট যার কন্টেন্ট <span class="highlight-text">ফিক্সড</span> এবং আগে থেকেই তৈরি করা থাকে। যখন আপনি একটি স্ট্যাটিক ওয়েবসাইট ভিজিট করেন, সার্ভার থেকে ফাইলগুলো (HTML, CSS, JavaScript) সরাসরি আপনার ব্রাউজারে পাঠিয়ে দেওয়া হয়, ঠিক যেমন তারা তৈরি করা হয়েছিল।</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এখানে কোনো ডাটাবেস বা সার্ভার-সাইড প্রসেসিং থাকে না।</li>
+                            <li>এটা অনেকটা একটি বইয়ের মতো 📚; একবার প্রিন্ট হয়ে গেলে এর ভেতরের লেখা আর ছবি সহজে পরিবর্তন হয় না।</li>
+                        </ul>
+                        <p class="mb-4"><strong>উদাহরণ:</strong> একটি সাধারণ বিজনেস কার্ড ওয়েবসাইট, অনলাইন পোর্টফোলিও, অথবা এমন কোনো সাইট যেখানে কন্টেন্ট খুব কম পরিবর্তন হয়।</p>
+
+                        <h5 class="mb-2">ডায়নামিক ওয়েবসাইট (Dynamic Website)</h5>
+                        <p class="mb-2">একটি <span class="highlight-text">ডায়নামিক ওয়েবসাইট</span> হলো এমন একটি ওয়েবসাইট যার কন্টেন্ট ভিজিটরের চাহিদা বা অন্য কোনো উপাদানের উপর ভিত্তি করে <span class="highlight-text">পরিবর্তন হয় বা তৈরি হয়</span>।</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>এই ধরনের ওয়েবসাইটগুলো সাধারণত একটি <span class="highlight-text">ডাটাবেসের সাথে কানেক্টেড</span> থাকে।</li>
+                            <li>সার্ভার-সাইড প্রোগ্রামিং ল্যাঙ্গুয়েজ (যেমন PHP, Python, Node.js) ব্যবহার করে কন্টেন্ট তৈরি করে।</li>
+                            <li>এটা অনেকটা একটি লাইভ টিভি শো-এর মতো 📺; কন্টেন্ট রিয়েল-টাইমে পরিবর্তিত হতে পারে বা দর্শকদের ইনপুটের উপর ভিত্তি করে নতুন কিছু তৈরি হতে পারে।</li>
+                        </ul>
+                        <p class="mb-4"><strong>উদাহরণ:</strong> ফেসবুক, ইউটিউব, ই-কমার্স সাইট (যেমন অ্যামাজন), অনলাইন ব্যাংকিং — যেখানে ইউজার লগইন করে, কন্টেন্ট ব্যক্তিগতকৃত হয় বা নিয়মিত আপডেট হয়।</p>
+                        <p>বুঝেছো, বস? স্ট্যাটিক মানে যা আছে তাই, আর ডায়নামিক মানে যা পরিবর্তন হয় বা ইউজার ভেদে বদলে যায়। 🧠💻</p>
+                    </div>
+                ` },
+                { text: "৫। স্ট্যাটিক ও ডায়নামিক ওয়েবসাইটের মধ্যে পার্থক্য লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">স্ট্যাটিক ফিক্সড কন্টেন্ট দেখায় (বই)</span>, <span class="highlight-text">ডায়নামিক কন্টেন্ট ইউজারের চাহিদা অনুযায়ী পরিবর্তন হয় (লাইভ টিভি)</span>। 🔄</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">স্ট্যাটিক এবং ডায়নামিক ওয়েবসাইট, দুটোই ওয়েবপেজ হলেও তাদের কাজ আর কন্টেন্ট দেখানোর ধরণে বড় পার্থক্য আছে।</p>
+
+                        <h5 class="mb-2">স্ট্যাটিক ওয়েবসাইট (Static Website)</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong>কন্টেন্ট:</strong> ফিক্সড এবং আগে থেকেই তৈরি করা থাকে, অনেকটা মুদ্রিত বই বা ব্রোশিওরের মতো 📚।</li>
+                            <li><strong>সার্ভার:</strong> ফাইলগুলো (HTML, CSS, JavaScript) সরাসরি ইউজারের ব্রাউজারে পাঠানো হয়।</li>
+                            <li><strong>প্রসেসিং:</strong> কোনো ডাataবেস বা সার্ভার-সাইড প্রসেসিং থাকে না।</li>
+                            <li><strong>পরিবর্তন:</strong> কন্টেন্ট পরিবর্তন করতে হলে ডেভেলপারকে সরাসরি ফাইল এডিট করে সার্ভারে আবার আপলোড করতে হয়।</li>
+                            <li><strong>গতি ও সুরক্ষা:</strong> সাধারণত খুব দ্রুত লোড হয় এবং তুলনামূলকভাবে বেশি সুরক্ষিত থাকে।</li>
+                            <li><strong>উদাহরণ:</strong> ব্যক্তিগত পোর্টফোলিও বা ছোট কোনো কোম্পানির সাধারণ ইনফরমেশন সাইট।</li>
+                        </ul>
+
+                        <h5 class="mb-2">ডায়নামিক ওয়েবসাইট (Dynamic Website)</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong>কন্টেন্ট:</strong> ফিক্সড থাকে না; ইউজারের অ্যাকশন, সময়ের পরিবর্তন, বা ডাটাবেসের তথ্যের উপর ভিত্তি করে রিয়েল-টাইমে তৈরি বা আপডেট হয়, অনেকটা লাইভ টিভি শো বা সোশ্যাল মিডিয়া ফিডের মতো 📺।</li>
+                            <li><strong>সার্ভার:</strong> একটি ডাটাবেসের সাথে যুক্ত থাকে এবং সার্ভার-সাইড প্রোগ্রামিং ল্যাঙ্গুয়েজ (যেমন PHP, Python, Node.js) ব্যবহার করে কন্টেন্ট তৈরি করে।</li>
+                            <li><strong>প্রসেসিং:</strong> সার্ভার অনুরোধ অনুযায়ী ডাataবেস থেকে তথ্য নেয়, প্রসেস করে একটি নতুন HTML পেজ তৈরি করে ব্রাউজারে পাঠায়।</li>
+                            <li><strong>গতি ও সুরক্ষা:</strong> লোডিং স্পিড কিছুটা বেশি হতে পারে এবং সঠিক সুরক্ষা ব্যবস্থা না থাকলে কিছুটা ঝুঁকির মুখেও পড়তে পারে।</li>
+                            <li><strong>উদাহরণ:</strong> Facebook, YouTube, Amazon বা যেকোনো অনলাইন ব্লগ/নিউজ পোর্টাল।</li>
+                        </ul>
+                        <p>Basically, <span class="highlight-text">static is "what you see is what you get" from a pre-made file</span>, and <span class="highlight-text">dynamic is "what you see changes based on stuff happening live."</span> You feel that difference, boss? 🔥</p>
+                    </div>
+                ` },
+                { text: "৬। ডাটাবেস কী? ইহার বৈশিষ্ট্য লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ডেটা (তথ্য) সুসংগঠিতভাবে সংরক্ষণ করার একটি ডিজিটাল ভাণ্ডার</span>, যা সহজে ম্যানেজ করা যায় (যেমন, আলমারি)। 🗄️</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">ডাটাবেস কী? (What is a Database?)</h5>
+                        <p class="mb-2">ডাটাবেস হলো <span class="highlight-text">তথ্য সাজিয়ে রাখার একটা বিশাল ডিজিটাল ভাণ্ডার</span>। এটা অনেকটা তোমার বাসার একটা বড় আলমারি বা লাইব্রেরির মতো, যেখানে সব কাগজপত্র, বই বা জিনিসপত্র এমনভাবে গোছানো থাকে যেন দরকারের সময় খুব সহজেই খুঁজে বের করা, নতুন কিছু যোগ করা, বা পুরোনো কিছু বদলে ফেলা যায়।</p>
+                        <p class="mb-4">আমরা অনলাইনে যা দেখি, যেমন - ফেসবুকের পোস্ট, ইউটিউবের ভিডিও, বা ই-কমার্স সাইটের প্রোডাক্ট - এই সবকিছুর তথ্য একটা ডাটাবেসেই জমা থাকে। এটা যেকোনো ওয়েবসাইটের ভেতরের <span class="highlight-text">মস্তিষ্ক</span>, যা ছাড়া ডায়নামিক সাইটগুলো কাজ করতে পারে না। 🧠</p>
+
+                        <h5 class="mb-2">ডাটাবেসের বৈশিষ্ট্য (Characteristics of a Database)</h5>
+                        <p class="mb-2">একটা ভালো ডাটাবেসের কিছু জরুরি গুণ আছে, যা একে কাজের উপযোগী করে তোলে:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">ডেটা অর্গানাইজেশন</span></strong>: তথ্যগুলো সুসংগঠিতভাবে (যেমন, টেবিল আকারে) থাকে যাতে সহজে ব্যবহার করা যায়।</li>
+                            <li><strong><span class="highlight-text">ডেটা ম্যানেজমেন্ট</span></strong>: তথ্য খুব সহজে যোগ, আপডেট, ডিলিট বা খুঁজে বের করা যায়।</li>
+                            <li><strong><span class="highlight-text">ডেটা ইন্টিগ্রিটি</span></strong>: নিশ্চিত করে যে ডেটাগুলো সঠিক এবং ভুল তথ্য প্রবেশ করতে পারে না।</li>
+                            <li><strong><span class="highlight-text">ডেটা সিকিউরিটি</span></strong>: তথ্যকে অননুমোদিত অ্যাক্সেস থেকে সুরক্ষিত রাখে। 🔒</li>
+                            <li><strong><span class="highlight-text">ডেটা শেয়ারিং</span></strong>: একই ডেটাবেসের তথ্য একাধিক ইউজার বা অ্যাপ একসাথে ব্যবহার করতে পারে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৭। সিএমএস-এর বৈশিষ্ট্যগুলো লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">কোডিং ছাড়াই ওয়েবসাইট ম্যানেজ করার সফটওয়্যার</span>; সহজ ব্যবহার, কন্টেন্ট ম্যানেজমেন্ট, থিম, ইউজার ও প্লাগইন সুবিধা দেয়। 🧑‍💻</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">আগে জেনে নেই, <strong>সিএমএস (CMS)</strong> মানে হলো Content Management System। এটি এমন সফটওয়্যার যা <span class="highlight-text">কোডিং ছাড়াই ওয়েবসাইট তৈরি, কন্টেন্ট লেখা, এডিট করা ও পাবলিশ করতে</span> সাহায্য করে।</p>
+
+                        <h5 class="mb-2">সিএমএস-এর বৈশিষ্ট্য (Characteristics of CMS)</h5>
+                        <p class="mb-2">একটি ভালো CMS-এর কিছু জরুরি বৈশিষ্ট্য নিচে দেওয়া হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">সহজ ব্যবহার</span></strong>: কোডিং না জেনেই ওয়েবসাইট ও কন্টেন্ট তৈরি করা যায়। 🧑‍💻</li>
+                            <li><strong><span class="highlight-text">কন্টেন্ট ম্যানেজমেন্ট</span></strong>: লেখা, ছবি, ভিডিও সহজে যোগ, এডিট ও গোছানো যায়।</li>
+                            <li><strong><span class="highlight-text">থিম সাপোর্ট</span></strong>: রেডিমেড ডিজাইন বা টেমপ্লেট ব্যবহার করে ওয়েবসাইটের লুক পরিবর্তন করা যায়। 🎨</li>
+                            <li><strong><span class="highlight-text">ইউজার কন্ট্রোল</span></strong>: বিভিন্ন ইউজারকে তাদের ভূমিকা অনুযায়ী কাজের অনুমতি দেওয়া যায়।</li>
+                            <li><strong><span class="highlight-text">প্লাগইন সুবিধা</span></strong>: অতিরিক্ত ফাংশনালিটি যোগ করার জন্য প্লাগইন ব্যবহার করা যায়। 🔌</li>
+                            <li><strong><span class="highlight-text">SEO ফ্রেন্ডলি</span></strong>: ওয়েবসাইটকে সহজে গুগলে খুঁজে পাওয়ার জন্য অপটিমাইজ করা যায়। 🚀</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৮। ই-কমার্সের সুবিধা ও অসুবিধাগুলো লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">সুবিধা: ২৪/৭ অ্যাক্সেস, বড় বাজার, খরচ কম</span>। <span class="highlight-text">অসুবিধা: প্রোডাক্ট ছুঁয়ে দেখা যায় না, ডেলিভারি সময়, প্রতিযোগিতা, নিরাপত্তা ঝুঁকি</span>। 🛍️</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">ই-কমার্স</span> মানে হলো অনলাইন কেনাবেচা। এর অনেক সুবিধা আছে:</p>
+                        <h5 class="mb-2">ই-কমার্সের সুবিধা (Advantages of E-commerce)</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">২৪/৭ অ্যাক্সেস</span></strong>: দোকান সবসময় খোলা থাকে, দিনরাত ২৪ ঘণ্টা কেনাকাটা করা যায়। 🌙</li>
+                            <li><strong><span class="highlight-text">বড় বাজার</span></strong>: শুধু নিজের এলাকার মানুষ না, সারা বিশ্বের কাস্টমার পাওয়া যায়। 🌎</li>
+                            <li><strong><span class="highlight-text">খরচ কম</span></strong>: ফিজিক্যাল দোকানের ভাড়া, স্টাফ খরচ - এসব কমে যায়।</li>
+                            <li><strong>পছন্দের স্বাধীনতা</strong>: কাস্টমার অনেক প্রোডাক্ট একসাথে দেখতে পারে আর তুলনা করতে পারে।</li>
+                            <li><strong>সুবিধা</strong>: ঘরে বসেই কেনাকাটা করা যায়, সময় বাঁচে। 🛋️</li>
+                            <li><strong>ব্যক্তিগত অভিজ্ঞতা</strong>: কাস্টমারের পছন্দ অনুযায়ী প্রোডাক্ট সাজিয়ে দেখানো যায়।</li>
+                        </ul>
+
+                        <h5 class="mb-2">ই-কমার্সের অসুবিধা (Disadvantages of E-commerce)</h5>
+                        <p class="mb-2">তবে, এর কিছু নেগেটিভ দিকও আছে:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">প্রোডাক্ট ছুঁয়ে দেখা যায় না</span></strong>: কাস্টমার কেনার আগে জিনিসটা হাতে নিয়ে দেখতে বা ফিল করতে পারে না। 🤏</li>
+                            <li><strong><span class="highlight-text">ডেলিভারি সময়</span></strong>: প্রোডাক্ট হাতে পেতে কিছুটা সময় লাগে। ⏳</li>
+                            <li><strong><span class="highlight-text">প্রতিযোগিতা</span></strong>: অনলাইনে অনেক দোকান থাকায় প্রতিযোগিতা বেশি।</li>
+                            <li><strong><span class="highlight-text">নিরাপত্তা ঝুঁকি</span></strong>: অনলাইন পেমেন্ট বা ডেটা চুরির ভয় থাকে। 🔒</li>
+                            <li><strong>প্রযুক্তিগত সমস্যা</strong>: ওয়েবসাইট ডাউন হলে বা টেকনিক্যাল সমস্যা হলে ব্যবসা বন্ধ থাকে।</li>
+                            <li><strong>কাস্টমার সার্ভিস</strong>: সরাসরি কথা বলার সুযোগ কম থাকায় কাস্টমার সার্ভিস চ্যালেঞ্জিং হতে পারে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৯। ডোমেইন নেম সিস্টেম (DNS) বলতে কী বুঝায়?", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2">এটি ইন্টারনেটের <span class="highlight-text">"ফোনবুক" বা "ডিরেক্টরি"</span>। DNS-এর কাজ হলো মানুষের বোঝার মতো ওয়েবসাইটের নাম (<span class="highlight-text">google.com</span>) কে কম্পিউটার বোঝার মতো <span class="highlight-text">আইপি অ্যাড্রেসে (172.217.160.142) রূপান্তর করা</span>, যাতে ব্রাউজার সঠিক সার্ভারের সাথে কানেক্ট হয়ে ওয়েবসাইটটি লোড করতে পারে। 📞</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">ডোমেইন নেম সিস্টেম (DNS) কী? (What is Domain Name System (DNS)?)</h5>
+                        <p class="mb-2"><span class="highlight-text">ডোমেইন নেম সিস্টেম (DNS)</span> হলো ইন্টারনেটের "<span class="highlight-text">ফোনবুক</span>" বা "<span class="highlight-text">ডিরেক্টরি</span>" 📖। আমরা যখন কোনো ওয়েবসাইটের নাম (যেমন, google.com বা facebook.com) টাইপ করি, তখন কম্পিউটার কিন্তু এই নাম বোঝে না। কম্পিউটার বোঝে শুধু <span class="highlight-text">আইপি অ্যাড্রেস (IP Address)</span>, যা সংখ্যায় লেখা একটা ঠিকানা (যেমন, 172.217.160.142)।</p>
+                        <p class="mb-2">DNS-এর কাজ হলো এই মানুষের বোঝার মতো ওয়েবসাইটের নামগুলোকে (<span class="highlight-text">ডোমেইন নেম</span>) কম্পিউটার বোঝার মতো <span class="highlight-text">আইপি অ্যাড্রেসে রূপান্তর করা</span>। যখন আপনি ব্রাউজারে একটি ডোমেইন নেম টাইপ করেন, DNS সেই নামের সাথে যুক্ত আইপি অ্যাড্রেস খুঁজে বের করে দেয়, যাতে আপনার ব্রাউজার সঠিক সার্ভারের সাথে কানেক্ট হয়ে ওয়েবসাইটটি লোড করতে পারে। এটা ছাড়া ইন্টারনেট ব্যবহার করা প্রায় অসম্ভব।</p>
+                        <p>এটা অনেকটা তোমার ফোনে কারও নাম লিখে কল করার মতো। তোমার ফোন যেমন নামের পেছনে থাকা নাম্বারটা (আইপি অ্যাড্রেস) খুঁজে বের করে কল করে, DNS-ও ঠিক একই কাজ করে ওয়েবসাইটের জন্য। 📞💻</p>
+                    </div>
+                ` },
+                { text: "১০। বিটিআরসি (BTRC)-এর কার্যাবলি সংক্ষেপে বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">বিটিআরসি (বাংলাদেশ টেলিকমিউনিকেশন রেগুলেটরি কমিশন)</span> হলো বাংলাদেশের সরকারি সংস্থা যা দেশের সব <span class="highlight-text">টেলিযোগাযোগ ও ইন্টারনেট সেবাকে নিয়ন্ত্রণ</span> করে। এদের কাজ হলো মোবাইল ও ইন্টারনেট সার্ভিস প্রোভাইডারদের <span class="highlight-text">লাইসেন্স দেওয়া, সেবার নিয়মকানুন তৈরি করা, সেবার মান মনিটর করা, এবং গ্রাহকদের অধিকার রক্ষা ও অভিযোগের সমাধান করা</span>। 🚦</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">বিটিআরসি (BTRC)</span> হলো <span class="highlight-text">বাংলাদেশ টেলিকমিউনিকেশন রেগুলেটরি কমিশন</span>। এটা বাংলাদেশের একটা সরকারি সংস্থা যা দেশের সব ফোন ও ইন্টারনেট সেবাকে <span class="highlight-text">নিয়ন্ত্রণ</span> করে। এটা অনেকটা ট্রাফিক পুলিশের মতো, যারা টেলিযোগাযোগ খাতের নিয়মকানুন দেখে। 🚦</p>
+                        <h5 class="mb-2">বিটিআরসি'র প্রধান কাজগুলো হলো:</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">লাইসেন্স দেওয়া</span></strong>: মোবাইল ও ইন্টারনেট সেবাদানকারী প্রতিষ্ঠানগুলোকে কাজ করার অনুমতি (লাইসেন্স) দেয়।</li>
+                            <li><strong><span class="highlight-text">নিয়ম তৈরি</span></strong>: টেলিযোগাযোগ সেবার জন্য বিভিন্ন নিয়মকানুন তৈরি ও সেগুলো কার্যকর করে।</li>
+                            <li><strong><span class="highlight-text">সেবার মান দেখা</span></strong>: ফোন ও ইন্টারনেটের মান ভালো আছে কিনা, তা মনিটর করে।</li>
+                            <li><strong><span class="highlight-text">ইউজার সুরক্ষা</span></strong>: গ্রাহকদের অধিকার রক্ষা করে এবং তাদের অভিযোগের সমাধান করে।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "১১। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়? হ্যাকারের প্রকারভেদ লেখ।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">হ্যাকিং হলো সিস্টেমের দুর্বলতা খুঁজে অননুমোদিত প্রবেশ</span>; <span class="highlight-text">হ্যাকার হলো সেই ব্যক্তি</span>। প্রকারভেদ: <span class="highlight-text">হোয়াইট হ্যাট (ভালো), ব্ল্যাক হ্যাট (খারাপ), গ্রে হ্যাট (মাঝামাঝি)</span>। 🤠</p>
+                    </div>
+                `, extendedAnswer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">হ্যাকিং কী? (What is Hacking?)</h5>
+                        <p class="mb-2"><span class="highlight-text">হ্যাকিং</span> হলো কম্পিউটার সিস্টেম, নেটওয়ার্ক বা সফটওয়্যারের দুর্বলতা খুঁজে বের করে সেগুলোতে <span class="highlight-text">অননুমোদিতভাবে প্রবেশ করা</span> বা সেগুলোর কাজকে নিজের নিয়ন্ত্রণে নিয়ে নেওয়া। এর উদ্দেশ্য ভালো বা খারাপ, দুটোই হতে পারে।</p>
+
+                        <h5 class="mb-2">হ্যাকার কী? (What is a Hacker?)</h5>
+                        <p class="mb-2">একজন <span class="highlight-text">হ্যাকার</span> হলেন সেই ব্যক্তি যিনি এই হ্যাকিং কাজটি করেন। অর্থাৎ, তিনি একজন টেকনিক্যাল এক্সপার্ট যিনি সিস্টেমের নিরাপত্তা দুর্বলতা খুঁজে বের করতে সক্ষম।</p>
+
+                        <h5 class="mb-2">হ্যাকারের প্রকারভেদ (Types of Hackers)</h5>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">হোয়াইট হ্যাট হ্যাকার (White Hat Hacker)</span></strong>: এথিক্যাল হ্যাকার, সিস্টেমের সুরক্ষাকে মজবুত করে। 😇</li>
+                            <li><strong><span class="highlight-text">ব্ল্যাক হ্যাট হ্যাকার (Black Hat Hacker)</span></strong>: খারাপ হ্যাকার, ব্যক্তিগত লাভের জন্য হামলা করে। 😈</li>
+                            <li><strong><span class="highlight-text">গ্রে হ্যাট হ্যাকার (Grey Hat Hacker)</span></strong>: হোয়াইট ও ব্ল্যাক হ্যাটের মাঝামাঝি, দুর্বলতা জানিয়ে দেয়। ⚖️</li>
+                            <li><strong><span class="highlight-text">স্ক্রিপ্ট কিডিস (Script Kiddies)</span></strong>: কম জ্ঞানসম্পন্ন, অন্যের টুলস ব্যবহার করে। 👶</li>
+                            <li><strong><span class="highlight-text">অ্যাক্টিভিস্ট (Hacktivist)</span></strong>: সামাজিক বা রাজনৈতিক উদ্দেশ্য নিয়ে হ্যাকিং করে। ✊</li>
+                        </ul>
+                    </div>
+                ` }
+            ],
+            "essay": [
+                { text: "১। DOM কী? DOM-এর ম্যানিপুলেশন বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">DOM কী? (What is DOM?)</h5>
+                        <p class="mb-2">DOM মানে হলো <span class="highlight-text">Document Object Model</span>। এটা হলো আপনার ওয়েবসাইটের (যেমন ফেসবুকের) একটা জীবন্ত, ইন্টারঅ্যাক্টিভ ব্লুপ্রিন্ট যা ব্রাউজারের ভেতরে তৈরি হয়। HTML হচ্ছে শুধু একটা খালি কাঠামো ("এখানে পোস্টের জায়গা," "এখানে বাটন")। কিন্তু DOM সেই কাঠামোটাকে জাভাস্ক্রিপ্টের জন্য বোঝার মতো একটা ফরম্যাটে নিয়ে আসে, যাতে কোড সেটাকে কন্ট্রোল করতে পারে। এটা ছাড়া জাভাস্ক্রিপ্ট আপনার ওয়েবপেজের সাথে কোনো খেলা খেলতে পারতো না। 🪄</p>
+
+                        <h5 class="mb-2">DOM-এর ম্যানিপুলেশন (Manipulation of DOM)</h5>
+                        <p class="mb-2">DOM ম্যানিপুলেশন মানে হলো জাভাস্ক্রিপ্ট ব্যবহার করে সেই লাইভ ব্লুপ্রিন্টটাকে পরিবর্তন করা। এটা অনেকটা আপনার ওয়েবসাইটের সব সুইচ আর কন্ট্রোল প্যানেলের মতো, যেখানে আপনি জিনিস যোগ করতে পারেন, সরাতে পারেন, বা পরিবর্তন করতে পারেন, সব সরাসরি ব্রাউজারে।</p>
+                        <p class="mb-2">এই কাজটা দুই ধাপে হয়: প্রথমে "খবরদাতা" বা "গোয়েন্দা" (<span class="highlight-text">Selecting Elements</span>) এলিমেন্টকে খুঁজে বের করে, তারপর বাকিগুলো তাকে "পরিবর্তন" করে।</p>
+                        <p class="mb-2">এখানে প্রধান ৬টি পরিবর্তন করার উপায় বর্ণনা করা হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">এলিমেন্ট নির্বাচন (Selecting Elements)</span></strong>: জাভাস্ক্রিপ্ট দিয়ে ওয়েবপেজের নির্দিষ্ট HTML এলিমেন্টগুলোকে খুঁজে বের করে সিলেক্ট করা। কোনো কিছু পরিবর্তন করার আগে সেটাকে আগে চিহ্নিত করতে হয়।</li>
+                            <li><strong><span class="highlight-text">কন্টেন্ট পরিবর্তন (Modifying Content)</span></strong>: কোনো এলিমেন্টের ভেতরের লেখা বা HTML কন্টেন্টকে পরিবর্তন করা।</li>
+                            <li><strong><span class="highlight-text">স্টাইল পরিবর্তন (Changing Styles)</span></strong>: জাভাস্ক্রিপ্ট ব্যবহার করে এলিমেন্টের CSS স্টাইল (যেমন রঙ, আকার বা অবস্থান) পরিবর্তন করা।</li>
+                            <li><strong><span class="highlight-text">এলিমেন্ট তৈরি ও যুক্ত করা (Creating and Appending Elements)</span></strong>: নতুন HTML এলিমেন্ট তৈরি করা এবং সেগুলোকে ডকুমেন্টে একটি নির্দিষ্ট স্থানে যোগ করা।</li>
+                            <li><strong><span class="highlight-text">এলিমেন্ট অপসারণ (Removing Elements)</span></strong>: ডকুমেন্ট থেকে কোনো HTML এলিমেন্টকে পুরোপুরি সরিয়ে ফেলা।</li>
+                            <li><strong><span class="highlight-text">অ্যাট্রিবিউট পরিবর্তন (Modifying Attributes)</span></strong>: কোনো HTML এলিমেন্টের অ্যাট্রিবিউট (যেমন src, class, href) যোগ করা, পরিবর্তন করা বা মুছে ফেলা।</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "২। জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্টের বর্ণনা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <p class="mb-2"><span class="highlight-text">জাভাস্ক্রিপ্ট রানটাইম এনভায়রনমেন্ট</span> হলো সেই বিশেষ জায়গা বা সফটওয়্যার যেখানে জাভাস্ক্রিপ্ট কোডগুলো আসলে চলে (execute হয়) এবং কাজ করে। জাভাস্ক্রিপ্ট নিজে একা চলতে পারে না; এর জন্য একটা পরিবেশ দরকার যা কোডটাকে চলার জন্য প্রয়োজনীয় সব টুলস দেয়। এটা অনেকটা একটা গেম কনসোলের মতো, যেখানে গেম চলার জন্য কনসোল অপরিহার্য। 🎮</p>
+                        <p class="mb-2">এই রানটাইমের প্রধান অংশ হলো জাভাস্ক্রিপ্ট ইঞ্জিন (যেমন Google Chrome-এর V8 ইঞ্জিন), যা কোডটাকে বোঝে এবং চালায়।</p>
+
+                        <h5 class="mb-2">জনপ্রিয় রানটাইম এনভায়রনমেন্টগুলো (Popular Runtime Environments)</h5>
+                        <p class="mb-2">জাভাস্ক্রিপ্ট কোথায় কোথায় চলে, তার কিছু প্রধান উদাহরণ নিচে দেওয়া হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">ওয়েব ব্রাউজার (Web Browsers)</span></strong>: এটাই সবচেয়ে পরিচিত জায়গা। Chrome, Firefox-এর মতো ব্রাউজারের ভেতরেই জাভাস্ক্রিপ্ট চলে এবং আপনার দেখা ওয়েবসাইটগুলোকে ইন্টারঅ্যাক্টিভ (যেমন বাটনে ক্লিক করলে কিছু হওয়া) করে তোলে।</li>
+                            <li><strong><span class="highlight-text">Node.js</span></strong>: এটি জাভাস্ক্রিপ্টকে ব্রাউজারের বাইরে নিয়ে আসছে! এটা একটা সার্ভার-সাইড রানটাইম এনভায়রনমেন্ট, যা দিয়ে ওয়েবসাইটের ব্যাকএন্ড (সার্ভার) তৈরি করা যায়।</li>
+                            <li><strong><span class="highlight-text">Deno</span></strong>: Node.js-এর মতোই, কিন্তু একটু আধুনিক এবং বেশি সুরক্ষিত একটা রানটাইম। এর প্রধান শক্তি হলো সিকিউরিটি এবং সরাসরি টাইপস্ক্রিপ্ট সাপোর্ট।</li>
+                            <li><strong><span class="highlight-text">Electron</span></strong>: এটি দিয়ে আপনি জাভাস্ক্রিপ্ট ব্যবহার করে সরাসরি আপনার কম্পিউটারে চলার মতো ডেস্কটপ অ্যাপ্লিকেশন বানাতে পারেন। 🖥️</li>
+                            <li><strong><span class="highlight-text">React Native</span></strong>: এটা মোবাইল অ্যাপ্লিকেশন (iOS ও Android) বানানোর জন্য। জাভাস্ক্রিপ্ট ব্যবহার করে আপনি স্মার্টফোনে চলার মতো অ্যাপ তৈরি করতে পারেন। 📱</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৩। ডায়নামিক ওয়েবসাইট তৈরির বিভিন্ন ফ্রেমওয়ার্কগুলোর বর্ণনা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">ফ্রেমওয়ার্ক কী? (What is a Framework?)</h5>
+                        <p class="mb-2">ফ্রেমওয়ার্ক হলো কিছু বানানো টুলস আর নিয়মের একটা সেট যা আপনাকে ওয়েবসাইট বানাতে সাহায্য করে। এটা অনেকটা একটা রেডিমেড বাড়ির নকশা বা একটা স্মার্ট টুলবক্সের মতো, যা কোডিংকে অনেক সহজ আর দ্রুত করে দেয়। 🛠️</p>
+
+                        <h5 class="mb-2">জনপ্রিয় ডায়নামিক ওয়েব ফ্রেমওয়ার্কগুলো</h5>
+                        <p class="mb-2">ডায়নামিক ওয়েবসাইট তৈরির জন্য কিছু জনপ্রিয় ফ্রন্টএন্ড ফ্রেমওয়ার্ক নিচে দেওয়া হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">রিয়্যাক্ট (React)</span></strong>: এটা ফেসবুক (Meta) দ্বারা তৈরি একটা ফ্রেমওয়ার্ক যা ওয়েবসাইটের ভিজ্যুয়াল অংশ বানায়। এটা ওয়েবসাইটকে ছোট ছোট লেগো ব্লকের মতো সাজিয়ে কাজ করে, ফলে দ্রুত আপডেট হয়। 🧱</li>
+                            <li><strong><span class="highlight-text">ভিউ.জেএস (Vue.js)</span></strong>: এটা আরেকটি জনপ্রিয় ফ্রন্টএন্ড ফ্রেমওয়ার্ক যা শিখতে এবং ব্যবহার করতে খুবই সহজ। আপনি চাইলে এর অল্প অংশ ব্যবহার করে ছোট ফিচার যোগ করতে পারেন, আবার বড় প্রজেক্টও বানাতে পারেন।</li>
+                            <li><strong><span class="highlight-text">অ্যাঙ্গুলার (Angular)</span></strong>: গুগল দ্বারা তৈরি এই ফ্রেমওয়ার্কটা অনেক বড় এবং জটিল ওয়েবসাইট বানানোর জন্য পারফেক্ট। এটা একটা পূর্ণাঙ্গ সিস্টেম দেয় যা বিশাল প্রজেক্টগুলোকে গোছানো রাখে। 🏢</li>
+                            <li><strong><span class="highlight-text">স্ভেল্ট (Svelte)</span></strong>: এটা একটা তুলনামূলক নতুন ফ্রেমওয়ার্ক যা সুপার দ্রুত ওয়েবসাইট বানায়। স্ভেল্ট আপনার কোডকে সরাসরি ব্রাউজার বুঝতে পারে এমন কোডে রূপান্তর করে, যা ওয়েবসাইটকে আরও ফাস্ট করে তোলে। 🚀</li>
+                            <li><strong><span class="highlight-text">নেক্সট.জেএস (Next.js)</span></strong>: এটা React-এর উপর ভিত্তি করে তৈরি একটি ফ্রেমওয়ার্ক, যা ডায়নামিক ওয়েবসাইটকে আরও পাওয়ারফুল বানায়। এটা ওয়েবসাইটকে সার্ভার থেকে দ্রুত লোড হতে সাহায্য করে, যা ইউজার এক্সপেরিয়েন্স এবং গুগলে খুঁজে পাওয়ার জন্য (SEO) দারুণ। ✨</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৪। সিএমএস কী? বিভিন্ন প্রকার সিএমএস সম্পর্কে বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">সিএমএস কী? (What is CMS?)</h5>
+                        <p class="mb-2">সিএমএস মানে হলো <span class="highlight-text">Content Management System</span>। এটি একটি সফটওয়্যার যা আপনাকে কোনো কোডিং ছাড়াই ওয়েবসাইট তৈরি, কন্টেন্ট ম্যানেজ এবং পাবলিশ করতে সাহায্য করে। এটা অনেকটা একটা রেডিমেড বাড়ির নকশা বা স্মার্ট টুলবক্সের মতো, যা ওয়েব ডেভেলপমেন্টকে সহজ ও দ্রুত করে। 🛠️</p>
+
+                        <h5 class="mb-2">জনপ্রিয় সিএমএস-এর প্রকারভেদ (Popular Types of CMS)</h5>
+                        <p class="mb-2">সিএমএস-এর প্রধান প্রকারগুলো নিচে দেওয়া হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">ওপেন সোর্স সিএমএস (Open Source CMS)</span></strong>: এগুলো ফ্রি এবং কোড সবার জন্য উন্মুক্ত। আপনি সফটওয়্যার ডাউনলোড করে ব্যবহার বা পরিবর্তন করতে পারেন। উদাহরণ: WordPress, Joomla, Drupal। তুলনা: একটি ফ্রি পাবলিক পার্কের মতো। 🌳</li>
+                            <li><strong><span class="highlight-text">প্রোপ্রাইটারি সিএমএস (Proprietary CMS)</span></strong>: এগুলো নির্দিষ্ট কোম্পানির মালিকানাধীন এবং ব্যবহারের জন্য টাকা দিয়ে লাইসেন্স কিনতে হয়। এক্ষেত্রে কোম্পানি থেকেই সরাসরি টেকনিক্যাল সাপোর্ট পাওয়া যায়। উদাহরণ: Salesforce Experience Cloud, Adobe Experience Manager। তুলনা: একটি এক্সক্লুসিভ প্রাইভেট ক্লাবের মতো। 💎</li>
+                            <li><strong><span class="highlight-text">ক্লাউড-ভিত্তিক/সফটওয়্যার অ্যাজ আ সার্ভিস (SaaS) সিএমএস (Cloud-based/SaaS CMS)</span></strong>: এগুলো ইন্টারনেটের মাধ্যমে (ক্লাউডে) চলে, আপনাকে কোনো সফটওয়্যার ইন্সটল বা হোস্টিংয়ের চিন্তা করতে হয় না। আপনি শুধু সাবস্ক্রিপশন ফি দেন, বাকি সব সার্ভিস প্রোভাইডার সামলে নেয়। উদাহরণ: Shopify (ই-কমার্সের জন্য), Wix, Squarespace। তুলনা: একটি ভাড়া করা অ্যাপার্টমেন্টের মতো। 🏘️</li>
+                            <li><strong><span class="highlight-text">হেডলেস সিএমএস (Headless CMS)</span></strong>: এটি একটি আধুনিক সিএমএস যেখানে কন্টেন্টকে তার প্রদর্শনের পদ্ধতি থেকে সম্পূর্ণ আলাদা রাখা হয়। এটি শুধু কন্টেন্ট স্টোর করে এবং API-এর মাধ্যমে ডেটা সরবরাহ করে, ফলে ডেভেলপাররা যেকোনো প্ল্যাটফর্মে কন্টেন্ট দেখাতে পারে। উদাহরণ: Contentful, Strapi। তুলনা: একটি রেস্টুরেন্টের কিচেনের মতো, যেখানে শুধু খাবার তৈরি হয়। 🧑‍🍳</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৫। সি-প্যানেল কী? সি-প্যানেলের উপাদানগুলো বর্ণনা কর।", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">সি-প্যানেল কী? (What is cPanel?)</h5>
+                        <p class="mb-2">সি-প্যানেল (cPanel) হলো একটা ওয়েব-ভিত্তিক কন্ট্রোল প্যানেল যা আপনাকে আপনার ওয়েবসাইটের হোস্টিং (যেখানে আপনার ওয়েবসাইটের সব ফাইল আর ডেটা থাকে) ম্যানেজ করতে সাহায্য করে। এটা অনেকটা আপনার ওয়েবসাইটের "<span class="highlight-text">ডিজিটাল ড্যাশবোর্ড</span>" বা "<span class="highlight-text">রিমোট কন্ট্রোল</span>"। 🎮</p>
+                        <p class="mb-2">এটি আপনাকে মাউস ক্লিক করেই আপনার ওয়েবসাইটের ফাইল ম্যানেজ করতে, ইমেইল অ্যাকাউন্ট বানাতে, ডেটাবেস দেখতে বা ডোমেইন যোগ করতে সাহায্য করে, কোনো টেকনিক্যাল কোডিং জ্ঞান ছাড়াই। এটা আপনার ওয়েবসাইটের জন্য "<span class="highlight-text">গডমোড</span>"-এর মতো, যেখানে আপনি সবকিছু নিয়ন্ত্রণ করতে পারেন।</p>
+
+                        <h5 class="mb-2">সি-প্যানেলের উপাদানগুলো (Components of cPanel)</h5>
+                        <p class="mb-2">সি-প্যানেলের ভেতরে যে প্রধান উপাদানগুলো থাকে, সেগুলো নিচে বর্ণনা করা হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">ফাইলস (Files)</span></strong>: এই সেকশনটি আপনার ওয়েবসাইটের সমস্ত ফাইল ও ফোল্ডার ম্যানেজ করে। এটা আপনার ওয়েবসাইটের ডিজিটাল স্টোরেজ। তুলনা: আপনার কম্পিউটার বা ফোনের ফাইল ম্যানেজারের মতো। 🗄️</li>
+                            <li><strong><span class="highlight-text">ডাটাবেসেস (Databases)</span></strong>: এটি আপনার ওয়েবসাইটের ডাটাবেসগুলো ম্যানেজ করে, যেখানে ইউজারের তথ্য, ব্লগ পোস্ট বা প্রোডাক্ট ডেটার মতো সব জরুরি তথ্য সাজানো থাকে। তুলনা: আপনার ওয়েবসাইটের সুপার-অর্গানাইজড ডিজিটাল ফাইলিং ক্যাবিনেট। 📂</li>
+                            <li><strong><span class="highlight-text">ডোমেইনস (Domains)</span></strong>: এই সেকশনটি আপনার হোস্টিং-এর সাথে যুক্ত ডোমেইন নামগুলো (যেমন yourwebsite.com) ম্যানেজ করে। তুলনা: আপনার বাড়ির বিভিন্ন ঠিকানার ম্যানেজমেন্ট সিস্টেমের মতো। 🗺️</li>
+                            <li><strong><span class="highlight-text">ইমেইল (Email)</span></strong>: এই সেকশনটি আপনার ওয়েবসাইটের ডোমেইন নাম ব্যবহার করে তৈরি করা পেশাদার ইমেইল অ্যাকাউন্টগুলো ম্যানেজ করে। তুলনা: আপনার অনলাইন ব্যবসার অফিসিয়াল মেইলবক্সগুলো ম্যানেজ করার মতো। 📧</li>
+                            <li><strong><span class="highlight-text">সিকিউরিটি (Security)</span></strong>: এই সেকশনটি আপনার ওয়েবসাইটের নিরাপত্তা রক্ষা করার জন্য বিভিন্ন টুলস সরবরাহ করে। তুলনা: আপনার বাড়ির সিকিউরিটি সিস্টেম যেমন সিসিটিভি বা অ্যালার্মের মতো। 🔒</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৬। ই-কমার্সের বৈশিষ্ট্যগুলোর বর্ণনা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">ই-কমার্স কী? (What is E-commerce?)</h5>
+                        <p class="mb-2">ই-কমার্স মানে হলো ইন্টারনেটের মাধ্যমে পণ্য বা সেবা কেনাবেচা করা। এটা আপনার দোকানকে অনলাইনে নিয়ে আসার মতো, যাতে মানুষ ঘরে বসেই কেনাকাটা করতে পারে। 🌐</p>
+
+                        <h5 class="mb-2">ই-কমার্সের বৈশিষ্ট্যগুলো (Characteristics of E-commerce)</h5>
+                        <p class="mb-2">ই-কমার্সের কিছু প্রধান বৈশিষ্ট্য নিচে দেওয়া হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">সর্বব্যাপী প্রাপ্যতা (24/7 Availability)</span></strong>: ই-কমার্স ওয়েবসাইটগুলো দিনরাত ২৪ ঘণ্টা, সপ্তাহে ৭ দিন খোলা থাকে। কাস্টমাররা যেকোনো সময় যেকোনো জায়গা থেকে কেনাকাটা করতে পারে। 🌙</li>
+                            <li><strong><span class="highlight-text">বৈশ্বিক পরিধি (Global Reach)</span></strong>: ই-কমার্স ব্যবসার কোনো ভৌগোলিক সীমা নেই। আপনি সারা বিশ্বের কাস্টমারদের কাছে আপনার পণ্য বিক্রি করতে পারেন। 🌎</li>
+                            <li><strong><span class="highlight-text">তথ্য ঘনত্ব (Information Density)</span></strong>: অনলাইন স্টোরে পণ্য বা সেবা সম্পর্কে অনেক বেশি এবং বিস্তারিত তথ্য (যেমন ছবি, ভিডিও, রিভিউ) দেওয়া সম্ভব হয়, যা ফিজিক্যাল দোকানে কঠিন। 🔍</li>
+                            <li><strong><span class="highlight-text">ব্যক্তিগতকরণ (Personalization)</span></strong>: ই-কমার্স প্ল্যাটফর্মগুলো কাস্টমারের পছন্দ বা পূর্বের কেনাকাটার উপর ভিত্তি করে তার জন্য ব্যক্তিগতকৃত পণ্য বা অফার দেখাতে পারে। 🛍️</li>
+                            <li><strong><span class="highlight-text">উচ্চ প্রতিযোগিতা (High Competition)</span></strong>: অনলাইনে দোকান সেটআপ করা সহজ হওয়ায়, এই খাতে প্রতিযোগিতা অনেক বেশি। নতুন বিক্রেতারা খুব সহজে বাজারে আসতে পারে। 🥊</li>
+                        </ul>
+                    </div>
+                ` },
+                { text: "৭। হ্যাকিং ও হ্যাকার বলতে কী বুঝায়? হ্যাকারের প্রকারভেদগুলোর বর্ণনা দাও।", answer: `
+                    <div class="answer-content-section">
+                        <h5 class="mb-2">হ্যাকিং কী? (What is Hacking?)</h5>
+                        <p class="mb-2">হ্যাকিং হলো কম্পিউটার সিস্টেম বা নেটওয়ার্কের দুর্বলতা খুঁজে অননুমোদিতভাবে প্রবেশ করা বা নিয়ন্ত্রণ নেওয়া। এটা অনেকটা অনুমতি ছাড়া কোনো বাড়িতে ঢোকার মতো, তবে তালার ফাঁক খুঁজে। 🔑</p>
+
+                        <h5 class="mb-2">হ্যাকার কী? (What is a Hacker?)</h5>
+                        <p class="mb-2">একজন হ্যাকার হলেন সেই ব্যক্তি যিনি এই হ্যাকিং কাজটি করেন। তিনি একজন টেকনিক্যাল এক্সপার্ট যিনি সিস্টেমের নিরাপত্তা দুর্বলতা খুঁজে বের করতে পারেন।</p>
+
+                        <h5 class="mb-2">হ্যাকারের প্রকারভেদ (Types of Hackers)</h5>
+                        <p class="mb-2">হ্যাকারদের প্রধান প্রকারগুলো নিচে দেওয়া হলো:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li><strong><span class="highlight-text">হোয়াইট হ্যাট হ্যাকার (White Hat Hacker)</span></strong>: এরা হলো ভালো হ্যাকার, যারা কোম্পানির অনুমতি নিয়ে সিস্টেমের দুর্বলতা খুঁজে বের করে সুরক্ষাকে আরও মজবুত করে। 😇 তুলনা: আপনার বাড়ির নিরাপত্তা পরীক্ষা করার জন্য নিয়োগ করা সিকিউরিটি কনসালটেন্ট।</li>
+                            <li><strong><span class="highlight-text">ব্ল্যাক হ্যাট হ্যাকার (Black Hat Hacker)</span></strong>: এরা হলো খারাপ হ্যাকার, যারা অনুমতি ছাড়া সিস্টেমে প্রবেশ করে ব্যক্তিগত লাভের জন্য (যেমন টাকা বা তথ্য চুরি) বা ক্ষতি করার জন্য কাজ করে। 😈 তুলনা: ডিজিটাল দুনিয়ার চোর বা ক্রিমিনাল।</li>
+                            <li><strong><span class="highlight-text">গ্রে হ্যাট হ্যাকার (Grey Hat Hacker)</span></strong>: এরা মাঝামাঝি। অনুমতি ছাড়াই দুর্বলতা খুঁজে, কিন্তু মালিককে জানিয়ে কখনো কখনো টাকার বিনিময়ে সাহায্য চায়। ⚖️ তুলনা: যে ডিটেকটিভ অনুমতি ছাড়া ঢুকে ফাঁক খুঁজে মালিককে জানায়, আর বিনিময়ে টাকা চায়।</li>
+                            <li><strong><span class="highlight-text">স্ক্রিপ্ট কিডিস (Script Kiddies)</span></strong>: এদের হ্যাকিং সম্পর্কে গভীর জ্ঞান থাকে না। এরা অন্যদের তৈরি করা রেডিমেড টুলস ব্যবহার করে হ্যাকিং চেষ্টা করে। 👶 তুলনা: অন্যের খেলনা বন্দুক নিয়ে খেলা করা শিশু।</li>
+                            <li><strong><span class="highlight-text">অ্যাক্টিভিস্ট (Hacktivist)</span></strong>: এরা হ্যাকিং করে সামাজিক বা রাজনৈতিক উদ্দেশ্য নিয়ে কোনো বার্তা ছড়িয়ে দেওয়া বা প্রতিবাদ করার জন্য। ✊ তুলনা: ডিজিটাল প্রতিবাদকারী।</li>
+                        </ul>
+                    </div>
+                ` }
+            ]
+        };
+
+        // AI Modal elements
+        const aiAnswerModal = document.getElementById('aiAnswerModal');
+        const aiModalCloseButton = document.getElementById('aiModalCloseButton');
+        const modalQuestionText = document.getElementById('modalQuestionText');
+        const modalAnswerContent = document.getElementById('modalAnswerContent');
+        const modalAnswerParts = document.getElementById('modalAnswerParts');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
+
+        // Keywords, types, and common elements for Java syntax highlighting
+        const javaKeywords = [
+            'import', 'public', 'class', 'static', 'void', 'int', 'double', 'float', 'String',
+            'new', 'return', 'extends', 'if', 'else', 'for', 'while', 'try', 'catch', 'finally',
+            'this', 'super', 'null', 'true', 'false'
+        ];
+        const javaBuiltInClasses = ['Scanner', 'System', 'Math'];
+        const javaBuiltInMethods = ['main', 'println', 'print', 'nextDouble', 'close', 'PI']; // PI is a field but often highlighted like a method/constant
+
+        /**
+         * Applies syntax highlighting to a given Java code string.
+         * @param {string} codeString - The raw Java code string.
+         * @returns {string} - The HTML string with syntax highlighting.
+         */
+        function highlightJavaCode(codeString) {
+            const keywords = new Set(javaKeywords);
+            const builtInClasses = new Set(javaBuiltInClasses);
+            const builtInMethods = new Set(javaBuiltInMethods);
+
+            // Split by common delimiters, preserving them
+            // This regex splits by:
+            // - Word boundaries (\b\w+\b)
+            // - Whitespace (\s+)
+            // - Specific operators/punctuation ([+\-*\/=<>!&|%;.,{}()[\]"'])
+            // It also handles comments and strings as special cases.
+            const parts = codeString.split(/(\/\/.*|\/\*[\s\S]*?\*\/|"[^"]*"|\b\w+\b|[+\-*\/=<>!&|%;.,{}()[\]])/g).filter(Boolean);
+            let highlightedHtml = '';
+
+            for (let i = 0; i < parts.length; i++) {
+                let part = parts[i];
+
+                if (part.match(/^\s+$/)) { // Whitespace
+                    highlightedHtml += part;
+                } else if (part.startsWith('//') || part.startsWith('/*')) { // Comments
+                    highlightedHtml += `<span class="code-comment">${part}</span>`;
+                } else if (part.startsWith('"') && part.endsWith('"')) { // Strings
+                    highlightedHtml += `<span class="code-string">${part}</span>`;
+                } else if (!isNaN(parseFloat(part)) && isFinite(part) && part.match(/\d/)) { // Numbers (ensure it contains a digit)
+                    highlightedHtml += `<span class="code-number">${part}</span>`;
+                } else if (keywords.has(part)) {
+                    highlightedHtml += `<span class="code-keyword">${part}</span>`;
+                } else if (builtInClasses.has(part)) {
+                    highlightedHtml += `<span class="code-class">${part}</span>`;
+                } else if (builtInMethods.has(part)) {
+                    highlightedHtml += `<span class="code-method">${part}</span>`;
+                } else if (part.match(/[+\-*\/=<>!&|%]/)) { // Operators
+                    highlightedHtml += `<span class="code-operator">${part}</span>`;
+                } else if (part.match(/[;.,{}()[\]]/)) { // Punctuation
+                    highlightedHtml += `<span class="code-punctuation">${part}</span>`;
+                } else {
+                    // Handle special cases like System.out and Math.PI if they were split
+                    // This is done by looking ahead in the parts array
+                    if (part === 'System' && parts[i+1] === '.' && parts[i+2] === 'out') {
+                        highlightedHtml += `<span class="code-class">System</span><span class="code-punctuation">.</span><span class="code-variable">out</span>`;
+                        i += 2; // Skip next two parts
+                    } else if (part === 'Math' && parts[i+1] === '.' && parts[i+2] === 'PI') {
+                        highlightedHtml += `<span class="code-class">Math</span><span class="code-punctuation">.</span><span class="code-variable">PI</span>`;
+                        i += 2; // Skip next two parts
+                    } else {
+                        highlightedHtml += part; // Default to no highlighting (variable names, etc.)
+                    }
+                }
+            }
+            return highlightedHtml;
+        }
+
+
+        /**
+         * Copies the text content of a question to the clipboard.
+         * @param {HTMLElement} button - The button element that triggered the copy action.
+         */
+        window.copyQuestionText = (button) => {
+            const questionItem = button.closest('.question-item');
+            const questionTextElement = questionItem.querySelector('.question-text-display') || questionItem.querySelector('.question-text-toggle');
+            const targetId = questionTextElement.dataset.target; // Get target ID from toggle element
+            let textToCopy = questionTextElement.textContent.trim(); // Default to question text
+
+            if (targetId) { // If it's a dropdown question
+                const dropdown = document.getElementById(targetId);
+                if (dropdown) {
+                    const codePre = dropdown.querySelector('pre.java-code-display');
+                    if (codePre) {
+                        textToCopy = codePre.textContent.trim(); // Copy raw code from pre tag
+                    } else {
+                        textToCopy = dropdown.textContent.trim(); // Copy text from non-code dropdown
+                    }
+                }
+            }
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        };
+
+        /**
+         * Generates an answer for a given question using the Gemini API.
+         * The answer is structured into three parts: very easy explanation, easy explanation, and exam-ready answer.
+         * @param {string} question - The question to generate an answer for.
+         * @param {string} questionCategory - The category of the question (e.g., 'very-short', 'short', 'essay').
+         */
+        async function generateAnswer(question, questionCategory) {
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear previous answer parts
+
+            // Determine question type and desired answer length for the prompt
+            let questionTypeForPrompt;
+            let answerLengthDescription;
+            if (questionCategory === 'very-short') {
+                questionTypeForPrompt = 'অতি সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'সংক্ষিপ্ত, ১-২ লাইনের মধ্যে।'; // Super short
+            } else if (questionCategory === 'short') {
+                questionTypeForPrompt = 'সংক্ষিপ্ত প্রশ্ন';
+                answerLengthDescription = 'মাঝারি, ৩-৬ লাইনের মধ্যে (প্রায়)。'; // Medium
+            } else if (questionCategory === 'essay') {
+                questionTypeForPrompt = 'রচনামূলক প্রশ্ন';
+                answerLengthDescription = 'বিস্তারিত এবং পয়েন্টভিত্তিক, যথেষ্ট লম্বা হতে হবে।'; // Big
+            } else {
+                questionTypeForPrompt = 'সাধারণ প্রশ্ন';
+                answerLengthDescription = 'যথাযথ দৈর্ঘ্যের হবে।';
+            }
+
+            const prompt = `
+                তুমি আমার একজন বন্ধুত্বপূর্ণ স্টাডি অ্যাসিস্ট্যান্ট হিসেবে কাজ করবে।
+                আমি বাংলাদেশের একজন ডিপ্লোমা ইন ইঞ্জিনিয়ারিং (কম্পিউটার সায়েন্স এন্ড টেকনোলজি) এর ছাত্র, পরীক্ষার জন্য প্রস্তুতি নিচ্ছি।
+                আমার সাথে সহজ, লোকাল, ইনফরমাল বাংলা ভাষায় কথা বলবে।
+                আমার হাতে বেশি সময় নেই সো যত সম্ভব সহজ করে উত্তর দেবে এবং নিশ্চিত করবে উত্তরগুলো অনেক সহজ হয়।
+
+                আমি তোমাকে একটি পরীক্ষার প্রশ্ন দেবো। তোমাকে সেই প্রশ্নটির বিস্তারিত উত্তর তৈরি করতে হবে।
+                প্রশ্নের ধরন: ${questionTypeForPrompt}
+                
+                উত্তরের গঠন (Answer Structure - 3 Parts):
+                প্রতিটি প্রশ্নের উত্তরের ৩টি অংশ থাকবে। তুমি এমনভাবে উত্তর সাজাবে যাতে ধাপে ধাপে প্রশ্নটি বোঝা যায়।
+                প্রথমে "পার্ট ৩: একদম সহজ ব্যাখ্যা" দেবে, তারপর "পার্ট ২: সহজ ভাষায় ব্যাখ্যা" দেবে এবং শেষে "পার্ট ১: পরীক্ষায় লেখার জন্য" অংশটি লিখবে।
+
+                পার্ট ৩ (একদম সহজ ব্যাখ্যা):
+                উত্তরটা এমন সহজ ভাষায় আর উদাহরণ দিয়ে বোঝাতে হবে যেন ক্লাস ২ এর একটা বাচ্চাও বুঝতে পারে। টেকনিক্যাল শব্দ ব্যবহার করা যাবে না। উদাহরণস্বরূপ: তুমি আর ফারজানা যখন খেলনা দিয়ে খেলো, তখন কী হয়? অথবা রিফাত, তুমি আর তোমার বন্ধু ফারজানা মিলে নতুন কিছু বানানোর চেষ্টা করছো, তখন তখন সেটা কীভাবে হয়?
+
+                পার্ট ২ (সহজ ভাষায় ব্যাখ্যা):
+                পার্ট ৩-এর ব্যাখ্যাকে ভিত্তি করে একদম সহজ, ঘরোয়া বাংলা ভাষায় উদাহরণ দিয়ে উত্তরটা বুঝিয়ে বলবে। এখানে কিছুটা ইনফরমাল হওয়া যাবে। উদাহরণস্বরূপ: ধরো, রিফাত আর ফারজানা মিলে একটা প্রজেক্ট করছে, তখন কী হয়?
+
+                পার্ট ১ (পরীক্ষায় লেখার জন্য):
+                ভাষা: খুবই সহজবোধ্য, চলিত কিন্তু ফরমাল বাংলা ভাষায় লিখতে হবে। শব্দচয়ন এমন হবে যেন সবাই সহজে বুঝতে পারে, মনে রাখতে সুবিধা হয় এবং পরীক্ষার খাতায় লেখার জন্যও উপযুক্ত হয়। কঠিন বা অপ্রচলিত শব্দ ব্যবহার করা যাবে না।
+                দৈর্ঘ্য: প্রশ্নের ধরন অনুযায়ী হবে:
+                যদি প্রশ্নটি '${questionTypeForPrompt}' হয়: ${answerLengthDescription}
+                উত্তরের সাইজ যেন ঠিক থাকে।
+
+                দয়া করে উত্তর দেওয়ার সময় এই ফরম্যাট কঠোরভাবে অনুসরণ করো:
+                পার্ট ৩: [একদম সহজ ব্যাখ্যা]
+                পার্ট ২: [ সহজ ভাষায় ব্যাখ্যা]
+                পার্ট ১: [পরীক্ষায় লেখার জন্য উত্তর]
+
+                প্রশ্ন: "${question}"
+            `;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    let rawAnswer = result.candidates[0].content.parts[0].text;
+                    
+                    // Split the rawAnswer into sections based on your defined headers
+                    const sections = rawAnswer.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)([\s\S]*?)(?=(পার্ট ৩:|পার্ট ২:|পার্ট ১:|$))/g);
+
+                    modalAnswerParts.innerHTML = ''; // Clear existing content
+
+                    if (sections) {
+                        sections.forEach(section => {
+                            const headerMatch = section.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)/);
+                            if (headerMatch) {
+                                const header = headerMatch[0].trim();
+                                let content = section.substring(header.length).trim();
+
+                                let headingText;
+                                if (header === 'পার্ট ৩:') {
+                                    headingText = 'পার্ট ৩: একদম সহজ ব্যাখ্যা';
+                                } else if (header === 'পার্ট ২:') {
+                                    headingText = 'পার্ট ২: সহজ ভাষায় ব্যাখ্যা';
+                                } else if (header === 'পার্ট ১:') {
+                                    headingText = 'পার্ট ১: পরীক্ষায় লেখার জন্য';
+                                }
+
+                                const partDiv = document.createElement('div');
+                                partDiv.classList.add('ai-answer-part');
+                                partDiv.innerHTML = `<h4 class="answer-part-heading">${headingText}</h4>`;
+                                
+                                // Process content for Markdown formatting (bold, lists, code)
+                                const codeBlockRegex = /```(?:java)?\s*([\s\S]*?)```/g;
+                                let lastIndex = 0;
+                                let match;
+                                
+                                const tempDiv = document.createElement('div'); // Temporary div to process content
+                                
+                                while ((match = codeBlockRegex.exec(content)) !== null) {
+                                    // Add text before the code block
+                                    if (match.index > lastIndex) {
+                                        const textBefore = content.substring(lastIndex, match.index);
+                                        // Convert Markdown bold (**) and list items (*) to HTML
+                                        let formattedText = textBefore.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                                        
+                                        if (formattedText.includes('<li>')) {
+                                            const ul = document.createElement('ul');
+                                            ul.innerHTML = formattedText;
+                                            tempDiv.appendChild(ul);
+                                        } else {
+                                            const p = document.createElement('p');
+                                            p.innerHTML = formattedText;
+                                            tempDiv.appendChild(p);
+                                        }
+                                    }
+
+                                    // Add the code block with highlighting
+                                    const pre = document.createElement('pre');
+                                    pre.innerHTML = highlightJavaCode(match[1].trim()); // Apply highlighting here
+                                    tempDiv.appendChild(pre);
+                                    lastIndex = codeBlockRegex.lastIndex;
+                                }
+
+                                // Add any remaining text after the last code block
+                                if (lastIndex < content.length) {
+                                    const remainingText = content.substring(lastIndex);
+                                    // Convert Markdown bold (**) and list items (*) to HTML
+                                    let formattedText = remainingText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                    formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+
+                                    if (formattedText.includes('<li>')) {
+                                        const ul = document.createElement('ul');
+                                        ul.innerHTML = formattedText;
+                                        tempDiv.appendChild(ul);
+                                    } else {
+                                        const p = document.createElement('p');
+                                        p.innerHTML = formattedText;
+                                        tempDiv.appendChild(p);
+                                    }
+                                }
+                                
+                                partDiv.appendChild(tempDiv); // Append the processed content to the partDiv
+                                modalAnswerParts.appendChild(partDiv);
+                            }
+                        });
+                    } else {
+                        // Fallback if structured parts aren't found
+                        const p = document.createElement('p');
+                        p.classList.add('text-center', 'answer-content-text');
+                        // Convert Markdown bold (**) and list items (*) to HTML for fallback
+                        let formattedText = rawAnswer.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                        formattedText = formattedText.replace(/^\* (.*)/gm, '<li>$1</li>');
+                        
+                        if (formattedText.includes('<li>')) {
+                            const ul = document.createElement('ul');
+                            ul.innerHTML = formattedText;
+                            p.appendChild(ul);
+                        } else {
+                            p.innerHTML = formattedText;
+                        }
+                        modalAnswerParts.appendChild(p);
+                    }
+
+                } else {
+                    modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">Sorry, could not generate an answer for this question.</p>';
+                }
+            } catch (error) {
+                console.error('Error generating answer:', error);
+                modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">An error occurred while generating the answer. Please try again.</p>';
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                modalAnswerPlaceholder.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Opens the AI answer modal and triggers answer generation.
+         * @param {string} encodedQuestion - The URI-encoded question text.
+         * @param {string} questionCategory - The category of the question.
+         */
+        window.openAiModal = (encodedQuestion, questionCategory) => {
+            const question = decodeURIComponent(encodedQuestion);
+            modalQuestionText.textContent = question;
+            
+            loadingSpinner.classList.remove('hidden');
+            modalAnswerPlaceholder.classList.remove('hidden');
+            modalAnswerParts.innerHTML = ''; // Clear existing content before showing spinner
+
+            aiAnswerModal.classList.add('active');
+            generateAnswer(question, questionCategory);
+        };
+
+        // Event listener to close AI modal when close button is clicked
+        aiModalCloseButton.addEventListener('click', () => {
+            aiAnswerModal.classList.remove('active');
+        });
+
+        // Event listener to close AI modal when clicking outside the content
+        aiAnswerModal.addEventListener('click', (e) => {
+            if (e.target === aiAnswerModal) {
+                aiAnswerModal.classList.remove('active');
+            }
+        });
+
+        /**
+         * Loads questions into the DOM based on categories defined in the `questions` object.
+         */
+        function loadQuestions() {
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (listElement) {
+                    questions[category].forEach((q, index) => {
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('question-item');
+                        
+                        // Add stripe class based on 'stripe' property
+                        if (q.stripe === 'blue') {
+                            listItem.classList.add('blue-stripe-item');
+                        } else if (q.stripe === 'green') {
+                            listItem.classList.add('green-stripe-item');
+                        }
+
+                        let questionContentHTML = ``;
+                        const dropdownId = `answer-dropdown-${category}-${index}`; // More robust ID for main answer dropdown
+                        const extendedDropdownId = `extended-answer-dropdown-${category}-${index}`; // ID for extended answer dropdown
+
+                        // Determine if it's a very-short or short category to apply special styling
+                        const isAmoledSection = category === 'very-short' || category === 'short' || category === 'essay';
+                        const dropdownClass = isAmoledSection ? 'answer-dropdown amoled-dropdown' : 'answer-dropdown';
+                        const extendedDropdownClass = isAmoledSection ? 'extended-answer-dropdown amoled-extended-dropdown' : 'extended-answer-dropdown';
+
+                        // All categories now use dropdowns if an answer is provided
+                        if (q.answer) {
+                            questionContentHTML = `
+                                <div class="question-main-row">
+                                    <div class="question-text-toggle flex-1 cursor-pointer" data-target="${dropdownId}" >
+                                        <span>${q.text}</span>
+                                        <svg class="toggle-icon w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                        <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                            AI
+                                        </button>
+                                        <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="${dropdownId}" class="${dropdownClass} hidden">
+                                    ${category === 'essay' ? `
+                                        <div class="answer-content-section">
+                                            ${q.answer}
+                                        </div>
+                                    ` : `
+                                        <div class="short-answer-text-toggle" data-target="${extendedDropdownId}">
+                                            <div class="short-answer-content"></div> <!-- This will hold the HTML content -->
+                                            <svg class="toggle-icon w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                        </div>
+                                    `}
+                                    ${q.extendedAnswer ? `
+                                        <div id="${extendedDropdownId}" class="${extendedDropdownClass} hidden">
+                                            ${q.extendedAnswer}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `;
+                        } else {
+                            // If no answer provided, still show AI and Copy buttons, but no dropdown
+                            questionContentHTML = `
+                                <div class="question-main-row">
+                                    <div class="question-text-display flex-1">
+                                        <span>${q.text}</span>
+                                    </div>
+                                    <div class="button-container flex items-center gap-2 flex-shrink-0">
+                                        <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${category}')">
+                                            AI
+                                        </button>
+                                        <button class="action-button copy-button" onclick="copyQuestionText(this)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        listItem.innerHTML = questionContentHTML;
+                        listElement.appendChild(listItem);
+
+                        // After appending, if it's an essay question with code, highlight it
+                        if (category === 'essay' && q.answer) {
+                            // No direct code highlighting for essay answers as they are full HTML
+                            // The answer is already HTML, so no <pre> tag is needed here for highlighting
+                        } else if (q.answer && (category === 'very-short' || category === 'short')) {
+                            // For very-short and short answers, set innerHTML for visual styling
+                            const shortAnswerContentDiv = listItem.querySelector(`#${dropdownId} .short-answer-content`);
+                            if (shortAnswerContentDiv) {
+                                shortAnswerContentDiv.innerHTML = q.answer;
+                            }
+                        }
+
+                        // Add event listener for main dropdown toggle
+                        if (q.answer) {
+                            const toggleElement = listItem.querySelector('.question-text-toggle');
+                            const toggleIcon = toggleElement.querySelector('.toggle-icon');
+                            toggleElement.addEventListener('click', function() {
+                                const targetId = this.dataset.target;
+                                const dropdown = document.getElementById(targetId);
+                                if (dropdown) {
+                                    dropdown.classList.toggle('hidden');
+                                    toggleIcon.classList.toggle('rotated'); // Rotate icon
+                                }
+                            });
+
+                            // Add event listener for extended answer toggle if it exists
+                            if (q.extendedAnswer) {
+                                const extendedToggleElement = listItem.querySelector('.short-answer-text-toggle'); // Select the short answer text, which is now the toggle
+                                if (extendedToggleElement) { // Ensure the element exists
+                                    const extendedToggleIcon = extendedToggleElement.querySelector('.toggle-icon');
+                                    extendedToggleElement.addEventListener('click', function(event) {
+                                        event.stopPropagation(); // Prevent the parent dropdown from closing
+                                        const targetId = this.dataset.target;
+                                        const extendedDropdown = document.getElementById(targetId);
+                                        if (extendedDropdown) {
+                                            extendedDropdown.classList.toggle('hidden');
+                                            extendedToggleIcon.classList.toggle('rotated'); // Rotate icon
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        // Load questions when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+        });
+    </script>
+</body>
+</html>

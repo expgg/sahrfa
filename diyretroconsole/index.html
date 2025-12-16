@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploriot: DIY Portable Retro Gaming Console: Step-by-Step Tutorial</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #dc2626; /* Cherry Red */
+            --color-background: #0a0a0a; /* AMOLED Black */
+            --color-text: #f5f5dc; /* Cream White */
+            --color-accent-dark: #b91c1c; /* Darker Red */
+            --color-card-bg: #1a1a1a;
+            --color-border: #444;
+            --color-highlight-bg: rgba(245, 245, 220, 0.15); /* Cream White with transparency */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .section-container {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-border);
+            transition: box-shadow 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .section-container:hover {
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .part-card {
+            background-color: var(--color-card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            position: relative;
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .copy-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .copy-button:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-1px);
+        }
+
+        .section-copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(var(--color-primary-rgb, 220, 38, 38), 0.7);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, background-color 0.2s;
+            z-index: 10;
+        }
+
+        .section-container:hover .section-copy-button,
+        .part-card:hover .section-copy-button,
+        .mb-10.p-6.rounded-xl.bg-gray-900:hover .section-copy-button {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .section-copy-button:hover {
+            background-color: var(--color-primary);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .highlight {
+            background-color: var(--color-highlight-bg);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        .sticky-nav ul li a, #mobile-nav-menu ul li a {
+            transition: color 0.2s, transform 0.2s;
+            display: inline-block;
+            padding-left: 0.5rem;
+        }
+
+        .sticky-nav ul li a:hover, #mobile-nav-menu ul li a:hover {
+            transform: translateX(5px);
+        }
+
+        h2 {
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.3);
+        }
+        h3 {
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.2);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-card-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 10px;
+            border: 2px solid var(--color-card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-dark);
+        }
+
+        @media (min-width: 1024px) {
+            .sticky-nav {
+                position: sticky;
+                top: 1rem;
+                align-self: flex-start;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+
+        #mobile-nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-out;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        #mobile-nav-menu.mobile-nav-open {
+            transform: translateX(0);
+            display: flex;
+        }
+
+        #mobile-nav-close {
+            background-color: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            line-height: 1;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        #mobile-nav-close:hover {
+            background-color: var(--color-primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        #back-to-top {
+            font-size: 2.5rem;
+            font-weight: 900;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased leading-normal">
+    <div class="min-h-screen p-4 lg:p-8 flex flex-col lg:flex-row gap-8">
+
+        <nav id="sticky-nav" class="hidden lg:block w-1/4 sticky-nav section-container p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">Table of Contents</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#introduction" class="hover:text-red-500">Article Introduction</a></li>
+                <li><a href="#project-overview" class="hover:text-red-500">Project Overview</a></li>
+                <li><a href="#step-1-gather-your-components" class="hover:text-red-500">Step 1: Gather Your Components</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#1-single-board-computer-sbc" class="hover:text-red-500">Single Board Computer (SBC)</a></li>
+                        <li><a href="#2-lcd-display" class="hover:text-red-500">LCD Display</a></li>
+                        <li><a href="#3-controls" class="hover:text-red-500">Controls</a></li>
+                        <li><a href="#4-power-management" class="hover:text-red-500">Power Management</a></li>
+                        <li><a href="#5-audio" class="hover:text-red-500">Audio</a></li>
+                        <li><a href="#6-enclosure-case" class="hover:text-red-500">Enclosure/Case</a></li>
+                        <li><a href="#7-tools" class="hover:text-red-500">Tools</a></li>
+                    </ul>
+                </li>
+                <li><a href="#step-2-prepare-the-software-microsd-card" class="hover:text-red-500">Step 2: Prepare the Software</a></li>
+                <li><a href="#step-3-enclosure-design-and-preparation" class="hover:text-red-500">Step 3: Enclosure Design</a></li>
+                <li><a href="#step-4-assemble-the-electronics-wiring" class="hover:text-red-500">Step 4: Assemble Electronics</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#a-power-circuit" class="hover:text-red-500">A. Power Circuit</a></li>
+                        <li><a href="#b-button-wiring-gpio" class="hover:text-red-500">B. Button Wiring (GPIO)</a></li>
+                        <li><a href="#c-display-connection" class="hover:text-red-500">C. Display Connection</a></li>
+                        <li><a href="#d-audio-circuit" class="hover:text-red-500">D. Audio Circuit</a></li>
+                    </ul>
+                </li>
+                <li><a href="#step-5-initial-boot-and-software-configuration" class="hover:text-red-500">Step 5: Initial Boot & Config</a></li>
+                <li><a href="#step-6-final-assembly-and-testing" class="hover:text-red-500">Step 6: Final Assembly & Testing</a></li>
+                <li><a href="#step-7-enjoy-your-custom-portable-retro-console" class="hover:text-red-500">Step 7: Enjoy Your Console</a></li>
+            </ul>
+        </nav>
+
+        <main class="flex-grow w-full lg:w-3/4 space-y-8">
+
+            <div class="lg:hidden section-container mb-8">
+                <button id="mobile-nav-toggle" class="btn-primary w-full text-center">
+                    Show Table of Contents
+                </button>
+            </div>
+
+            <div id="mobile-nav-menu" class="hidden">
+                <button id="mobile-nav-close" aria-label="Close menu">X</button>
+                <h2 class="text-3xl font-bold mb-6 text-center pt-8">Table of Contents</h2>
+                <ul class="space-y-4 text-xl flex-grow flex flex-col justify-center">
+                    <li><a href="#introduction" class="block hover:text-red-500 py-2">Article Introduction</a></li>
+                    <li><a href="#project-overview" class="block hover:text-red-500 py-2">Project Overview</a></li>
+                    <li><a href="#step-1-gather-your-components" class="block hover:text-red-500 py-2">Step 1: Gather Your Components</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#1-single-board-computer-sbc" class="block hover:text-red-500 py-1">Single Board Computer (SBC)</a></li>
+                            <li><a href="#2-lcd-display" class="block hover:text-red-500 py-1">LCD Display</a></li>
+                            <li><a href="#3-controls" class="block hover:text-red-500 py-1">Controls</a></li>
+                            <li><a href="#4-power-management" class="block hover:text-red-500 py-1">Power Management</a></li>
+                            <li><a href="#5-audio" class="block hover:text-red-500 py-1">Audio</a></li>
+                            <li><a href="#6-enclosure-case" class="block hover:text-red-500 py-1">Enclosure/Case</a></li>
+                            <li><a href="#7-tools" class="block hover:text-red-500 py-1">Tools</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#step-2-prepare-the-software-microsd-card" class="block hover:text-red-500 py-2">Step 2: Prepare the Software</a></li>
+                    <li><a href="#step-3-enclosure-design-and-preparation" class="block hover:text-red-500 py-2">Step 3: Enclosure Design</a></li>
+                    <li><a href="#step-4-assemble-the-electronics-wiring" class="block hover:text-red-500 py-2">Step 4: Assemble Electronics</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#a-power-circuit" class="block hover:text-red-500 py-1">A. Power Circuit</a></li>
+                            <li><a href="#b-button-wiring-gpio" class="block hover:text-red-500 py-1">B. Button Wiring (GPIO)</a></li>
+                            <li><a href="#c-display-connection" class="block hover:text-red-500 py-1">C. Display Connection</a></li>
+                            <li><a href="#d-audio-circuit" class="block hover:text-red-500 py-1">D. Audio Circuit</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#step-5-initial-boot-and-software-configuration" class="block hover:text-red-500 py-2">Step 5: Initial Boot & Config</a></li>
+                    <li><a href="#step-6-final-assembly-and-testing" class="block hover:text-red-500 py-2">Step 6: Final Assembly & Testing</a></li>
+                    <li><a href="#step-7-enjoy-your-custom-portable-retro-console" class="block hover:text-red-500 py-2">Step 7: Enjoy Your Console</a></li>
+                </ul>
+            </div>
+
+
+            <section id="introduction" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h1 class="text-4xl lg:text-5xl mb-6 text-center highlight">Exploriot: DIY Portable Retro Gaming Console: Step-by-Step Tutorial</h1>
+                    <p class="text-lg mb-4">This tutorial will guide you through creating a portable retro gaming console, similar to an Anbernic device, using a Raspberry Pi. This is a moderately challenging project involving electronics, soldering, and software configuration.</p>
+                    <p class="text-lg"><span class="highlight">Disclaimer: Working with LiPo batteries requires caution. Ensure proper handling and use of protective circuits to prevent overcharging or short-circuiting.</span></p>
+                </div>
+            </section>
+
+            <section id="project-overview" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Project Overview</h2>
+                    <p class="mb-4"><span class="highlight">Goal:</span> A self-contained, battery-powered handheld device capable of playing retro games.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Core Components:</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Single Board Computer (Raspberry Pi)</li>
+                        <li>LCD Display</li>
+                        <li>Physical Controls (buttons, D-pad)</li>
+                        <li>Power Management (battery, charger, regulator)</li>
+                        <li>Custom Enclosure</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Required Skills:</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Basic soldering</li>
+                        <li>Understanding of basic electronics</li>
+                        <li>Comfort with Linux command line</li>
+                        <li>Patience and troubleshooting</li>
+                        <li><span class="highlight">Optional but Recommended:</span> 3D printing or fabrication skills</li>
+                    </ul>
+                    <p class="mb-4"><span class="highlight">Estimated Cost:</span> $100 - $250+, depending on component choices and sourcing.</p>
+                </div>
+            </section>
+
+            <section id="step-1-gather-your-components" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step 1: Gather Your Components</h2>
+                    <p class="mb-4">Here's a list of essential components. I'll provide examples, but you can find similar alternatives.</p>
+
+                    <div id="1-single-board-computer-sbc" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">1. Single Board Computer (SBC):</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Raspberry Pi 3 B+ or Raspberry Pi 4: These offer good performance for retro emulation.<br>
+                                    <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/" class="text-blue-400 hover:text-blue-600" target="_blank">Raspberry Pi Official Site</a><br>
+                                    <a href="https://www.raspberrypi.org/products/raspberry-pi-4-model-b/" class="text-blue-400 hover:text-blue-600" target="_blank">Raspberry Pi 4 Official Site</a></li>
+                                <li>MicroSD Card (32GB or 64GB, Class 10/UHS-I): For the operating system and ROMs.<br>
+                                    <a href="https://www.amazon.com/SanDisk-Ultra-microSDXC-Adapter-SDSQUAR-064G-GN6MA/dp/B073JYC4XM" class="text-blue-400 hover:text-blue-600" target="_blank">SanDisk Ultra MicroSD Card (Amazon)</a> (Adjust size as needed)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="2-lcd-display" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">2. LCD Display:</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>3.5-inch to 5.0-inch IPS LCD with HDMI input: Look for screens designed for Raspberry Pi. Consider one with a built-in case or mounting points.<br>
+                                    <a href="https://www.amazon.com/Waveshare-3-5inch-Raspberry-Display-Resolution/dp/B0813S2H3N" class="text-blue-400 hover:text-blue-600" target="_blank">Waveshare 3.5-inch RPi LCD (H) (Amazon, example)</a> (Ensure it has an HDMI input for easier use)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="3-controls" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">3. Controls:</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Tactile Buttons (Various sizes): For D-pad, action buttons, Start/Select, shoulder buttons.<br>
+                                    <a href="https://www.amazon.com/ARKTEK-Button-Kit-for-Arduino/dp/B07P969C3R" class="text-blue-400 hover:text-blue-600" target="_blank">Assorted Tactile Button Kit (Amazon, example)</a></li>
+                                <li>Conductive Rubber Pads (Optional): For a more traditional D-pad feel, often found in old controllers.</li>
+                                <li>Arcade Joystick/Analog Sticks (Optional): If desired for specific games.<br>
+                                    <a href="https://www.amazon.com/SunFounder-Joystick-Module-Arduino-Raspberry/dp/B07QG6B4G1" class="text-blue-400 hover:text-blue-600" target="_blank">Small Analog Joystick Module (Amazon, example)</a></li>
+                                <li>Thin Gauge Wire: For wiring buttons.<br>
+                                    <a href="https://www.amazon.com/Tingkam-Hookup-Stranded-Electrical-Variety/dp/B071F19W5L" class="text-blue-400 hover:text-blue-600" target="_blank">22 AWG Hookup Wire (Amazon, example)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="4-power-management" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">4. Power Management:</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Lithium Polymer (LiPo) Battery (3.7V, 3000mAh+): Choose one that fits your enclosure and provides sufficient capacity.<br>
+                                    <a href="https://www.amazon.com/Adafruit-Lithium-Polymer-Battery-3-7V/dp/B07Q6S8Z1J" class="text-blue-400 hover:text-blue-600" target="_blank">3.7V 3000mAh LiPo Battery (Amazon, example)</a></li>
+                                <li>LiPo Charger Module with Protection (TP4056 or similar): Crucial for safe charging and discharge protection.<br>
+                                    <a href="https://www.amazon.com/TP4056-Charger-Module-Lithium-Protection/dp/B07C647J3V" class="text-blue-400 hover:text-blue-600" target="_blank">TP4056 LiPo Charger Module (Amazon, example)</a></li>
+                                <li>DC-DC Boost Converter (5V output): To step up the 3.7V from the battery to the 5V required by the Raspberry Pi and screen.<br>
+                                    <a href="https://www.amazon.com/SMAKN-XL6009-Adjustable-Converter-Module/dp/B010776VNA" class="text-blue-400 hover:text-blue-600" target="_blank">XL6009 DC-DC Boost Converter (Amazon, example)</a></li>
+                                <li>Small Slide Switch: To power the console on/off.<br>
+                                    <a href="https://www.amazon.com/E-Projects-Slide-Switch-Pack-SPDT/dp/B0743B45B3" class="text-blue-400 hover:text-blue-600" target="_blank">Mini Slide Switches (Amazon, example)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="5-audio" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">5. Audio:</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Mini Speaker (8 Ohm, 0.5W - 1W):<br>
+                                    <a href="https://www.amazon.com/ELEGOO-Speaker-Module-Arduino-Raspberry/dp/B07D3H1J2C" class="text-blue-400 hover:text-blue-600" target="_blank">Mini Speaker (Amazon, example)</a></li>
+                                <li>Mini Audio Amplifier Module (PAM8403 or similar): To drive the speaker.<br>
+                                    <a href="https://www.amazon.com/PAM8403-Digital-Amplifier-Module-2-5V-5V/dp/B07QG6D8G1" class="text-blue-400 hover:text-blue-600" target="_blank">PAM8403 Mini Amplifier (Amazon, example)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="6-enclosure-case" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">6. Enclosure/Case:</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>3D Printer or 3D Printing Service: Recommended for a custom fit.<br>
+                                    <a href="https://www.thingiverse.com/" class="text-blue-400 hover:text-blue-600" target="_blank">Thingiverse (for 3D models)</a></li>
+                                <li>CAD Software (Optional): For designing your own case (e.g., Fusion 360, Tinkercad).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="7-tools" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">7. Tools:</h3>
+                            <ul class="list-disc list-inside ml-4 mb-4">
+                                <li>Soldering Iron and Solder</li>
+                                <li>Wire Strippers</li>
+                                <li>Multimeter (for testing connections and voltage)</li>
+                                <li>Small Screwdrivers</li>
+                                <li>Hot Glue Gun (for securing components)</li>
+                                <li>(Optional) Dremel or rotary tool for cutting/shaping plastic.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step-2-prepare-the-software-microsd-card" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step 2: Prepare the Software (MicroSD Card)</h2>
+                    <p class="mb-4">This step makes your Raspberry Pi boot into a gaming environment.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Download your chosen OS image:</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>RetroPie (Recommended for Pi): Offers excellent performance and a huge community.<br>
+                            <a href="https://retropie.org.uk/download/" class="text-blue-400 hover:text-blue-600" target="_blank">RetroPie Downloads</a> (Choose the correct Pi version)</li>
+                        <li>Batocera.linux: Another great option, very user-friendly.<br>
+                            <a href="https://batocera.org/download" class="text-blue-400 hover:text-blue-600" target="_blank">Batocera.linux Downloads</a> (Choose the correct Pi version)</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Download and Install Etcher (or Raspberry Pi Imager):</h3>
+                    <p class="mb-4">This tool flashes the OS image to your microSD card.<br>
+                        <a href="https://www.balena.io/etcher/" class="text-blue-400 hover:text-blue-600" target="_blank">Balena Etcher</a><br>
+                        <a href="https://www.raspberrypi.com/software/" class="text-blue-400 hover:text-blue-600" target="_blank">Raspberry Pi Imager</a></p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Flash the OS Image:</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Insert your microSD card into your computer's card reader.</li>
+                        <li>Open Etcher/Imager, select your downloaded OS image, select your microSD card as the target, and click "Flash." <span class="highlight">This will erase everything on the SD card and write the OS.</span></li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Initial Configuration (Optional, but Recommended for Wi-Fi/SSH):</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>After flashing, the SD card will have a "boot" partition.</li>
+                        <li>For RetroPie: You can enable SSH and configure Wi-Fi by editing specific files (wpa_supplicant.conf and ssh) on this boot partition. Refer to the RetroPie <a href="https://retropie.org.uk/docs/First-Installation/" class="text-blue-400 hover:text-blue-600" target="_blank">First Installation Guide</a>.</li>
+                        <li>For Batocera: Most initial setup can be done after booting, but you might want to check their documentation for headless setup options.</li>
+                    </ul>
+                    <p class="mb-4">Eject the microSD card safely.</p>
+                </div>
+            </section>
+
+            <section id="step-3-enclosure-design-and-preparation" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step 3: Enclosure Design and Preparation</h2>
+                    <p class="mb-4">This is often the most time-consuming part, as it dictates the physical layout.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Choose or Design Your Enclosure:</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Browse Thingiverse: Search for "Raspberry Pi handheld" or "Game Boy Pi" to find existing 3D printable designs. This is the easiest starting point.<br>
+                            <a href="https://www.thingiverse.com/search?q=raspberry+pi+handheld" class="text-blue-400 hover:text-blue-600" target="_blank">Example Thingiverse Search</a></li>
+                        <li>Design Your Own (Advanced): If you have CAD skills, design a custom case that perfectly fits your chosen components (Pi, screen, battery, buttons).</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Fabricate the Enclosure:</h3>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>3D Print: Print the case components if you have access to a 3D printer.</li>
+                        <li>Order from a Service: Use an online 3D printing service if you don't own a printer.</li>
+                        <li>Manual Fabrication: If not 3D printing, carefully cut and shape materials like acrylic sheets or even modify an existing plastic shell.</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Prepare Button Holes and Mounts:</h3>
+                    <p class="mb-4">Ensure all button holes are correctly sized for your chosen buttons. Create mounting points or methods to secure the Raspberry Pi, screen, battery, and other modules inside the case.</p>
+                </div>
+            </section>
+
+            <section id="step-4-assemble-the-electronics-wiring" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step 4: Assemble the Electronics (Wiring)</h2>
+                    <p class="mb-4"><span class="highlight">ALWAYS double-check your wiring before applying power to avoid damage. Use a multimeter to verify connections.</span></p>
+
+                    <div id="a-power-circuit" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">A. Power Circuit:</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li>Solder Battery to Charger Module: Connect the positive (+) and negative (-) terminals of your LiPo battery to the BAT+ and BAT- pads on the TP4056 charger module.</li>
+                                <li>Solder Charger Output to Boost Converter Input: Connect the OUT+ and OUT- pads of the TP4056 module to the IN+ and IN- pads of the XL6009 Boost Converter.</li>
+                                <li>Set Boost Converter Output:
+                                    <ul class="list-disc list-inside ml-6 space-y-1 mt-2">
+                                        <li>Connect a USB cable to the Raspberry Pi for power, and plug it into the boost converter's 5V output for testing purposes, before connecting to the Pi.</li>
+                                        <li>Connect a multimeter to the OUT+ and OUT- of the boost converter.</li>
+                                        <li>Adjust the potentiometer on the boost converter until the multimeter reads exactly <span class="highlight">5.0V</span>. This is crucial.</li>
+                                    </ul>
+                                </li>
+                                <li>Integrate Power Switch: Solder your slide switch in line with the positive wire (OUT+) from the boost converter before it connects to the Raspberry Pi. This lets you turn the whole system on/off.</li>
+                                <li>Connect Boost Converter Output to Raspberry Pi: Connect the 5V output of the boost converter (after the switch) to the Raspberry Pi's 5V GPIO pin (Pin 2 or 4) and GND to a GND GPIO pin (Pin 6, 9, 14, 20, 25, 30, 34, 39).</li>
+                                <li>Connect Charger Input: Solder a micro USB breakout board (or just wires) to the IN+ and IN- pads of the TP4056 module so you can plug in a standard micro USB cable to charge the battery.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="b-button-wiring-gpio" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">B. Button Wiring (GPIO):</h3>
+                            <p class="mb-4">This is the most tedious part. You'll wire each button to a specific GPIO pin on the Raspberry Pi and a common Ground (GND) pin.</p>
+                            <h4 class="text-xl font-semibold text-red-400 mb-2">Consult a Raspberry Pi GPIO Pinout Diagram:</h4>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li><a href="https://pinout.xyz/" class="text-blue-400 hover:text-blue-600" target="_blank">Raspberry Pi GPIO Pinout (Pinout.xyz)</a></li>
+                                <li>Identify available GPIO pins.</li>
+                            </ul>
+                            <h4 class="text-xl font-semibold text-red-400 mb-2">Wire Each Button:</h4>
+                            <p class="mb-4">For each button (D-pad up, down, left, right, A, B, X, Y, Start, Select, L, R):</p>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li>Solder one leg of the button to a chosen GPIO pin.</li>
+                                <li>Solder the other leg of the button to a common GND pin on the Raspberry Pi.</li>
+                                <li>Keep your wiring neat and organized.</li>
+                            </ul>
+                            <h4 class="text-xl font-semibold text-red-400 mb-2">Software Configuration for Buttons:</h4>
+                            <p class="mb-4">Once the Pi is running RetroPie/Batocera, you'll configure a utility (like retrogamenode or a custom script) to interpret these GPIO presses as keyboard commands that EmulationStation and RetroArch can understand.</p>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li>RetroPie: This often involves enabling and configuring the retrogame utility.<br>
+                                    <a href="https://learn.adafruit.com/retrogame-with-raspberry-pi/configuration" class="text-blue-400 hover:text-blue-600" target="_blank">Retrogame Configuration Guide (Adafruit)</a><br>
+                                    <a href="https://retropie.org.uk/docs/GPIO-Modules/" class="text-blue-400 hover:text-blue-600" target="_blank">RetroPie Docs: GPIO Buttons</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="c-display-connection" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">C. Display Connection:</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li>HDMI Connection: Connect the display's HDMI input to the Raspberry Pi's HDMI output.</li>
+                                <li>Power Display: Power the display from the 5V output of your boost converter (or directly from a dedicated 5V GPIO pin on the Pi, if it has enough current capacity).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="d-audio-circuit" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">D. Audio Circuit:</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li>Connect Audio Amplifier:
+                                    <ul class="list-disc list-inside ml-6 space-y-1 mt-2">
+                                        <li>Connect the Raspberry Pi's audio output (3.5mm jack or specific GPIO pins if using I2S audio) to the input of the PAM8403 amplifier module.</li>
+                                        <li>Power the amplifier module from the 5V output of your boost converter.</li>
+                                    </ul>
+                                </li>
+                                <li>Connect Speaker: Solder the speaker wires to the output terminals of the PAM8403 amplifier.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="step-5-initial-boot-and-software-configuration" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step 5: Initial Boot and Software Configuration</h2>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Insert the prepared microSD card into the Raspberry Pi.</li>
+                        <li>Connect a temporary monitor/TV, keyboard, and mouse (if you didn't set up Wi-Fi/SSH in Step 2).</li>
+                        <li>Apply power (turn on your switch).</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">First Boot:</h3>
+                    <p class="mb-4">The OS will expand the filesystem and reboot.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Configure Controls:</h3>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>EmulationStation will prompt you to configure input. Hold down any button on your wired controls to initiate the process. Map all your wired buttons.</li>
+                        <li>Important: You might need to go into the RetroPie/Batocera setup menu (via the EmulationStation UI) to enable and configure the GPIO button driver/utility (e.g., retrogame for RetroPie).</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Network Setup:</h3>
+                    <p class="mb-4">Connect to Wi-Fi if you didn't do it in Step 2. This allows you to transfer ROMs and update the system.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Transfer ROMs:</h3>
+                    <p class="mb-4">You can transfer ROMs via:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Network Share: RetroPie/Batocera create network shares you can access from your PC.</li>
+                        <li>USB Drive: Copy ROMs to a USB stick, plug it into the Pi, and use the system's file manager or the automatic ROM transfer feature.</li>
+                        <li><a href="https://retropie.org.uk/docs/Transferring-Roms/" class="text-blue-400 hover:text-blue-600" target="_blank">RetroPie Docs: Transferring ROMs</a></li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Scrape Artwork/Metadata:</h3>
+                    <p class="mb-4">Within EmulationStation, use the "Scraper" option to download box art and game descriptions for your ROMs.</p>
+                </div>
+            </section>
+
+            <section id="step-6-final-assembly-and-testing" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Step 6: Final Assembly and Testing</h2>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Mount Components in Case:</h3>
+                    <p class="mb-4">Carefully fit and secure all components (Raspberry Pi, screen, battery, charger module, boost converter, speaker) into your enclosure using screws, standoffs, or hot glue.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Secure Buttons:</h3>
+                    <p class="mb-4">Ensure all buttons are securely in place and function smoothly.</p>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Test All Functions:</h3>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li>Power on/off.</li>
+                        <li>All buttons respond correctly in EmulationStation and in games.</li>
+                        <li>Screen displays correctly.</li>
+                        <li>Audio plays through the speaker.</li>
+                        <li>Battery charges when plugged in.</li>
+                        <li>Run various games from different systems to test emulation performance.</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Troubleshoot:</h3>
+                    <p class="mb-4">If something doesn't work, re-check your wiring, consult the relevant software documentation, and use online forums (like the RetroPie forums) for help.</p>
+                </div>
+            </section>
+
+            <section id="step-7-enjoy-your-custom-portable-retro-console" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-6 text-center">Step 7: Enjoy Your Custom Portable Retro Console!</h2>
+                    <p class="text-lg mb-4">Once everything is assembled and working, you'll have your very own unique portable retro gaming machine. Enjoy revisiting classic games on the go!</p>
+                    <p class="text-lg mb-4">This detailed guide should give you a solid roadmap. Remember, <span class="highlight">DIY projects often involve learning and problem-solving</span>, so don't be afraid to experiment and seek help from online communities!</p>
+                </div>
+            </section>
+
+            <button id="back-to-top" class="fixed bottom-8 right-8 btn-primary hidden">
+                &uarr;
+            </button>
+
+        </main>
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                if (window.innerWidth < 1024) {
+                    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                    if (mobileNavMenu && mobileNavMenu.classList.contains('mobile-nav-open')) {
+                        mobileNavMenu.classList.remove('mobile-nav-open');
+                        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+                        if (mobileNavToggle) {
+                            mobileNavToggle.textContent = 'Show Table of Contents';
+                        }
+                    }
+                }
+            });
+        });
+
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const mobileNavClose = document.getElementById('mobile-nav-close');
+
+        if (mobileNavToggle && mobileNavMenu && mobileNavClose) {
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavMenu.classList.add('mobile-nav-open');
+                mobileNavToggle.textContent = 'Hide Table of Contents';
+            });
+
+            mobileNavClose.addEventListener('click', () => {
+                mobileNavMenu.classList.remove('mobile-nav-open');
+                mobileNavToggle.textContent = 'Show Table of Contents';
+            });
+        }
+
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.querySelectorAll('pre code').forEach(codeBlock => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative';
+            codeBlock.parentNode.insertBefore(wrapper, codeBlock);
+            wrapper.appendChild(codeBlock);
+
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button absolute top-2 right-2 px-3 py-1 text-xs';
+            copyButton.textContent = 'Copy Code';
+            wrapper.appendChild(copyButton);
+
+            copyButton.addEventListener('click', () => {
+                const codeText = codeBlock.textContent;
+
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = 0;
+                document.body.appendChild(textarea);
+
+                textarea.focus();
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Code';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    copyButton.textContent = 'Error!';
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            });
+        });
+
+        document.querySelectorAll('.section-copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const sectionContent = button.closest('.section-container > .section-content, .p-6.rounded-xl.bg-gray-900 > .section-content');
+
+                if (sectionContent) {
+                    const textToCopy = sectionContent.textContent;
+
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = 0;
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+
+                    try {
+                        document.execCommand('copy');
+                        button.textContent = 'Copied!';
+                        setTimeout(() => {
+                            button.textContent = 'Copy Section';
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy section text: ', err);
+                        button.textContent = 'Error!';
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

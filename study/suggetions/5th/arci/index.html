@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>কম্পিউটার আর্কিটেকচার অ্যান্ড মাইক্রোপ্রসেসর - AL Hossain Rifat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1A1A1D; /* Very Dark Gray Background */
+            color: #C5C6C7; /* Light Gray Text */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Styling for the star icons */
+        .star-icon {
+            color: #FFC107; /* Muted Gold/Orange for stars */
+            margin-right: 2px;
+            font-size: 0.9em;
+        }
+
+        /* Styling for individual question boxes */
+        .question-item {
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle light border for dark theme */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* More prominent dark shadow */
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            line-height: 1.5;
+            color: #D1D5DB; /* Lighter text color for questions inside boxes (tailwind gray-300) */
+        }
+
+        /* Color coding for question importance on dark theme */
+        .bg-star-level-3 {
+            background-color: rgba(102, 252, 241, 0.1); /* Subtle cyan tint */
+        }
+        .bg-star-level-2 {
+            background-color: rgba(69, 162, 158, 0.1); /* Subtle teal tint */
+        }
+        .bg-star-level-1 {
+            background-color: rgba(255, 255, 255, 0.05); /* Very subtle light tint */
+        }
+
+        /* Styling for the copy and AI buttons */
+        .action-button {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            color: #7F8C8D; /* Light gray icon color */
+            transition: color 0.2s ease-in-out;
+            display: flex; /* To center SVG */
+            justify-content: center;
+            align-items: center;
+        }
+        .action-button:hover {
+            color: #66FCF1; /* Bright cyan on hover */
+        }
+
+        /* Main content area to take remaining space and handle overflow */
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Removed max-height from tab-content-wrapper to allow main to scroll */
+        .tab-content-wrapper {
+            -webkit-overflow-scrolling: touch;
+            padding-right: 0.5rem; /* Keep some padding */
+            overflow: hidden; /* Prevent content overflow during animations */
+        }
+
+        /* Custom Scrollbar Styles for main content area and AI modal content */
+        main::-webkit-scrollbar,
+        .tab-content-wrapper::-webkit-scrollbar,
+        .ai-modal-content::-webkit-scrollbar { /* Apply to AI modal content as well */
+            width: 8px;
+        }
+        main::-webkit-scrollbar-track,
+        .tab-content-wrapper::-webkit-scrollbar-track,
+        .ai-modal-content::-webkit-scrollbar-track {
+            background: #1A1A1D;
+            border-radius: 10px;
+        }
+        main::-webkit-scrollbar-thumb,
+        .tab-content-wrapper::-webkit-scrollbar-thumb,
+        .ai-modal-content::-webkit-scrollbar-thumb {
+            background-color: #45A29E;
+            border-radius: 10px;
+            border: 2px solid #1A1A1D;
+        }
+        main::-webkit-scrollbar-corner,
+        .tab-content-wrapper::-webkit-scrollbar-corner,
+        .ai-modal-content::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* Firefox scrollbar styles */
+        main, .ai-modal-content { /* Apply to main and AI modal content */
+            scrollbar-width: thin;
+            scrollbar-color: #45A29E #1A1A1D;
+        }
+
+        /* Animations for chapter and tab content */
+        .fade-in-chapter {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .fade-in-tab {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive sidebar for mobile */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 75%;
+                background-color: rgba(25, 35, 45, 0.6);
+                backdrop-filter: blur(25px);
+                border-right: 1px solid rgba(255, 255, 255, 0.15);
+                transform: translateX(-100%);
+                transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+                z-index: 50;
+                height: 100vh;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                position: fixed; /* Ensure it stays fixed on mobile */
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .content-area {
+                margin-left: 0;
+                padding-bottom: 5rem;
+            }
+            .overlay {
+                display: none;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .overlay.active {
+                display: block;
+                opacity: 1;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+            }
+            footer {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            /* Adjust header to be more compact on mobile */
+            header .max-w-4xl {
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+            }
+            header .text-xl, header .text-2xl {
+                font-size: 1.25rem;
+            }
+            header .text-base, header .text-lg {
+                font-size: 0.875rem;
+            }
+            header .font-bold {
+                font-size: 1.125rem;
+            }
+
+            /* Fix X button position for mobile sidebar */
+            .sidebar-header {
+                position: relative; /* Make it a positioning context for the button */
+                width: 100%; /* Ensure it spans the width to allow button to align right */
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+            .sidebar-close-button {
+                position: absolute; /* Position relative to .sidebar-header */
+                top: 0.5rem; /* Adjust as needed */
+                right: 0.5rem; /* Adjust as needed */
+                background: none;
+                border: none;
+                color: #C5C6C7; /* Light gray color */
+                font-size: 2rem; /* Larger for easy tapping */
+                cursor: pointer;
+                line-height: 1;
+                padding: 0.25rem;
+                border-radius: 0.25rem;
+                transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            }
+            .sidebar-close-button:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #66FCF1;
+            }
+        }
+        /* Fixed Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+            z-index: 30;
+            padding: 0.5rem;
+            background-color: #1F2833;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ensure main content takes remaining space and doesn't hide behind fixed footer */
+        .page-content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: hidden; /* Only main scrolls */
+            position: relative;
+        }
+        main {
+            flex: 1;
+            overflow-y: auto; /* Main content area handles scrolling */
+            padding-bottom: 4rem; /* Space for the fixed footer */
+        }
+        /* Header elements */
+        header {
+            background-color: #1F2833;
+            color: #FFFFFF;
+        }
+        header .border-blue-200 {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Chapter and Tab elements */
+        .chapter-content h2 {
+            color: #66FCF1;
+        }
+        .tab-button {
+            background-color: #2C3E50;
+            color: #C5C6C7;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .tab-button:hover {
+            background-color: #34495E;
+        }
+        .tab-button.active-tab {
+            background-color: #45A29E;
+            color: #FFFFFF;
+            border-color: #45A29E;
+        }
+        .tab-content-wrapper {
+            background-color: #1F2833;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* AI Modal Answer Styling */
+        .ai-answer-part {
+            margin-bottom: 1rem;
+        }
+        .ai-answer-part pre {
+            background-color: #1A1A1D; /* Darker background for code */
+            color: #66FCF1; /* Cyan for code text */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Enable horizontal scroll for long code lines */
+            font-family: 'Cascadia Code', 'Fira Code', 'monospace'; /* Monospaced font for code */
+            line-height: 1.4;
+            tab-size: 4;
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+        .ai-answer-part p {
+            white-space: pre-wrap; /* Preserve line breaks and spaces */
+            word-break: break-word; /* Break long words */
+        }
+
+        /* AI Modal specific positioning for true centering */
+        .ai-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .ai-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-modal-content {
+            background-color: #1F2833;
+            color: #C5C6C7;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh; /* Limits height, enables internal scroll if content is too long */
+            overflow-y: auto; /* Internal scrolling for modal content */
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            opacity: 1;
+            transition: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="md:hidden fixed top-4 left-4 z-50 p-2 bg-[#45A29E] text-white rounded-md shadow-lg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
+
+    <!-- Overlay for mobile menu -->
+    <div id="sidebar-overlay" class="overlay hidden"></div>
+
+    <!-- Left Sidebar for Navigation -->
+    <aside id="sidebar" class="sidebar bg-[#1F2833] w-64 p-6 flex flex-col items-start space-y-4 shadow-xl fixed md:sticky top-0 h-full md:h-h-screen z-40">
+        <div class="sidebar-header">
+            <h2 class="text-2xl font-bold text-white">সূচীপত্র</h2>
+            <button id="sidebar-close-button" class="md:hidden sidebar-close-button">
+                &times;
+            </button>
+        </div>
+        <nav class="w-full">
+            <ul class="space-y-2">
+                <li><a href="#chapter1" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link active" data-chapter-id="chapter1">অধ্যায়-১: সিম্পল অ্যাজ পসিবল কম্পিউটার আর্কিটেকচার (SAP-1)</a></li>
+                <li><a href="#chapter2" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter2">অধ্যায়-২: মৌলিক কম্পিউটার আর্কিটেকচার</a></li>
+                <li><a href="#chapter3" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter3">অধ্যায়-৩: সিপিইউ ডিজাইনের বেসিক</a></li>
+                <li><a href="#chapter4" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter4">অধ্যায়-৪: মেমরি অর্গানাইজেশন এবং ইনপুট/ আউটপুট সিস্টেম</a></li>
+                <li><a href="#chapter5" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter5">অধ্যায়-৫: ৮০৮৬ মাইক্রোপ্রসেসরের আর্কিটেকচার</a></li>
+                <li><a href="#chapter6" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter6">অধ্যায়-৬: ৮০৮৬ মাইক্রোপ্রসেসরের অ্যাসেমব্লি কোড ব্যবহার করে প্রোগ্রামিং</a></li>
+                <li><a href="#chapter7" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter7">অধ্যায়-৭: ৮০৮৬ মাইক্রোপ্রসেসরের মেমরি ইন্টারফেস</a></li>
+                <li><a href="#chapter8" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter8">অধ্যায়-৮: ৮০৮৬ মাইক্রোপ্রসেসরের ইনপুট/আউটপুট ইন্টারফেসিং</a></li>
+                <li><a href="#chapter9" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter9">অধ্যায়-৯: ৮০৮৬ মাইক্রোপ্রসেসরের ইন্টারাপ্ট ইন্টারফেস</a></li>
+                <li><a href="#chapter10" class="block w-full py-2 px-3 rounded-md text-white hover:bg-[#66FCF1] hover:text-[#1A1A1D] transition duration-200 ease-in-out chapter-nav-link" data-chapter-id="chapter10">অধ্যায়-১০: অ্যাডভান্সড মাইক্রোপ্রসেসরের বৈশিষ্ট্য</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area Wrapper -->
+    <div class="flex-1 flex flex-col md:ml-64 page-content-wrapper">
+        <!-- Header Section -->
+        <header class="bg-[#1F2833] text-white p-6 shadow-xl mb-8 flex-shrink-0">
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="text-xl sm:text-2xl mt-2 font-semibold">কম্পিউটার আর্কিটেকচার অ্যান্ড মাইক্রোপ্রসেসর</p>
+                <div class="mt-4 border-t border-blue-200 pt-4">
+                    <p class="text-base sm:text-lg">বিষয়: কম্পিউটার আর্কিটেকচার অ্যান্ড মাইক্রোপ্রসেসর, সেমিস্টার: ৫ম</p>
+                    <p class="text-base sm:text-lg">টেকনোলজি: কম্পিউটার (প্রবিধান ২০২২)</p>
+                    <p class="text-lg sm:text-xl font-bold mt-2">Made by Al Hossain Rifat</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area for chapters (scrollable if needed) -->
+        <main class="max-w-4xl mx-auto flex-1 w-full px-4 sm:px-6 md:px-8">
+            <!-- Chapter Content Container -->
+            <div id="chapter-content-container" class="pb-8">
+                <!-- Content will be dynamically loaded here by JavaScript -->
+            </div>
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="p-2 text-white text-center shadow-xl flex-shrink-0">
+            <p class="text-sm sm:text-base">Prepared with dedication by Al Hossain Rifat</p>
+        </footer>
+    </div>
+
+    <!-- AI Answer Modal -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-700">
+                <h3 class="text-xl font-semibold text-white">AI Assistant</h3>
+                <button id="aiModalCloseButton" class="ai-modal-close-button">&times;</button>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">প্রশ্ন:</p>
+                <p id="modalQuestionText" class="p-3 bg-[#2C3E50] rounded-md text-[#D1D5DB]"></p>
+            </div>
+            <div class="mb-4">
+                <p class="font-medium text-lg mb-2">উত্তর:</p>
+                <div id="modalAnswerContent" class="p-3 bg-[#2C3E50] rounded-md min-h-[100px] flex flex-col text-[#D1D5DB]">
+                    <div class="loading-spinner hidden self-center"></div>
+                    <div id="modalAnswerParts">
+                        <p id="modalAnswerPlaceholder" class="text-center">উত্তর লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your API key
+        // This API_KEY is intentionally left empty. The Canvas environment
+        // will automatically provide the necessary API key at runtime for Google services.
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Centralized Data Structure for Questions
+            const chapterData = {
+                chapter1: {
+                    title: 'অধ্যায়-১: সিম্পল অ্যাজ পসিবল কম্পিউটার আর্কিটেকচার (SAP-1)',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'কন্ট্রোলার সিকুয়েন্সারের কাজ কী?', stars: 3 },
+                            { text: 'LDA অর্থ কী?', stars: 1 },
+                            { text: 'ম্যাক্রো-ইনস্ট্রাকশন বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'ফেচ সাইকেল বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'কন্ট্রোল ওয়ার্ড কাজ সম্পাদনে কয়টি সাইকেল ব্যবহৃত হয়?', stars: 1 },
+                            { text: 'ফেচ অপারেশন বলতে কী বুঝায়?', stars: 1 },
+                            { text: 'মেশিন সাইকেল বলতে কী বুঝায়?', stars: 3 },
+                            { text: 'MAR বলতে কী বুঝ?', stars: 1 },
+                            { text: 'SAP-1 কী?', stars: 1 }
+                        ],
+                        sis: [
+                            { text: 'মেশিন সাইকেল বলতে কী বুঝায়?', stars: 1 },
+                            { text: 'এক্সিকিউশন সাইকলে কেন ব্যবহার করা হয়?', stars: 2 },
+                            { text: 'ইনস্ট্রাকশন সাইকেল কেন ব্যবহার করা হয়?', stars: 2 },
+                            { text: 'মাইক্রো-ইনস্ট্রাকশন বলতে কী বুঝায়?', stars: 3 },
+                            { text: 'এক্সিকিউশন সাইকেল বলতে কী বুঝায়?', stars: 3 },
+                            { text: 'মেশিন সাইকেল ও ইনস্ট্রাকশন সাইকেল বলতে কী বুঝায়?', stars: 3 }
+                        ],
+                        rsis: [
+                            { text: 'কম্পিউটারের গঠন চিত্রসহ বর্ণনা কর।', stars: 3 },
+                            { text: 'Sap-1 কম্পিউটারের আর্কিটেকচার চিত্রসহ বর্ণবা কর।', stars: 2 },
+                            { text: 'কন্ট্রোলার সিকুয়েন্সারের অপারশন বর্ণনা কর।', stars: 1 },
+                            { text: '$16+20+24-32$ এর সম্যাটি সমাধানের জন্য SAP-1 কম্পিউটার ব্যবহার করে প্রোগ্রাম লেখা।', stars: 1 }
+                        ]
+                    }
+                },
+                chapter2: {
+                    title: 'অধ্যায়-২: মৌলিক কম্পিউটার আর্কিটেকচার',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'Flag register-এর কাজ লেখ এবং উদাহরণ দাও।', stars: 3 },
+                            { text: 'Flag register বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'Accumulator-এর কাজ লেখ।', stars: 2 },
+                            { text: 'Stack-based machine কী?', stars: 1 },
+                            { text: 'জেনারেল রেজিস্টার মেশিন বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'প্রোগ্রাম কাউন্টার কী কাজে ব্যবহৃত হয়?', stars: 1 },
+                            { text: 'স্ট্যাক মেশিন কী ধরনের কাজে ব্যবহৃত হয় এবং কী কী?', stars: 1 },
+                            { text: 'ফ্লাগ বলতে কী বুঝায়।', stars: 2 },
+                            { text: 'Operand ও Op-code বলতে কী বুঝ?', stars: 2 },
+                            { text: 'Instruction বলতে কী বুঝ?', stars: 3 },
+                            { text: 'Op-code encoding এর প্রকারভেদ বা পদ্ধতিসমূহ উল্লেখ কর।', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'Register কত প্রকার ও কী কী? উদাহরণসহ সংজ্ঞা দাও।', stars: 3 },
+                            { text: 'PC, SP, EAR এবং IR-এর কাজ লেখ।', stars: 2 },
+                            { text: 'ALU ও Control Unit-এর কাজ লেখ।', stars: 1 },
+                            { text: 'কম্পিউটার স্ট্রাকটারের প্রকারভেদ উদহরণসহ উল্লেখ করা।', stars: 3 },
+                            { text: 'Stack কী? Stack-এর প্রধান দুটি কাজ লেখ।', stars: 2 },
+                            { text: 'আর্কিটেকচার অনুসারে বিভিন্ন প্রকার মেশিনের বৈশিষ্ট্য লেখ।', stars: 1 },
+                            { text: 'স্ট্যাক মেশিনের বৈশিষ্ট্য লেখ।', stars: 3 },
+                            { text: 'একটি Accumulator based machine-এর ব্লক চিত্র অঙ্কন করে প্রতিটি ব্লকেরনাম লেখ।', stars: 2 },
+                            { text: 'Op-code encoding এবং decoding বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'বিভিন্ন প্রকার Instruction Format-সমূহ উদাহরণসহ উল্লেখ কর।', stars: 1 },
+                            { text: 'হাফম্যান\'স এনকোডিং স্কিম বর্ণনা কর।', stars: 3 },
+                            { text: 'বিভিন্ন প্রকার ইনস্ট্রাকশন ফরম্যাট-এর বর্ণনা দাও।', stars: 2 }
+                        ],
+                        rsis: [
+                            { text: 'General Register machine এর block চিত্র অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও।', stars: 3 },
+                            { text: 'Accumulator-based machine এর ব্লক (block) ডায়াগ্রাম অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও।', stars: 2 },
+                            { text: 'Stack-based machine-এর ব্লক ডায়াগ্রাম অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও।', stars: 1 },
+                            { text: 'Huffman op-code encoding পদ্ধতি ব্যাখ্যা কর।', stars: 3 }
+                        ]
+                    }
+                },
+                chapter3: {
+                    title: 'অধ্যায়-৩: সিপিইউ ডিজাইনের বেসিক',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'ALU-এর কাজ কী?', stars: 3 },
+                            { text: 'কন্ট্রোল ইউনিট (CU)-এর কাজ কী?', stars: 2 },
+                            { text: 'CPU বলতে কী বুঝ?', stars: 3 },
+                            { text: 'ফুল অ্যাডার কাকে বলে।', stars: 1 },
+                            { text: 'Co-processor বলতে কী বুঝ?', stars: 2 },
+                            { text: 'কো-প্রসেসরের কাজ লেখ?', stars: 1 },
+                            { text: 'MAR ও MBR-এর কাজ লেখ?', stars: 3 },
+                            { text: 'MAR ও MBR-এর পূর্ণনাম লেখ।', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'একটি আদর্শ সিপিইউ (CPU)-এর ব্লকচিত্র অঙ্কন করে কন্ট্রোল ইউনিটের কাজ দেখাও?', stars: 3 },
+                            { text: 'চার বিটের একটি জেনারেল পারপাস রেজিস্টার অঙ্কন করে দেখাও।', stars: 1 },
+                            { text: 'GPR Based machine-এর Block diagram অঙ্কন করে বিভিন্ন অংশ চিহ্নিত কর।', stars: 2 },
+                            { text: '4-bit ALU সার্কিট অঙ্কন কর।', stars: 1 },
+                            { text: 'স্ট্রেইটলাইন সিকুয়েন্সিং বলতে কী বুঝ?', stars: 1 },
+                            { text: 'Intelligent monitor interface-এর ব্লকচিত্র অঙ্কন করে সংক্ষেপে লেখ।', stars: 2 }
+                        ],
+                        rsis: [
+                            { text: 'একটি সাধারণ CPU মডেলের বর্ণনা দাও।', stars: 1 },
+                            { text: '৪-বিট জেনারেল রেজিস্টার-রে ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।', stars: 2 },
+                            { text: '৪-বিট সমান্তরাল অ্যাডার-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দও।', stars: 1 },
+                            { text: '4-bit ALU ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।', stars: 2 }
+                        ]
+                    }
+                },
+                chapter4: {
+                    title: 'অধ্যায়-৪: মেমরি অর্গানাইজেশন এবং ইনপুট/ আউটপুট সিস্টেম',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'মেমরি বলতে কী বুঝ?', stars: 3 },
+                            { text: 'মেমরি অর্গানাইজেশন কয় ধরণের?', stars: 2 },
+                            { text: 'Hard disk-এর বাহ্যিক উপাদানগুলো লেখ।', stars: 2 },
+                            { text: 'প্লেটার (Platter)-এর কাজ কী?', stars: 1 },
+                            { text: 'রিড রাইট হেড-এর কাজ কী?', stars: 3 },
+                            { text: 'Track কী?', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'Centralized memory organization-এর বৈশিষ্ট্যসমূহ উল্লেখ কর।', stars: 1 },
+                            { text: 'Distributed memory organization-এর বৈশিষ্ট্যসমূহ উল্লেখ কর।', stars: 2 },
+                            { text: 'Cache memory বলতে কী বুঝ?', stars: 3 },
+                            { text: 'প্রোগ্রামড ইনপুট/ আউটপুট বলতে কী বুঝ?', stars: 2 },
+                            { text: 'DMA কন্ট্রোলারের কাজ কী?', stars: 2 },
+                            { text: 'DMA operation-এর সুবিধা লেখ।', stars: 1 }
+                        ],
+                        rsis: [
+                            { text: 'ক্যাশ মেমরি-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।', stars: 2 },
+                            { text: 'ইন্টারাপ্ট ইনপুট/ আউটপুট-এর বর্ণনা দাও।', stars: 1 },
+                            { text: 'DMA System-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।', stars: 3 }
+                        ]
+                    }
+                },
+                chapter5: {
+                    title: 'অধ্যায়-৫: ৮০৮৬ মাইক্রোপ্রসেসরের আর্কিটেকচার',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: '8086 Microprocessor-এর Mode কয়টি ও কী কী?', stars: 3 },
+                            { text: 'ইনস্ট্রাকশন কিউ এর কাজ কী?', stars: 3 },
+                            { text: '8086 মাইক্রোপ্রসেসরের স্ট্যাটাস পিনগুলোর নাম লেখ।', stars: 2 },
+                            { text: 'Code Segment কী কাজে ব্যবহৃত হয়?', stars: 2 },
+                            { text: 'Microprocessor-এর Bit সংখ্যা বলতে কী বুঝায়।', stars: 3 },
+                            { text: 'Program counter-এর কাজ কী?', stars: 2 },
+                            { text: '8086 মাইক্রোপ্রসেসরের মেমরি কন্ট্রোল সিগন্যালের কাজ লেখ।', stars: 1 },
+                            { text: 'ইন্টেল ৮০৮৬ মাইক্রোপ্রসেসরের ফ্ল্যাগ রেজিস্টারের ফ্ল্যাগগুলোর নাম লেখ।', stars: 3 },
+                            { text: '8086µP-এ কয়টি মেমরি ব্যাংক থাকে?', stars: 1 },
+                            { text: '৪086 মাইক্রোপ্রসেসরের কয়টি লাইনকে অ্যাড্রেস বাস হিসাবে ব্যবহার করা হয়?', stars: 1 },
+                            { text: 'BIU/8086µp-এর মেগমেন্ট রেজিস্টাগুলোর নাম লেখ।', stars: 2 },
+                            { text: 'Bit কী?', stars: 1 },
+                            { text: 'Index Register-এর কাজ কী?', stars: 2 },
+                            { text: 'দুটি ১৬ বিট মাইক্রোপ্রসেসরের নাম লেখ।', stars: 3 }
+                        ],
+                        sis: [
+                            { text: '৮০৮৬µP-এর সেগসেন্ট রেজিস্টার-এর চিত্র আঁক।', stars: 3 },
+                            { text: '৮০৮৬ মাইক্রোপ্রসেসরের Pin diagram অঙ্কন কর।', stars: 3 },
+                            { text: 'CX-কে Counter register বলা হয় কেন?', stars: 3 },
+                            { text: '৮০৮৬µP এর অ্যাড্রেস/ ডাটা বাস সম্পর্কে লেখ।', stars: 2 },
+                            { text: 'মিনিমাম ও ম্যাক্সিমাম মোডের মধ্যে পার্থক্য লেখ।', stars: 2 },
+                            { text: '৮০৮৬µP-মাইক্রোপ্রসেসরের DMA সিগ্যান্যালগুলো কী কী?', stars: 1 },
+                            { text: 'IP-এর কাজ লেখ।', stars: 2 },
+                            { text: 'কিউ স্ট্যাটাস সিগন্যালসমূহ বর্ণনা কর।', stars: 1 },
+                            { text: 'সেগমেন্ট রেজিস্টার কী?', stars: 3 },
+                            { text: 'ইন্টেল-৮০৮৬ মাইক্রোপ্রসেসরের রেজিস্টারের চিত্র অঙ্কন কর।', stars: 2 },
+                            { text: 'ইন্টেল-৮০৮৬ মাইক্রোপ্রসেসরের ফ্লাগ রেজিস্টারের ডায়াগ্রাম অঙ্কন কর।', stars: 3 },
+                            { text: '৮০৮৬/৮০৮৮ এবং ৮০৮৬ মাইক্রোপ্রসেসরের পার্থক্য লেখ।', stars: 3 },
+                            { text: '৮০৮৬ µP-এর maximum mode এ ব্যবহৃত Signal গুলোর সংক্ষিপ্ত বর্ণনা দাও।', stars: 1 },
+                            { text: '16 bit up এর বৈশিষ্ট্য লেখ।', stars: 1 }
+                        ],
+                        rsis: [
+                            { text: '৮০৮৬ MP-এর পিন ডায়াগ্রাম অঙ্কন করে বর্ণনা কর।', stars: 2 },
+                            { text: 'আর্কিটেকচার অঙ্কন করে প্রতিটি ব্লকের কার্যাবলি বর্ণনা কর।', stars: 3 },
+                            { text: '৮০৮৬ µP-এর রেজিস্টার স্ট্রাকচার বর্ণনা কর।', stars: 2 },
+                            { text: '৮০৮৬ µP-এর ফ্লা্যাগ রেজিস্টারের বর্ণনা কর।', stars: 3 },
+                            { text: '৮০৮৬/৮০৮৮ µP-এর মোডগুলোর বিস্তারিত বর্ণনা দাও।', stars: 2 }
+                        ]
+                    }
+                },
+                chapter6: {
+                    title: 'অধ্যায়-৬: ৮০৮৬ মাইক্রোপ্রসেসরের অ্যাসেমব্লি কোড ব্যবহার করে প্রোগ্রামিং',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'অ্যাড্রেসিং মোড কী?', stars: 3 },
+                            { text: 'STC ও CLC ইনস্ট্রাকশনের কাজ কী?', stars: 2 },
+                            { text: 'CLI ও STI ইনস্ট্রাকশনের কাজ লেখ।', stars: 2 },
+                            { text: 'MOV AL (SI) ইনস্ট্রাকশনটি ব্যাখ্যা কর?', stars: 1 },
+                            { text: 'অ্যাসেমব্লার কী?', stars: 2 },
+                            { text: 'SEGMENT ইনস্ট্রাকশন কেন ব্যবহার করা হয়?', stars: 3 },
+                            { text: 'অ্যাসেমব্লার ডিরেকটিভস বলতে কী বুঝায়?', stars: 3 },
+                            { text: 'ডিবাগার কী?', stars: 2 },
+                            { text: 'সিডো কোড কাকে বলে?', stars: 3 },
+                            { text: 'ASSUME DIRECTIVES কোথায় ব্যবহৃত হয়?', stars: 3 },
+                            { text: 'ওয়ান পাস অ্যাসেমব্লার কাকে বলে?', stars: 1 },
+                            { text: 'অ্যাসেমব্লি ল্যাংগুয়েজ কী? হাই লেভেল ভাষার তুলনায় অ্যাসেমব্লি ভাষার সুবিধাসমূহ লেখ।', stars: 1 },
+                            { text: 'LDA 1234H নির্দেশনা দিয়ে কী বুঝায়?', stars: 1 }
+                        ],
+                        sis: [
+                            { text: '৮০৮৬ প্রসেসরের মেমরি সম্পর্কিত অ্যাড্রেসিং মোডগুলোর নাম লেখ।', stars: 3 },
+                            { text: '৮০৮৬ মাইক্রোপ্রসেসরের অ্যাড্রেসিং মোড কত প্রকার ও কী কী?', stars: 2 },
+                            { text: 'CALL ও JUMP ইনস্ট্রাকশনের কাজ কী?', stars: 2 },
+                            { text: '৮০৮৬ প্রসেসরের ইনস্ট্রাকশন ফরম্যাটকে কীভাবে সংখজ্ঞায়িত করা যায়?', stars: 3 },
+                            { text: 'PUSH ও POP Instruction বর্ণনা কর।', stars: 2 },
+                            { text: '৮০৮৬ প্রসেসরের ইনস্ট্রাকশন সেটকে কয়টি ভাগে ভাগ করা যায় ও কী কী?', stars: 3 },
+                            { text: 'ডাটা ট্রান্সফার উনস্ট্রাকশনের দুটি উদাহরণ দাও।', stars: 2 },
+                            { text: '৮০৮৬-এর রেজিস্টার অ্যাড্রেসিং মোডের দুটি উদাহরণ দাও।', stars: 1 },
+                            { text: 'ইমিডিয়েট ও ইমপ্লাইড অ্যাড্রেসিং মোড বর্ণনা কর।', stars: 1 }
+                        ],
+                        rsis: [
+                            { text: '৮০৮৬ প্রসেসরের ইনস্ট্রাকশন সেটের বর্ণনা দাও।', stars: 3 },
+                            { text: '৮০৮৬µP- এর ইনস্ট্রাকশন সেটের শ্রণিবিভাগ বর্ণনা দাও।', stars: 3 },
+                            { text: '৮০৮৬ প্রসেসরের অ্যাড্রেসিং মোডের বর্ণনা দাও।', stars: 3 },
+                            { text: '৮০৮৬ প্রসেসরে রেজিস্টার অ্যাড্রেসিং মোড নির্বাহকরণের পূর্বে এবং পরে রেজিস্টারের প্রভাব আলোচনা কর।', stars: 2 },
+                            { text: 'দুটি ১৬-বিট সংখ্যাকে যোগ করার একটি প্রোগ্রাম লেখ।', stars: 3 },
+                            { text: 'ইন্টেল-৮০৮৬ মাইক্রোপ্রসেসরের ইনস্ট্রাকশন ফরম্যাটের বর্ণনা দাও।', stars: 2 }
+                        ]
+                    }
+                },
+                chapter7: {
+                    title: 'অধ্যায়-৭: ৮০৮৬ মাইক্রোপ্রসেসরের মেমরি ইন্টারফেস',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'Interfacing কাকে বলে।', stars: 3 },
+                            { text: '8086 প্রসেসরের সর্বোচ্চ অ্যাড্রেস ক্ষমতা কত?', stars: 3 },
+                            { text: '8086 এর Data bus, Address bus এবং মেমরি সাইজ উল্লেখ কর?', stars: 1 },
+                            { text: 'Demultiplex বলতে কী বুঝায়?', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'জোড় এবং বিজোড় অ্যাড্রেস বাউন্ডারি বলতে কী বুঝ?', stars: 3 },
+                            { text: 'ব্যাংক কাকে বলে? ৮০৮৬ প্রসেসরের মেমরি কয়টি ব্যাংক আছে ও কী কী?', stars: 2 },
+                            { text: '৮০৮৬ প্রসেসরের রিড সাইকেল অঙ্কন কর।', stars: 3 },
+                            { text: 'মেমরি ইন্টারফেস বলতে কী বুঝায়?', stars: 1 },
+                            { text: 'Cache memory কী? Dual Core Processor বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'ওয়েট স্টেট কী? কেন প্রদান করা হয়?', stars: 1 },
+                            { text: '৮০৮৬ প্রসেসরের অ্যাড্রেস স্পেস অঙ্কন কর।', stars: 2 },
+                            { text: '৮০৮৬ প্রসেসরের মেমরি রাইট সাইকেল অঙ্কন কর।', stars: 2 },
+                            { text: 'ক্লক জেনারেটরের কাজ লেখ।', stars: 2 }
+                        ],
+                        rsis: [
+                            { text: '8086 µP এর মিনিমাম সিস্টেম ইন্টারফেস অঙ্কন করে বর্ণনা কর।', stars: 3 },
+                            { text: '8086 µP এর রাইট সাইকেল অঙ্কন করে বর্ণনা কর।', stars: 2 },
+                            { text: '8086 µP এর মেমরি অ্যাড্রেস স্পেসের হার্ডওয়‍্যার ব্যবস্থাপনা বর্ণনা কর।', stars: 3 },
+                            { text: '8086 µP এর রিড সাইকেল অঙ্কন করে বর্ণনা কর।', stars: 1 },
+                            { text: 'মেমরি ইন্টারফেস বলতে কী বুঝায়? চিত্রের সাহায্যে ব্যাখ্যা কর।', stars: 2 },
+                            { text: '8086 µP এর ম্যাক্সিমাম মোড সিস্টেম ইন্টারফেস অঙ্কন করে বর্ণনা কর।', stars: 1 }
+                        ]
+                    }
+                },
+                chapter8: {
+                    title: 'অধ্যায়-৮: ৮০৮৬ মাইক্রোপ্রসেসরের ইনপুট/আউটপুট ইন্টারফেসিং',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'PPI বলতে কী বুঝায়?', stars: 3 },
+                            { text: 'PPI এর ব্যবহৃত পোর্টসমূহ কী?', stars: 2 },
+                            { text: 'ইন্টেল ৮২৫৫ A PPI এর কয়টি I/O পিন আছে?', stars: 1 },
+                            { text: '8086 এর I/O ইনস্ট্রাকশনগুলো উদাহরণসহ লেখ।', stars: 2 },
+                            { text: 'PPI কন্ট্রোল ওয়ার্ডের কাজ লেখ।', stars: 1 },
+                            { text: 'UART এবং USART শব্দের পূর্ণরূপ লেখ।', stars: 2 },
+                            { text: 'DMA শব্দের পূর্ণরূপ লেখ।', stars: 2 },
+                            { text: 'মাইক্রোপ্রসেসরে ব্যবহৃত সাপোর্ট চিপসমূহের নাম লেখ।', stars: 3 },
+                            { text: 'Peripheral device কী?', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'DMA অপারেশনের সুবিধা কী?', stars: 3 },
+                            { text: 'মেমরি ম্যাপড আই/ও বলতে কী বুঝায়?', stars: 3 },
+                            { text: 'Standard I/O বলতে কী বুঝায়?', stars: 2 },
+                            { text: 'প্রোগ্রামেবল পেরিফেরাল ইন্টারফের ব্লক ডায়াগ্রাম অঙ্কন কর।', stars: 1 },
+                            { text: 'মিনিমাম মোড ইন্টারফেস বলতে কী বুঝ?', stars: 1 },
+                            { text: 'PIC কয়টি মোডে কাজ করে ও কী কী?', stars: 2 }
+                        ],
+                        rsis: [
+                            { text: 'চিত্রের মাধ্যমে ৮০৮৬ প্রসেসরের মিনিমাম মোড ইন্টারফেসের বর্ণনা কর।', stars: 3 },
+                            { text: 'PPI এর ব্লক ডায়াগ্রাম অঙ্কন করে সংক্ষেপে বর্ণনা কর।', stars: 3 },
+                            { text: 'প্রোগ্রামেবল পেরিফেরাল ইন্টারফেস (PPI)-এর ব্লক ডায়াগ্রামসমূহ কন্ট্রোল ওয়ার্ড ফরমেট লেখ।', stars: 2 },
+                            { text: 'চিত্রের মাধ্যমে ৮০৮৬ প্রসেসরের ম্যাক্সিমাম মোড ইন্টারফেসের বর্ণনা কর।', stars: 1 },
+                            { text: 'চিত্রসহ DMA অপারেশন বর্ণনা কর।', stars: 3 },
+                            { text: 'DMA Controller এর মাধ্যমে Data Transfer পদ্ধতি বর্ণনা কর।', stars: 2 },
+                            { text: 'পাঁচটি Support chip এর নামসহ কাজ উল্লেখ কর।', stars: 1 },
+                            { text: 'ইন্টেল ৮২৭৯ কী বোর্ড/ডিসপ্লে কন্ট্রোলারের ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা কর।', stars: 1 }
+                        ]
+                    }
+                },
+                chapter9: {
+                    title: 'অধ্যায়-৯: ৮০৮৬ মাইক্রোপ্রসেসরের ইন্টারাপ্ট ইন্টারফেস',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'Interrupt কী?', stars: 3 },
+                            { text: 'সফটওয়্যার ইন্টারাপ্ট কাকে বলে?', stars: 3 },
+                            { text: 'Base address কাকে বলে?', stars: 2 },
+                            { text: 'ইন্টারাপ্ট ভেক্টর কাকে বলে?', stars: 1 },
+                            { text: 'কোন প্রকার ইন্টারাপ্টে কাকে বলে?', stars: 1 },
+                            { text: 'হার্ডওয়্যার ইন্টারাপ্ট কাকে বলে?', stars: 3 },
+                            { text: '8086 প্রসেসরে কয়টি উৎস হতে উন্টারাপ্ট সিগন্যাল আসতে পারে?', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'পূর্ব সংজ্ঞায়িত ইন্টারাপ্টসমূহ কী কী?', stars: 2 },
+                            { text: 'INTO ইনস্ট্রাকশনের ব্যবহার লেখ।', stars: 2 },
+                            { text: '8086 প্রসেসরে কয়টি উৎস হতে ইন্টারাপ্ট সিগন্যাল আসতে পারে ও কী কী?', stars: 3 },
+                            { text: '8086 প্রসেসরে উন্টারাপ্টসমূহকে কয়টি গ্রুপে ভাগ করা যায় ও কী কী?', stars: 3 },
+                            { text: '8086 প্রসেসর কীভাবে ইন্টারাপ্টের অগ্রগণ্যতা রক্ষা করে তা বর্ণনা কর।', stars: 3 },
+                            { text: 'বেস অ্যাড্রেস কাকে বলে? বেসড ইনডেক্স অ্যাড্রেসিং মোড বলতে কী বুঝায়?', stars: 2 },
+                            { text: '8086 প্রসেসর ইন্টারাপ্টকে চিহ্নিতকরণ প্রক্রিয়ায় কায় ভাগে ভাগ করা যায়?', stars: 1 }
+                        ],
+                        rsis: [
+                            { text: '৮০৮৬ প্রসেসরের ইন্টারাপ্টের সাধারণ বৈশিষ্ট্য সমূহ বর্ণনা কর।', stars: 2 },
+                            { text: 'ইন্টারাপ্ট ভেক্টর টেবিল অংকন করে বর্ণনা কর।', stars: 3 },
+                            { text: 'ইন্টারাপ্ট কয়প্রকার ও কী কী, বর্ণনা কর।', stars: 2 },
+                            { text: 'ইন্টারাপ্ট ভেক্টর টেবিলের যে-কোনো ২টি অ্যাড্রেস পয়েন্টারের কাজ ইল্লেখ কর?', stars: 1 },
+                            { text: 'চিত্রের মাধ্যমে ৮০৮৬ প্রসেসরের সর্বনিম্ন সিস্টেম ইন্টারাপ্ট ইন্টারফেস বর্ণনা কর।', stars: 1 }
+                        ]
+                    }
+                },
+                chapter10: {
+                    title: 'অধ্যায়-১০: অ্যাডভান্সড মাইক্রোপ্রসেসরের বৈশিষ্ট্য',
+                    tabs: {
+                        osis: 'অতি সংক্ষিপ্ত প্রশ্ন:',
+                        sis: 'সংক্ষিপ্ত প্রশ্নঃ',
+                        rsis: 'রচনামূলক প্রশ্ন:'
+                    },
+                    questions: {
+                        osis: [
+                            { text: 'সুপার স্কেলার আর্কিটেকচার কী?', stars: 3 },
+                            { text: 'রিয়‍্যাল মোড কাকে বলে?', stars: 2 },
+                            { text: 'BIST-এর কাজ কী?', stars: 3 },
+                            { text: 'BIST-এর পূর্ণ নাম নাম কী?', stars: 2 }
+                        ],
+                        sis: [
+                            { text: 'ডুয়েল কোর বা কোয়াড কোর কী?', stars: 3 },
+                            { text: 'প্রটেক্টেড মোড অপারেশন কাকে বলে?', stars: 1 },
+                            { text: 'প্যারালাল প্রসেসিং কাকে বলে?', stars: 1 },
+                            { text: 'পেন্টিয়াম প্রসেসর কয়টি মোডে কাজ করে ও কী কী?', stars: 1 },
+                            { text: 'রিয়‍্যাল মোড ও প্রটেক্টেড মোড অপারেশন বলতে কী বুঝ?', stars: 2 },
+                            { text: 'পেন্টিয়াম-৪ প্রসেসরের স্পেসিফিকেশর উল্লেখ কর।', stars: 3 },
+                            { text: 'মাল্টিপ্রসেসিং-এর সুবিধা লেখ।', stars: 3 },
+                            { text: 'পেন্টিয়াম প্রসেসরের বৈশিষ্ট্য উল্লেখ কর।', stars: 1 },
+                            { text: 'Inter core i3 প্রসেসরের বৈশিষ্ট্য লেখ।', stars: 2 },
+                            { text: 'Intel core i7 প্রসেসরের বৈশিষ্ট্য লেখ।', stars: 2 }
+                        ],
+                        rsis: [
+                            { text: 'পেন্টিয়াম ও ৮০৮৬ প্রসেসরের মধ্যে পার্থক্য লেখ।', stars: 3 }
+                        ]
+                    }
+                }
+            };
+
+            const chapterContentContainer = document.getElementById('chapter-content-container');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const sidebarCloseButton = document.getElementById('sidebar-close-button');
+
+            // AI Modal elements
+            const aiAnswerModal = document.getElementById('aiAnswerModal');
+            const aiModalCloseButton = document.getElementById('aiModalCloseButton');
+            const modalQuestionText = document.getElementById('modalQuestionText');
+            const modalAnswerContent = document.getElementById('modalAnswerContent');
+            const modalAnswerParts = document.getElementById('modalAnswerParts');
+            const loadingSpinner = document.querySelector('.loading-spinner');
+            const modalAnswerPlaceholder = document.getElementById('modalAnswerPlaceholder');
+
+
+            // Function to render stars HTML
+            function renderStarsHtml(starsCount) {
+                let stars = '';
+                for (let i = 0; i < starsCount; i++) {
+                    stars += '<span class="star-icon">&#9733;</span>';
+                }
+                return stars;
+            }
+
+            // Function to render questions for a specific tab
+            function renderQuestions(questions, startIndex) {
+                let ulHtml = '<ul class="list-none">';
+                questions.forEach((q, index) => {
+                    const questionNumber = startIndex + index + 1;
+                    let bgColorClass = '';
+                    if (q.stars === 3) {
+                        bgColorClass = 'bg-star-level-3';
+                    } else if (q.stars === 2) {
+                        bgColorClass = 'bg-star-level-2';
+                    } else {
+                        bgColorClass = 'bg-star-level-1';
+                    }
+
+                    ulHtml += `
+                        <li class="question-item ${bgColorClass}">
+                            <span class="text-gray-400 font-semibold flex-shrink-0">${questionNumber}.</span>
+                            <div class="flex-1">
+                                ${q.text}
+                            </div>
+                            <div class="flex items-center gap-2 ml-auto flex-shrink-0">
+                                <span class="star-container inline-flex items-center">
+                                    ${renderStarsHtml(q.stars)}
+                                </span>
+                                <button class="action-button" onclick="openAiModal('${encodeURIComponent(q.text)}', '${q.stars}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM96,128a8,8,0,0,1-8,8H72a8,8,0,0,1,0-16H88A8,8,0,0,1,96,128Zm88-8a8,8,0,0,1,0,16h-16a8,8,0,0,1,0-16Z"></path>
+                                    </svg>
+                                </button>
+                                <button class="action-button" onclick="copyQuestionText(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard">
+                                        <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </li>
+                    `;
+                });
+                ulHtml += '</ul>';
+                return ulHtml;
+            }
+
+            // Function to copy text to clipboard for individual question
+            window.copyQuestionText = (button) => {
+                const questionTextElement = button.closest('.question-item').querySelector('.flex-1');
+                const textToCopy = questionTextElement.textContent.trim();
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            };
+
+
+            // Function to generate answer using Gemini API
+            async function generateAnswer(question, stars) {
+                loadingSpinner.classList.remove('hidden');
+                modalAnswerPlaceholder.classList.remove('hidden');
+                modalAnswerParts.innerHTML = ''; // Clear previous answer parts
+
+                // Determine question type from stars for prompt
+                let questionTypeForPrompt;
+                if (stars === 3) {
+                    questionTypeForPrompt = 'রচনামূলক প্রশ্ন';
+                } else if (stars === 2) {
+                    questionTypeForPrompt = 'সংক্ষিপ্ত প্রশ্ন';
+                } else {
+                    questionTypeForPrompt = 'অতি সংক্ষিপ্ত প্রশ্ন';
+                }
+
+
+                const prompt = `
+                    তুমি আমার একজন বন্ধুত্বপূর্ণ স্টাডি অ্যাসিস্ট্যান্ট হিসেবে কাজ করবে।
+                    আমি বাংলাদেশের একজন ডিপ্লোমা ইন ইঞ্জিনিয়ারিং (কম্পিউটার সায়েন্স এন্ড টেকনোলজি) এর ছাত্র, পরীক্ষার জন্য প্রস্তুতি নিচ্ছি।
+                    আমার সাথে সহজ, লোকাল, ইনফরমাল বাংলা ভাষায় কথা বলবে।
+                    আমার হাতে বেশি সময় নেই সো যত সম্ভব সহজ করে উত্তর দেবে এবং নিশ্চিত করবে উত্তরগুলো অনেক সহজ হয়।
+
+                    আমি তোমাকে একটি পরীক্ষার প্রশ্ন দেবো। তোমাকে সেই প্রশ্নটির বিস্তারিত উত্তর তৈরি করতে হবে।
+                    প্রশ্নের ধরন: ${questionTypeForPrompt}
+                    প্রশ্নের গুরুত্ব (স্টার): ${stars}
+                    যদি প্রশ্নের গুরুত্ব ৩ স্টার হয়, তাহলে এটি রচনামূলক প্রশ্নের (৫ নম্বর) মতো বিস্তারিত হবে।
+                    যদি প্রশ্নের গুরুত্ব ২ স্টার হয়, তাহলে এটি সংক্ষিপ্ত প্রশ্নের (২ নম্বর) মতো মাঝারি হবে।
+                    যদি প্রশ্নের গুরুত্ব ১ স্টার হয়, তাহলে এটি অতি সংক্ষিপ্ত প্রশ্নের (১ নম্বর) মতো সংক্ষিপ্ত হবে।
+
+                    উত্তরের গঠন (Answer Structure - 3 Parts):
+                    প্রতিটি প্রশ্নের উত্তরের ৩টি অংশ থাকবে। তুমি এমনভাবে উত্তর সাজাবে যাতে ধাপে ধাপে প্রশ্নটি বোঝা যায়।
+                    প্রথমে "পার্ট ৩: একদম সহজ ব্যাখ্যা" দেবে, তারপর "পার্ট ২: সহজ ভাষায় ব্যাখ্যা" দেবে এবং শেষে "পার্ট ১: পরীক্ষায় লেখার জন্য" অংশটি লিখবে।
+
+                    পার্ট ৩ (একদম সহজ ব্যাখ্যা):
+                    উত্তরটা এমন সহজ ভাষায় আর উদাহরণ দিয়ে বোঝাতে হবে যেন ক্লাস ২ এর একটা বাচ্চাও বুঝতে পারে। টেকনিক্যাল শব্দ ব্যবহার করা যাবে না। উদাহরণস্বরূপ: তুমি আর ফারজানা যখন খেলনা দিয়ে খেলো, তখন কী হয়? অথবা রিফাত, তুমি আর তোমার বন্ধু ফারজানা মিলে নতুন কিছু বানানোর চেষ্টা করছো, তখন সেটা কীভাবে হয়?
+
+                    পার্ট ২ (সহজ ভাষায় ব্যাখ্যা):
+                    পার্ট ৩-এর ব্যাখ্যাকে ভিত্তি করে একদম সহজ, ঘরোয়া বাংলা ভাষায় উদাহরণ দিয়ে উত্তরটা বুঝিয়ে বলবে। এখানে কিছুটা ইনফরমাল হওয়া যাবে। উদাহরণস্বরূপ: ধরো, রিফাত আর ফারজানা মিলে একটা প্রজেক্ট করছে, তখন কী হয়?
+
+                    পার্ট ১ (পরীক্ষায় লেখার জন্য):
+                    ভাষা: খুবই সহজবোধ্য, চলিত কিন্তু ফরমাল বাংলা ভাষায় লিখতে হবে। শব্দচয়ন এমন হবে যেন সবাই সহজে বুঝতে পারে, মনে রাখতে সুবিধা হয় এবং পরীক্ষার খাতায় লেখার জন্যও উপযুক্ত হয়। কঠিন বা অপ্রচলিত শব্দ ব্যবহার করা যাবে না।
+                    দৈর্ঘ্য: প্রশ্নের মার্কস ও টাইপ অনুযায়ী হবে:
+                    যদি প্রশ্নটি 'অতি সংক্ষিপ্ত' (১ মার্ক) হয়: সংক্ষিপ্ত, ১-২ লাইনের মধ্যে।
+                    যদি প্রশ্নটি 'সংক্ষিপ্ত' (২ মার্ক) হয়: মাঝারি, ৩-৬ লাইনের মধ্যে (প্রায়)।
+                    যদি প্রশ্নটি 'রচনামূলক' (৫ মার্ক) হয়: বিস্তারিত এবং পয়েন্টভিত্তিক, যথেষ্ট লম্বা হতে হবে।
+                    উত্তরের সাইজ যেন ঠিক থাকে।
+
+                    দয়া করে উত্তর দেওয়ার সময় এই ফরম্যাট কঠোরভাবে অনুসরণ করো:
+                    পার্ট ৩: [একদম সহজ ব্যাখ্যা]
+                    পার্ট ২: [সহজ ভাষায় ব্যাখ্যা]
+                    পার্ট ১: [পরীক্ষায় লেখার জন্য উত্তর]
+
+                    প্রশ্ন: "${question}"
+                `;
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const rawAnswer = result.candidates[0].content.parts[0].text;
+                        
+                        // Split the rawAnswer into sections based on your defined headers
+                        // Regex to find "পার্ট X:" headers, and split based on them, capturing the header itself.
+                        const sections = rawAnswer.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)([\s\S]*?)(?=(পার্ট ৩:|পার্ট ২:|পার্ট ১:|$))/g);
+
+                        modalAnswerParts.innerHTML = ''; // Clear existing content
+
+                        if (sections) {
+                            sections.forEach(section => {
+                                const headerMatch = section.match(/(পার্ট ৩:|পার্ট ২:|পার্ট ১:)/);
+                                if (headerMatch) {
+                                    const header = headerMatch[0].trim();
+                                    const content = section.substring(header.length).trim();
+
+                                    let headingText;
+                                    if (header === 'পার্ট ৩:') {
+                                        headingText = 'পার্ট ৩: একদম সহজ ব্যাখ্যা';
+                                    } else if (header === 'পার্ট ২:') {
+                                        headingText = 'পার্ট ২: সহজ ভাষায় ব্যাখ্যা';
+                                    } else if (header === 'পার্ট ১:') {
+                                        headingText = 'পার্ট ১: পরীক্ষায় লেখার জন্য';
+                                    }
+
+                                    const partDiv = document.createElement('div');
+                                    partDiv.classList.add('ai-answer-part');
+                                    partDiv.innerHTML = `<h4 class="answer-part-heading">${headingText}</h4>`;
+                                    
+                                    // Check for code blocks (```java or ```)
+                                    const codeBlockRegex = /```(?:java)?\s*([\s\S]*?)```/g;
+                                    let lastIndex = 0;
+                                    let match;
+                                    
+                                    // Process parts that are not code
+                                    while ((match = codeBlockRegex.exec(content)) !== null) {
+                                        // Add text before the code block
+                                        if (match.index > lastIndex) {
+                                            const textBefore = content.substring(lastIndex, match.index);
+                                            const p = document.createElement('p');
+                                            p.classList.add('answer-content-text');
+                                            p.textContent = textBefore;
+                                            partDiv.appendChild(p);
+                                        }
+
+                                        // Add the code block
+                                        const pre = document.createElement('pre');
+                                        pre.classList.add('answer-content-text'); // Apply common text style too
+                                        pre.textContent = match[1].trim(); // Extract content inside ```
+                                        partDiv.appendChild(pre);
+                                        lastIndex = codeBlockRegex.lastIndex;
+                                    }
+
+                                    // Add any remaining text after the last code block
+                                    if (lastIndex < content.length) {
+                                        const remainingText = content.substring(lastIndex);
+                                        const p = document.createElement('p');
+                                        p.classList.add('answer-content-text');
+                                        p.textContent = remainingText;
+                                        partDiv.appendChild(p);
+                                    }
+
+                                    // If no code blocks, just add as a paragraph
+                                    if (lastIndex === 0 && !codeBlockRegex.test(content)) {
+                                        const p = document.createElement('p');
+                                        p.classList.add('answer-content-text');
+                                        p.textContent = content;
+                                        partDiv.appendChild(p);
+                                    }
+                                    
+                                    modalAnswerParts.appendChild(partDiv);
+                                }
+                            });
+                        } else {
+                            // Fallback if structured parts aren't found
+                            const p = document.createElement('p');
+                            p.classList.add('text-center', 'answer-content-text');
+                            p.textContent = rawAnswer.trim() || 'উত্তর পাওয়া যায়নি।';
+                            modalAnswerParts.appendChild(p);
+                        }
+
+                    } else {
+                        modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">দুঃখিত, এই প্রশ্নের উত্তর তৈরি করা সম্ভব হয়নি।</p>';
+                    }
+                } catch (error) {
+                    console.error('Error generating answer:', error);
+                    modalAnswerParts.innerHTML = '<p class="text-center answer-content-text">উত্তর তৈরি করার সময় একটি ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।</p>';
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                    modalAnswerPlaceholder.classList.add('hidden');
+                }
+            }
+
+            // Function to open AI modal
+            window.openAiModal = (encodedQuestion, stars) => {
+                const question = decodeURIComponent(encodedQuestion);
+                modalQuestionText.textContent = question;
+                
+                loadingSpinner.classList.remove('hidden');
+                modalAnswerPlaceholder.classList.remove('hidden');
+                modalAnswerParts.innerHTML = ''; 
+
+                aiAnswerModal.classList.add('active');
+                generateAnswer(question, parseInt(stars)); 
+            };
+
+            // Function to close AI modal
+            aiModalCloseButton.addEventListener('click', () => {
+                aiAnswerModal.classList.remove('active');
+            });
+
+            aiAnswerModal.addEventListener('click', (e) => {
+                if (e.target === aiAnswerModal) {
+                    aiAnswerModal.classList.remove('active');
+                }
+            });
+
+
+            // Function to show specific chapter content
+            function showChapter(chapterId) {
+                // Add fade-out class first, then change content and fade in
+                chapterContentContainer.classList.remove('fade-in-chapter');
+                chapterContentContainer.classList.add('fade-out-chapter'); // Add a temporary fade-out class if needed
+
+                // A small delay to allow fade-out animation to start before content changes
+                setTimeout(() => {
+                    chapterContentContainer.innerHTML = '';
+
+                    const currentChapterData = chapterData[chapterId];
+                    if (!currentChapterData) return;
+
+                    const chapterDiv = document.createElement('div');
+                    chapterDiv.id = `${chapterId}-content`;
+                    chapterDiv.classList.add('chapter-content');
+
+                    chapterDiv.innerHTML = `
+                        <h2 class="text-2xl sm:text-3xl font-bold text-[#66FCF1] mb-4 text-center">${currentChapterData.title}</h2>
+                        <div class="tabs mb-6">
+                            <div class="tab-buttons flex flex-wrap gap-2 mb-4 justify-center"></div>
+                            <div class="tab-content-wrapper p-4 border border-gray-200 rounded-lg shadow-sm bg-white"></div>
+                        </div>
+                    `;
+                    chapterContentContainer.appendChild(chapterDiv);
+
+                    const tabButtonsContainer = chapterDiv.querySelector('.tab-buttons');
+                    const tabContentWrapper = chapterDiv.querySelector('.tab-content-wrapper');
+
+                    tabContentWrapper.classList.remove('bg-white');
+                    tabContentWrapper.classList.add('bg-[#1F2833]');
+                    tabContentWrapper.classList.add('shadow-inner');
+
+                    let firstTabId = '';
+                    let questionIndexOffset = 0;
+
+                    for (const tabKey in currentChapterData.tabs) {
+                        const tabTitle = currentChapterData.tabs[tabKey];
+                        const questions = currentChapterData.questions[tabKey];
+                        
+                        if (questions && questions.length > 0) {
+                            const button = document.createElement('button');
+                            button.classList.add('tab-button', 'py-2', 'px-4', 'rounded-md', 'font-medium', 'bg-[#2C3E50]', 'text-[#C5C6C7]', 'hover:bg-[#34495E]', 'border', 'border-gray-200', 'shadow-sm');
+                            button.dataset.tabTarget = tabKey;
+                            button.textContent = tabTitle;
+                            tabButtonsContainer.appendChild(button);
+
+                            const pane = document.createElement('div');
+                            pane.id = tabKey;
+                            pane.classList.add('tab-pane', 'hidden');
+                            pane.innerHTML = renderQuestions(questions, questionIndexOffset);
+                            tabContentWrapper.appendChild(pane);
+
+                            if (!firstTabId) {
+                                firstTabId = tabKey;
+                                button.classList.add('active-tab');
+                                pane.classList.remove('hidden');
+                                pane.classList.add('fade-in-tab'); // Add fade-in for the first tab
+                            }
+
+                            button.addEventListener('click', function() {
+                                showTab(this, tabButtonsContainer, tabContentWrapper);
+                            });
+                            questionIndexOffset += questions.length; // Update offset for next tab's question numbering
+                        }
+                    }
+
+                    document.querySelectorAll('.chapter-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        link.classList.remove('bg-[#66FCF1]', 'text-[#1A1A1D]');
+                    });
+                    const activeNavLink = document.querySelector(`.chapter-nav-link[data-chapter-id="${chapterId}"]`);
+                    if (activeNavLink) {
+                        activeNavLink.classList.add('active');
+                        activeNavLink.classList.add('bg-[#66FCF1]', 'text-[#1A1A1D]');
+                    }
+
+                    const mainContentArea = document.querySelector('main');
+                    if (mainContentArea) {
+                        mainContentArea.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+
+                    // Add fade-in class after content is loaded
+                    chapterContentContainer.classList.add('fade-in-chapter');
+                    chapterContentContainer.classList.remove('fade-out-chapter'); // Remove fade-out class
+                }, 100); // Small delay, adjust if fade-out is too fast or slow
+            }
+
+            // Function to show specific tab content within a chapter
+            function showTab(button, tabButtonsContainer, tabContentWrapper) {
+                const targetId = button.dataset.tabTarget;
+
+                tabButtonsContainer.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active-tab', 'bg-[#45A29E]', 'text-white');
+                    btn.classList.add('bg-[#2C3E50]', 'text-[#C5C6C7]');
+                });
+                tabContentWrapper.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.add('hidden');
+                    pane.classList.remove('active-pane', 'fade-in-tab'); // Remove fade-in from old pane
+                });
+
+                button.classList.add('active-tab', 'bg-[#45A29E]', 'text-white');
+                button.classList.remove('bg-[#2C3E50]', 'text-[#C5C6C7]');
+
+                const activePane = tabContentWrapper.querySelector(`#${targetId}`);
+                if (activePane) {
+                    activePane.classList.remove('hidden');
+                    activePane.classList.add('active-pane');
+                    activePane.classList.add('fade-in-tab'); // Add fade-in to new pane
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Sidebar open/close logic
+            mobileMenuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+
+            sidebarCloseButton.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+
+            // Sidebar chapter navigation links
+            document.querySelectorAll('.chapter-nav-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const chapterId = this.dataset.chapterId;
+                    showChapter(chapterId);
+
+                    // Close sidebar on mobile after clicking a link
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        sidebarOverlay.classList.remove('active');
+                    }
+                });
+            });
+
+            // Initial load: Show the first chapter's content and its first tab
+            showChapter('chapter1');
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>জাভা প্রোগ্রাম সংগ্রহ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background for the whole page */
+            color: #e2e8f0; /* Light text for general content */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content-wrapper { /* New wrapper to manage main content area */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.5rem; /* Overall padding for the content area, reduced */
+            flex-grow: 1; /* Allow content to grow and push footer down */
+        }
+        .section-content { /* Replaced section-card for a flatter look */
+            background-color: transparent; /* No distinct background for sections */
+            border-radius: 0; /* No rounded corners */
+            padding: 0.5rem 0; /* Minimal padding for sections */
+            margin-bottom: 0.5rem; /* Minimal space between sections */
+            box-shadow: none; /* No shadow */
+        }
+        .code-block {
+            background-color: #282c34; /* Darker background for code, similar to images */
+            color: #abb2bf; /* Default text color for code */
+            border-radius: 0.5rem; /* Rounded corners */
+            padding: 1rem;
+            overflow-x: auto; /* Horizontal scroll for long lines */
+            font-family: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+            font-size: 0.875rem; /* Smaller font size for code */
+            line-height: 1.5;
+        }
+        /* Syntax Highlighting Colors */
+        .keyword { color: #c678dd; } /* Purple */
+        .type { color: #e5c07b; } /* Yellowish-orange */
+        .string { color: #98c379; } /* Green */
+        .number { color: #d19a66; } /* Orange */
+        .method { color: #61afef; } /* Blue */
+        .variable { color: #abb2bf; } /* Default light gray */
+        .class-name { color: #56b6c2; } /* Cyan */
+        .dot-access { color: #abb2bf; } /* Default light gray */
+        .comment-text {
+            color: #a0a0a0; /* Lighter gray for comments for better visibility */
+            display: none; /* Hidden by default */
+        }
+        .footer {
+            position: sticky; /* Sticky footer */
+            bottom: 0;
+            width: 100%;
+            background-color: #1a202c; /* Dark background for footer */
+            color: #f9fafb; /* Light text for footer */
+            text-align: center;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure footer is on top */
+        }
+        /* Question title color */
+        .question-title {
+            color: #e2e8f0; /* Light text for question titles in dark mode */
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="main-content-wrapper">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-100">জাভা প্রোগ্রাম সংগ্রহ</h1>
+
+        <!-- প্রোগ্রাম ১: আয়তক্ষেত্রের ক্ষেত্রফল -->
+        <section class="section-content">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">১। আয়তক্ষেত্রের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?</h2>
+            <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-1')">কমেন্ট দেখান</button>
+            <div id="code-block-1" class="code-block">
+<pre><code><span class="keyword">import</span> <span class="type">java.util.Scanner</span>; <span class="comment-text">// স্ক্যানার ক্লাস ইম্পোর্ট করা হয়েছে ব্যবহারকারীর ইনপুটের জন্য</span>
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="class-name">RA</span> {
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(<span class="type">String</span>[] <span class="variable">args</span>) {
+
+        <span class="type">Scanner</span> <span class="variable">s</span> = <span class="keyword">new</span> <span class="type">Scanner</span>(<span class="type">System</span><span class="dot-access">.in</span>); <span class="comment-text">// স্ক্যানার অবজেক্ট তৈরি করা হয়েছে</span>
+
+        <span class="type">System</span><span class="dot-access">.out.print</span>(<span class="string">"দৈর্ঘ্য: "</span>); <span class="comment-text">// দৈর্ঘ্য ইনপুট নিতে বলা হচ্ছে</span>
+        <span class="keyword">double</span> <span class="variable">l</span> = <span class="variable">s</span>.<span class="method">nextDouble</span>(); <span class="comment-text">// দৈর্ঘ্য পড়া হচ্ছে</span>
+
+        <span class="type">System</span><span class="dot-access">.out.print</span>(<span class="string">"প্রস্থ: "</span>); <span class="comment-text">// প্রস্থ ইনপুট নিতে বলা হচ্ছে</span>
+        <span class="keyword">double</span> <span class="variable">w</span> = <span class="variable">s</span>.<span class="method">nextDouble</span>(); <span class="comment-text">// প্রস্থ পড়া হচ্ছে</span>
+
+        <span class="keyword">double</span> <span class="variable">a</span> = <span class="variable">l</span> * <span class="variable">w</span>; <span class="comment-text">// ক্ষেত্রফল গণনা করা হচ্ছে</span>
+
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"ক্ষেত্রফল: "</span> + <span class="variable">a</span>); <span class="comment-text">// ক্ষেত্রফল প্রিন্ট করা হচ্ছে</span>
+
+        <span class="variable">s</span>.<span class="method">close</span>(); <span class="comment-text">// স্ক্যানার বন্ধ করা হচ্ছে</span>
+    }
+}
+</code></pre>
+            </div>
+        </section>
+
+        <!-- প্রোগ্রাম ২: বৃত্তের ক্ষেত্রফল (Area ক্লাস) -->
+        <section class="section-content">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">২। Area নামে একটি ক্লাস তৈরি করে বৃত্তের ক্ষেত্রফল নির্ণয়ের একটি জাভা প্রোগ্রাম লেখ?</h2>
+            <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-2')">কমেন্ট দেখান</button>
+            <div id="code-block-2" class="code-block">
+<pre><code><span class="keyword">import</span> <span class="type">java.util.Scanner</span>; <span class="comment-text">// স্ক্যানার ক্লাস ইম্পোর্ট করা হয়েছে</span>
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="class-name">Area</span> {
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(<span class="type">String</span>[] <span class="variable">args</span>) {
+
+        <span class="type">Scanner</span> <span class="variable">s</span> = <span class="keyword">new</span> <span class="type">Scanner</span>(<span class="type">System</span><span class="dot-access">.in</span>); <span class="comment-text">// স্ক্যানার অবজেক্ট তৈরি করা হয়েছে</span>
+
+        <span class="type">System</span><span class="dot-access">.out.print</span>(<span class="string">"ব্যাসার্ধ প্রবেশ করান: "</span>); <span class="comment-text">// ব্যাসার্ধ ইনপুট নিতে বলা হচ্ছে</span>
+        <span class="keyword">double</span> <span class="variable">r</span> = <span class="variable">s</span>.<span class="method">nextDouble</span>(); <span class="comment-text">// ব্যাসার্ধ পড়া হচ্ছে</span>
+
+        <span class="keyword">double</span> <span class="variable">a</span> = <span class="type">Math</span><span class="dot-access">.PI</span> * <span class="variable">r</span> * <span class="variable">r</span>; <span class="comment-text">// ক্ষেত্রফল গণনা করা হচ্ছে</span>
+
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"বৃত্তের ক্ষেত্রফল: "</span> + <span class="variable">a</span>); <span class="comment-text">// ক্ষেত্রফল প্রিন্ট করা হচ্ছে</span>
+
+        <span class="variable">s</span>.<span class="method">close</span>(); <span class="comment-text">// স্ক্যানার বন্ধ করা হচ্ছে</span>
+    }
+}
+</code></pre>
+            </div>
+        </section>
+
+        <!-- প্রোগ্রাম ৩: কনস্ট্রাক্টর মেথড (Student ক্লাস) -->
+        <section class="section-content">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">৩। কনস্ট্রাক্টর মেথড ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?</h2>
+            <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-3')">কমেন্ট দেখান</button>
+            <div id="code-block-3" class="code-block">
+<pre><code><span class="keyword">class</span> <span class="class-name">Student</span> {
+
+    <span class="keyword">int</span> <span class="variable">Roll</span>;
+    <span class="type">String</span> <span class="variable">Name</span>;
+
+    <span class="class-name">Student</span>() { <span class="comment-text">// কনস্ট্রাক্টর মেথড</span>
+        <span class="variable">Roll</span> = <span class="number">56</span>; <span class="comment-text">// রোল সেট করা হচ্ছে</span>
+        <span class="variable">Name</span> = <span class="string">"Rifat"</span>; <span class="comment-text">// নাম সেট করা হচ্ছে</span>
+    }
+
+    <span class="keyword">void</span> <span class="method">showInfo</span>() { <span class="comment-text">// তথ্য দেখানোর মেথড</span>
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Roll: "</span> + <span class="variable">Roll</span>);
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Name: "</span> + <span class="variable">Name</span>);
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="class-name">ConstructorExample</span> {
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(<span class="type">String</span>[] <span class="variable">args</span>) {
+
+        <span class="class-name">Student</span> <span class="variable">s</span> = <span class="keyword">new</span> <span class="class-name">Student</span>(); <span class="comment-text">// স্টুডেন্ট অবজেক্ট তৈরি করা হচ্ছে, কনস্ট্রাক্টর কল হবে</span>
+        <span class="variable">s</span>.<span class="method">showInfo</span>(); <span class="comment-text">// তথ্য দেখানো হচ্ছে</span>
+    }
+}
+</code></pre>
+            </div>
+        </section>
+
+        <!-- প্রোগ্রাম ৪: মেথড ওভারলোডিং (Rifat ক্লাস) -->
+        <section class="section-content">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">৪। মেথড ওভারলোডিং পদ্ধতি ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?</h2>
+            <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-4')">কমেন্ট দেখান</button>
+            <div id="code-block-4" class="code-block">
+<pre><code><span class="keyword">class</span> <span class="class-name">Rifat</span> {
+
+    <span class="keyword">int</span> <span class="method">Rifat</span>(<span class="keyword">int</span> <span class="variable">x</span>, <span class="keyword">int</span> <span class="variable">y</span>) { <span class="comment-text">// দুটি পূর্ণসংখ্যার জন্য মেথড</span>
+        <span class="keyword">int</span> <span class="variable">z</span> = <span class="variable">x</span> + <span class="variable">y</span>;
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Result: "</span> + <span class="variable">z</span>);
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+
+    <span class="keyword">float</span> <span class="method">Rifat</span>(<span class="keyword">float</span> <span class="variable">a</span>, <span class="keyword">float</span> <span class="variable">b</span>) { <span class="comment-text">// দুটি দশমিক সংখ্যার জন্য মেথড</span>
+        <span class="keyword">float</span> <span class="variable">c</span> = <span class="variable">a</span> + <span class="variable">b</span>;
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Result: "</span> + <span class="variable">c</span>);
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+
+    <span class="keyword">int</span> <span class="method">Rifat</span>(<span class="keyword">int</span> <span class="variable">x</span>) { <span class="comment-text">// একটি পূর্ণসংখ্যার জন্য মেথড</span>
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Result: "</span> + <span class="variable">x</span>); <span class="comment-text">// আউটপুট স্ট্রিং ঠিক করা হয়েছে</span>
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="class-name">Overload</span> {
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(<span class="type">String</span>[] <span class="variable">args</span>) {
+
+        <span class="class-name">Rifat</span> <span class="variable">s</span> = <span class="keyword">new</span> <span class="class-name">Rifat</span>();
+        <span class="variable">s</span>.<span class="method">Rifat</span>(<span class="number">56.57f</span>, <span class="number">757f</span>); <span class="comment-text">// ফ্লোট মেথড কল</span>
+        <span class="variable">s</span>.<span class="method">Rifat</span>(<span class="number">10</span>, <span class="number">20</span>); <span class="comment-text">// ইন্টিজার মেথড কল</span>
+        <span class="variable">s</span>.<span class="method">Rifat</span>(<span class="number">100</span>); <span class="comment-text">// নতুন ইন্টিজার মেথড কল</span>
+    }
+}
+```</pre>
+            </div>
+        </section>
+
+        <!-- প্রোগ্রাম ৫: সুপার ক্লাস ও সাব ক্লাস -->
+        <section class="section-content">
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 question-title">৫। সুপার ক্লাস ও সাব ক্লাস ব্যবহার করে একটি জাভা প্রোগ্রাম লেখ?</h2>
+            <button class="toggle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mb-4" onclick="toggleComments('code-block-5')">কমেন্ট দেখান</button>
+            <div id="code-block-5" class="code-block">
+<pre><code><span class="keyword">class</span> <span class="class-name">Animal</span> { <span class="comment-text">// সুপার ক্লাস</span>
+    <span class="keyword">void</span> <span class="method">Sound</span>() { <span class="comment-text">// সাউন্ড মেথড</span>
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Animal Sound"</span>); <span class="comment-text">// প্রাণীর শব্দ প্রিন্ট করা হচ্ছে</span>
+    }
+}
+
+<span class="keyword">class</span> <span class="class-name">Dog</span> <span class="keyword">extends</span> <span class="class-name">Animal</span> { <span class="comment-text">// সাব ক্লাস</span>
+    <span class="keyword">void</span> <span class="method">bark</span>() { <span class="comment-text">// বার্ক মেথড</span>
+        <span class="type">System</span><span class="dot-access">.out.println</span>(<span class="string">"Dog bark"</span>); <span class="comment-text">// কুকুরের ডাক প্রিন্ট করা হচ্ছে</span>
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="class-name">Main</span> {
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(<span class="type">String</span>[] <span class="variable">args</span>) {
+        <span class="class-name">Dog</span> <span class="variable">d</span> = <span class="keyword">new</span> <span class="class-name">Dog</span>(); <span class="comment-text">// Dog অবজেক্ট তৈরি করা হচ্ছে</span>
+        <span class="variable">d</span>.<span class="method">Sound</span>(); <span class="comment-text">// সুপার ক্লাসের মেথড কল করা হচ্ছে</span>
+        <span class="variable">d</span>.<span class="method">bark</span>(); <span class="comment-text">// সাব ক্লাসের মেথড কল করা হচ্ছে</span>
+    }
+}
+</code></pre>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        Made By Al Hossain Rifat
+    </footer>
+
+    <script>
+        function toggleComments(codeBlockId) {
+            const codeBlock = document.getElementById(codeBlockId);
+            if (!codeBlock) return;
+
+            const comments = codeBlock.querySelectorAll('.comment-text');
+            const button = codeBlock.previousElementSibling; // Assuming button is right before the code-block div
+
+            let commentsAreHidden = false;
+            if (comments.length > 0) {
+                // Check the current display state of the first comment to determine overall state
+                commentsAreHidden = (comments[0].style.display === 'none' || comments[0].style.display === '');
+            }
+
+            comments.forEach(comment => {
+                if (commentsAreHidden) {
+                    comment.style.display = 'inline'; // Show comments
+                } else {
+                    comment.style.display = 'none'; // Hide comments
+                }
+            });
+
+            // Update button text based on the new state
+            if (button && button.classList.contains('toggle-button')) {
+                if (commentsAreHidden) {
+                    button.textContent = 'কমেন্ট লুকান';
+                } else {
+                    button.textContent = 'কমেন্ট দেখান';
+                }
+            }
+        }
+
+        // Set initial state for all comments to hidden and update button text
+        document.addEventListener('DOMContentLoaded', () => {
+            const allComments = document.querySelectorAll('.comment-text');
+            allComments.forEach(comment => {
+                comment.style.display = 'none'; // Ensure comments are hidden by default
+            });
+
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+            toggleButtons.forEach(button => {
+                button.textContent = 'কমেন্ট দেখান'; // Set initial button text
+            });
+        });
+    </script>
+</body>
+</html>

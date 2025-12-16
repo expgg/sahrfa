@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বাঙালির মিষ্টি মুখ - প্রিমিয়াম রেসিপি</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdfcf6; /* Warmer Cream */
+            --text-color: #292524; /* Stone 800 */
+            --card-bg: #ffffff;
+            --accent: #d97706; /* Amber 600 */
+            --accent-soft: #fef3c7; /* Amber 100 */
+            --border: #e7e5e4; /* Stone 200 */
+            --secondary-text: #78716c; /* Stone 500 */
+            --nav-bg: rgba(255, 255, 255, 0.6); /* High transparency */
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.5);
+        }
+
+        [data-theme='dark'] {
+            --bg-color: #0a0a0a; /* True Black */
+            --text-color: #fafaf9; /* Stone 50 */
+            --card-bg: #171717; /* Neutral 900 */
+            --accent: #fbbf24; /* Amber 400 */
+            --accent-soft: #451a03; /* Amber 950 */
+            --border: #262626; /* Neutral 800 */
+            --secondary-text: #a3a3a3; /* Neutral 400 */
+            --nav-bg: rgba(10, 10, 10, 0.6);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.4s ease, color 0.4s ease;
+            padding-bottom: 80px; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(10px); }
+        .stagger-1 { animation-delay: 0.05s; }
+        .stagger-2 { animation-delay: 0.1s; }
+        .stagger-3 { animation-delay: 0.15s; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input Cleanup */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; margin: 0; 
+        }
+
+        /* Icon Animation */
+        .icon-rotate { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        button:active .icon-rotate { transform: rotate(20deg) scale(0.9); }
+        
+        /* Pro Tip Box */
+        .tip-box {
+            background-image: linear-gradient(135deg, var(--card-bg) 0%, var(--accent-soft) 100%);
+        }
+
+        /* Glowing Pulse Animation for Subtitle */
+        @keyframes glow-text {
+            0%, 100% { 
+                opacity: 0.7; 
+                text-shadow: 0 0 0px var(--accent);
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 1; 
+                text-shadow: 0 0 10px var(--accent);
+                transform: scale(1.05);
+            }
+        }
+        .animate-glow {
+            animation: glow-text 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--bg-color)]">
+
+    <!-- Header (Updated Layout) -->
+    <header class="sticky top-0 z-40 glass transition-colors duration-300" style="background-color: var(--nav-bg);">
+        <div class="max-w-3xl mx-auto px-6 py-4 flex justify-center items-center text-center">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight" style="color: var(--accent);">মিষ্টির হাড়ি <span class="text-[var(--text-color)] text-opacity-80 font-semibold text-lg">by SAHRFA</span></h1>
+                <a href="https://sahrfa.top" target="_blank" class="block mt-1">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] animate-glow" style="color: var(--accent);">sahrfa.top</p>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-3xl mx-auto px-4 py-6 w-full relative">
+        
+        <!-- Recipe List View -->
+        <div id="recipe-list" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <!-- Cards injected by JS -->
+        </div>
+
+        <!-- Recipe Detail View (Hidden default) -->
+        <div id="recipe-detail" class="hidden">
+            <div class="card rounded-[2rem] p-6 sm:p-8 fade-in">
+                
+                <!-- Title Header -->
+                <div class="mb-6">
+                    <h2 id="detail-title" class="text-3xl font-bold leading-tight mb-2" style="color: var(--accent);"></h2>
+                    <p id="detail-desc" class="text-base opacity-80 leading-relaxed"></p>
+                </div>
+
+                <!-- Interactive Calculator -->
+                <div class="p-6 rounded-3xl mb-8 border border-[var(--border)] bg-opacity-40 shadow-inner" style="background-color: var(--bg-color);">
+                    <label class="block text-xs font-bold mb-4 text-center opacity-60 uppercase tracking-[0.2em]">পরিমাণ নির্বাচন করুন</label>
+                    <div class="flex items-center gap-5 justify-center">
+                        <button onclick="adjustQuantity(-5)" class="w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-[var(--card-bg)] border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] active:scale-90 transition-all shadow-sm group">
+                            <svg class="w-6 h-6 transition-transform group-hover:-rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4"/></svg>
+                        </button>
+
+                        <div class="relative w-32 text-center">
+                            <input type="number" id="quantity-input" value="20" class="w-full py-2 text-center rounded-lg bg-transparent text-4xl font-mono font-bold focus:outline-none" style="color: var(--text-color);" oninput="updateIngredients()">
+                            <div class="text-[10px] font-bold opacity-40 uppercase mt-1 tracking-widest">পিস (Pieces)</div>
+                        </div>
+
+                        <button onclick="adjustQuantity(5)" class="w-14 h-14 rounded-full flex items-center justify-center text-2xl bg-[var(--card-bg)] border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)] active:scale-90 transition-all shadow-sm group">
+                            <svg class="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ingredients Section -->
+                <div class="mb-10 fade-in stagger-1">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2 border-b border-[var(--border)] pb-3 opacity-90">
+                        <svg class="w-5 h-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        প্রয়োজনীয় উপকরণ
+                    </h3>
+                    <ul id="ingredient-list" class="space-y-0 divide-y divide-[var(--border)] border-t border-b border-[var(--border)]">
+                        <!-- Injected -->
+                    </ul>
+                </div>
+
+                <!-- Pro Tips Section -->
+                <div class="mb-10 fade-in stagger-2">
+                    <div class="tip-box p-5 rounded-2xl border border-[var(--border)] relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                        </div>
+                        <h3 class="text-sm font-bold mb-3 flex items-center gap-2 uppercase tracking-wider text-[var(--accent)] relative z-10">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                            প্রো টিপস (Pro Tips)
+                        </h3>
+                        <ul id="tips-list" class="space-y-2 relative z-10 text-sm opacity-90 font-medium">
+                            <!-- Injected -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Steps Section -->
+                <div class="fade-in stagger-3">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2 border-b border-[var(--border)] pb-3 opacity-90">
+                        <svg class="w-5 h-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        প্রস্তুত প্রণালী (Step by Step)
+                    </h3>
+                    <div id="steps-list" class="space-y-6">
+                        <!-- Injected -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation Bar (Ultra-Slim) -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 glass" style="background-color: var(--nav-bg);">
+        <div class="max-w-3xl mx-auto px-6 py-2 flex justify-between items-center h-16">
+            
+            <!-- Back Button -->
+            <button id="nav-back" onclick="goBack()" class="w-12 h-12 rounded-2xl flex items-center justify-center opacity-40 disabled:opacity-10 transition-all hover:bg-[var(--accent)] hover:text-white hover:opacity-100 disabled:hover:bg-transparent disabled:hover:opacity-10" disabled>
+                <svg class="w-6 h-6 icon-rotate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" class="w-12 h-12 rounded-full flex items-center justify-center bg-[var(--card-bg)] text-[var(--accent)] border border-[var(--border)] shadow-lg active:scale-90 transition-all hover:border-[var(--accent)]">
+                <div id="theme-icon-container" class="icon-rotate">
+                    <!-- Icon injected -->
+                </div>
+            </button>
+
+            <!-- Action Button (Creator / Copy) -->
+            <button id="nav-action" onclick="handleNavAction()" class="w-12 h-12 rounded-2xl flex items-center justify-center opacity-80 hover:text-[var(--accent)] transition-all hover:bg-[var(--card-bg)] active:scale-90">
+                <div id="action-icon-container" class="icon-rotate">
+                    <!-- Icon injected by JS -->
+                </div>
+            </button>
+
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-[var(--text-color)] text-[var(--bg-color)] px-6 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 font-bold text-sm flex items-center gap-3 translate-y-[-20px] border border-[var(--border)]">
+        <svg class="w-5 h-5 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+        <span id="toast-msg">কপি করা হয়েছে!</span>
+    </div>
+
+    <script>
+        // --- High Quality SVG Icons ---
+        const ICONS = {
+            CREATOR: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>`, // Code Tag
+            COPY: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>`,
+            SUN: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`,
+            MOON: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`
+        };
+
+        // --- Expanded Data ---
+        const recipes = [
+            {
+                id: 1,
+                title: "তিলের নাড়ু",
+                subtitle: "Sesame Ball",
+                desc: "মুচমুচে এবং সুস্বাদু, শীতের বিকেলের সেরা সঙ্গী।",
+                baseYield: 20,
+                ingredients: [
+                    { name: "সাদা তিল (পরিষ্কার করা)", amount: 250, unit: "গ্রাম" },
+                    { name: "আখের বা খেজুরের গুড়", amount: 200, unit: "গ্রাম" },
+                    { name: "পানি", amount: 0.25, unit: "কাপ" },
+                    { name: "ঘি (হাতে মাখানোর জন্য)", amount: 1, unit: "চা চামচ" }
+                ],
+                tips: [
+                    "তিল ভাজার সময় তাড়াহুড়ো করবেন না। তিল পুড়ে গেলে নাড়ু তেতো লাগবে।",
+                    "নাড়ু বানানোর সময় হাতে খুব গরম লাগলে পাশে এক বাটি ঠান্ডা পানি রাখুন, মাঝে মাঝে হাত ভিজিয়ে নিন।",
+                    "গুড় বেশি জ্বাল দিলে শক্ত হয়ে যাবে, আর কম দিলে নাড়ু ঝুরঝুরে হয়ে ভেঙে যাবে।"
+                ],
+                steps: [
+                    "**ধাপ ১: পারফেক্ট রোস্টিং**<br>প্রথমে একটি মোটা তলার কড়াই চুলায় দিন। চুলার আঁচ একদম 'লো' (Low) রাখুন। তিলগুলো দিয়ে ৫ থেকে ৭ মিনিট সময় নিয়ে ভাজুন। অনবরত নাড়তে থাকবেন। যখন দেখবেন তিলগুলো হালকা ফুলতে শুরু করেছে, সুন্দর একটা ভাজা গন্ধ বের হচ্ছে এবং রঙটা হালকা সোনালী হয়েছে - তখনই নামিয়ে ফেলুন। কড়াইতে রেখে দেবেন না, তাহলে গরমে আরও ভাজা হয়ে পুড়ে যাবে।",
+                    
+                    "**ধাপ ২: গুড়ের সিরা তৈরি**<br>একই কড়াই পরিষ্কার করে তাতে গুড় এবং পানি দিন। চুলার আঁচ মাঝারি রাখুন। আস্তে আস্তে গুড় গলতে শুরু করবে। খুন্তি দিয়ে নাড়তে থাকুন যাতে নিচে লেগে না যায়। গুড় গলে গিয়ে যখন ফেনা উঠতে শুরু করবে, তখন সতর্ক হন।",
+                    
+                    "**ধাপ ৩: পাক পরীক্ষা (সবচেয়ে গুরুত্বপূর্ণ)**<br>পাশে একটি ছোট বাটিতে পরিষ্কার ঠান্ডা পানি রাখুন। গুড়ের সিরা যখন ঘন হয়ে আঠালো হবে, তখন এক ফোঁটা সিরা ওই পানিতে ফেলুন।<br>যদি দেখেন ফোঁটাটি পানিতে গলে যাচ্ছে, তাহলে আরও জ্বাল দিতে হবে।<br>আর যদি দেখেন ফোঁটাটি পানিতে গলে না গিয়ে নিচে জমে আছে এবং আপনি হাত দিয়ে তুলে একটি নরম বল তৈরি করতে পারছেন (Soft Ball Stage), তাহলে বুঝবেন সিরা একদম রেডি।",
+                    
+                    "**ধাপ ৪: দ্রুত মিক্সিং**<br>পাক হওয়ার সাথে সাথেই চুলা বন্ধ করে দিন। এক সেকেন্ডও দেরি করবেন না। ভাজা তিলগুলো গুড়ের মধ্যে ঢেলে দিন। এবার খুব দ্রুত হাতে খুন্তি দিয়ে নাড়তে থাকুন। এমনভাবে মেশাবেন যেন প্রতিটি তিলের দানায় গুড় লেগে যায়।",
+                    
+                    "**ধাপ ৫: গরম গরম নাড়ু তৈরি**<br>মিশ্রণটি গরম থাকতেই নাড়ু বানাতে হবে। ঠান্ডা হলে এটি শক্ত পাথরের মতো হয়ে যাবে। দুই হাতের তালুতে সামান্য পানি বা ঘি লাগিয়ে নিন। কড়াই থেকে চামচ দিয়ে অল্প মিশ্রণ হাতে নিন এবং দুই হাতের তালুর মাঝে রেখে ঘুরিয়ে গোল গোল বল তৈরি করুন। কাজটা দ্রুত করতে হবে, তাই বাড়ির অন্য কাউকে সাহায্য করতে বলুন!"
+                ]
+            },
+            {
+                id: 2,
+                title: "নারকেল নাড়ু",
+                subtitle: "Coconut Jaggery",
+                desc: "রসালো এবং নরম, খাঁটি গুড়ের গন্ধে ভরপুর।",
+                baseYield: 20,
+                ingredients: [
+                    { name: "কোরানো নারকেল", amount: 3, unit: "কাপ" },
+                    { name: "আখের বা খেজুরের গুড়", amount: 200, unit: "গ্রাম" },
+                    { name: "এলাচ গুঁড়ো", amount: 0.5, unit: "চা চামচ" },
+                    { name: "তেজপাতা", amount: 1, unit: "টি" }
+                ],
+                tips: [
+                    "নারকেল কোরা যেন খুব মিহি হয়। বড় টুকরো থাকলে নাড়ু মসৃণ হবে না।",
+                    "নারকেলের কালো অংশ (মালা) যেন না থাকে, শুধু সাদা অংশ ব্যবহার করুন।",
+                    "মিশ্রণটি নামানোর আগে এলাচ গুঁড়ো দিলে ঘ্রাণ অনেকদিন থাকে।"
+                ],
+                steps: [
+                    "**ধাপ ১: হাতে মাখানো (সিক্রেট টেকনিক)**<br>রান্নার আগেই একটি বড় বাটিতে বা যে কড়াইতে রান্না করবেন, সেখানে কোরানো নারকেল এবং গুড় একসাথে নিন। হাত দিয়ে ভালো করে চটকে চটকে মাখুন। এতে নারকেলের ভেতর থেকে দুধ বা পানি বেরিয়ে আসবে এবং গুড়টা গলে মাখা মাখা হবে। এই ধাপটি নাড়ুর স্বাদ দ্বিগুণ বাড়িয়ে দেয়।",
+                    
+                    "**ধাপ ২: ধীর আঁচে রান্না**<br>কড়াইটি চুলায় বসান। সাথে একটি তেজপাতা দিন (তেজপাতার গন্ধে নাড়ু ভালো লাগে)। চুলার আঁচ মাঝারি থেকে কমের দিকে রাখুন। এখন শুধু ধৈর্যের পরীক্ষা। অনবরত নাড়তে থাকুন। নাড়া থামালে নিচে পোড়া লেগে যাবে এবং নাড়ুর স্বাদ নষ্ট হয়ে যাবে।",
+                    
+                    "**ধাপ ৩: রঙ পরিবর্তন**<br>প্রায় ২০-২৫ মিনিট নাড়তে নাড়তে দেখবেন নারকেলের সাদা ভাব চলে গেছে এবং গাঢ় খয়েরি রঙ ধারণ করেছে। মিশ্রণটি শুকিয়ে আসবে।",
+                    
+                    "**ধাপ ৪: আঠালো ভাব (Sticky Test)**<br>কখন নামাবেন? যখন দেখবেন মিশ্রণটি কড়াইয়ের গা ছেড়ে এক জায়গায় দলা পাকিয়ে আসছে এবং খুন্তিতে আঠার মতো লেগে থাকছে। একটু মিশ্রণ খুন্তি থেকে ফেলে দেখুন, যদি সহজে না পড়ে আঠার মতো ঝুলে থাকে, তবে বুঝবেন হয়ে গেছে।",
+                    
+                    "**ধাপ ৫: গোল করা**<br>তেজপাতাটি ফেলে দিন। চুলা থেকে নামিয়ে ২-৩ মিনিট অপেক্ষা করুন যাতে অতিরিক্ত ধোঁয়াটা চলে যায়। কিন্তু একদম ঠান্ডা করবেন না। সহ্য করা যায় এমন গরম অবস্থায় হাতে নিয়ে গোল গোল নাড়ু বানিয়ে ফেলুন। ঠান্ডা হলে এগুলো ঝুরঝুরে হয়ে ভেঙে যাবে।"
+                ]
+            },
+            {
+                id: 3,
+                title: "দুধের নাড়ু",
+                subtitle: "White Coconut Ball",
+                desc: "ধবধবে সাদা, ক্রিমি এবং মুখে দিলেই মিলিয়ে যায়।",
+                baseYield: 20,
+                ingredients: [
+                    { name: "কোরানো নারকেল (সাদা অংশ)", amount: 2, unit: "কাপ" },
+                    { name: "চিনি", amount: 1, unit: "কাপ" },
+                    { name: "ঘন লিকুইড দুধ", amount: 0.5, unit: "কাপ" },
+                    { name: "গুঁড়া দুধ (ভালো মানের)", amount: 0.25, unit: "কাপ" },
+                    { name: "ঘি", amount: 1, unit: "টেবিল চামচ" },
+                    { name: "এলাচ গুঁড়ো", amount: 1, unit: "চিমটি" }
+                ],
+                tips: [
+                    "নারকেল কোরানোর সময় সাবধান থাকবেন যেন বাদামী অংশ একটুও না আসে। নাহলে নাড়ু সাদা হবে না।",
+                    "চিনির বদলে কন্ডেন্সড মিল্ক দিলে স্বাদ আরও ভালো হয়, তখন চিনি কম দিতে হবে।",
+                    "বেশি দিন রাখতে চাইলে অবশ্যই ফ্রিজে রাখবেন, কারণ এতে দুধ আছে।"
+                ],
+                steps: [
+                    "**ধাপ ১: হালকা ভাজা**<br>একটি নন-স্টিক প্যানে ঘি গরম করুন। নারকেল কোরা দিয়ে ২ মিনিট খুব হালকা আঁচে ভাজুন। খেয়াল রাখবেন, নারকেলের রঙ যেন কোনোভাবেই লাল না হয়। শুধু কাঁচা গন্ধটা চলে গেলেই হবে।",
+                    
+                    "**ধাপ ২: দুধ ও চিনির মিশ্রণ**<br>এবার প্যানে লিকুইড দুধ এবং চিনি দিয়ে দিন। চুলার আঁচ কমিয়ে নাড়তে থাকুন। চিনি গলে পানি বের হবে এবং মিশ্রণটি পাতলা হয়ে যাবে। ভয় পাবেন না, এটি জ্বাল দিয়ে শুকাতে হবে।",
+                    
+                    "**ধাপ ৩: ক্রিমি টেক্সচার**<br>পানি যখন শুকিয়ে মাখা মাখা হয়ে আসবে, তখন গুঁড়া দুধ এবং এক চিমটি এলাচ গুঁড়ো দিয়ে দিন। গুঁড়া দুধ দিলে নাড়ুর স্বাদ দোকানের মতো ক্রিমি হয় এবং বাইন্ডিং ভালো হয়।",
+                    
+                    "**ধাপ ৪: ফাইনাল পাক**<br>নাড়তে নাড়তে যখন দেখবেন মিশ্রণটি প্যান থেকে উঠে আসছে, কড়াইতে আর লেগে থাকছে না এবং হাতে নিয়ে গোল করলে তেলতেলে ভাব দেখা যাচ্ছে, তখন নামিয়ে নিন। বেশিক্ষণ রাখলে লাল হয়ে যাবে।",
+                    
+                    "**ধাপ ৫: সাদা বল তৈরি**<br>একটি থালায় ঢেলে একটু ছড়িয়ে দিন। হালকা গরম থাকা অবস্থায় হাতে সামান্য ঘি মেখে মসৃণ সাদা বল তৈরি করুন। চেপে চেপে বানাবেন যাতে ফেটে না যায়।"
+                ]
+            },
+            {
+                id: 4,
+                title: "বাদাম নাড়ু",
+                subtitle: "Peanut Ball",
+                desc: "প্রোটিনে ভরপুর, মচমচে এবং শক্ত।",
+                baseYield: 20,
+                ingredients: [
+                    { name: "চীনা বাদাম (কাঁচা)", amount: 250, unit: "গ্রাম" },
+                    { name: "গুড়", amount: 200, unit: "গ্রাম" },
+                    { name: "পানি", amount: 2, unit: "টেবিল চামচ" }
+                ],
+                tips: [
+                    "বাদাম ভাজার পর খোসা ভালো করে ছাড়িয়ে নেবেন। খোসা থাকলে দেখতে ভালো লাগে না।",
+                    "বাদামগুলো হামানদিস্তায় হালকা ভেঙে নিলে নাড়ু বানাতে সুবিধা হয়।",
+                    "এই নাড়ু অনেক দিন পর্যন্ত ভালো থাকে।"
+                ],
+                steps: [
+                    "**ধাপ ১: বাদাম প্রস্তুত**<br>শুকনো খোলায় বাদামগুলো মচমচে করে ভেজে নিন। ঠান্ডা হলে হাত দিয়ে ঘষে খোসা ছাড়িয়ে ফেলুন। খোসাগুলো ফুঁ দিয়ে ফেলে দিন। এবার বাদামগুলো হালকা একটু ভেঙে নিন (আধ-ভাঙা)। একদম গুঁড়ো করবেন না, মুখে দানা লাগলে ভালো লাগে।",
+                    
+                    "**ধাপ ২: সিরা তৈরি**<br>কড়াইতে গুড় ও সামান্য পানি দিয়ে জ্বাল দিন। গুড় গলে ফেনা হতে শুরু করবে।",
+                    
+                    "**ধাপ ৩: আঠালো পরীক্ষা**<br>তিলের নাড়ুর মতোই এখানেও পানির পরীক্ষা করতে হবে। পানিতে গুড় ফেললে যদি শক্ত বলের মতো হয়, তাহলে বুঝবেন সিরা রেডি। সিরা যদি খুব পাতলা হয়, তবে নাড়ু শক্ত হবে না।",
+                    
+                    "**ধাপ ৪: মেশানো**<br>সিরা ঘন হয়ে এলে চুলা বন্ধ করে দিন। এবার ভাঙা বাদামগুলো দিয়ে দিন। খুব দ্রুত হাতে মেশান। বাদামগুলো গুড়ের সাথে ভালো করে কোট করে নিন।",
+                    
+                    "**ধাপ ৫: শেইপ দেওয়া**<br>হাতে ঘি মেখে গরম গরম অবস্থায় চেপে চেপে নাড়ু তৈরি করুন। এটি খুব দ্রুত শক্ত হয়, তাই দেরি করবেন না। যদি কড়াইতে মিশ্রণ শক্ত হয়ে যায়, তবে ১ মিনিটের জন্য চুলায় আবার একটু গরম করে নিন, নরম হয়ে যাবে।"
+                ]
+            },
+            {
+                id: 5,
+                title: "পিনাট বরফি",
+                subtitle: "Peanut Barfi",
+                desc: "বাজেট কাজু বরফি। খেতে দামী মনে হবে।",
+                baseYield: 20,
+                ingredients: [
+                    { name: "বাদাম (মিহি পাউডার করা)", amount: 2, unit: "কাপ" },
+                    { name: "চিনি", amount: 1, unit: "কাপ" },
+                    { name: "পানি", amount: 0.5, unit: "কাপ" },
+                    { name: "গুঁড়া দুধ", amount: 0.5, unit: "কাপ" },
+                    { name: "ঘি", amount: 2, unit: "টেবিল চামচ" }
+                ],
+                tips: [
+                    "বাদাম পাউডার করার সময় ব্লেন্ডার একটানা চালাবেন না। ২ সেকেন্ড চালান, থামান। নাহলে তেল বেরিয়ে পেস্ট হয়ে যাবে।",
+                    "বরফি কাটার সময় ছুরিটা গরম করে নিলে কাটা খুব মসৃণ হয়।",
+                    "ঠান্ডা হওয়ার পর এটি এয়ার টাইট বক্সে রাখুন।"
+                ],
+                steps: [
+                    "**ধাপ ১: বাদাম পাউডার (সতর্কতা)**<br>ভাজা বাদাম ব্লেন্ডারে দিয়ে গুঁড়ো করুন। খুব সাবধানে করবেন। ব্লেন্ডার বেশিক্ষণ চালালে বাদামের তেল বেরিয়ে মাখনের মতো হয়ে যাবে। আমাদের দরকার ঝরঝরে পাউডার। গুঁড়ো করার পর চালনি দিয়ে চেলে নিন। বড় দানাগুলো ফেলে দিন বা আবার গুঁড়ো করুন।",
+                    
+                    "**ধাপ ২: সিরা**<br>প্যানে চিনি ও পানি দিয়ে জ্বাল দিন। এখানে 'এক তারের সিরা' তৈরি করতে হবে। মানে, দুই আঙুলের মাঝে একটু সিরা নিয়ে টান দিলে যদি একটি সরু সুতোর মতো তার দেখা যায়, তবে বুঝবেন সিরা ঠিক আছে।",
+                    
+                    "**ধাপ ৩: রান্না**<br>সিরার মধ্যে বাদামের গুঁড়ো এবং গুঁড়া দুধ দিয়ে দিন। চুলার আঁচ একদম কমিয়ে দিন (Low Heat)। এবার ঘি দিয়ে অনবরত নাড়তে থাকুন।",
+                    
+                    "**ধাপ ৪: মণ্ড তৈরি**<br>নাড়তে নাড়তে দেখবেন মিশ্রণটি প্যানের গা ছেড়ে উঠে আসছে এবং একটি মণ্ডের মতো হয়ে গেছে। হাতে একটু নিয়ে গোল করলে যদি হাতে না লাগে, তবে নামিয়ে ফেলুন।",
+                    
+                    "**ধাপ ৫: সেটিং**<br>একটি স্টিলের থালায় বা ট্রে-তে ঘি ব্রাশ করে নিন। গরম মিশ্রণটি ঢেলে দিন। উপরে একটি বাটার পেপার দিয়ে রুটি বেলার বেলুন দিয়ে সমান করে বেলে নিন।",
+                    
+                    "**ধাপ ৬: কাটা**<br>পুরো ঠান্ডা হওয়ার আগেই, হালকা গরম অবস্থায় ধারালো ছুরি দিয়ে বরফির আকারে (ডায়মন্ড শেপ) কেটে দাগ দিয়ে রাখুন। পুরো ঠান্ডা হলে পিসগুলো আলাদা করুন।"
+                ]
+            },
+            {
+                id: 6,
+                title: "বাদাম/তিলের বার",
+                subtitle: "Gajok",
+                desc: "দাঁত ভাঙা শক্ত এবং মিষ্টি। দোকানের মতো।",
+                baseYield: 15,
+                ingredients: [
+                    { name: "বাদাম অথবা তিল", amount: 250, unit: "গ্রাম" },
+                    { name: "গুড়", amount: 250, unit: "গ্রাম" },
+                    { name: "ঘি", amount: 1, unit: "চা চামচ" }
+                ],
+                tips: [
+                    "থালায় আগে থেকেই ঘি মেখে রাখতে হবে। নামানোর পর সময় পাবেন না।",
+                    "বেলুনেও ঘি মেখে নেবেন, নাহলে লেগে যাবে।",
+                    "সাবধান: এটি অনেক গরম থাকে, হাতে লাগলে ফোস্কা পড়তে পারে।"
+                ],
+                steps: [
+                    "**ধাপ ১: প্রস্তুতি**<br>রান্না শুরুর আগেই একটি স্টিলের থালার উল্টো পিঠে ভালো করে ঘি মেখে রেডি রাখুন। আপনার বেলুন এবং ছুরিতেও ঘি মেখে নিন।",
+                    
+                    "**ধাপ ২: হার্ড ক্র্যাক সিরা**<br>কড়াইতে গুড় জ্বাল দিতে থাকুন। এটি নাড়ুর চেয়েও বেশি জ্বাল দিতে হবে। একটি বাটিতে পানিতে সিরা ফেলুন।<br>যদি দেখেন সিরাটি পানিতে পড়ার সাথে সাথে কাঁচের মতো শক্ত হয়ে গেছে এবং ভাঙলে 'টাস' বা 'ক্লিক' করে শব্দ হচ্ছে, তবে বুঝবেন এটি পারফেক্ট। যদি চুইংগামের মতো টানলে লম্বা হয়, তবে আরও জ্বাল দিতে হবে।",
+                    
+                    "**ধাপ ৩: মিক্স**<br>সিরা কাঁচের মতো শক্ত হওয়ার সাথে সাথেই চুলা বন্ধ করে বাদাম বা তিল দিয়ে দিন। খুব দ্রুত একবার নেড়ে মিশিয়ে নিন।",
+                    
+                    "**ধাপ ৪: বেলা**<br>ঘি মাখানো থালার ওপর গরম মিশ্রণটি ঢেলে দিন। বেলুন দিয়ে দ্রুত বেলে পাতলা করে নিন। দেরি করলে শক্ত হয়ে যাবে এবং বেলা যাবে না।",
+                    
+                    "**ধাপ ৫: মার্ক করা**<br>গরম থাকতেই ছুরি দিয়ে বরফির মতো বা চারকোনা দাগ কেটে রাখুন। ঠান্ডা হয়ে গেলে আর কাটা যাবে না, তখন শুধু দাগ বরাবর ভাঙা যাবে।"
+                ]
+            },
+            {
+                id: 7,
+                title: "মথুরার পেঁড়া",
+                subtitle: "Milk Sweet",
+                desc: "পোড়া দুধের গন্ধে ভরা ঐতিহ্যবাহী সন্দেশ।",
+                baseYield: 15,
+                ingredients: [
+                    { name: "গুঁড়া দুধ", amount: 2, unit: "কাপ" },
+                    { name: "লিকুইড দুধ বা হেভি ক্রিম", amount: 0.5, unit: "কাপ" },
+                    { name: "চিনি (মিহি গুঁড়ো করা)", amount: 0.75, unit: "কাপ" },
+                    { name: "ঘি", amount: 3, unit: "টেবিল চামচ" },
+                    { name: "এলাচ গুঁড়ো", amount: 0.5, unit: "চা চামচ" }
+                ],
+                tips: [
+                    "চিনি ব্লেন্ডারে গুঁড়ো করে পাউডার বানিয়ে নেবেন।",
+                    "গরম মিশ্রণে চিনি দেবেন না, তাহলে গলে পানি হয়ে যাবে।",
+                    "ধৈর্য ধরে ভাজতে হবে, পোড়া লাগলে স্বাদ তেতো হয়ে যাবে।"
+                ],
+                steps: [
+                    "**ধাপ ১: ইনস্ট্যান্ট মাওয়া**<br>একটি নন-স্টিক প্যানে ঘি, লিকুইড দুধ এবং গুঁড়া দুধ একসাথে মিশিয়ে নিন। এরপর চুলা জ্বালান। অল্প আঁচে নাড়তে থাকুন। দেখবেন কিছুক্ষণের মধ্যেই এটি একটি ডো বা খামির তৈরি হয়েছে। একে বলে মাওয়া।",
+                    
+                    "**ধাপ ২: রোস্টিং (আসল কাজ)**<br>এই খামিরটি খুব অল্প আঁচে সময় নিয়ে ভাজতে হবে। খুন্তি দিয়ে চেপে চেপে ভাজুন। প্রথমে এটি সাদা থাকবে, তারপর হলুদ হবে, এবং শেষে সুন্দর বাদামী রঙ ধারণ করবে। পেঁড়ার আসল স্বাদ এই ভাজার ওপরেই নির্ভর করে। সুন্দর সোঁদা গন্ধ বের হবে।",
+                    
+                    "**ধাপ ৩: চিনি মেশানো**<br>বাদামী রঙ হলে চুলা বন্ধ করে দিন। মিশ্রণটি একটি বাটিতে নামিয়ে ৫-৭ মিনিট ঠান্ডা করুন। একদম গরম অবস্থায় চিনি দেবেন না। কুসুম গরম থাকতে চিনির পাউডার ও এলাচ গুঁড়ো মেশান। হাত দিয়ে ভালো করে মেখে নিন।",
+                    
+                    "**ধাপ ৪: আকার দেওয়া**<br>হাতে সামান্য ঘি মেখে মিশ্রণ থেকে ছোট ছোট লেচি কেটে নিন। হাতের তালুতে গোল করে মাঝখানে বৃদ্ধাঙ্গুলি দিয়ে একটু গর্ত করে দিন (ঐতিহ্যবাহী পেঁড়ার লুক)। অথবা গোল চ্যাপ্টা আকার দিন। ঠান্ডা হলে পরিবেশন করুন।"
+                ]
+            }
+        ];
+
+        let currentRecipe = null;
+        let isListView = true;
+
+        // --- DOM Elements ---
+        const listContainer = document.getElementById('recipe-list');
+        const detailContainer = document.getElementById('recipe-detail');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIconContainer = document.getElementById('theme-icon-container');
+        const quantityInput = document.getElementById('quantity-input');
+        const navBackBtn = document.getElementById('nav-back');
+        const navActionBtn = document.getElementById('nav-action');
+        const actionIconContainer = document.getElementById('action-icon-container');
+        const toast = document.getElementById('toast');
+
+        // --- Initialization ---
+        function init() {
+            renderList();
+            loadTheme();
+            updateBottomNavState();
+        }
+
+        // --- Render Recipe Cards (Grid) ---
+        function renderList() {
+            listContainer.innerHTML = recipes.map((recipe, index) => `
+                <div onclick="openRecipe(${recipe.id})" class="card cursor-pointer p-6 rounded-3xl flex flex-col justify-between hover:border-[var(--accent)] group relative overflow-hidden fade-in" style="animation-delay: ${index * 0.1}s">
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="text-2xl font-bold group-hover:text-[var(--accent)] transition-colors">${recipe.title}</h3>
+                                <span class="text-[10px] font-bold opacity-40 uppercase tracking-widest border border-[var(--border)] px-2 py-1 rounded-md mt-1 inline-block">${recipe.subtitle}</span>
+                            </div>
+                            
+                            <!-- Copy Button (List View) -->
+                            <button onclick="copySingleRecipe(event, ${recipe.id})" class="w-10 h-10 rounded-full bg-[var(--bg-color)] border border-[var(--border)] flex items-center justify-center text-[var(--secondary-text)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all active:scale-90 shadow-sm" aria-label="Copy Recipe">
+                                ${ICONS.COPY}
+                            </button>
+                        </div>
+                        
+                        <p class="text-sm opacity-70 line-clamp-2 leading-relaxed font-medium">${recipe.desc}</p>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-[var(--border)] border-dashed flex items-center justify-between text-xs font-bold opacity-50 uppercase tracking-widest group-hover:opacity-100 transition-opacity">
+                        <span>রেসিপি দেখুন</span>
+                        <span class="transform group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Open Recipe Details ---
+        function openRecipe(id) {
+            currentRecipe = recipes.find(r => r.id === id);
+            isListView = false;
+            
+            // UI Setters
+            document.getElementById('detail-title').innerHTML = `${currentRecipe.title} <span class="block text-sm opacity-40 font-normal uppercase tracking-wide mt-1">${currentRecipe.subtitle}</span>`;
+            document.getElementById('detail-desc').innerText = currentRecipe.desc;
+            quantityInput.value = currentRecipe.baseYield;
+
+            updateIngredients();
+            
+            // Render Tips
+            const tipsHtml = currentRecipe.tips.map(tip => `
+                <li class="flex gap-2 items-start">
+                    <span class="text-[var(--accent)] mt-1">▪</span>
+                    <span>${tip}</span>
+                </li>
+            `).join('');
+            document.getElementById('tips-list').innerHTML = tipsHtml;
+
+            // Render Steps
+            const stepsHtml = currentRecipe.steps.map((step, index) => {
+                const cleanStep = step.replace(/\*\*(.*?)\*\*/g, '<span class="text-[var(--accent)] font-bold text-lg block mb-1">$1</span>');
+                return `
+                <div class="flex gap-4 group">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--card-bg)] border border-[var(--border)] flex items-center justify-center font-bold text-lg text-[var(--accent)] shadow-sm group-hover:border-[var(--accent)] transition-colors">${index + 1}</div>
+                    <div class="p-5 rounded-2xl bg-[var(--card-bg)] border border-[var(--border)] leading-relaxed text-[var(--text-color)] text-opacity-90 flex-grow text-base shadow-sm group-hover:shadow-md transition-shadow">
+                        ${cleanStep}
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('steps-list').innerHTML = stepsHtml;
+
+            // Transition
+            listContainer.classList.add('hidden');
+            detailContainer.classList.remove('hidden');
+            window.scrollTo(0,0);
+            updateBottomNavState();
+        }
+
+        // --- Go Back ---
+        function goBack() {
+            if (isListView) return;
+            isListView = true;
+            detailContainer.classList.add('hidden');
+            listContainer.classList.remove('hidden');
+            currentRecipe = null;
+            updateBottomNavState();
+        }
+
+        // --- Bottom Nav State Manager ---
+        function updateBottomNavState() {
+            if (isListView) {
+                // List View State
+                navBackBtn.disabled = true;
+                actionIconContainer.innerHTML = ICONS.CREATOR; // Show Code/Dev Icon
+                navActionBtn.onclick = () => window.open('https://sahrfa.top', '_blank');
+            } else {
+                // Detail View State
+                navBackBtn.disabled = false;
+                actionIconContainer.innerHTML = ICONS.COPY; // Show Copy Icon
+                navActionBtn.onclick = handleCopyCurrentDetail;
+            }
+        }
+
+        // --- Calculation Logic ---
+        function adjustQuantity(amount) {
+            let currentVal = parseInt(quantityInput.value) || 0;
+            let newVal = currentVal + amount;
+            if (newVal < 1) newVal = 1;
+            quantityInput.value = newVal;
+            updateIngredients();
+        }
+
+        function updateIngredients() {
+            if (!currentRecipe) return;
+
+            const userQty = parseFloat(quantityInput.value) || 0;
+            const ratio = userQty / currentRecipe.baseYield;
+            const ingredientList = document.getElementById('ingredient-list');
+
+            ingredientList.innerHTML = currentRecipe.ingredients.map(ing => {
+                let amount = ing.amount * ratio;
+                amount = Number.isInteger(amount) ? amount : amount.toFixed(2);
+
+                return `
+                    <li class="flex justify-between items-center py-4 text-base group hover:bg-[var(--accent-soft)] transition-colors px-2 rounded-lg -mx-2">
+                        <span class="opacity-80 font-medium group-hover:text-[var(--accent)] transition-colors">${ing.name}</span>
+                        <span class="font-bold font-mono text-[var(--accent)] text-lg">${amount} <span class="text-xs font-sans text-[var(--text-color)] opacity-60">${ing.unit}</span></span>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        // --- Copy Logic ---
+        function copySingleRecipe(event, id) {
+            event.stopPropagation();
+            const recipe = recipes.find(r => r.id === id);
+            if(recipe) generateCopyText(recipe, 1);
+        }
+
+        function handleCopyCurrentDetail() {
+            if(currentRecipe) {
+                const userQty = parseFloat(quantityInput.value) || 0;
+                const ratio = userQty / currentRecipe.baseYield;
+                generateCopyText(currentRecipe, ratio, userQty);
+            }
+        }
+
+        function generateCopyText(recipe, ratio, displayQty = null) {
+            const qty = displayQty || recipe.baseYield;
+            
+            let text = `🍬 ${recipe.title} (${recipe.subtitle})\n`;
+            text += `পরিমাণ: ${qty} পিস\n\n`;
+            
+            text += `🛒 উপকরণ:\n`;
+            recipe.ingredients.forEach(ing => {
+                let amount = ing.amount * ratio;
+                amount = Number.isInteger(amount) ? amount : amount.toFixed(2);
+                text += `• ${ing.name}: ${amount} ${ing.unit}\n`;
+            });
+            
+            text += `\n💡 প্রো টিপস:\n`;
+            if(recipe.tips) {
+                recipe.tips.forEach(tip => text += `• ${tip}\n`);
+            }
+
+            text += `\n🍳 প্রস্তুত প্রণালী:\n`;
+            recipe.steps.forEach(step => {
+                // Remove HTML breaks and bold markers
+                const cleanStep = step.replace(/\*\*(.*?)\*\*/g, '$1: ').replace(/<br>/g, '\n  '); 
+                text += `• ${cleanStep}\n\n`;
+            });
+
+            text += `------------------\n`;
+            text += `সংগ্রহে: sahrfa.top`;
+
+            copyToClipboard(text);
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            showToast();
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.classList.remove('opacity-0', 'translate-y-[-20px]');
+            t.classList.add('translate-y-0');
+            setTimeout(() => {
+                t.classList.add('opacity-0', 'translate-y-[-20px]');
+                t.classList.remove('translate-y-0');
+            }, 2500);
+        }
+
+        // --- Theme Logic ---
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIconContainer.innerHTML = theme === 'light' ? ICONS.MOON : ICONS.SUN;
+            // Moon icon for light mode (to switch to dark), Sun for dark mode
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+</html>

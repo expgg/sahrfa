@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remove default body margin */
+            background-color: #1a1a1a; /* Very dark background */
+            color: #eee; /* Light text color */
+            padding-top: 90px; /* Space for the fixed header to prevent content overlap */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Fixed Tracker Bar at the top */
+        .fixed-tracker-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #282828; /* Slightly lighter dark for the bar */
+            z-index: 1000; /* Ensure it stays on top of other content */
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); /* Darker shadow */
+            display: flex;
+            justify-content: space-around; /* Distribute space between balance and summary */
+            align-items: center;
+            box-sizing: border-box; /* Include padding in width calculation */
+            color: #eee; /* Light text color for the bar */
+        }
+
+        .fixed-tracker-bar .balance-display {
+            font-size: 1.6em; /* Slightly larger for emphasis */
+            font-weight: bold;
+            color: #FFC107; /* A contrasting yellow for the main balance */
+            margin: 0;
+            padding: 0;
+            background-color: transparent; /* No background for this element within the bar */
+            border: none; /* No border for this element */
+            text-align: center;
+            flex-shrink: 0; /* Prevent it from shrinking */
+        }
+
+        .fixed-tracker-bar .summary-section {
+            display: flex;
+            gap: 25px; /* Space between income and expense summary */
+            margin-left: 30px; /* Space from main balance */
+            flex-grow: 1; /* Allow summary to take up available space */
+            justify-content: flex-end; /* Align summary items to the right */
+        }
+
+        .fixed-tracker-bar .summary-item {
+            font-size: 1.1em;
+            padding: 0;
+            border: none;
+            margin: 0;
+            color: #eee; /* Default text color for summary items */
+        }
+
+        .fixed-tracker-bar .summary-item #totalIncome {
+            color: #4CAF50; /* Brighter green for dark theme */
+            font-weight: bold;
+        }
+        .fixed-tracker-bar .summary-item #totalExpense {
+            color: #EF5350; /* Brighter red for dark theme */
+            font-weight: bold;
+        }
+
+        /* Main Transaction Container (scrollable content) */
+        .container {
+            max-width: 600px;
+            margin: 20px auto; /* Centered, with margin from top fixed bar and bottom */
+            background-color: #333; /* Dark background for main content area */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Darker shadow */
+            color: #eee; /* Light text color for main content */
+        }
+
+        h1 {
+            color: #FF4081; /* Vibrant pink/magenta for headings */
+            text-align: center;
+            margin-top: 0; /* Remove default top margin */
+            margin-bottom: 20px;
+        }
+        
+        /* Bulk Actions Buttons */
+        .bulk-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+        .bulk-actions button {
+            background-color: #E91E63; /* Pink color for buttons */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em; /* Slightly smaller text for buttons */
+            transition: background-color 0.2s ease;
+        }
+        .bulk-actions button:hover {
+            background-color: #C2185B; /* Darker pink on hover */
+        }
+
+        .transaction-list {
+            list-style: none;
+            padding: 0;
+        }
+        .transaction-item {
+            display: flex;
+            align-items: flex-start; /* Align items to the top to accommodate notes */
+            padding: 10px 0;
+            border-bottom: 1px solid #444; /* Darker border for dark theme */
+        }
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        .transaction-item input[type="checkbox"] {
+            margin-top: 8px; /* Adjust vertical alignment with text */
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+            filter: invert(0.9); /* Makes checkbox visible on dark background */
+        }
+        .transaction-details {
+            flex-grow: 1;
+            display: flex; /* Use flexbox for spacing elements within details */
+            flex-direction: column;
+            gap: 2px; /* Small gap between description, note, and date */
+        }
+        .transaction-details .desc {
+            font-weight: bold;
+            color: #eee;
+        }
+        .transaction-details .transaction-note {
+            width: 100%; /* Make note fill available width */
+            padding: 4px 6px; /* Reduced padding for more compact look */
+            background-color: #444; /* Darker background for note */
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #eee;
+            font-size: 0.9em;
+            resize: none; /* Disable manual resizing for cleaner auto-resize */
+            box-sizing: border-box; /* Include padding/border in width */
+            overflow: hidden; /* Hide scrollbar for auto-resize */
+            min-height: 25px; /* Minimum height for an empty note */
+            line-height: 1.3; /* Adjust line height for text fitting */
+        }
+        .transaction-details .transaction-note::placeholder {
+            color: #bbb;
+        }
+        .transaction-details .date {
+            font-size: 0.9em;
+            color: #bbb; /* Lighter gray for dates */
+        }
+        .transaction-amount {
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: right;
+            min-width: 100px; /* Ensure consistent alignment */
+        }
+        .income .transaction-amount {
+            color: #4CAF50; /* Green for income (readable on dark) */
+        }
+        .expense .transaction-amount {
+            color: #EF5350; /* Red for expense (readable on dark) */
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed-tracker-bar">
+        <div class="balance-display">
+            Balance: ৳<span id="currentBalance">0.00</span>
+        </div>
+        <div class="summary-section">
+            <div class="summary-item">
+                Income: ৳<span id="totalIncome">0.00</span>
+            </div>
+            <div class="summary-item">
+                Expense: ৳<span id="totalExpense">0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Transaction History</h1>
+        <div class="bulk-actions">
+            <button id="checkAllIncome">Check All Income</button>
+            <button id="checkAllExpense">Check All Expense</button>
+            <button id="uncheckAll">Uncheck All</button>
+        </div>
+        <ul id="transactionList" class="transaction-list">
+            </ul>
+    </div>
+
+    <script>
+        const initialBalance = 0; // Starting balance is ৳0
+        
+        // Default Transaction data with added 'note' property
+        let defaultTransactions = [
+            { id: 1, type: 'income', description: 'Received Money (bks)', amount: 9000, date: 'June 7, 2025 06:31 PM', checked: false, note: 'Gamli taka gamli 5k ami 4k' },
+            { id: 2, type: 'income', description: 'Cash In (01876257155)', amount: 1000, date: 'June 8, 2025 12:04 AM', checked: false, note: 'Mama salami' },
+            { id: 3, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 10, date: 'June 12, 2025 09:06 AM', checked: false, note: '10 taka recharge try' },
+            { id: 4, type: 'income', description: 'Mobile Recharge Reversal (Rifat Bks)', amount: 10, date: 'June 12, 2025 09:06 AM', checked: false, note: '10 taka recharge fail' },
+            { id: 5, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 20, date: 'June 12, 2025 09:07 AM', checked: false, note: '20 taka recharge' },
+            { id: 6, type: 'expense', description: 'Make Payment (Star Tech - Online)', amount: 100, date: 'June 12, 2025 07:39 PM', checked: false, note: 'Keyboard er advance payment' },
+            { id: 7, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'June 14, 2025 07:02 PM', checked: false, note: 'Cash out keyboard er jonno' },
+            { id: 8, type: 'expense', description: 'Mobile Recharge (Ammu)', amount: 250, date: 'June 14, 2025 07:30 PM', checked: false, note: 'Cash out keyboard er jonno' },
+            { id: 9, type: 'expense', description: 'Send Money (Sazzad Vai)', amount: 4000, date: 'June 15, 2025 08:30 PM', checked: false, note: 'Sazzad vai dhar' },
+            { id: 10, type: 'expense', description: 'Cash Out (M/S Nurjahan Traders)', amount: 500, date: 'June 15, 2025 05:41 PM', checked: false, note: 'Cash out keyboard er jonno' },
+            { id: 11, type: 'expense', description: 'Send Money (01878231295)', amount: 233, date: 'June 17, 2025 11:04 AM', checked: false, note: 'Mone nai!!' },
+            { id: 12, type: 'income', description: 'Cash In (01306070770)', amount: 5000, date: 'June 18, 2025 06:17 PM', checked: false, note: 'Gamli taka' },
+            { id: 13, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'June 18, 2025 09:50 PM', checked: false, note: 'Cash out kiser jonno jani' },
+            { id: 14, type: 'expense', description: 'Send Money (01751650670)', amount: 1527.75, date: 'June 19, 2025 04:42 PM', checked: false, note: 'Gamlir basay taka' },
+            { id: 15, type: 'expense', description: 'Mobile Recharge (Toxi Teletalk)', amount: 25, date: 'June 20, 2025 02:04 PM', checked: false, note: 'Recharge korsilam' },
+            { id: 16, type: 'expense', description: 'Make Payment (SSLCOMMERZ)', amount: 300, date: 'June 22, 2025 01:20 PM', checked: false, note: 'Kiser jani payment korsi vule gesi!!' },
+            { id: 17, type: 'income', description: 'Received Money (bks)', amount: 4000, date: 'June 23, 2025 06:30 PM', checked: false, note: 'Gamli taka dise' },
+            { id: 18, type: 'income', description: 'Remittance Received (PBLTTSREM)', amount: 389.50, date: 'June 23, 2025 04:52 PM', checked: false, note: 'Kayum er Netflix er taka' },
+            { id: 19, type: 'expense', description: 'Send Money (0160941412)', amount: 400, date: 'June 23, 2025 07:51 PM', checked: false, note: 'Kayum er Netflix kinsi' },
+            { id: 20, type: 'income', description: 'Remittance Received (PBLTTSREM)', amount: 79.95, date: 'June 23, 2025 07:46 PM', checked: false, note: 'Kayum er Netflix er taka' },
+            { id: 21, type: 'expense', description: 'Send Money (bks)', amount: 500, date: 'June 24, 2025 05:09 PM', checked: false, note: 'Gamlir meds er taka' },
+            { id: 22, type: 'income', description: 'Received Money (bks)', amount: 800, date: 'June 25, 2025 01:43 PM', checked: false, note: 'Tui taka joma rakhsis' },
+            { id: 23, type: 'expense', description: 'Cash Out (HTM Cosmetics)', amount: 100, date: 'June 25, 2025 08:33 PM', checked: false, note: 'Takar dorkar hoislo hut kore ejonno cash out' },
+            { id: 24, type: 'expense', description: 'Mobile Recharge (Abbu)', amount: 260, date: 'June 26, 2025 12:59 PM', checked: false, note: 'Cash out abbur recharge' },
+            { id: 25, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 100, date: 'June 29, 2025 07:18 PM', checked: false, note: 'Cash out amr recharge' },
+            { id: 26, type: 'expense', description: 'Mobile Recharge (Rifat Bks)', amount: 50, date: 'June 29, 2025 07:26 PM', checked: false, note: 'Cash out amr recharge' },
+            { id: 27, type: 'expense', description: 'Send Money (bks)', amount: 400, date: 'June 30, 2025 12:20 PM', checked: false, note: 'Gamlir biskut er taka' },
+            { id: 28, type: 'expense', description: 'Send Money (Abbu)', amount: 1000, date: 'June 30, 2025 02:16 PM', checked: false, note: 'Abbu dhar' },
+            { id: 29, type: 'expense', description: 'Pay Bill (NESCO (Prepaid))', amount: 1000, date: 'July 2, 2025 12:19 PM', checked: false, note: 'Cash out 1000 taka' },
+            { id: 30, type: 'expense', description: 'Make Payment (Osudpotro.com)', amount: 426.50, date: 'July 2, 2025 10:58 PM', checked: false, note: 'Ammur meds er bill pay' }
+        ];
+
+        let transactions = []; // This will hold the actual data, loaded from localStorage or default
+
+        const transactionListElem = document.getElementById('transactionList');
+        const balanceDisplayElem = document.getElementById('currentBalance');
+        const totalIncomeElem = document.getElementById('totalIncome');
+        const totalExpenseElem = document.getElementById('totalExpense');
+        const checkAllIncomeBtn = document.getElementById('checkAllIncome');
+        const checkAllExpenseBtn = document.getElementById('checkAllExpense');
+        const uncheckAllBtn = document.getElementById('uncheckAll'); // New button reference
+
+        // Auto-resize function for the textarea (defined once)
+        function autoResizeNote(element) {
+            element.style.height = 'auto'; // Reset height
+            element.style.height = (element.scrollHeight) + 'px'; // Set to scroll height
+        }
+
+        // Function to load transactions from Local Storage or use defaults
+        function loadTransactionsData() {
+            const storedData = localStorage.getItem('transactionsData');
+            if (storedData) {
+                const loadedTransactions = JSON.parse(storedData);
+                // Merge loaded data with default transactions:
+                // Prioritize loaded data for existing IDs, and add new default transactions
+                const mergedTransactions = defaultTransactions.map(defaultTx => {
+                    const loadedTx = loadedTransactions.find(ltx => ltx.id === defaultTx.id);
+                    // If loadedTx exists, use its checked and note state, otherwise use default's
+                    return loadedTx ? { ...defaultTx, checked: loadedTx.checked, note: loadedTx.note || '' } : defaultTx;
+                });
+
+                // Add any transactions that exist in localStorage but not in defaultTransactions (e.g., if deleted from default list later)
+                loadedTransactions.forEach(loadedTx => {
+                    if (!mergedTransactions.some(mtx => mtx.id === loadedTx.id)) {
+                        mergedTransactions.push(loadedTx);
+                    }
+                });
+                transactions = mergedTransactions;
+            } else {
+                // If no stored data, initialize with the default transactions
+                transactions = defaultTransactions;
+            }
+        }
+
+        // Function to save transactions to Local Storage
+        function saveTransactions() {
+            localStorage.setItem('transactionsData', JSON.stringify(transactions));
+        }
+
+        // Function to update all balances based on checked transactions
+        function updateBalances() {
+            let calculatedNetBalance = initialBalance;
+            let calculatedTotalIncome = 0;
+            let calculatedTotalExpense = 0;
+
+            transactions.forEach(transaction => {
+                if (transaction.checked) {
+                    if (transaction.type === 'income') {
+                        calculatedNetBalance += transaction.amount;
+                        calculatedTotalIncome += transaction.amount;
+                    } else { // type === 'expense'
+                        calculatedNetBalance -= transaction.amount;
+                        calculatedTotalExpense += transaction.amount;
+                    }
+                }
+            });
+
+            balanceDisplayElem.textContent = calculatedNetBalance.toFixed(2); // Main balance
+            totalIncomeElem.textContent = calculatedTotalIncome.toFixed(2); // Summary income
+            totalExpenseElem.textContent = calculatedTotalExpense.toFixed(2); // Summary expense
+        }
+
+        // Function to render transactions into the HTML
+        function renderTransactions() {
+            transactionListElem.innerHTML = ''; // Clear existing list
+            transactions.forEach(transaction => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('transaction-item', transaction.type); // Add income/expense class for styling
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = transaction.checked;
+                checkbox.dataset.id = transaction.id; // Store transaction ID in data attribute
+
+                checkbox.addEventListener('change', (event) => {
+                    const id = parseInt(event.target.dataset.id);
+                    const changedTransaction = transactions.find(t => t.id === id);
+                    if (changedTransaction) {
+                        changedTransaction.checked = event.target.checked;
+                        saveTransactions(); // Save checked state
+                        updateBalances(); // Call the unified update function
+                    }
+                });
+
+                const detailsDiv = document.createElement('div');
+                detailsDiv.classList.add('transaction-details');
+
+                const descDiv = document.createElement('div');
+                descDiv.classList.add('desc');
+                descDiv.textContent = transaction.description;
+
+                const noteTextarea = document.createElement('textarea'); // Textarea for notes
+                noteTextarea.classList.add('transaction-note');
+                noteTextarea.placeholder = 'Add a note...';
+                noteTextarea.value = transaction.note || ''; // Set existing note or empty string
+                noteTextarea.dataset.id = transaction.id; // Link to transaction ID
+
+                noteTextarea.addEventListener('input', (event) => { // Use 'input' for live updates while typing
+                    const id = parseInt(event.target.dataset.id);
+                    const changedTransaction = transactions.find(t => t.id === id);
+                    if (changedTransaction) {
+                        changedTransaction.note = event.target.value;
+                        saveTransactions(); // Save immediately on input
+                    }
+                    autoResizeNote(event.target); // Call auto-resize on input
+                });
+
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('date');
+                dateDiv.textContent = transaction.date;
+
+                detailsDiv.appendChild(descDiv);
+                detailsDiv.appendChild(noteTextarea); // Add note textarea
+                detailsDiv.appendChild(dateDiv);
+
+                const amountSpan = document.createElement('span');
+                amountSpan.classList.add('transaction-amount');
+                amountSpan.textContent = `${transaction.type === 'income' ? '+' : '-'}৳${transaction.amount.toFixed(2)}`;
+
+                listItem.appendChild(checkbox);
+                listItem.appendChild(detailsDiv);
+                listItem.appendChild(amountSpan);
+
+                transactionListElem.appendChild(listItem);
+
+                // Important: Call auto-resize after the textarea is in the DOM
+                autoResizeNote(noteTextarea);
+            });
+        }
+
+        // Event listener for Check All Income button
+        checkAllIncomeBtn.addEventListener('click', () => {
+            transactions.forEach(tx => {
+                if (tx.type === 'income') {
+                    tx.checked = true;
+                }
+            });
+            renderTransactions(); // Re-render to update checkboxes and notes
+            updateBalances(); // Update balance
+            saveTransactions(); // Save state to local storage
+        });
+
+        // Event listener for Check All Expense button
+        checkAllExpenseBtn.addEventListener('click', () => {
+            transactions.forEach(tx => {
+                if (tx.type === 'expense') {
+                    tx.checked = true;
+                }
+            });
+            renderTransactions(); // Re-render to update checkboxes and notes
+            updateBalances(); // Update balance
+            saveTransactions(); // Save state to local storage
+        });
+
+        // Event listener for Uncheck All button
+        uncheckAllBtn.addEventListener('click', () => {
+            transactions.forEach(tx => {
+                tx.checked = false; // Set all to unchecked
+            });
+            renderTransactions(); // Re-render to update checkboxes and notes
+            updateBalances(); // Update balance
+            saveTransactions(); // Save state to local storage
+        });
+
+
+        // Initial loading and rendering when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTransactionsData(); // Load data first
+            renderTransactions(); // Then render based on loaded data
+            updateBalances(); // And finally update balances
+        });
+    </script>
+</body>
+</html>

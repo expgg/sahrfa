@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University of Dhaka ID Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* The Card Container - Visual Preview Only */
+        .id-card {
+            width: 600px;
+            height: 378px;
+            background-color: #f8f8f8;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); 
+        }
+
+        /* Visual overlays for the preview */
+        .grunge-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 50; pointer-events: none; opacity: 0.2;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N8fHxqeHgAAAB/f395eXlbW1tnZ2f///9CQkLt7e0mc3t7e3t3d3dxcXFubm5paWlmZmZkZGRcXFxbW1tXV1dRUVFMTExERERBQUF7e3v/AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmCxQMKiI8Bw8FAAABTklEQVRIx4XW2XKDMAwE0C472BcD2Yz//7cGQoCSZnqZ5kP2WJZAauvvxzE/H8cYQ4z++vO+73rT9q3rUne963rT9q3rUne96/9+16+u+971qetT14f+uT70z/Wp60PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXd/6A5t5M0rT4Z+6AAAAAElFTkSuQmCC');
+        }
+
+        .header-bar {
+            background: linear-gradient(180deg, #4a7abf 0%, #3b66a5 100%);
+            height: 85px; width: 570px; margin: 20px auto 0 auto; border-radius: 4px; position: relative;
+        }
+
+        .uni-logo {
+            position: absolute; top: 12px; left: 15px; height: 60px; width: auto; z-index: 20;
+        }
+
+        .uni-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-45%, -50%);
+            color: #ececec; font-weight: 700; font-size: 38px; letter-spacing: 0.5px;
+            white-space: nowrap; text-shadow: 2px 2px 0px rgba(0,0,0,0.2); z-index: 10;
+        }
+
+        .content {
+            display: flex; padding: 30px 25px 20px 30px; justify-content: space-between; position: relative; z-index: 10;
+        }
+
+        .name { font-size: 28px; font-weight: 500; text-transform: uppercase; color: #222; margin-bottom: 6px; }
+        .labels { font-size: 14px; font-weight: 700; color: #4a5568; }
+        .values { font-size: 15px; font-weight: 500; color: #1a202c; margin-bottom: 8px; }
+        .sub-value { font-size: 15px; font-weight: 700; color: #2d3748; }
+        .program { margin-left: 20px; }
+
+        .photo-container {
+            width: 140px; height: 160px; border: 1px solid #999; background-color: #e2e8f0;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            cursor: pointer; position: relative; margin-top: 10px;
+        }
+
+        #profile-img {
+            width: 100%; height: 100%; object-fit: cover; display: none;
+            filter: contrast(1.2) sepia(0.2) brightness(0.9) grayscale(0.1);
+        }
+
+        .controls { margin-top: 2rem; display: flex; gap: 15px; }
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; background-color: #3b66a5; }
+        .btn-green { background-color: #2f855a; }
+        
+        /* Loading Overlay */
+        #loader { display: none; margin-top: 10px; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="id-card" id="card">
+        <div class="grunge-overlay"></div>
+        <div class="header-bar">
+            <img src="https://i.ibb.co.com/v6Zf3Mg2/Dhaka-University-logo-svg.png" alt="Logo" class="uni-logo" crossorigin="anonymous">
+            <div class="uni-text">University of Dhaka</div>
+        </div>
+        <div class="content">
+            <div class="details">
+                <div class="name" id="in_name" contenteditable="true" spellcheck="false">TAMIM IQRAM</div>
+                <div class="values">
+                    <span class="labels">Student</span><br>
+                    <div class="program sub-value" id="in_program" contenteditable="true">Internship In Accounting (MACC)</div>
+                </div>
+                <div class="values" style="margin-top: 15px;">
+                    <div class="labels">Date of Birth :</div>
+                    <div class="sub-value" style="margin-left: 15px;" id="in_dob" contenteditable="true">July 21 2007</div>
+                </div>
+                <div class="values">
+                    <div class="labels">Student ID#</div>
+                    <div class="sub-value" style="margin-left: 15px;" id="in_id" contenteditable="true">8864764</div>
+                </div>
+                <div class="values" style="margin-top: 5px;">
+                    <span class="labels">Expires: </span>
+                    <span class="sub-value" id="in_exp" contenteditable="true">30-JUN-2027</span>
+                </div>
+            </div>
+            <div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                <div class="photo-container" id="photoArea">
+                    <div id="photoPlaceholder" style="text-align:center; color:#718096; font-size:12px;">
+                        <i class="fas fa-camera fa-2x mb-2"></i><br>Click to Add Photo
+                    </div>
+                    <img id="profile-img" src="" crossorigin="anonymous">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload mr-2"></i> Upload Photo</button>
+        <button class="btn btn-green" onclick="generateCanvas()"><i class="fas fa-download mr-2"></i> Download Card</button>
+    </div>
+    <div id="loader"><i class="fas fa-spinner fa-spin"></i> Generating high-res card...</div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const photoArea = document.getElementById('photoArea');
+        const profileImg = document.getElementById('profile-img');
+        const placeholder = document.getElementById('photoPlaceholder');
+        let uploadedImageSrc = null;
+
+        // Base64 Texture
+        const textureSrc = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N8fHxqeHgAAAB/f395eXlbW1tnZ2f///9CQkLt7e0mc3t7e3t3d3dxcXFubm5paWlmZmZkZGRcXFxbW1tXV1dRUVFMTExERERBQUF7e3v/AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmCxQMKiI8Bw8FAAABTklEQVRIx4XW2XKDMAwE0C472BcD2Yz//7cGQoCSZnqZ5kP2WJZAauvvxzE/H8cYQ4z++vO+73rT9q3rUne963rT9q3rUne96/9+16+u+971qetT14f+uT70z/Wp60PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXR+6PnV96PrU9aHrU9eHrk9dH7o+dX3o+tT1oetT14euT10fuj51fej61PWh61PXh65PXd/6A5t5M0rT4Z+6AAAAAElFTkSuQmCC';
+        const logoSrc = 'https://i.ibb.co.com/v6Zf3Mg2/Dhaka-University-logo-svg.png';
+
+        photoArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageSrc = e.target.result;
+                    profileImg.src = uploadedImageSrc;
+                    profileImg.style.display = 'block';
+                    placeholder.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Helper to load image for Canvas
+        function loadImage(src) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.onload = () => resolve(img);
+                img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+                img.src = src;
+            });
+        }
+
+        // Draw Object-Fit Cover
+        function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
+            if (arguments.length === 2) {
+                x = y = 0;
+                w = ctx.canvas.width;
+                h = ctx.canvas.height;
+            }
+            offsetX = typeof offsetX === "number" ? offsetX : 0.5;
+            offsetY = typeof offsetY === "number" ? offsetY : 0.5;
+            if (offsetX < 0) offsetX = 0;
+            if (offsetY < 0) offsetY = 0;
+            if (offsetX > 1) offsetX = 1;
+            if (offsetY > 1) offsetY = 1;
+
+            var iw = img.width, ih = img.height, r = Math.min(w / iw, h / ih), nw = iw * r, nh = ih * r, cx, cy, cw, ch, ar = 1;
+
+            // decide which gap to fill    
+            if (nw < w) ar = w / nw;                             
+            if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;  // updated
+            nw *= ar;
+            nh *= ar;
+
+            // calc source rectangle
+            cw = iw / (nw / w);
+            ch = ih / (nh / h);
+
+            cx = (iw - cw) * offsetX;
+            cy = (ih - ch) * offsetY;
+
+            ctx.drawImage(img, cx, cy, cw, ch,  x, y, w, h);
+        }
+
+        async function generateCanvas() {
+            document.getElementById('loader').style.display = 'block';
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 600;
+            canvas.height = 378;
+
+            // 1. Background
+            ctx.fillStyle = '#f8f8f8';
+            ctx.fillRect(0, 0, 600, 378);
+
+            // 2. Header Bar
+            const gradient = ctx.createLinearGradient(0, 20, 0, 105);
+            gradient.addColorStop(0, '#4a7abf');
+            gradient.addColorStop(1, '#3b66a5');
+            ctx.fillStyle = gradient;
+            
+            // Rounded rect for header (manual path)
+            const hx=15, hy=20, hw=570, hh=85, hr=4;
+            ctx.beginPath();
+            ctx.moveTo(hx+hr, hy);
+            ctx.lineTo(hx+hw-hr, hy);
+            ctx.quadraticCurveTo(hx+hw, hy, hx+hw, hy+hr);
+            ctx.lineTo(hx+hw, hy+hh-hr);
+            ctx.quadraticCurveTo(hx+hw, hy+hh, hx+hw-hr, hy+hh);
+            ctx.lineTo(hx+hr, hy+hh);
+            ctx.quadraticCurveTo(hx, hy+hh, hx, hy+hh-hr);
+            ctx.lineTo(hx, hy+hr);
+            ctx.quadraticCurveTo(hx, hy, hx+hr, hy);
+            ctx.fill();
+
+            // 3. Logo
+            try {
+                const logo = await loadImage(logoSrc);
+                ctx.drawImage(logo, 30, 32, 50, 60); // Adjust size to match aspect approx
+            } catch (e) { console.warn("Logo failed load", e); }
+
+            // 4. Header Text
+            ctx.fillStyle = '#ececec';
+            ctx.font = '700 38px Roboto, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            ctx.fillText("University of Dhaka", 315, 75); // Centered horizontally
+            
+            // Reset Shadow
+            ctx.shadowColor = 'transparent';
+
+            // 5. Text Data
+            const name = document.getElementById('in_name').innerText;
+            const program = document.getElementById('in_program').innerText;
+            const dob = document.getElementById('in_dob').innerText;
+            const id = document.getElementById('in_id').innerText;
+            const exp = document.getElementById('in_exp').innerText;
+
+            ctx.textAlign = 'left';
+            
+            // Name
+            ctx.fillStyle = '#222';
+            ctx.font = '500 28px Roboto, sans-serif';
+            ctx.fillText(name, 30, 140);
+
+            // Function for label/value pairs
+            function drawLabelVal(label, val, x, y, indent=0) {
+                ctx.fillStyle = '#4a5568';
+                ctx.font = '700 14px Roboto, sans-serif';
+                ctx.fillText(label, x, y);
+
+                ctx.fillStyle = '#2d3748'; // slightly darker for value
+                ctx.font = '700 15px Roboto, sans-serif';
+                ctx.fillText(val, x + indent, y + 20);
+            }
+
+            // Student Label & Program
+            ctx.fillStyle = '#4a5568';
+            ctx.font = '700 14px Roboto, sans-serif';
+            ctx.fillText("Student", 30, 165);
+            
+            ctx.fillStyle = '#2d3748';
+            ctx.font = '700 15px Roboto, sans-serif';
+            ctx.fillText(program, 50, 185); // Indented
+
+            // DOB
+            drawLabelVal("Date of Birth :", dob, 30, 220, 15);
+
+            // ID
+            drawLabelVal("Student ID#", id, 30, 265, 15);
+
+            // Expires
+            ctx.fillStyle = '#4a5568';
+            ctx.font = '700 14px Roboto, sans-serif';
+            ctx.fillText("Expires: ", 30, 315);
+            ctx.fillStyle = '#2d3748';
+            ctx.font = '700 15px Roboto, sans-serif';
+            ctx.fillText(exp, 90, 315);
+
+            // 6. User Photo
+            const px=425, py=135, pw=140, ph=160;
+            
+            // Draw gray box border
+            ctx.strokeStyle = '#999';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(px, py, pw, ph);
+
+            if (uploadedImageSrc) {
+                try {
+                    const usrImg = await loadImage(uploadedImageSrc);
+                    // Apply filters before drawing
+                    ctx.filter = 'contrast(1.2) sepia(0.2) brightness(0.9) grayscale(0.1)';
+                    drawImageProp(ctx, usrImg, px, py, pw, ph);
+                    ctx.filter = 'none'; // Reset
+                } catch (e) { console.error(e); }
+            } else {
+                // Draw placeholder bg if no image
+                ctx.fillStyle = '#e2e8f0';
+                ctx.fillRect(px, py, pw, ph);
+            }
+
+            // 7. Rugged Texture Overlay
+            // We draw the texture image over the whole canvas with low opacity
+            try {
+                const tex = await loadImage(textureSrc);
+                ctx.globalAlpha = 0.15; // Visibility of dirt
+                ctx.drawImage(tex, 0, 0, 600, 378);
+                ctx.globalAlpha = 1.0;
+            } catch (e) {}
+
+            // 8. Download & EXIF
+            const dataURL = canvas.toDataURL("image/jpeg", 0.9);
+            
+            const zeroth = {};
+            zeroth[piexif.ImageIFD.Artist] = "University of Dhaka";
+            zeroth[piexif.ImageIFD.ImageDescription] = "Student ID: " + name;
+            const exifBytes = piexif.dump({"0th": zeroth});
+            const newJpeg = piexif.insert(exifBytes, dataURL);
+
+            const link = document.createElement('a');
+            link.download = `${name.replace(/\s+/g, '_')}_ID_Card.jpg`;
+            link.href = newJpeg;
+            link.click();
+
+            document.getElementById('loader').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blood Protocol App</title>
+    <style>
+        :root {
+            /* Light Mode (Default) */
+            --bg: #ffffff;
+            --text: #000000;
+            --border: #000000;
+            --card-bg: #ffffff;
+            --checked-bg: #f0f0f0;
+            --shadow: #000000;
+            --nav-bg: #ffffff;
+            --nav-active: #000000;
+            --nav-inactive: #999999;
+            --important-bg: #000000;
+            --important-text: #ffffff;
+        }
+
+        /* Pure Dark Mode (AMOLED) */
+        body.dark-mode {
+            --bg: #000000;
+            --text: #ffffff;
+            --border: #ffffff;
+            --card-bg: #000000;
+            --checked-bg: #1a1a1a;
+            --shadow: #333333; /* Subtle shadow for depth */
+            --nav-bg: #000000;
+            --nav-active: #ffffff;
+            --nav-inactive: #666666;
+            --important-bg: #ffffff;
+            --important-text: #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 15px;
+            padding-bottom: 90px; /* Space for bottom bar */
+            max-width: 600px;
+            margin: 0 auto;
+            touch-action: manipulation;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid var(--border);
+            box-shadow: 4px 4px 0px var(--shadow);
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        h1 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .subtitle { font-size: 14px; font-weight: 600; color: var(--text); opacity: 0.7; }
+
+        /* --- VIEWS --- */
+        .view-section { display: none; animation: fadeIn 0.2s ease; }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- SHOPPING LIST STYLES --- */
+        .category-title {
+            font-size: 16px; font-weight: 800; text-transform: uppercase;
+            margin: 25px 0 12px 0; border-bottom: 3px solid var(--border); display: inline-block;
+            padding-bottom: 2px;
+        }
+
+        .item {
+            background: var(--card-bg); padding: 16px; margin-bottom: 12px; border-radius: 8px;
+            display: flex; align-items: center; border: 2px solid var(--border);
+            box-shadow: 3px 3px 0px var(--shadow); transition: all 0.1s;
+            cursor: pointer;
+        }
+        .item:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--shadow); }
+        
+        .checkbox-circle {
+            width: 26px; height: 26px; border: 2px solid var(--border); border-radius: 6px;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            background: var(--card-bg);
+        }
+        
+        .icon-area { font-size: 28px; margin-right: 15px; }
+        .content { flex: 1; }
+        
+        .name { font-weight: 800; font-size: 17px; display: block; color: var(--text); }
+        .details { font-size: 13px; color: var(--text); opacity: 0.8; font-weight: 600; margin-top: 2px; display: block; }
+        
+        .important-tag { 
+            background: var(--important-bg); color: var(--important-text); font-size: 11px; padding: 3px 6px; 
+            border-radius: 4px; display: inline-block; margin-top: 4px; font-weight: 700;
+        }
+
+        /* Checked State */
+        .item.checked { 
+            background: var(--checked-bg); 
+            transform: translate(3px, 3px); 
+            box-shadow: none; 
+            border-color: var(--border); 
+        }
+        .item.checked .checkbox-circle { background: var(--border); border-color: var(--border); }
+        .check-mark { display: none; color: var(--bg); font-size: 16px; font-weight: 900; }
+        .item.checked .check-mark { display: block; }
+        
+        .item.checked .name { text-decoration: none; opacity: 1; }
+        .item.checked .details { opacity: 1; }
+
+        /* --- RECIPE CARDS --- */
+        .recipe-card {
+            border: 2px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 20px;
+            background: var(--card-bg); box-shadow: 4px 4px 0px var(--shadow);
+        }
+        .recipe-header {
+            display: flex; align-items: center; border-bottom: 2px solid var(--border); 
+            padding-bottom: 10px; margin-bottom: 10px;
+        }
+        .recipe-icon { font-size: 30px; margin-right: 10px; }
+        .recipe-title { font-weight: 900; font-size: 18px; }
+        
+        .ingredients-list { 
+            font-size: 13px; color: var(--text); opacity: 0.8; margin-bottom: 10px; font-style: italic; 
+            background: var(--checked-bg); padding: 8px; border-radius: 5px;
+        }
+
+        .recipe-step { 
+            font-size: 15px; margin-bottom: 10px; padding-left: 20px; position: relative; 
+            color: var(--text); line-height: 1.4; font-weight: 500;
+        }
+        .recipe-step::before { 
+            content: "➤"; position: absolute; left: 0; font-weight: bold; font-size: 12px; top: 2px;
+        }
+        .pro-tip { 
+            font-size: 13px; background: var(--important-bg); color: var(--important-text); padding: 10px; 
+            border-radius: 6px; margin-top: 15px; font-weight: 600; 
+        }
+
+        /* --- EATING PLAN --- */
+        .timeline-item {
+            display: flex; gap: 15px; margin-bottom: 25px; 
+            border-left: 4px solid var(--border); padding-left: 20px;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: ""; position: absolute; left: -9px; top: 0; 
+            width: 14px; height: 14px; background: var(--border); border-radius: 50%;
+        }
+
+        .day-badge { 
+            background: var(--border); color: var(--bg); padding: 5px 12px; border-radius: 6px; 
+            font-weight: 800; height: fit-content; font-size: 14px; min-width: 80px; text-align: center;
+        }
+        .day-content h3 { font-size: 18px; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; }
+        .day-content p { font-size: 14px; color: var(--text); line-height: 1.5; font-weight: 500; opacity: 0.9; }
+        .meal-list { margin-top: 8px; font-size: 13px; color: var(--text); opacity: 0.8; }
+        .meal-item { margin-bottom: 4px; display: flex; align-items: center; }
+
+        /* --- BOTTOM BAR --- */
+        .bottom-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
+            background: var(--nav-bg); border-top: 3px solid var(--border);
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn {
+            background: none; border: none; display: flex; flex-direction: column;
+            align-items: center; font-size: 12px; font-weight: 700; color: var(--nav-inactive);
+            cursor: pointer; width: 33%; padding: 10px;
+        }
+
+        .nav-btn span { font-size: 24px; margin-bottom: 5px; filter: grayscale(100%); opacity: 0.5; }
+        
+        .nav-btn.active { color: var(--nav-active); }
+        .nav-btn.active span { filter: none; opacity: 1; transform: scale(1.1); transition: 0.2s; }
+
+        /* --- THIN FOOTER --- */
+        .gamli-footer {
+            text-align: center;
+            font-size: 10px;
+            color: var(--text);
+            opacity: 0.5;
+            padding: 10px 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+        
+        .heart {
+            display: inline-block;
+            animation: bounce 1s infinite;
+            color: #ff4757;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+    </style>
+</head>
+<body id="app-body">
+
+    <!-- Header -->
+    <header onclick="secretReset()">
+        <h1>TARGET: BLOOD & PROTEIN</h1>
+        <div class="subtitle">বাজেট: ~৪২০ টাকা | ইলেকট্রিক পট স্পেশাল</div>
+        <button class="theme-toggle" onclick="toggleTheme(event)">🌗</button>
+    </header>
+
+    <!-- VIEW 1: SHOPPING LIST -->
+    <div id="view-list" class="view-section active">
+        <div id="list-container"></div>
+        <div class="gamli-footer">Made with <span class="heart">❤️</span> for Gamli</div>
+    </div>
+
+    <!-- VIEW 2: RECIPES -->
+    <div id="view-recipes" class="view-section">
+        
+        <!-- LIVER RECIPE -->
+        <div class="recipe-card">
+            <div class="recipe-header">
+                <span class="recipe-icon">🍗</span>
+                <div class="recipe-title">কলিজা ভুনা (Priority)</div>
+            </div>
+            <div class="ingredients-list">উপকরণ: কলিজা, পেঁয়াজ, তেল, মাংসের মসলা, লবণ, লেবু</div>
+            
+            <div class="recipe-step">কলিজা ছোট ছোট টুকরা করে কাটুন (আঙ্গুলের ডগার সমান)। ভালো করে ধুয়ে নিন।</div>
+            <div class="recipe-step">পটে তেল দিন। তেল গরম হলে পেঁয়াজ ও লবণ দিন। পেঁয়াজ একটু নরম হওয়া পর্যন্ত ভাজুন।</div>
+            <div class="recipe-step">এবার কলিজা, মাংসের মসলা আর সামান্য হলুদ দিয়ে নাড়ুন।</div>
+            <div class="recipe-step">অল্প পানি দিন (যাতে পুড়ে না যায়)। ঢাকনা দিয়ে ১০-১৫ মিনিট সেদ্ধ করুন।</div>
+            <div class="recipe-step">পানি শুকিয়ে তেল ভেসে উঠলে নামিয়ে ফেলুন।</div>
+            <div class="pro-tip">⚠️ খাওয়ার সময় অবশ্যই লেবু চিপে খাবেন। লেবু ছাড়া আয়রন কাজ করবে না।</div>
+        </div>
+
+        <!-- SHUTKI RECIPE -->
+        <div class="recipe-card">
+            <div class="recipe-header">
+                <span class="recipe-icon">🐟</span>
+                <div class="recipe-title">শুঁটকি ভর্তা (স্ম্যাশ স্টাইল)</div>
+            </div>
+            <div class="ingredients-list">উপকরণ: শুঁটকি, রসুন, পেঁয়াজ, কাঁচা মরিচ, তেল</div>
+
+            <div class="recipe-step">শুঁটকিগুলো পটে গরম পানি দিয়ে ৫ মিনিট ভিজিয়ে রাখুন। এরপর ভালো করে ধুয়ে বালু পরিষ্কার করুন।</div>
+            <div class="recipe-step">পটে ধোয়া শুঁটকি, রসুন (বেশি করে), পেঁয়াজ কুচি, কাঁচা মরিচ এবং আধা কাপ পানি দিন।</div>
+            <div class="recipe-step">ঢাকনা দিয়ে সেদ্ধ করুন যতক্ষণ না পানি পুরোপুরি শুকিয়ে যায়।</div>
+            <div class="recipe-step">পানি শুকিয়ে গেলে কাঠের চামচ দিয়ে পটের গায়ে চেপে চেপে শুঁটকি ও রসুন ভর্তা করে ফেলুন।</div>
+            <div class="recipe-step">নামানোর আগে একটু কাঁচা সরিষার তেল ছড়িয়ে দিন।</div>
+            <div class="pro-tip">💡 রসুন বেশি দিলে শুঁটকির গন্ধ কমে যায় এবং টেস্ট বাড়ে।</div>
+        </div>
+
+        <!-- SOYA RECIPE -->
+        <div class="recipe-card">
+            <div class="recipe-header">
+                <span class="recipe-icon">🍲</span>
+                <div class="recipe-title">সয়া বড়ি কারি (মাংসের স্বাদ)</div>
+            </div>
+            <div class="ingredients-list">উপকরণ: সয়া চাঙ্কস, মাংসের মসলা, পেঁয়াজ, তেল</div>
+
+            <div class="recipe-step">সয়া বড়িগুলো ১০ মিনিট পানিতে ভিজিয়ে রাখুন। নরম হলে চিপে পানি বের করে ফেলুন।</div>
+            <div class="recipe-step">পটে তেল, পেঁয়াজ ও মসলা দিয়ে একটু কষিয়ে নিন।</div>
+            <div class="recipe-step">চিপে রাখা সয়া বড়িগুলো দিয়ে দিন। পরিমাণমতো পানি ও লবণ দিন।</div>
+            <div class="recipe-step">ঝোল মাখা মাখা হওয়া পর্যন্ত রান্না করুন।</div>
+            <div class="pro-tip">🔥 মাংসের মসলা ব্যবহার করলে এটি খেতে একদম মাংসের মতো লাগে।</div>
+        </div>
+
+        <!-- SHAK & DAL RECIPE -->
+        <div class="recipe-card">
+            <div class="recipe-header">
+                <span class="recipe-icon">🥣</span>
+                <div class="recipe-title">আয়রন সুপ (শাক + ডাল)</div>
+            </div>
+            <div class="ingredients-list">উপকরণ: কচু/লাল শাক, মসুর ডাল, লবণ, পানি</div>
+
+            <div class="recipe-step">শাক কুচি কুচি করে কাটুন।</div>
+            <div class="recipe-step">পটে এক মুঠো মসুর ডাল, শাক, লবণ এবং ২ কাপ পানি দিন।</div>
+            <div class="recipe-step">ডাল গলে যাওয়া পর্যন্ত সেদ্ধ করুন।</div>
+            <div class="recipe-step">নামানোর আগে একটু কাঁচা সরিষার তেল দিন।</div>
+            <div class="pro-tip">🩸 এটি ভাতের সাথে মেখে প্রচুর লেবু দিয়ে খাবেন। রক্ত বাড়াতে এটি সেরা।</div>
+        </div>
+        
+        <div class="gamli-footer">Made with <span class="heart">❤️</span> for Gamli</div>
+
+    </div>
+
+    <!-- VIEW 3: SCHEDULE -->
+    <div id="view-schedule" class="view-section">
+        
+        <div class="timeline-item">
+            <div class="day-badge">দিন ১</div>
+            <div class="day-content">
+                <h3>মিশন: কলিজা ফিনিশ (CRITICAL)</h3>
+                <p>কাঁচা কলিজা ফ্রিজ ছাড়া বেশিক্ষণ ভালো থাকে না। তাই আজকেই সবটুকু (২৫০ গ্রাম) রান্না করে ফেলতে হবে।</p>
+                <div class="meal-list">
+                    <div class="meal-item">🔹 দুপুর: অর্ধেক কলিজা + লেবু + ভাত</div>
+                    <div class="meal-item">🔹 রাত: বাকি অর্ধেক কলিজা + লেবু + ভাত</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="day-badge">দিন ২-৩</div>
+            <div class="day-content">
+                <h3>মিশন: শাকসবজি (High Priority)</h3>
+                <p>শাক বেশিক্ষণ রাখলে পচে যায়। তাই ২য় ও ৩য় দিনে সব শাক খেয়ে শেষ করতে হবে।</p>
+                <div class="meal-list">
+                    <div class="meal-item">🔹 রান্না: শাক + ডাল দিয়ে "আয়রন সুপ" বানাবেন।</div>
+                    <div class="meal-item">🔹 টিপস: প্রতিবার খাওয়ার সময় ১ টুকরো লেবু মাস্ট।</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="day-badge">দিন ৪-৬</div>
+            <div class="day-content">
+                <h3>মিশন: শুঁটকি পাওয়ার</h3>
+                <p>কাঁচা বাজার শেষ। এখন শুঁটকি খাওয়ার সময়। শুঁটকি নষ্ট হয় না, তাই ধীরে ধীরে খাওয়া যায়।</p>
+                <div class="meal-list">
+                    <div class="meal-item">🔹 মেনু: ঝাল শুঁটকি ভর্তা।</div>
+                    <div class="meal-item">🔹 সুবিধা: অল্প ভর্তা দিয়ে অনেক ভাত খাওয়া যায়, তাই খরচ বাঁচে।</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="day-badge">দিন ৭+</div>
+            <div class="day-content">
+                <h3>মিশন: সারভাইভাল মোড</h3>
+                <p>টাকা এবং বাজার শেষের দিকে। এখন সয়া বড়ি এবং ডাল দিয়ে বাকি দিনগুলো পার করতে হবে।</p>
+                <div class="meal-list">
+                    <div class="meal-item">🔹 মেনু: সয়া বড়ি কারি (মাংসের স্বাদে)।</div>
+                    <div class="meal-item">🔹 ব্যাকআপ: শুধু পাতলা ডাল।</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gamli-footer">Made with <span class="heart">❤️</span> for Gamli</div>
+
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <nav class="bottom-bar">
+        <button class="nav-btn active" onclick="switchView('view-list', this)">
+            <span>🛒</span>
+            বাজারের লিস্টি
+        </button>
+        <button class="nav-btn" onclick="switchView('view-recipes', this)">
+            <span>🍳</span>
+            কিভাবে রাঁধবো
+        </button>
+        <button class="nav-btn" onclick="switchView('view-schedule', this)">
+            <span>📅</span>
+            খাওয়ার রুটিন
+        </button>
+    </nav>
+
+    <script>
+        /* --- LIST DATA (BENGALI) --- */
+        const data = [
+            {
+                category: "মেইন খাবার (আয়রন ও প্রোটিন)",
+                items: [
+                    { icon: "🍗", name: "মুরগির কলিজা", detail: "২৫০ গ্রাম - (আজকেই কিনবেন)", important: true },
+                    { icon: "🐟", name: "কাঁচকি শুঁটকি", detail: "৫০ টাকার - (বালু ছাড়া)" },
+                    { icon: "🥬", name: "কচু শাক / লাল শাক", detail: "২-৩ আটি - (টাটকা নিবেন)" },
+                    { icon: "🍲", name: "সয়া বড়ি (Soya Chunks)", detail: "১টি মিনি প্যাকেট" },
+                    { icon: "🥣", name: "মসুর ডাল", detail: "২৫০ গ্রাম (লাল ডাল)" }
+                ]
+            },
+            {
+                category: "রান্নার জন্য (তেল ও মসলা)",
+                items: [
+                    { icon: "🛢️", name: "সরিষার তেল", detail: "১০০ মি.লি. ছোট বোতল" },
+                    { icon: "🧅", name: "পেঁয়াজ", detail: "২৫০ গ্রাম (বুঝে খরচ করবেন)" },
+                    { icon: "🧄", name: "রসুন", detail: "১-২ টা (শুঁটকির গন্ধ মারতে লাগবে)" },
+                    { icon: "🍋", name: "লেবু (কাগজী)", detail: "৪ পিস - মাস্ট লাগবে (আয়রন শোষণের জন্য)", important: true },
+                    { icon: "🌶️", name: "কাঁচা মরিচ", detail: "১০ টাকার" },
+                    { icon: "🧂", name: "লবণ", detail: "ছোট প্যাকেট" },
+                    { icon: "🍛", name: "মাংসের মসলা", detail: "১টি মিনি প্যাকেট (রাধুনী/প্রাণ)" },
+                    { icon: "🔸", name: "হলুদের গুঁড়া", detail: "১টি মিনি প্যাকেট" }
+                ]
+            },
+            {
+                category: "কিচেন টুলস (সরঞ্জাম)",
+                items: [
+                    { icon: "🔪", name: "ছোট চাকু", detail: "কমলা হ্যান্ডেল (~৩০ টাকা)" },
+                    { icon: "🪵", name: "কাটিং বোর্ড", detail: "প্লাস্টিক (~৮০ টাকা)" },
+                    { icon: "🥄", name: "কাঠের চামচ", detail: "পটের জন্য" }
+                ]
+            }
+        ];
+
+        /* --- APP LOGIC --- */
+        const container = document.getElementById('list-container');
+        const STORAGE_KEY = 'blood_protocol_bengali_final';
+        const THEME_KEY = 'blood_protocol_theme';
+        let checkedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+        // Render List
+        function renderList() {
+            container.innerHTML = '';
+            data.forEach(section => {
+                const title = document.createElement('div');
+                title.className = 'category-title';
+                title.innerText = section.category;
+                container.appendChild(title);
+                
+                section.items.forEach(item => {
+                    const isChecked = checkedState[item.name];
+                    const el = document.createElement('div');
+                    el.className = `item ${isChecked ? 'checked' : ''}`;
+                    el.onclick = () => toggleItem(item.name);
+                    el.innerHTML = `
+                        <div class="checkbox-circle"><span class="check-mark">✓</span></div>
+                        <div class="icon-area">${item.icon}</div>
+                        <div class="content">
+                            <span class="name">${item.name}</span>
+                            ${item.important ? `<span class="important-tag">⚠️ ${item.detail}</span>` : `<span class="details">${item.detail}</span>`}
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+            });
+        }
+
+        function toggleItem(name) {
+            checkedState[name] = !checkedState[name];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedState));
+            renderList();
+        }
+
+        // Hidden Reset Feature (Triple tap header)
+        let tapCount = 0;
+        function secretReset() {
+            tapCount++;
+            if(tapCount === 3) {
+                if(confirm("লিস্ট কি নতুন করে শুরু করতে চান?")) {
+                    checkedState = {};
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedState));
+                    renderList();
+                }
+                tapCount = 0;
+            }
+        }
+
+        // View Switcher
+        function switchView(viewId, btnElement) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // --- DARK MODE LOGIC ---
+        function toggleTheme(e) {
+            if(e) e.stopPropagation(); // Prevent header click reset
+            const body = document.getElementById('app-body');
+            body.classList.toggle('dark-mode');
+            
+            // Save preference
+            const isDark = body.classList.contains('dark-mode');
+            localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+        }
+
+        // Initialize Theme on Load
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        if (savedTheme === 'dark') {
+            document.getElementById('app-body').classList.add('dark-mode');
+        }
+
+        // Init
+        renderList();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RF</title>
+    <!-- Link the CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Link the Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;A700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>বিয়ের ভিডিও</h1>
+        
+        <div class="unc-grid">
+            
+            <!-- Unc 1 Card - Link is now protected -->
+            <div class="unc-card">
+                <!-- HREF removed, JS will handle this link -->
+                <a href="#" class="card-thumbnail-link" data-unc="em">
+                    <div class="card-thumbnail">
+                        <img src="https://i.ibb.co/Ndn2dJKQ/em.webp" alt="Unc 1 Thumbnail">
+                    </div>
+                </a>
+                <div class="card-footer">
+                    <div class="card-title">এনামুল মামা</div>
+                    <button class="download-btn" data-unc="em" data-title="এনামুল মামা">Download</button>
+                </div>
+            </div>
+            
+            <!-- Unc 2 Card - Link is now protected -->
+            <div class="unc-card">
+                <a href="#" class="card-thumbnail-link" data-unc="mm">
+                    <div class="card-thumbnail">
+                        <img src="https://i.ibb.co/hx3LVSsS/mm.webp" alt="Unc 2 Thumbnail">
+                    </div>
+                </a>
+                <div class="card-footer">
+                    <div class="card-title">মনির মামা</div>
+                    <button class="download-btn" data-unc="mm" data-title="মনির মামা">Download</button>
+                </div>
+            </div>
+            
+            <!-- Unc 3 Card - Link is now protected -->
+            <div class="unc-card">
+                <a href="#" class="card-thumbnail-link" data-unc="sm">
+                    <div class="card-thumbnail">
+                        <img src="https://i.ibb.co/s9dFGnZC/sm.webp" alt="Unc 3 Thumbnail">
+                    </div>
+                </a>
+                <div class="card-footer">
+                    <div class="card-title">সাবিরিন মামা</div>
+                    <button class="download-btn" data-unc="sm" data-title="সাবিরিন মামা">Download</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Download Modal Structure (Unchanged) -->
+    <div class="download-modal-backdrop" id="modalBackdrop"></div>
+    <div class="download-modal-content" id="downloadModal">
+        <div class="modal-header">
+            <h3 id="modalTitle">Download Videos</h3>
+            <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+        </div>
+        <div class="modal-list" id="modalList">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- NEW: Password Modal Structure -->
+    <div class="password-modal-backdrop" id="passModalBackdrop"></div>
+    <div class="password-modal-content" id="passModal">
+        <div class="modal-header">
+            <h3 id="passModalTitle">Password Required</h3>
+            <button class="modal-close-btn" id="passModalCloseBtn">&times;</button>
+        </div>
+        <form class="modal-form" id="passForm">
+            <p>Enter the password to continue:</p>
+            <input type="password" id="passInput" class="pass-input" placeholder="Password...">
+            <p class="pass-error" id="passError"></p>
+            <button type="submit" class="pass-submit-btn">Unlock</button>
+        </form>
+    </div>
+
+    <!--
+      NEW SCRIPT LOADING ORDER:
+      1. auth.js (core password logic)
+      2. download-modal.js (exports its function)
+      3. main.js (handles all clicks on this page)
+    -->
+    <script src="auth.js" type="module"></script>
+    <script src="download-modal.js" type="module"></script>
+    <script src="main.js" type="module"></script>
+
+</body>
+</html>

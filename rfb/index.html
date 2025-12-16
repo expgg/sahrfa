@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Love Timeline</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Hind Siliguri', 'sans-serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                    },
+                    colors: {
+                        dark: '#2c0b0e', // Deep wine red dark mode
+                        cardDark: '#451a1e',
+                        light: '#fff1f2', // Rose-50
+                        cardLight: 'rgba(255, 255, 255, 0.90)',
+                        rose: {
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 1.5s infinite linear',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth transitions */
+        body, .card, .toggle-btn, h1, p, span, div, button {
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+        }
+
+        /* Generic Font Class for Numbers */
+        .num-font {
+            font-family: sans-serif !important;
+        }
+
+        /* Particle Canvas (Dark Mode) */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.dark #particle-canvas {
+            opacity: 1;
+        }
+
+        /* Animated Background for Light Mode */
+        body.light {
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffd1ff);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+        }
+
+        /* Dark Mode Background */
+        body.dark {
+            background-color: #2c0b0e;
+            background-image: radial-gradient(circle at 50% 0%, #4a0404 0%, #1a0505 85%);
+        }
+        
+        /* Glassmorphism for Cards */
+        .glass-panel {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #f43f5e, #e11d48);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Heart Beat Animation for Center Icon */
+        .heart-beat {
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, #fecdd3 4%, #ffe4e6 25%, #fecdd3 36%);
+            background-size: 1000px 100%;
+            color: transparent !important;
+            border-radius: 4px;
+        }
+        .dark .skeleton {
+            background: linear-gradient(to right, #881337 4%, #9f1239 25%, #881337 36%);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e11d48; border-radius: 10px; }
+    </style>
+</head>
+<body class="dark text-gray-800 dark:text-gray-100 min-h-screen flex flex-col items-center py-6 px-4 selection:bg-rose-500 selection:text-white overflow-x-hidden">
+
+    <!-- Background Canvas for Particles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header & Controls -->
+    <header class="w-full max-w-md flex justify-between items-center mb-6 glass-panel bg-white/80 dark:bg-cardDark/80 p-4 rounded-full shadow-lg sticky top-2 z-50 ring-1 ring-rose-200 dark:ring-rose-900/50">
+        <div class="text-xl font-bold gradient-text truncate pr-2 flex items-center pl-2">
+            <i class="fa-solid fa-heart mr-2 text-rose-500 heart-beat"></i> <span id="site-title" class="font-cursive text-2xl">Love Timeline</span>
+        </div>
+        
+        <div class="flex gap-2 flex-shrink-0">
+            <!-- Language Toggle -->
+            <button onclick="toggleLang()" class="toggle-btn w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-sm hover:shadow-md text-sm font-bold border border-rose-100 dark:border-rose-900 active:scale-95 transition-transform text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                <i class="fa-solid fa-globe"></i>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" class="toggle-btn w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-sm hover:shadow-md flex items-center justify-center border border-rose-100 dark:border-rose-900 active:scale-95 transition-transform text-rose-500">
+                <i id="theme-icon" class="fa-solid fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Couple Container -->
+    <div id="cards-container" class="w-full max-w-md flex flex-col gap-8 pb-20 mt-4">
+        <!-- Cards injected via JS -->
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-rose-900 text-white px-6 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex items-center gap-2 border border-rose-700">
+        <i class="fa-solid fa-heart text-rose-400"></i>
+        <span id="toast-msg">Copied!</span>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURATION ---
+        
+        // State
+        let currentLang = 'bn'; 
+        let currentTheme = 'dark'; 
+        let isLoading = true; 
+
+        // Dictionary
+        const dict = {
+            en: {
+                title: "Love Timeline",
+                years: "Years",
+                months: "Months",
+                days: "Days",
+                hours: "Hours",
+                minutes: "Mins",
+                seconds: "Secs",
+                nextBdayPrefix: "B-Day In:",
+                daysLeft: "days",
+                todayBday: "Happy Birthday! 🎈",
+                copySuccess: "Details Copied! ❤️",
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                am: "AM",
+                pm: "PM"
+            },
+            bn: {
+                title: "আমাদের টাইমলাইন",
+                years: "বছর",
+                months: "মাস",
+                days: "দিন",
+                hours: "ঘণ্টা",
+                minutes: "মিনিট",
+                seconds: "সেকেন্ড",
+                nextBdayPrefix: "জন্মদিন বাকি:",
+                daysLeft: "দিন",
+                todayBday: "শুভ জন্মদিন! 🎈",
+                copySuccess: "কপি করা হয়েছে! ❤️",
+                monthNames: ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"],
+                daysOfWeek: ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"],
+                am: "এএম",
+                pm: "পিএম"
+            }
+        };
+
+        // Couple Data
+        const couple = [
+            {
+                id: 'rifat',
+                role: 'boy',
+                name: { en: "Al Hossain Rifat", bn: "আল হোসাইন রিফাত" },
+                // 07 April 2005 
+                dob: new Date(2005, 3, 7, 12, 0, 0),
+                color: "border-blue-500", // Subtle differentiation
+                accent: "text-blue-400",
+                shadow: "shadow-blue-500/20",
+                icon: "fa-mars"
+            },
+            {
+                id: 'farzana',
+                role: 'girl',
+                name: { en: "Farzana Afroz", bn: "ফারজানা আফরোজ" },
+                // 03 May 2005
+                dob: new Date(2005, 4, 3, 12, 0, 0),
+                color: "border-rose-500",
+                accent: "text-rose-400",
+                shadow: "shadow-rose-500/20",
+                icon: "fa-venus"
+            }
+        ];
+
+        // --- 2. PARTICLE SYSTEM (HEARTS) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let animationId;
+        let lastWidth = window.innerWidth;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 20 + 10; // Size of emoji
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                
+                const buffer = 50;
+                if (this.x > canvas.width + buffer) this.x = -buffer;
+                else if (this.x < -buffer) this.x = canvas.width + buffer;
+                if (this.y > canvas.height + buffer) this.y = -buffer;
+                else if (this.y < -buffer) this.y = canvas.height + buffer;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.font = `${this.size}px serif`;
+                ctx.fillStyle = currentTheme === 'dark' ? '#fb7185' : '#e11d48'; // Pink/Red hearts
+                ctx.fillText('❤️', 0, 0);
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            resizeCanvas();
+            particlesArray = [];
+            const numberOfParticles = Math.min(15, (canvas.width * canvas.height) / 40000);
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth && currentTheme === 'dark') {
+                lastWidth = window.innerWidth;
+                resizeCanvas();
+                initParticles(); 
+            }
+        });
+
+        // --- 3. UTILITY FUNCTIONS ---
+
+        function toBengaliNumber(num) {
+            const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return num.toString().split('').map(char => 
+                !isNaN(char) ? bnNums[parseInt(char)] : char
+            ).join('');
+        }
+
+        // Logic to get accurate day and full date
+        function getFormattedBirthDate(date, lang) {
+            const d = date.getDate();
+            const m = dict[lang].monthNames[date.getMonth()];
+            const y = date.getFullYear();
+            const dayName = dict[lang].daysOfWeek[date.getDay()]; // 0-6 index
+            
+            let dayStr = lang === 'bn' ? toBengaliNumber(d) : d;
+            let yearStr = lang === 'bn' ? toBengaliNumber(y) : y;
+
+            // Format: "7 April 2005, Thursday" or "৭ এপ্রিল ২০০৫, বৃহস্পতিবার"
+            return `${dayStr} ${m} ${yearStr}, ${dayName}`;
+        }
+
+        function getDaysUntilBirthday(dob) {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let nextBirthday = new Date(currentYear, dob.getMonth(), dob.getDate());
+            
+            if (now > nextBirthday) {
+                nextBirthday.setFullYear(currentYear + 1);
+            }
+            
+            // Check if today
+            if (now.getDate() === dob.getDate() && now.getMonth() === dob.getMonth()) {
+                return 0;
+            }
+
+            const diffTime = Math.abs(nextBirthday - now);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            return diffDays;
+        }
+
+        function getPreciseAge(birthDate) {
+            const now = new Date();
+            let years = now.getFullYear() - birthDate.getFullYear();
+            let months = now.getMonth() - birthDate.getMonth();
+            let days = now.getDate() - birthDate.getDate();
+            
+            if (now.getMonth() < birthDate.getMonth() || (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())) {
+                years--;
+                months += 12;
+            }
+            
+            let mDiff = now.getMonth() - birthDate.getMonth();
+            if (mDiff < 0) mDiff += 12;
+            months = mDiff;
+
+            let dDiff = now.getDate() - birthDate.getDate();
+            if (dDiff < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                dDiff += prevMonth.getDate();
+            }
+            days = dDiff;
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+
+            return { years, months, days, hours, minutes, seconds };
+        }
+
+        // --- 4. RENDER LOGIC ---
+
+        function init() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+
+            couple.forEach((person, index) => {
+                const card = document.createElement('div');
+                const animationDelay = index * 0.2;
+                card.style.animationDelay = `${animationDelay}s`;
+                
+                const cardClasses = `card glass-panel bg-cardLight dark:bg-cardDark p-6 rounded-3xl shadow-xl ${person.shadow} border-t-4 ${person.color} flex flex-col items-center relative overflow-hidden group w-full transform transition-all hover:scale-[1.02]`;
+                
+                card.className = cardClasses;
+                card.id = `card-${person.id}`;
+                
+                const nameFontClass = currentLang === 'en' ? 'font-cursive text-4xl' : 'font-sans text-2xl';
+
+                card.innerHTML = `
+                    <!-- Heart Decoration -->
+                    <div class="absolute -top-4 -right-4 p-4 opacity-10 dark:opacity-20 transform rotate-12 transition-transform group-hover:scale-110 duration-700">
+                        <i class="fa-solid fa-heart text-8xl text-rose-500"></i>
+                    </div>
+
+                    <!-- Header Section -->
+                    <div class="w-full flex justify-between items-center mb-4 z-10 relative px-2">
+                        <div class="flex items-center gap-3">
+                             <div class="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center border border-rose-200 dark:border-rose-800">
+                                <i class="fa-solid ${person.icon} ${person.accent} text-lg"></i>
+                             </div>
+                             <div class="flex flex-col">
+                                 <h2 class="${nameFontClass} font-bold text-gray-800 dark:text-white leading-tight transition-all duration-300" id="name-${person.id}">
+                                    ${person.name[currentLang]}
+                                </h2>
+                             </div>
+                        </div>
+                        <button onclick="copyInfo('${person.id}')" class="w-9 h-9 rounded-full bg-rose-50 dark:bg-gray-700 hover:bg-rose-100 dark:hover:bg-rose-900 text-rose-400 hover:text-rose-600 transition-colors flex items-center justify-center shadow-sm">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                    </div>
+
+                    <!-- Details Section -->
+                    <div class="w-full grid grid-cols-2 gap-3 mb-6 z-10 animate-fade-in-up" style="animation-delay: ${animationDelay + 0.3}s">
+                         <!-- Born Info -->
+                         <div class="bg-white/60 dark:bg-black/20 px-3 py-2 rounded-xl backdrop-blur-sm border border-rose-100 dark:border-rose-900/30 flex flex-col items-center justify-center text-center">
+                            <span id="dob-${person.id}" class="text-rose-600 dark:text-rose-300 font-bold num-font text-xs md:text-sm">
+                                ${getFormattedBirthDate(person.dob, currentLang)}
+                            </span>
+                        </div>
+                        
+                        <!-- Next Birthday -->
+                        <div class="bg-rose-50 dark:bg-rose-900/20 px-3 py-2 rounded-xl border border-rose-100 dark:border-rose-900/30 flex flex-col items-center justify-center text-center">
+                             <span id="label-next-${person.id}" class="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">${dict[currentLang].nextBdayPrefix}</span>
+                             <span id="next-bday-${person.id}" class="text-sm font-bold text-rose-600 dark:text-rose-300 num-font">
+                                <!-- JS -->
+                             </span>
+                        </div>
+                    </div>
+
+                    <!-- Timer Grid -->
+                    <div class="grid grid-cols-3 gap-2 w-full text-center z-10">
+                        ${generateTimeBox(person.id, 'years')}
+                        ${generateTimeBox(person.id, 'months')}
+                        ${generateTimeBox(person.id, 'days')}
+                        ${generateTimeBox(person.id, 'hours')}
+                        ${generateTimeBox(person.id, 'minutes')}
+                        ${generateTimeBox(person.id, 'seconds')}
+                    </div>
+                `;
+                container.appendChild(card);
+                
+                if (index === 0) {
+                     const connector = document.createElement('div');
+                     connector.className = "flex justify-center -my-3 z-20 relative";
+                     connector.innerHTML = `
+                        <div class="w-10 h-10 rounded-full bg-rose-500 border-4 border-rose-100 dark:border-gray-800 flex items-center justify-center shadow-lg heart-beat">
+                            <i class="fa-solid fa-link text-white text-sm"></i>
+                        </div>
+                     `;
+                     container.appendChild(connector);
+                }
+            });
+
+            simulateLoading();
+            
+            if (currentTheme === 'dark') {
+                initParticles();
+                animateParticles();
+            }
+        }
+
+        function generateTimeBox(id, type) {
+            return `
+                <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-md p-2 rounded-xl flex flex-col justify-center items-center shadow-sm border border-rose-100 dark:border-rose-900/30">
+                    <span class="skeleton text-lg md:text-xl font-bold text-gray-800 dark:text-gray-100 leading-none mb-1 w-full h-6 block rounded num-font" id="${id}-${type}"></span>
+                    <span class="text-[9px] uppercase font-bold tracking-wider text-rose-400 dark:text-rose-400" id="label-${type}-${id}"></span>
+                </div>
+            `;
+        }
+
+        function simulateLoading() {
+            isLoading = true;
+            setTimeout(() => {
+                isLoading = false;
+                document.querySelectorAll('.skeleton').forEach(el => {
+                    el.classList.remove('skeleton', 'w-full', 'h-6', 'block', 'rounded');
+                    el.innerText = '0'; 
+                });
+                updateUI(); 
+                setInterval(updateTimer, 1000); 
+            }, 1000);
+        }
+
+        function updateTimer() {
+            if (isLoading) return; 
+
+            couple.forEach(person => {
+                const age = getPreciseAge(person.dob);
+                
+                updateValue(person.id, 'years', age.years);
+                updateValue(person.id, 'months', age.months);
+                updateValue(person.id, 'days', age.days);
+                updateValue(person.id, 'hours', age.hours);
+                updateValue(person.id, 'minutes', age.minutes);
+                updateValue(person.id, 'seconds', age.seconds);
+            });
+        }
+
+        function updateValue(id, type, val) {
+            const el = document.getElementById(`${id}-${type}`);
+            if (val < 0) val = 0; 
+            
+            if (currentLang === 'bn') {
+                el.innerText = toBengaliNumber(val);
+            } else {
+                el.innerText = val;
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('site-title').innerText = dict[currentLang].title;
+            document.getElementById('toast-msg').innerText = dict[currentLang].copySuccess;
+            
+            couple.forEach(person => {
+                const nameEl = document.getElementById(`name-${person.id}`);
+                nameEl.innerText = person.name[currentLang];
+                
+                if (currentLang === 'en') {
+                    nameEl.className = `font-cursive text-4xl font-bold text-gray-800 dark:text-white leading-tight transition-all duration-300`;
+                } else {
+                    nameEl.className = `font-sans text-2xl font-bold text-gray-800 dark:text-white leading-tight transition-all duration-300`;
+                }
+
+                // Removed label-born update
+                document.getElementById(`dob-${person.id}`).innerText = getFormattedBirthDate(person.dob, currentLang);
+                
+                document.getElementById(`label-next-${person.id}`).innerText = dict[currentLang].nextBdayPrefix;
+                const daysLeft = getDaysUntilBirthday(person.dob);
+                const nextBdayEl = document.getElementById(`next-bday-${person.id}`);
+                
+                if (daysLeft === 0) {
+                    nextBdayEl.innerText = dict[currentLang].todayBday;
+                } else {
+                    if (currentLang === 'bn') {
+                        nextBdayEl.innerText = `${toBengaliNumber(daysLeft)} ${dict[currentLang].daysLeft}`;
+                    } else {
+                        nextBdayEl.innerText = `${daysLeft} ${dict[currentLang].daysLeft}`;
+                    }
+                }
+                
+                ['years', 'months', 'days', 'hours', 'minutes', 'seconds'].forEach(key => {
+                    document.getElementById(`label-${key}-${person.id}`).innerText = dict[currentLang][key];
+                });
+            });
+
+            if (!isLoading) updateTimer();
+        }
+
+        function copyInfo(id) {
+            const person = couple.find(s => s.id === id);
+            if (!person) return;
+
+            const age = getPreciseAge(person.dob);
+            
+            // Fixed copy date logic to also use day
+            const getEnDate = (date) => {
+                const d = date.getDate();
+                const m = dict['en'].monthNames[date.getMonth()];
+                const y = date.getFullYear();
+                const day = dict['en'].daysOfWeek[date.getDay()];
+                return `${d} ${m} ${y}, ${day}`;
+            };
+
+            let text = "";
+            text += `❤️ ${person.name['en']} ❤️\n`; 
+            text += `Born: ${getEnDate(person.dob)}\n`; 
+            text += `Age: ${age.years} Years ${age.months} Months ${age.days} Days`; 
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+            }).catch(err => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 2000);
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            updateUI();
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            if (currentTheme === 'light') {
+                currentTheme = 'dark';
+                html.classList.add('dark');
+                html.classList.remove('light');
+                body.classList.add('dark');
+                body.classList.remove('light');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                initParticles();
+                animateParticles();
+            } else {
+                currentTheme = 'light';
+                html.classList.remove('dark');
+                html.classList.add('light');
+                body.classList.remove('dark');
+                body.classList.add('light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                cancelAnimationFrame(animationId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

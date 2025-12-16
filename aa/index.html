@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Age Calculator</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Hind Siliguri', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0f172a', 
+                        cardDark: '#1e293b',
+                        light: '#F3F4F6',
+                        cardLight: 'rgba(255, 255, 255, 0.90)',
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'shimmer': 'shimmer 1.5s infinite linear',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth transitions */
+        body, .card, .toggle-btn, h1, p, span, div, button {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Generic Font Class for Numbers */
+        /* Forces system font (Arial, Roboto, etc.) instead of the Google Font */
+        .num-font {
+            font-family: sans-serif !important;
+        }
+
+        /* Particle Canvas (Dark Mode) */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        body.dark #particle-canvas {
+            opacity: 1;
+        }
+
+        /* Animated Background for Light Mode */
+        body.light {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+        }
+
+        /* Dark Mode Background */
+        body.dark {
+            background-color: #0f172a;
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 75%);
+        }
+        
+        /* Glassmorphism for Cards */
+        .glass-panel {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Skeleton Loading */
+        .skeleton {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, #e2e8f0 4%, #f1f5f9 25%, #e2e8f0 36%);
+            background-size: 1000px 100%;
+            color: transparent !important;
+            border-radius: 4px;
+        }
+        .dark .skeleton {
+            background: linear-gradient(to right, #334155 4%, #475569 25%, #334155 36%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="dark text-gray-800 dark:text-gray-100 min-h-screen flex flex-col items-center py-6 px-4 selection:bg-indigo-500 selection:text-white overflow-x-hidden">
+
+    <!-- Background Canvas for Particles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header & Controls -->
+    <header class="w-full max-w-md flex justify-between items-center mb-8 glass-panel bg-white/80 dark:bg-cardDark/80 p-4 rounded-2xl shadow-lg sticky top-2 z-50 ring-1 ring-white/20 dark:ring-white/5">
+        <div class="text-xl font-bold gradient-text truncate pr-2 flex items-center">
+            <i class="fa-solid fa-calculator mr-2 text-indigo-500"></i> <span id="site-title">বয়স ক্যালকুলেটর</span>
+        </div>
+        
+        <div class="flex gap-2 flex-shrink-0">
+            <!-- Language Toggle -->
+            <button onclick="toggleLang()" class="toggle-btn px-4 py-2 rounded-xl bg-white dark:bg-gray-700 shadow-sm hover:shadow-md text-sm font-bold border border-gray-100 dark:border-gray-600 active:scale-95 transition-transform text-indigo-600 dark:text-indigo-400">
+                ভাষা
+            </button>
+
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" class="toggle-btn w-10 h-10 rounded-xl bg-white dark:bg-gray-700 shadow-sm hover:shadow-md flex items-center justify-center border border-gray-100 dark:border-gray-600 active:scale-95 transition-transform text-indigo-500">
+                <i id="theme-icon" class="fa-solid fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Cards Container -->
+    <div id="cards-container" class="w-full max-w-md flex flex-col gap-6 pb-20">
+        <!-- Cards injected via JS -->
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-green-400"></i>
+        <span id="toast-msg">Copied to clipboard!</span>
+    </div>
+
+    <script>
+        // --- 1. CONFIGURATION ---
+        
+        // State
+        let currentLang = 'bn'; 
+        let currentTheme = 'dark'; // Default to Dark
+        let isLoading = true; // For Skeleton
+
+        // Dictionary
+        const dict = {
+            en: {
+                title: "Age Calculator",
+                years: "Years",
+                months: "Months",
+                days: "Days",
+                hours: "Hours",
+                minutes: "Mins",
+                seconds: "Secs",
+                bornPrefix: "Born:",
+                nextBdayPrefix: "Next Birthday:",
+                daysLeft: "days left",
+                todayBday: "Happy Birthday! 🎂",
+                copySuccess: "Copied to clipboard!",
+                monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                am: "AM",
+                pm: "PM"
+            },
+            bn: {
+                title: "বয়স ক্যালকুলেটর",
+                years: "বছর",
+                months: "মাস",
+                days: "দিন",
+                hours: "ঘণ্টা",
+                minutes: "মিনিট",
+                seconds: "সেকেন্ড",
+                bornPrefix: "জন্ম:",
+                nextBdayPrefix: "পরবর্তী জন্মদিন:",
+                daysLeft: "দিন বাকি",
+                todayBday: "শুভ জন্মদিন! 🎂",
+                copySuccess: "কপিকৃত হয়েছে!",
+                monthNames: ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"],
+                am: "এএম",
+                pm: "পিএম"
+            }
+        };
+
+        // Siblings Data
+        const siblings = [
+            {
+                id: 'abiha',
+                name: { en: "Jannatul Ferdaus Abiha", bn: "জান্নাতুল ফিরদাউস আবিহা" },
+                // 07/09/2021 at 4:45pm
+                dob: new Date(2021, 8, 7, 16, 45, 0),
+                color: "border-pink-500",
+                shadow: "shadow-pink-500/20",
+                iconColor: "text-pink-400"
+            },
+            {
+                id: 'arham',
+                name: { en: "Ayman Hasan Arham", bn: "আয়মান হাসান আরহাম" },
+                // 27/07/2025 at 3:10pm
+                dob: new Date(2025, 6, 27, 15, 10, 0),
+                color: "border-indigo-500",
+                shadow: "shadow-indigo-500/20",
+                iconColor: "text-indigo-400"
+            }
+        ];
+
+        // --- 2. PARTICLE SYSTEM ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let animationId;
+        let lastWidth = window.innerWidth;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 40 + 20; 
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.speedY = Math.random() * 0.4 - 0.2;
+                this.opacity = Math.random() * 0.15 + 0.05;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                const buffer = this.size * 2;
+                if (this.x > canvas.width + buffer) this.x = -buffer;
+                else if (this.x < -buffer) this.x = canvas.width + buffer;
+                if (this.y > canvas.height + buffer) this.y = -buffer;
+                else if (this.y < -buffer) this.y = canvas.height + buffer;
+            }
+            draw() {
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`); 
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); 
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            resizeCanvas();
+            particlesArray = [];
+            const numberOfParticles = Math.min(12, (canvas.width * canvas.height) / 40000);
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== lastWidth && currentTheme === 'dark') {
+                lastWidth = window.innerWidth;
+                resizeCanvas();
+                initParticles(); 
+            }
+        });
+
+        // --- 3. UTILITY FUNCTIONS ---
+
+        function toBengaliNumber(num) {
+            const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            return num.toString().split('').map(char => 
+                !isNaN(char) ? bnNums[parseInt(char)] : char
+            ).join('');
+        }
+
+        // Pure Bengali Time Logic
+        function getBengaliTimeOfDay(hours) {
+            if (hours >= 4 && hours < 6) return "ভোর";       // Dawn (4 AM - 6 AM)
+            if (hours >= 6 && hours < 12) return "সকাল";     // Morning (6 AM - 12 PM)
+            if (hours >= 12 && hours < 15) return "দুপুর";   // Noon (12 PM - 3 PM)
+            if (hours >= 15 && hours < 18) return "বিকাল";   // Afternoon (3 PM - 6 PM)
+            if (hours >= 18 && hours < 20) return "সন্ধ্যা"; // Evening (6 PM - 8 PM)
+            return "রাত";                                    // Night (8 PM - 4 AM)
+        }
+
+        function formatTime(date, lang) {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            if (lang === 'bn') {
+                // Pure Bengali Format: "বিকাল ৪:৪৫"
+                const period = getBengaliTimeOfDay(hours);
+                
+                // Convert 24h to 12h for display numbers
+                let displayHours = hours % 12;
+                displayHours = displayHours ? displayHours : 12; 
+                
+                const timeStr = toBengaliNumber(`${displayHours}:${minutes}`);
+                return `${period} ${timeStr}`;
+            } else {
+                // English Standard: "4:45 PM"
+                const ampm = hours >= 12 ? dict[lang].pm : dict[lang].am;
+                hours = hours % 12;
+                hours = hours ? hours : 12; 
+                return `${hours}:${minutes} ${ampm}`;
+            }
+        }
+
+        function getFormattedBirthDate(date, lang) {
+            const d = date.getDate();
+            const m = dict[lang].monthNames[date.getMonth()];
+            const y = date.getFullYear();
+            const time = formatTime(date, lang);
+
+            let dayStr = lang === 'bn' ? toBengaliNumber(d) : d;
+            let yearStr = lang === 'bn' ? toBengaliNumber(y) : y;
+
+            return `${dayStr} ${m} ${yearStr}, ${time}`;
+        }
+
+        function getDaysUntilBirthday(dob) {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            // Create next birthday date for current year
+            let nextBirthday = new Date(currentYear, dob.getMonth(), dob.getDate());
+            
+            // If birthday has passed this year, set to next year
+            if (now > nextBirthday) {
+                nextBirthday.setFullYear(currentYear + 1);
+            }
+            
+            // If it's today (ignoring time)
+            if (now.getDate() === dob.getDate() && now.getMonth() === dob.getMonth()) {
+                return 0;
+            }
+
+            const diffTime = Math.abs(nextBirthday - now);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            return diffDays;
+        }
+
+        function getPreciseAge(birthDate) {
+            const now = new Date();
+            let years = now.getFullYear() - birthDate.getFullYear();
+            let months = now.getMonth() - birthDate.getMonth();
+            let days = now.getDate() - birthDate.getDate();
+            let hours = now.getHours() - birthDate.getHours();
+            let minutes = now.getMinutes() - birthDate.getMinutes();
+            let seconds = now.getSeconds() - birthDate.getSeconds();
+
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
+            if (days < 0) {
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+                months--;
+            }
+            if (months < 0) { months += 12; years--; }
+
+            return { years, months, days, hours, minutes, seconds };
+        }
+
+        // --- 4. RENDER LOGIC ---
+
+        function init() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+
+            siblings.forEach((sib, index) => {
+                const card = document.createElement('div');
+                const animationDelay = index * 0.2;
+                card.style.animationDelay = `${animationDelay}s`;
+                
+                card.className = `card glass-panel bg-cardLight dark:bg-cardDark p-6 rounded-3xl shadow-xl ${sib.shadow} border-t-4 ${sib.color} flex flex-col items-center relative overflow-hidden group`;
+                card.id = `card-${sib.id}`;
+                
+                card.innerHTML = `
+                    <!-- Background Icon Decoration -->
+                    <div class="absolute -top-6 -right-6 p-4 opacity-5 dark:opacity-10 transform rotate-12 transition-transform group-hover:rotate-45 duration-700">
+                        <i class="fa-solid fa-cake-candles text-9xl ${sib.iconColor}"></i>
+                    </div>
+
+                    <!-- Header Section: Name & Copy -->
+                    <div class="w-full flex justify-between items-start mb-1 z-10 relative">
+                        <div class="flex-1 text-center pl-8"> 
+                             <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white leading-tight" id="name-${sib.id}">
+                                ${sib.name[currentLang]}
+                            </h2>
+                        </div>
+                        <button onclick="copySiblingInfo('${sib.id}')" class="ml-2 w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-indigo-100 dark:hover:bg-indigo-900 text-gray-500 dark:text-gray-400 hover:text-indigo-600 transition-colors flex items-center justify-center shadow-sm" aria-label="Copy Info">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+
+                    <!-- Birth Details & Next Birthday -->
+                    <div class="mb-6 z-10 w-full flex flex-col items-center animate-fade-in-up" style="animation-delay: ${animationDelay + 0.3}s">
+                         <!-- Born Info -->
+                         <p class="text-sm md:text-base font-medium text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-black/20 px-4 py-1.5 rounded-full backdrop-blur-sm border border-gray-100 dark:border-white/5 shadow-sm mb-2">
+                            <span id="label-born-${sib.id}" class="mr-1">${dict[currentLang].bornPrefix}</span>
+                            <span id="dob-${sib.id}" class="text-indigo-600 dark:text-indigo-400 font-bold tracking-wide num-font">
+                                ${getFormattedBirthDate(sib.dob, currentLang)}
+                            </span>
+                        </p>
+                        
+                        <!-- Next Birthday Pill -->
+                        <div class="bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-lg border border-indigo-100 dark:border-indigo-800/50 flex items-center gap-2">
+                             <i class="fa-solid fa-hourglass-half text-indigo-400 text-xs"></i>
+                             <span id="next-bday-${sib.id}" class="text-xs font-bold text-indigo-600 dark:text-indigo-300 num-font">
+                                <!-- Calculated via JS -->
+                             </span>
+                        </div>
+                    </div>
+
+                    <!-- Timer Grid -->
+                    <div class="grid grid-cols-3 gap-3 w-full text-center z-10">
+                        ${generateTimeBox(sib.id, 'years')}
+                        ${generateTimeBox(sib.id, 'months')}
+                        ${generateTimeBox(sib.id, 'days')}
+                        ${generateTimeBox(sib.id, 'hours')}
+                        ${generateTimeBox(sib.id, 'minutes')}
+                        ${generateTimeBox(sib.id, 'seconds')}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Start skeleton loading simulation
+            simulateLoading();
+            
+            // Start particles if dark mode (default)
+            if (currentTheme === 'dark') {
+                initParticles();
+                animateParticles();
+            }
+        }
+
+        function generateTimeBox(id, type) {
+            return `
+                <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-md p-3 rounded-2xl flex flex-col justify-center items-center shadow-sm border border-white/40 dark:border-gray-700/50 hover:scale-105 transition-transform duration-300">
+                    <span class="skeleton text-xl md:text-2xl font-bold text-gray-900 dark:text-white leading-none mb-1 w-full h-8 block rounded num-font" id="${id}-${type}"></span>
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-gray-500 dark:text-gray-400" id="label-${type}-${id}"></span>
+                </div>
+            `;
+        }
+
+        // Simulate Loading for Skeleton Effect
+        function simulateLoading() {
+            isLoading = true;
+            // Fake delay of 1.2s to show off skeleton
+            setTimeout(() => {
+                isLoading = false;
+                // Remove skeleton classes
+                document.querySelectorAll('.skeleton').forEach(el => {
+                    el.classList.remove('skeleton', 'w-full', 'h-8', 'block', 'rounded');
+                    el.innerText = '0'; // Reset text
+                });
+                updateUI(); // First real update
+                setInterval(updateTimer, 1000); // Start timer loop
+            }, 1200);
+        }
+
+        function updateTimer() {
+            if (isLoading) return; // Don't update numbers if loading
+
+            siblings.forEach(sib => {
+                const age = getPreciseAge(sib.dob);
+                
+                updateValue(sib.id, 'years', age.years);
+                updateValue(sib.id, 'months', age.months);
+                updateValue(sib.id, 'days', age.days);
+                updateValue(sib.id, 'hours', age.hours);
+                updateValue(sib.id, 'minutes', age.minutes);
+                updateValue(sib.id, 'seconds', age.seconds);
+            });
+        }
+
+        function updateValue(id, type, val) {
+            const el = document.getElementById(`${id}-${type}`);
+            if (val < 0) val = 0; 
+            
+            if (currentLang === 'bn') {
+                el.innerText = toBengaliNumber(val);
+            } else {
+                el.innerText = val;
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('site-title').innerText = dict[currentLang].title;
+            
+            siblings.forEach(sib => {
+                // Name
+                document.getElementById(`name-${sib.id}`).innerText = sib.name[currentLang];
+                
+                // Born Label & Value
+                document.getElementById(`label-born-${sib.id}`).innerText = dict[currentLang].bornPrefix;
+                document.getElementById(`dob-${sib.id}`).innerText = getFormattedBirthDate(sib.dob, currentLang);
+                
+                // Next Birthday Logic
+                const daysLeft = getDaysUntilBirthday(sib.dob);
+                const nextBdayEl = document.getElementById(`next-bday-${sib.id}`);
+                
+                if (daysLeft === 0) {
+                    nextBdayEl.innerText = dict[currentLang].todayBday;
+                    nextBdayEl.classList.add('text-pink-500');
+                } else {
+                    nextBdayEl.classList.remove('text-pink-500');
+                    if (currentLang === 'bn') {
+                        nextBdayEl.innerText = `${dict[currentLang].nextBdayPrefix} ${toBengaliNumber(daysLeft)} ${dict[currentLang].daysLeft}`;
+                    } else {
+                        nextBdayEl.innerText = `${dict[currentLang].nextBdayPrefix} ${daysLeft} ${dict[currentLang].daysLeft}`;
+                    }
+                }
+                
+                // Labels
+                ['years', 'months', 'days', 'hours', 'minutes', 'seconds'].forEach(key => {
+                    document.getElementById(`label-${key}-${sib.id}`).innerText = dict[currentLang][key];
+                });
+            });
+
+            if (!isLoading) updateTimer();
+        }
+
+        function copySiblingInfo(id) {
+            const sib = siblings.find(s => s.id === id);
+            if (!sib) return;
+
+            const age = getPreciseAge(sib.dob);
+            
+            const getEnDate = (date) => {
+                const d = date.getDate();
+                const m = dict['en'].monthNames[date.getMonth()];
+                const y = date.getFullYear();
+                let hours = date.getHours();
+                let minutes = date.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; 
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                return `${d} ${m} ${y}, ${hours}:${minutes} ${ampm}`;
+            };
+
+            let text = "";
+            text += `${sib.name['en']}\n`; 
+            text += `Born: ${getEnDate(sib.dob)}\n`; 
+            text += `Age: ${age.years} Years ${age.months} Months ${age.days} Days`; 
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+            }).catch(err => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = "Copied to clipboard!";
+            
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 2500);
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            updateUI();
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            if (currentTheme === 'light') {
+                currentTheme = 'dark';
+                html.classList.add('dark');
+                html.classList.remove('light');
+                body.classList.add('dark');
+                body.classList.remove('light');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                initParticles();
+                animateParticles();
+            } else {
+                currentTheme = 'light';
+                html.classList.remove('dark');
+                html.classList.add('light');
+                body.classList.remove('dark');
+                body.classList.add('light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                cancelAnimationFrame(animationId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Run on load
+        init();
+
+    </script>
+</body>
+</html>

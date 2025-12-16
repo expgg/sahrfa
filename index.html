@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHR</title>
+    <!-- Embedded CSS from style.css -->
+    <style>
+        html {
+            scroll-behavior: smooth; /* Smooth scroll for a polished feel */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Changed default body font to Inter */
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Video Background Styling */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This makes the video cover the entire area, cropping if necessary */
+            z-index: -2; /* Placed behind body::before and main content */
+            pointer-events: none; /* Allows clicks to pass through to elements beneath */
+            overflow: hidden; /* Crucial to hide parts that go beyond the viewport */
+        }
+
+        /* Overlay for the video to dim it and allow grid pattern to show */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Original subtle grid pattern */
+            background:
+                repeating-linear-gradient(0deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px),
+                repeating-linear-gradient(90deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px);
+            opacity: 0.1; /* Original opacity for the grid */
+            z-index: -1; /* Placed above the video, below main content */
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay to make content pop and dim video */
+        }
+
+        /* RGB Cycling Keyframes for Colors (Text, Icons) - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycle {
+            0% { color: #FF9999; text-shadow: 0 0 10px rgba(255, 153, 153, 0.9); } /* Lighter Red */
+            16% { color: #FFFFCC; text-shadow: 0 0 10px rgba(255, 255, 204, 0.9); } /* Lighter Yellow */
+            33% { color: #CCFFCC; text-shadow: 0 0 10px rgba(204, 255, 204, 0.9); } /* Lighter Green */
+            50% { color: #CCFFFF; text-shadow: 0 0 10px rgba(204, 255, 255, 0.9); } /* Lighter Cyan */
+            66% { color: #CCCCFF; text-shadow: 0 0 10px rgba(204, 204, 255, 0.9); } /* Lighter Blue */
+            83% { color: #FFCCFF; text-shadow: 0 0 10px rgba(255, 204, 255, 0.9); } /* Lighter Magenta */
+            100% { color: #FF9999; text-shadow: 0 0 10px rgba(255, 153, 153, 0.9); } /* Back to Lighter Red */
+        }
+
+        /* RGB Cycling Keyframes for Borders/Shadows/Backgrounds (Main Container, Entries) - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycleBorderShadowBackground {
+            0% { 
+                border-color: rgba(255, 153, 153, 0.5); /* Increased border opacity */
+                box-shadow: 0 0 35px rgba(255, 153, 153, 0.3), 0 0 20px rgba(0, 0, 0, 0.8); /* Increased shadow spread/opacity */
+                background-color: rgba(255, 153, 153, 0.15); /* More noticeable background tint */
+            }
+            16% { 
+                border-color: rgba(255, 255, 204, 0.5); 
+                box-shadow: 0 0 35px rgba(255, 255, 204, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 255, 204, 0.15);
+            }
+            33% { 
+                border-color: rgba(204, 255, 204, 0.5); 
+                box-shadow: 0 0 35px rgba(204, 255, 204, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(204, 255, 204, 0.15);
+            }
+            50% { 
+                border-color: rgba(204, 255, 255, 0.5); 
+                box-shadow: 0 0 35px rgba(204, 255, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(204, 255, 255, 0.15);
+            }
+            66% { 
+                border-color: rgba(204, 204, 255, 0.5); 
+                box-shadow: 0 0 35px rgba(204, 204, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(204, 204, 255, 0.15);
+            }
+            83% { 
+                border-color: rgba(255, 204, 255, 0.5); 
+                box-shadow: 0 0 35px rgba(255, 204, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 204, 255, 0.15);
+            }
+            100% { 
+                border-color: rgba(255, 153, 153, 0.5); 
+                box-shadow: 0 0 35px rgba(255, 153, 153, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
+                background-color: rgba(255, 153, 153, 0.15);
+            }
+        }
+
+        /* RGB Cycling Keyframes for Border-only - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycleBorder {
+            0% { border-color: #FF6666; --animated-color: #FF6666; }
+            16% { border-color: #FFFF99; --animated-color: #FFFF99; }
+            33% { border-color: #99FF99; --animated-color: #99FF99; }
+            50% { border-color: #99FFFF; --animated-color: #99FFFF; }
+            66% { border-color: #9999FF; --animated-color: #9999FF; }
+            83% { border-color: #FF99FF; --animated-color: #FF99FF; }
+            100% { border-color: #FF6666; --animated-color: #FF6666; }
+        }
+
+        /* RGB Cycling Keyframes for Scrollbar Thumb - LIGHT/BRIGHT VERSION */
+        @keyframes rgbCycleScrollbar {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% -700%; /* Move the entire gradient length */ }
+        }
+
+        /* RGB Cycling Keyframes for Text Shadow on Hover */
+        @keyframes rgbCycleTextShadow {
+            0% { text-shadow: 0 0 12px #FF9999; } /* Increased shadow intensity */
+            16% { text-shadow: 0 0 12px #FFFFCC; }
+            33% { text-shadow: 0 0 12px #CCFFCC; }
+            50% { text-shadow: 0 0 12px #CCFFFF; }
+            66% { text-shadow: 0 0 12px #CCCCFF; }
+            83% { text-shadow: 0 0 12px #FFCCFF; }
+            100% { text-shadow: 0 0 12px #FF9999; }
+        }
+
+
+        h1 {
+            font-family: 'Rajdhani', sans-serif; /* Reverted font to Rajdhani */
+            font-weight: 600;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to h1 */
+        }
+
+        .portfolio-container {
+            max-width: 500px; /* Reverted max-width */
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            /* Glassmorphism background for the main card */
+            /* The background-color and box-shadow are now animated by rgbCycleBorderShadowBackground */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 15px;
+            box-sizing: border-box;
+            min-height: 700px;
+            display: flex;
+            flex-direction: column;
+            animation: rgbCycleBorderShadowBackground 10s linear infinite; /* Apply the new combined animation */
+            border: 2px solid; /* Added border to the main card */
+        }
+
+        .profile-section {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 5px solid; /* Make border color animated */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Keep original shadow for depth */
+            margin-right: 15px;
+            margin-top: -10px;
+            animation: rgbCycleBorder 10s linear infinite; /* Apply RGB cycle to photo border */
+        }
+
+        .name {
+            font-size: 2em;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            /* Color and text-shadow are now animated by h1's rgbCycle */
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            flex-shrink: 0;
+            margin-top: -20px;
+        }
+
+        .bio {
+            font-family: 'Space Mono', monospace; /* Kept Space Mono for bio */
+            font-size: 1em;
+            line-height: 1.2;
+            color: white;
+            max-width: 400px;
+            margin: 5px auto 0px;
+            padding-bottom: 0px;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* Kept enhanced text shadow */
+            width: 100%;
+            margin-top: 10px;
+            /* Reverted bio background styling */
+        }
+
+
+        .tab-system {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+            border: 1px solid; /* Added border to the whole tab section */
+            border-radius: 10px; /* Consistent border-radius */
+            animation: rgbCycleBorder 10s linear infinite; /* Animate the border */
+            padding: 10px; /* Add some padding inside the bordered section */
+            position: relative; /* Needed for the absolute positioning of the splitter bar */
+            padding-bottom: 25px; /* Increased padding to make space for the splitter bar */
+        }
+
+        .tab-system::after {
+            content: '';
+            position: absolute;
+            bottom: 10px; /* Position it above the bottom padding */
+            left: 5%;
+            width: 90%;
+            height: 2px; /* Thickness of the splitter bar */
+            background: linear-gradient(to right, transparent, var(--animated-color), transparent); /* Gradient for a cool effect */
+            animation: rgbCycleBorder 10s linear infinite; /* Animate the color */
+            border-radius: 1px;
+            box-shadow: 0 0 10px var(--animated-color); /* Add a glow */
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            /* Removed border animation from here as it's now on .tab-system */
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none; /* Removed border from individual buttons */
+            padding: 10px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            border-radius: 6px;
+        }
+
+        .tab-button:hover {
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to hover color */
+            background-color: rgba(255, 255, 255, 0.1); /* Subtle white tint on hover */
+        }
+
+        .tab-button.active {
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to active color */
+            background-color: rgba(255, 255, 255, 0.2); /* More noticeable white tint */
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+            flex-grow: 1;
+        }
+
+        .tab-content::-webkit-scrollbar {
+            width: 8px; /* Made scrollbar thinner */
+        }
+
+        .tab-content::-webkit-scrollbar-track {
+            background: #1a1a1a; /* Darker track for better contrast */
+            border-radius: 10px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            /* Enhanced RGB gradient with more colors and increased background size for smoother flow */
+            background: linear-gradient(to bottom, 
+                #FF0000, /* Red */
+                #FF7F00, /* Orange */
+                #FFFF00, /* Yellow */
+                #00FF00, /* Green */
+                #0000FF, /* Blue */
+                #4B0082, /* Indigo */
+                #9400D3 /* Violet */
+            );
+            background-size: 100% 700%; /* Increased background size for more gradient to flow */
+            animation: rgbCycleScrollbar 0.5s linear infinite; /* ANIMATION SPEED INCREASED TO 0.5S */
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5); /* Stronger shadow for visibility */
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .social-entry,
+        .game-entry {
+            display: flex;
+            align-items: center;
+            /* Background-color is now animated by rgbCycleBorderShadowBackground */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid; /* Make border color animated */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            /* Apply the combined animation for border, shadow, and background */
+            animation: fadeIn 0.5s ease-out forwards, rgbCycleBorderShadowBackground 10s linear infinite; 
+            color: inherit;
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 70px;
+            transition: all 0.3s ease;
+        }
+
+        /* Apply cursor pointer only to actual links */
+        a.social-entry,
+        a.game-entry {
+            cursor: pointer;
+        }
+
+        /* Ensure div game entries do not have a pointer cursor */
+        div.game-entry {
+            cursor: default;
+        }
+
+        .social-entry:hover,
+        .game-entry:hover {
+            /* Background-color is now animated by rgbCycleBorderShadowBackground */
+            box-shadow: 0 6px 20px; /* Make hover shadow animated */
+            transform: translateY(-2px);
+            animation: rgbCycleBorderShadowBackground 10s linear infinite; /* Apply RGB cycle to hover shadow and background */
+        }
+
+
+        .social-icon,
+        .game-icon {
+            font-size: 2em;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to icon color and shadow */
+            min-width: 40px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .social-details,
+        .game-details {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .social-title,
+        .game-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to title color */
+        }
+
+        .social-username,
+        .game-ign,
+        .game-uid {
+            font-size: 0.9em;
+            color: #b0b0b0;
+            word-break: break-word;
+        }
+
+        /* Apply text glow on hover to these elements */
+        .social-entry:hover .social-title,
+        .social-entry:hover .social-username,
+        .game-entry:hover .game-title,
+        .game-entry:hover .game-ign,
+        .game-entry:hover .game-uid {
+            animation: rgbCycleTextShadow 10s linear infinite;
+        }
+
+
+        /* Copy button specific styles */
+        .copy-uid-button {
+            font-size: 1.2em;
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to copy button color and shadow */
+            cursor: pointer;
+            margin-left: auto;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .copy-uid-button:hover {
+            transform: scale(1.1);
+            animation: rgbCycle 10s linear infinite; /* Apply RGB cycle to hover color and shadow */
+        }
+
+        /* Animation for copied state */
+        @keyframes copiedBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #4CAF50; }
+            100% { transform: scale(1); }
+        }
+
+        .copy-uid-button.copied-animation {
+            animation: copiedBounce 0.5s ease-in-out;
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatPulse {
+            0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); }
+            50% { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(184, 134, 11, 0.5); }
+            100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 600px) {
+            .portfolio-container {
+                padding: 15px;
+                margin: 10px;
+                min-height: 600px;
+            }
+
+            .name {
+                font-size: 1.6em;
+                margin-bottom: 0px;
+                background-color: rgba(0, 0, 0, 0.5);
+                padding: 5px 10px;
+                border-radius: 5px;
+                display: inline-block;
+            }
+
+            .bio {
+                font-size: 0.9em;
+                margin: 5px auto 0px;
+                background-color: rgba(0, 0, 0, 0.4);
+                padding: 5px 10px;
+                border-radius: 5px;
+                color: white;
+            }
+
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .tab-buttons {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding: 3px;
+            }
+
+            .tab-button {
+                font-size: 1em;
+                padding: 8px 15px;
+                border-radius: 6px;
+            }
+
+            .social-entry,
+            .game-entry {
+                padding: 10px;
+                gap: 10px;
+                min-height: 60px;
+            }
+
+            .social-icon,
+            .game-icon {
+                font-size: 1.5em;
+            }
+
+            .social-title,
+            .game-title {
+                font-size: 1em;
+            }
+
+            .social-username,
+            .game-ign,
+                .game-uid {
+                font-size: 0.8em;
+            }
+
+            .tab-content {
+                max-height: 300px;
+                padding-right: 5px;
+            }
+
+            .tab-content::-webkit-scrollbar {
+                width: 4px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&family=Rajdhani:wght@600&family=Inter:wght@400&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="https://placehold.co/32x32/B8860B/fff?text=AR" type="image/png">
+</head>
+<body>
+    <!-- Video Background -->
+    <video id="video-background" autoplay loop muted playsinline>
+        <source src="vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <main class="portfolio-container">
+        <section class="profile-section">
+            <img src="https://cdn.prod.website-files.com/62bdc93e9cccfb43e155104c/654e8c52bd1963900334f10d_63ccd8001a2c84d7bf720bda_Aesthetic%2520Cartoon%2520GIF%2520PFP%2520for%2520Tiktok%25201.gif" alt="Al Hossain Rifat Profile Photo" class="profile-photo">
+            <h1 class="name">Al Hossain Rifat</h1>
+            <p class="bio"></p>
+        </section>
+
+        <section class="tab-system">
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="socials">Socials</button>
+                <button class="tab-button" data-tab="misc">Misc</button>
+            </div>
+
+            <div id="socials" class="tab-content active scrollable-content">
+                <!-- Updated Facebook link and username -->
+                <a href="https://www.facebook.com/alhossainrifat0" target="_blank" class="social-entry">
+                    <i class="fab fa-facebook-f social-icon facebook-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Facebook</span>
+                        <span class="social-username">alhossainrifat0</span>
+                    </div>
+                </a>
+                <!-- Updated YouTube link and username -->
+                <a href="https://www.youtube.com/@exploriot" target="_blank" class="social-entry">
+                    <i class="fab fa-youtube social-icon youtube-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">YouTube</span>
+                        <span class="social-username">@exploriot</span>
+                    </div>
+                </a>
+                <!-- Updated Instagram link and username -->
+                <a href="https://www.instagram.com/exploriot_" target="_blank" class="social-entry">
+                    <i class="fab fa-instagram social-icon instagram-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Instagram</span>
+                        <span class="social-username">@exploriot</span>
+                    </div>
+                </a>
+                <!-- Updated LinkedIn link and username -->
+                <a href="https://www.linkedin.com/in/rifat56" target="_blank" class="social-entry">
+                    <i class="fab fa-linkedin-in social-icon linkedin-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">LinkedIn</span>
+                        <span class="social-username">Al Hossain Rifat</span>
+                    </div>
+                </a>
+                <!-- Updated X (Twitter) link and username -->
+                <a href="https://x.com/exploriot" target="_blank" class="social-entry">
+                    <i class="fab fa-twitter social-icon x-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">X (Twitter)</span>
+                        <span class="social-username">@exploriot</span>
+                    </div>
+                </a>
+                <!-- Added Spotify button -->
+                <a href="https://open.spotify.com/user/31kdbdkekhjdnlpryajwziibqzey?si=7c7286bbf44c4e22" target="_blank" class="social-entry">
+                    <i class="fab fa-spotify social-icon spotify-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Spotify</span>
+                        <span class="social-username">exploriot</span>
+                    </div>
+                    </a>
+                <!-- WhatsApp link -->
+                <a href="https://wa.me/01773185817" target="_blank" class="social-entry">
+                    <i class="fab fa-whatsapp social-icon whatsapp-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">WhatsApp</span>
+                        <span class="social-username">Direct Message</span>
+                    </div>
+                </a>
+                <!-- Phone link -->
+                <a href="tel:01773185817" class="social-entry">
+                    <i class="fas fa-phone social-icon phone-icon"></i>
+                    <div class="social-details">
+                        <span class="social-title">Phone</span>
+                        <span class="social-username">Call Me</span>
+                    </div>
+                </a>
+            </div>
+
+            <div id="misc" class="tab-content scrollable-content">
+                <!-- Projects button (this remains a link as it has a valid href) -->
+                <a href="https://your-projects-website.com" target="_blank" class="game-entry">
+                    <i class="fas fa-folder-open game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Projects</span>
+                        <span class="game-ign">Explore My Work</span>
+                        <span class="game-uid">Click to Visit</span>
+                    </div>
+                </a>
+                <!-- PUBG Mobile -->
+                <div class="game-entry">
+                    <i class="fas fa-bullseye game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">PUBG Mobile</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="5393243034">UID: 5393243034</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Call of Duty: Mobile -->
+                <div class="game-entry">
+                    <i class="fas fa-gun game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Call of Duty: Mobile</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="6753982261215363073">UID: 6753982261215363073</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Clash of Clans - Now a link with updated info -->
+                <a href="https://link.clashofclans.com/en?action=OpenClanProfile&tag=2QPYUVLU9" target="_blank" class="game-entry">
+                    <i class="fas fa-shield-alt game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Clash of Clans</span>
+                        <span class="game-ign">IGN: ExploRiot</span>
+                        <span class="game-uid" data-uid="#LUG9Y80VQ">Player Tag: #LUG9Y80VQ</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
+                </a>
+                <!-- Garena Free Fire -->
+                <div class="game-entry">
+                    <i class="fas fa-fire game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Garena Free Fire</span>
+                        <span class="game-ign">IGN: exploriot.gg</span>
+                        <span class="game-uid" data-uid="3843359330">UID: 3843359330</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Blood Strike -->
+                <div class="game-entry">
+                    <i class="fas fa-tint game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Blood Strike</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="586020437072">UID: 586020437072</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+                <!-- Clash Royale -->
+                <div class="game-entry">
+                    <i class="fas fa-crown game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Clash Royale</span>
+                        <span class="game-ign">IGN: ExploRiot</span>
+                        <span class="game-uid" data-uid="#CYRPL9YJU">Player Tag: #CYRPL9YJU</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy Player Tag"></i>
+                </div>
+                <!-- Mobile Legends: Bang Bang -->
+                <div class="game-entry">
+                    <i class="fas fa-swords game-icon generic-icon"></i>
+                    <div class="game-details">
+                        <span class="game-title">Mobile Legends: Bang Bang</span>
+                        <span class="game-ign">IGN: exploriot</span>
+                        <span class="game-uid" data-uid="666777855 (8649)">UID: 666777855 (8649)</span>
+                    </div>
+                    <i class="far fa-copy copy-uid-button" title="Copy UID"></i>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Embedded JavaScript from script.js -->
+    <script>
+        // Function to cache the video
+        async function cacheVideo(videoUrl) {
+            try {
+                const cacheName = 'portfolio-video-cache-v1'; // A unique name for your cache
+                const cache = await caches.open(cacheName);
+                const response = await cache.match(videoUrl);
+
+                if (!response) { // If video is not already in cache
+                    console.log('Caching video:', videoUrl);
+                    await cache.add(videoUrl);
+                    console.log('Video cached successfully!');
+                } else {
+                    console.log('Video already in cache.');
+                }
+            } catch (error) {
+                console.error('Failed to cache video:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const bioElement = document.querySelector('.bio');
+            bioElement.textContent = "I like computer stuff and enjoy making new things every day. I also love playing games and exploring new technologies.";
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            const applyAnimations = (tabElement) => {
+                const elementsToAnimate = tabElement.querySelectorAll('.social-entry, .game-entry');
+                elementsToAnimate.forEach((element, index) => {
+                    element.style.animation = 'none';
+                    void element.offsetWidth; // Trigger reflow
+                    if (element.classList.contains('social-entry') || element.classList.contains('game-entry')) {
+                        element.style.animation = `fadeIn 0.5s ease-out ${index * 0.05}s forwards`;
+                    }
+                });
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTabId = button.dataset.tab;
+
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    const activeTabContent = document.getElementById(targetTabId);
+                    activeTabContent.classList.add('active');
+                    button.classList.add('active');
+
+                    applyAnimations(activeTabContent);
+                });
+            });
+
+            const initialActiveTab = document.querySelector('.tab-content.active');
+            if (initialActiveTab) {
+                applyAnimations(initialActiveTab);
+            }
+
+            // Copy UID functionality
+            const copyUidButtons = document.querySelectorAll('.copy-uid-button');
+            copyUidButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent the link from being followed if it's an <a> tag
+                    event.stopPropagation(); // Stop event bubbling to parent link
+
+                    const gameEntry = button.closest('.game-entry');
+                    const gameUidSpan = gameEntry.querySelector('.game-uid'); // Get the span with the UID
+                    const uidValue = gameUidSpan.dataset.uid; // Get the UID from the data-uid attribute
+                    const uidLabel = gameUidSpan.textContent.split(':')[0]; // Get the "UID" or "Player Tag" label
+
+                    if (uidValue) {
+                        const textToCopy = `${uidLabel}: ${uidValue}`;
+                        
+                        // Create a temporary textarea to copy text to clipboard
+                        const tempTextArea = document.createElement('textarea');
+                        tempTextArea.value = uidValue; // Only copy the UID value, not the label
+                        document.body.appendChild(tempTextArea);
+                        tempTextArea.select();
+                        
+                        try {
+                            document.execCommand('copy');
+                            // Provide visual feedback and animation
+                            const originalTitle = button.title;
+                            const originalColor = button.style.color;
+
+                            button.title = 'Copied!';
+                            button.style.color = '#4CAF50'; // Green color for copied feedback
+                            button.classList.add('copied-animation'); // Add animation class
+
+                            setTimeout(() => {
+                                button.title = originalTitle;
+                                button.style.color = originalColor; // Revert color
+                                button.classList.remove('copied-animation'); // Remove animation class
+                            }, 1500); // Reset after 1.5 seconds
+
+                        } catch (err) {
+                            console.error('Failed to copy text: ', err);
+                            // Fallback for environments where execCommand is restricted (using a custom message box)
+                            const messageBox = document.createElement('div');
+                            messageBox.textContent = 'Failed to copy. Please copy manually: ' + uidValue;
+                            messageBox.style.cssText = `
+                                position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                background-color: #333;
+                                color: #fff;
+                                padding: 15px 25px;
+                                border-radius: 8px;\
+                                box-shadow: 0 0 15px rgba(0,0,0,0.5);\
+                                z-index: 1000;\
+                                font-family: 'Roboto', sans-serif;\
+                                font-size: 1em;\
+                                border: 1px solid #FF8C00;\
+                            `;
+                            document.body.appendChild(messageBox);
+                            setTimeout(() => {
+                                document.body.removeChild(messageBox);
+                            }, 3000); // Remove message after 3 seconds
+                        } finally {
+                            document.body.removeChild(tempTextArea);
+                        }
+                    }
+                });
+            });
+
+            // Call the caching function for the video
+            const videoElement = document.getElementById('video-background');
+            if (videoElement) {
+                // Only attempt to cache once the video metadata is loaded
+                videoElement.addEventListener('loadedmetadata', () => {
+                    cacheVideo(videoElement.src);
+                }, { once: true }); 
+            }
+        });
+    </script>
+</body>
+</html>

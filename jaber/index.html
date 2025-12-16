@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moholla Official Shop</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=gg+sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Babel Standalone for in-browser JSX/TS compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              app: {
+                bg: '#0F0F12',       
+                card: '#18181B',     
+                accent: '#6366F1',   
+                accentHover: '#4F46E5',
+                secondary: '#27272A', 
+                text: '#E4E4E7',     
+                muted: '#71717A',    
+                bkash: '#E2136E',
+                nagad: '#F6921E',
+                input: '#27272A',
+              }
+            },
+            boxShadow: {
+              'glow-blue': '0 0 20px -5px rgba(99, 102, 241, 0.4)',
+              'glow-purple': '0 0 20px -5px rgba(168, 85, 247, 0.4)',
+              'glow-hot': '0 0 25px -5px rgba(236, 72, 153, 0.5)',
+            },
+            animation: {
+              'bounce-slow': 'bounce 3s infinite',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      /* Scrollbar Hiding */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+
+      /* Animation Utilities */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      @keyframes slideInRight {
+        from { transform: translateX(20px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes zoomIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+      }
+
+      .animate-in {
+        animation-duration: 0.3s;
+        animation-fill-mode: both;
+      }
+
+      .fade-in {
+        animation-name: fadeIn;
+      }
+
+      .slide-in-from-bottom-4 {
+        animation-name: slideUp;
+      }
+
+      .slide-in-from-right {
+        animation-name: slideInRight;
+      }
+
+      .zoom-in-95 {
+          animation-name: zoomIn;
+      }
+      
+      .zoom-in {
+          animation-name: zoomIn;
+      }
+    </style>
+    
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?deps=react@18.3.1",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body class="bg-app-bg text-app-text antialiased selection:bg-app-accent selection:text-white">
+    <div id="root"></div>
+
+    <!-- Main Application Script -->
+    <script type="text/babel" data-type="module" data-presets="typescript,react">
+        import React, { useState, useEffect, useRef } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { 
+            BellRing, MessageSquare, Heart, Star, Plus, Home, ShoppingCart, 
+            User as UserIcon, FileText, Shield, RefreshCcw, X, Check, Send, 
+            Mail, Phone, Wallet, Copy, CheckCircle, Package, Search, Bot, 
+            ShieldCheck, Facebook, Twitter, Instagram, Youtube, MapPin, 
+            Gamepad2, AlertCircle, Eye, EyeOff, Settings, Edit2, Ticket, 
+            CreditCard, LogOut, ShoppingBag, Trash2, ArrowRight, ChevronRight 
+        } from 'lucide-react';
+
+        // --- TYPES ---
+        // (Interfaces in TS are stripped at runtime, but kept for clarity/compilation)
+        interface Product {
+            id: string;
+            name: string;
+            price: number;
+            rating: number;
+            image_fallback: string;
+            category: string;
+            colorsAvailable: number;
+            isFavorite: boolean;
+            description: string;
+        }
+
+        interface User {
+            id: string;
+            username: string;
+            email: string;
+            password?: string;
+            discriminator: string;
+            avatar: string;
+            bannerColor: string;
+            isNitro: boolean;
+            badges: string[];
+            joinedDate: string;
+            wishlist: string[];
+            coupons: number;
+        }
+
+        interface Order {
+            id: string;
+            trackingCode: string;
+            items: Product[];
+            total: number;
+            date: string;
+            status: 'Pending' | 'Confirmed' | 'Cancelled';
+            paymentMethod: 'bKash' | 'Nagad';
+            email: string;
+            phone: string;
+            transactionId: string;
+        }
+
+        interface Brand {
+            id: string;
+            name: string;
+            logo: string;
+        }
+        
+        interface DecorItem extends Product {}
+
+        // --- CONSTANTS ---
+        const BRANDS: Brand[] = [
+            { id: '1', name: 'Nitro', logo: 'NITRO' },
+            { id: '2', name: 'Boosts', logo: 'BOOST' },
+            { id: '3', name: 'Shop', logo: 'SHOP' },
+            { id: '4', name: 'Decor', logo: 'DECOR' },
+        ];
+
+        const NITRO_PRODUCTS: Product[] = [
+            { id: 'n1', name: 'Nitro Monthly', price: 1250, rating: 5.0, image_fallback: 'https://img.freepik.com/premium-photo/floating-purple-crystals-gems-3d-rendering_361360-1284.jpg', category: "Nitro", colorsAvailable: 1, isFavorite: true, description: "Unlock all perks. 500MB uploads, HD streaming, and more." },
+            { id: 'n2', name: 'Nitro Basic', price: 350, rating: 4.2, image_fallback: 'https://img.freepik.com/premium-photo/3d-render-cartoon-star-icon-isolated-purple-background_361360-1533.jpg', category: "Nitro", colorsAvailable: 1, isFavorite: false, description: "50MB uploads and custom emoji everywhere." },
+            { id: 'n3', name: 'Nitro Yearly', price: 12000, rating: 4.8, image_fallback: 'https://img.freepik.com/premium-photo/purple-gift-box-with-golden-bow-3d-render_361360-639.jpg', category: "Nitro", colorsAvailable: 1, isFavorite: true, description: "Get 2 months free with a yearly subscription." },
+        ];
+
+        const FEATURED_ITEMS: Product[] = [
+            { id: 'f1', name: 'Valorant Points (1000)', price: 1200, rating: 4.9, image_fallback: 'https://img.freepik.com/premium-photo/red-abstract-geometric-background-3d-rendering_361360-1456.jpg', category: "Game Topup", colorsAvailable: 1, isFavorite: true, description: "Instant delivery for VP code." },
+            { id: 'f2', name: 'Steam Wallet $20', price: 2400, rating: 4.8, image_fallback: 'https://img.freepik.com/premium-photo/blue-industrial-gear-mechanism-3d-render_361360-1599.jpg', category: "Gift Card", colorsAvailable: 1, isFavorite: false, description: "Add funds to your Steam wallet instantly." },
+            { id: 'f3', name: 'Roblox Robux (800)', price: 1200, rating: 4.7, image_fallback: 'https://img.freepik.com/premium-photo/stack-gold-coins-3d-rendering-illustration_361360-1367.jpg', category: "Game Topup", colorsAvailable: 1, isFavorite: true, description: "Build your dream world with Robux." },
+            { id: 'f4', name: 'Spotify Premium (1m)', price: 600, rating: 4.9, image_fallback: 'https://img.freepik.com/premium-photo/green-headphones-floating-dark-background-3d-render_361360-1566.jpg', category: "Subscription", colorsAvailable: 1, isFavorite: false, description: "Ad-free music listening experience." },
+            { id: 'f5', name: 'Netflix 4K Screen', price: 480, rating: 4.6, image_fallback: 'https://img.freepik.com/premium-photo/popcorn-bucket-cinema-clapperboard-3d-render_361360-1511.jpg', category: "Subscription", colorsAvailable: 1, isFavorite: true, description: "Shared 4K screen for 1 month." },
+            { id: 'f6', name: 'PUBG Mobile UC (300)', price: 600, rating: 4.5, image_fallback: 'https://img.freepik.com/premium-photo/military-supply-crate-box-3d-render_361360-1587.jpg', category: "Game Topup", colorsAvailable: 1, isFavorite: false, description: "Unknown Cash for PUBG Mobile." },
+            { id: 'f7', name: 'Free Fire Diamonds', price: 240, rating: 4.8, image_fallback: 'https://img.freepik.com/premium-photo/blue-diamond-gem-shiny-3d-render_361360-1341.jpg', category: "Game Topup", colorsAvailable: 1, isFavorite: true, description: "100 + 10 Bonus Diamonds." },
+            { id: 'f8', name: 'Call of Duty CP', price: 1200, rating: 4.7, image_fallback: 'https://img.freepik.com/premium-photo/tactical-military-helmet-3d-render_361360-1554.jpg', category: "Game Topup", colorsAvailable: 1, isFavorite: false, description: "Points for Warzone and Modern Warfare." },
+            { id: 'f9', name: 'Genshin Crystals', price: 600, rating: 4.9, image_fallback: 'https://img.freepik.com/premium-photo/magic-glowing-crystal-shard-3d-render_361360-1299.jpg', category: "Game Topup", colorsAvailable: 1, isFavorite: true, description: "300 Genesis Crystals + Bonus." },
+            { id: 'f10', name: 'Crunchyroll Fan', price: 350, rating: 4.6, image_fallback: 'https://img.freepik.com/premium-photo/orange-spiral-abstract-background-3d-render_361360-1444.jpg', category: "Subscription", colorsAvailable: 1, isFavorite: false, description: "Ad-free anime streaming." }
+        ];
+
+        const BOOST_ITEMS: Product[] = [
+            { id: 'b1', name: 'Server Boost x1', price: 480, rating: 5.0, image_fallback: 'https://img.freepik.com/premium-photo/rocket-launch-3d-icon-render_361360-1544.jpg', category: "Boosts", colorsAvailable: 1, isFavorite: false, description: "Single server boost for 1 month." },
+            { id: 'b2', name: 'Server Boost x2', price: 900, rating: 4.9, image_fallback: 'https://img.freepik.com/premium-photo/two-rockets-flying-up-3d-render_361360-1612.jpg', category: "Boosts", colorsAvailable: 1, isFavorite: true, description: "Double boost power for your server." },
+            { id: 'b3', name: 'Level 1 Boost (7x)', price: 2400, rating: 4.8, image_fallback: 'https://img.freepik.com/premium-photo/bronze-medal-badge-3d-illustration_361360-1422.jpg', category: "Boosts", colorsAvailable: 1, isFavorite: false, description: "Reach Level 1 instantly." },
+            { id: 'b4', name: 'Level 3 Boost (14x)', price: 4800, rating: 5.0, image_fallback: 'https://img.freepik.com/premium-photo/golden-trophy-cup-winner-3d-render_361360-1388.jpg', category: "Boosts", colorsAvailable: 1, isFavorite: true, description: "Max out your server to Level 3." },
+            { id: 'b5', name: '3 Month Boost Badge', price: 1800, rating: 4.7, image_fallback: 'https://img.freepik.com/premium-photo/security-shield-icon-3d-render_361360-1511.jpg', category: "Boosts", colorsAvailable: 1, isFavorite: false, description: "Keep your boosting streak alive." }
+        ];
+
+        const GAME_SHOP_ITEMS: Product[] = [
+            { id: 'g1', name: 'Minecraft Java Key', price: 3000, rating: 4.9, image_fallback: 'https://img.freepik.com/premium-photo/pixel-grass-block-3d-render_361360-1522.jpg', category: "Game Key", colorsAvailable: 1, isFavorite: true, description: "Full access Java Edition key." },
+            { id: 'g2', name: 'GTA V Premium', price: 1800, rating: 4.8, image_fallback: 'https://img.freepik.com/premium-photo/luxury-sports-car-purple-neon-3d-render_361360-1633.jpg', category: "Game Key", colorsAvailable: 1, isFavorite: false, description: "Grand Theft Auto V Premium Online Edition." },
+            { id: 'g3', name: 'Elden Ring', price: 6000, rating: 5.0, image_fallback: 'https://img.freepik.com/premium-photo/ancient-golden-ring-magic-light-3d-render_361360-1377.jpg', category: "Game Key", colorsAvailable: 1, isFavorite: true, description: "Steam key for Elden Ring." },
+            { id: 'g4', name: 'Cyberpunk 2077', price: 3600, rating: 4.6, image_fallback: 'https://img.freepik.com/premium-photo/futuristic-robot-arm-neon-lights-3d-render_361360-1644.jpg', category: "Game Key", colorsAvailable: 1, isFavorite: false, description: "Cyberpunk 2077 Ultimate Edition." },
+            { id: 'g5', name: 'Red Dead Redemption 2', price: 2400, rating: 4.9, image_fallback: 'https://img.freepik.com/premium-photo/cowboy-hat-revolver-gun-3d-render_361360-1655.jpg', category: "Game Key", colorsAvailable: 1, isFavorite: true, description: "Epic western adventure game." }
+        ];
+
+        const DECOR_NAMES = [
+            "Neon Frame", "Cyber Glitch", "Anime Sparkle", "Fire Aura", "Water Spirit", 
+            "Thunder Strike", "Sakura Fall", "Gold Border", "Diamond Shine", "Void Darkness",
+            "Retro Pixel", "Glitch Ghost", "Rainbow Spin", "Cat Ears", "Demon Horns",
+            "Angel Wings", "Matrix Rain", "Smoke Plume", "Galaxy Swirl", "Heart Pulse"
+        ];
+        const DECOR_VARIANTS = [
+            'https://img.freepik.com/premium-photo/neon-light-circle-frame-3d-render_361360-1477.jpg',
+            'https://img.freepik.com/premium-photo/magic-summoning-circle-3d-render_361360-1488.jpg',
+            'https://img.freepik.com/premium-photo/ring-fire-flame-3d-render_361360-1499.jpg',
+            'https://img.freepik.com/premium-photo/water-splash-circle-shape-3d-render_361360-1522.jpg',
+            'https://img.freepik.com/premium-photo/electric-lightning-circle-3d-render_361360-1533.jpg'
+        ];
+        const DECOR_ITEMS: Product[] = DECOR_NAMES.map((name, i) => ({
+            id: `d${i + 1}`,
+            name: name,
+            price: 720 + (i * 50),
+            rating: 4.5 + (Math.random() * 0.5),
+            image_fallback: DECOR_VARIANTS[i % DECOR_VARIANTS.length], 
+            category: "Decoration",
+            colorsAvailable: 1,
+            isFavorite: i % 3 === 0,
+            description: `Equip the ${name} decoration to your profile avatar.`
+        }));
+
+
+        // --- COMPONENTS ---
+
+        // ProductCard
+        const ProductCard = ({ product, onAddToCart, onClick, onToggleWishlist, isFavoriteOverride }) => {
+            const isFav = isFavoriteOverride !== undefined ? isFavoriteOverride : product.isFavorite;
+
+            return (
+                <div 
+                    onClick={() => onClick(product)}
+                    className="min-w-[200px] w-[220px] bg-gradient-to-br from-[#202023] to-[#161618] rounded-2xl p-0 relative shrink-0 snap-start border border-white/5 hover:border-app-accent/50 transition-all duration-300 overflow-hidden group shadow-lg hover:shadow-glow-hot hover:-translate-y-1 cursor-pointer"
+                >
+                    <div className="h-36 bg-app-secondary relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#161618] via-transparent to-transparent z-10"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-app-accent/40 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <img src={product.image_fallback} alt={product.name} className="w-full h-full object-cover relative z-0 group-hover:scale-110 transition-transform duration-700"/>
+                        <div className="absolute top-3 right-3 z-20">
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (onToggleWishlist) onToggleWishlist(product);
+                                }}
+                                className={`p-2 rounded-full backdrop-blur-md transition-colors ${isFav ? 'bg-red-500/20 text-red-500' : 'bg-black/40 text-white hover:text-red-500'}`}
+                            >
+                                <Heart size={16} fill={isFav ? "currentColor" : "none"} className={isFav ? "text-red-500" : ""} />
+                            </button>
+                        </div>
+                    </div>
+                    <div className="p-4 relative z-20 -mt-4">
+                        <div className="flex justify-between items-start mb-1">
+                            <span className="text-[10px] font-bold text-app-accent uppercase tracking-wider bg-app-accent/10 px-2 py-0.5 rounded border border-app-accent/20">{product.category}</span>
+                        </div>
+                        <h3 className="text-white font-bold text-lg leading-tight mb-1 group-hover:text-app-accent transition-colors">{product.name}</h3>
+                        <div className="flex items-center gap-1 mb-4">
+                            <Star size={12} fill="#FACC15" className="text-yellow-400" strokeWidth={0} />
+                            <span className="text-xs text-white font-bold">{product.rating.toFixed(1)}</span>
+                            <span className="text-[10px] text-app-muted">(120+ sold)</span>
+                        </div>
+                        <div className="flex justify-between items-center mt-auto">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] text-app-muted line-through">৳{(product.price * 1.2).toFixed(0)}</span>
+                                <span className="text-white font-bold text-xl">৳{product.price}</span>
+                            </div>
+                            <button 
+                                onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
+                                className="h-10 w-10 rounded-full bg-app-accent text-white flex items-center justify-center hover:bg-app-accentHover transition-all active:scale-90 shadow-glow-blue"
+                            >
+                                <Plus size={20} strokeWidth={3} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // BottomNav
+        const BottomNav = ({ activeTab, setActiveTab, cartCount }) => {
+            return (
+                <div className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-6 pt-2 pointer-events-none">
+                    <div className="max-w-md mx-auto pointer-events-auto">
+                        <div className="bg-[#1C1C1E] rounded-[2rem] px-8 h-16 flex items-center justify-between shadow-2xl shadow-black border border-white/5 relative">
+                            <button onClick={() => setActiveTab('home')} className={`transition-colors p-2 flex flex-col items-center gap-1 ${activeTab === 'home' ? 'text-app-accent' : 'text-app-muted hover:text-white'}`}>
+                                <Home size={24} fill={activeTab === 'home' ? "currentColor" : "none"} />
+                                {activeTab === 'home' && <span className="w-1 h-1 bg-app-accent rounded-full absolute bottom-3"></span>}
+                            </button>
+                            <button onClick={() => setActiveTab('cart')} className={`transition-colors p-2 relative flex flex-col items-center gap-1 ${activeTab === 'cart' ? 'text-app-accent' : 'text-app-muted hover:text-white'}`}>
+                                <ShoppingCart size={24} fill={activeTab === 'cart' ? "currentColor" : "none"} />
+                                {cartCount > 0 && (
+                                    <span className="absolute top-1 right-0 w-4 h-4 bg-app-red text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-[#1C1C1E] bg-red-600">
+                                        {cartCount}
+                                    </span>
+                                )}
+                                {activeTab === 'cart' && <span className="w-1 h-1 bg-app-accent rounded-full absolute bottom-3"></span>}
+                            </button>
+                            <button onClick={() => setActiveTab('profile')} className={`transition-colors p-2 flex flex-col items-center gap-1 ${activeTab === 'profile' ? 'text-app-accent' : 'text-app-muted hover:text-white'}`}>
+                                <UserIcon size={24} fill={activeTab === 'profile' ? "currentColor" : "none"} />
+                                {activeTab === 'profile' && <span className="w-1 h-1 bg-app-accent rounded-full absolute bottom-3"></span>}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // PolicyModal
+        const PolicyModal = ({ isOpen, type, onClose }) => {
+            if (!isOpen || !type) return null;
+            const getContent = () => {
+                switch (type) {
+                case 'terms':
+                    return {
+                    title: "Terms of Service",
+                    icon: <FileText className="text-blue-500" size={24} />,
+                    content: (
+                        <div className="space-y-4 text-gray-300 text-sm">
+                        <p>Welcome to Moholla Official Shop. By using our services, you agree to the following terms:</p>
+                        <h4 className="text-white font-bold mt-4">1. Acceptance of Terms</h4>
+                        <p>By accessing this website, you agree to be bound by these terms and conditions. If you do not agree, please do not use our services.</p>
+                        <h4 className="text-white font-bold mt-4">2. Digital Products</h4>
+                        <p>We sell digital goods (game keys, top-ups, subscriptions). Delivery is electronic. Please ensure your account details (UID, Server ID) are correct before purchasing.</p>
+                        </div>
+                    )};
+                case 'privacy':
+                    return {
+                    title: "Privacy Policy",
+                    icon: <Shield className="text-green-500" size={24} />,
+                    content: (
+                        <div className="space-y-4 text-gray-300 text-sm">
+                        <p>Your privacy is important to us.</p>
+                        <h4 className="text-white font-bold mt-4">1. Information We Collect</h4>
+                        <p>We collect your email, username, and transaction history to process orders and provide support.</p>
+                        </div>
+                    )};
+                case 'refund':
+                    return {
+                    title: "Refund Policy",
+                    icon: <RefreshCcw className="text-red-500" size={24} />,
+                    content: (
+                        <div className="space-y-4 text-gray-300 text-sm">
+                        <p>Due to the nature of digital products, our refund policy is strict but fair.</p>
+                        <h4 className="text-white font-bold mt-4">1. Non-Refundable Items</h4>
+                        <p>Once a digital code has been delivered, it cannot be returned.</p>
+                        </div>
+                    )};
+                default:
+                    return { title: "", icon: null, content: null };
+                }
+            };
+            const { title, icon, content } = getContent();
+            return (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+                <div className="relative bg-[#18181B] w-full max-w-lg rounded-3xl shadow-2xl border border-white/10 overflow-hidden animate-in zoom-in-95 duration-200 max-h-[80vh] flex flex-col">
+                    <div className="p-6 border-b border-white/5 flex justify-between items-center bg-[#1F1F22]">
+                    <h2 className="text-lg font-bold text-white flex items-center gap-2">{icon} {title}</h2>
+                    <button onClick={onClose} className="text-app-muted hover:text-white"><X size={20} /></button>
+                    </div>
+                    <div className="p-6 overflow-y-auto no-scrollbar">{content}</div>
+                    <div className="p-4 border-t border-white/5 bg-app-card text-center">
+                        <button onClick={onClose} className="text-sm text-app-accent hover:underline font-bold">Close</button>
+                    </div>
+                </div>
+                </div>
+            );
+        };
+
+        // SupportTicketModal
+        const SupportTicketModal = ({ isOpen, onClose, user }) => {
+            const [subject, setSubject] = useState('');
+            const [message, setMessage] = useState('');
+            const [isSending, setIsSending] = useState(false);
+            const [isSent, setIsSent] = useState(false);
+            const [error, setError] = useState('');
+
+            // ⚠️ REPLACE THIS WITH YOUR ACTUAL DISCORD WEBHOOK URL
+            const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1449710662136889469/2LwSKLi78-_wvDhJqSfgyKTBIqDzZR5MEdQz0JsM6Z_5-lb-h_wK8d0jv_PiJ_z36G2I";
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setIsSending(true);
+                setError('');
+
+                if (DISCORD_WEBHOOK_URL.includes("1449710662136889469")) {
+                    setError("Webhook URL is not configured in the code.");
+                    setIsSending(false);
+                    return;
+                }
+
+                const embed = {
+                    title: "🎫 New Support Ticket",
+                    color: 3447003,
+                    fields: [
+                        { name: "User", value: user ? `${user.username} (${user.email})` : "Guest", inline: true },
+                        { name: "User ID", value: user ? user.id : "N/A", inline: true },
+                        { name: "Subject", value: subject, inline: false },
+                        { name: "Message", value: message, inline: false }
+                    ],
+                    footer: { text: "Moholla Support System" },
+                    timestamp: new Date().toISOString()
+                };
+
+                const payload = {
+                    username: "Moholla Support Bot",
+                    avatar_url: "https://img.freepik.com/premium-vector/robot-icon-chat-bot-sign-support-service-concept-chatbot-character-flat-style_41737-796.jpg",
+                    embeds: [embed]
+                };
+
+                try {
+                    const response = await fetch(DISCORD_WEBHOOK_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok || response.status === 204) {
+                        setIsSent(true);
+                        setTimeout(() => {
+                            onClose();
+                            setIsSent(false);
+                            setSubject('');
+                            setMessage('');
+                            setIsSending(false);
+                        }, 3000);
+                    } else {
+                        throw new Error(`Server responded with ${response.status}`);
+                    }
+                } catch (err) {
+                    console.error("Error sending ticket", err);
+                    setError("Failed to send ticket. Please check connection.");
+                    setIsSending(false);
+                }
+            };
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+                <div className="relative bg-[#18181B] w-full max-w-md rounded-3xl shadow-2xl border border-white/10 overflow-hidden animate-in zoom-in-95 duration-200">
+                    <div className="p-6 border-b border-white/5 flex justify-between items-center bg-[#1F1F22]">
+                        <h2 className="text-lg font-bold text-white flex items-center gap-2"><MessageSquare size={20} className="text-app-accent" /> Support Center</h2>
+                        <button onClick={onClose} className="text-app-muted hover:text-white"><X size={20} /></button>
+                    </div>
+                    {isSent ? (
+                        <div className="p-8 text-center animate-in fade-in duration-300">
+                            <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500 shadow-glow-blue"><Check size={32} strokeWidth={3} /></div>
+                            <h3 className="text-white font-bold text-xl mb-2">Ticket Created!</h3>
+                            <p className="text-gray-400 text-sm">We have received your request.</p>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+                            <div className="bg-app-accent/10 border border-app-accent/20 p-3 rounded-xl text-xs text-gray-300">Create a ticket below. Our support team will reply soon.</div>
+                            {error && <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-xl flex items-center gap-2 text-xs text-red-400"><AlertCircle size={16} className="shrink-0" /> {error}</div>}
+                            <div>
+                                <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Subject</label>
+                                <input type="text" required value={subject} onChange={(e) => setSubject(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-app-accent text-sm" placeholder="Order Issue / Question" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Message</label>
+                                <textarea required value={message} onChange={(e) => setMessage(e.target.value)} rows={5} className="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-app-accent text-sm resize-none" placeholder="Describe your issue..." />
+                            </div>
+                            <button type="submit" disabled={isSending} className="w-full bg-app-accent hover:bg-app-accentHover text-white font-bold py-3.5 rounded-xl transition-all shadow-glow-blue flex items-center justify-center gap-2 disabled:opacity-70">{isSending ? 'Sending...' : <><Send size={18} /> Create Ticket</>}</button>
+                        </form>
+                    )}
+                </div>
+                </div>
+            );
+        };
+
+        // CheckoutModal
+        const CheckoutModal = ({ isOpen, onClose, cartItems, total, onOrderPlaced }) => {
+            const [email, setEmail] = useState('');
+            const [phone, setPhone] = useState('');
+            const [paymentMethod, setPaymentMethod] = useState(null);
+            const [transactionId, setTransactionId] = useState('');
+            const [step, setStep] = useState('input');
+            const [isProcessing, setIsProcessing] = useState(false);
+            const [generatedCode, setGeneratedCode] = useState('');
+            const [copied, setCopied] = useState(false);
+            const [numberCopied, setNumberCopied] = useState(false);
+            const PAYMENT_NUMBERS = { bKash: "01911163013", Nagad: "01757382315" };
+            const ORDER_WEBHOOK_URL = "https://discord.com/api/webhooks/1449710662136889469/2LwSKLi78-_wvDhJqSfgyKTBIqDzZR5MEdQz0JsM6Z_5-lb-h_wK8d0jv_PiJ_z36G2I";
+
+            if (!isOpen) return null;
+            const handleNext = (e) => { e.preventDefault(); if (step === 'input' && email && phone && paymentMethod) setStep('review'); };
+            
+            const handleConfirmOrder = async () => {
+                if (!transactionId || !paymentMethod) return;
+                setIsProcessing(true);
+                
+                // 1. Generate Order Data
+                const trackingCode = 'TRK-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+                const newOrder = { 
+                    id: '#' + Math.floor(100000 + Math.random() * 900000), 
+                    trackingCode, 
+                    items: cartItems, 
+                    total, 
+                    date: new Date().toLocaleDateString(), 
+                    status: 'Pending', 
+                    paymentMethod, 
+                    email, 
+                    phone, 
+                    transactionId 
+                };
+
+                // 2. Prepare Discord Payload
+                const embed = {
+                    title: "🛒 New Order Received!",
+                    color: 5763719, // Green-ish color
+                    fields: [
+                        { name: "Order ID", value: newOrder.id, inline: true },
+                        { name: "Tracking Code", value: `\`${trackingCode}\``, inline: true },
+                        { name: "Total Amount", value: `**৳${total}**`, inline: true },
+                        { name: "Customer Details", value: `📧 ${email}\n📱 ${phone}`, inline: false },
+                        { name: "Payment Info", value: `Method: **${paymentMethod}**\nTrxID: \`${transactionId}\``, inline: false },
+                        { name: "Items Purchased", value: cartItems.map(item => `• ${item.name} - ৳${item.price}`).join('\n'), inline: false }
+                    ],
+                    footer: { text: "Moholla Shop Order System" },
+                    timestamp: new Date().toISOString()
+                };
+
+                // 3. Send to Discord
+                try {
+                    await fetch(ORDER_WEBHOOK_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ 
+                            username: "Moholla Orders",
+                            avatar_url: "https://cdn-icons-png.flaticon.com/512/3500/3500833.png",
+                            embeds: [embed] 
+                        })
+                    });
+                } catch (error) {
+                    console.error("Failed to send order to Discord:", error);
+                }
+
+                // 4. Complete the process
+                setTimeout(() => {
+                    onOrderPlaced(newOrder);
+                    setGeneratedCode(trackingCode);
+                    setIsProcessing(false);
+                    setStep('success');
+                }, 1000);
+            };
+
+            const resetAndClose = () => { setStep('input'); setEmail(''); setPhone(''); setPaymentMethod(null); setTransactionId(''); onClose(); };
+            return (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={step === 'success' ? resetAndClose : onClose}></div>
+                <div className="relative bg-[#18181B] w-full max-w-sm rounded-3xl shadow-2xl border border-white/10 overflow-hidden animate-in zoom-in-95 duration-200">
+                    <div className="p-6 border-b border-white/5 flex justify-between items-center bg-[#1F1F22]">
+                        <h2 className="text-lg font-bold text-white">{step === 'input' ? 'Checkout' : step === 'review' ? 'Payment' : 'Order Placed'}</h2>
+                        {step !== 'success' && <button onClick={onClose} className="text-app-muted hover:text-white"><X size={20} /></button>}
+                    </div>
+                    {step === 'input' && (
+                        <form onSubmit={handleNext} className="p-6 animate-in slide-in-from-right duration-300">
+                            <div className="mb-6 space-y-3">
+                                <div className="relative"><Mail className="absolute left-3 top-3 text-app-muted" size={18} /><input type="email" required placeholder="Gmail for delivery" value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-app-input border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-app-accent" /></div>
+                                <div className="relative"><Phone className="absolute left-3 top-3 text-app-muted" size={18} /><input type="tel" required placeholder="Mobile Number" value={phone} onChange={e => setPhone(e.target.value)} className="w-full bg-app-input border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-app-accent" /></div>
+                            </div>
+                            <div className="mb-8 grid grid-cols-2 gap-3">
+                                <div onClick={() => setPaymentMethod('bKash')} className={`cursor-pointer rounded-xl p-3 border-2 flex flex-col items-center ${paymentMethod === 'bKash' ? 'border-app-bkash bg-app-bkash/10' : 'border-white/5 bg-white/5'}`}><span className="font-bold text-white italic" style={{color: '#E2136E'}}>bKash</span></div>
+                                <div onClick={() => setPaymentMethod('Nagad')} className={`cursor-pointer rounded-xl p-3 border-2 flex flex-col items-center ${paymentMethod === 'Nagad' ? 'border-app-nagad bg-app-nagad/10' : 'border-white/5 bg-white/5'}`}><span className="font-bold text-white" style={{color: '#F6921E'}}>Nagad</span></div>
+                            </div>
+                            <button type="submit" disabled={!paymentMethod || !email || !phone} className="w-full py-3.5 rounded-xl font-bold bg-app-accent text-white hover:bg-app-accentHover disabled:opacity-50">Next <ArrowRight size={18} className="inline ml-1" /></button>
+                        </form>
+                    )}
+                    {step === 'review' && (
+                        <div className="p-6 animate-in slide-in-from-right duration-300">
+                            <div className="bg-app-card rounded-xl p-3 mb-4 border border-white/5 flex justify-between items-center"><span className="text-gray-400 text-sm">Total to Pay</span><span className="text-white font-bold text-xl">৳{total.toFixed(0)}</span></div>
+                            <div className={`rounded-xl p-4 mb-6 border ${paymentMethod === 'bKash' ? 'bg-app-bkash/5 border-app-bkash/30' : 'bg-app-nagad/5 border-app-nagad/30'}`}>
+                                <div className="flex items-center gap-2 mb-2"><Wallet size={16} /><span className="text-white font-bold text-sm">Send Money (Personal)</span></div>
+                                <div className="flex items-center justify-between bg-black/40 rounded-lg p-3 border border-white/5 mb-3 cursor-pointer" onClick={() => { navigator.clipboard.writeText(PAYMENT_NUMBERS[paymentMethod]); setNumberCopied(true); setTimeout(() => setNumberCopied(false), 2000); }}>
+                                    <span className="font-mono text-lg text-white font-bold tracking-wider">{PAYMENT_NUMBERS[paymentMethod]}</span>
+                                    <div className="p-2 bg-white/10 rounded hover:bg-white hover:text-black">{numberCopied ? <Check size={16} /> : <Copy size={16} />}</div>
+                                </div>
+                            </div>
+                            <input type="text" required placeholder="Transaction ID (TrxID)" value={transactionId} onChange={e => setTransactionId(e.target.value)} className="w-full bg-app-input border border-white/10 rounded-xl py-3 px-4 text-white text-sm mb-6 font-mono uppercase" />
+                            <div className="flex gap-3"><button onClick={() => setStep('input')} className="flex-1 py-3 rounded-xl border border-white/10 text-white">Back</button><button onClick={handleConfirmOrder} disabled={isProcessing || !transactionId} className="flex-1 py-3 rounded-xl bg-app-accent text-white disabled:opacity-50">{isProcessing ? 'Verifying...' : 'Confirm Order'}</button></div>
+                        </div>
+                    )}
+                    {step === 'success' && (
+                        <div className="p-8 text-center animate-in zoom-in duration-300">
+                            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow-blue"><Check size={40} className="text-white" strokeWidth={3} /></div>
+                            <h2 className="text-2xl font-bold text-white mb-2">Payment Sent!</h2>
+                            <div className="bg-black/50 rounded-xl p-4 border border-white/10 mb-6 cursor-pointer" onClick={() => { navigator.clipboard.writeText(generatedCode); setCopied(true); setTimeout(() => setCopied(false), 2000); }}>
+                                <p className="text-xs text-app-muted uppercase mb-1">Tracking Code</p>
+                                <p className="text-xl font-mono text-app-accent tracking-widest font-bold">{generatedCode}</p>
+                            </div>
+                            <button onClick={resetAndClose} className="w-full py-3 rounded-xl font-bold bg-app-accent text-white">Done</button>
+                        </div>
+                    )}
+                </div>
+                </div>
+            );
+        };
+
+        // OrderHistory
+        const OrderHistory = ({ isOpen, onClose, orders }) => {
+            const [searchTerm, setSearchTerm] = useState('');
+            if (!isOpen) return null;
+            const filteredOrders = orders.filter(o => o.trackingCode.toLowerCase().includes(searchTerm.toLowerCase()) || o.id.includes(searchTerm));
+            return (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+                <div className="relative bg-[#18181B] w-full max-w-lg rounded-3xl shadow-2xl border border-white/10 overflow-hidden animate-in zoom-in-95 duration-200 h-[80vh] flex flex-col">
+                    <div className="p-6 border-b border-white/5 flex justify-between items-center bg-[#1F1F22]"><h2 className="text-lg font-bold text-white flex items-center gap-2"><Package size={20} className="text-app-accent" /> Order History</h2><button onClick={onClose} className="text-app-muted hover:text-white"><X size={20} /></button></div>
+                    <div className="p-4 border-b border-white/5 bg-app-card"><div className="relative"><Search className="absolute left-3 top-3 text-app-muted" size={16} /><input type="text" placeholder="Track by Order Code..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-app-input border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-app-accent" /></div></div>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
+                        {orders.length === 0 ? <div className="flex flex-col items-center justify-center h-full text-app-muted opacity-50"><Package size={48} /><p>No orders found</p></div> : 
+                        filteredOrders.map(order => (
+                            <div key={order.id} className="bg-app-card rounded-2xl p-4 border border-white/5 hover:border-white/10">
+                                <div className="flex justify-between items-start mb-3"><div><div className="flex items-center gap-2"><span className="text-white font-bold text-sm">{order.trackingCode}</span><button onClick={() => navigator.clipboard.writeText(order.trackingCode)} className="text-app-muted hover:text-app-accent"><Copy size={12} /></button></div><p className="text-[10px] text-app-muted">{order.date}</p></div><span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${order.status === 'Confirmed' ? 'bg-green-500/10 text-green-500' : order.status === 'Cancelled' ? 'bg-red-500/10 text-red-500' : 'bg-yellow-500/10 text-yellow-500'}`}>{order.status}</span></div>
+                                <div className="space-y-2 mb-3">{order.items.map((item, idx) => <div key={idx} className="flex justify-between text-sm"><span className="text-gray-400 truncate max-w-[70%]">{item.name}</span><span className="text-gray-500">৳{item.price}</span></div>)}</div>
+                                <div className="flex justify-between items-center pt-3 border-t border-white/5"><span className="text-white font-bold">৳{order.total.toFixed(0)}</span>{order.status === 'Confirmed' && <div className="flex items-center gap-1 text-xs text-green-500"><CheckCircle size={12} /> Paid</div>}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                </div>
+            );
+        };
+
+        // AIHelp
+        const AIHelp = ({ isOpen, onClose }) => {
+            const [messages, setMessages] = useState([{id: 1, text: "Hello! I'm your G-Store AI assistant. How can I help?", sender: 'bot'}]);
+            const [input, setInput] = useState('');
+            const messagesEndRef = useRef(null);
+            const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); };
+            useEffect(() => { scrollToBottom(); }, [messages]);
+            const handleSend = () => {
+                if (!input.trim()) return;
+                const userMsg = { id: Date.now(), text: input, sender: 'user' };
+                setMessages(prev => [...prev, userMsg]);
+                setInput('');
+                setTimeout(() => {
+                    let botResponse = "I'm not sure about that, but our human support team is available 24/7!";
+                    const lowerInput = userMsg.text.toLowerCase();
+                    if (lowerInput.includes('order') || lowerInput.includes('track')) botResponse = "You can track your order in the Profile section.";
+                    else if (lowerInput.includes('bkash') || lowerInput.includes('nagad')) botResponse = "We accept bKash and Nagad. Payments are secure.";
+                    else if (lowerInput.includes('hi') || lowerInput.includes('hello')) botResponse = "Hi there! Ready to level up?";
+                    setMessages(prev => [...prev, { id: Date.now() + 1, text: botResponse, sender: 'bot' }]);
+                }, 1000);
+            };
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 md:items-end md:justify-end md:p-6">
+                <div className="absolute inset-0 bg-black/60 md:hidden" onClick={onClose}></div>
+                <div className="bg-[#18181B] w-full max-w-sm h-[500px] rounded-2xl shadow-2xl border border-app-accent/30 flex flex-col relative overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+                    <div className="p-4 bg-app-accent flex justify-between items-center shadow-md"><div className="flex items-center gap-2"><div className="p-1.5 bg-white/20 rounded-full"><Bot size={20} className="text-white" /></div><div><h3 className="text-white font-bold text-sm">Assistant</h3><div className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span><span className="text-[10px] text-white/80">Online</span></div></div></div><button onClick={onClose} className="text-white/80 hover:text-white"><X size={20} /></button></div>
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-app-bg/50">{messages.map((msg) => <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.sender === 'user' ? 'bg-app-accent text-white rounded-br-none' : 'bg-app-card border border-white/10 text-gray-200 rounded-bl-none'}`}>{msg.text}</div></div>)}<div ref={messagesEndRef} /></div>
+                    <div className="p-3 bg-app-card border-t border-white/5 flex gap-2"><input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Ask for help..." className="flex-1 bg-app-input border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:border-app-accent" /><button onClick={handleSend} className="p-2 bg-app-accent hover:bg-app-accentHover text-white rounded-full shadow-glow-blue"><Send size={18} /></button></div>
+                </div>
+                </div>
+            );
+        };
+
+        // ProductDetailsModal
+        const ProductDetailsModal = ({ product, isOpen, onClose, onAddToCart }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+                <div className="relative bg-[#18181B] w-full max-w-sm md:max-w-md rounded-3xl overflow-hidden shadow-2xl animate-in zoom-in-95 fade-in duration-200 max-h-[85vh] overflow-y-auto no-scrollbar border border-white/10">
+                    <button onClick={onClose} className="absolute top-4 right-4 z-20 p-2 bg-black/50 text-white rounded-full backdrop-blur-md hover:bg-black/70"><X size={20} /></button>
+                    <div className="h-64 md:h-72 w-full relative group"><img src={product.image_fallback} alt={product.name} className="w-full h-full object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-[#18181B] via-transparent to-transparent"></div></div>
+                    <div className="px-6 pb-8 -mt-12 relative z-10">
+                        <div className="flex justify-between items-start mb-2"><div><span className="text-app-accent font-bold text-xs uppercase tracking-wider bg-app-accent/10 px-2 py-0.5 rounded border border-app-accent/20 backdrop-blur-md">{product.category}</span><h2 className="text-2xl font-bold text-white mt-2 leading-tight">{product.name}</h2></div><div className="text-right mt-1"><span className="text-2xl font-bold text-white">৳{product.price}</span></div></div>
+                        <div className="flex items-center gap-2 mb-6"><div className="flex text-yellow-400">{[1,2,3,4,5].map(s => <Star key={s} size={14} fill="currentColor" strokeWidth={0} />)}</div><span className="text-sm text-app-muted font-medium">{product.rating.toFixed(1)} (240 Reviews)</span></div>
+                        <p className="text-gray-300 text-sm leading-relaxed mb-6 bg-white/5 p-3 rounded-xl border border-white/5">{product.description}</p>
+                        <div className="flex gap-3 mb-8 overflow-x-auto no-scrollbar pb-2"><div className="flex items-center gap-2 text-xs font-medium text-gray-300 bg-white/5 px-3 py-2.5 rounded-xl border border-white/5 shrink-0"><ShieldCheck size={14} className="text-green-500" /> Instant Delivery</div><div className="flex items-center gap-2 text-xs font-medium text-gray-300 bg-white/5 px-3 py-2.5 rounded-xl border border-white/5 shrink-0"><Star size={14} className="text-purple-500" /> Best Seller</div></div>
+                        <button onClick={() => { onAddToCart(product); onClose(); }} className="w-full py-4 bg-app-accent hover:bg-app-accentHover text-white font-bold rounded-2xl shadow-glow-blue flex items-center justify-center gap-2 transition-all active:scale-[0.98]"><ShoppingCart size={20} /> Add To Cart</button>
+                    </div>
+                </div>
+                </div>
+            );
+        };
+
+        // HeroBanner
+        const HeroBanner = () => {
+            return (
+                <div className="px-6 mb-8 mt-4">
+                <div className="w-full h-56 rounded-3xl relative overflow-hidden flex items-end p-6 border border-white/10 shadow-glow-purple group">
+                    <div className="absolute inset-0 z-0"><img src="https://img.freepik.com/free-photo/view-illuminated-neon-gaming-keyboard-setup-controller_23-2149529364.jpg" alt="Gaming Setup" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" /><div className="absolute inset-0 bg-gradient-to-t from-app-bg via-app-bg/60 to-transparent"></div></div>
+                    <div className="z-10 relative max-w-lg"><span className="inline-block px-3 py-1 rounded-full bg-app-accent/20 text-app-accent border border-app-accent/30 text-[10px] font-bold uppercase tracking-wider mb-2 backdrop-blur-md">Level Up Your Gear</span><h1 className="text-3xl font-extrabold text-white mb-2 leading-tight">Ultimate Gaming Collection</h1><p className="text-gray-300 text-sm font-medium mb-4 line-clamp-2">Discover elite equipment, exclusive skins, and boosters.</p></div>
+                </div>
+                </div>
+            );
+        };
+
+        // Footer
+        const Footer = ({ onOpenPolicy, onOpenSupport }) => {
+            return (
+                <footer className="mt-12 border-t border-white/5 bg-black/20 pt-10 pb-24 px-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div><h3 className="text-xl font-black italic tracking-tighter text-white mb-4">MOHOLLA SHOP</h3><p className="text-sm text-app-muted leading-relaxed mb-4">The ultimate destination for gamers in Bangladesh.</p><div className="flex gap-4"><a href="#" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/5"><Facebook size={16} /></a><a href="#" className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/5"><Instagram size={16} /></a></div></div>
+                    <div className="grid grid-cols-2 gap-4"><div><h4 className="font-bold text-white mb-4">Shop</h4><ul className="space-y-2 text-sm text-app-muted"><li>Nitro</li><li>Game Points</li></ul></div><div><h4 className="font-bold text-white mb-4">Support</h4><ul className="space-y-2 text-sm text-app-muted cursor-pointer"><li><span onClick={onOpenSupport}>Help Center</span></li><li><span onClick={() => onOpenPolicy('terms')}>Terms</span></li></ul></div></div>
+                    <div><h4 className="font-bold text-white mb-4">Contact Us</h4><ul className="space-y-3 text-sm text-app-muted"><li className="flex items-center gap-3"><Mail size={14} className="text-app-accent" /> support@moholla.shop</li><li className="flex items-center gap-3"><Phone size={14} className="text-app-accent" /> +880 1234-567890</li></ul></div>
+                </div>
+                </footer>
+            );
+        };
+
+        // Login
+        const Login = ({ onLogin }) => {
+            const [mode, setMode] = useState('login');
+            const [username, setUsername] = useState('');
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [confirmPassword, setConfirmPassword] = useState('');
+            const [showPassword, setShowPassword] = useState(false);
+            const [isLoading, setIsLoading] = useState(false);
+            const [error, setError] = useState('');
+            const [success, setSuccess] = useState('');
+            const getUsers = () => { const users = localStorage.getItem('gstore_users'); return users ? JSON.parse(users) : []; };
+            const handleRegister = (e) => {
+                e.preventDefault(); setIsLoading(true); setError('');
+                if (password !== confirmPassword) { setError("Passwords do not match"); setIsLoading(false); return; }
+                const users = getUsers();
+                if (users.find((u) => u.email === email)) { setError("Account exists"); setIsLoading(false); return; }
+                const newUser = { id: `u${Date.now()}`, username, email, password, discriminator: Math.floor(1000 + Math.random() * 9000).toString(), avatar: 'https://img.freepik.com/premium-photo/3d-avatar-boy-character_914455-603.jpg', bannerColor: '#4F46E5', isNitro: false, badges: [], joinedDate: new Date().toISOString(), wishlist: [], coupons: 0 };
+                localStorage.setItem('gstore_users', JSON.stringify([...users, newUser]));
+                setTimeout(() => { setIsLoading(false); setSuccess("Created! Login now."); setMode('login'); setPassword(''); }, 1000);
+            };
+            const handleLogin = (e) => {
+                e.preventDefault(); setIsLoading(true); setError('');
+                setTimeout(() => {
+                    const users = getUsers();
+                    const user = users.find((u) => u.email === email && u.password === password);
+                    if (user) onLogin(user); else { setError("Invalid credentials"); setIsLoading(false); }
+                }, 1000);
+            };
+            return (
+                <div className="flex flex-col items-center justify-center min-h-screen p-6 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#0a0a0c] z-0"><div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-indigo-600/30 rounded-full blur-[150px] animate-pulse"></div><div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[150px] animate-pulse delay-1000"></div></div>
+                <div className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl relative z-10 animate-in fade-in zoom-in duration-300">
+                    <div className="flex justify-center mb-6"><div className="w-16 h-16 bg-gradient-to-br from-app-accent to-purple-600 rounded-2xl flex items-center justify-center shadow-lg"><Gamepad2 size={32} className="text-white" /></div></div>
+                    <div className="text-center mb-8"><h2 className="text-2xl font-black italic text-white mb-2">MOHOLLA SHOP</h2><h3 className="text-lg font-medium text-gray-200">{mode === 'login' ? 'Welcome Back!' : 'Join the Squad'}</h3></div>
+                    {error && <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-400 text-sm"><AlertCircle size={18} /> {error}</div>}
+                    {success && <div className="mb-6 p-3 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center gap-3 text-green-400 text-sm"><CheckCircle size={18} /> {success}</div>}
+                    <form onSubmit={mode === 'login' ? handleLogin : handleRegister} className="space-y-5">
+                        {mode === 'register' && <div><label className="block text-xs font-bold text-gray-400 uppercase mb-2 pl-1">Username</label><input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-white focus:outline-none focus:ring-2 focus:ring-app-accent" placeholder="Username" required /></div>}
+                        <div><label className="block text-xs font-bold text-gray-400 uppercase mb-2 pl-1">Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-white focus:outline-none focus:ring-2 focus:ring-app-accent" placeholder="name@example.com" required /></div>
+                        <div><div className="relative"><input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-white focus:outline-none focus:ring-2 focus:ring-app-accent pr-10" placeholder="Password" required /><button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>
+                        {mode === 'register' && <div><input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl p-3.5 text-white focus:outline-none focus:ring-2 focus:ring-app-accent" placeholder="Confirm Password" required /></div>}
+                        <button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-app-accent to-purple-600 text-white font-bold py-4 rounded-xl mt-4 shadow-lg">{isLoading ? 'Processing...' : mode === 'login' ? 'Log In' : 'Create Account'}</button>
+                        <div className="text-sm text-gray-400 mt-6 text-center">{mode === 'login' ? <>No account? <span onClick={() => setMode('register')} className="text-white cursor-pointer hover:underline font-bold">Sign Up</span></> : <>Have an account? <span onClick={() => setMode('login')} className="text-white cursor-pointer hover:underline font-bold">Log In</span></>}</div>
+                    </form>
+                </div>
+                </div>
+            );
+        };
+
+        // Profile
+        const Profile = ({ user, orderCount, wishlistCount, couponCount, onLogout, onOpenOrderHistory, onTrackOrder, onUpdateUser }) => {
+            const fileInputRef = useRef(null);
+            const handleImageClick = () => fileInputRef.current?.click();
+            const handleFileChange = (e) => { const file = e.target.files?.[0]; if(file){ const reader = new FileReader(); reader.onloadend = () => onUpdateUser({...user, avatar: reader.result}); reader.readAsDataURL(file); }};
+            return (
+                <div className="px-4 py-6 mt-4 mb-24 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="flex justify-between items-center mb-6"><h1 className="text-2xl font-bold text-white">My Profile</h1><button className="p-2 bg-app-card rounded-full text-white border border-white/5"><Settings size={20} /></button></div>
+                    <div className="bg-gradient-to-br from-app-card to-app-secondary p-6 rounded-3xl border border-white/5 shadow-xl relative overflow-hidden mb-6">
+                        <div className="flex items-center gap-4 relative z-10"><div className="relative cursor-pointer group" onClick={handleImageClick}><img src={user.avatar} alt="Profile" className="w-20 h-20 rounded-2xl object-cover border-2 border-white/10 shadow-lg" /><button className="absolute -bottom-2 -right-2 bg-white text-black p-1.5 rounded-full"><Edit2 size={12} /></button><input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} /></div><div><h2 className="text-xl font-bold text-white">{user.username}</h2><p className="text-app-muted text-sm">Member</p></div></div>
+                        <div className="flex justify-between mt-8 pt-6 border-t border-white/5"><div className="text-center" onClick={onOpenOrderHistory}><span className="block text-xl font-bold text-white">{orderCount}</span><span className="text-xs text-app-muted uppercase flex justify-center gap-1"><Package size={10} /> Orders</span></div><div className="text-center"><span className="block text-xl font-bold text-white">{wishlistCount}</span><span className="text-xs text-app-muted uppercase flex justify-center gap-1"><Heart size={10} /> Wishlist</span></div><div className="text-center"><span className="block text-xl font-bold text-white">{couponCount}</span><span className="text-xs text-app-muted uppercase flex justify-center gap-1"><Ticket size={10} /> Coupons</span></div></div>
+                    </div>
+                    <div className="space-y-3">
+                        <button onClick={onOpenOrderHistory} className="w-full flex items-center justify-between p-4 bg-app-card rounded-2xl border border-white/5 hover:bg-white/5 transition-all"><div className="flex items-center gap-4"><div className="w-10 h-10 rounded-full bg-app-secondary flex items-center justify-center text-white"><Package size={20} /></div><div className="text-left"><h3 className="text-white font-medium text-sm">Order History</h3><p className="text-xs text-app-muted">Track shipments</p></div></div><ChevronRight size={18} className="text-app-muted" /></button>
+                        <button onClick={onTrackOrder} className="w-full flex items-center justify-between p-4 bg-app-card rounded-2xl border border-white/5 hover:bg-white/5 transition-all"><div className="flex items-center gap-4"><div className="w-10 h-10 rounded-full bg-app-secondary flex items-center justify-center text-white"><Search size={20} /></div><div className="text-left"><h3 className="text-white font-medium text-sm">Track Order</h3><p className="text-xs text-app-muted">Find by Code</p></div></div><ChevronRight size={18} className="text-app-muted" /></button>
+                        <button onClick={onLogout} className="w-full mt-6 p-4 rounded-2xl border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 flex items-center justify-center gap-2 text-red-500 font-medium transition-colors"><LogOut size={20} /> Log Out</button>
+                    </div>
+                </div>
+            );
+        };
+
+        // Cart
+        const Cart = ({ items, onRemove, onCheckout }) => {
+            const total = items.reduce((sum, item) => sum + item.price, 0);
+            return (
+                <div className="px-4 py-6 mt-4 mb-24 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <h2 className="text-2xl font-bold text-white mb-6 px-2">My Cart</h2>
+                    {items.length === 0 ? <div className="flex flex-col items-center justify-center h-64 text-app-muted bg-app-card rounded-3xl border border-white/5 mx-2"><ShoppingBag size={32} className="opacity-50 mb-4" /><p>Empty</p></div> : 
+                    <div className="space-y-4">
+                        {items.map((item, index) => (
+                            <div key={`${item.id}-${index}`} className="bg-app-card p-4 rounded-2xl flex items-center gap-4 border border-white/5 hover:border-white/10"><div className="w-20 h-20 rounded-xl overflow-hidden bg-app-secondary flex-shrink-0"><img src={item.image_fallback} alt={item.name} className="w-full h-full object-cover" /></div><div className="flex-1 min-w-0"><h3 className="text-white font-bold truncate text-sm">{item.name}</h3><p className="text-xs text-app-muted mb-1">{item.category}</p><p className="text-app-accent font-bold">৳{item.price}</p></div><button onClick={() => onRemove(item.id)} className="p-3 rounded-full hover:bg-red-500/10 text-app-muted hover:text-red-500"><Trash2 size={18} /></button></div>
+                        ))}
+                        <div className="mt-8 bg-gradient-to-br from-app-card to-[#1F1F22] p-6 rounded-3xl border border-white/5 shadow-xl"><div className="flex justify-between mb-6 text-white font-bold text-xl"><span>Total</span><span>৳{total.toFixed(0)}</span></div><button onClick={onCheckout} className="w-full bg-app-accent text-white hover:bg-app-accentHover font-bold py-4 rounded-xl shadow-glow-blue">Proceed to Checkout</button></div>
+                    </div>}
+                </div>
+            );
+        };
+
+        // --- APP COMPONENT ---
+        const App = () => {
+            const [isLoggedIn, setIsLoggedIn] = useState(false);
+            const [currentUser, setCurrentUser] = useState(null);
+            const [activeTab, setActiveTab] = useState('home');
+            const [cart, setCart] = useState([]);
+            const [orders, setOrders] = useState(() => { const saved = localStorage.getItem('gstore_orders'); return saved ? JSON.parse(saved) : []; });
+            const [showToast, setShowToast] = useState(false);
+            const [toastMessage, setToastMessage] = useState('Added to cart!');
+            const [selectedProduct, setSelectedProduct] = useState(null);
+            const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+            const [isOrderHistoryOpen, setIsOrderHistoryOpen] = useState(false);
+            const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
+            const [activePolicy, setActivePolicy] = useState(null);
+            const [isSupportOpen, setIsSupportOpen] = useState(false);
+
+            useEffect(() => {
+                const savedSession = localStorage.getItem('gstore_session');
+                if (savedSession) { try { setCurrentUser(JSON.parse(savedSession)); setIsLoggedIn(true); } catch (e) { localStorage.removeItem('gstore_session'); } }
+            }, []);
+
+            const handleUpdateUser = (updatedUser) => {
+                setCurrentUser(updatedUser);
+                const storedUsersStr = localStorage.getItem('gstore_users');
+                if (storedUsersStr) {
+                    const storedUsers = JSON.parse(storedUsersStr);
+                    const userIndex = storedUsers.findIndex((u) => u.id === updatedUser.id);
+                    if (userIndex !== -1) { storedUsers[userIndex] = { ...storedUsers[userIndex], ...updatedUser }; localStorage.setItem('gstore_users', JSON.stringify(storedUsers)); }
+                }
+                localStorage.setItem('gstore_session', JSON.stringify(updatedUser));
+            };
+
+            const handleLogin = (user) => { setCurrentUser(user); setIsLoggedIn(true); setActiveTab('home'); localStorage.setItem('gstore_session', JSON.stringify(user)); };
+            const handleLogout = () => { setIsLoggedIn(false); setCurrentUser(null); setCart([]); setActiveTab('home'); localStorage.removeItem('gstore_session'); };
+            const addToCart = (product) => { setCart([...cart, product]); setToastMessage('Added to cart!'); setShowToast(true); setTimeout(() => setShowToast(false), 2000); };
+            const removeFromCart = (id) => { const index = cart.findIndex(item => item.id === id); if (index > -1) { const newCart = [...cart]; newCart.splice(index, 1); setCart(newCart); } };
+            const toggleWishlist = (product) => {
+                if (!currentUser) return;
+                const currentWishlist = currentUser.wishlist || [];
+                let newWishlist, msg;
+                if (currentWishlist.includes(product.id)) { newWishlist = currentWishlist.filter(id => id !== product.id); msg = "Removed from wishlist"; } 
+                else { newWishlist = [...currentWishlist, product.id]; msg = "Added to wishlist"; }
+                handleUpdateUser({ ...currentUser, wishlist: newWishlist });
+                setToastMessage(msg); setShowToast(true); setTimeout(() => setShowToast(false), 2000);
+            };
+            const handleOrderPlaced = (newOrder) => { const orderWithUser = { ...newOrder, email: currentUser?.email || newOrder.email }; const updatedOrders = [orderWithUser, ...orders]; setOrders(updatedOrders); setCart([]); localStorage.setItem('gstore_orders', JSON.stringify(updatedOrders)); };
+            const cartTotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const myOrders = orders.filter(o => o.email === currentUser?.email);
+
+            if (!isLoggedIn) return <Login onLogin={handleLogin} />;
+
+            return (
+                <div className="min-h-screen bg-app-bg text-app-text max-w-lg mx-auto md:max-w-none md:border-x md:border-white/5 relative overflow-hidden font-sans">
+                <div className={`fixed top-4 left-1/2 -translate-x-1/2 bg-white text-black font-bold px-6 py-3 rounded-full shadow-glow-blue z-[70] transition-all duration-300 pointer-events-none ${showToast ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0'}`}>{toastMessage}</div>
+                <button onClick={() => setIsAIHelpOpen(true)} className="fixed bottom-24 right-4 md:right-8 z-40 p-4 bg-app-accent text-white rounded-full shadow-glow-purple hover:scale-110 transition-transform animate-bounce-slow"><MessageSquare size={28} /></button>
+                {selectedProduct && <ProductDetailsModal product={selectedProduct} isOpen={!!selectedProduct} onClose={() => setSelectedProduct(null)} onAddToCart={addToCart} />}
+                <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} cartItems={cart} total={cartTotal} onOrderPlaced={handleOrderPlaced} />
+                <OrderHistory isOpen={isOrderHistoryOpen} onClose={() => setIsOrderHistoryOpen(false)} orders={myOrders} />
+                <AIHelp isOpen={isAIHelpOpen} onClose={() => setIsAIHelpOpen(false)} />
+                <PolicyModal isOpen={!!activePolicy} type={activePolicy} onClose={() => setActivePolicy(null)} />
+                <SupportTicketModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} user={currentUser} />
+                <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden"><div className="absolute top-[-15%] left-[-15%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[130px] animate-pulse" /><div className="absolute top-[30%] right-[-15%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[130px] animate-pulse delay-700" /><div className="absolute bottom-[-15%] left-[20%] w-[600px] h-[600px] bg-pink-600/10 rounded-full blur-[150px] animate-pulse delay-1000" /></div>
+                <div className="relative z-10 pb-32">
+                    <div className="h-16 flex items-center justify-between border-b border-white/5 bg-app-bg/80 backdrop-blur-md sticky top-0 z-40 px-6"><span className="text-lg font-black italic tracking-tighter text-white">MOHOLLA SHOP</span></div>
+                    <div className="bg-app-accent/10 border-b border-app-accent/20 py-2.5 px-6 flex items-center gap-3 overflow-hidden"><BellRing size={14} className="text-app-accent shrink-0 animate-pulse" /><div className="text-xs font-medium text-white truncate">Welcome to <span className="text-app-accent font-bold">Moholla Official Shop</span>!</div></div>
+                    {activeTab === 'home' && (
+                        <div className="animate-in fade-in duration-500">
+                            <HeroBanner />
+                            <div className="mb-8"><div className="flex justify-between items-center px-6 mb-4"><h2 className="text-lg font-bold text-white">Categories</h2></div><div className="flex overflow-x-auto no-scrollbar gap-4 px-6 pb-2">{BRANDS.map((brand) => (<div key={brand.id} className="flex flex-col items-center gap-2 shrink-0 group cursor-pointer"><div className="w-16 h-16 rounded-2xl bg-app-card flex items-center justify-center border border-white/5 group-hover:bg-app-accent transition-all shadow-lg"><span className="text-[10px] font-bold text-app-muted group-hover:text-white uppercase tracking-wider">{brand.logo}</span></div><span className="text-xs text-app-muted font-medium group-hover:text-white transition-colors">{brand.name}</span></div>))}</div></div>
+                            <section className="mb-8"><div className="flex justify-between items-center px-6 mb-4"><h2 className="text-xl font-bold text-white">Popular Subscriptions</h2></div><div className="flex overflow-x-auto no-scrollbar gap-4 px-6 pb-8 snap-x snap-mandatory pt-2">{NITRO_PRODUCTS.map(product => (<ProductCard key={product.id} product={product} onAddToCart={addToCart} onClick={setSelectedProduct} onToggleWishlist={toggleWishlist} isFavoriteOverride={currentUser?.wishlist?.includes(product.id)} />))}</div></section>
+                            <section className="mb-8"><div className="flex justify-between items-center px-6 mb-4"><h2 className="text-xl font-bold text-white">Featured Items</h2></div><div className="flex overflow-x-auto no-scrollbar gap-4 px-6 pb-8 snap-x snap-mandatory pt-2">{FEATURED_ITEMS.map(product => (<ProductCard key={product.id} product={product} onAddToCart={addToCart} onClick={setSelectedProduct} onToggleWishlist={toggleWishlist} isFavoriteOverride={currentUser?.wishlist?.includes(product.id)} />))}</div></section>
+                            <Footer onOpenPolicy={setActivePolicy} onOpenSupport={() => setIsSupportOpen(true)} />
+                        </div>
+                    )}
+                    {activeTab === 'profile' && currentUser && <Profile user={currentUser} orderCount={myOrders.length} wishlistCount={currentUser.wishlist ? currentUser.wishlist.length : 0} couponCount={currentUser.coupons || 0} onLogout={handleLogout} onOpenOrderHistory={() => setIsOrderHistoryOpen(true)} onTrackOrder={() => setIsOrderHistoryOpen(true)} onUpdateUser={handleUpdateUser} />}
+                    {activeTab === 'cart' && <Cart items={cart} onRemove={removeFromCart} onCheckout={() => setIsCheckoutOpen(true)} />}
+                </div>
+                <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} cartCount={cart.length} />
+                </div>
+            );
+        };
+
+        const rootElement = document.getElementById('root');
+        const root = createRoot(rootElement);
+        root.render(<App />);
+
+    </script>
+</body>
+</html>

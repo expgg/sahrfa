@@ -1,0 +1,387 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0d0d0d;
+    color: #e0e0e0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Removed padding from body to allow portfolio-container to control its own spacing */
+    box-sizing: border-box;
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(0deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px),
+        repeating-linear-gradient(90deg, #1a1a1a 0, #1a1a1a 1px, transparent 1px, transparent 10px);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #B8860B; /* Changed to a muted gold */
+    text-shadow: 0 0 8px rgba(184, 134, 11, 0.5); /* Adjusted shadow for gold */
+}
+
+.portfolio-container {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    padding: 20px; /* Internal padding for the card content */
+    /* Glassmorphism background for the main card */
+    background-color: rgba(26, 26, 26, 0.8); /* Slightly more opaque background to help with image visibility */
+    background-image: url('background.jpg'); /* Changed to the correct filename */
+    background-size: cover; /* Ensures the image covers the entire container */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    backdrop-filter: blur(5px); /* Apply a slight blur to the container itself for a softer look */
+    -webkit-backdrop-filter: blur(5px); /* For Safari */
+
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(184, 134, 11, 0.2), 0 0 15px rgba(0, 0, 0, 0.8); /* Adjusted shadow for gold */
+    box-sizing: border-box;
+    border: 1px solid rgba(184, 134, 11, 0.3); /* Adjusted border for gold */
+    min-height: 700px; /* Reduced height by 100px */
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-section {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    display: flex; /* Use flexbox for horizontal alignment */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    align-items: center; /* Vertically align items in the center */
+    justify-content: center; /* Horizontally center items */
+    text-align: center; /* Ensure text inside is centered */
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 5px solid #B8860B; /* Changed to muted gold */
+    box-shadow: 0 0 20px rgba(184, 134, 11, 0.8), 0 0 10px rgba(0, 0, 0, 0.5); /* Adjusted shadow for gold */
+    margin-right: 15px; /* Add some space between photo and name */
+    margin-top: -10px; /* Adjusted to move photo slightly up */
+}
+
+.name {
+    font-size: 2em;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    color: #B8860B; /* Changed to muted gold */
+    /* Enhancements for visibility */
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker semi-transparent background */
+    padding: 8px 10px; /* Increased vertical padding to 8px */
+    border-radius: 5px; /* Slightly rounded corners */
+    text-shadow: 0 0 8px rgba(184, 134, 11, 0.8); /* Adjusted shadow for gold */
+    display: inline-block; /* Allows background/padding to wrap content */
+    flex-shrink: 0; /* Prevent shrinking on smaller screens */
+    margin-top: -20px; /* Adjusted to move name further up for better alignment */
+}
+
+.bio {
+    font-size: 1em;
+    line-height: 1.2;
+    color: white; /* Changed bio text color to white */
+    max-width: 400px;
+    margin: 5px auto 0px;
+    padding-bottom: 0px;
+    /* Enhancements for visibility */
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent dark background */
+    padding: 5px 10px; /* Add some padding */
+    border-radius: 5px; /* Slightly rounded corners */
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); /* Add a subtle text shadow */
+    width: 100%; /* Ensure bio takes full width below photo and name */
+    margin-top: 10px; /* Add space above bio */
+}
+
+
+.tab-system {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(184, 134, 11, 0.4); /* Adjusted border for gold */
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.tab-button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    flex: 1;
+    border-radius: 8px;
+}
+
+.tab-button:hover {
+    color: #DAA520; /* Lighter gold for hover */
+    background-color: rgba(184, 134, 11, 0.1); /* Adjusted background for gold */
+}
+
+.tab-button.active {
+    color: #B8860B; /* Changed to muted gold */
+    border-bottom: 2px solid #B8860B; /* Changed to muted gold */
+    text-shadow: 0 0 7px rgba(184, 134, 11, 0.6); /* Adjusted shadow for gold */
+    background-color: rgba(184, 134, 11, 0.15); /* Adjusted background for gold */
+}
+
+.tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px; /* Reduced max-height by 100px */
+    overflow-y: auto; /* Changed to auto to only show scrollbar when needed */
+    padding-right: 10px;
+    flex-grow: 1;
+}
+
+.tab-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tab-content::-webkit-scrollbar-track {
+    background: #333;
+    border-radius: 10px;
+}
+
+.tab-content::-webkit-scrollbar-thumb {
+    background: #B8860B; /* Changed to muted gold */
+    border-radius: 10px;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+.social-entry,
+.game-entry {
+    display: flex;
+    align-items: center;
+    /* Glassmorphism effect */
+    background-color: rgba(42, 42, 42, 0.6); /* Slightly transparent background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+    border: 1px solid rgba(184, 134, 11, 0.3); /* Adjusted border for gold */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Adjusted shadow for depth */
+
+    padding: 15px;
+    border-radius: 10px;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    animation: fadeIn 0.5s ease-out forwards;
+    color: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 70px;
+    transition: all 0.3s ease; /* Added transition for smooth hover */
+}
+
+/* Apply cursor pointer only to actual links */
+a.social-entry,
+a.game-entry {
+    cursor: pointer;
+}
+
+/* Ensure div game entries do not have a pointer cursor */
+div.game-entry {
+    cursor: default;
+}
+
+.social-entry:hover,
+.game-entry:hover {
+    background-color: rgba(184, 134, 11, 0.1); /* Subtle gold tint on hover */
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4); /* More prominent glow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+
+.social-icon,
+.game-icon {
+    font-size: 2em;
+    color: #B8860B; /* Changed to muted gold */
+    min-width: 40px;
+    text-align: center;
+    text-shadow: 0 0 5px rgba(184, 134, 11, 0.5); /* Adjusted shadow for gold */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.social-details,
+.game-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.social-title,
+.game-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #B8860B; /* Changed to muted gold */
+}
+
+.social-username,
+.game-ign,
+.game-uid {
+    font-size: 0.9em;
+    color: #b0b0b0;
+    word-break: break-word;
+}
+
+/* Copy button specific styles */
+.copy-uid-button {
+    font-size: 1.2em;
+    color: #B8860B; /* Theme color - changed to gold */
+    cursor: pointer;
+    margin-left: auto; /* Pushes the button to the right */
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+}
+
+.copy-uid-button:hover {
+    color: #DAA520; /* Lighter gold for hover */
+    transform: scale(1.1);
+    text-shadow: 0 0 8px rgba(184, 134, 11, 0.8); /* Adjusted shadow for gold */
+}
+
+/* Animation for copied state */
+@keyframes copiedBounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); color: #4CAF50; } /* Bigger and green (can keep green for copy success) */
+    100% { transform: scale(1); }
+}
+
+.copy-uid-button.copied-animation {
+    animation: copiedBounce 0.5s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatPulse {
+    0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); } /* Adjusted shadow for gold */
+    50% { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(184, 134, 11, 0.5); } /* Adjusted shadow for gold */
+    100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3); } /* Adjusted shadow for gold */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+    .portfolio-container {
+        padding: 15px;
+        margin: 10px;
+        min-height: 600px; /* Reduced for mobile as well by 100px */
+    }
+
+    .name {
+        font-size: 1.6em;
+        margin-bottom: 0px;
+        /* Enhancements for visibility */
+        background-color: rgba(0, 0, 0, 0.5); /* Slightly darker semi-transparent background */
+        padding: 5px 10px; /* Add some padding */
+        border-radius: 5px; /* Slightly rounded corners */
+        text-shadow: 0 0 8px rgba(184, 134, 11, 0.8); /* Adjusted shadow for gold */
+        display: inline-block; /* Allows background/padding to wrap content */
+    }
+
+    .bio {
+        font-size: 0.9em;
+        margin: 5px auto 0px;
+        /* Enhancements for visibility */
+        background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent dark background */
+        padding: 5px 10px; /* Add some padding */
+        border-radius: 5px; /* Slightly rounded corners */
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); /* Add a subtle text shadow */
+        color: white; /* Changed bio text color to white */
+    }
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .tab-buttons {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 3px;
+    }
+
+    .tab-button {
+        font-size: 1em;
+        padding: 8px 15px;
+        border-radius: 6px;
+    }
+
+    .social-entry,
+    .game-entry {
+        padding: 10px;
+        gap: 10px;
+        min-height: 60px;
+    }
+
+    .social-icon,
+    .game-icon {
+        font-size: 1.5em;
+    }
+
+    .social-title,
+    .game-title {
+        font-size: 1em;
+    }
+
+    .social-username,
+    .game-ign,
+    .game-uid {
+        font-size: 0.8em;
+    }
+
+    .tab-content {
+        max-height: 300px; /* Reduced for mobile as well by 100px */
+        padding-right: 5px;
+    }
+
+    .tab-content::-webkit-scrollbar {
+        width: 4px;
+    }
+}

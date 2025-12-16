@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploriot: The EXPLORIOT All-In-One Tool: A Detailed Breakdown</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght%40700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /*
+        CSS Variables: These define the site's color palette.
+        They make it easy to change the theme colors globally from one place.
+        --color-primary: Main accent color (Cherry Red)
+        --color-background: Dark background color (AMOLED Black)
+        --color-text: Main text color (Cream White)
+        --color-accent-dark: A darker shade of the primary color for hover states
+        --color-card-bg: Background color for content sections and cards
+        --color-border: Border color for sections and cards
+        --color-highlight-bg: Background color for highlighted text, with transparency
+        AI INSTRUCTION: Refer to these variables for all color-related styling.
+        */
+        :root {
+            --color-primary: #dc2626; /* Cherry Red */
+            --color-background: #0a0a0a; /* AMOLED Black */
+            --color-text: #f5f5dc; /* Cream White */
+            --color-accent-dark: #b91c1c; /* Darker Red */
+            --color-card-bg: #1a1a1a;
+            --color-border: #444;
+            --color-highlight-bg: rgba(245, 245, 220, 0.15); /* Cream White with transparency */
+        }
+
+        /*
+        Body Styling: Sets the default font, background, text color, and line height for the entire page.
+        AI INSTRUCTION: Body text will use 'Inter'.
+        */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /*
+        Heading Styling: Sets the color and font weight for all heading tags (H1 to H4).
+        AI INSTRUCTION: Headings will now use 'Montserrat' for a distinct look.
+        */
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif; /* New font for headings */
+            color: var(--color-primary);
+            font-weight: 700; /* Bold weight for headings */
+        }
+
+        /*
+        Section Container Styling: Defines the visual appearance of major content blocks.
+        - background-color: Uses the defined card background variable.
+        - border-radius: Creates rounded corners (1rem = 16px).
+        - padding: Adds space inside the container.
+        - box-shadow: Gives a subtle depth effect.
+        - border: Adds a subtle border using the defined border color.
+        - transition: Added for subtle hover effect on section.
+        - position: relative; added to allow absolute positioning of copy button inside.
+        AI INSTRUCTION: ALL major content sections (e.g., introduction, parts list, step-by-step) MUST use this class.
+        */
+        .section-container {
+            background-color: var(--color-card-bg);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-border);
+            transition: box-shadow 0.3s ease-in-out; /* Added transition for hover effect */
+            position: relative; /* For positioning copy button */
+        }
+
+        /* Hover effect for section containers */
+        .section-container:hover {
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+        }
+
+
+        /*
+        Part Card Styling: Defines the appearance for individual items within a grid (e.g., parts in the parts list).
+        - background-color, border-radius, padding, box-shadow, border: Similar to section-container but slightly smaller.
+        - transition: Adds a smooth animation effect on hover.
+        - position: relative; added to allow absolute positioning of copy button inside.
+        AI INSTRUCTION: Use this class for items that are visually distinct cards within a section.
+        */
+        .part-card {
+            background-color: var(--color-card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-border);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added box-shadow transition */
+            position: relative; /* For positioning copy button */
+        }
+
+        /* Hover effect for part cards */
+        .part-card:hover {
+            transform: translateY(-5px); /* Lifts the card slightly on hover */
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2), 0 6px 10px -3px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+        }
+
+        /*
+        Copy Button Styling (for code blocks): Styles the button used to copy code snippets.
+        - background-color: Uses the primary cherry red.
+        - color: White text.
+        - padding, border-radius, font-weight: Standard button styling.
+        - transition: Smooth color change on hover.
+        AI INSTRUCTION: Use this class ONLY for the "Copy Code" button within <pre> blocks.
+        */
+        .copy-button {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s; /* Added transform transition */
+        }
+
+        /* Hover effect for copy button */
+        .copy-button:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-1px); /* Slight lift on hover */
+        }
+
+        /*
+        Section Copy Button Styling: New style for copying entire sections/sub-sections.
+        - absolute: Positions relative to its parent section/div.
+        - top-4 right-4: Positions it at the top-right corner.
+        - z-index: Ensures it's above other content.
+        - opacity: 0; visibility: hidden; transition: Starts hidden and fades/slides in.
+        AI INSTRUCTION: Apply this class to copy buttons placed on content sections.
+        */
+        .section-copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(var(--color-primary-rgb, 220, 38, 38), 0.7); /* Semi-transparent primary */
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, background-color 0.2s;
+            z-index: 10;
+        }
+
+        /* Show section copy button on hover of its parent container */
+        .section-container:hover .section-copy-button,
+        .part-card:hover .section-copy-button,
+        .mb-10.p-6.rounded-xl.bg-gray-900:hover .section-copy-button { /* Specific selector for sub-topic divs */
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .section-copy-button:hover {
+            background-color: var(--color-primary); /* Fully opaque on hover */
+        }
+
+
+        /*
+        Primary Button Styling: Styles general-purpose primary action buttons.
+        - background-color: Uses the primary cherry red.
+        - color: White text.
+        - padding, border-radius, font-weight: Standard button styling.
+        - transition: Smooth color change on hover.
+        AI INSTRUCTION: Use this class for main interactive buttons (e.g., "Show Table of Contents", "Back to Top").
+        */
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s; /* Added transform transition */
+        }
+
+        /* Hover effect for primary button */
+        .btn-primary:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+        }
+
+        /*
+        Highlight Text Styling: Styles text to look like it's been highlighted with a marker.
+        - background-color: Uses the translucent cream white highlight color.
+        - padding, border-radius: Adds slight padding and rounded corners for the highlight effect.
+        AI INSTRUCTION: Wrap important phrases or keywords in <span class="highlight">...</span> tags
+        to draw attention to them, similar to a textbook highlighter.
+        */
+        .highlight {
+            background-color: var(--color-highlight-bg);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        /*
+        Navigation Link Hover Effect:
+        Adds a subtle translateX transform to navigation links on hover, giving a "slide" effect.
+        */
+        .sticky-nav ul li a, #mobile-nav-menu ul li a {
+            transition: color 0.2s, transform 0.2s; /* Smooth transition for color and transform */
+            display: inline-block; /* Required for transform on inline elements */
+            padding-left: 0.5rem; /* Add some padding for the slide effect */
+        }
+
+        .sticky-nav ul li a:hover, #mobile-nav-menu ul li a:hover {
+            transform: translateX(5px); /* Slides slightly to the right on hover */
+        }
+
+        /*
+        Heading Border Separators: Adds a subtle line below h2 and h3 headings.
+        - padding-bottom: Space below the text before the line.
+        - margin-bottom: Space below the line.
+        - border-bottom: The line itself.
+        AI INSTRUCTION: These styles are automatically applied to h2 and h3 elements.
+        */
+        h2 {
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.3); /* Subtle primary colored line */
+        }
+        h3 {
+            padding-bottom: 0.3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(var(--color-primary), 0.2); /* Slightly lighter line for h3 */
+        }
+
+
+        /*
+        Scrollbar Styling: Customizes the appearance of the scrollbar for a themed look.
+        AI INSTRUCTION: This is purely for aesthetics and doesn't require AI intervention.
+        */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-card-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary);
+            border-radius: 10px;
+            border: 2px solid var(--color-card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-accent-dark);
+        }
+
+        /*
+        Sticky Navigation for Desktop:
+        This media query applies styles only on screens wider than 1024px (large screens).
+        - position: sticky, top: 1rem, align-self: flex-start: Makes the navigation stick to the top
+          of the viewport as the user scrolls.
+        - max-height, overflow-y: Allows the navigation to scroll internally if it's too long,
+          preventing the entire page from having excessive scrolling.
+        AI INSTRUCTION: This ensures the Table of Contents remains visible on larger screens.
+        */
+        @media (min-width: 1024px) {
+            .sticky-nav {
+                position: sticky;
+                top: 1rem;
+                align-self: flex-start;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
+        }
+
+        /*
+        Floating Table of Contents for Mobile (Overlay):
+        This section defines the styling for the full-screen, sliding TOC overlay on mobile.
+        - fixed: Positions relative to the viewport.
+        - top-0, left-0, w-full, h-full: Covers the entire screen.
+        - z-index: Places it above other content.
+        - transform: translateX(100%): Starts off-screen to the right.
+        - transition: Smooth slide-in/out effect.
+        - hidden: Initial state, JavaScript will remove this.
+        AI INSTRUCTION: This styling is controlled by JavaScript.
+        */
+        #mobile-nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); /* Semi-transparent AMOLED black */
+            z-index: 50; /* High z-index to be on top */
+            transform: translateX(100%); /* Start off-screen to the right */
+            transition: transform 0.3s ease-out; /* Smooth slide transition */
+            padding: 2rem;
+            display: flex; /* Use flexbox for content alignment */
+            flex-direction: column; /* Stack items vertically */
+            overflow-y: auto; /* Allow scrolling if TOC is long */
+        }
+        /* Class added by JS to show the mobile TOC */
+        #mobile-nav-menu.mobile-nav-open {
+            transform: translateX(0); /* Slide into view */
+            display: flex; /* Ensure it's displayed as flex when open */
+        }
+
+        /* Styling for the close button inside the mobile TOC */
+        #mobile-nav-close {
+            background-color: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            line-height: 1;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%; /* Circular button */
+            position: absolute; /* Position relative to the menu */
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        #mobile-nav-close:hover {
+            background-color: var(--color-primary);
+            color: white;
+            transform: rotate(90deg); /* Spin effect on hover */
+        }
+
+        /* Styling for the Back to Top icon button */
+        #back-to-top {
+            font-size: 2.5rem; /* Larger font size for the icon */
+            font-weight: 900; /* Make the icon bold */
+            width: 3.5rem; /* Adjust width for the icon */
+            height: 3.5rem; /* Adjust height for the icon */
+            border-radius: 50%; /* Make it circular */
+            display: flex; /* Use flexbox to center the icon */
+            align-items: center;
+            justify-content: center;
+            line-height: 1; /* Center vertically */
+            padding: 0; /* Remove default padding from btn-primary */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add a stronger shadow */
+        }
+        #back-to-top:hover {
+            transform: translateY(-5px); /* More pronounced lift on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+        }
+    </style>
+</head>
+<body class="antialiased leading-normal">
+    <div class="min-h-screen p-4 lg:p-8 flex flex-col lg:flex-row gap-8">
+
+        <nav id="sticky-nav" class="hidden lg:block w-1/4 sticky-nav section-container p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">Table of Contents</h2>
+            <ul class="space-y-3 text-lg">
+                <li><a href="#introduction" class="hover:text-red-500">Article Introduction</a></li>
+                <li><a href="#app-configuration" class="hover:text-red-500">App Configuration</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#app-name" class="hover:text-red-500">APP_NAME</a></li>
+                        <li><a href="#config-filename" class="hover:text-red-500">CONFIG_FILENAME</a></li>
+                        <li><a href="#github-url" class="hover:text-red-500">GITHUB_URL</a></li>
+                        <li><a href="#shop-url" class="hover:text-red-500">SHOP_URL</a></li>
+                    </ul>
+                </li>
+                <li><a href="#style" class="hover:text-red-500">Style</a></li>
+                <li><a href="#audio-presets" class="hover:text-red-500">Audio Presets</a></li>
+                <li><a href="#default-settings" class="hover:text-red-500">Default Settings</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#general" class="hover:text-red-500">General</a></li>
+                        <li><a href="#module-toggles" class="hover:text-red-500">Module Toggles</a></li>
+                        <li><a href="#audio-module" class="hover:text-red-500">Audio Module</a></li>
+                        <li><a href="#3gp-module" class="hover:text-red-500">3GP Module</a></li>
+                        <li><a href="#mp4-compress-module" class="hover:text-red-500">MP4 Compress Module</a></li>
+                        <li><a href="#trimming-module" class="hover:text-red-500">Trimming Module</a></li>
+                        <li><a href="#watermark-module" class="hover:text-red-500">Watermark Module</a></li>
+                    </ul>
+                </li>
+                <li><a href="#supported-extensions" class="hover:text-red-500">Supported Extensions</a></li>
+                <li><a href="#helper-functions" class="hover:text-red-500">Helper Functions</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#get-app-data-path" class="hover:text-red-500">get_app_data_path</a></li>
+                    </ul>
+                </li>
+                <li><a href="#configmanager-class" class="hover:text-red-500">ConfigManager Class</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#init-configmanager" class="hover:text-red-500">init</a></li>
+                        <li><a href="#get-setting" class="hover:text-red-500">get_setting</a></li>
+                        <li><a href="#set-setting" class="hover:text-red-500">set_setting</a></li>
+                        <li><a href="#load-permanent-settings" class="hover:text-red-500">load_permanent_settings</a></li>
+                        <li><a href="#save-permanent-settings" class="hover:text-red-500">save_permanent_settings</a></li>
+                    </ul>
+                </li>
+                <li><a href="#settingswindow-class" class="hover:text-red-500">SettingsWindow Class</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#init-settingswindow" class="hover:text-red-500">init</a></li>
+                        <li><a href="#create-general-tab" class="hover:text-red-500">_create_general_tab</a></li>
+                        <li><a href="#create-audio-tab" class="hover:text-red-500">_create_audio_tab</a></li>
+                        <li><a href="#create-3gp-tab" class="hover:text-red-500">_create_3gp_tab</a></li>
+                        <li><a href="#create-mp4-h-tab" class="hover:text-red-500">_create_mp4_h_tab</a></li>
+                        <li><a href="#create-trim-tab" class="hover:text-red-500">_create_trim_tab</a></li>
+                        <li><a href="#create-watermark-tab" class="hover:text-red-500">_create_watermark_tab</a></li>
+                        <li><a href="#select-theme-color" class="hover:text-red-500">select_theme_color</a></li>
+                        <li><a href="#select-font-color" class="hover:text-red-500">select_font_color</a></li>
+                        <li><a href="#select-bg-color" class="hover:text-red-500">select_bg_color</a></li>
+                        <li><a href="#save-and-close" class="hover:text-red-500">save_and_close</a></li>
+                    </ul>
+                </li>
+                <li><a href="#summarypopup-class" class="hover:text-red-500">SummaryPopup Class</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#init-summarypopup" class="hover:text-red-500">init</a></li>
+                    </ul>
+                </li>
+                <li><a href="#exploriotconverterapp-class" class="hover:text-red-500">ExploriotConverterApp Class</a>
+                    <ul class="ml-4 space-y-2 mt-2 text-base">
+                        <li><a href="#init-exploriotconverterapp" class="hover:text-red-500">init</a></li>
+                        <li><a href="#animate-pfp" class="hover:text-red-500">_animate_pfp</a></li>
+                        <li><a href="#on-module-change" class="hover:text-red-500">on_module_change</a></li>
+                        <li><a href="#setup-treeview-style" class="hover:text-red-500">setup_treeview_style</a></li>
+                        <li><a href="#create-widgets" class="hover:text-red-500">create_widgets</a></li>
+                        <li><a href="#log-panel" class="hover:text-red-500">Log Panel</a></li>
+                        <li><a href="#control-panel" class="hover:text-red-500">Control Panel</a></li>
+                        <li><a href="#profile-card" class="hover:text-red-500">Profile Card</a></li>
+                        <li><a href="#open-link" class="hover:text-red-500">open_link</a></li>
+                        <li><a href="#on-log-resize" class="hover:text-red-500">on_log_resize</a></li>
+                        <li><a href="#add-log-entry" class="hover:text-red-500">_add_log_entry</a></li>
+                        <li><a href="#update-log-entry" class="hover:text-red-500">_update_log_entry</a></li>
+                        <li><a href="#log-system-message" class="hover:text-red-500">log_system_message</a></li>
+                        <li><a href="#queue-methods" class="hover:text-red-500">Queue Methods</a></li>
+                        <li><a href="#process-gui-updates" class="hover:text-red-500">process_gui_updates</a></li>
+                        <li><a href="#clear-log" class="hover:text-red-500">clear_log</a></li>
+                        <li><a href="#get-ffmpeg-executable-path" class="hover:text-red-500">get_ffmpeg_executable_path</a></li>
+                        <li><a href="#check-ffmpeg-on-startup" class="hover:text-red-500">check_ffmpeg_on_startup</a></li>
+                        <li><a href="#get-video-duration-ffmpeg" class="hover:text-red-500">get_video_duration_ffmpeg</a></li>
+                        <li><a href="#get-startup-info" class="hover:text-red-500">get_startup_info</a></li>
+                        <li><a href="#update-start-button-state" class="hover:text-red-500">update_start_button_state</a></li>
+                        <li><a href="#select-folder" class="hover:text-red-500">select_folder</a></li>
+                        <li><a href="#open-config-window" class="hover:text-red-500">open_config_window</a></li>
+                        <li><a href="#stop-conversion" class="hover:text-red-500">stop_conversion</a></li>
+                        <li><a href="#compress-audio-task" class="hover:text-red-500">compress_audio_task</a></li>
+                        <li><a href="#convert-single-video-task" class="hover:text-red-500">convert_single_video_task</a></li>
+                        <li><a href="#conversion-worker" class="hover:text-red-500">conversion_worker</a></li>
+                        <li><a href="#start-conversion" class="hover:text-red-500">start_conversion</a></li>
+                    </ul>
+                </li>
+                <li><a href="#main-execution-block" class="hover:text-red-500">Main Execution Block</a></li>
+            </ul>
+        </nav>
+
+        <main class="flex-grow w-full lg:w-3/4 space-y-8">
+
+            <div class="lg:hidden section-container mb-8">
+                <button id="mobile-nav-toggle" class="btn-primary w-full text-center">
+                    Show Table of Contents
+                </button>
+            </div>
+
+            <div class="section-container mb-8">
+                <a href="https://sahrfa.top" target="_blank" rel="noopener noreferrer" class="btn-primary w-full text-center">
+                    Download The EXPLORIOT All-In-One Tool
+                </a>
+            </div>
+
+            <div id="mobile-nav-menu" class="hidden">
+                <button id="mobile-nav-close" aria-label="Close menu">X</button>
+                <h2 class="text-3xl font-bold mb-6 text-center pt-8">Table of Contents</h2>
+                <ul class="space-y-4 text-xl flex-grow flex flex-col justify-center">
+                    <li><a href="#introduction" class="block hover:text-red-500 py-2">Article Introduction</a></li>
+                    <li><a href="#app-configuration" class="block hover:text-red-500 py-2">App Configuration</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#app-name" class="block hover:text-red-500 py-1">APP_NAME</a></li>
+                            <li><a href="#config-filename" class="block hover:text-red-500 py-1">CONFIG_FILENAME</a></li>
+                            <li><a href="#github-url" class="block hover:text-red-500 py-1">GITHUB_URL</a></li>
+                            <li><a href="#shop-url" class="block hover:text-red-500 py-1">SHOP_URL</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#style" class="block hover:text-red-500 py-2">Style</a></li>
+                    <li><a href="#audio-presets" class="block hover:text-red-500 py-2">Audio Presets</a></li>
+                    <li><a href="#default-settings" class="block hover:text-red-500 py-2">Default Settings</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#general" class="block hover:text-red-500 py-1">General</a></li>
+                            <li><a href="#module-toggles" class="block hover:text-red-500 py-1">Module Toggles</a></li>
+                            <li><a href="#audio-module" class="block hover:text-red-500 py-1">Audio Module</a></li>
+                            <li><a href="#3gp-module" class="block hover:text-red-500 py-1">3GP Module</a></li>
+                            <li><a href="#mp4-compress-module" class="block hover:text-red-500 py-1">MP4 Compress Module</a></li>
+                            <li><a href="#trimming-module" class="block hover:text-red-500 py-1">Trimming Module</a></li>
+                            <li><a href="#watermark-module" class="block hover:text-red-500 py-1">Watermark Module</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#supported-extensions" class="block hover:text-red-500 py-2">Supported Extensions</a></li>
+                    <li><a href="#helper-functions" class="block hover:text-red-500 py-2">Helper Functions</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#get-app-data-path" class="block hover:text-red-500 py-1">get_app_data_path</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#configmanager-class" class="block hover:text-red-500 py-2">ConfigManager Class</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#init-configmanager" class="block hover:text-red-500 py-1">init</a></li>
+                            <li><a href="#get-setting" class="block hover:text-red-500 py-1">get_setting</a></li>
+                            <li><a href="#set-setting" class="block hover:text-red-500 py-1">set_setting</a></li>
+                            <li><a href="#load-permanent-settings" class="block hover:text-red-500 py-1">load_permanent_settings</a></li>
+                            <li><a href="#save-permanent-settings" class="block hover:text-red-500 py-1">save_permanent_settings</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#settingswindow-class" class="block hover:text-red-500 py-2">SettingsWindow Class</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#init-settingswindow" class="block hover:text-red-500 py-1">init</a></li>
+                            <li><a href="#create-general-tab" class="block hover:text-red-500 py-1">_create_general_tab</a></li>
+                            <li><a href="#create-audio-tab" class="block hover:text-red-500 py-1">_create_audio_tab</a></li>
+                            <li><a href="#create-3gp-tab" class="block hover:text-red-500 py-1">_create_3gp_tab</a></li>
+                            <li><a href="#create-mp4-h-tab" class="block hover:text-red-500 py-1">_create_mp4_h_tab</a></li>
+                            <li><a href="#create-trim-tab" class="block hover:text-red-500 py-1">_create_trim_tab</a></li>
+                            <li><a href="#create-watermark-tab" class="block hover:text-red-500 py-1">_create_watermark_tab</a></li>
+                            <li><a href="#select-theme-color" class="block hover:text-red-500 py-1">select_theme_color</a></li>
+                            <li><a href="#select-font-color" class="block hover:text-red-500 py-1">select_font_color</a></li>
+                            <li><a href="#select-bg-color" class="block hover:text-red-500 py-1">select_bg_color</a></li>
+                            <li><a href="#save-and-close" class="block hover:text-red-500 py-1">save_and_close</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#summarypopup-class" class="block hover:text-red-500 py-2">SummaryPopup Class</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#init-summarypopup" class="block hover:text-red-500 py-1">init</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#exploriotconverterapp-class" class="block hover:text-red-500 py-2">ExploriotConverterApp Class</a>
+                        <ul class="ml-6 space-y-2 mt-2 text-lg">
+                            <li><a href="#init-exploriotconverterapp" class="block hover:text-red-500 py-1">init</a></li>
+                            <li><a href="#animate-pfp" class="block hover:text-red-500 py-1">_animate_pfp</a></li>
+                            <li><a href="#on-module-change" class="block hover:text-red-500 py-1">on_module_change</a></li>
+                            <li><a href="#setup-treeview-style" class="block hover:text-red-500 py-1">setup_treeview_style</a></li>
+                            <li><a href="#create-widgets" class="block hover:text-red-500 py-1">create_widgets</a></li>
+                            <li><a href="#log-panel" class="block hover:text-red-500 py-1">Log Panel</a></li>
+                            <li><a href="#control-panel" class="block hover:text-red-500 py-1">Control Panel</a></li>
+                            <li><a href="#profile-card" class="block hover:text-red-500 py-1">Profile Card</a></li>
+                            <li><a href="#open-link" class="block hover:text-red-500 py-1">open_link</a></li>
+                            <li><a href="#on-log-resize" class="block hover:text-red-500 py-1">on_log_resize</a></li>
+                            <li><a href="#add-log-entry" class="block hover:text-red-500 py-1">_add_log_entry</a></li>
+                            <li><a href="#update-log-entry" class="block hover:text-red-500 py-1">_update_log_entry</a></li>
+                            <li><a href="#log-system-message" class="block hover:text-red-500 py-1">log_system_message</a></li>
+                            <li><a href="#queue-methods" class="block hover:text-red-500 py-1">Queue Methods</a></li>
+                            <li><a href="#process-gui-updates" class="block hover:text-red-500 py-1">process_gui_updates</a></li>
+                            <li><a href="#clear-log" class="block hover:text-red-500 py-1">clear_log</a></li>
+                            <li><a href="#get-ffmpeg-executable-path" class="block hover:text-red-500 py-1">get_ffmpeg_executable_path</a></li>
+                            <li><a href="#check-ffmpeg-on-startup" class="block hover:text-red-500 py-1">check_ffmpeg_on_startup</a></li>
+                            <li><a href="#get-video-duration-ffmpeg" class="block hover:text-red-500 py-1">get_video_duration_ffmpeg</a></li>
+                            <li><a href="#get-startup-info" class="block hover:text-red-500 py-1">get_startup_info</a></li>
+                            <li><a href="#update-start-button-state" class="block hover:text-red-500 py-1">update_start_button_state</a></li>
+                            <li><a href="#select-folder" class="block hover:text-red-500 py-1">select_folder</a></li>
+                            <li><a href="#open-config-window" class="block hover:text-red-500 py-1">open_config_window</a></li>
+                            <li><a href="#stop-conversion" class="block hover:text-red-500 py-1">stop_conversion</a></li>
+                            <li><a href="#compress-audio-task" class="block hover:text-red-500 py-1">compress_audio_task</a></li>
+                            <li><a href="#convert-single-video-task" class="block hover:text-red-500 py-1">convert_single_video_task</a></li>
+                            <li><a href="#conversion-worker" class="block hover:text-red-500 py-1">conversion_worker</a></li>
+                            <li><a href="#start-conversion" class="block hover:text-red-500 py-1">start_conversion</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#main-execution-block" class="block hover:text-red-500 py-2">Main Execution Block</a></li>
+                </ul>
+            </div>
+
+
+            <section id="introduction" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h1 class="text-4xl lg:text-5xl mb-6 text-center highlight">Exploriot: The EXPLORIOT All-In-One Tool: A Detailed Breakdown</h1>
+                    <p class="text-lg mb-4">The EXPLORIOT All-In-One Tool is a <span class="highlight">customtkinter-based application</span> designed for <span class="highlight">batch processing and converting media files</span>. It leverages external `ffmpeg` and `ffprobe` executables for its core functionalities.</p>
+                    <p class="text-lg">Here's a detailed explanation of its components and modules:</p>
+                </div>
+            </section>
+
+            <section id="app-configuration" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">App Configuration</h2>
+                    <p class="mb-4">This section outlines the fundamental configuration settings for the application.</p>
+
+                    <div id="app-name" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">APP_NAME</h3>
+                            <p class="mb-4">Defines the application's title as <span class="highlight">"EXPLORIOT All-In-One Tool"</span>.</p>
+                        </div>
+                    </div>
+
+                    <div id="config-filename" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">CONFIG_FILENAME</h3>
+                            <p class="mb-4">Specifies the name of the configuration file as <span class="highlight">"exploriot_converter_config.json"</span>.</p>
+                        </div>
+                    </div>
+
+                    <div id="github-url" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">GITHUB_URL</h3>
+                            <p class="mb-4">Provides the URL for the exploriot GitHub page: <a href="https://github.com/exploriot" target="_blank" class="text-blue-400 hover:underline">"https://github.com/exploriot"</a>.</p>
+                        </div>
+                    </div>
+
+                    <div id="shop-url" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">SHOP_URL</h3>
+                            <p class="mb-4">Provides the URL for the exploriot shop: <a href="https://exploriot.shop" target="_blank" class="text-blue-400 hover:underline">"https://exploriot.shop"</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="style" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Style</h2>
+                    <p class="mb-4">These variables define the color scheme for the application's GUI elements, ensuring a consistent visual experience.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                        <li><span class="highlight">BG_COLOR:</span> Background color <span class="text-yellow-400">"#101010"</span>.</li>
+                        <li><span class="highlight">INPUT_BG:</span> Input field background color <span class="text-yellow-400">"#0D0D0D"</span>.</li>
+                        <li><span class="highlight">FG_COLOR:</span> Foreground color <span class="text-yellow-400">"#DCE4EE"</span>.</li>
+                        <li><span class="highlight">RED_ACCENT:</span> Accent color for errors/warnings <span class="text-red-400">"#F47174"</span>.</li>
+                        <li><span class="highlight">GREEN_ACCENT:</span> Accent color for success messages <span class="text-green-400">"#66B266"</span>.</li>
+                        <li><span class="highlight">YELLOW_ACCENT:</span> Accent color for pending/warning states <span class="text-yellow-400">"#FFA500"</span>.</li>
+                        <li><span class="highlight">TREEVIEW_HEADER_BG:</span> Background color for Treeview headers <span class="text-yellow-400">"#1F1F1F"</span>.</li>
+                        <li><span class="highlight">LINK_COLOR:</span> Color for clickable links <span class="text-blue-400">"#77AADD"</span>.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="audio-presets" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Audio Presets</h2>
+                    <p class="mb-4">A dictionary defining configurations for various audio compression options.</p>
+
+                    <div class="part-card mb-4">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-xl font-semibold text-red-500 mb-2">"AAC (10 min/MB)"</h3>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Uses <span class="highlight">aac</span> codec.</li>
+                                <li><span class="highlight">14k</span> bitrate.</li>
+                                <li><span class="highlight">.m4a</span> extension.</li>
+                                <li>Description: <span class="highlight">"1 hour audio ≈ 6 MB. Best for basic compatibility."</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="part-card mb-4">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-xl font-semibold text-red-500 mb-2">"Opus (10 min/MB)"</h3>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Uses <span class="highlight">libopus</span> codec.</li>
+                                <li><span class="highlight">14k</span> bitrate.</li>
+                                <li><span class="highlight">.opus</span> extension.</li>
+                                <li>Description: <span class="highlight">"1 hour audio ≈ 6 MB. Better quality than AAC at the same size."</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-xl font-semibold text-red-500 mb-2">"Opus (3 min/MB)"</h3>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Uses <span class="highlight">libopus</span> codec.</li>
+                                <li><span class="highlight">46k</span> bitrate.</li>
+                                <li><span class="highlight">.opus</span> extension.</li>
+                                <li>Description: <span class="highlight">"1 hour audio ≈ 20 MB. Excellent voice quality."</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="default-settings" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Default Settings</h2>
+                    <p class="mb-4">This dictionary holds the initial values for all configurable application settings.</p>
+
+                    <div id="general" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">General</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li><span class="highlight">output_subfolder:</span> "EXPLORIOT_Output".</li>
+                                <li><span class="highlight">max_workers:</span> 4 (for parallel conversions).</li>
+                                <li><span class="highlight">ffmpeg_threads:</span> "2" (for FFmpeg processing).</li>
+                                <li><span class="highlight">theme_color:</span> "#6699CC" (new setting for dynamic theme color).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="module-toggles" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Module Toggles</h3>
+                            <p class="mb-2">(Boolean settings to enable/disable modules):</p>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li><span class="highlight">trim_enabled:</span> False.</li>
+                                <li><span class="highlight">convert_to_3gp:</span> True.</li>
+                                <li><span class="highlight">mp4_compress_enabled:</span> False.</li>
+                                <li><span class="highlight">watermark_enabled:</span> False.</li>
+                                <li><span class="highlight">audio_compress_enabled:</span> False.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="audio-module" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Audio Module</h3>
+                            <ul class="list-disc list-inside ml-4">
+                                <li><span class="highlight">audio_preset:</span> Defaults to the first key in AUDIO_PRESETS.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="3gp-module" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="2xl font-bold text-red-500 mb-4">3GP Module</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li><span class="highlight">gp3_video_resolution:</span> "176x144".</li>
+                                <li><span class="highlight">gp3_frame_rate:</span> "15".</li>
+                                <li><span class="highlight">gp3_video_bitrate:</span> "101k".</li>
+                                <li><span class="highlight">gp3_audio_bitrate:</span> "12.2k".</li>
+                                <li><span class="highlight">gp3_audio_sampling_rate:</span> 8000 Hz.</li>
+                                <li><span class="highlight">gp3_output_suffix:</span> "_3gp.3gp".</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="mp4-compress-module" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">MP4 Compress Module</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li><span class="highlight">mp4_quality_mode:</span> "CRF".</li>
+                                <li><span class="highlight">mp4_crf_value:</span> 28.</li>
+                                <li><span class="highlight">mp4_video_bitrate:</span> "500k".</li>
+                                <li><span class="highlight">mp4_h265_preset:</span> "slow".</li>
+                                <li><span class="highlight">mp4_h265_tune:</span> "none".</li>
+                                <li><span class="highlight">mp4_resolution:</span> "854x480".</li>
+                                <li><span class="highlight">mp4_framerate:</span> "24".</li>
+                                <li><span class="highlight">mp4_output_suffix:</span> "_comp.mp4".</li>
+                                <li><span class="highlight">mp4_audio_bitrate:</span> "32k".</li>
+                                <li><span class="highlight">mp4_audio_sampling_rate:</span> "22050".</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="trimming-module" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Trimming Module</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li><span class="highlight">trim_start_seconds:</span> 60.</li>
+                                <li><span class="highlight">trim_end_seconds:</span> 60.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="watermark-module" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Watermark Module</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li><span class="highlight">watermark_text:</span> "EXPLORIOT".</li>
+                                <li><span class="highlight">watermark_font_size:</span> 24.</li>
+                                <li><span class="highlight">watermark_font_color:</span> "#FFFFFF".</li>
+                                <li><span class="highlight">watermark_font_bold:</span> False.</li>
+                                <li><span class="highlight">watermark_position:</span> "Bottom-Right".</li>
+                                <li><span class="highlight">watermark_bg_box:</span> True.</li>
+                                <li><span class="highlight">watermark_bg_color:</span> "#000000".</li>
+                                <li><span class="highlight">watermark_bg_opacity:</span> 0.5.</li>
+                                <li><span class="highlight">watermark_padding:</span> 10.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="supported-extensions" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Supported Extensions</h2>
+                    <p class="mb-4">A list of file extensions that the application can process, including various video and audio formats. (Specific list not provided in source text, generic placeholder used).</p>
+                    <ul class="list-disc list-inside ml-4 space-y-2">
+                        <li>.mp4</li>
+                        <li>.mkv</li>
+                        <li>.avi</li>
+                        <li>.webm</li>
+                        <li>.mov</li>
+                        <li>.mp3</li>
+                        <li>.wav</li>
+                        <li>.flac</li>
+                        <li>.ogg</li>
+                        <li>.m4a</li>
+                        <li>.opus</li>
+                        <li>.3gp</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="helper-functions" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">Helper Functions</h2>
+                    <p class="mb-4">Utility functions that assist in the application's operations.</p>
+
+                    <div id="get-app-data-path" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">get_app_data_path(app_name_str, config_filename_str)</h3>
+                            <p class="mb-4">Determines the appropriate application data directory based on the operating system (Windows, macOS, Linux) and creates it if it doesn't exist. It returns the full path to the configuration file.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="configmanager-class" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">ConfigManager Class</h2>
+                    <p class="mb-4">This class is responsible for managing loading, saving, and retrieving application settings.</p>
+
+                    <div id="init-configmanager" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">init(self, default_settings, config_file_path_obj)</h3>
+                            <p class="mb-4">Initializes with default settings and the configuration file path.</p>
+                        </div>
+                    </div>
+
+                    <div id="get-setting" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">get_setting(self, key)</h3>
+                            <p class="mb-4">Retrieves a setting's value, falling back to default if not found.</p>
+                        </div>
+                    </div>
+
+                    <div id="set-setting" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">set_setting(self, key, value)</h3>
+                            <p class="mb-4">Sets a specific setting, performing type conversion for numeric, float, and boolean keys.</p>
+                        </div>
+                    </div>
+
+                    <div id="load-permanent-settings" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">load_permanent_settings(self)</h3>
+                            <p class="mb-4">Loads settings from the JSON file. If the file is not found or corrupted, it uses default settings.</p>
+                        </div>
+                    </div>
+
+                    <div id="save-permanent-settings" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">save_permanent_settings(self)</h3>
+                            <p class="mb-4">Saves the current settings to the JSON file.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="settingswindow-class" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">SettingsWindow Class (ctk.CTkToplevel)</h2>
+                    <p class="mb-4">This is a top-level customtkinter window for configuring application settings.</p>
+
+                    <div id="init-settingswindow" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">init(self, parent, config_manager)</h3>
+                            <p class="mb-4">Initializes the window, sets its title to "Configuration", and centers it relative to the parent window. It uses a CTkTabview to organize settings into tabs: "General", "Audio", "3GP", "MP4 H", "Trim", and "Watermark".</p>
+                        </div>
+                    </div>
+
+                    <div id="create-general-tab" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_create_general_tab(self, tab)</h3>
+                            <p class="mb-4">Contains settings for maximum parallel conversions, output subfolder name, and allows choosing a custom theme color. Includes a "Reset All Settings" button that deletes the config file and prompts for a restart.</p>
+                        </div>
+                    </div>
+
+                    <div id="create-audio-tab" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_create_audio_tab(self, tab)</h3>
+                            <p class="mb-4">Allows selection of audio compression presets (AAC, Opus).</p>
+                        </div>
+                    </div>
+
+                    <div id="create-3gp-tab" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_create_3gp_tab(self, tab)</h3>
+                            <p class="mb-4">Provides options for 3GP video resolution, frame rate, video bitrate, audio bitrate, audio sampling rate, and output suffix. Audio settings are disabled as they are fixed for compatibility.</p>
+                        </div>
+                    </div>
+
+                    <div id="create-mp4-h-tab" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_create_mp4_h_tab(self, tab)</h3>
+                            <p class="mb-4">Configures MP4 H.265 compression, including resolution, framerate, preset, tune, suffix, audio bitrate, and audio sampling rate. It features a "Quality Mode" selection (CRF or Bitrate). This tab is initially "locked," requiring an "Unlock" button click after a warning message.</p>
+                        </div>
+                    </div>
+
+                    <div id="create-trim-tab" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_create_trim_tab(self, tab)</h3>
+                            <p class="mb-4">Sets the number of seconds to trim from the start and end of videos.</p>
+                        </div>
+                    </div>
+
+                    <div id="create-watermark-tab" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_create_watermark_tab(self, tab)</h3>
+                            <p class="mb-4">Configures watermark text, font size, font color (with a color chooser), bold option, position, padding, background box, background color (with a color chooser), and background opacity.</p>
+                        </div>
+                    </div>
+
+                    <div id="select-theme-color" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">select_theme_color(self)</h3>
+                            <p class="mb-4">Opens a color chooser dialog to pick the theme color.</p>
+                        </div>
+                    </div>
+
+                    <div id="select-font-color" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">select_font_color(self)</h3>
+                            <p class="mb-4">Opens a color chooser dialog for watermark font color.</p>
+                        </div>
+                    </div>
+
+                    <div id="select-bg-color" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">select_bg_color(self)</h3>
+                            <p class="mb-4">Opens a color chooser dialog for watermark background color.</p>
+                        </div>
+                    </div>
+
+                    <div id="save-and-close" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">save_and_close(self)</h3>
+                            <p class="mb-4">Saves all modified settings through the ConfigManager and then closes both the settings window and the main application, prompting for a restart to apply changes.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="summarypopup-class" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">SummaryPopup Class (ctk.CTkToplevel)</h2>
+                    <p class="mb-4">A small popup window displayed after a batch conversion completes.</p>
+
+                    <div id="init-summarypopup" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">init(self, parent, success_count, fail_count, output_path)</h3>
+                            <p class="mb-4">Shows the number of successful and failed conversions. Displays the output folder path as a clickable link that opens the folder in the system's file explorer.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exploriotconverterapp-class" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-8 text-center">ExploriotConverterApp Class (ctk.CTk)</h2>
+                    <p class="mb-4">This is the main application window responsible for the user interface and core logic.</p>
+
+                    <div id="init-exploriotconverterapp" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">init(self)</h3>
+                            <p class="mb-4">Initializes customtkinter, sets app title and geometry. Creates a ConfigManager instance. Determines paths for `ffmpeg` and `ffprobe` executables. Sets up a `queue.Queue` for GUI updates and a `threading.Event` for stop requests. Defines `BooleanVar` for each module's enabled/disabled state, linking them to the `on_module_change` method. Calls `setup_treeview_style()`, `create_widgets()`, `check_ffmpeg_on_startup()`, and `process_gui_updates()`.</p>
+                        </div>
+                    </div>
+
+                    <div id="animate-pfp" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_animate_pfp(self)</h3>
+                            <p class="mb-4">Handles animating the profile picture (PFP) if it's a GIF, cycling through frames and scheduling the next frame update. It also handles loading PNG or a placeholder if no image is found, and masks it into a circle.</p>
+                        </div>
+                    </div>
+
+                    <div id="on-module-change" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">on_module_change(self, *args)</h3>
+                            <p class="mb-4">Updates the ConfigManager with the new state of module checkboxes and refreshes the "Start Processing" button's state.</p>
+                        </div>
+                    </div>
+
+                    <div id="setup-treeview-style" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">setup_treeview_style(self)</h3>
+                            <p class="mb-4">Configures the appearance of the `ttk.Treeview` widget, including background, foreground, selected item color, header style, and scrollbar.</p>
+                        </div>
+                    </div>
+
+                    <div id="create-widgets" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">create_widgets(self)</h3>
+                            <p class="mb-4">Builds the main window's layout, arranging the log panel, control panel, and profile card.</p>
+                        </div>
+                    </div>
+
+                    <div id="log-panel" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Log Panel</h3>
+                            <p class="mb-4">Contains a `ttk.Treeview` for displaying file names, status, progress, and elapsed time, with specific tags for different status colors (QUEUED, PROGRESS, SUCCESS, ERROR, SYSTEM). Includes a scrollbar, a status label, and a progress bar.</p>
+                        </div>
+                    </div>
+
+                    <div id="control-panel" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Control Panel</h3>
+                            <ul class="list-disc list-inside ml-4 space-y-2">
+                                <li>Input folder entry and "Browse Folder" button.</li>
+                                <li>Checkboxes for "Trim Video", "MP4 HIGH", "Convert to 3GP", "Add Watermark", and "Compress Audio (Extract)" modules.</li>
+                                <li>"Start Processing" button (initially disabled).</li>
+                                <li>"Settings" and "Clear Log" buttons.</li>
+                                <li>"Stop All" button (initially disabled).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="profile-card" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">Profile Card</h3>
+                            <p class="mb-4">Displays "exploriot" name, "All-In-One Media Tool" subtitle, and buttons for GitHub and Shop links. It dynamically loads and displays a circular PFP (GIF or PNG) or a placeholder.</p>
+                        </div>
+                    </div>
+
+                    <div id="open-link" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">open_link(self, url)</h3>
+                            <p class="mb-4">Opens the specified URL in the default web browser.</p>
+                        </div>
+                    </div>
+
+                    <div id="on-log-resize" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">on_log_resize(self, event)</h3>
+                            <p class="mb-4">Adjusts the width of the "File Name" column in the log treeview when the window is resized.</p>
+                        </div>
+                    </div>
+
+                    <div id="add-log-entry" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_add_log_entry(self, filename, status, progress="", elapsed="", tag="INFO")</h3>
+                            <p class="mb-4">Adds a new entry to the log treeview, ensuring older entries are removed if the log exceeds 200 items.</p>
+                        </div>
+                    </div>
+
+                    <div id="update-log-entry" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">_update_log_entry(self, item_id, status, progress="", elapsed="", tag="INFO")</h3>
+                            <p class="mb-4">Updates an existing log entry by its ID.</p>
+                        </div>
+                    </div>
+
+                    <div id="log-system-message" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">log_system_message(self, message)</h3>
+                            <p class="mb-4">Adds a system-level message to the log (e.g., "FFmpeg found").</p>
+                        </div>
+                    </div>
+
+                    <div id="queue-methods" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">queue_add_log(...), queue_update_log(...), queue_update_progress_bar(...), queue_update_ui_element(...), queue_show_summary(...)</h3>
+                            <p class="mb-4">These methods are used by worker threads to safely send updates to the GUI's main thread via a queue.</p>
+                        </div>
+                    </div>
+
+                    <div id="process-gui-updates" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">process_gui_updates(self)</h3>
+                            <p class="mb-4">A method called periodically by `app.after()` to process messages from the `conversion_queue` and update the GUI. This prevents UI freezing during long operations.</p>
+                        </div>
+                    </div>
+
+                    <div id="clear-log" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">clear_log(self)</h3>
+                            <p class="mb-4">Clears all entries from the conversion log treeview.</p>
+                        </div>
+                    </div>
+
+                    <div id="get-ffmpeg-executable-path" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">get_ffmpeg_executable_path(self, exe_name)</h3>
+                            <p class="mb-4">Locates the `ffmpeg` or `ffprobe` executable. It first checks a bundled location (if running as a PyInstaller executable) and then the system's PATH.</p>
+                        </div>
+                    </div>
+
+                    <div id="check-ffmpeg-on-startup" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">check_ffmpeg_on_startup(self)</h3>
+                            <p class="mb-4">Verifies if `ffmpeg` and `ffprobe` are accessible by running their `-version` command and logs the results. Displays an error message if they are not found.</p>
+                        </div>
+                    </div>
+
+                    <div id="get-video-duration-ffmpeg" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">get_video_duration_ffmpeg(self, video_filepath)</h3>
+                            <p class="mb-4">Uses `ffprobe` to extract the duration of a video file.</p>
+                        </div>
+                    </div>
+
+                    <div id="get-startup-info" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">get_startup_info(self)</h3>
+                            <p class="mb-4">Returns `subprocess.STARTUPINFO` for Windows to hide the console window when running FFmpeg/FFprobe subprocesses.</p>
+                        </div>
+                    </div>
+
+                    <div id="update-start-button-state" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">update_start_button_state(self, event=None)</h3>
+                            <p class="mb-4">Enables or disables the "Start Processing" button based on whether a valid folder is selected and at least one module is enabled.</p>
+                        </div>
+                    </div>
+
+                    <div id="select-folder" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">select_folder(self)</h3>
+                            <p class="mb-4">Opens a file dialog for the user to select an input folder and updates the entry field.</p>
+                        </div>
+                    </div>
+
+                    <div id="open-config-window" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">open_config_window(self)</h3>
+                            <p class="mb-4">Opens the SettingsWindow, but prevents it from opening if a conversion is in progress.</p>
+                        </div>
+                    </div>
+
+                    <div id="stop-conversion" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">stop_conversion(self)</h3>
+                            <p class="mb-4">Sets a `stop_requested` flag and attempts to terminate all active FFmpeg processes.</p>
+                        </div>
+                    </div>
+
+                    <div id="compress-audio-task" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">compress_audio_task(self, media_path, output_folder_path, item_id)</h3>
+                            <p class="mb-4">Dedicated task for audio compression/extraction. Uses the selected audio preset to construct an `ffmpeg` command. Forces mono audio and a low sample rate (16000 Hz) for voice optimization. Monitors `ffmpeg`'s progress output to update the log entry and calculate elapsed time. Handles cancellation requests.</p>
+                        </div>
+                    </div>
+
+                    <div id="convert-single-video-task" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">convert_single_video_task(self, video_path, output_folder_path, item_id, active_modules)</h3>
+                            <p class="mb-4">Handles video processing based on enabled modules. Retrieves video duration using `ffprobe`. Constructs the `ffmpeg` command dynamically based on activated modules:</p>
+                            <ul class="list-disc list-inside ml-4 space-y-2 mb-4">
+                                <li><span class="highlight">Trimming:</span> Uses `-ss` and `-t` flags to cut video segments.</li>
+                                <li><span class="highlight">Watermark:</span> Adds a `drawtext` video filter with customizable text, font size, color, position, and an optional background box. Re-encodes using `libx264` if only watermarking.</li>
+                                <li><span class="highlight">MP4 H.265 Compression:</span> Uses `libx265` codec, preset, tune, crf or bitrate, framerate, and specific audio settings (aac, mono, 22050 Hz).</li>
+                                <li><span class="highlight">3GP Conversion:</span> Uses `h263` video codec with specified resolution, framerate, and bitrate, and `amr_nb` audio codec with fixed 8000 Hz sample rate, 1 channel, and 12.2k bitrate for compatibility.</li>
+                            </ul>
+                            <p class="mb-4">Monitors `ffmpeg`'s progress output (`out_time_ms`) to update the log entry and calculate elapsed time. Handles cancellation requests.</p>
+                        </div>
+                    </div>
+
+                    <div id="conversion-worker" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">conversion_worker(self, media_files, input_folder_path_str)</h3>
+                            <p class="mb-4">The main function for managing batch conversions, run in a separate thread. Disables UI elements while processing. Determines the output folder path. Creates a list of tasks for video and/or audio processing based on enabled modules and file types. Uses `ThreadPoolExecutor` to run tasks concurrently. Updates overall progress bar and status label. Collects success/failure counts. Reacts to `stop_requested` to terminate processes. Shows a `SummaryPopup` after all tasks are completed or stopped. Re-enables UI elements upon completion.</p>
+                        </div>
+                    </div>
+
+                    <div id="start-conversion" class="mb-10 p-6 rounded-xl bg-gray-900 border border-gray-700 shadow-md">
+                        <button class="section-copy-button">Copy Section</button>
+                        <div class="section-content">
+                            <h3 class="text-2xl font-bold text-red-500 mb-4">start_conversion(self)</h3>
+                            <p class="mb-4">Initiates the batch conversion process. Performs initial checks (folder validity, module selection). Clears the log and starts the `conversion_worker` in a new daemon thread.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="main-execution-block" class="section-container">
+                <button class="section-copy-button">Copy Section</button>
+                <div class="section-content">
+                    <h2 class="text-3xl lg:text-4xl mb-6 text-center">Main Execution Block</h2>
+                    <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto text-sm my-2">
+<code class="language-python">
+if __name__ == "__main__":
+    # Sets DPI awareness for Windows for better scaling on high-DPI displays.
+    # Creates and runs the ExploriotConverterApp instance.
+</code>
+</pre>
+                    <p class="mt-6 text-lg">This block ensures the application's main window is initialized and run when the script is executed, setting up DPI awareness for optimal display on Windows systems.</p>
+                </div>
+            </section>
+
+
+            <button id="back-to-top" class="fixed bottom-8 right-8 btn-primary hidden">
+                &uarr;
+            </button>
+
+        </main>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        // This function makes clicks on internal links scroll smoothly instead of jumping.
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default jump behavior
+
+                // Scroll to the target element
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth' // Smooth scroll animation
+                });
+
+                // For mobile, close the menu after clicking a link
+                if (window.innerWidth < 1024) { // Check if screen is less than desktop size
+                    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                    if (mobileNavMenu && mobileNavMenu.classList.contains('mobile-nav-open')) { // Check if menu is open
+                        mobileNavMenu.classList.remove('mobile-nav-open'); // Close the menu
+                        // Reset button text
+                        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+                        if (mobileNavToggle) {
+                            mobileNavToggle.textContent = 'Show Table of Contents';
+                        }
+                    }
+                }
+            });
+        });
+
+        // Mobile navigation toggle
+        // This handles showing and hiding the Table of Contents on mobile devices.
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const mobileNavClose = document.getElementById('mobile-nav-close'); // New close button
+
+        if (mobileNavToggle && mobileNavMenu && mobileNavClose) {
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavMenu.classList.add('mobile-nav-open'); // Add class to slide in
+                mobileNavToggle.textContent = 'Hide Table of Contents'; // Update button text
+            });
+
+            mobileNavClose.addEventListener('click', () => {
+                mobileNavMenu.classList.remove('mobile-nav-open'); // Remove class to slide out
+                mobileNavToggle.textContent = 'Show Table of Contents'; // Reset button text
+            });
+        }
+
+
+        // Back to Top button functionality
+        // This makes the "Back to Top" button appear when the user scrolls down
+        // and scrolls them back to the top when clicked.
+        const backToTopButton = document.getElementById('back-to-top');
+
+        // Show/hide back to top button on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // If scrolled down more than 300px
+                backToTopButton.classList.remove('hidden'); // Show the button
+            } else {
+                backToTopButton.classList.add('hidden'); // Hide the button
+            }
+        });
+
+        // Scroll to top when back to top button is clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0, // Scroll to the very top of the page
+                behavior: 'smooth' // Smooth scroll animation
+            });
+        });
+
+        // Copy code snippets to clipboard
+        // This script automatically adds a "Copy Code" button to every <pre><code> block
+        // and handles copying its content to the clipboard.
+        document.querySelectorAll('pre code').forEach(codeBlock => {
+            // Create a wrapper div to position the button relative to the code block
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative'; // Make it a positioning context for absolute button
+            codeBlock.parentNode.insertBefore(wrapper, codeBlock); // Insert wrapper before code block
+            wrapper.appendChild(codeBlock); // Move code block inside the wrapper
+
+            // Create the copy button
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-button absolute top-2 right-2 px-3 py-1 text-xs'; // Styles for the button
+            copyButton.textContent = 'Copy Code'; // Initial button text
+            wrapper.appendChild(copyButton); // Add button to the wrapper
+
+            // Add click event listener to the copy button
+            copyButton.addEventListener('click', () => {
+                const codeText = codeBlock.textContent; // Get the text content of the code block
+
+                // Create a temporary textarea to hold the text for copying
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                textarea.style.position = 'fixed'; // Prevents scrolling to the bottom of the page
+                textarea.style.opacity = 0; // Hides the textarea
+                document.body.appendChild(textarea); // Add to document temporarily
+
+                // Select the text in the textarea and copy it
+                textarea.focus();
+                textarea.select();
+                try {
+                    // document.execCommand('copy') is used for better iframe compatibility
+                    // compared to navigator.clipboard.writeText() which might be restricted.
+                    document.execCommand('copy');
+                    copyButton.textContent = 'Copied!'; // Change button text on success
+                    // Revert button text after a delay
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Code';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    copyButton.textContent = 'Error!'; // Change button text on error
+                } finally {
+                    document.body.removeChild(textarea); // Remove temporary textarea
+                }
+            });
+        });
+
+        // New JavaScript for copying entire sections/sub-sections
+        // This selects all buttons with the 'section-copy-button' class
+        // and handles copying the content of their parent 'section-content' div.
+        document.querySelectorAll('.section-copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Find the parent section-content div
+                const sectionContent = button.closest('.section-container > .section-content, .p-6.rounded-xl.bg-gray-900 > .section-content');
+
+                if (sectionContent) {
+                    // Get the text content of the section-content div
+                    const textToCopy = sectionContent.textContent;
+
+                    // Create a temporary textarea to copy the text
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = 0;
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+
+                    try {
+                        document.execCommand('copy');
+                        button.textContent = 'Copied!';
+                        setTimeout(() => {
+                            button.textContent = 'Copy Section';
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy section text: ', err);
+                        button.textContent = 'Error!';
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

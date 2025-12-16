@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXP TV | Retro Cartoon Stream</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Righteous for headers, VT323 for retro terminal vibes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=VT323&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom Config */
+        :root {
+            --neon-purple: #a855f7;
+            --deep-black: #050505;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            font-family: 'Inter', sans-serif;
+            color: #e5e7eb;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Righteous', cursive;
+        }
+
+        .retro-font {
+            font-family: 'VT323', monospace;
+        }
+
+        /* CRT Scanline Overlay */
+        .crt-overlay {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.06),
+                rgba(0, 255, 0, 0.02),
+                rgba(0, 0, 255, 0.06)
+            );
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Glitch Animation Keyframes */
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+            80% { clip-path: inset(10% 0 60% 0); transform: translate(-1px, 1px); }
+            100% { clip-path: inset(30% 0 30% 0); transform: translate(1px, -1px); }
+        }
+
+        .glitch-active {
+            position: relative;
+        }
+        
+        .glitch-active::before,
+        .glitch-active::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--deep-black);
+        }
+
+        .glitch-active::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip-path: inset(0 0 0 0);
+            animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+        }
+
+        .glitch-active::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip-path: inset(0 0 0 0);
+            animation: glitch-anim-1 0.2s infinite linear alternate-reverse;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #581c87; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7e22ce; 
+        }
+
+        /* Hover Glow for Buttons */
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-purple-500 selection:text-white">
+
+    <!-- CRT Overlay (Fixed on top of everything) -->
+    <div class="crt-overlay fixed inset-0 z-50 opacity-20 w-full h-full"></div>
+    <div class="fixed inset-0 z-40 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
+
+    <!-- Animated Background Blobs -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-purple-900/30 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
+    <div class="fixed bottom-0 right-1/4 w-80 h-80 bg-blue-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="w-full border-b border-white/10 bg-black/60 backdrop-blur-md z-30 relative">
+        <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <!-- Logo Area -->
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <!-- CSS Logo Placeholder (Replace img src with 'wt.png' later) -->
+                <div class="relative w-10 h-10 md:w-12 md:h-12 bg-black rounded-full border-2 md:border-4 border-purple-600 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.4)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.8)] transition-all duration-300 transform group-hover:scale-105">
+                    <div class="text-center leading-none font-black text-white italic transform -rotate-6 brand-font">
+                        <span class="block text-[8px] md:text-[10px]">EXP</span>
+                        <span class="block text-xs md:text-sm -mt-0.5">TV</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="brand-font text-xl md:text-2xl tracking-wide text-white leading-none">EXP TV</span>
+                    <span class="retro-font text-purple-400 text-sm leading-none tracking-widest">CHANNEL 84</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#" class="text-gray-400 hover:text-white hover:scale-105 transition-all text-sm font-bold uppercase tracking-widest">Schedule</a>
+                <a href="#" class="text-gray-400 hover:text-white hover:scale-105 transition-all text-sm font-bold uppercase tracking-widest">Requests</a>
+                <a href="https://discord.gg/ssz9TJ6fkq" target="_blank" class="group relative px-6 py-2 bg-purple-700 text-white font-bold uppercase text-sm tracking-widest rounded skew-x-[-10deg] transition-all hover:-translate-y-1 hover:bg-purple-600 shadow-[4px_4px_0px_rgba(255,255,255,0.1)]">
+                    <span class="skew-x-[10deg] flex items-center gap-2">
+                        Discord <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black/95 z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center gap-8 md:hidden">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white/50 hover:text-white">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <a href="#" class="text-2xl font-bold text-white hover:text-purple-400 brand-font uppercase tracking-wider">Schedule</a>
+        <a href="#" class="text-2xl font-bold text-white hover:text-purple-400 brand-font uppercase tracking-wider">Requests</a>
+        <a href="https://discord.gg/ssz9TJ6fkq" target="_blank" class="text-2xl font-bold text-purple-500 hover:text-purple-300 brand-font uppercase tracking-wider border-b-2 border-purple-500">Join Server</a>
+    </div>
+
+    <!-- Hero Section -->
+    <main class="flex-grow container mx-auto px-6 flex flex-col items-center justify-center pt-16 pb-24 relative z-20">
+        
+        <!-- Status Badge -->
+        <div class="mb-8 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-900/10">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]"></span>
+            <span class="retro-font text-purple-200 text-lg tracking-wider">BROADCASTING LIVE</span>
+        </div>
+
+        <!-- Glitch Headline -->
+        <h1 class="text-center text-6xl md:text-8xl lg:text-9xl font-black text-white mb-6 leading-tight tracking-tighter">
+            <span id="glitch-text" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-purple-600 pb-2 pr-4 inline-block" data-text="EXP">EXP</span> <br>
+            TV
+        </h1>
+
+        <p class="text-gray-400 text-center max-w-2xl text-lg md:text-xl leading-relaxed mb-10 font-light">
+            Your 24/7 portal to the <span class="text-purple-400 font-bold">1980s animation</span> golden age. Uncut Tom & Jerry, Saturday morning blocks, and late-night bumpers. 
+            <span class="block mt-2 text-sm opacity-60 retro-font">> NO ADS. JUST NOSTALGIA.</span>
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+            <a href="https://discord.gg/ssz9TJ6fkq" target="_blank" class="btn-glow group relative px-8 py-4 bg-white text-black font-black text-lg uppercase tracking-widest rounded transition-all hover:scale-105 inline-block text-center">
+                <div class="flex items-center justify-center gap-2">
+                    <i data-lucide="disc" class="w-5 h-5 group-hover:animate-spin"></i>
+                    <span>Enter Server</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="mt-24 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+            <!-- Card 1 -->
+            <div class="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-purple-500/50 hover:bg-white/10 transition-all group cursor-default">
+                <div class="w-10 h-10 bg-purple-600/20 rounded flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i data-lucide="tv" class="text-purple-400 w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl text-white mb-2">1980s Cuts</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">We stream the specific broadcast versions you remember. Grain and all.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-purple-500/50 hover:bg-white/10 transition-all group cursor-default">
+                <div class="w-10 h-10 bg-purple-600/20 rounded flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i data-lucide="zap" class="text-purple-400 w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl text-white mb-2">Always On</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">24 hours a day. Pop in for breakfast toons or late night chill vibes.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white/5 border border-white/10 p-6 rounded-xl hover:border-purple-500/50 hover:bg-white/10 transition-all group cursor-default">
+                <div class="w-10 h-10 bg-purple-600/20 rounded flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i data-lucide="users" class="text-purple-400 w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl text-white mb-2">Community Vote</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">You control the channel. Vote for marathons, specials, and movie nights.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-black/80 backdrop-blur z-20 py-8">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
+                <span class="retro-font text-gray-400 text-lg">EXP TV © 2025</span>
+            </div>
+            
+            <div class="flex gap-6">
+                <a href="#" class="text-gray-500 hover:text-purple-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="text-gray-500 hover:text-purple-400 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="text-gray-500 hover:text-purple-400 transition-colors"><i data-lucide="youtube" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+        });
+
+        // Glitch Effect Logic
+        const glitchText = document.getElementById('glitch-text');
+        
+        function triggerGlitch() {
+            // Randomly add the glitch class
+            if(Math.random() > 0.5) {
+                glitchText.classList.add('glitch-active');
+                
+                // Remove it quickly to create a flicker
+                setTimeout(() => {
+                    glitchText.classList.remove('glitch-active');
+                }, 200 + Math.random() * 300);
+            }
+        }
+
+        // Run glitch loop
+        setInterval(triggerGlitch, 3000);
+    </script>
+</body>
+</html>

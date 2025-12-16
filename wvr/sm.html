@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ADDED data-unc to body -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাবিরিন মামা</title>
+    <!-- Global styles -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Page-specific styles -->
+    <link rel="stylesheet" href="video-page.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-unc="sm">
+
+    <!-- NEW: Loader -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- NEW: Content is wrapped and hidden by default via CSS -->
+    <div id="pageContent">
+        <div class="container">
+            <h2>সাবিরিন মামা</h2>
+            <div class="video-grid pb-safe">
+                
+                <!-- Video 1 -->
+                <div class="video-item">
+                    <h3 class="video-title">শুরু</h3>
+                    <div class="video-container"
+                         data-mega-id="EddlWQJA#o3esMWnrNmCPOtsG5ZWC06_n2mm89l86vsN3COWjIOk"
+                         data-youtube-id="rBWtYwCdGwQ?si=1NlVgWGFrxpTF2k-"
+                         data-gdrive-id="1JIY4O-j5yeIIUZUklibUExdgtsz04ggi">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-item">
+                    <h3 class="video-title">ছবি</h3>
+                    <div class="video-container"
+                         data-mega-id="oU1ykQ4T#K7Xu02R4jsGv2y0Enz6WukPGScyTzglJFR-Xn6cFiI4"
+                         data-youtube-id="9AYmZAMlhQo?si=CngqQLOZUg98cUWD"
+                         data-gdrive-id="1DZXA1cMZV3uLfhIYHeBs3LK8saCWIdYl">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+                
+                <!-- Video 3 -->
+                <div class="video-item">
+                    <h3 class="video-title">গায়ে হলুদ</h3>
+                    <div class="video-container"
+                         data-mega-id="oFUiBJSZ#h0-8B-rmx_dUVxL0sdZFtkp-T-JO32lReIN47udxaPc"
+                         data-youtube-id="EsK-jTwyqdA?si=mu7LLAywy2C0NSbR"
+                         data-gdrive-id="1C8S6X_y1bz-0Y_CvM2mKt8djP2anpY7S">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <div class="video-item">
+                    <h3 class="video-title">শুভবিবাহ</h3>
+                    <div class="video-container"
+                         data-mega-id="5c9hjBBS#8lEAzLomb6HSbTYTptlNpHfamkC-5_APsSBaGqcz1Gg"
+                         data-youtube-id="eYaPwx-D-nQ?si=KaP_lFZKlbZ-ntXa"
+                         data-gdrive-id="1rFoPYwEWIk6998VYchcKcsydhSEJ-nvn">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+
+                <div class="video-item">
+                    <h3 class="video-title">শেষ</h3>
+                    <div class="video-container"
+                         data-mega-id="URUwCBhJ#E0LtmcV9KErIN9vtbyVpdIrjXLUI_nmncJEAUBE8YhQ"
+                         data-youtube-id="viatblAEOm4?si=Jl7NMqP4LZQJLGtW"
+                         data-gdrive-id="1NavoUElSP5Iepj2CQRbN0a2uqsese20g">
+                        <iframe src="" allowfullscreen allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NEW: Nav is wrapped and hidden by default via CSS -->
+    <div id="pageNav">
+        <!-- Stream Switch Menu (Hidden by default) -->
+        <div class="menu-backdrop" id="menuBackdrop"></div>
+        <div class="stream-menu" id="streamMenu">
+            <div class="stream-menu-header">Select Stream Source</div>
+            <button class="stream-option" data-provider="mega">Mega</button>
+            <button class="stream-option" data-provider="youtube">YouTube</button>
+            <button class="stream-option" data-provider="gdrive">Google Drive</button>
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="bottom-bar">
+            <a href="index.html" class="bar-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <span>Back</span>
+            </a>
+            <button class="bar-btn" id="switchStreamBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s5.333-8 10-8 10 8 10 8-5.333 8-10 8-10-8-10-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span>Switch</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- NEW: Password Modal Structure (needed on every page) -->
+    <div class="password-modal-backdrop" id="passModalBackdrop"></div>
+    <div class="password-modal-content" id="passModal">
+        <div class="modal-header">
+            <h3 id="passModalTitle">Password Required</h3>
+            <button class="modal-close-btn" id="passModalCloseBtn">&times;</button>
+        </div>
+        <form class="modal-form" id="passForm">
+            <p>Enter the password to continue:</p>
+            <input type="password" id="passInput" class="pass-input" placeholder="Password...">
+            <p class="pass-error" id="passError"></p>
+            <button type="submit" class="pass-submit-btn">Unlock</button>
+        </form>
+    </div>
+
+    <!-- UPDATED: Scripts are now modules -->
+    <script src="stream-switcher.js" type="module"></script>
+    <script src="auth.js" type="module"></script>
+    <script src="video-page.js" type="module"></script>
+
+</body>
+</html>
