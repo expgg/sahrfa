@@ -36,4 +36,4 @@ jobs:
           folder: examforge-source/dist
           target-folder: study/suggetions/6thcse # Target location
           branch: main
-          clean: false
+          clean: true
