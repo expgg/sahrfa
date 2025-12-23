@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHORYOT | Official Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* --- RESET & VARS --- */
+        :root {
+            --bg-color: #050505;
+            --primary: #9b59b6; 
+            --accent: #e0b0ff;
+            --text: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND --- */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background-image: repeating-linear-gradient(45deg, #111 25%, transparent 25%, transparent 75%, #111 75%, #111);
+            background-size: 20px 20px;
+        }
+
+        /* --- HERO --- */
+        header {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .glitch-title {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 3px 3px 0px var(--primary);
+            animation: glitch 2s infinite;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px var(--primary);
+        }
+
+        .social-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* --- LIST --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .track-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .track-card {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .track-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .track-thumb {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .track-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .listen-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .glitch-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-pattern"></div>
+
+    <header>
+        <img src="https://i.ibb.co.com/Kp1L925n/channels4-profile.jpg" alt="Echoryot Avatar" class="profile-img">
+        <h1 class="glitch-title">ECHORYOT</h1>
+        <p style="color: #bbb; letter-spacing: 2px;">DIGITAL SOUNDSCAPES</p>
+        
+        <a href="https://www.youtube.com/@echoryot" target="_blank" class="social-btn">
+            <i class="fab fa-youtube"></i> SUBSCRIBE
+        </a>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">LATEST DROPS</h2>
+        <div class="track-grid" id="track-list">
+            <p style="color: #666;">Scanning frequency for tracks...</p>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 40px; color: #555;">
+        <p>© 2025 ECHORYOT. All Systems Operational.</p>
+    </footer>
+
+    <script>
+        // --- ⚙️ CONFIGURATION ZONE ⚙️ ---
+        // 1. Get a FREE API Key from Google Cloud Console (Enable YouTube Data API v3)
+        const API_KEY = 'AIzaSyCvrg0XY_n7L0dhggHRb1ZFMIQUYzBDyN4'; 
+        
+        // 2. Go to your YouTube channel, make a playlist of your releases, and copy its ID from the URL (after list=)
+        const PLAYLIST_ID = 'PLiWVhA03tXERS8ILzi0dKVuzigGaF-Do1'; 
+        // ------------------------------------
+
+        const trackContainer = document.getElementById('track-list');
+
+        async function fetchTracks() {
+            if (API_KEY === 'YOUR_API_KEY_HERE' || PLAYLIST_ID === 'YOUR_PLAYLIST_ID_HERE') {
+                trackContainer.innerHTML = '<p style="color:red;">Error: API Key or Playlist ID missing in code.</p>';
+                return;
+            }
+
+            const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error.message);
+                }
+
+                trackContainer.innerHTML = ""; // Clear loading text
+
+                data.items.forEach(item => {
+                    const snippet = item.snippet;
+                    const videoId = snippet.resourceId.videoId;
+                    const title = snippet.title;
+                    const thumbnail = snippet.thumbnails.medium ? snippet.thumbnails.medium.url : snippet.thumbnails.default.url;
+                    const date = new Date(snippet.publishedAt).toLocaleDateString();
+
+                    // Skip "Private" or "Deleted" videos
+                    if (title === "Private video" || title === "Deleted video") return;
+
+                    const card = document.createElement('div');
+                    card.className = 'track-card';
+                    card.innerHTML = `
+                        <img src="${thumbnail}" class="track-thumb" alt="${title}">
+                        <span style="font-size: 0.8rem; color: #888;">${date}</span>
+                        <h3 class="track-title" title="${title}">${title}</h3>
+                        <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="listen-link">
+                            <i class="fas fa-play"></i> Watch
+                        </a>
+                    `;
+                    trackContainer.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                trackContainer.innerHTML = `<p style="color: #ff5555;">SYSTEM ERROR: Could not load tracks.<br><small>${error.message}</small></p>`;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchTracks);
+    </script>
+</body>
+</html>
