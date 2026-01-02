@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Exam Suggestions 6th Semester</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-dark: #050505;
+            --bg-card: rgba(28, 28, 30, 0.6);
+            --text-main: #f5f5f7;
+            --text-sub: #86868b;
+            --accent-blue: #0A84FF;
+            --glow-cyan: #64D2FF;
+            --glow-purple: #BF5AF2;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            
+            /* Code Theme Colors */
+            --code-bg: #1e1e1e;
+            --code-header: #252526;
+            --c-keyword: #c586c0;
+            --c-func: #dcdcaa;
+            --c-string: #ce9178;
+            --c-comment: #6a9955;
+            --c-number: #b5cea8;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.5;
+            margin: 0;
+            padding-bottom: 140px;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        /* --- ATMOSPHERE --- */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(80px); opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: var(--accent-blue); top: -50px; left: -50px; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; background: var(--glow-purple); bottom: -100px; right: -100px; animation-delay: -5s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 50px); }
+        }
+
+        /* --- UTILS & TEXT STYLES --- */
+        .hidden { display: none !important; }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.85rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        
+        /* The Glow Up Classes (Used by AI Snippet) */
+        .glow-cyan { 
+            color: var(--glow-cyan); 
+            text-shadow: 0 0 12px rgba(100, 210, 255, 0.4); 
+            font-weight: 600; 
+        }
+        .glow-purple { 
+            color: var(--glow-purple); 
+            font-weight: 600; 
+        }
+        
+        /* Number Badge Style */
+        .q-number-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--glow-cyan);
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            margin-right: 10px;
+            border: 1px solid rgba(100, 210, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        /* Exam Tags (Badges) */
+        .exam-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 5px;
+            background: rgba(255, 69, 58, 0.2);
+            color: #ff453a;
+            border: 1px solid rgba(255, 69, 58, 0.3);
+        }
+        .exam-tag.tip {
+            background: rgba(48, 209, 88, 0.2);
+            color: #30d158;
+            border-color: rgba(48, 209, 88, 0.3);
+        }
+
+        /* --- LIST BOX STYLE --- */
+        .list-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--glow-cyan);
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .list-box ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-box li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        .list-box li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--glow-cyan);
+            font-weight: bold;
+        }
+
+        /* --- CODE SNIPPET STYLE (VS Code Vibe) --- */
+        .code-wrapper {
+            margin: 15px 0;
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            border: 1px solid #333;
+            overflow: hidden;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--code-header);
+            padding: 5px 12px;
+            border-bottom: 1px solid #333;
+        }
+        .code-lang {
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: 600;
+        }
+        .code-copy-btn {
+            background: none;
+            border: none;
+            color: var(--glow-cyan);
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .code-copy-btn:hover { opacity: 1; }
+        
+        .code-content {
+            padding: 12px;
+            overflow-x: auto;
+            margin: 0;
+            color: #d4d4d4;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        /* Syntax Highlighting Classes */
+        .c-k { color: var(--c-keyword); } /* Keyword */
+        .c-f { color: var(--c-func); }    /* Function */
+        .c-s { color: var(--c-string); }  /* String */
+        .c-c { color: var(--c-comment); font-style: italic; } /* Comment */
+        .c-n { color: var(--c-number); }  /* Number */
+
+        /* --- RGB ANIMATION --- */
+        .rgb-text {
+            font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 12px; cursor: pointer; text-decoration: none; display: inline-block;
+            background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            background-size: 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: rgb-cycle 3s linear infinite; transition: transform 0.2s;
+        }
+        .rgb-text:hover { transform: scale(1.05); }
+        @keyframes rgb-cycle { 0% { background-position: 0%; } 100% { background-position: 400%; } }
+
+        /* --- LAYOUT --- */
+        .main-content { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        /* --- HEADER --- */
+        .header-container {
+            position: relative; text-align: center; margin-bottom: 40px; padding: 30px 20px;
+            border-radius: 24px; background: rgba(28, 28, 30, 0.4); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .header h1 {
+            font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, #a0aec0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .header .subtitle { 
+            font-size: 0.9rem; font-weight: 500; color: var(--accent-blue); margin-top: 6px; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- CATEGORIES & ANIMATION --- */
+        .question-category { margin-bottom: 25px; }
+        
+        .category-header {
+            display: inline-flex; justify-content: space-between; align-items: center; gap: 10px;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); padding: 10px 18px; border-radius: 12px;
+            color: var(--glow-cyan); font-size: 0.9rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer; transition: background 0.2s ease;
+            position: relative; z-index: 5;
+        }
+        .category-header:hover { background: rgba(255, 255, 255, 0.1); }
+        .category-toggle-icon { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .category-toggle-icon.rotated { transform: rotate(180deg); }
+
+        /* Count Badge Style */
+        .count-badge {
+            font-size: 0.75rem; color: var(--text-sub); font-weight: 400; margin-left: 5px;
+            opacity: 0.8;
+        }
+
+        /* CATEGORY WRAPPER - The Unlimited Height Logic */
+        .category-wrapper {
+            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease, mask-image 0.4s ease;
+            overflow: hidden;
+            opacity: 1;
+        }
+
+        .category-wrapper.collapsed {
+            max-height: 50px !important; /* PEEK HEIGHT */
+            opacity: 0.4; pointer-events: none;
+            mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+        }
+
+        .question-list { 
+            display: flex; flex-direction: column; gap: 14px; 
+            padding-top: 5px; 
+        }
+
+        /* --- QUESTION ITEM --- */
+        .question-item {
+            background-color: var(--bg-card); backdrop-filter: blur(10px);
+            border-radius: 16px; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            position: relative; border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            opacity: 0; animation: fadeInUp 0.5s ease forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-item:active { transform: scale(0.98); } 
+        .question-item.active {
+            border-color: rgba(100, 210, 255, 0.3);
+            background-color: rgba(40, 40, 45, 0.8);
+            box-shadow: 0 0 25px rgba(100, 210, 255, 0.1);
+        }
+
+        .tier-mythic { border-left: 4px solid #FF453A; }
+        .tier-legendary { border-left: 4px solid #FFD60A; }
+        .tier-epic { border-left: 4px solid #BF5AF2; }
+
+        .question-main-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 16px; gap: 12px; cursor: pointer;
+        }
+        .question-text-toggle {
+            flex-grow: 1; display: flex; align-items: center; justify-content: flex-start;
+            font-size: 1rem; font-weight: 500; line-height: 1.4; padding-right: 10px; color: #e4e4e6;
+            gap: 10px;
+        }
+        .button-container { display: flex; gap: 10px; flex-shrink: 0; margin-left: auto; }
+        
+        .action-button {
+            display: flex; align-items: center; justify-content: center;
+            width: 38px; height: 38px; border-radius: 12px;
+            background-color: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid transparent; 
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .action-button:active { transform: scale(0.9); }
+        
+        /* HIDING AI BUTTON (Visual Only) */
+        .action-button.ai-btn { display: none; }
+        
+        .action-button.copy-btn:hover { color: #32D74B; background-color: rgba(50, 215, 75, 0.15); transform: scale(1.1) rotate(5deg); }
+        .toggle-icon { width: 20px; height: 20px; color: #555; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); flex-shrink: 0; margin-left: 10px; }
+        .rotated { transform: rotate(180deg); color: #fff; }
+
+        /* --- SMOOTH DROPDOWN ANIMATION (Answers) --- */
+        .answer-grid-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .answer-grid-wrapper.open {
+            grid-template-rows: 1fr;
+        }
+        .answer-overflow-container {
+            overflow: hidden;
+        }
+
+        .answer-dropdown {
+            background-color: rgba(0,0,0,0.3); padding: 20px; 
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.95rem; line-height: 1.6;
+            margin-top: 5px;
+        }
+        .short-answer-text-toggle {
+            cursor: pointer; padding: 12px; border-radius: 12px; display: flex;
+            justify-content: space-between; align-items: start;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+            transition: background 0.2s;
+        }
+        .short-answer-text-toggle:hover { background: rgba(255,255,255,0.07); }
+        
+        .extended-answer-dropdown {
+            margin-top: 16px; padding: 15px; 
+            background: linear-gradient(180deg, rgba(191, 90, 242, 0.1) 0%, rgba(0,0,0,0) 100%);
+            border-radius: 12px; border-left: 2px solid var(--glow-purple); color: #d1d1d6;
+        }
+
+        /* --- GLASS DOCK --- */
+        .glass-dock-container {
+            position: fixed; bottom: 25px; left: 0; width: 100%;
+            display: flex; justify-content: center; z-index: 900; pointer-events: none;
+        }
+        .glass-dock {
+            pointer-events: auto; position: relative;
+            background: rgba(22, 22, 24, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 40px; padding: 12px 25px;
+            display: flex; align-items: center; gap: 30px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s;
+        }
+        .glass-dock:hover { transform: translateY(-5px); }
+        .dock-progress-svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; border-radius: 40px; z-index: 901;
+        }
+        .dock-track-rect { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 2px; }
+        .dock-progress-rect {
+            fill: none; stroke: url(#progressGradient); stroke-width: 3px; stroke-linecap: round;
+            stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.1s linear;
+        }
+        .dock-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: none; border: none; color: var(--text-sub); cursor: pointer;
+            transition: all 0.2s; padding: 0; z-index: 902;
+        }
+        .dock-item svg { width: 22px; height: 22px; margin-bottom: 5px; stroke-width: 2px; }
+        .dock-item span { font-size: 0.65rem; font-weight: 600; }
+        .dock-item:hover { color: #fff; transform: translateY(-3px); }
+        .dock-item:active { transform: scale(0.9); }
+        .dock-item.main-action { color: var(--accent-blue); }
+
+        /* --- TOAST & MODAL --- */
+        #toast {
+            visibility: hidden; min-width: 200px; 
+            background: rgba(28, 28, 30, 0.8); backdrop-filter: blur(15px);
+            color: #fff; text-align: center; border-radius: 50px; 
+            padding: 10px 20px; position: fixed; z-index: 2000; 
+            left: 50%; top: -50px; transform: translateX(-50%);
+            font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #toast.show { visibility: visible; top: 25px; }
+
+        .ai-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .ai-modal-overlay.active { opacity: 1; visibility: visible; }
+        .ai-modal-content {
+            background: #1c1c1e; width: 85%; max-width: 500px; max-height: 70vh;
+            border-radius: 24px; padding: 25px; overflow-y: auto; 
+            border: 1px solid var(--glass-border); box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+        .ai-response-text h2 { font-size: 1.1rem; color: var(--glow-cyan); margin-top: 15px; }
+        .ai-response-text p { margin-bottom: 10px; color: #d1d1d6; }
+        .ai-response-text strong { color: #fff; }
+
+    </style>
+</head>
+<body>
+    <div id="toast">✅ Copied!</div>
+
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-container">
+            <h1>Exam Suggestions</h1>
+            <p class="subtitle">6th Semester • Final Prep</p>
+            <a onclick="openLink('https://sahrfa.top')" class="rgb-text">
+                Made By Al Hossain Rifat
+            </a>
+        </div>
+
+        <!-- Very Short -->
+        <div class="question-category">
+            <div class="category-header" onclick="toggleCategory('wrapper-very-short', this)">
+                <span id="header-very-short">অতি সংক্ষিপ্ত (Very Short)</span>
+                <svg class="category-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="wrapper-very-short" class="category-wrapper">
+                <div class="question-list" id="very-short-questions"></div>
+            </div>
+        </div>
+
+        <!-- Short -->
+        <div class="question-category">
+            <div class="category-header" onclick="toggleCategory('wrapper-short', this)">
+                <span id="header-short">সংক্ষিপ্ত (Short)</span>
+                <svg class="category-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="wrapper-short" class="category-wrapper">
+                <div class="question-list" id="short-questions"></div>
+            </div>
+        </div>
+
+        <!-- Essay -->
+        <div class="question-category">
+            <div class="category-header" onclick="toggleCategory('wrapper-essay', this)">
+                <span id="header-essay">রচনামূলক (Essay)</span>
+                <svg class="category-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="wrapper-essay" class="category-wrapper">
+                <div class="question-list" id="essay-questions"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLASS DOCK -->
+    <div class="glass-dock-container">
+        <div class="glass-dock">
+            <svg class="dock-progress-svg" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:var(--glow-cyan);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:var(--glow-purple);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect class="dock-track-rect" x="0" y="0" width="100%" height="100%" rx="40" ry="40" />
+                <rect class="dock-progress-rect" x="0" y="0" width="100%" height="100%" rx="40" ry="40" pathLength="1" />
+            </svg>
+
+            <button class="dock-item" onclick="openLink('https://sahrfa.top/study/routine/6thcse/')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>Routine</span>
+            </button>
+            <button class="dock-item" onclick="openLink('https://sahrfa.top')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Dev</span>
+            </button>
+            <button class="dock-item main-action" onclick="downloadSite()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Save</span>
+            </button>
+            <button class="dock-item" onclick="toggleFullScreen()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                <span>Focus</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Modal -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🤖</span>
+                    <h3 style="color:var(--glow-cyan); margin:0; font-size:1.1rem;">Gemini AI</h3>
+                </div>
+                <button id="closeAi" style="background:rgba(255,255,255,0.1); border:none; color:white; width:30px; height:30px; border-radius:50%; font-size:1.2rem; cursor:pointer;">&times;</button>
+            </div>
+            <p id="aiQuestionText" style="color:#86868b; font-size:0.9rem; margin-bottom:20px; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px; border:1px solid var(--glass-border);"></p>
+            <div id="aiResponseArea" class="ai-response-text" style="line-height:1.6; color:#d1d1d6;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; 
+        
+        // 💎 PASTE YOUR GEM GENERATED DATA HERE
+        const questions = {
+            "very-short": [
+                {
+        text: "সার্ভেইল্যান্স সিস্টেম বলতে কী বুঝায়?",
+        answer: "সার্ভেইল্যান্স সিস্টেম হলো এমন একটি <span class=\"glow-cyan\">প্রযুক্তি ব্যবস্থা</span> যা নিরাপত্তার স্বার্থে কোনো নির্দিষ্ট এলাকা, ব্যক্তি বা বস্তুর আচরণ ও গতিবিধি পর্যবেক্ষণ এবং রেকর্ড করে।",
+        extendedAnswer: "সহজ কথায়, এটা হলো <span class=\"glow-purple\">ডিজিটাল দারোয়ান</span>। যেমন দোকান বা বাড়িতে ক্যামেরা লাগিয়ে রাখা হয় যাতে চোর আসলে ধরা যায় বা কে কী করছে তা দেখা যায়—এই পুরো ব্যবস্থাটাই সার্ভেইল্যান্স সিস্টেম।",
+        tier: "mythic"
+    },
+    {
+        text: "HDTV-এর Resolution লেখ।",
+        answer: "HDTV-এর রেজোলিউশন সাধারণত <span class=\"glow-cyan\">১২৮০×৭২০ পিক্সেল (720p) অথবা ১৯২০×১০৮০ পিক্সেল (1080p)</span> হয়ে থাকে।",
+        extendedAnswer: "টিভিতে বা ভিডিওতে ছবি কতটা পরিষ্কার দেখা যাবে সেটা মাপা হয় রেজোলিউশন দিয়ে। HDTV মানে হলো <span class=\"glow-purple\">হাই ডেফিনিশন</span>, অর্থাৎ ছবি একদম ঝকঝকে হবে, ঘোলা হবে না।",
+        tier: "mythic"
+    },
+    {
+        text: "সার্ভেইল্যান্স বলতে কী বুঝায়?",
+        answer: "সার্ভেইল্যান্স শব্দের অর্থ হলো <span class=\"glow-cyan\">নজরদারি বা পর্যবেক্ষণ</span>। নিরাপত্তার খাতিরে কোনো ব্যক্তি বা স্থানের উপর সার্বক্ষণিক দৃষ্টি রাখাকেই সার্ভেইল্যান্স বলে।",
+        extendedAnswer: "সোজা বাংলায় <span class=\"glow-purple\">\"নজরদারি\"</span>। কেউ কোনো খারাপ কাজ করছে কিনা, তা দূর থেকে লুকিয়ে বা প্রকাশ্যে দেখার নামই সার্ভেইল্যান্স।",
+        tier: "mythic"
+    },
+    {
+        text: "সার্ভেইল্যান্স কেন ব্যবহার করা হয়?",
+        answer: "<span class=\"glow-cyan\">অপরাধ দমন, নিরাপত্তা নিশ্চিতকরণ, প্রমাণ সংগ্রহ</span> এবং সুষ্ঠু ব্যবস্থাপনার জন্য সার্ভেইল্যান্স ব্যবহার করা হয়।",
+        extendedAnswer: "কেন ব্যবহার করি? যাতে চোর ভয় পায়, আর চুরি করলে পুলিশকে ভিডিও ফুটেজ দেখানো যায়। এছাড়া কর্মচারীরা ঠিকমতো কাজ করছে কিনা সেটাও দেখা যায়।",
+        tier: "mythic"
+    },
+    {
+        text: "CCTV-এর উপাদানগুলো কী কী?",
+        answer: "CCTV-এর প্রধান উপাদানগুলো হলো: <span class=\"glow-cyan\">ক্যামেরা, মনিটর, ক্যাবল (তার), ডিভিআর/এনভিআর এবং পাওয়ার সাপ্লাই</span>।",
+        extendedAnswer: "একটা সিসিটিভি সেটআপ করতে কী কী লাগে? ১. দেখার জন্য ক্যামেরা (চোখ), ২. সেভ করার জন্য ডিভিআর (মস্তিষ্ক), ৩. দেখার জন্য মনিটর (টিভি), আর ৪. সব জোড়া লাগানোর জন্য তার।",
+        tier: "mythic"
+    },
+    {
+        text: "বিশ্বব্যাপী ভিডিও স্ট্যান্ডার্ড কয়টি ও কী কী?",
+        answer: "বিশ্বব্যাপী ভিডিও স্ট্যান্ডার্ড প্রধানত তিনটি: <span class=\"glow-cyan\">NTSC (আমেরিকা ও এশিয়া), PAL (ইউরোপ ও অস্ট্রেলিয়া), এবং SECAM (ফ্রান্স ও রাশিয়া)</span>।",
+        extendedAnswer: "সারা বিশ্বে ভিডিও দেখানোর নিয়ম এক না। একেক দেশ একেক নিয়ম বা \"ভাষা\" ব্যবহার করে। কেউ NTSC, কেউ PAL। আমাদের দেশে সাধারণত PAL চলে।",
+        tier: "mythic"
+    },
+    {
+        text: "ভিডিও সার্ভেইল্যান্স সিস্টেম বলতে কোন সিস্টেমকে বুঝানো হয়?",
+        answer: "ভিডিও সার্ভেইল্যান্স সিস্টেম বলতে <span class=\"glow-cyan\">সিসিটিভি (CCTV) বা আইপি ক্যামেরা নেটওয়ার্ককে</span> বোঝানো হয়, যা ভিডিও ধারণ ও মনিটরিংয়ের কাজ করে।",
+        extendedAnswer: "এটা সেই সিস্টেম যেখানে ক্যামেরা ভিডিও রেকর্ড করে এবং তার বা ইন্টারনেটের মাধ্যমে টিভিতে দেখায়। অর্থাৎ, ভিডিও দিয়ে পাহারা দেওয়ার সিস্টেম।",
+        tier: "mythic"
+    },
+    {
+        text: "Camera কী?",
+        answer: "ক্যামেরা হলো একটি <span class=\"glow-cyan\">অপটিক্যাল যন্ত্র</span> যা লেন্স ও সেন্সরের মাধ্যমে স্থির চিত্র বা চলমান ভিডিও ধারণ করতে পারে।",
+        extendedAnswer: "ক্যামেরা হলো <span class=\"glow-purple\">যান্ত্রিক চোখ</span>। আমরা চোখ দিয়ে যা দেখি, ক্যামেরা সেটা দেখে এবং রেকর্ড করে রাখে।",
+        tier: "mythic"
+    },
+    {
+        text: "Resolution কী?",
+        answer: "রেজোলিউশন হলো কোনো ইমেজের <span class=\"glow-cyan\">পিক্সেল বা ডট-এর সংখ্যা</span>, যা ছবির স্বচ্ছতা ও স্পষ্টতা নির্ধারণ করে।",
+        extendedAnswer: "ছবিটা কতটা পরিষ্কার। রেজোলিউশন বেশি মানে ছবি একদম কাঁচের মতো পরিষ্কার, আর কম মানে ছবি ফাটা বা ঘোলা।",
+        tier: "mythic"
+    },
+    {
+        text: "CCTV কী?",
+        answer: "CCTV-এর পূর্ণরূপ <span class=\"glow-cyan\">Closed Circuit Television</span>। এটি এমন একটি টিভি সিস্টেম যেখানে সিগন্যালগুলো সর্বসাধারণের জন্য উন্মুক্ত না থেকে নির্দিষ্ট মনিটরে প্রদর্শিত হয়।",
+        extendedAnswer: "এটা এমন একটা টিভি চ্যানেল যেটা শুধু আপনি বা আপনার সিকিউরিটি গার্ড দেখতে পাবে। বাইরের কেউ এই চ্যানেলের ভিডিও দেখতে পাবে না, তাই এটা <span class=\"glow-purple\">\"Closed\" বা বন্ধ</span>।",
+        tier: "mythic"
+    },
+    {
+        text: "IP-Camera-এর Resolution কত?",
+        answer: "আইপি ক্যামেরার রেজোলিউশন সাধারণত <span class=\"glow-cyan\">১.৩ মেগাপিক্সেল থেকে শুরু করে ৪কে (৮ মেগাপিক্সেল)</span> বা তার বেশি হয়ে থাকে।",
+        extendedAnswer: "এগুলো স্মার্ট ক্যামেরা, তাই এদের পাওয়ার বেশি। ফোনের ক্যামেরার মতো এদের মেগাপিক্সেল যত বেশি, ভিডিও তত জুম করলেও ফাটবে না।",
+        tier: "mythic"
+    },
+    {
+        text: "Standard Prime Lens কী?",
+        answer: "স্ট্যান্ডার্ড প্রাইম লেন্স হলো এমন লেন্স যার <span class=\"glow-cyan\">ফোকাল লেংথ নির্দিষ্ট (ফিক্সড) থাকে</span> এবং এটি জুম ইন বা জুম আউট করতে পারে না।",
+        extendedAnswer: "এই লেন্সটা ফিক্সড। এটা দিয়ে জুম করা যায় না। এটা একটা নির্দিষ্ট দূরত্বের জিনিস খুব সুন্দর করে দেখতে পায়, কিন্তু কাছে বা দূরে টানা যায় না।",
+        tier: "mythic"
+    },
+    {
+        text: "Lens কী?",
+        answer: "লেন্স হলো <span class=\"glow-cyan\">কাঁচ বা প্লাস্টিকের তৈরি একটি আলোকীয় যন্ত্রাংশ</span> যা আলো ফোকাস করে ক্যামেরার সেন্সরে প্রতিবিম্ব তৈরি করে।",
+        extendedAnswer: "ক্যামেরার চশমা। মানুষ চশমা ছাড়া যেমন ঘোলা দেখে, ক্যামেরাও লেন্স ছাড়া অন্ধ। এটা আলো ঠিকঠাক মতো সেন্সরে ফেলে ছবি বানায়।",
+        tier: "mythic"
+    },
+    {
+        text: "সিসিটিভি ক্যামেরার উপাদানগুলোর নাম লেখ।",
+        answer: "সিসিটিভি ক্যামেরার মূল অভ্যন্তরীণ উপাদানগুলো হলো: <span class=\"glow-cyan\">লেন্স, ইমেজ সেন্সর, ডিএসপি (DSP) চিপ এবং হাউজিং (বডি)</span>।",
+        extendedAnswer: "একটা ক্যামেরার ভেতরে কী থাকে? সামনে থাকে লেন্স, ভেতরে থাকে সেন্সর (যেটা ছবি তোলে), আর মাদারবোর্ড। আর পুরো জিনিসটা একটা বাক্সের (Housing) ভেতর ভরা থাকে।",
+        tier: "mythic"
+    },
+    {
+        text: "নিরাপত্তা ক্যামেরা কত প্রকার ও কী কী?",
+        answer: "প্রযুক্তি ভেদে নিরাপত্তা ক্যামেরা প্রধানত দুই প্রকার: <span class=\"glow-cyan\">এনালগ ক্যামেরা এবং আইপি (নেটওয়ার্ক) ক্যামেরা</span>।",
+        extendedAnswer: "প্রধানত দুই দল। ১. এনালগ (পুরানো আমলের, তার দিয়ে চলে)। ২. আইপি ক্যামেরা (স্মার্ট, ইন্টারনেটে চলে)।",
+        tier: "mythic"
+    },
+    {
+        text: "Remote Access System বলতে কী বুঝায়?",
+        answer: "ইন্টারনেট ব্যবহার করে দূরবর্তী কোনো স্থান থেকে সার্ভেইল্যান্স সিস্টেমের <span class=\"glow-cyan\">লাইভ ভিডিও বা রেকর্ড দেখা ও নিয়ন্ত্রণ করার পদ্ধতিকে</span> রিমোট এক্সেস বলে।",
+        extendedAnswer: "আপনি আছেন কক্সবাজার, কিন্তু ঢাকার অফিসের ক্যামেরার ভিডিও আপনার মোবাইলে দেখছেন—এটাই রিমোট এক্সেস। <span class=\"glow-purple\">দূরে থেকেও কাছে থাকা</span>।",
+        tier: "mythic"
+    },
+    {
+        text: "Attendance Device বলতে কী বুঝায়?",
+        answer: "অ্যাটেনডেন্স ডিভাইস হলো এমন একটি <span class=\"glow-cyan\">ইলেকট্রনিক যন্ত্র</span> যা কর্মচারীদের অফিসে আসা ও যাওয়ার সময় স্বয়ংক্রিয়ভাবে রেকর্ড করে রাখে।",
+        extendedAnswer: "হাজিরা খাতা এখন ডিজিটাল। মেশিনে আঙুল দিলেন বা কার্ড ছোঁয়ালেন, আর মেশিন বুঝে গেল আপনি আজ অফিসে এসেছেন।",
+        tier: "mythic"
+    },
+    {
+        text: "NVR বা নেটওয়ার্ক ভিডিও রেকর্ডার বলতে কী বুঝায়?",
+        answer: "NVR হলো এমন একটি রেকর্ডার যা <span class=\"glow-cyan\">আইপি ক্যামেরা থেকে ইন্টারনেটের মাধ্যমে আসা ডিজিটাল ভিডিও ডাটা</span> হার্ডডিস্কে সংরক্ষণ করে।",
+        extendedAnswer: "এটা আইপি ক্যামেরার ব্রেইন বা মেমোরি বক্স। ক্যামেরা যা দেখে, এই বাক্স সেটা ইন্টারনেটের মাধ্যমে নিয়ে জমা করে রাখে।",
+        tier: "mythic"
+    },
+    {
+        text: "Storage Node এর কাজ কী?",
+        answer: "নেটওয়ার্ক ভিডিও সার্ভেইল্যান্স সিস্টেমে <span class=\"glow-cyan\">বিপুল পরিমাণ ভিডিও ডাটা সংরক্ষণ এবং ম্যানেজ করাই</span> হলো স্টোরেজ নোডের কাজ।",
+        extendedAnswer: "এটা হলো <span class=\"glow-purple\">ভিডিওর গুদামঘর</span>। যত ভিডিও রেকর্ড হচ্ছে, সব এখানে জমা থাকে যাতে পরে দরকার হলে খুঁজে পাওয়া যায়।",
+        tier: "mythic"
+    },
+    {
+        text: "OSH কী?",
+        answer: "OSH-এর পূর্ণরূপ <span class=\"glow-cyan\">Occupational Safety and Health</span>; এটি কর্মক্ষেত্রে কর্মীদের স্বাস্থ্য ও নিরাপত্তা নিশ্চিত করার নীতিমালা।",
+        extendedAnswer: "অফিসে বা ফ্যাক্টরিতে কাজ করতে গিয়ে যাতে কেউ আহত না হয় বা অসুস্থ না হয়, তার জন্য যে সেফটি রুলস মানা হয়, সেটাই OSH।",
+        tier: "mythic"
+    },
+    {
+        text: "DMZ বলতে কী বুঝায়?",
+        answer: "DMZ (Demilitarized Zone) হলো একটি ফিজিক্যাল বা লজিক্যাল সাব-নেটওয়ার্ক যা প্রতিষ্ঠানের <span class=\"glow-cyan\">অভ্যন্তরীণ নেটওয়ার্ককে বাইরের অনিরাপদ নেটওয়ার্ক (যেমন ইন্টারনেট) থেকে আলাদা রাখে</span>।",
+        extendedAnswer: "এটা আপনার বাড়ির গেটের মতো। বাইরের লোক (ইন্টারনেট) গেট পর্যন্ত আসতে পারবে, কিন্তু বেডরুমে (আপনার মেইন কম্পিউটার) ঢুকতে পারবে না। এটা একটা সেফ জোন।",
+        tier: "mythic"
+    },
+    {
+        text: "DVR বলতে কী বুঝায়?",
+        answer: "DVR-এর পূর্ণরূপ <span class=\"glow-cyan\">Digital Video Recorder</span>। এটি এনালগ ক্যামেরা থেকে ভিডিও সিগন্যাল গ্রহণ করে তা ডিজিটাল ফরম্যাটে রূপান্তর ও সংরক্ষণ করে।",
+        extendedAnswer: "এটা এনালগ বা ডিশ লাইনের মতো তারওয়ালা ক্যামেরার ব্রেইন। ক্যামেরা ছবি পাঠায়, আর এই বাক্স সেটাকে ভিডিও ফাইল বানিয়ে হার্ডডিস্কে সেভ করে।",
+        tier: "mythic"
+    },
+    {
+        text: "ISDN কী?",
+        answer: "ISDN (Integrated Services Digital Network) হলো একটি টেলিযোগাযোগ প্রযুক্তি যা <span class=\"glow-cyan\">সাধারণ টেলিফোন লাইনের মাধ্যমে একই সাথে ভয়েস ও ডিজিটাল ডাটা</span> আদান-প্রদান করে।",
+        extendedAnswer: "এটা পুরনো আমলের ইন্টারনেট প্রযুক্তির মতো। এক তার দিয়েই কথা বলা যেত এবং ডাটাও পাঠানো যেত। এখন আর তেমন চলে না।",
+        tier: "mythic"
+    },
+    {
+        text: "Splitter বলতে কী বুঝায়?",
+        answer: "স্প্লীটার হলো এমন একটি ডিভাইস যা <span class=\"glow-cyan\">একটি ইনপুট সিগন্যালকে একাধিক আউটপুট সিগন্যালে বিভক্ত করে</span>।",
+        extendedAnswer: "নামেই পরিচয় \"Split\" বা ভাগ করা। একটা তার থেকে লাইন নিয়ে দুই বা তিন ভাগে ভাগ করে দেওয়ার যন্ত্র।",
+        tier: "mythic"
+    },
+    {
+        text: "Smoke Detector-এর কাজ লেখ।",
+        answer: "স্মোক ডিটেক্টরের কাজ হলো বাতাসে ধোঁয়ার উপস্থিতি টের পেলে <span class=\"glow-cyan\">ফায়ার অ্যালার্ম বাজিয়ে আগুন সম্পর্কে সতর্ক করা</span>।",
+        extendedAnswer: "এর কাজ হলো <span class=\"glow-purple\">গন্ধ শোঁকা</span>। যেই আগুনের ধোঁয়া নাকে যাবে, অমনি ভ্যাঁ ভ্যাঁ করে শব্দ করে সবাইকে জানিয়ে দেবে যে আগুন লেগেছে।",
+        tier: "mythic"
+    },
+    {
+        text: "ওয়ারেন্টি কী?",
+        answer: "ওয়ারেন্টি হলো প্রস্তুতকারক কর্তৃক দেওয়া একটি <span class=\"glow-cyan\">লিখিত প্রতিশ্রুতি</span>, যেখানে নির্দিষ্ট সময়ের মধ্যে পণ্য নষ্ট হলে তা মেরামত বা পরিবর্তনের নিশ্চয়তা দেওয়া হয়।",
+        extendedAnswer: "কোম্পানির প্রমিজ। তারা বলে, \"ভাই, নিয়ে যান। ১ বছরের মধ্যে নষ্ট হলে আমরা ঠিক করে দেব, আপনার টাকা লাগবে না।\"",
+        tier: "mythic"
+    },
+    {
+        text: "সীমিত পণ্যের উপর ওয়ারেন্টি বলতে কী বুঝ?",
+        answer: "একে <span class=\"glow-cyan\">Limited Warranty</span> বলে। এতে পণ্যের সব অংশ কভার করে না, শুধুমাত্র নির্দিষ্ট কিছু ত্রুটি বা যন্ত্রাংশের মেরামতের দায়িত্ব কোম্পানি নেয়।",
+        extendedAnswer: "শর্ত প্রযোজ্য ওয়ারেন্টি। কোম্পানি বলবে, \"আমরা শুধু মোটর ঠিক করে দেব, কিন্তু প্লাস্টিক ভেঙে গেলে আমাদের দোষ নেই।\" পুরো জিনিসের গ্যারান্টি নেই।",
+        tier: "mythic"
+    },
+    {
+        text: "নজরদারি সিস্টেমের প্রয়োজনীয় সরঞ্জামের নাম লেখ।",
+        answer: "<span class=\"glow-cyan\">সিসিটিভি ক্যামেরা, ডিভিআর/এনভিআর, হার্ডডিস্ক ড্রাইভ, মনিটর, কো-এক্সিয়াল বা নেটওয়ার্ক ক্যাবল, এবং বিএনসি/আরজে৪৫ কানেক্টর</span>।",
+        extendedAnswer: "একটা সিসিটিভি লাগাতে যা যা কিনতে হয়—ক্যামেরা, তার, রেকর্ড করার মেশিন, হার্ডডিস্ক আর দেখার জন্য টিভি।",
+        tier: "mythic"
+    },
+    {
+        text: "কয়েকটি Attendance Device-এর নাম লেখ।",
+        answer: "<span class=\"glow-cyan\">ফিঙ্গারপ্রিন্ট রিডার (Fingerprint Reader), ফেস রিকগনিশন ডিভাইস (Face Recognition), এবং আরএফআইডি কার্ড রিডার (RFID Card Reader)</span>।",
+        extendedAnswer: "আঙুলের ছাপ দিয়ে হাজিরা মেশিন, চেহারা দেখে চেনা মেশিন, আর কার্ড পাঞ্চ করার মেশিন।",
+        tier: "mythic"
+    },
+    {
+        text: "বায়োমেট্রিক অ্যাটেনডেন্স ডিভাইস কী?",
+        answer: "যে অ্যাটেনডেন্স ডিভাইসে মানুষের <span class=\"glow-cyan\">অদ্বিতীয় শারীরিক বৈশিষ্ট্য (যেমন আঙুলের ছাপ, চোখের আইরিস বা চেহারা)</span> ব্যবহার করে পরিচয় শনাক্ত করা হয়।",
+        extendedAnswer: "এমন এক মেশিন যেটা আপনাকে আপনার শরীর দেখে চিনে ফেলে। এখানে কার্ড বা পাসওয়ার্ড লাগে না, <span class=\"glow-purple\">আপনার আঙুল বা চেহারাই হলো পাসওয়ার্ড</span>। কোনো চিটিং চলে না।",
+        tier: "mythic"
+    }
+            ],
+            "short": [
+                {
+        text: "বায়োমেট্রিক সার্ভেইল্যান্স বলতে কী বুঝ?",
+        answer: "বায়োমেট্রিক সার্ভেইল্যান্স হলো এমন একটি উন্নত নজরদারি প্রযুক্তি, যা মানুষের <span class=\"glow-cyan\">শারীরিক ও আচরণগত বৈশিষ্ট্য বিশ্লেষণ করে</span> ব্যক্তিকে শনাক্ত করে। এই পদ্ধতিতে ফেসিয়াল রিকগনিশন (চেহারা শনাক্তকরণ), ফিঙ্গারপ্রিন্ট স্ক্যানিং, আইরিস স্ক্যানিং বা গেইট অ্যানালাইসিস (হাঁটার ধরন) ব্যবহার করা হয়।<br>সাধারণ সিসিটিভি ফুটেজের সাথে কৃত্রিম বুদ্ধিমত্তা (AI) ও ডাটাবেস যুক্ত করে এটি কাজ করে। ভিড়ের মধ্যে নির্দিষ্ট ব্যক্তিকে খুঁজে বের করতে বা নিরাপত্তা নিশ্চিত করতে এটি অত্যন্ত কার্যকর। আইন প্রয়োগকারী সংস্থা এবং উচ্চ নিরাপত্তা এলাকায় এর ব্যবহার ব্যাপক।",
+        extendedAnswer: "ভাই, এটা হলো <span class=\"glow-purple\">হাই-টেক গোয়েন্দাগিরি</span>। সাধারণ ক্যামেরায় শুধু ভিডিও দেখা যায়, কিন্তু বায়োমেট্রিক সিস্টেমে ক্যামেরা নিজেই চিনে ফেলে কে যাচ্ছে।<br>ধরেন, আপনার ফেইস বা চোখের মণি হলো আপনার পাসওয়ার্ড। আপনি ক্যামেরার সামনে দিয়ে হেঁটে গেলেন, আর কম্পিউটার সাথে সাথে বলে দিল—\"এই যে মিস্টার করিম যাচ্ছেন\"। এয়ারপোর্টে বা খুব কড়া সিকিউরিটি আছে এমন জায়গায় এটা ব্যবহার করা হয় যাতে ক্রিমিনালরা চেহারা লুকিয়েও পার না পায়।",
+        tier: "mythic"
+    },
+    {
+        text: "Surveillance Security System-এর বৈশিষ্ট্য লেখ।",
+        answer: "একটি আদর্শ সার্ভেইল্যান্স সিকিউরিটি সিস্টেমের প্রধান বৈশিষ্ট্যগুলো হলো:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">রিয়েল-টাইম মনিটরিং:</span> ২৪/৭ লাইভ ভিডিও দেখার সুবিধা।</li><li><span class=\"glow-cyan\">ভিডিও রেকর্ডিং ও স্টোরেজ:</span> ভিডিও ফুটেজ ভবিষ্যতে ব্যবহারের জন্য জমা রাখা।</li><li><span class=\"glow-cyan\">রিমোট এক্সেস:</span> পৃথিবীর যেকোনো প্রান্ত থেকে ইন্টারনেট ব্যবহার করে সিস্টেম নিয়ন্ত্রণ করা।</li><li><span class=\"glow-cyan\">মোশন ডিটেকশন:</span> কোনো নড়াচড়া হলে স্বয়ংক্রিয়ভাবে অ্যালার্ট বা নোটিফিকেশন পাঠানো।</li><li><span class=\"glow-cyan\">নাইট ভিশন:</span> অন্ধকারেও ইনফ্রারেড প্রযুক্তির মাধ্যমে পরিষ্কার ছবি ধারণ করার ক্ষমতা।</li><li><span class=\"glow-cyan\">হাই রেজোলিউশন:</span> স্পষ্ট ও বিস্তারিত ছবি বা ভিডিও প্রদান করা।</li></ul></div>",
+        extendedAnswer: "একটা ভালো সিসিটিভি সিস্টেমের কী কী গুণ থাকা লাগে?<br>প্রথমত, দিন-রাত ২৪ ঘণ্টা পাহারাদারের মতো জেগে থাকবে।<br>দ্বিতীয়ত, অন্ধকারে বিড়ালের মতো দেখার ক্ষমতা (নাইট ভিশন) থাকতে হবে।<br>তৃতীয়ত, চোর আসলে মোবাইলে মেসেজ পাঠাবে (অ্যালার্ট)।<br>আর সবচেয়ে বড় কথা, আপনি কক্সবাজার সমুদ্র সৈকতে বসেও যাতে মোবাইলে দেখতে পারেন আপনার বাসার সামনে কে ঘুরঘুর করছে।",
+        tier: "mythic"
+    },
+    {
+        text: "ভিডিও নজরদারি কয়টি বিষয়ের উপর ভিত্তি করে প্রতিষ্ঠিত?",
+        answer: "ভিডিও নজরদারি বা সার্ভেইল্যান্স সিস্টেম মূলত তিনটি প্রধান স্তম্ভ বা বিষয়ের উপর ভিত্তি করে প্রতিষ্ঠিত:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. ভিডিও ক্যাপচার (Video Capture):</span> অর্থাৎ ক্যামেরা বা সেন্সরের মাধ্যমে দৃশ্য ধারণ করা।</li><li><span class=\"glow-cyan\">২. ভিডিও ট্রান্সমিশন (Video Transmission):</span> ধারণকৃত ভিডিও ক্যাবল বা ওয়্যারলেস মাধ্যমে রেকর্ডার বা মনিটরে পাঠানো।</li><li><span class=\"glow-cyan\">৩. ভিডিও ম্যানেজমেন্ট ও ডিসপ্লে (Video Management & Display):</span> ভিডিও প্রসেস করা, রেকর্ড করা এবং মনিটরে প্রদর্শন করা।</li></ul></div>এই তিনটি ধাপের সমন্বয়েই একটি পূর্ণাঙ্গ ভিডিও নজরদারি ব্যবস্থা কাজ করে।",
+        extendedAnswer: "পুরো সিস্টেমটা ৩টা পিলারের ওপর দাঁড়িয়ে আছে।<br>১. <span class=\"glow-purple\">চোখ (ক্যামেরা):</span> যেটা ছবি তোলে।<br>২. <span class=\"glow-purple\">নার্ভ বা স্নায়ু (তার/ইন্টারনেট):</span> যেটা ছবিটাকে বয়ে নিয়ে যায়।<br>৩. <span class=\"glow-purple\">মস্তিষ্ক (মনিটর/রেকর্ডার):</span> যেখানে ছবিটা জমা হয় এবং দেখা যায়। এই তিনটার একটা না থাকলে সিস্টেম অচল।",
+        tier: "mythic"
+    },
+    {
+        text: "CCTV-এর Interfacing Device-গুলো কী কী?",
+        answer: "সিসিটিভি সিস্টেমে বিভিন্ন যন্ত্রাংশ একে অপরের সাথে সংযোগ স্থাপনের জন্য ইন্টারফেসিং ডিভাইস ব্যবহার করে। প্রধান ডিভাইসগুলো হলো:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">কানেক্টর (Connectors):</span> BNC, RJ45, DC Power jack যা ক্যামেরা ও তারের সংযোগ ঘটায়।</li><li><span class=\"glow-cyan\">বালুন (Video Balun):</span> টুইস্টেড পেয়ার ক্যাবলের মাধ্যমে ভিডিও সিগন্যাল পাঠাতে ব্যবহৃত হয়।</li><li><span class=\"glow-cyan\">সুইচ ও রাউটার (Switch/Router):</span> আইপি ক্যামেরার ডাটা নেটওয়ার্কে আদান-প্রদানের জন্য।</li><li><span class=\"glow-cyan\">স্প্লীটার (Splitter):</span> একটি সিগন্যালকে একাধিক মনিটরে পাঠানোর জন্য।</li><li><span class=\"glow-cyan\">কনভার্টার (Converter):</span> যেমন HDMI to VGA বা Fiber to Copper কনভার্টার।</li></ul></div>",
+        extendedAnswer: "এগুলো হলো সেই ছোটখাটো যন্ত্র যা পুরো সিস্টেমকে জোড়া লাগিয়ে রাখে। যেমন—তারের মাথায় যে প্লাগ (BNC) লাগান, সেটা একটা ইন্টারফেস। আবার অনেকগুলো ক্যামেরাকে এক জায়গায় করার জন্য যে সুইচ ব্যবহার করেন, সেটাও ইন্টারফেস। সহজ কথায়, ক্যামেরা, তার আর মনিটরের মধ্যে <span class=\"glow-purple\">\"বন্ধুত্ব\" করিয়ে দেওয়ার যন্ত্রগুলোই</span> হলো ইন্টারফেসিং ডিভাইস।",
+        tier: "mythic"
+    },
+    {
+        text: "ডিজিটাল ও অ্যানালগ সিসিটিভি-এর পার্থক্য লেখ।",
+        answer: "ডিজিটাল এবং এনালগ সিসিটিভির মধ্যে প্রধান পার্থক্যগুলো হলো:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. সিগন্যাল:</span> এনালগ ক্যামেরা ভিডিও সিগন্যালকে ইলেকট্রিক পালস হিসেবে পাঠায়, আর ডিজিটাল (IP) ক্যামেরা বাইনারি ডাটা হিসেবে পাঠায়।</li><li><span class=\"glow-cyan\">২. রেজোলিউশন:</span> এনালগ ক্যামেরার রেজোলিউশন সাধারণত কম হয়, কিন্তু ডিজিটাল ক্যামেরার রেজোলিউশন অনেক বেশি (HD/4K)।</li><li><span class=\"glow-cyan\">৩. ক্যাবলিং:</span> এনালগে কো-এক্সিয়াল ক্যাবল লাগে, ডিজিটালে ইথারনেট (CAT6) ক্যাবল লাগে।</li><li><span class=\"glow-cyan\">৪. ফিচার:</span> ডিজিটাল ক্যামেরায় স্মার্ট ফিচার (AI, জুম) থাকে যা এনালগে সাধারণত থাকে না।</li></ul></div>",
+        extendedAnswer: "এনালগ হলো <span class=\"glow-purple\">পুরনো আমলের বাটন ফোনের মতো</span>—কাজ চলে, কিন্তু ছবি ঘোলা আর ফাংশন কম। আর ডিজিটাল হলো <span class=\"glow-purple\">লেটেস্ট আইফোন</span>—ছবি একদম ঝকঝকে, জুম করলেও ফাটে না, আর ইন্টারনেটে সরাসরি চালানো যায়। এনালগে তারের জঞ্জাল বেশি, ডিজিটালে একটা তারেই সব কাজ হয়।",
+        tier: "mythic"
+    },
+    {
+        text: "ইন্টারলেসড লাইন বর্ণনা কর।",
+        answer: "ইন্টারলেসড লাইন হলো ভিডিও প্রদর্শনের একটি পুরনো পদ্ধতি। এই পদ্ধতিতে একটি পূর্ণাঙ্গ ফ্রেম বা ছবিকে দুটি ফিল্ডে ভাগ করা হয়: <span class=\"glow-cyan\">বিজোড় (Odd) লাইন এবং জোড় (Even) লাইন</span>।<br>মনিটরে প্রথমে বিজোড় লাইনগুলো (১, ৩, ৫...) স্ক্যান হয় এবং অতি দ্রুত এরপর জোড় লাইনগুলো (২, ৪, ৬...) স্ক্যান হয়। মানুষের চোখের সীমাবদ্ধতার কারণে এই দুটি আলাদা স্ক্যান মিলে একটি পূর্ণাঙ্গ ছবি মনে হয়। এটি ব্যান্ডউইথ বাঁচাতে ব্যবহৃত হতো।",
+        extendedAnswer: "টিভির পর্দায় ছবি আঁকার একটা টেকনিক। ধরেন একটা ছবি আঁকতে ১০০টা লাইন লাগবে। ইন্টারলেসড মেথডে প্রথমে ১, ৩, ৫ নম্বর লাইনগুলো আঁকা হয়, তারপর দ্রুত ২, ৪, ৬ নম্বর লাইনগুলো আঁকা হয়। এটা এত দ্রুত হয় যে আপনার চোখ ধোঁকা খায় এবং মনে করে পুরো ছবিটাই একসাথে আছে।",
+        tier: "mythic"
+    },
+    {
+        text: "আইপি ক্যামেরা আইডি বলতে কী বুঝায়?",
+        answer: "আইপি ক্যামেরা আইডি মূলত ক্যামেরার <span class=\"glow-cyan\">আইপি অ্যাড্রেস (IP Address) বা UID (Unique Identifier)</span>-কে বোঝায়।<br>নেটওয়ার্কের মধ্যে প্রতিটি ক্যামেরাকে আলাদাভাবে চেনার জন্য একটি অদ্বিতীয় আইপি অ্যাড্রেস (যেমন: 192.168.1.10) এসাইন করা থাকে। এছাড়া ক্লাউড বা পি-টু-পি (P2P) কানেকশনের জন্য প্রতিটি ক্যামেরার একটি ইউনিক সিরিয়াল নম্বর বা ID থাকে, যা ব্যবহার করে দূরবর্তী স্থান থেকে ক্যামেরায় লগ-ইন করা যায়।",
+        extendedAnswer: "আপনার বাসার ঠিকানায় যেমন চিঠি আসে, তেমনি ইন্টারনেটের জগতেও ক্যামেরার একটা ঠিকানা লাগে—এটাই আইপি আইডি। আপনি যখন মোবাইলে ক্যামেরা দেখতে চান, তখন অ্যাপকে এই আইডিটা দিতে হয়, যাতে অ্যাপ বুঝতে পারে হাজার হাজার ক্যামেরার মধ্যে কোনটা আপনার ক্যামেরা।",
+        tier: "mythic"
+    },
+    {
+        text: "ডিজিটাল ক্যামেরার সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "ডিজিটাল ক্যামেরা হলো এমন একটি ইমেজিং ডিভাইস যা অপটিক্যাল ইমেজকে ইলেকট্রনিক সিগন্যালের পরিবর্তে <span class=\"glow-cyan\">ডিজিটাল ডাটায় (০ এবং ১) রূপান্তর করে</span>।<br>এতে একটি ইমেজ সেন্সর (CCD বা CMOS) থাকে যা আলো গ্রহণ করে এবং প্রসেসরের মাধ্যমে তা ডিজিটাল ফাইলে (JPEG/MPEG) পরিণত করে। সার্ভেইল্যান্সের ক্ষেত্রে এগুলোকে আইপি ক্যামেরা বলা হয়, যা সরাসরি নেটওয়ার্কে ডাটা পাঠাতে পারে এবং উচ্চ মানের ভিডিও প্রদান করে।",
+        extendedAnswer: "আগেকার ক্যামেরায় ফিল্ম লাগত, এখনকার ক্যামেরায় মেমোরি কার্ড বা হার্ডডিস্ক লাগে। ডিজিটাল ক্যামেরা ছবি তুলে সেটাকে কম্পিউটার ফাইলের মতো বানিয়ে ফেলে। ফলে আপনি সাথে সাথে ছবি দেখতে পারেন, এডিট করতে পারেন, আবার ইন্টারনেটে পাঠাতেও পারেন। এটা স্মার্ট এবং ফাস্ট।",
+        tier: "mythic"
+    },
+    {
+        text: "ডিএসপি-এর সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "ডিএসপি (DSP) বা <span class=\"glow-cyan\">Digital Signal Processor</span> হলো সিসিটিভি ক্যামেরার ভেতরের একটি মাইক্রোচিপ।<br>সেন্সর থেকে আসা \"র\" (Raw) ইমেজ ডাটাকে এটি প্রসেস করে ব্যবহারযোগ্য ভিডিওতে রূপান্তর করে। ডিএসপি-এর কাজ হলো ছবির ব্রাইটনেস, কন্ট্রাস্ট, কালার ব্যালেন্স ঠিক করা এবং নয়েজ (Noise) কমানো। এটি ক্যামেরার \"মস্তিষ্ক\" হিসেবে কাজ করে ছবির মান উন্নত করে।",
+        extendedAnswer: "ক্যামেরার সেন্সর যখন ছবি তোলে, তখন সেটা থাকে কাঁচা মালমশলার মতো। DSP হলো সেই <span class=\"glow-purple\">শেফ (Chef)</span> যে এই মশলা দিয়ে সুন্দর রান্না (ভিডিও) তৈরি করে। আলো কম হলে বাড়ানো, রঙ ঠিক করা—এই সব ঘষামাজার কাজটা ক্যামেরার পেটের ভেতর এই ছোট চিপটাই করে।",
+        tier: "mythic"
+    },
+    {
+        text: "Zoom Camera-এর Specification লেখ।",
+        answer: "একটি জুম ক্যামেরার স্পেসিফিকেশনে সাধারণত নিচের বিষয়গুলো উল্লেখ থাকে:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. অপটিক্যাল জুম:</span> লেন্স মুভমেন্টের মাধ্যমে কতগুণ বড় করা যায় (যেমন: 10x, 20x Optical Zoom)।</li><li><span class=\"glow-cyan\">২. ডিজিটাল জুম:</span> সফটওয়্যারের মাধ্যমে ছবি বড় করার ক্ষমতা।</li><li><span class=\"glow-cyan\">৩. ফোকাল লেংথ:</span> লেন্সের রেঞ্জ (যেমন: 4.5mm - 135mm)।</li><li><span class=\"glow-cyan\">৪. অটো ফোকাস:</span> জুম করার সাথে সাথে ফোকাস ঠিক রাখার ক্ষমতা।</li><li><span class=\"glow-cyan\">৫. PTZ ফিচার:</span> জুমের সাথে প্যান এবং টিল্ট করার সুবিধা আছে কি না।</li></ul></div>",
+        extendedAnswer: "জুম ক্যামেরা কেনার সময় প্যাকেটের গায়ে কী লেখা থাকে? লেখা থাকে এটা কত দূর পর্যন্ত টেনে আনতে পারবে (যেমন ১০ গুণ বা ২০ গুণ জুম)। লেন্সটা কতটুকু নড়াচড়া করে এবং জুম করলে ছবি ফাটে কিনা (অপটিক্যাল নাকি ডিজিটাল)—এসব তথ্যই হলো এর স্পেসিফিকেশন।",
+        tier: "mythic"
+    },
+    {
+        text: "লেন্স-এর প্রকারভেদগুলোর নাম লেখ।",
+        answer: "সার্ভেইল্যান্স সিস্টেমে ব্যবহৃত লেন্সগুলোকে প্রধানত তিন ভাগে ভাগ করা যায়:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. ফিক্সড লেন্স (Fixed Lens):</span> ফোকাল লেংথ পরিবর্তন করা যায় না (যেমন: 3.6mm)।</li><li><span class=\"glow-cyan\">২. ভেরিফোকাল লেন্স (Varifocal Lens):</span> প্রয়োজন অনুযায়ী ফোকাল লেংথ ম্যানুয়ালি বা মোটরাইজড ভাবে পরিবর্তন করা যায় (জুম করা যায়)।</li><li><span class=\"glow-cyan\">৩. পিটিজেড লেন্স (PTZ Lens):</span> যা প্যান, টিল্ট এবং জুম করার সুবিধা দেয়।</li></ul></div>এছাড়াও অ্যাপারচার অনুযায়ী অটো আইরিস এবং ম্যানুয়াল আইরিস লেন্স রয়েছে।",
+        extendedAnswer: "লেন্স মূলত দুই টাইপের। একদল হলো <span class=\"glow-purple\">\"স্ট্যাচু\"</span>—এরা নড়ে না, যা দেখার তাই দেখে (ফিক্সড)। আরেকদল হলো <span class=\"glow-purple\">\"দূরবীন\"</span>—এদের ঘুরিয়ে ঘুরিয়ে জুম করা যায়, দূরের জিনিস কাছে আনা যায় (ভেরিফোকাল)।",
+        tier: "mythic"
+    },
+    {
+        text: "ভিডিও কোয়ালিটি নির্ধারণের বৈশিষ্ট লেখ।",
+        answer: "ভিডিও কোয়ালিটি প্রধানত নিচের বৈশিষ্ট্যগুলোর উপর নির্ভর করে:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. রেজোলিউশন (Resolution):</span> পিক্সেল সংখ্যা যত বেশি, ছবি তত স্পষ্ট (720p, 1080p, 4K)।</li><li><span class=\"glow-cyan\">২. ফ্রেম রেট (Frame Rate - FPS):</span> প্রতি সেকেন্ডে কতটি ফ্রেম যাচ্ছে। FPS বেশি হলে ভিডিও স্মুথ হয়।</li><li><span class=\"glow-cyan\">৩. বিটরেট (Bitrate):</span> ডাটা ট্রান্সফারের হার; বিটরেট বেশি হলে ডিটেইলস ভালো থাকে।</li><li><span class=\"glow-cyan\">৪. কমপ্রেশন (Compression):</span> H.264 বা H.265 কোডেক ব্যবহারের দক্ষতা।</li><li><span class=\"glow-cyan\">৫. আলোর সংবেদনশীলতা (Lux Rating):</span> কম আলোতে কেমন পারফর্ম করে।</li></ul></div>",
+        extendedAnswer: "ভিডিও ভালো না খারাপ বুঝবেন কেমনে?<br>১. ছবি ঘোলা না পরিষ্কার (রেজোলিউশন)।<br>২. ভিডিও আটকে আটকে যায় নাকি পানির মতো চলে (ফ্রেম রেট)।<br>৩. এবং অন্ধকার ঘরে ভিডিওতে ঝিরঝির করে কিনা। এই সব ঠিক থাকলেই ভিডিও কোয়ালিটি টপ ক্লাস।",
+        tier: "mythic"
+    },
+    {
+        text: "Remote Access Administration-এর কাজগুলো কী কী?",
+        answer: "রিমোট এক্সেস অ্যাডমিনিস্ট্রেশনের প্রধান কাজগুলো হলো:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. দূরবর্তী স্থান থেকে</span> সার্ভেইল্যান্স সিস্টেম কনফিগার ও মেইনটেইন করা।</li><li><span class=\"glow-cyan\">২. ইউজার একাউন্ট তৈরি</span> এবং পারমিশন (অনুমতি) ম্যানেজ করা।</li><li><span class=\"glow-cyan\">৩. ফার্মওয়্যার আপডেট দেওয়া</span> এবং সিস্টেম রিবুট করা।</li><li><span class=\"glow-cyan\">৪. লাইভ ভিউ দেখা</span> এবং পুরনো রেকর্ড প্লেব্যাক করা।</li><li><span class=\"glow-cyan\">৫. নেটওয়ার্ক সিকিউরিটি</span> এবং ফায়ারওয়াল সেটিংস তদারকি করা।</li></ul></div>",
+        extendedAnswer: "অ্যাডমিন যখন অফিসে না গিয়ে বাসায় বসে অফিসের কম্পিউটার ঠিক করে, সেটাই এই কাজ। পাসওয়ার্ড রিসেট করা, নতুন কাউকে এক্সেস দেওয়া, ক্যামেরা কাজ না করলে রিস্টার্ট দেওয়া—সব কাজ রিমোটলি বা দূর থেকে করাই এর কাজ।",
+        tier: "mythic"
+    },
+    {
+        text: "DVR-এর Common Interface-গুলো কী কী?",
+        answer: "একটি DVR-এর পেছনের প্যানেলে সাধারণত নিচের ইন্টারফেস বা পোর্টগুলো থাকে:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. Video Input (BNC):</span> ক্যামেরা সংযোগের জন্য।</li><li><span class=\"glow-cyan\">২. Video Output (HDMI/VGA):</span> মনিটর বা টিভিতে দেখার জন্য।</li><li><span class=\"glow-cyan\">3. Audio In/Out (RCA):</span> অডিও রেকর্ড ও শোনার জন্য।</li><li><span class=\"glow-cyan\">৪. USB Port:</span> মাউস সংযোগ ও ব্যাকআপ নেওয়ার জন্য।</li><li><span class=\"glow-cyan\">৫. LAN/Network Port (RJ45):</span> ইন্টারনেটে সংযোগের জন্য।</li><li><span class=\"glow-cyan\">৬. Power Input:</span> বিদ্যুৎ সংযোগের জন্য।</li></ul></div>",
+        extendedAnswer: "ডিভিআর মেশিনের পেছনে দেখবেন অনেকগুলো ছিদ্র থাকে। গোল গোল ছিদ্রগুলো ক্যামেরার তারের জন্য (BNC)। চারকোনা ছিদ্রটা ইন্টারনেটের জন্য (LAN)। আর চ্যাপ্টা ছিদ্রগুলো মাউস বা পেনড্রাইভের জন্য (USB)। এগুলো দিয়েই ডিভিআর বাইরের দুনিয়ার সাথে যোগাযোগ করে।",
+        tier: "mythic"
+    },
+    {
+        text: "Remote Access পদ্ধতির সুবিধা ও অসুবিধা লেখ।",
+        answer: "<strong>সুবিধা:</strong><br>১. পৃথিবীর যেকোনো স্থান থেকে ২৪/৭ নজরদারি করা যায়।<br>২. দ্রুত ঘটনার প্রতিক্রিয়া বা অ্যালার্ট পাওয়া যায়।<br>৩. ফিজিক্যালি উপস্থিত না থেকেও সিস্টেম ম্যানেজ করা যায়。<br><br><strong>অসুবিধা:</strong><br>১. শক্তিশালী ইন্টারনেট সংযোগ প্রয়োজন।<br>২. সাইবার অ্যাটাক বা হ্যাকিংয়ের ঝুঁকি থাকে।<br>৩. নেটওয়ার্ক ডাউনে নজরদারি বন্ধ হয়ে যেতে পারে।",
+        extendedAnswer: "<strong>ভালো দিক:</strong> আপনি আমেরিকায় বসে দেশের বাড়ির চোর ধরতে পারবেন। দৌড়াদৌড়ি করা লাগে না।<br><strong>খারাপ দিক:</strong> ইন্টারনেট না থাকলে আপনি অন্ধ। আর যদি হ্যাকার আপনার পাসওয়ার্ড জেনে যায়, তবে সে-ও আপনার ক্যামেরা দিয়ে আপনার বেডরুম দেখতে পারবে!",
+        tier: "mythic"
+    },
+    {
+        text: "DVR ও NVR-এর মধ্যকার পার্থক্য লেখ।",
+        answer: "১. <span class=\"glow-cyan\">প্রযুক্তি:</span> DVR (Digital Video Recorder) এনালগ ক্যামেরার সাথে কাজ করে, আর NVR (Network Video Recorder) আইপি ক্যামেরার সাথে কাজ করে।<br>২. <span class=\"glow-cyan\">সংযোগ:</span> DVR-এ কো-এক্সিয়াল ক্যাবল সরাসরি মেশিনে লাগে। NVR-এ ক্যামেরাগুলো নেটওয়ার্ক সুইচের মাধ্যমে কানেক্টেড থাকে।<br>৩. <span class=\"glow-cyan\">প্রসেসিং:</span> DVR ভিডিও এনকোডিং নিজে করে, কিন্তু NVR-এ ক্যামেরা নিজেই ভিডিও এনকোড করে পাঠায়।<br>৪. <span class=\"glow-cyan\">কোয়ালিটি:</span> NVR সাধারণত DVR-এর চেয়ে উচ্চ মানের ভিডিও সাপোর্ট করে।",
+        extendedAnswer: "DVR হলো <span class=\"glow-purple\">পুরনো স্কুল</span>—এনালগ ক্যামেরার জন্য। এখানে প্রত্যেকটা ক্যামেরা থেকে তার এসে মেশিনে ঢোকে। NVR হলো <span class=\"glow-purple\">নতুন স্কুল</span>—আইপি ক্যামেরার জন্য। এখানে ক্যামেরাগুলো ইন্টারনেটের তার দিয়ে চলে এবং ভিডিও কোয়ালিটি অনেক বেশি ভালো হয়।",
+        tier: "mythic"
+    },
+    {
+        text: "NVR কীভাবে কাজ করে?",
+        answer: "NVR বা নেটওয়ার্ক ভিডিও রেকর্ডার একটি সফটওয়্যার ভিত্তিক রেকর্ডিং সিস্টেম। এটি সরাসরি ক্যামেরার সাথে সংযুক্ত থাকে না।<br>আইপি ক্যামেরাগুলো ভিডিও ক্যাপচার করে নিজেরাই প্রসেস ও এনকোড (ডিজিটাল ডাটা) করে ইথারনেট ক্যাবলের মাধ্যমে নেটওয়ার্ক সুইচে পাঠায়। NVR সেই নেটওয়ার্ক থেকে ভিডিও স্ট্রিম গ্রহণ করে এবং হার্ডডিস্ক ড্রাইভে (HDD) ডিজিটাল ফরম্যাটে সংরক্ষণ করে।",
+        extendedAnswer: "এনভিআর নিজে ভিডিও বানায় না, সে শুধু রিসিভ করে। আইপি ক্যামেরা ভিডিও বানিয়ে প্যাকেটে ভরে ইন্টারনেটের রাস্তায় ছেড়ে দেয়। এনভিআর সেই প্যাকেটগুলো রাস্তা থেকে কুড়িয়ে নিয়ে নিজের পেটের ভেতর (হার্ডডিস্কে) জমিয়ে রাখে।",
+        tier: "mythic"
+    },
+    {
+        text: "DVR-এর বৈশিষ্ট্য লেখ।",
+        answer: "DVR-এর প্রধান বৈশিষ্ট্যগুলো হলো:<div class=\"list-box\"><ul><li>১. এনালগ সিগন্যালকে ডিজিটাল ডাটায় রূপান্তর করা।</li><li>২. ভিডিও কমপ্রেশন (যেমন H.264) ব্যবহার করে স্টোরেজ সাশ্রয় করা।</li><li>৩. নির্দিষ্ট সময় বা শিডিউল অনুযায়ী রেকর্ডিং করা।</li><li>৪. পুরনো রেকর্ডিং তারিখ ও সময় অনুযায়ী খুঁজে বের করা (Playback)।</li><li>৫. ইন্টারনেট সংযোগের মাধ্যমে রিমোট ভিউইং সাপোর্ট করা।</li></ul></div>",
+        extendedAnswer: "ডিভিআর-এর কাজ হলো এনালগ ক্যামেরার <span class=\"glow-purple\">দোভাষী হওয়া</span>। সে এনালগ ভিডিও নেয়, সেটাকে ডিজিটাল বানায়, তারপর হার্ডডিস্কে সেভ করে। এছাড়া সে পুরনো ভিডিও প্লে করে দেখাতে পারে এবং হার্ডডিস্ক ভরে গেলে নিজেই পুরনো ভিডিও ডিলিট করে নতুন ভিডিও রাখে।",
+        tier: "mythic"
+    },
+    {
+        text: "DVR/NVR মেশিনে প্রয়োজনীয় ভোল্টেজ ও পাওয়ার কত?",
+        answer: "সাধারণত ছোট ও মাঝারি মানের DVR/NVR মেশিনগুলো <span class=\"glow-cyan\">12V DC (Direct Current)</span> ভোল্টেজে চলে। কারেন্ট রেটিং সাধারণত 2A থেকে 5A পর্যন্ত হয়।<br>তবে বড় মানের বা বেশি হার্ডডিস্ক ও PoE পোর্টযুক্ত NVR-গুলো 48V DC বা সরাসরি 220V AC পাওয়ার সাপ্লাই ব্যবহার করতে পারে। পাওয়ার নির্ভর করে কতগুলো ক্যামেরা ও হার্ডডিস্ক চলছে তার ওপর।",
+        extendedAnswer: "বাসাবাড়ির ছোট মেশিনগুলো ল্যাপটপের চার্জারের মতোই ১২ ভোল্টে চলে। কিন্তু যদি অনেক বড় মেশিন হয় যাতে অনেক ক্যামেরা সরাসরি লাগানো যায় (PoE), তবে সেটার পাওয়ার বেশি লাগে (৪৮ ভোল্ট বা সরাসরি কারেন্টের লাইন)।",
+        tier: "mythic"
+    },
+    {
+        text: "Fiber-Optic ক্যাবলের বৈশিষ্ট্যগুলো লেখ।",
+        answer: "ফাইবার অপটিক ক্যাবলের বৈশিষ্ট্য:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. গতি ও ব্যান্ডউইথ:</span> এটি আলোর গতিতে ডাটা পাঠায়, তাই এর ব্যান্ডউইথ ও গতি অত্যন্ত বেশি।</li><li><span class=\"glow-cyan\">২. দূরত্ব:</span> কোনো রিপিটার ছাড়াই অনেক দীর্ঘ দূরত্বে (কিলোমিটার পর্যন্ত) ডাটা পাঠানো যায়।</li><li><span class=\"glow-cyan\">৩. নিরাপত্তা:</span> এটি ইলেকট্রোম্যাগনেটিক ইন্টারফিয়ারেন্স (EMI) বা নয়েজ দ্বারা প্রভাবিত হয় না।</li><li><span class=\"glow-cyan\">৪. উপাদান:</span> এর কোর কাঁচ বা স্বচ্ছ প্লাস্টিকের তৈরি, তামার তারের মতো নয়।</li></ul></div>",
+        extendedAnswer: "এটা হলো <span class=\"glow-purple\">তারের জগতের রাজা</span>। এর ভেতর দিয়ে বিদ্যুৎ যায় না, আলো যায়। তাই এর স্পিড রকেটের মতো। তামার তারে বেশি দূরে লাইন নিলে সিগন্যাল দুর্বল হয়ে যায়, কিন্তু ফাইবার অপটিক দিয়ে মাইলের পর মাইল লাইন নিলেও সিগন্যাল ঝকঝকে থাকে।",
+        tier: "mythic"
+    },
+    {
+        text: "Twisted Pair Cable কাকে বলে? এর প্রকারভেদ উল্লেখ কর।",
+        answer: "টুইস্টেড পেয়ার ক্যাবল হলো এক ধরণের ওয়্যারিং যেখানে দুটি পরিবাহী তারকে একে অপরের সাথে পেঁচিয়ে রাখা হয় যাতে বাইরের নয়েজ বা ইন্টারফিয়ারেন্স কমানো যায়।<br><br>এর প্রধান দুটি প্রকারভেদ হলো:<br>১. <span class=\"glow-cyan\">UTP (Unshielded Twisted Pair):</span> সাধারণ নেটওয়ার্কিংয়ে ব্যবহৃত হয় (যেমন CAT6)।<br>২. <span class=\"glow-cyan\">STP (Shielded Twisted Pair):</span> অতিরিক্ত সুরক্ষা বা ফয়েল কভার থাকে, যা নয়েজ প্রতিরোধ করে।",
+        extendedAnswer: "ইন্টারনেটের তার বা ল্যান ক্যাবল দেখেছেন? ভেতরে দেখবেন তারগুলো জোড়ায় জোড়ায় বিনুনির মতো প্যাঁচানো থাকে। এই প্যাঁচানোর কারণেই একে \"টুইস্টেড পেয়ার\" বলে। প্যাঁচানো থাকে যাতে সিগন্যাল যাওয়ার সময় বাইরের কোনো জ্যাম বা নয়েজ তাকে বিরক্ত করতে না পারে।",
+        tier: "mythic"
+    }
+            ],
+            "essay": [
+                {
+        text: "সার্ভেইল্যান্স সিস্টেমের সুবিধা ও অসুবিধার সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "<strong>সার্ভেইল্যান্স সিস্টেমের সুবিধা ও অসুবিধা:</strong><br>বর্তমান বিশ্বে নিরাপত্তা ব্যবস্থায় সার্ভেইল্যান্স সিস্টেম একটি অপরিহার্য অংশ। তবে এর ব্যবহারের যেমন ইতিবাচক দিক রয়েছে, তেমনি কিছু নেতিবাচক দিকও বিদ্যমান। নিচে বিস্তারিত আলোচনা করা হলো:<br><br><strong>সুবিধাসমূহ (Advantages):</strong><div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. অপরাধ দমন ও প্রতিরোধ (Crime Prevention):</span> সিসিটিভি ক্যামেরা বা নজরদারি ব্যবস্থা অপরাধীদের মনে ভীতি সঞ্চার করে। কোনো স্থানে ক্যামেরা থাকলে চোর বা অপরাধীরা সেখানে অপরাধ করতে নিরুৎসাহিত হয়।</li><li><span class=\"glow-cyan\">২. প্রমাণ সংগ্রহ (Evidence Collection):</span> কোনো অপরাধ সংঘটিত হলে ভিডিও ফুটেজ আইনি প্রমাণ হিসেবে আদালতে ব্যবহার করা যায়। এটি অপরাধী শনাক্তকরণে পুলিশকে ব্যাপকভাবে সহায়তা করে।</li><li><span class=\"glow-cyan\">৩. কর্মীদের কর্মদক্ষতা বৃদ্ধি (Productivity Improvement):</span> অফিস বা কারখানায় নজরদারি ব্যবস্থা থাকলে কর্মীরা কাজে ফাঁকি দেয় না এবং তাদের কাজের মান উন্নত হয়।</li><li><span class=\"glow-cyan\">৪. দূরবর্তী পর্যবেক্ষণ (Remote Monitoring):</span> আধুনিক আইপি সার্ভেইল্যান্সের মাধ্যমে পৃথিবীর যেকোনো প্রান্ত থেকে ইন্টারনেট ব্যবহার করে নিজের বাসা, অফিস বা ব্যবসা প্রতিষ্ঠান পর্যবেক্ষণ করা যায়।</li><li><span class=\"glow-cyan\">৫. নিরাপত্তা অনুভূতি (Sense of Security):</span> জনবহুল এলাকা বা বাসাবাড়িতে নজরদারি ব্যবস্থা থাকলে সাধারণ মানুষ ও বাসিন্দারা নিরাপদ বোধ করেন।</li></ul></div><strong>অসুবিধাসমূহ (Disadvantages):</strong><div class=\"list-box\"><ul><li><span class=\"glow-cyan\">১. ব্যক্তিগত গোপনীয়তা লঙ্ঘন (Privacy Concerns):</span> সার্ভেইল্যান্সের সবচেয়ে বড় বিতর্কিত দিক হলো মানুষের প্রাইভেসী নষ্ট হওয়া। ব্যক্তিগত মুহূর্ত বা স্থানে নজরদারি অস্বস্তিকর হতে পারে।</li><li><span class=\"glow-cyan\">২. উচ্চ ব্যয় (High Cost):</span> একটি ভালো মানের সার্ভেইল্যান্স সিস্টেম স্থাপন এবং এর রক্ষণাবেক্ষণ (Maintenance) বেশ ব্যয়বহুল। ক্যামেরা, স্টোরেজ, এবং বিদ্যুতের খরচ অনেক।</li><li><span class=\"glow-cyan\">৩. অপব্যবহারের ঝুঁকি (Risk of Misuse):</span> ভিডিও ফুটেজ হ্যাকারদের হাতে পড়লে বা অসৎ উদ্দেশ্যে ব্যবহৃত হলে ব্ল্যাকমেইলিং বা হয়রানির শিকার হওয়ার সম্ভাবনা থাকে।</li><li><span class=\"glow-cyan\">৪. ফলস সেন্স অফ সিকিউরিটি (False Sense of Security):</span> ক্যামেরা থাকলেই অপরাধ হবে না—এমন ধারণা ভুল। ক্যামেরা অপরাধ রেকর্ড করে, কিন্তু সরাসরি অপরাধ আটকাতে পারে না (যদি না কেউ মনিটর করে)।</li></ul></div><strong>উপসংহার:</strong><br>সঠিক নীতিমালা মেনে এবং গোপনীয়তা রক্ষা করে সার্ভেইল্যান্স সিস্টেম ব্যবহার করলে এর সুফল অসুবিধার চেয়ে অনেক বেশি।",
+        extendedAnswer: "<strong>সুবিধা (Good Side):</strong><br>ধরেন আপনার একটা দোকান আছে। যদি ক্যামেরা থাকে, চোর ঢোকার আগে ১০ বার ভাববে, \"আরে ভাই, ক্যামেরা আছে, ধরা খাবো!\" আর যদি চুরি হয়েও যায়, আপনি ভিডিও দেখে পুলিশকে বলতে পারবেন, \"এই দেখেন, লাল শার্ট পরা লোকটা আমার ক্যাশ বাক্স নিয়ে গেছে।\" তাছাড়া আপনি যখন দোকানে নেই, কর্মচারীরা ঠিকমতো কাজ করছে কিনা সেটাও বাসায় বসে মোবাইলেই দেখতে পারবেন。<br><br><strong>অসুবিধা (Bad Side):</strong><br>সবসময় কেউ আপনার দিকে তাকিয়ে আছে—এটা কি ভালো লাগে? বাথরুমে বা চেঞ্জিং রুমের আশেপাশে ক্যামেরা থাকলে সেটা ক্রাইম। আর এই সিস্টেম বসাতে অনেক টাকা লাগে। শুধু ক্যামেরা কিনলে হয় না, হার্ডডিস্ক, তার, ইন্টারনেট বিল—সব মিলিয়ে পকেটের ওপর চাপ পড়ে। আবার হ্যাকাররা যদি আপনার ক্যামেরার পাসওয়ার্ড জেনে যায়, তবে আপনার বেডরুমের ভিডিও ইন্টারনেটে ছড়িয়ে দিতে পারে!",
+        tier: "mythic"
+    },
+    {
+        text: "সার্ভেইল্যান্স সিস্টেম এর বিভিন্ন ধরনসমূহের সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "<strong>সার্ভেইল্যান্স সিস্টেমের প্রকারভেদ:</strong><br>নজরদারির মাধ্যম, প্রযুক্তি এবং উদ্দেশ্য অনুযায়ী সার্ভেইল্যান্স সিস্টেমকে বিভিন্ন শ্রেণীতে ভাগ করা যায়। নিচে প্রধান ধরনগুলো আলোচনা করা হলো:<br><br>১. <span class=\"glow-cyan\">কম্পিউটার সার্ভেইল্যান্স (Computer Surveillance):</span><br>কোনো ব্যক্তি কম্পিউটারে কী কাজ করছে, কোন ওয়েবসাইটে যাচ্ছে বা কী টাইপ করছে—তা মনিটর করা। এটি সাধারণত সাইবার নিরাপত্তা এবং প্যারেন্টাল কন্ট্রোলের জন্য ব্যবহৃত হয়। কী-লগার (Keylogger) সফটওয়্যার এর একটি উদাহরণ।<br><br>২. <span class=\"glow-cyan\">টেলিফোন বা অডিও সার্ভেইল্যান্স (Telephone/Audio Surveillance):</span><br>টেলিফোনে কথোপকথন বা কোনো নির্দিষ্ট স্থানের শব্দ রেকর্ড করা বা শোনা। আইন প্রয়োগকারী সংস্থা অপরাধী ধরার জন্য ওয়্যার-ট্যাপিং (Wire-tapping) বা আড়ি পাতা প্রযুক্তি ব্যবহার করে।<br><br>৩. <span class=\"glow-cyan\">ভিডিও সার্ভেইল্যান্স (Video Surveillance/CCTV):</span><br>এটি সবচেয়ে জনপ্রিয় পদ্ধতি। এনালগ বা ডিজিটাল ক্যামেরা ব্যবহার করে কোনো স্থানের দৃশ্য রেকর্ড করা। বর্তমানে ফেস রিকগনিশন ও এআই যুক্ত ভিডিও সার্ভেইল্যান্স বহুল প্রচলিত।<br><br>৪. <span class=\"glow-cyan\">বায়োমেট্রিক সার্ভেইল্যান্স (Biometric Surveillance):</span><br>মানুষের শারীরিক বৈশিষ্ট্য যেমন—আঙুলের ছাপ, চোখের আইরিস, বা চেহারা বিশ্লেষণ করে নজরদারি করা। এটি অত্যন্ত উচ্চ নিরাপত্তা নিশ্চিত করে।<br><br>৫. <span class=\"glow-cyan\">এরিয়াল সার্ভেইল্যান্স (Aerial Surveillance):</span><br>আকাশপথ থেকে নজরদারি করা। ড্রোন (Drone), হেলিকপ্টার বা স্যাটেলাইট ব্যবহার করে বিশাল এলাকা বা বর্ডার মনিটর করা হয়।<br><br>৬. <span class=\"glow-cyan\">ডাটা মাইনিং ও প্রোফাইলিং (Data Surveillance):</span><br>সোশ্যাল মিডিয়া বা ইন্টারনেটে ব্যবহারকারীর আচরণ বিশ্লেষণ করে তথ্য সংগ্রহ করা। মার্কেটিং কোম্পানি এবং গোয়েন্দা সংস্থাগুলো এটি ব্যবহার করে।<br><br>৭. <span class=\"glow-cyan\">GPS ট্র্যাকিং (GPS Surveillance):</span><br>কোনো ব্যক্তি বা যানবাহনের অবস্থান (Location) রিয়েল-টাইমে ট্র্যাক করা। গুগল ম্যাপ বা ভেহিকল ট্র্যাকার এর উদাহরণ।",
+        extendedAnswer: "নজরদারি মানেই শুধু ক্যামেরা না, আরও অনেক কিছু আছে:<br>১. ক্যামেরা (CCTV): যেটা আমরা রাস্তায় বা দোকানে দেখি।<br>২. ফোন ট্যাপ করা: গোয়েন্দারা যেভাবে মোবাইলের কথা শোনে।<br>৩. কম্পিউটার চেক: আপনি নেটে কী সার্চ করছেন, সেটা দেখার সিস্টেম।<br>৪. ড্রোন: উপর থেকে পাখির চোখে দেখা।<br>৫. জিপিএস: আপনার গাড়িতে ট্র্যাকার লাগানো থাকলে গাড়ি কোথায় যাচ্ছে সব দেখা যায়।<br>৬. বায়োমেট্রিক: আপনার আঙুল বা চেহারা দিয়ে আপনাকে চিনে রাখা।<br>মানে, জলে-স্থলে-অন্তরীক্ষে সব জায়গাতেই নজরদারির ব্যবস্থা আছে。",
+        tier: "mythic"
+    },
+    {
+        text: "নজরদারি প্রক্রিয়ার গঠন বিস্তারিত বর্ণনা কর।",
+        answer: "<strong>নজরদারি প্রক্রিয়ার গঠন (Structure of Surveillance Process):</strong><br>একটি সফল নজরদারি কার্যক্রম বা সার্ভেইল্যান্স প্রসেস কয়েকটি ধাপে সম্পন্ন হয়। এটি কেবল ক্যামেরা লাগিয়ে রাখা নয়, বরং তথ্য সংগ্রহ থেকে শুরু করে সিদ্ধান্ত গ্রহণ পর্যন্ত একটি চক্রাকারে কাজ করে।<br><br><strong>ধাপ ১: লক্ষ্য নির্ধারণ (Target Identification):</strong><br>প্রথমে ঠিক করতে হবে কার ওপর বা কোন এলাকার ওপর নজরদারি করা হবে। এটি কোনো নির্দিষ্ট ব্যক্তি, বস্তু, বা একটি ভৌগোলিক এলাকা হতে পারে।<br><br><strong>ধাপ ২: তথ্য সংগ্রহ (Data Collection):</strong><br>সেন্সর বা ক্যামেরার মাধ্যমে তথ্য সংগ্রহ করা। ভিডিও সার্ভেইল্যান্সের ক্ষেত্রে ক্যামেরা দৃশ্য ধারণ করে। অডিও হলে মাইক্রোফোন শব্দ রেকর্ড করে।<br><br><strong>ধাপ ৩: তথ্য স্থানান্তর (Data Transmission):</strong><br>সংগৃহীত তথ্য প্রসেসিং ইউনিটে পাঠানো। সিসিটিভির ক্ষেত্রে কো-এক্সিয়াল ক্যাবল বা ইন্টারনেটের মাধ্যমে ভিডিও সিগন্যাল রেকর্ডারে (DVR/NVR) পাঠানো হয়।<br><br><strong>ধাপ ৪: তথ্য প্রক্রিয়াজাতকরণ (Data Processing):</strong><br>কাঁচা তথ্য বা Raw Data-কে বিশ্লেষণযোগ্য ফরম্যাটে রূপান্তর করা। যেমন—ভিডিও কম্প্রেস করা বা নয়েজ দূর করা। আধুনিক সিস্টেমে এখানে AI ব্যবহার করা হয়।<br><br><strong>ধাপ ৫: বিশ্লেষণ (Analysis/Interpretation):</strong><br>মনিটরে বসে অপারেটর ভিডিও দেখে ঘটনা বিশ্লেষণ করেন। অথবা সফটওয়্যার নিজেই মোশন ডিটেকশন বা ফেস রিকগনিশন করে অস্বাভাবিক কিছু ঘটলে অ্যালার্ট দেয়।<br><br><strong>ধাপ ৬: সিদ্ধান্ত ও পদক্ষেপ (Decision & Action):</strong><br>বিশ্লেষণের পর প্রয়োজনীয় ব্যবস্থা নেওয়া। যেমন—চোর শনাক্ত হলে পুলিশে খবর দেওয়া বা সাইরান বাজানো।<br><br><strong>উপসংহার:</strong><br>এই পুরো প্রক্রিয়াটি একটি চেইনের মতো কাজ করে। যেকোনো একটি ধাপ দুর্বল হলে পুরো নজরদারি ব্যবস্থা ব্যর্থ হতে পারে।",
+        extendedAnswer: "এটা একটা শিকারি বা গোয়েন্দার কাজের মতো।<br>১. <strong>টার্গেট ফিক্স করা:</strong> কাকে ধরব?<br>২. <strong>চোখ রাখা (Data Collection):</strong> ক্যামেরা দিয়ে ভিডিও করা।<br>৩. <strong>খবর পাঠানো (Transmission):</strong> ভিডিওটা তার দিয়ে মেশিনে পাঠানো।<br>৪. <strong>বোঝা (Analysis):</strong> ভিডিওতে কী হচ্ছে সেটা মনিটরে দেখা। ধরেন, কেউ পকেটমারছে কিনা সেটা খেয়াল করা।<br>৫. <strong>অ্যাকশন:</strong> পকেটমার দেখলে দৌড়ে গিয়ে ধরা বা পুলিশ ডাকা।<br>এই পুরো সাইকেলটাই হলো নজরদারি প্রক্রিয়ার গঠন。",
+        tier: "mythic"
+    },
+    {
+        text: "ভিডিও নজরদারি ব্যবস্থা বাস্তবায়নের জন্য ব্লকচিত্রসহকারে ফাংশন বর্ণনা কর।",
+        answer: "<strong>ভিডিও নজরদারি ব্যবস্থার ব্লক ডায়াগ্রাম ও ফাংশন বর্ণনা:</strong><br>একটি ভিডিও সার্ভেইল্যান্স সিস্টেম বাস্তবায়নের জন্য প্রধানত পাঁচটি ব্লকের সমন্বয় প্রয়োজন। নিচে ব্লকগুলোর ধারাবাহিক বর্ণনা দেওয়া হলো:<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+Block+Diagram+Here\" alt=\"Block Diagram\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br>১. <span class=\"glow-cyan\">দৃশ্য বা সাবজেক্ট (The Scene):</span><br>এটি হলো ইনপুট। যে এলাকা বা বস্তুর ছবি তোলা হবে, সেখানে পর্যাপ্ত আলো থাকা প্রয়োজন। আলো বস্তুর ওপর প্রতিফলিত হয়ে ক্যামেরার লেন্সে প্রবেশ করে।<br><br>২. <span class=\"glow-cyan\">ক্যামেরা ইউনিট (Camera Unit):</span><div class=\"list-box\"><ul><li><strong>লেন্স (Lens):</strong> দৃশ্য থেকে আসা আলোকে ফোকাস করে সেন্সরের ওপর ফেলে।</li><li><strong>ইমেজ সেন্সর (Sensor):</strong> আলোক শক্তিকে ইলেকট্রিক সিগন্যালে রূপান্তর করে।</li><li><strong>DSP (Digital Signal Processor):</strong> সিগন্যালকে প্রসেস করে ভিডিও ফরম্যাটে রূপান্তর করে।</li></ul></div>৩. <span class=\"glow-cyan\">ট্রান্সমিশন মাধ্যম (Transmission Medium):</span><br>ক্যামেরা থেকে ভিডিও সিগন্যালকে কন্ট্রোল রুমে নিয়ে যাওয়ার পথ। এটি তারযুক্ত (Coaxial/UTP Cable/Fiber Optic) বা তারবিহীন (Wi-Fi/Radio Link) হতে পারে।<br><br>৪. <span class=\"glow-cyan\">কন্ট্রোল ও রেকর্ডিং ইউনিট (Control & Recording Unit):</span><div class=\"list-box\"><ul><li><strong>DVR/NVR:</strong> ভিডিও রিসিভ করে, কম্প্রেস করে এবং হার্ডডিস্কে জমা রাখে।</li><li><strong>সুইচ/ম্যাট্রিক্স:</strong> একাধিক ক্যামেরার ইনপুট নিয়ন্ত্রণ করে।</li></ul></div>৫. <span class=\"glow-cyan\">ডিসপ্লে ইউনিট (Display Unit):</span><br>মনিটর বা স্ক্রিন, যেখানে অপারেটর লাইভ ভিডিও বা রেকর্ডকৃত ফুটেজ দেখতে পায়।<br><br><strong>ফাংশনাল ফ্লো:</strong><br>Scene ➔ Lens ➔ Sensor ➔ DSP ➔ Transmission Cable ➔ Recorder (DVR/NVR) ➔ Monitor<br><br>এই প্রবাহের মাধ্যমে একটি বাস্তব দৃশ্য ইলেকট্রনিক সিগন্যালে পরিণত হয়ে আমাদের চোখের সামনে মনিটরে ভেসে ওঠে。",
+        extendedAnswer: "একটা ছবি কীভাবে রাস্তা থেকে আপনার মনিটরে আসে?<br>১. <strong>সিন (Scene):</strong> প্রথমে রাস্তায় একটা ঘটনা ঘটতে হবে এবং সেখানে আলো থাকতে হবে।<br>২. <strong>ক্যামেরা:</strong> ক্যামেরার লেন্স সেই আলোটা নেয়, আর পেটের ভেতরের সেন্সর সেটাকে বিদ্যুতে কনভার্ট করে।<br>৩. <strong>রাস্তা (Cable):</strong> এরপর সেই বিদ্যুৎ সিগন্যাল তারের ভেতর দিয়ে দৌড়ে মেশিনে যায়।<br>৪. <strong>গুদাম (DVR/NVR):</strong> মেশিন সেটাকে রিসিভ করে এবং হার্ডডিস্কে সেভ করে রাখে।<br>৫. <strong>টিভি (Monitor):</strong> শেষমেশ মেশিন সেই সিগন্যাল টিভিতে পাঠায়, আর আপনি দেখতে পান কে কী করছে。",
+        tier: "mythic"
+    },
+    {
+        text: "ডিজিটাল ভিডিও ফরম্যাট এর বর্ণনা দাও।",
+        answer: "<strong>ডিজিটাল ভিডিও ফরম্যাট:</strong><br>সিসিটিভি বা ভিডিও সার্ভেইল্যান্সে ভিডিও রেকর্ড এবং ট্রান্সমিট করার জন্য বিভিন্ন ডিজিটাল কমপ্রেশন ফরম্যাট বা কোডেক (Codec) ব্যবহার করা হয়। সঠিক ফরম্যাট নির্বাচন স্টোরেজ এবং ব্যান্ডউইথ সাশ্রয়ে সাহায্য করে। প্রধান ফরম্যাটগুলো নিচে বর্ণনা করা হলো:<br><br>১. <span class=\"glow-cyan\">MJPEG (Motion JPEG):</span><br>এটি একটি পুরনো ফরম্যাট। এখানে ভিডিওর প্রতিটি ফ্রেমকে একেকটি আলাদা JPEG ছবি হিসেবে সংরক্ষণ করা হয়।<br><strong>সুবিধা:</strong> প্রতিটা ফ্রেম পরিষ্কার থাকে।<br><strong>অসুবিধা:</strong> প্রচুর স্টোরেজ জায়গা এবং ব্যান্ডউইথ লাগে।<br><br>২. <span class=\"glow-cyan\">MPEG-4:</span><br>MJPEG-এর তুলনায় এটি উন্নত। এটি পুরো ফ্রেম সেভ না করে শুধু ফ্রেমের পরিবর্তনটুকু (Difference) সেভ করে। ফলে ফাইলের আকার ছোট হয়।<br><br>৩. <span class=\"glow-cyan\">H.264 (AVC - Advanced Video Coding):</span><br>বর্তমানে সবচেয়ে বহুল ব্যবহৃত ফরম্যাট। এটি অত্যন্ত দক্ষতার সাথে ভিডিও কম্প্রেস করে। MPEG-4 এর তুলনায় এটি প্রায় ৫০% কম ব্যান্ডউইথ ও স্টোরেজ ব্যবহার করে কিন্তু ভিডিও কোয়ালিটি একই রাখে।<br><br>৪. <span class=\"glow-cyan\">H.265 (HEVC - High Efficiency Video Coding):</span><br>এটি H.264-এর পরবর্তী সংস্করণ। এটি 4K বা আল্ট্রা এইচডি ভিডিওর জন্য ডিজাইন করা হয়েছে। H.264 এর তুলনায় এটি আরও ৪০-৫০% বেশি স্টোরেজ সাশ্রয় করে।<br><br><strong>তুলনামূলক চিত্র:</strong><br>একই ভিডিও যদি MJPEG-এ ১০০ জিবি হয়, H.264-এ সেটা ১০ জিবি হবে, এবং H.265-এ সেটা ৫-৬ জিবি হবে। আধুনিক সিস্টেমে H.265+ ফরম্যাট ব্যবহারের প্রবণতা বাড়ছে。",
+        extendedAnswer: "মনে করেন আপনি ভ্রমণে যাচ্ছেন, সুটকেসে কাপড় নিতে হবে।<br>১. <strong>MJPEG:</strong> আপনি কাপড় ভাঁজ না করে দলাদলি করে সুটকেসে ভরলেন। ২-৩টা শার্টেই সুটকেস ফুল। (অনেক মেমোরি খায়)।<br>২. <strong>H.264:</strong> আপনি কাপড়গুলো সুন্দর করে ইস্ত্রি করে ভাঁজ করে নিলেন। এখন ১০টা শার্ট আটছে। (কম মেমোরি খায়)।<br>৩. <strong>H.265:</strong> আপনি ভ্যাকুয়াম ব্যাগ ব্যবহার করে সব বাতাস বের করে একদম চ্যাপ্টা করে কাপড় ভরলেন। এখন ২০টা শার্ট আটছে।<br>ভিডিও ফরম্যাট এভাবেই কাজ করে। যত আধুনিক ফরম্যাট, তত কম জায়গায় বেশি ভিডিও রাখা যায়。",
+        tier: "mythic"
+    },
+    {
+        text: "CCTV Camera-এর উপাদানগুলোর বর্ণনা দাও।",
+        answer: "<strong>সিসিটিভি ক্যামেরার প্রধান উপাদানসমূহ:</strong><br>একটি সিসিটিভি ক্যামেরা বাইরে থেকে দেখতে সাধারণ মনে হলেও এর ভেতরে এবং বাইরে অনেকগুলো গুরুত্বপূর্ণ উপাদান থাকে। প্রধান উপাদানগুলো হলো:<br><br>১. <span class=\"glow-cyan\">হাউজিং বা বডি (Housing):</span><br>ক্যামেরার বাইরের আবরণ। এটি প্লাস্টিক বা মেটালের তৈরি হয়। এটি ভেতরের যন্ত্রাংশকে রোদ, বৃষ্টি, ধুলোবালি এবং আঘাত থেকে রক্ষা করে। আউটডোর ক্যামেরার হাউজিং সাধারণত ওয়াটারপ্রুফ (IP66/IP67) হয়।<br><br>২. <span class=\"glow-cyan\">লেন্স (Lens):</span><br>এটি কাঁচের তৈরি অপটিক্যাল অংশ। এর কাজ হলো দৃশ্য থেকে আলো সংগ্রহ করে সেন্সরের ওপর ফোকাস করা। লেন্স ফিক্সড বা ভেরিফোকাল (জুম যোগ্য) হতে পারে।<br><br>৩. <span class=\"glow-cyan\">ইমেজ সেন্সর (Image Sensor):</span><br>এটি ক্যামেরার সবচেয়ে গুরুত্বপূর্ণ অংশ (CCD বা CMOS চিপ)। লেন্সের মাধ্যমে আসা আলোকচিত্রকে এটি ইলেকট্রনিক সিগন্যালে রূপান্তর করে। সেন্সর যত বড় ও ভালো মানের হয়, ছবি তত পরিষ্কার হয়।<br><br>৪. <span class=\"glow-cyan\">ডিএসপি (Digital Signal Processor):</span><br>সেন্সর থেকে আসা কাঁচা সিগন্যালকে প্রসেস করে। এটি কালার ব্যালেন্স, ব্রাইটনেস এবং নয়েজ রিডাকশনের কাজ করে ভিডিওকে ব্যবহারযোগ্য করে তোলে।<br><br>৫. <span class=\"glow-cyan\">ইনফ্রারেড এলইডি (IR LEDs):</span><br>রাতের বেলা বা অন্ধকারে দেখার জন্য লেন্সের চারপাশে ছোট ছোট বাল্ব থাকে। এগুলো ইনফ্রারেড আলো ছড়ায় যা মানুষের চোখে দেখা যায় না কিন্তু ক্যামেরা দেখতে পায়।<br><br>৬. <span class=\"glow-cyan\">কানেক্টর ও ক্যাবল (Connectors):</span><br>পাওয়ারের জন্য DC জ্যাক এবং ভিডিও আউটের জন্য BNC (এনালগ) বা RJ45 (আইপি) পোর্ট থাকে。",
+        extendedAnswer: "মানুষের শরীরের সাথে মিলান:<br>১. <strong>হাউজিং:</strong> এটা হলো চামড়া বা স্কিন, যা ভেতরের সব কিছুকে বাঁচায়।<br>২. <strong>লেন্স:</strong> এটা হলো চোখের কর্নিয়া বা চশমা। আলোটা ঠিকমতো ভেতরে ঢোকায়।<br>৩. <strong>সেন্সর:</strong> এটা হলো চোখের রেটিনা। ছবিটা এখানে এসেই তৈরি হয়।<br>৪. <strong>ডিএসপি (DSP):</strong> এটা হলো ব্রেইন বা মস্তিষ্ক। ছবিটাকে প্রসেস করে বোঝে যে এটা কিসের ছবি।<br>৫. <strong>IR LED:</strong> এটা হলো বিল্ট-ইন টর্চ লাইট। অন্ধকারে দেখার জন্য অটোমেটিক জ্বলে ওঠে。",
+        tier: "mythic"
+    },
+    {
+        text: "লেন্স ও সেন্সরের ফরম্যাট সম্পর্কে বিস্তারিত আলোচনা কর।",
+        answer: "<strong>লেন্স ও সেন্সরের ফরম্যাট:</strong><br>সিসিটিভি সিস্টেমে লেন্স এবং সেন্সরের সাইজ বা ফরম্যাট ভিডিওর ফিল্ড অফ ভিউ (FoV) এবং ছবির মানের ওপর সরাসরি প্রভাব ফেলে।<br><br><strong>সেন্সর ফরম্যাট (Sensor Format):</strong><br>ইমেজ সেন্সরের আকারকে ইঞ্চি বা তার ভগ্নাংশে প্রকাশ করা হয়। সাধারণ সেন্সর সাইজগুলো হলো:<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">1/4 inch:</span> এন্ট্রি লেভেলের ক্যামেরায় থাকে। কম আলোতে পারফরম্যান্স দুর্বল।</li><li><span class=\"glow-cyan\">1/3 inch:</span> স্ট্যান্ডার্ড সাইজ, বেশিরভাগ সিসিটিভিতে ব্যবহৃত হয়।</li><li><span class=\"glow-cyan\">1/2.8 inch বা 1/2 inch:</span> প্রফেশনাল ও হাই-এন্ড ক্যামেরায় থাকে। সেন্সর যত বড় হয়, আলো গ্রহণের ক্ষমতা তত বেশি এবং নয়েজ তত কম হয়।</li></ul></div><strong>লেন্স ফরম্যাট ও মাউন্ট (Lens Format & Mount):</strong><br>লেন্স অবশ্যই সেন্সরের সাইজের সাথে সামঞ্জস্যপূর্ণ হতে হবে।<div class=\"list-box\"><ul><li><span class=\"glow-cyan\">C-Mount:</span> পুরনো স্টাইল, লেন্স থেকে সেন্সরের দূরত্ব ১৭.৫ মিমি।</li><li><span class=\"glow-cyan\">CS-Mount:</span> আধুনিক স্টাইল, লেন্স থেকে সেন্সরের দূরত্ব ১২.৫ মিমি।</li></ul></div><strong>গুরুত্বপূর্ণ:</strong> একটি CS-Mount ক্যামেরায় C-Mount লেন্স লাগাতে ৫ মিমি অ্যাডাপ্টার রিং লাগে। কিন্তু C-Mount ক্যামেরায় CS-Mount লেন্স লাগানো যায় না (ফোকাস হবে না)।<br><br><strong>ক্রপ ফ্যাক্টর:</strong><br>যদি আপনি একটি ছোট সেন্সরের (1/4\") ওপর বড় লেন্স লাগান, তবে ছবির ভিউ এঙ্গেল কমে যাবে বা জুম ইন মনে হবে। এটাকে ক্রপ ফ্যাক্টর বলে。",
+        extendedAnswer: "<strong>সেন্সর:</strong> মনে করেন সেন্সর হলো একটা বালতি। বৃষ্টি (আলো) পড়ছে। বালতি যত বড় (1/2\"), তত বেশি পানি (আলো) ধরবে, ছবি তত পরিষ্কার হবে। বালতি ছোট হলে (1/4\"), পানি কম ধরবে, ছবি অন্ধকার হবে।<br><br><strong>লেন্স মাউন্ট:</strong> এটা হলো বোতলের ছিপির প্যাঁচ। ছিপি আর বোতলের প্যাঁচ না মিললে যেমন লাগে না, তেমনি লেন্স আর ক্যামেরার মাউন্ট (C বা CS) না মিললে ফোকাস হবে না। একটার গলা লম্বা, আরেকটার খাটো। ভুল লাগালে ছবি ঘোলা হবে。",
+        tier: "mythic"
+    },
+    {
+        text: "উচ্চ নিরাপত্তায় প্রয়োগের জন্য একটি ক্যামেরা নির্বাচনের বিষয়বস্তু বর্ণনা কর।",
+        answer: "<strong>উচ্চ নিরাপত্তায় (High Security) ক্যামেরা নির্বাচনের বিবেচ্য বিষয়:</strong><br>ব্যাংক, এয়ারপোর্ট, বা সামরিক স্থাপনার মতো হাই-সিকিউরিটি জোনের জন্য সাধারণ ক্যামেরা উপযুক্ত নয়। এক্ষেত্রে ক্যামেরা নির্বাচনের সময় নিচের বিষয়গুলো নিশ্চিত করতে হবে:<br><br>১. <span class=\"glow-cyan\">উচ্চ রেজোলিউশন (High Resolution):</span><br>ন্যূনতম 4K (8 Megapixel) রেজোলিউশন থাকা উচিত, যাতে জুম করলেও সন্দেহভাজন ব্যক্তির চেহারা বা গাড়ির নম্বর প্লেট স্পষ্টভাবে চেনা যায়।<br><br>২. <span class=\"glow-cyan\">WDR (Wide Dynamic Range):</span><br>True WDR (120dB+) থাকতে হবে। এটি তীব্র আলো এবং গভীর ছায়ার মধ্যেও পরিষ্কার ছবি দিতে পারে (যেমন: দরজার সামনে যেখানে বাইরের আলো বেশি)।<br><br>৩. <span class=\"glow-cyan\">লো-লাইট পারফরম্যান্স (Low Light Capability):</span><br>Sony Starvis বা এই ধরণের সেন্সর থাকতে হবে যা প্রায় অন্ধকারেও (0.001 Lux) রঙিন ছবি দেখাতে পারে। সাধারণ IR-এর ওপর নির্ভর করা যাবে না।<br><br>৪. <span class=\"glow-cyan\">স্মার্ট অ্যানালিটিক্স (AI Analytics):</span><br>ক্যামেরার ভেতরেই ফেস ডিটেকশন, লাইন ক্রসিং, ইনট্রুশন ডিটেকশন, এবং অ্যাবান্ডন্ড অবজেক্ট (কেউ ব্যাগ ফেলে গেলে) ডিটেকশন ফিচার থাকতে হবে।<br><br>৫. <span class=\"glow-cyan\">মজবুত গঠন (Vandal Proof - IK10 Rating):</span><br>ক্যামেরাটি অবশ্যই IK10 রেটিং প্রাপ্ত হতে হবে, যাতে কেউ হাতুড়ি বা পাথর দিয়ে আঘাত করলেও ক্যামেরা না ভাঙে।<br><br>৬. <span class=\"glow-cyan\">নির্ভরযোগ্যতা ও সাইবার সিকিউরিটি:</span><br>ব্র্যান্ডেড ক্যামেরা হতে হবে যা নিয়মিত ফার্মওয়্যার আপডেট পায় এবং হ্যাকিং প্রতিরোধে সক্ষম (HTTPS, 802.1x সাপোর্ট)।",
+        extendedAnswer: "ব্যাংকের জন্য ক্যামেরা কিনলে সস্তা চাইনিজ ক্যামেরা কিনলে হবে না। কী কী লাগবে?<br>১. <strong>ঈগলের চোখ:</strong> ছবি এত ক্লিয়ার হতে হবে যেন জুম করলে লোকের নাকের লোমও দেখা যায় (4K)।<br>২. <strong>মজবুত বডি:</strong> কেউ যদি লাঠি বা হাতুড়ি দিয়ে বাড়ি মারে, তাও যেন ক্যামেরা না ভাঙে (Vandal Proof)।<br>৩. <strong>স্মার্ট ব্রেইন:</strong> ক্যামেরা নিজেই বুঝবে কোনটা মানুষ আর কোনটা কুকুর। কেউ বেড়া টপকালে ক্যামেরা নিজেই অ্যালার্ম বাজাবে।<br>৪. <strong>অন্ধকারে দেখা:</strong> রাতেও যেন দিনের মতো রঙিন ছবি দেখা যায়।<br>এই সব গুণ থাকলে তবেই সেটা হাই-সিকিউরিটি ক্যামেরা。",
+        tier: "mythic"
+    },
+    {
+        text: "বিভিন্ন প্রকার CCTV Drawing Symbol বর্ণনা কর।",
+        answer: "<strong>CCTV ড্রয়িং সিম্বল বর্ণনা:</strong><br>ইঞ্জিনিয়ার বা টেকনিশিয়ানরা যখন কোনো প্রজেক্টের ডিজাইন বা লে-আউট প্ল্যান করেন, তখন ক্যামেরার অবস্থান বোঝানোর জন্য কিছু আন্তর্জাতিক মানসম্মত চিহ্ন বা সিম্বল ব্যবহার করেন। প্রধান কয়েকটি সিম্বল নিচে বর্ণনা করা হলো:<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+Symbols+Image+Here\" alt=\"CCTV Symbols\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br>১. <span class=\"glow-cyan\">ফিক্সড ক্যামেরা (Fixed Camera):</span> সাধারণত একটি আয়তক্ষেত্রের (Box) সামনের দিকে একটি ত্রিভুজ (V-shape) দিয়ে বোঝানো হয়। ত্রিভুজটি নির্দেশ করে ক্যামেরা কোন দিকে তাকিয়ে আছে (Field of view)।<br><br>২. <span class=\"glow-cyan\">ডোম ক্যামেরা (Dome Camera):</span> একটি বৃত্তের (Circle) মধ্যে \"D\" লেখা থাকে অথবা বৃত্তের অর্ধেক অংশ ভরাট করা থাকে। এটি সাধারণত ইনডোর সিলিং মাউন্ট বোঝায়।<br><br>৩. <span class=\"glow-cyan\">পিটিজেড ক্যামেরা (PTZ Camera):</span> একটি বৃত্তের চারপাশে ছোট ছোট তীর চিহ্ন (Arrows) থাকে, যা নির্দেশ করে যে এই ক্যামেরাটি ঘুরতে পারে। অথবা বৃত্তের নিচে একটি \"Box\" থাকে।<br><br>৪. <span class=\"glow-cyan\">মনিটর (Monitor):</span> একটি বর্গক্ষেত্রের ভেতর আরেকটি ছোট বর্গক্ষেত্র অথবা \"M\" লেখা থাকে।<br><br>৫. <span class=\"glow-cyan\">ডিভিআর/এনভিআর (Recorder):</span> একটি আয়তক্ষেত্রের ভেতর \"DVR\" বা \"NVR\" লেখা থাকে। অথবা একটি বক্সের ভেতর টেপ রেকর্ডারের চাকার মতো চিহ্ন থাকে।<br><br>৬. <span class=\"glow-cyan\">কিবোর্ড কন্ট্রোলার:</span> একটি আয়তক্ষেত্রের ওপর অনেকগুলো ছোট ছোট বোতামের মতো ডট থাকে।<br><br>এই সিম্বলগুলো অটোক্যাড (AutoCAD) বা ভিজিও (Visio) ড্রয়িং-এ ব্যবহার করে পুরো সিকিউরিটি প্ল্যান তৈরি করা হয়。",
+        extendedAnswer: "ম্যাপ বা নকশার মধ্যে তো আর আসল ক্যামেরার ছবি আঁকা যায় না, তাই কিছু সাংকেতিক চিহ্ন ব্যবহার করা হয়।<br>যেমন পুরুষ/মহিলা টয়লেটের দরজায় চিহ্ন থাকে, তেমনই আর্কিটেক্টদের ম্যাপে:<br><ul><li>একটা বক্সের সামনে কোণাকুনি দাগ থাকলে সেটা <strong>ফিক্সড ক্যামেরা</strong>।</li><li>গোল্লা দেওয়া থাকলে সেটা <strong>ডোম ক্যামেরা</strong>।</li><li>গোল্লার চারপাশে তীরের ফলা থাকলে সেটা <strong>ঘূর্ণায়মান (PTZ) ক্যামেরা</strong>।</li><li>টিভির মতো বক্স থাকলে সেটা <strong>মনিটর</strong>।</li></ul>এই চিহ্নগুলো দেখলেই ইঞ্জিনিয়াররা বোঝে বিল্ডিংয়ের কোন কোনায় কোন ক্যামেরা লাগাতে হবে。",
+        tier: "mythic"
+    },
+    {
+        text: "বিভিন্ন ধরনের ক্যামেরার কার্যাবলি বর্ণনা কর।",
+        answer: "<strong>বিভিন্ন ধরনের ক্যামেরার কার্যাবলি:</strong><br>ব্যবহারের স্থান ও প্রয়োজনীয়তা ভেদে ক্যামেরার ধরন ও কাজ ভিন্ন হয়। নিচে প্রধান কয়েকটি ক্যামেরার কাজ বর্ণনা করা হলো:<br><br>১. <span class=\"glow-cyan\">বুলেট ক্যামেরা (Bullet Camera):</span><div class=\"list-box\"><ul><li><strong>গঠন:</strong> লম্বাটে, নলের মতো দেখতে।</li><li><strong>কাজ:</strong> এটি সাধারণত আউটডোরে বা বাইরের দেয়াল, গেট বা সীমানায় ব্যবহার হয়। এর আকার দেখে চোরেরা ভয় পায় (Visual Deterrent)। এটি অনেক দূর পর্যন্ত ইনফ্রারেড বা নাইট ভিশন দিতে পারে।</li></ul></div>২. <span class=\"glow-cyan\">ডোম ক্যামেরা (Dome Camera):</span><div class=\"list-box\"><ul><li><strong>গঠন:</strong> বাটির মতো বা গম্বুজাকৃতির।</li><li><strong>কাজ:</strong> এটি ইনডোর, অফিস, বা শোরুমের সিলিংয়ে লাগানো হয়। এর সুবিধা হলো, কালো গ্লাসের কারণে বাইরে থেকে বোঝা যায় না ক্যামেরা কোন দিকে তাকিয়ে আছে। এটি নান্দনিক এবং সহজে ভাঙা যায় না।</li></ul></div>৩. <span class=\"glow-cyan\">পিটিজেড ক্যামেরা (PTZ - Pan Tilt Zoom):</span><div class=\"list-box\"><ul><li><strong>কাজ:</strong> এটি ৩৬০ ডিগ্রি ঘুরতে পারে এবং লেন্স জুম ইন/আউট করতে পারে। বড় মাঠ, স্টেডিয়াম বা কনস্ট্রাকশন সাইটে যেখানে একজন অপারেটর বসে কন্ট্রোল করে, সেখানে এটি ব্যবহৃত হয়।</li></ul></div>৪. <span class=\"glow-cyan\">ফিশ-আই বা ৩৬০ ক্যামেরা (Fisheye Camera):</span><div class=\"list-box\"><ul><li><strong>কাজ:</strong> একটি মাত্র ক্যামেরা দিয়েই একটি বড় ঘরের পুরোটা (৩৬০ ডিগ্রি) দেখা যায়। এটি প্যানোরামিক ভিউ দেয়।</li></ul></div>৫. <span class=\"glow-cyan\">থার্মাল ক্যামেরা (Thermal Camera):</span><div class=\"list-box\"><ul><li><strong>কাজ:</strong> এটি আলো দিয়ে নয়, বরং তাপ (Heat signature) দিয়ে ছবি তৈরি করে। ঘুটঘুটে অন্ধকার, কুয়াশা বা জঙ্গলের ভেতর লুকিয়ে থাকা মানুষ শনাক্ত করতে এটি ব্যবহার হয়।</li></ul></div>৬. <span class=\"glow-cyan\">LPR/ANPR ক্যামেরা:</span><div class=\"list-box\"><ul><li><strong>কাজ:</strong> এটি বিশেষভাবে গাড়ির লাইসেন্স প্লেট পড়ার জন্য তৈরি। দ্রুতগতির গাড়ির নম্বর প্লেট স্পষ্ট ক্যাপচার করা এর কাজ।</li></ul></div>",
+        extendedAnswer: "<strong>বুলেট:</strong> বন্দুকের গুলির মতো লম্বা। বাইরে লাগায়। এটা দেখলে চোর ভয় পায়।<br><strong>ডোম:</strong> উল্টানো বাটির মতো। অফিসের ছাদে লাগায়। দেখতে সুন্দর, আর ক্যামেরা কোন দিকে তাকিয়ে আছে বোঝা যায় না।<br><strong>PTZ:</strong> রোবট ক্যামেরা। ডানে-বামে ঘোরে, জুম করে। দারোয়ান বসে বসে এটাকে জয়স্টিক দিয়ে ঘোরাতে পারে।<br><strong>ফিশ-আই:</strong> মাঝখানে একটা লাগালেই পুরো রুম দেখা যায়। পেছনের জিনিসও দেখা যায়।<br><strong>থার্মাল:</strong> শিকারি ক্যামেরা। অন্ধকারে আলো না থাকলেও শরীরের গরম ভাব (Heat) দেখে মানুষ চিনে ফেলে。",
+        tier: "mythic"
+    },
+    {
+        text: "DVR, NVR-এর Recording Format বর্ণনা কর।",
+        answer: "<strong>DVR/NVR-এর রেকর্ডিং ফরম্যাট বা মোড:</strong><br>হার্ডডিস্কের জায়গা সাশ্রয় এবং প্রয়োজনের ওপর ভিত্তি করে রেকর্ডারে বিভিন্ন মোডে ভিডিও রেকর্ড কনফিগার করা যায়। প্রধান রেকর্ডিং মোডগুলো হলো:<br><br>১. <span class=\"glow-cyan\">কন্টিনিউয়াস রেকর্ডিং (Continuous/24x7 Recording):</span><br>এই মোডে ক্যামেরা দিন-রাত ২৪ ঘণ্টাই একটানা ভিডিও রেকর্ড করতে থাকে।<br><strong>সুবিধা:</strong> কোনো কিছুই মিস হয় না।<br><strong>অসুবিধা:</strong> প্রচুর হার্ডডিস্ক স্পেস নষ্ট হয়, কারণ গভীর রাতে কিছুই না ঘটলেও তা রেকর্ড হতে থাকে।<br><br>২. <span class=\"glow-cyan\">মোশন ডিটেকশন রেকর্ডিং (Motion Detection):</span><br>সবচেয়ে জনপ্রিয় মোড। ফ্রেমে কোনো নড়াচড়া (Motion) হলেই কেবল রেকর্ডিং শুরু হয়। নড়াচড়া থামলে রেকর্ডিং বন্ধ হয়ে যায়।<br><strong>সুবিধা:</strong> অনেক বেশি দিন রেকর্ডিং থাকে এবং অপ্রয়োজনীয় ভিডিও জমা হয় না।<br><br>৩. <span class=\"glow-cyan\">শিডিউল রেকর্ডিং (Scheduled Recording):</span><br>নির্দিষ্ট সময় ঠিক করে দেওয়া হয়। যেমন—অফিস টাইম (সকাল ৯টা - রাত ৮টা) কন্টিনিউয়াস রেকর্ড হবে, আর বাকি সময় মোশন রেকর্ড হবে।<br><br>৪. <span class=\"glow-cyan\">অ্যালার্ম বেসড রেকর্ডিং (Alarm Based):</span><br>কোনো এক্সটার্নাল সেন্সর (যেমন—দরজার সেন্সর বা ফায়ার অ্যালার্ম) ট্রিগার করলে ক্যামেরা রেকর্ডিং শুরু করে।<br><br>৫. <span class=\"glow-cyan\">প্রি-রেকর্ড ও পোস্ট-রেকর্ড (Pre & Post Record):</span><br>মোশন ডিটেকশনের ৫-১০ সেকেন্ড আগের ফুটেজ (বাফার মেমোরি থেকে) এবং মোশন শেষ হওয়ার পরের কিছু সময়ের ফুটেজ সেভ করে রাখে, যাতে ঘটনার প্রেক্ষাপট বোঝা যায়。",
+        extendedAnswer: "রেকর্ডিং মেশিনকে বলে দেওয়া যায় কখন ভিডিও সেভ করবে:<br>১. <strong>নন-স্টপ:</strong> ২৪ ঘণ্টা চলবে। ফালতু ভিডিও (যেমন খালি রুম) দিয়ে হার্ডডিস্ক ভরে যাবে।<br>২. <strong>মোশন (বুদ্ধিমান):</strong> ক্যামেরা চুপ করে বসে থাকে। যেই কেউ সামনে দিয়ে হাঁটবে, অমনি \"অ্যাকশন!\" বলে রেকর্ডিং শুরু করবে। আবার কেউ নেই, তো রেকর্ডিং বন্ধ। এতে মেমোরি অনেক বাঁচে।<br>৩. <strong>রুটিন মাফিক:</strong> অফিস টাইমে ফুল রেকর্ড, অফিস শেষে বন্ধ।<br>৪. <strong>ম্যাজিক (Pre-record):</strong> চোর আসার ৫ সেকেন্ড আগে থেকেই ভিডিও সেভ করা শুরু করে (এটা মেমোরিতে ধরে রাখে), যাতে চোর কোথা থেকে এল সেটা দেখা যায়。",
+        tier: "mythic"
+    },
+    {
+        text: "Remote Access-এর গুরুত্ব আলোচনা কর।",
+        answer: "<strong>রিমোট এক্সেস (Remote Access)-এর গুরুত্ব:</strong><br>আধুনিক সার্ভেইল্যান্স সিস্টেমে রিমোট এক্সেস বা দূরবর্তী নিয়ন্ত্রণ ব্যবস্থার গুরুত্ব অপরিসীম। ইন্টারনেট সংযোগের মাধ্যমে পৃথিবীর যেকোনো স্থান থেকে সিসিটিভি সিস্টেম পর্যবেক্ষণ ও পরিচালনা করার সুবিধাই হলো রিমোট এক্সেস। এর গুরুত্ব নিচে আলোচনা করা হলো:<br><br>১. <span class=\"glow-cyan\">সার্বক্ষণিক পর্যবেক্ষণ (24/7 Monitoring):</span><br>মালিক বা ব্যবস্থাপক শারীরিকভাবে উপস্থিত না থেকেও ২৪ ঘণ্টা তার প্রতিষ্ঠান বা বাসা পর্যবেক্ষণ করতে পারেন।<br><br>২. <span class=\"glow-cyan\">দ্রুত সিদ্ধান্ত গ্রহণ (Quick Response):</span><br>কোথাও কোনো দুর্ঘটনা বা অনুপ্রবেশের ঘটনা ঘটলে মোবাইল অ্যাপে সাথে সাথে নোটিফিকেশন বা লাইভ ফুটেজ দেখে দ্রুত পুলিশ বা নিরাপত্তা কর্মীদের খবর দেওয়া যায়।<br><br>৩. <span class=\"glow-cyan\">মাল্টি-সাইট ম্যানেজমেন্ট (Multi-site Management):</span><br>যাদের একাধিক শাখা বা অফিস আছে, তারা এক জায়গায় বসেই (Central Monitoring Station) রিমোট এক্সেসের মাধ্যমে সব শাখার নিরাপত্তা তদারকি করতে পারেন।<br><br>৪. <span class=\"glow-cyan\">ব্যয় সাশ্রয় ও সময় বাঁচানো:</span><br>শারীরিকভাবে বিভিন্ন সাইটে ভ্রমণ করার প্রয়োজন হয় না, ফলে যাতায়াত খরচ ও সময় বাঁচে।<br><br>৫. <span class=\"glow-cyan\">প্রমাণ বা ফুটেজ রিট্রিভ করা (Evidence Retrieval):</span><br>জরুরি প্রয়োজনে পুরোনো ফুটেজ দেখার জন্য অফিসে যাওয়ার প্রয়োজন নেই; দূর থেকেই প্লেব্যাক দেখা এবং ভিডিও ডাউনলোড করা যায়।<br><br>৬. <span class=\"glow-cyan\">সিস্টেম মেইনটেনেন্স:</span><br>টেকনিশিয়ানরা সাইটে না গিয়েও রিমোটলি সিস্টেমের কনফিগারেশন পরিবর্তন, পাসওয়ার্ড রিসেট বা ফার্মওয়্যার আপডেট করতে পারেন。",
+        extendedAnswer: "ভাবেন আপনি কক্সবাজার সমুদ্র সৈকতে ডাব খাচ্ছেন, কিন্তু আপনার মনে চিন্তা—\"ঢাকার দোকানের ক্যাশ বাক্সে চুরি হচ্ছে না তো?\" রিমোট এক্সেস থাকলে আপনি পকেট থেকে ফোন বের করবেন, ক্যামেরা অ্যাপ ওপেন করবেন, আর লাইভ দেখবেন দোকানে কী হচ্ছে।<br>১. <strong>টেনশন ফ্রি:</strong> যেখানেই থাকেন, চোখ সবসময় আপনার বাসায় বা দোকানে।<br>২. <strong>দৌড়াদৌড়ি কম:</strong> দোকানের শাটার ঠিকমতো নামানো হয়েছে কিনা দেখতে রাতে আর দোকানে যাওয়া লাগবে না, ফোনেই দেখা যাবে।<br>৩. <strong>বসগিরি:</strong> আপনি অফিসে না থাকলেও কর্মচারীরা জানবে \"স্যার ক্যামেরায় দেখছে\", তাই তারা ফাঁকি দেবে না。",
+        tier: "mythic"
+    },
+    {
+        text: "Meta Data Node-এর প্রকারভেদসমূহ আলোচনা কর।",
+        answer: "<strong>মেটা ডাটা নোড (Meta Data Node)-এর প্রকারভেদ:</strong><br>বড় আকারের সার্ভেইল্যান্স স্টোরেজ বা ক্লাউড স্টোরেজ সিস্টেমে (যেমন: ক্লাস্টার ফাইল সিস্টেম) ডাটা ম্যানেজমেন্টের জন্য বিভিন্ন নোড ব্যবহৃত হয়। মেটা ডাটা নোড মূলত ডাটার \"ঠিকানা\" বা \"পরিচিতি\" সংরক্ষণ করে। এন্টারপ্রাইজ সার্ভেইল্যান্স আর্কিটেকচার অনুযায়ী মেটা ডাটা নোডকে প্রধানত দুই বা তিন ভাগে ভাগ করা যায়:<br><br>১. <span class=\"glow-cyan\">মাস্টার নোড বা ম্যানেজমেন্ট নোড (Master/Management Node - MDS):</span><br>এটি পুরো ক্লাস্টারের মস্তিষ্ক হিসেবে কাজ করে। কোন ডাটা বা ভিডিও ফাইল কোন হার্ডডিস্কে বা কোন ব্লকে রাখা আছে, তার ডিরেক্টরি বা ইনডেক্স (Index) এটি সংরক্ষণ করে। ক্লায়েন্ট যখন কোনো ভিডিও খুঁজতে চায়, তখন মাস্টার নোডই পথ দেখিয়ে দেয়।<br><br>২. <span class=\"glow-cyan\">ব্যাকআপ বা স্লেভ নোড (Backup/Slave Node):</span><br>মাস্টার নোড কোনো কারণে নষ্ট হয়ে গেলে বা কাজ করা বন্ধ করে দিলে তাৎক্ষণিকভাবে ব্যাকআপ নোড সেই দায়িত্ব গ্রহণ করে। এটি হাই এভেইলেবিলিটি (High Availability) নিশ্চিত করে।<br><br>৩. <span class=\"glow-cyan\">ডাটা প্রসেসিং বা অ্যানালাইসিস নোড (Analysis Node):</span><br>আধুনিক সিস্টেমে মেটা ডাটা বলতে ভিডিওর ভেতরের তথ্যকেও বোঝায় (যেমন: গাড়ির রঙ, মানুষের জেন্ডার)। এই বিশেষ মেটা ডাটাগুলো বিশ্লেষণ ও সংরক্ষণ করার জন্য আলাদা নোড থাকে।<br><br>(দ্রষ্টব্য: সাধারণ এনভিআর-এ এই জটিলতা থাকে না, এটি মূলত ক্লাউড বা ডিস্ট্রিবিউটেড স্টোরেজ সিস্টেমের অংশ।)",
+        extendedAnswer: "মনে করেন একটা বিশাল লাইব্রেরি (Cloud Storage)। সেখানে কোটি কোটি বই (Video Files) আছে।<br>১. <strong>মাস্টার নোড (লাইব্রেরিয়ান):</strong> আপনি গিয়ে বললেন, \"হ্যারি পটার বইটা দেন।\" লাইব্রেরিয়ান তার রেজিস্টার খাতা দেখে বলবে, \"এটা ৫ নম্বর আলমারির ৩ নম্বর তাকে আছে।\" এই লাইব্রেরিয়ানই হলো মেটা ডাটা নোড। সে বই রাখে না, শুধু বইয়ের ঠিকানা রাখে।<br>২. <strong>স্লেভ নোড (সহকারী লাইব্রেরিয়ান):</strong> প্রধান লাইব্রেরিয়ান অসুস্থ হলে যে তার কাজ করে দেয়।<br>৩. <strong>ডাটা নোড (আলমারি):</strong> যেখানে আসলে বইগুলো রাখা থাকে। (যদিও প্রশ্নে শুধু মেটা ডাটা নোড চেয়েছে)।",
+        tier: "mythic"
+    },
+    {
+        text: "DVR ও NVR-এর বিভিন্ন ব্লকের কার্যাবলি বর্ণনা কর।",
+        answer: "<strong>DVR/NVR-এর বিভিন্ন ব্লকের কার্যাবলি:</strong><br>একটি ভিডিও রেকর্ডারের (DVR বা NVR) অভ্যন্তরীণ গঠনকে কয়েকটি ফাংশনাল ব্লকে ভাগ করা যায়। নিচে এদের কাজ বর্ণনা করা হলো:<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+DVR+NVR+Blocks+Image\" alt=\"DVR NVR Blocks\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br>১. <span class=\"glow-cyan\">ভিডিও ইনপুট ব্লক (Video Input Interface):</span><div class=\"list-box\"><ul><li><strong>DVR:</strong> এনালগ সিগন্যাল গ্রহণ করে এবং এনালগ-টু-ডিজিটাল (ADC) কনভার্টারে পাঠায়।</li><li><strong>NVR:</strong> নেটওয়ার্ক পোর্ট বা সুইচের মাধ্যমে সরাসরি ডিজিটাল ডাটা প্যাকেট গ্রহণ করে।</li></ul></div>২. <span class=\"glow-cyan\">প্রসেসিং ইউনিট (CPU/DSP & Compression):</span><br>এটি সিস্টেমের মেইন প্রসেসর। এটি ভিডিও সিগন্যালকে নির্দিষ্ট ফরম্যাটে (H.264/H.265) কম্প্রেস বা এনকোড করে যাতে স্টোরেজে জায়গা কম লাগে। NVR-এর ক্ষেত্রে এটি ভিডিও ডিকোড করে ডিসপ্লেতে দেখায়।<br><br>৩. <span class=\"glow-cyan\">স্টোরেজ ইন্টারফেস (Storage/SATA Interface):</span><br>হার্ডডিস্ক ড্রাইভের (HDD) সাথে মেইনবোর্ডের সংযোগ স্থাপন করে। প্রসেস করা ভিডিও ডাটা এই পথে হার্ডডিস্কে জমা হয় এবং প্লেব্যাকের সময় রিড (Read) হয়।<br><br>৪. <span class=\"glow-cyan\">ভিডিও আউটপুট ব্লক (Display Interface):</span><br>HDMI বা VGA পোর্টের মাধ্যমে প্রসেস করা ভিডিও সিগন্যাল মনিটরে পাঠায়, যাতে ইউজার লাইভ ভিউ দেখতে পান।<br><br>৫. <span class=\"glow-cyan\">নেটওয়ার্ক ইন্টারফেস (Network/LAN Block):</span><br>রাউটার বা সুইচের সাথে সংযোগ স্থাপন করে। এটি রিমোট এক্সেস এবং ডাটা ট্রান্সমিশনে সাহায্য করে।<br><br>৬. <span class=\"glow-cyan\">কন্ট্রোল ও সেন্সর ইন্টারফেস:</span><br>ইউএসবি (মাউস), আরএস-৪৮৫ (PTZ কন্ট্রোল), এবং অ্যালার্ম ইন/আউট পোর্টগুলো পেরিফেরাল ডিভাইস নিয়ন্ত্রণ করে。",
+        extendedAnswer: "DVR/NVR হলো একটা কম্পিউটারের মতো। এর পেটের ভেতর কী কী পার্টস আছে?<br>১. <strong>মুখ (Input):</strong> যেখান দিয়ে ভিডিও ঢোকে।<br>২. <strong>পাকস্থলী (Processor):</strong> ভিডিওটাকে হজম করে সাইজ ছোট করে (Compression)।<br>৩. <strong>মেমোরি (HDD):</strong> হজম করা ভিডিও জমা রাখে।<br>৪. <strong>চেহারা (Output):</strong> মনিটরে ভিডিও দেখায়।<br>৫. <strong>হাত-পা (Network):</strong> ইন্টারনেটের সাথে কানেক্ট করে বাইরের দুনিয়ায় ভিডিও পাঠায়。",
+        tier: "mythic"
+    },
+    {
+        text: "ভিডিও সিগন্যাল ও কন্ট্রোল সিগন্যাল ট্রান্সমিশনকে ব্লকচিত্র অঙ্কনপূর্বক বর্ণনা কর।",
+        answer: "<strong>ভিডিও ও কন্ট্রোল সিগন্যাল ট্রান্সমিশন প্রক্রিয়া:</strong><br>সিসিটিভি সিস্টেমে দুই ধরনের সিগন্যাল চলাচল করে: ১) ভিডিও সিগন্যাল (ক্যামেরা থেকে মনিটরে) এবং ২) কন্ট্রোল সিগন্যাল (অপারেটর থেকে ক্যামেরায়, যেমন PTZ)।<br><br>(যেহেতু এখানে ছবি আঁকা সম্ভব নয়, তাই বর্ণনা দেওয়া হলো যা পরীক্ষার খাতায় ব্লক ডায়াগ্রাম হিসেবে আঁকতে হবে)<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+Signal+Transmission+Block+Diagram\" alt=\"Signal Transmission Block Diagram\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br><strong>ব্লক ডায়াগ্রামের বর্ণনা (Flow Description):</strong><br><br><strong>পাথ ১: ভিডিও সিগন্যাল প্রবাহ (একমুখী)</strong><br>[PTZ ক্যামেরা] ➔ (ভিডিও ক্যাবল/Coax) ➔ [DVR/NVR] ➔ (HDMI/VGA) ➔ [মনিটর]<br>বর্ণনা: ক্যামেরা দৃশ্য ধারণ করে ভিডিও সিগন্যাল তারের মাধ্যমে রেকর্ডারে পাঠায়। রেকর্ডার সেটা প্রসেস করে মনিটরে প্রদর্শন করে।<br><br><strong>পাথ ২: কন্ট্রোল সিগন্যাল প্রবাহ (বিপরীতমুখী)</strong><br>[অপারেটর/জয়স্টিক] ➔ (RS-485 ডাটা ক্যাবল) ➔ [DVR/NVR] ➔ (RS-485 পোর্ট) ➔ [PTZ ক্যামেরা]<br>বর্ণনা: অপারেটর যখন জয়স্টিক বা মাউস দিয়ে কমান্ড দেয় (যেমন: জুম বা প্যান), তখন সেই কমান্ড কন্ট্রোল ক্যাবলের মাধ্যমে ক্যামেরার মোটরে পৌঁছায় এবং ক্যামেরা ঘোরে।<br><br><strong>সংক্ষিপ্ত কার্যপ্রণালী:</strong><br>ভিডিও সিগন্যাল ক্যামেরা থেকে মনিটরের দিকে আসে (উজানে), আর কন্ট্রোল সিগন্যাল মনিটর/কন্ট্রোলার থেকে ক্যামেরার দিকে যায় (ভাটিতে)। আধুনিক আইপি ক্যামেরায় একই ইথারনেট ক্যাবল দিয়ে ভিডিও এবং কন্ট্রোল উভয় সিগন্যাল আসা-যাওয়া করে (Full Duplex)।",
+        extendedAnswer: "ভাবেন একটা রাস্তা।<br><strong>ভিডিও সিগন্যাল:</strong> এটা হলো ক্যামেরা থেকে মনিটরের দিকে আসা গাড়ি। ক্যামেরা যা দেখে, সেই ভিডিওর গাড়ি চালিয়ে মনিটরে পাঠিয়ে দেয়। এটা ওয়ান ওয়ে (One Way) রাস্তা।<br><strong>কন্ট্রোল সিগন্যাল:</strong> এটা হলো আপনি যখন ক্যামেরাকে ধমক দেন—\"এই, ডানে ঘোর!\" তখন আপনার আদেশটা উল্টো পথে ক্যামেরার কানে যায়। এনালগ সিস্টেমে এর জন্য আলাদা একটা চিকন তার লাগত। আইপি সিস্টেমে একই তার দিয়ে ভিডিও আসে, আবার আদেশও যায়。",
+        tier: "mythic"
+    },
+    {
+        text: "Attendence Device-এর কার্যাবলি লেখ。",
+        answer: "<strong>অ্যাটেনডেন্স ডিভাইসের কার্যাবলি:</strong><br>অফিস, আদালত বা কারখানায় কর্মীদের উপস্থিতি নিশ্চিত করতে এবং সময়ের সঠিক হিসাব রাখতে অ্যাটেনডেন্স ডিভাইস ব্যবহৃত হয়। এর প্রধান কাজগুলো হলো:<br><br>১. <span class=\"glow-cyan\">ব্যক্তি শনাক্তকরণ (Identification):</span> ডিভাইসটি ফিঙ্গারপ্রিন্ট, ফেসিয়াল রিকগনিশন, বা আরএফআইডি (RFID) কার্ডের মাধ্যমে নিশ্চিত করে যে, কে প্রবেশ করছে। এটি ভুয়া উপস্থিতি রোধ করে।<br><br>২. <span class=\"glow-cyan\">সময় রেকর্ড করা (Time Logging):</span> কোন কর্মচারী ঠিক কয়টার সময় অফিসে ঢুকল (In-time) এবং কয়টার সময় বের হলো (Out-time), তা সেকেন্ড ও তারিখসহ মেমোরিতে সেভ করে রাখা।<br><br>৩. <span class=\"glow-cyan\">অ্যাকসেস কন্ট্রোল (Access Control):</span> অনেক ডিভাইসে \"Door Lock\" ফিচার থাকে। সঠিক ব্যক্তি পাঞ্চ করলেই কেবল দরজা খুলবে, অন্যথায় খুলবে না। এটি নিরাপত্তা নিশ্চিত করে।<br><br>৪. <span class=\"glow-cyan\">রিপোর্ট তৈরি (Report Generation):</span> মাস শেষে কে কত দিন উপস্থিত ছিল, কে কত দিন দেরি করেছে (Late count), এবং কার কত ওভারটাইম হয়েছে—তা স্বয়ংক্রিয়ভাবে এক্সেল শিটে তৈরি করে দেয়।<br><br>৫. <span class=\"glow-cyan\">পে-রোল ইন্টিগ্রেশন (Payroll Integration):</span> উপস্থিতির তথ্যের ওপর ভিত্তি করে সফটওয়্যারের মাধ্যমে স্বয়ংক্রিয়ভাবে বেতন বা স্যালারি শিট তৈরি করতে সাহায্য করে。",
+        extendedAnswer: "এটা হলো ডিজিটাল হাজিরা খাতা।<br>১. <strong>চিনে রাখা:</strong> আপনি আঙুল দিলেন, মেশিন বলল—\"ইয়েস, আপনি রহিম সাহেব।\"<br>২. <strong>ঘড়ি দেখা:</strong> আপনি ৯:০০টায় ঢুকলেন নাকি ৯:০৫-এ ঢুকলেন, মেশিন সেটা লিখে রাখে। জালিয়াতি করার সুযোগ নেই।<br>৩. <strong>দারোয়ানগিরি:</strong> মেশিনে আঙুল না দিলে অফিসের দরজা খুলবে না।<br>৪. <strong>হিসাব করা:</strong> মাস শেষে বসের কাছে নালিশ করে দেবে—\"স্যার, এই লোক ৫ দিন দেরি করে এসেছে, এর বেতন কাটেন।\"",
+        tier: "mythic"
+    },
+    {
+        text: "Optical Fiber-এর গঠন চিত্রসহ বর্ণনা কর।",
+        answer: "<strong>অপটিক্যাল ফাইবারের গঠন:</strong><br>অপটিক্যাল ফাইবার হলো কাঁচ বা স্বচ্ছ প্লাস্টিকের তৈরি অত্যন্ত সরু একটি আঁশ, যার মধ্য দিয়ে আলোর পূর্ণ অভ্যন্তরীণ প্রতিফলনের মাধ্যমে ডাটা প্রবাহিত হয়। এর গঠন প্রধানত ৫টি স্তরে বিভক্ত:<br><br>(চিত্রের পরিবর্তে লেয়ারগুলোর গঠন বর্ণনা দেওয়া হলো)<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+Optical+Fiber+Diagram\" alt=\"Optical Fiber Structure\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br>১. <span class=\"glow-cyan\">কোর (Core):</span> এটি ফাইবারের সবচেয়ে ভেতরের অংশ। এটি সিলিকা গ্লাস বা প্লাস্টিক দিয়ে তৈরি। এর মধ্য দিয়েই আলোক রশ্মি প্রবাহিত হয়। এর ব্যাস খুবই কম (যেমন ৯ মাইক্রন বা ৫০ মাইক্রন)।<br><br>২. <span class=\"glow-cyan\">ক্ল্যাডিং (Cladding):</span> কোরকে ঘিরে যে বাইরের আবরণ থাকে, তাকে ক্ল্যাডিং বলে। এর প্রতিসরাঙ্ক (Refractive Index) কোরের চেয়ে কম হয়। এটি আলোকে কোরের বাইরে যেতে বাধা দেয় এবং প্রতিফলিত করে কোরের ভেতরেই রাখে (Mirror-এর কাজ করে)।<br><br>৩. <span class=\"glow-cyan\">বাফার কোটিং (Buffer Coating):</span> ক্ল্যাডিং-এর ওপর প্লাস্টিকের একটি প্রলেপ থাকে। এটি কোর ও ক্ল্যাডিংকে আর্দ্রতা এবং আঘাত থেকে রক্ষা করে।<br><br>৪. <span class=\"glow-cyan\">স্ট্রেন্থ মেম্বার (Strength Member):</span> ফাইবারটি যাতে টানলে ছিঁড়ে না যায়, সেজন্য বাফারের ওপর কেভলার (Kevlar) বা অ্যারামিড ইয়ার্ন (শক্ত সুতা) দেওয়া থাকে।<br><br>৫. <span class=\"glow-cyan\">আউটার জ্যাকেট (Outer Jacket):</span> এটি সবার বাইরের স্তর। সাধারণত পিভিসি (PVC) বা পলিইথিলিন দিয়ে তৈরি। এটি পুরো ক্যাবলকে বাইরের পরিবেশ, রোদ-বৃষ্টি থেকে রক্ষা করে (যেমন কমলা বা কালো রঙের তার)।",
+        extendedAnswer: "একটা পাইপের ভেতর আরেকটা পাইপ, তার ভেতর আরেকটা... এভাবেই ফাইবার তৈরি।<br>১. <strong>কোর:</strong> একদম ভেতরের সরু রাস্তা, যেখান দিয়ে আলো দৌড়ায়।<br>২. <strong>ক্ল্যাডিং:</strong> রাস্তার দুই পাশের দেয়াল। আলো যাতে রাস্তা ছেড়ে বাইরে না যায়, তাই এই দেয়াল আলোকে ধাক্কা দিয়ে ভেতরে রাখে।<br>৩. <strong>বডিগার্ড:</strong> এর ওপর থাকে প্লাস্টিক আর শক্ত সুতার লেয়ার, যাতে তারটা টান লাগলে ছিঁড়ে না যায়।<br>৪. <strong>জ্যাকেট:</strong> সবার ওপরে রঙিন কভার, যেটা আমরা বাইরে থেকে দেখি。",
+        tier: "mythic"
+    },
+    {
+        text: "Co-Axial Cable-এর গঠন বর্ণনা কর।",
+        answer: "<strong>কো-এক্সিয়াল ক্যাবলের গঠন:</strong><br>সিসিটিভি ক্যামেরার এনালগ ভিডিও সিগন্যাল পরিবহনের জন্য কো-এক্সিয়াল ক্যাবল (যেমন RG59, RG6) ব্যবহৃত হয়। এর গঠন চারটি প্রধান স্তরে বিভক্ত:<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+Coaxial+Cable+Diagram\" alt=\"Coaxial Cable Structure\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br>১. <span class=\"glow-cyan\">ইনার কন্ডাক্টর (Inner Conductor):</span> একেবারে কেন্দ্রে থাকে একটি শক্ত তামার তার (Copper Wire)। এর মধ্য দিয়েই মূল ভিডিও সিগন্যাল প্রবাহিত হয়।<br><br>২. <span class=\"glow-cyan\">ডাই-ইলেকট্রিক ইনসুলেটর (Dielectric Insulator):</span> কেন্দ্রের তামার তারের চারপাশে সাদা রঙের একটি পুরু প্লাস্টিক বা ফোমের আবরণ থাকে। এটি পজিটিভ (ইনার) এবং নেগেটিভ (শিল্ড) এর মধ্যে শর্ট সার্কিট রোধ করে এবং সিগন্যাল লস কমায়।<br><br>৩. <span class=\"glow-cyan\">ব্রেইডেড শিল্ড (Braided Shield):</span> ইনসুলেটরের ওপর তামার সরু তারের জালের মতো একটি স্তর থাকে। এটি গ্রাউন্ড (Ground) হিসেবে কাজ করে এবং বাইরের ইলেক্ট্রোম্যাগনেটিক নয়েজ বা ইন্টারফিয়ারেন্স থেকে ভেতরের সিগন্যালকে রক্ষা করে।<br><br>৪. <span class=\"glow-cyan\">আউটার জ্যাকেট (Outer Jacket):</span> সবার বাইরে কালো বা সাদা রঙের পিভিসি (PVC) কভার থাকে, যা তারটিকে পরিবেশগত ক্ষতি থেকে রক্ষা করে。",
+        extendedAnswer: "ডিশের লাইন বা সিসিটিভির তার কাটলে দেখবেন:<br>১. ভেতরে একটা শক্ত তামার তার থাকে (যেটা দিয়ে ছবি যায়)।<br>২. তার চারপাশে সাদা স্পঞ্জের মতো ফোম থাকে।<br>৩. তার ওপরে তারের জালি বা মশারির মতো একটা নেট থাকে (এটা বাইরের ডিস্টার্ব ঠেকায়)।<br>৪. আর সবার ওপরে কালো প্লাস্টিক। ভেতরের তার আর বাইরের জাল যাতে এক না হয়ে যায়, তাই মাঝখানে ফোম থাকে。",
+        tier: "mythic"
+    },
+    {
+        text: "চিত্রসহ UTP Cable-এর গঠন বর্ণনা কর।",
+        answer: "<strong>UTP (Unshielded Twisted Pair) ক্যাবলের গঠন:</strong><br>নেটওয়ার্কিং এবং আইপি ক্যামেরার জন্য ইউটিপি ক্যাবল (যেমন CAT6) ব্যবহৃত হয়। এর গঠন নিম্নরূপ:<br><br>(চিত্রের পরিবর্তে গঠন বর্ণনা দেওয়া হলো)<br><br><div style=\"margin: 15px 0; border: 1px solid var(--glass-border); border-radius: 12px; overflow: hidden; display: flex; justify-content: center; background: rgba(0,0,0,0.2);\"><img src=\"https://placehold.co/600x300/1c1c1e/64D2FF?text=Insert+UTP+Cable+Diagram\" alt=\"UTP Cable Structure\" style=\"max-width: 100%; height: auto; display: block;\"></div><br><br>১. <span class=\"glow-cyan\">কন্ডাক্টর পেয়ার (Twisted Pairs):</span> এর ভেতরে মোট ৮টি সরু তামা বা সিসিএ (CCA) তার থাকে। তারগুলো দুটি করে পেঁচিয়ে মোট ৪টি জোড়া (Pair) তৈরি করা হয়। প্রতিটি জোড়ার একটি নির্দিষ্ট রঙের কোড থাকে:<div class=\"list-box\"><ul><li>অরেঞ্জ ও অরেঞ্জ-হোয়াইট</li><li>গ্রিন ও গ্রিন-হোয়াইট</li><li>ব্লু ও ব্লু-হোয়াইট</li><li>ব্রাউন ও ব্রাউন-হোয়াইট</li></ul></div>এই প্যাঁচানো (Twist) গঠন ক্রস-টক (Cross-talk) বা নয়েজ কমাতে সাহায্য করে।<br><br>২. <span class=\"glow-cyan\">সেপারেটর বা স্প্লাইন (Plastic Separator/Spline):</span> CAT6 ক্যাবলের ক্ষেত্রে ৪টি জোড়াকে আলাদা রাখার জন্য মাঝখানে একটি প্লাস্টিকের ক্রস (+) আকৃতির দণ্ড থাকে। এটি ডাটা লস কমায় এবং তারকে মজবুত করে।<br><br>৩. <span class=\"glow-cyan\">রিপ কর্ড (Rip Cord):</span> জ্যাকেটের নিচে একটি সরু সুতা থাকে যা ধরে টান দিলে বাইরের কভারটি সহজে খোলা যায়।<br><br>৪. <span class=\"glow-cyan\">আউটার জ্যাকেট (Outer Jacket):</span> সবার বাইরে সাধারণত ধূসর বা নীল রঙের পিভিসি জ্যাকেট থাকে。",
+        extendedAnswer: "ইন্টারনেটের তার বা ল্যান ক্যাবল। এর ভেতরে ৮টা ছোট ছোট তার থাকে।<br>১. এই ৮টা তার ২টা করে জোড়া বেঁধে ৪টা দল বা পেয়ার তৈরি করে। বিনুনির মতো প্যাঁচানো থাকে।<br>২. প্যাঁচানো থাকে কেন? যাতে এক তারের সিগন্যাল পাশের তারে গিয়ে জ্যাম না লাগায়।<br>৩. CAT6 তারের মাঝখানে একটা প্লাস্টিকের ডাঁটা থাকে যা ৪টা দলকে ৪ ভাগে আলাদা করে রাখে।<br>৪. সবার ওপরে থাকে প্লাস্টিকের কভার। এই তার দিয়েই ইন্টারনেটের ডাটা সুপার স্পিডে যাওয়া-আসা করে。",
+        tier: "mythic"
+    }
+            ]
+        };
+        // ---------------------------------------------------------
+
+        function loadQuestions() {
+            const headerMap = {
+                "very-short": { id: "header-very-short", title: "অতি সংক্ষিপ্ত (Very Short)" },
+                "short": { id: "header-short", title: "সংক্ষিপ্ত (Short)" },
+                "essay": { id: "header-essay", title: "রচনামূলক (Essay)" }
+            };
+
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (!listElement) continue;
+                listElement.innerHTML = ''; 
+
+                const count = questions[category].length;
+                const headerInfo = headerMap[category];
+                if(headerInfo) {
+                    const headerSpan = document.getElementById(headerInfo.id);
+                    if(headerSpan) {
+                        headerSpan.innerHTML = `${headerInfo.title} <span class="count-badge">[Total: ${count}]</span>`;
+                    }
+                }
+
+                questions[category].forEach((q, index) => {
+                    const listItem = document.createElement('div');
+                    const tierClass = q.tier === 'mythic' ? 'tier-mythic' : q.tier === 'legendary' ? 'tier-legendary' : 'tier-epic';
+                    listItem.className = `question-item ${tierClass}`;
+                    listItem.style.animationDelay = `${index * 0.05}s`;
+                    
+                    const ddId = `dd-${category}-${index}`;
+                    const extId = `ext-${category}-${index}`;
+                    
+                    let displayId = "";
+                    let displayText = q.text;
+                    const idMatch = q.text.match(/\[(\d+)\]$/);
+                    
+                    if (idMatch) {
+                        displayId = idMatch[1];
+                        displayText = q.text.replace(/\[\d+\]$/, "").trim();
+                    } else {
+                        displayId = index + 1;
+                    }
+
+                    listItem.innerHTML = `
+                        <div class="question-main-row" onclick="toggle('${ddId}', this)">
+                            <div class="question-text-toggle">
+                                <span class="q-number-badge">${displayId}</span>
+                                <span>${displayText}</span>
+                                <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <div class="button-container">
+                                <button class="action-button ai-btn" onclick="askGemini(event, '${encodeURIComponent(q.text)}')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+                                </button>
+                                <button class="action-button copy-btn" onclick="smartCopy(event, this, '${ddId}', '${extId}')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="${ddId}" class="answer-grid-wrapper">
+                            <div class="answer-overflow-container">
+                                <div class="answer-dropdown">
+                                    <div class="short-answer-text-toggle" onclick="toggle('${extId}', this)">
+                                        <div class="short-answer-content">${q.answer}</div>
+                                        <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                    <div id="${extId}" class="answer-grid-wrapper">
+                                        <div class="answer-overflow-container">
+                                            <div class="extended-answer-dropdown">${q.extendedAnswer}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    listElement.appendChild(listItem);
+                });
+            }
+            initializeCategoryHeights();
+        }
+
+        function initializeCategoryHeights() {
+            setTimeout(() => {
+                document.querySelectorAll('.category-wrapper').forEach(wrapper => {
+                    wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+                });
+            }, 100);
+        }
+
+        window.toggleCategory = (wrapperId, header) => {
+            const wrapper = document.getElementById(wrapperId);
+            const icon = header.querySelector('.category-toggle-icon');
+            if (wrapper.classList.contains('collapsed')) {
+                wrapper.classList.remove('collapsed');
+                wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+            } else {
+                wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+                wrapper.offsetHeight; 
+                wrapper.classList.add('collapsed');
+                wrapper.style.maxHeight = null; 
+            }
+            if(icon) icon.classList.toggle('rotated');
+        };
+
+        window.toggle = (id, el) => {
+            const content = document.getElementById(id);
+            const icon = el.querySelector('.toggle-icon');
+            content.classList.toggle('open');
+            if(icon) icon.classList.toggle('rotated');
+            const item = el.closest('.question-item');
+            if (item && el.classList.contains('question-main-row')) {
+                item.classList.toggle('active');
+            }
+            const parentCategory = el.closest('.category-wrapper');
+            if (parentCategory && !parentCategory.classList.contains('collapsed')) {
+                parentCategory.style.maxHeight = parentCategory.scrollHeight + 500 + "px";
+            }
+            if (window.event) window.event.cancelBubble = true;
+        };
+
+        window.smartCopy = (e, btn, ddId, extId) => {
+            e.stopPropagation(); 
+            const item = btn.closest('.question-item');
+            const qBadge = item.querySelector('.q-number-badge').innerText;
+            const qText = item.querySelector('.question-text-toggle span:nth-child(2)').innerText;
+            const fullQ = `[${qBadge}] ${qText}`;
+            const shortContent = item.querySelector('.short-answer-content').innerText;
+            const extContent = item.querySelector('.extended-answer-dropdown').innerText;
+            const isShortHidden = !document.getElementById(ddId).classList.contains('open');
+            const isExtHidden = !document.getElementById(extId).classList.contains('open');
+            let textToCopy = isShortHidden ? `Q: ${fullQ}` : (!isShortHidden && isExtHidden) ? `Q: ${fullQ}\n\nShort Answer: ${shortContent}` : `Q: ${fullQ}\n\nShort Answer: ${shortContent}\n\nDetailed Answer: ${extContent}`;
+            navigator.clipboard.writeText(textToCopy);
+            showToast("Copied to Clipboard");
+        };
+
+        function showToast(msg) {
+            const x = document.getElementById("toast");
+            x.innerText = msg;
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2500);
+        }
+
+        window.openLink = (url) => { window.open(url, '_blank'); }
+        
+        window.toggleFullScreen = () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+                showToast("Focus Mode On - Turn on DND 🔕");
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                showToast("Focus Mode Off");
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            const totalHeight = document.body.scrollHeight - window.innerHeight;
+            let progress = 0;
+            if (totalHeight > 0) {
+                progress = window.scrollY / totalHeight;
+            }
+            progress = Math.min(Math.max(progress, 0), 1);
+            const rect = document.querySelector('.dock-progress-rect');
+            if(rect) {
+                rect.style.strokeDashoffset = 1 - progress;
+            }
+        });
+
+        window.downloadSite = () => {
+            const pageTitle = document.title || "exam-suggestions";
+            const safeTitle = pageTitle.replace(/[^a-z0-9\u0980-\u09FF]/gi, '-').toLowerCase(); 
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${safeTitle}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast("App Saved! Check Downloads");
+        }
+
+        // --- GOD MODE AI INTEGRATION 🧠 ---
+        window.askGemini = async (e, q) => {
+            e.stopPropagation();
+            const question = decodeURIComponent(q);
+            const item = e.target.closest('.question-item');
+            const shortContext = item ? item.querySelector('.short-answer-content').innerText : "No context provided.";
+
+            const modal = document.getElementById('aiAnswerModal');
+            const responseArea = document.getElementById('aiResponseArea');
+            
+            modal.classList.add('active');
+            document.getElementById('aiQuestionText').innerText = question;
+            
+            responseArea.innerHTML = `
+                <div style="text-align:center; padding:20px;">
+                    <div style="color:var(--glow-cyan); font-weight:bold; margin-bottom:10px;">⚡ Connecting to Neural Net...</div>
+                    <div style="color:var(--text-sub); font-size:0.8rem;">Analyzing Context: "${shortContext.substring(0, 30)}..."</div>
+                </div>`;
+
+            try {
+                const systemPrompt = `
+                    You are a legendary Exam Coach for university students. 
+                    Your Goal: Explain the topic simply and help the student memorize it instantly.
+                    Context provided by user: "${shortContext}"
+                    Output Structure (Use HTML tags):
+                    1. <h2>💡 The Concept</h2>: A 1-sentence simple explanation.
+                    2. <h2>🧠 Memory Hack</h2>: A rhyme, mnemonic, or real-world analogy to remember this.
+                    3. <h2>⚠️ Exam Trap</h2>: One common mistake students make on this question.
+                    4. <h2>📝 Key Keywords</h2>: List 3 keywords they MUST write to get full marks (bold them).
+                    Tone: Encouraging, sharp, concise.
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `${systemPrompt}\n\nQuestion to Analyze: ${question}`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0].content) {
+                    const aiText = data.candidates[0].content.parts[0].text;
+                    const formattedText = aiText
+                        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fff;">$1</strong>')
+                        .replace(/##/g, '')
+                        .replace(/\n/g, '<br>');
+                    
+                    responseArea.innerHTML = formattedText;
+                } else {
+                    responseArea.innerHTML = "⚠️ Brain Freeze. The AI is napping.";
+                }
+            } catch (error) {
+                console.error(error);
+                responseArea.innerHTML = "⚠️ Network Error. Check your connection.";
+            }
+        };
+
+        document.getElementById('closeAi').addEventListener('click', () => {
+            document.getElementById('aiAnswerModal').classList.remove('active');
+        });
+
+        document.addEventListener('DOMContentLoaded', loadQuestions);
+    </script>
+</body>
+</html>
