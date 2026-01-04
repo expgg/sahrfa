@@ -670,25 +670,26 @@
     <script>
         // Define exam data based on the provided image
         const exams = [
-            { date: "2026-01-05", day: "Monday", time: "02:00 PM", code: "২৫৮১", subject: "অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং জাভা" },
-            // Regular: Marketing
-            { date: "2026-01-07", day: "Wednesday", time: "10:00 AM", code: "২৫৮৫১", subject: "প্রিন্সিপাল অব মার্কেটিং" },
-            // Referred: Web Design
-            { date: "2026-01-10", day: "Saturday", time: "02:00 PM", code: "২৫৯২", subject: "ওয়েব ডিজাইন ও ডেভেলপমেন্ট - ২" },
-            // Regular: Sensor & IoT
-            { date: "2026-01-12", day: "Monday", time: "02:00 PM", code: "২৮৫৬৩", subject: "সেন্সর অ্যান্ড আইওটি সিস্টেম" },
+           // Referred: Java
+            { date: "2026-01-05", day: "Monday", time: "02:00 PM", code: "২৫৮১", subject: "<a href='https://sahrfa.top/study/suggetions/s/5thjava/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং জাভা</a>" },
+            // Regular: Marketing (POM)
+            { date: "2026-01-07", day: "Wednesday", time: "10:00 AM", code: "২৫৮৫১", subject: "<a href='https://sahrfa.top/study/suggetions/6th/pom/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>প্রিন্সিপাল অব মার্কেটিং</a>" },
+            // Referred: Web Design 2
+            { date: "2026-01-10", day: "Saturday", time: "02:00 PM", code: "২৫৯২", subject: "<a href='https://sahrfa.top/study/suggetions/s/5thweb2/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>ওয়েব ডিজাইন ও ডেভেলপমেন্ট - ২</a>" },
+            // Regular: Sensor & IoT (SIS)
+            { date: "2026-01-12", day: "Monday", time: "02:00 PM", code: "২৮৫৬৩", subject: "<a href='https://sahrfa.top/study/suggetions/6th/sis/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>সেন্সর অ্যান্ড আইওটি সিস্টেম</a>" },
             // Referred: Microprocessor
-            { date: "2026-01-14", day: "Wednesday", time: "02:00 PM", code: "২৫৯৩", subject: "কম্পিউটার আর্কিটেকচার & মাইক্রোপ্রসেসর" },
-            // Regular: Database
-            { date: "2026-01-15", day: "Thursday", time: "10:00 AM", code: "২৮৫৬১", subject: "ডাটাবেস ম্যানেজমেন্ট সিস্টেম" },
-            // Regular: Computer Networking
-            { date: "2026-01-21", day: "Wednesday", time: "10:00 AM", code: "২৮৫৬২", subject: "কম্পিউটার নেটওয়ার্কিং" },
-            // Regular: Industrial Management
-            { date: "2026-01-24", day: "Saturday", time: "02:00 PM", code: "২৫৮৫২", subject: "ইন্ডাস্ট্রিয়াল ম্যানেজমেন্ট" },
-            // Regular: Surveillance Security
-            { date: "2026-01-26", day: "Monday", time: "10:00 AM", code: "২৮৫৬৫", subject: "সার্ভেইল্যান্স সিকিউরিটি সিস্টেম" },
-            // Regular: Microcontroller
-            { date: "2026-01-29", day: "Thursday", time: "10:00 AM", code: "২৮৫৬৪", subject: "মাইক্রোকন্ট্রোলার বেসড সিস্টেম ডিজাইন অ্যান্ড ডেভেলপমেন্ট" } ];
+            { date: "2026-01-14", day: "Wednesday", time: "02:00 PM", code: "২৫৯৩", subject: "<a href='https://sahrfa.top/study/suggetions/s/5tharci/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>কম্পিউটার আর্কিটেকচার & মাইক্রোপ্রসেসর</a>" },
+            // Regular: Database (DBMS)
+            { date: "2026-01-15", day: "Thursday", time: "10:00 AM", code: "২৮৫৬১", subject: "<a href='https://sahrfa.top/study/suggetions/6th/dbms/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>ডাটাবেস ম্যানেজমেন্ট সিস্টেম</a>" },
+            // Regular: Computer Networking (CMM)
+            { date: "2026-01-21", day: "Wednesday", time: "10:00 AM", code: "২৮৫৬২", subject: "<a href='https://sahrfa.top/study/suggetions/6th/cmm/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>কম্পিউটার নেটওয়ার্কিং</a>" },
+            // Regular: Industrial Management (IDM)
+            { date: "2026-01-24", day: "Saturday", time: "02:00 PM", code: "২৫৮৫২", subject: "<a href='https://sahrfa.top/study/suggetions/6th/idm/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>ইন্ডাস্ট্রিয়াল ম্যানেজমেন্ট</a>" },
+            // Regular: Surveillance Security (SSS)
+            { date: "2026-01-26", day: "Monday", time: "10:00 AM", code: "২৮৫৬৫", subject: "<a href='https://sahrfa.top/study/suggetions/6th/sss/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>সার্ভেইল্যান্স সিকিউরিটি সিস্টেম</a>" },
+            // Regular: Microcontroller (MBSD)
+            { date: "2026-01-29", day: "Thursday", time: "10:00 AM", code: "২৮৫৬৪", subject: "<a href='https://sahrfa.top/study/suggetions/6th/mbsd/' target='_blank' style='text-decoration: underline; color: #90cdf4;'>মাইক্রোকন্ট্রোলার বেসড সিস্টেম ডিজাইন অ্যান্ড ডেভেলপমেন্ট</a>" }];
 
         // Helper function to calculate detailed time left until an exam
         function getDetailedTimeLeft(examDateString, examTimeString) {
