@@ -880,7 +880,7 @@
 
             // Update fullscreen timers with subtle animation
             if (!fullscreenOverlay.classList.contains('hidden')) {
-                fsExamSubject.textContent = nextExam.subject;
+               fsExamSubject.innerHTML = nextExam.subject;
 
                 // Apply a subtle fade animation for number changes
                 const updateAndAnimateNumber = (element, newValue, isSeconds = false) => {
