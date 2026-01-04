@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>6th Semester Routine By Al Hossain Rifat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- New font for timer values (Chakra Petch) and general fullscreen text (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Main Theme Styles - Original Dark blue gradient (default) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            padding-bottom: 10rem;
+            transition: background 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+        }
+        .container {
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0.5rem;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border: none;
+        }
+        .countdown-display-area, .exam-schedule-area {
+            background-color: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            transition: background-color 0.5s ease;
+        }
+        .countdown-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #63b3ed; /* Default blue for emphasis */
+            text-shadow: 0 0 10px rgba(99, 179, 237, 0.5);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+        .countdown-label {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.5s ease;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: border-color 0.5s ease;
+        }
+        th {
+            background-color: #2c5282; /* Default darker blue for table header */
+            color: #e2e8f0;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        tr:nth-child(even) {
+            background-color: #4a5568; /* Default alternate row background */
+            transition: background-color 0.5s ease;
+        }
+        tr:nth-child(odd) {
+            background-color: #3b4556; /* Default alternate row background */
+            transition: background-color 0.5s ease;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        /* Mobile-specific styles for exam cards */
+        @media (max-width: 767px) {
+            .exam-card-mobile {
+                background-color: #3b4556; /* Default slightly darker background for mobile cards */
+                border-radius: 0.75rem;
+                padding: 1rem;
+                margin-bottom: 0.75rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                transition: background-color 0.5s ease;
+            }
+            .exam-card-mobile div {
+                margin-bottom: 0.4rem;
+            }
+            .exam-card-mobile span:first-child {
+                font-weight: 600;
+                color: #90cdf4;
+                margin-right: 0.5rem;
+                transition: color 0.5s ease;
+            }
+            .main-title {
+                font-size: 2rem;
+            }
+        }
+        .days-left-text {
+            font-size: 0.8rem;
+            color: #a0aec0;
+            margin-top: 0.5rem;
+            text-align: right;
+            transition: color 0.5s ease;
+        }
+        .days-left-text-table {
+            font-size: 0.8rem;
+            color: #a0aec0;
+            white-space: nowrap;
+            transition: color 0.5s ease;
+        }
+
+        /* Unified Footer Styles */
+        .unified-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2d3748; /* Default unified background for the entire footer */
+            color: #e2e8f0;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .footer-buttons-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            gap: 1rem;
+        }
+
+        .footer-actual-study-timer-content {
+            text-align: center;
+            width: 100%;
+        }
+        .footer-actual-study-timer-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #81c784; /* Default greenish color for study time */
+            transition: color 0.5s ease;
+        }
+        .footer-actual-study-timer-label {
+            font-size: 0.7rem;
+            color: #a0aec0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.5s ease;
+        }
+        .footer-actual-study-context {
+            font-size: 0.75rem;
+            color: #cbd5e0;
+            margin-bottom: 0.5rem;
+            transition: color 0.5s ease;
+        }
+
+        .footer-branding {
+            font-size: 0.85rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            transition: border-color 0.5s ease;
+        }
+
+        /* Animation for footer text */
+        @keyframes pulse-glow {
+            0% {
+                text-shadow: 0 0 5px rgba(99, 179, 237, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(99, 179, 237, 0.8), 0 0 20px rgba(99, 179, 237, 0.6);
+            }
+            100% {
+                text-shadow: 0 0 5px rgba(99, 179, 237, 0.3);
+            }
+        }
+        .animated-text {
+            animation: pulse-glow 2s infinite alternate;
+            transition: text-shadow 0.5s ease;
+        }
+
+        /* Fullscreen button styling */
+        .floating-btn {
+            background-color: #2c5282; /* Default button background */
+            color: #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.5s ease;
+            white-space: nowrap;
+        }
+        .floating-btn:hover {
+            background-color: #3182ce;
+        }
+
+        /* Fullscreen Overlay Styles */
+        #fullscreen-overlay {
+            position: fixed; /* Changed to fixed for proper z-index and positioning */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* AMOLED Black */
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #FFDAB9; /* Peach color for text */
+            font-family: 'Montserrat', sans-serif; /* Applied new font */
+            padding: 1rem;
+            box-sizing: border-box;
+            overflow: hidden; /* Hide overflow for particles */
+        }
+        #fullscreen-overlay.hidden {
+            display: none;
+        }
+        /* Particles container for fullscreen */
+        #tsparticles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Behind other content */
+        }
+
+        #fullscreen-overlay .fs-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 218, 185, 0.5);
+            text-align: center;
+            animation: fadeIn 0.5s ease-out; /* Added animation */
+        }
+        #fullscreen-overlay .fs-exam-subject {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            animation: fadeIn 0.7s ease-out; /* Added animation */
+        }
+        #fullscreen-overlay .fs-timer-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        /* Apply new font and fixed width to timer values */
+        #fullscreen-overlay .fs-value {
+            font-family: 'Chakra Petch', monospace; /* New font for numbers */
+            font-size: 15vw; /* Keep original size */
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 218, 185, 0.9), 0 0 30px rgba(255, 218, 185, 0.7); /* More prominent glow */
+            line-height: 1;
+            font-variant-numeric: tabular-nums; /* Ensures numbers take up consistent width */
+            transition: opacity 0.05s ease-out; /* Subtle fade transition for non-seconds */
+            opacity: 1; /* Ensure initial opacity is 1 */
+        }
+        /* No animation for seconds, but keep glow and fixed width */
+        #fullscreen-overlay #fs-seconds,
+        #fullscreen-overlay #fs-actual-seconds {
+            transition: none; /* Remove opacity transition for seconds */
+            animation: none; /* Remove any previous animation */
+            opacity: 1; /* Ensure it's always visible */
+        }
+
+        #fullscreen-overlay .fs-label {
+            font-size: 2vw;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255, 218, 185, 0.8);
+            animation: fadeIn 1s ease-out; /* Added animation */
+        }
+        #fullscreen-overlay .fs-context {
+            font-size: 1.5vw;
+            color: rgba(255, 218, 185, 0.8);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            animation: fadeIn 1.2s ease-out; /* Added animation */
+        }
+        #fullscreen-overlay .fs-actual-value {
+            font-family: 'Chakra Petch', monospace; /* New font for numbers */
+            font-size: 5vw; /* Adjusted to be smaller as per user request */
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(176, 224, 230, 0.8), 0 0 20px rgba(176, 224, 230, 0.6); /* Light blue glow */
+            line-height: 1;
+            font-variant-numeric: tabular-nums; /* Ensures numbers take up consistent width */
+            transition: opacity 0.05s ease-out; /* Subtle fade transition for non-seconds */
+            opacity: 1; /* Ensure initial opacity is 1 */
+        }
+        #fullscreen-overlay .fs-actual-label {
+            font-size: 1vw; /* Adjusted to be smaller as per user request */
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(176, 224, 230, 0.7); /* Light blue label */
+            animation: fadeIn 1.4s ease-out; /* Added animation */
+        }
+
+        /* Styles for the new world clock */
+        #fullscreen-overlay .fs-world-clock-container {
+            margin-top: 2rem; /* Space above the clock */
+            margin-bottom: 1rem; /* Space below the clock */
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Montserrat', sans-serif;
+            display: flex; /* Use flexbox for horizontal alignment */
+            flex-direction: column; /* Stack label and time */
+            align-items: center; /* Center horizontally */
+        }
+        #fullscreen-overlay .fs-world-clock-time-group {
+            display: flex; /* For time and AM/PM */
+            align-items: baseline; /* Align AM/PM to baseline of time */
+            gap: 0.5rem; /* Small gap between time and AM/PM */
+        }
+        #fullscreen-overlay .fs-world-clock-value {
+            font-family: 'Chakra Petch', monospace; /* New font for clock numbers */
+            font-size: 5vw; /* Adjusted size for world clock */
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            transition: opacity 0.05s ease-out;
+            opacity: 1;
+        }
+        #fullscreen-overlay .fs-world-clock-ampm-label { /* New class for specific AM/PM styling */
+            font-size: 1.5vw; /* Smaller size for AM/PM */
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600; /* Make it a bit bolder */
+        }
+        #fullscreen-overlay .fs-world-clock-label {
+            font-size: 1.2vw; /* Adjusted size for world clock label */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        #fullscreen-overlay .fs-branding {
+            font-size: 1.5vw;
+            color: rgba(255, 218, 185, 0.6);
+            margin-top: 3rem; /* Increased margin to move it lower */
+            animation: pulse-glow-fs 3s infinite alternate; /* More prominent glow for fullscreen branding */
+        }
+
+        /* New keyframes for fullscreen animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse-glow-fs {
+            0% {
+                text-shadow: 0 0 8px rgba(255, 218, 185, 0.4);
+            }
+            50% {
+                text-shadow: 0 0 25px rgba(255, 218, 185, 0.9), 0 0 35px rgba(255, 218, 185, 0.7);
+            }
+            100% {
+                text-shadow: 0 0 8px rgba(255, 218, 185, 0.4);
+            }
+        }
+
+        #exit-fullscreen-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFDAB9;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10001;
+            transition: background-color 0.3s ease;
+        }
+        #exit-fullscreen-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Responsive adjustments for fullscreen */
+        @media (max-width: 767px) {
+            #fullscreen-overlay .fs-title {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            #fullscreen-overlay .fs-exam-subject {
+                font-size: 1.2rem;
+                margin-bottom: 0.8rem;
+            }
+            #fullscreen-overlay .fs-value {
+                font-size: 20vw;
+            }
+            #fullscreen-overlay .fs-label {
+                font-size: 3vw;
+            }
+            #fullscreen-overlay .fs-context {
+                font-size: 2vw;
+            }
+            #fullscreen-overlay .fs-timer-group {
+                gap: 0.5rem;
+            }
+            #fullscreen-overlay .fs-actual-value {
+                font-size: 10vw;
+            }
+            #fullscreen-overlay .fs-actual-label {
+                font-size: 2.5vw;
+            }
+            #fullscreen-overlay .fs-world-clock-value {
+                font-size: 8vw;
+            }
+            #fullscreen-overlay .fs-world-clock-ampm-label {
+                font-size: 2.5vw;
+            }
+            #fullscreen-overlay .fs-world-clock-label {
+                font-size: 2vw;
+            }
+            #fullscreen-overlay .fs-branding {
+                font-size: 2vw;
+            }
+        }
+
+        /* Theme Modal Styles */
+        #theme-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #theme-modal-overlay.hidden {
+            display: none;
+        }
+        .theme-modal-content {
+            background-color: #2d3748;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+        .theme-color-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .theme-color-swatch {
+            width: 100%;
+            padding-top: 100%; /* Makes swatches square */
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: 2px solid black; /* Black border for all swatches */
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            position: relative;
+        }
+        .theme-color-swatch:hover {
+            transform: scale(1.05);
+        }
+        .theme-color-swatch.selected {
+            border-color: #63b3ed; /* Highlight selected theme */
+        }
+        .theme-color-swatch span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5);
+        }
+        .close-modal-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #e2e8f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Countdown Section -->
+        <div class="countdown-display-area text-center">
+            <h2 class="text-3xl font-bold mb-4 text-white main-title">Time Until Next Exam</h2>
+            <div class="flex justify-center items-center gap-4 md:gap-8">
+                <div class="flex flex-col items-center">
+                    <span id="hours" class="countdown-value">0</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="text-4xl font-bold text-gray-500">:</div>
+                <div class="flex flex-col items-center">
+                    <span id="minutes" class="countdown-value">0</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="text-4xl font-bold text-gray-500">:</div>
+                <div class="flex flex-col items-center">
+                    <span id="seconds" class="countdown-value">0</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+            <p id="countdown-message" class="mt-4 text-lg text-red-300"></p>
+        </div>
+
+        <!-- Exam Schedule Section -->
+        <div class="exam-schedule-area">
+            <h2 class="text-2xl font-bold mb-4 text-white">Your Exam Schedule</h2>
+            <!-- Table for larger screens -->
+            <div class="overflow-x-auto rounded-xl hidden md:block">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Subject Code</th>
+                            <th>Subject</th>
+                            <th>Time Left</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exam-schedule-body-desktop">
+                        <!-- Exam data will be populated here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cards for mobile screens -->
+            <div id="exam-schedule-body-mobile" class="md:hidden">
+                <!-- Exam data will be populated here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Unified Footer -->
+    <footer class="unified-footer">
+        <div class="footer-buttons-row">
+            <button id="visit-site-btn" class="floating-btn">Visit My Site</button>
+            <button id="theme-toggle-btn" class="floating-btn">Theme</button>
+            <button id="fullscreen-toggle-btn" class="floating-btn">Fullscreen</button>
+        </div>
+        <div class="footer-actual-study-timer-content">
+            <p class="footer-actual-study-context">Assuming you will study for 10 hours daily, you have:</p>
+            <div class="flex justify-center items-center gap-4 md:gap-8">
+                <div class="flex flex-col items-center">
+                    <span id="actual-study-hours" class="footer-actual-study-timer-value">0</span>
+                    <span class="footer-actual-study-timer-label">Hours</span>
+                </div>
+                <div class="text-xl font-bold text-gray-500">:</div>
+                <div class="flex flex-col items-center">
+                    <span id="actual-study-minutes" class="footer-actual-study-timer-value">0</span>
+                    <span class="footer-actual-study-timer-label">Minutes</span>
+                </div>
+                <div class="text-xl font-bold text-gray-500">:</div>
+                <div class="flex flex-col items-center">
+                    <span id="actual-study-seconds" class="footer-actual-study-timer-value">0</span>
+                    <span class="footer-actual-study-timer-label">Seconds</span>
+                </div>
+            </div>
+        </div>
+        <p class="footer-branding animated-text">Made By Al Hossain Rifat</p>
+    </footer>
+
+    <!-- Fullscreen Overlay -->
+    <div id="fullscreen-overlay" class="hidden">
+        <div id="tsparticles"></div> <!-- Particles container -->
+        <button id="exit-fullscreen-btn">X</button>
+        <h1 class="fs-title">Time Until Next Exam</h1>
+        <p id="fs-exam-subject" class="fs-exam-subject"></p>
+
+        <div class="fs-timer-group mb-8">
+            <div class="flex flex-col items-center">
+                <span id="fs-hours" class="fs-value">00</span>
+                <span class="fs-label">Hours</span>
+            </div>
+            <div class="text-6xl font-bold text-gray-500">:</div>
+            <div class="flex flex-col items-center">
+                <span id="fs-minutes" class="fs-value">00</span>
+                <span class="fs-label">Minutes</span>
+            </div>
+            <div class="text-6xl font-bold text-gray-500">:</div>
+            <div class="flex flex-col items-center">
+                <span id="fs-seconds" class="fs-value">00</span>
+                <span class="fs-label">Seconds</span>
+            </div>
+        </div>
+
+        <p class="fs-context">Assuming you will study for 10 hours daily, you have:</p>
+        <div class="fs-timer-group">
+            <div class="flex flex-col items-center">
+                <span id="fs-actual-hours" class="fs-actual-value">00</span>
+                <span class="fs-actual-label">Hours</span>
+            </div>
+            <div class="text-6xl font-bold text-gray-500">:</div>
+            <div class="flex flex-col items-center">
+                <span id="fs-actual-minutes" class="fs-actual-value">00</span>
+                <span class="fs-actual-label">Minutes</span>
+            </div>
+            <div class="text-6xl font-bold text-gray-500">:</div>
+            <div class="flex flex-col items-center">
+                <span id="fs-actual-seconds" class="fs-actual-value">00</span>
+                <span class="fs-actual-label">Seconds</span>
+            </div>
+        </div>
+
+        <!-- New World Clock Section -->
+        <div id="fs-world-clock-container" class="fs-world-clock-container">
+            <p class="text-center text-sm mb-1">Current Time in Bangladesh</p>
+            <div class="flex justify-center items-center gap-4">
+                <div class="flex items-baseline fs-world-clock-time-group"> <!-- Flex container for time and AM/PM -->
+                    <span id="fs-world-clock-time" class="fs-world-clock-value">00:00:00</span>
+                    <span id="fs-world-clock-ampm" class="fs-world-clock-ampm-label">AM</span>
+                </div>
+            </div>
+        </div>
+
+        <p class="fs-branding">Made By Al Hossain Rifat</p>
+    </div>
+
+    <!-- Theme Selection Modal -->
+    <div id="theme-modal-overlay" class="hidden">
+        <div class="theme-modal-content">
+            <button class="close-modal-btn" id="close-theme-modal">&times;</button>
+            <h3 class="text-xl font-bold text-white mb-4">Select Theme</h3>
+            <div class="theme-color-grid" id="theme-color-grid">
+                <!-- Theme swatches will be populated here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- tsParticles CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.min.js"></script>
+
+    <script>
+        // Define exam data based on the provided image
+        const exams = [
+            { date: "2026-01-05", day: "Monday", time: "02:00 PM", code: "২৫৮১", subject: "অ্যাপ্লিকেশন ডেভেলপমেন্ট ইউজিং জাভা" },
+            // Regular: Marketing
+            { date: "2026-01-07", day: "Wednesday", time: "10:00 AM", code: "২৫৮৫১", subject: "প্রিন্সিপাল অব মার্কেটিং" },
+            // Referred: Web Design
+            { date: "2026-01-10", day: "Saturday", time: "02:00 PM", code: "২৫৯২", subject: "ওয়েব ডিজাইন ও ডেভেলপমেন্ট - ২" },
+            // Regular: Sensor & IoT
+            { date: "2026-01-12", day: "Monday", time: "02:00 PM", code: "২৮৫৬৩", subject: "সেন্সর অ্যান্ড আইওটি সিস্টেম" },
+            // Referred: Microprocessor
+            { date: "2026-01-14", day: "Wednesday", time: "02:00 PM", code: "২৫৯৩", subject: "কম্পিউটার আর্কিটেকচার & মাইক্রোপ্রসেসর" },
+            // Regular: Database
+            { date: "2026-01-15", day: "Thursday", time: "10:00 AM", code: "২৮৫৬১", subject: "ডাটাবেস ম্যানেজমেন্ট সিস্টেম" },
+            // Regular: Computer Networking
+            { date: "2026-01-21", day: "Wednesday", time: "10:00 AM", code: "২৮৫৬২", subject: "কম্পিউটার নেটওয়ার্কিং" },
+            // Regular: Industrial Management
+            { date: "2026-01-24", day: "Saturday", time: "02:00 PM", code: "২৫৮৫২", subject: "ইন্ডাস্ট্রিয়াল ম্যানেজমেন্ট" },
+            // Regular: Surveillance Security
+            { date: "2026-01-26", day: "Monday", time: "10:00 AM", code: "২৮৫৬৫", subject: "সার্ভেইল্যান্স সিকিউরিটি সিস্টেম" },
+            // Regular: Microcontroller
+            { date: "2026-01-29", day: "Thursday", time: "10:00 AM", code: "২৮৫৬৪", subject: "মাইক্রোকন্ট্রোলার বেসড সিস্টেম ডিজাইন অ্যান্ড ডেভেলপমেন্ট" } ];
+
+        // Helper function to calculate detailed time left until an exam
+        function getDetailedTimeLeft(examDateString, examTimeString) {
+            const now = new Date();
+            const examDateTime = new Date(`${examDateString}T${examTimeString.replace(' AM', ':00').replace(' PM', ':00')}`);
+            if (examTimeString.includes('PM') && examDateTime.getHours() < 12) {
+                examDateTime.setHours(examDateTime.getHours() + 12);
+            }
+
+            const timeDifference = examDateTime.getTime() - now.getTime();
+            if (timeDifference < 0) {
+                return "Passed";
+            }
+
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+            let timeLeftString = "";
+            if (days > 0) {
+                timeLeftString += `${days} day${days !== 1 ? 's' : ''} `;
+            }
+            timeLeftString += `${hours} hour${hours !== 1 ? 's' : ''} left`;
+            return timeLeftString.trim();
+        }
+
+        // Populate exam schedule table for desktop
+        function populateDesktopTable() {
+            const examScheduleBodyDesktop = document.getElementById('exam-schedule-body-desktop');
+            examScheduleBodyDesktop.innerHTML = ''; // Clear existing content
+            exams.forEach(exam => {
+                const detailedTimeLeft = getDetailedTimeLeft(exam.date, exam.time);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${exam.date}</td>
+                    <td>${exam.day}</td>
+                    <td>${exam.time}</td>
+                    <td>${exam.code}</td>
+                    <td>${exam.subject}</td>
+                    <td class="days-left-text-table">${detailedTimeLeft}</td>
+                `;
+                examScheduleBodyDesktop.appendChild(row);
+            });
+        }
+
+        // Populate exam cards for mobile
+        function populateMobileCards() {
+            const examScheduleBodyMobile = document.getElementById('exam-schedule-body-mobile');
+            examScheduleBodyMobile.innerHTML = ''; // Clear existing content
+            exams.forEach(exam => {
+                const detailedTimeLeft = getDetailedTimeLeft(exam.date, exam.time);
+                const card = document.createElement('div');
+                card.className = 'exam-card-mobile';
+                card.innerHTML = `
+                    <div><span>Date:</span> ${exam.date}</div>
+                    <div><span>Day:</span> ${exam.day}</div>
+                    <div><span>Time:</span> ${exam.time}</div>
+                    <div><span>Subject Code:</span> ${exam.code}</div>
+                    <div><span>Subject:</span> ${exam.subject}</div>
+                    <div class="days-left-text">${detailedTimeLeft}</div>
+                `;
+                examScheduleBodyMobile.appendChild(card);
+            });
+        }
+
+        // Initial population of both table and cards
+        populateDesktopTable();
+        populateMobileCards();
+
+
+        let currentExamIndex = 0;
+        let countdownInterval;
+        let worldClockInterval; // New interval for world clock
+        let particlesInstance; // To store the tsParticles instance
+
+        // Fullscreen elements
+        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+        const fsExamSubject = document.getElementById('fs-exam-subject');
+        const fsHours = document.getElementById('fs-hours');
+        const fsMinutes = document.getElementById('fs-minutes');
+        const fsSeconds = document.getElementById('fs-seconds');
+        const fsActualHours = document.getElementById('fs-actual-hours');
+        const fsActualMinutes = document.getElementById('fs-actual-minutes');
+        const fsActualSeconds = document.getElementById('fs-actual-seconds');
+        const fsWorldClockTime = document.getElementById('fs-world-clock-time');
+        const fsWorldClockAmPm = document.getElementById('fs-world-clock-ampm');
+        const fullscreenToggleBtn = document.getElementById('fullscreen-toggle-btn');
+        const exitFullscreenBtn = document.getElementById('exit-fullscreen-btn');
+        const visitSiteBtn = document.getElementById('visit-site-btn');
+
+        // Theme elements
+        const themeModalOverlay = document.getElementById('theme-modal-overlay');
+        const themeToggleButton = document.getElementById('theme-toggle-btn');
+        const closeThemeModalBtn = document.getElementById('close-theme-modal');
+        const themeColorGrid = document.getElementById('theme-color-grid');
+
+        // Event listener for Visit My Site button
+        visitSiteBtn.addEventListener('click', () => {
+            window.open('https://sahrfa.top', '_blank');
+        });
+
+        function findNextExam() {
+            const now = new Date();
+            for (let i = 0; i < exams.length; i++) {
+                const examDateTime = new Date(`${exams[i].date}T${exams[i].time.replace(' AM', ':00').replace(' PM', ':00')}`);
+                // Adjust for PM times if needed (assuming 12-hour format with AM/PM)
+                if (exams[i].time.includes('PM') && examDateTime.getHours() < 12) {
+                    examDateTime.setHours(examDateTime.getHours() + 12);
+                }
+                if (examDateTime.getTime() > now.getTime()) {
+                    return i; // Return the index of the next upcoming exam
+                }
+            }
+            return -1; // No upcoming exams
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const countdownMessageElement = document.getElementById('countdown-message');
+
+            // Find the next upcoming exam if currentExamIndex is not valid or exam has passed
+            if (currentExamIndex === -1 || (currentExamIndex < exams.length && new Date(`${exams[currentExamIndex].date}T${exams[currentExamIndex].time.replace(' AM', ':00').replace(' PM', ':00')}`).getTime() <= now.getTime())) {
+                currentExamIndex = findNextExam();
+                // Re-populate tables/cards to update "Days Left" if a new exam becomes active
+                populateDesktopTable();
+                populateMobileCards();
+            }
+
+            if (currentExamIndex === -1) {
+                // No more upcoming exams
+                document.getElementById('hours').textContent = "0";
+                document.getElementById('minutes').textContent = "0";
+                document.getElementById('seconds').textContent = "0";
+                document.getElementById('actual-study-hours').textContent = "0";
+                document.getElementById('actual-study-minutes').textContent = "0";
+                document.getElementById('actual-study-seconds').textContent = "0";
+                countdownMessageElement.textContent = "All exams have passed!";
+                clearInterval(countdownInterval);
+
+                // Update fullscreen timers to 0 as well
+                fsHours.textContent = "00";
+                fsMinutes.textContent = "00";
+                fsSeconds.textContent = "00";
+                fsActualHours.textContent = "00";
+                fsActualMinutes.textContent = "00";
+                fsActualSeconds.textContent = "00";
+                fsExamSubject.textContent = "No upcoming exams!";
+                return;
+            }
+
+            const nextExam = exams[currentExamIndex];
+            const nextExamDateTime = new Date(`${nextExam.date}T${nextExam.time.replace(' AM', ':00').replace(' PM', ':00')}`);
+
+            // Adjust for PM times for accurate calculation
+            if (nextExam.time.includes('PM') && nextExamDateTime.getHours() < 12) {
+                nextExamDateTime.setHours(nextExamDateTime.getHours() + 12);
+            }
+
+            const timeDifference = nextExamDateTime.getTime() - now.getTime();
+
+            if (timeDifference < 0) {
+                // This exam has just passed, find the next one in the next iteration
+                countdownMessageElement.textContent = `Exam "${nextExam.subject}" has just passed!`;
+                currentExamIndex++; // Move to the next exam
+                return; // Let the next iteration handle the new exam
+            }
+
+            // Calculate total hours, minutes, and seconds for the main countdown
+            const totalHours = Math.floor(timeDifference / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Update main countdown
+            document.getElementById('hours').textContent = totalHours; // Display total hours
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+            countdownMessageElement.textContent = ""; // Clear message if countdown is active
+
+            // Calculate Actual Study Time Left (assuming 10 hours of effective study per 24 hours)
+            const actualStudyTimeDifference = timeDifference * (10 / 24); // 10 hours study / 24 hours total
+
+            const actualHours = Math.floor(actualStudyTimeDifference / (1000 * 60 * 60));
+            const actualMinutes = Math.floor((actualStudyTimeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const actualSeconds = Math.floor((actualStudyTimeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById('actual-study-hours').textContent = actualHours;
+            document.getElementById('actual-study-minutes').textContent = actualMinutes;
+            document.getElementById('actual-study-seconds').textContent = actualSeconds;
+
+            // Update fullscreen timers with subtle animation
+            if (!fullscreenOverlay.classList.contains('hidden')) {
+                fsExamSubject.textContent = nextExam.subject;
+
+                // Apply a subtle fade animation for number changes
+                const updateAndAnimateNumber = (element, newValue, isSeconds = false) => {
+                    const formattedNewValue = String(newValue).padStart(2, '0');
+                    if (element.textContent !== formattedNewValue) {
+                        if (isSeconds) {
+                            element.textContent = formattedNewValue; // No animation for seconds
+                        } else {
+                            element.style.opacity = '0'; // Start fade out
+                            setTimeout(() => {
+                                element.textContent = formattedNewValue;
+                                element.style.opacity = '1'; // Fade in
+                            }, 50); // Short delay for fade effect
+                        }
+                    }
+                };
+
+                updateAndAnimateNumber(fsHours, totalHours);
+                updateAndAnimateNumber(fsMinutes, minutes);
+                updateAndAnimateNumber(fsSeconds, seconds, true); // Pass true for seconds
+                updateAndAnimateNumber(fsActualHours, actualHours);
+                updateAndAnimateNumber(fsActualMinutes, actualMinutes);
+                updateAndAnimateNumber(fsActualSeconds, actualSeconds, true); // Pass true for seconds
+            }
+        }
+
+        // Function to update the world clock
+        function updateWorldClock() {
+            const now = new Date();
+            // Format time for Bangladesh (GMT+6)
+            const options = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+                timeZone: 'Asia/Dhaka' // Bangladesh time zone
+            };
+            const timeString = now.toLocaleTimeString('en-US', options);
+            const [time, ampm] = timeString.split(' ');
+
+            fsWorldClockTime.textContent = time;
+            fsWorldClockAmPm.textContent = ampm;
+        }
+
+
+        // tsParticles initialization function
+        async function loadParticles() {
+            if (typeof tsParticles === 'undefined') {
+                console.error("tsParticles library not loaded.");
+                return;
+            }
+
+            particlesInstance = await tsParticles.load("tsparticles", {
+                background: {
+                    color: {
+                        value: "#000000", // Pure black background for particles
+                    },
+                },
+                fpsLimit: 60,
+                interactivity: {
+                    events: {
+                        onClick: {
+                            enable: false, // No click interaction
+                            mode: "push",
+                        },
+                        onHover: {
+                            enable: true,
+                            mode: "repulse", // Particles move away on hover
+                        },
+                        resize: true,
+                    },
+                    modes: {
+                        push: {
+                            quantity: 4,
+                        },
+                        repulse: {
+                            distance: 100,
+                            duration: 0.4,
+                        },
+                    },
+                },
+                particles: {
+                    color: {
+                        value: "#FFDAB9", // Peach color for particles
+                        animation: {
+                            enable: true,
+                            speed: 10,
+                            sync: true,
+                            startValue: "random",
+                            destroy: "none",
+                        },
+                    },
+                    links: {
+                        color: "#B0E0E6", // Light blue for links
+                        distance: 150,
+                        enable: true,
+                        opacity: 0.3,
+                        width: 1,
+                    },
+                    move: {
+                        direction: "none",
+                        enable: true,
+                        outModes: {
+                            default: "bounce",
+                        },
+                        random: false,
+                        speed: 0.5, // Slower movement
+                        straight: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200,
+                        },
+                    },
+                    number: {
+                        density: {
+                            enable: true,
+                            area: 800,
+                        },
+                        value: 80, // Number of particles
+                    },
+                    opacity: {
+                        value: 0.5,
+                        animation: {
+                            enable: true,
+                            speed: 1,
+                            sync: false,
+                            startValue: "random",
+                            destroy: "none",
+                        },
+                    },
+                    shape: {
+                        type: "circle", // Simple circle particles
+                    },
+                    size: {
+                        value: { min: 1, max: 3 }, // Smaller particles
+                        animation: {
+                            enable: true,
+                            speed: 4,
+                            sync: false,
+                            startValue: "random",
+                            destroy: "none",
+                        },
+                    },
+                },
+                detectRetina: true,
+            });
+        }
+
+        // Fullscreen toggle logic
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    fullscreenOverlay.classList.remove('hidden');
+                    loadParticles(); // Initialize particles when entering fullscreen
+                    updateWorldClock(); // Initial call for world clock
+                    worldClockInterval = setInterval(updateWorldClock, 1000); // Start world clock interval
+                    // Attempt to lock orientation to landscape
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(e => console.log("Orientation lock failed:", e));
+                    }
+                    // Apply fullscreen body style
+                    document.body.style.background = '#000'; // AMOLED Black
+                    document.body.style.paddingBottom = '0'; // Remove padding in fullscreen
+                    updateCountdown(); // Update timers immediately for fullscreen
+                }).catch(err => {
+                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Event listener for fullscreen change (e.g., user presses Esc)
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                fullscreenOverlay.classList.add('hidden');
+                if (particlesInstance) {
+                    particlesInstance.destroy(); // Destroy particles when exiting fullscreen
+                    particlesInstance = null;
+                }
+                clearInterval(worldClockInterval); // Clear world clock interval
+                // Unlock orientation
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+                // Revert body style to current theme's body background
+                const currentTheme = themes.find(t => t.name === localStorage.getItem('currentThemeName') || 'Deep Blue');
+                document.body.style.background = currentTheme.backgroundGradient;
+                document.body.style.paddingBottom = '10rem'; // Revert padding
+            }
+        });
+
+        fullscreenToggleBtn.addEventListener('click', toggleFullscreen);
+        exitFullscreenBtn.addEventListener('click', toggleFullscreen);
+
+
+        // Theme Logic
+        const themes = [
+            {
+                name: "Deep Blue",
+                backgroundGradient: "linear-gradient(135deg, #1a202c 0%, #2d3748 100%)",
+                containerBg: "#2d3748",
+                tableHeaderBg: "#2c5282",
+                oddRowBg: "#3b4556",
+                evenRowBg: "#4a5568",
+                countdownValueColor: "#63b3ed",
+                actualStudyTimeColor: "#81c784",
+                buttonBg: "#2c5282",
+                swatchColor: "#2d3748"
+            },
+            {
+                name: "Warm Grey",
+                backgroundGradient: "linear-gradient(135deg, #333333 0%, #555555 100%)",
+                containerBg: "#444444",
+                tableHeaderBg: "#666666",
+                oddRowBg: "#555555",
+                evenRowBg: "#777777",
+                countdownValueColor: "#FFCC80",
+                actualStudyTimeColor: "#A5D6A7",
+                buttonBg: "#666666",
+                swatchColor: "#444444"
+            },
+            {
+                name: "Deep Purple",
+                backgroundGradient: "linear-gradient(135deg, #2A0A4A 0%, #4A148C 100%)",
+                containerBg: "#3A0F6A",
+                tableHeaderBg: "#6A1B9A",
+                oddRowBg: "#4A148C",
+                evenRowBg: "#5A18B0",
+                countdownValueColor: "#CE93D8",
+                actualStudyTimeColor: "#80CBC4",
+                buttonBg: "#6A1B9A",
+                swatchColor: "#3A0F6A"
+            },
+            {
+                name: "Forest Green",
+                backgroundGradient: "linear-gradient(135deg, #0A2A0A 0%, #1B5E20 100%)",
+                containerBg: "#1A4A1A",
+                tableHeaderBg: "#2E7D32",
+                oddRowBg: "#1B5E20",
+                evenRowBg: "#388E3C",
+                countdownValueColor: "#A5D6A7",
+                actualStudyTimeColor: "#FFCC80",
+                buttonBg: "#2E7D32",
+                swatchColor: "#1A4A1A"
+            },
+            {
+                name: "Midnight Blue",
+                backgroundGradient: "linear-gradient(135deg, #001f3f 0%, #003366 100%)",
+                containerBg: "#002a52",
+                tableHeaderBg: "#004d99",
+                oddRowBg: "#003366",
+                evenRowBg: "#004080",
+                countdownValueColor: "#80BFFF",
+                actualStudyTimeColor: "#FFCC80",
+                buttonBg: "#004d99",
+                swatchColor: "#002a52"
+            },
+            {
+                name: "Warm Sepia",
+                backgroundGradient: "linear-gradient(135deg, #4A3B3B 0%, #6E5B5B 100%)",
+                containerBg: "#5A4B4B",
+                tableHeaderBg: "#8D6E6E",
+                oddRowBg: "#6E5B5B",
+                evenRowBg: "#796A6A",
+                countdownValueColor: "#FDD835",
+                actualStudyTimeColor: "#AED581",
+                buttonBg: "#8D6E6E",
+                swatchColor: "#5A4B4B"
+            },
+            {
+                name: "Amoled Black",
+                backgroundGradient: "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)",
+                containerBg: "#000000",
+                tableHeaderBg: "#1a1a1a",
+                oddRowBg: "#0a0a0a",
+                evenRowBg: "#121212",
+                countdownValueColor: "#FFDAB9", /* Peach */
+                actualStudyTimeColor: "#B0E0E6", /* Light Blue */
+                buttonBg: "#333333",
+                swatchColor: "#000000"
+            },
+            {
+                name: "Crimson Red",
+                backgroundGradient: "linear-gradient(135deg, #8B0000 0%, #DC143C 100%)",
+                containerBg: "#A00000",
+                tableHeaderBg: "#C00000",
+                oddRowBg: "#B00000",
+                evenRowBg: "#D00000",
+                countdownValueColor: "#FFD700", /* Gold */
+                actualStudyTimeColor: "#ADD8E6", /* Light Blue */
+                buttonBg: "#B00000",
+                swatchColor: "#8B0000"
+            },
+            {
+                name: "Ocean Teal",
+                backgroundGradient: "linear-gradient(135deg, #004d40 0%, #00897b 100%)",
+                containerBg: "#00695c",
+                tableHeaderBg: "#00796b",
+                oddRowBg: "#00897b",
+                evenRowBg: "#009688",
+                countdownValueColor: "#80DEEA", /* Cyan */
+                actualStudyTimeColor: "#FFECB3", /* Light Yellow */
+                buttonBg: "#00796b",
+                swatchColor: "#004d40"
+            }
+        ];
+
+        function applyTheme(theme) {
+            document.body.style.background = theme.backgroundGradient;
+            document.querySelector('.unified-footer').style.backgroundColor = theme.containerBg;
+            document.querySelector('.unified-footer').style.color = theme.textColor || '#e2e8f0'; // Ensure text color updates
+            document.querySelector('.footer-branding').style.borderColor = theme.footerBrandingBorderColor || 'rgba(255, 255, 255, 0.1)';
+
+            // Update table headers
+            document.querySelectorAll('th').forEach(th => {
+                th.style.backgroundColor = theme.tableHeaderBg;
+                th.style.color = theme.textColor || '#e2e8f0';
+            });
+
+            // Update table rows (desktop)
+            document.querySelectorAll('tr:nth-child(odd)').forEach(row => {
+                row.style.backgroundColor = theme.oddRowBg;
+            });
+            document.querySelectorAll('tr:nth-child(even)').forEach(row => {
+                row.style.backgroundColor = theme.evenRowBg;
+            });
+
+            // Update mobile exam cards
+            document.querySelectorAll('.exam-card-mobile').forEach(card => {
+                card.style.backgroundColor = theme.oddRowBg; /* Mobile cards use odd row background */
+            });
+
+            // Update countdown values and labels
+            document.getElementById('hours').style.color = theme.countdownValueColor;
+            document.getElementById('minutes').style.color = theme.countdownValueColor;
+            document.getElementById('seconds').style.color = theme.countdownValueColor;
+            document.getElementById('actual-study-hours').style.color = theme.actualStudyTimeColor;
+            document.getElementById('actual-study-minutes').style.color = theme.actualStudyTimeColor;
+            document.getElementById('actual-study-seconds').style.color = theme.actualStudyTimeColor;
+
+            // Update button backgrounds
+            document.querySelectorAll('.floating-btn').forEach(btn => {
+                btn.style.backgroundColor = theme.buttonBg;
+                btn.style.color = theme.textColor || '#e2e8f0';
+            });
+
+            // Update other text colors if needed
+            document.querySelectorAll('.countdown-label, .days-left-text, .days-left-text-table, .footer-actual-study-timer-label, .footer-actual-study-context').forEach(el => {
+                el.style.color = theme.labelColor || '#a0aec0';
+            });
+
+
+            // Store selected theme in local storage
+            localStorage.setItem('currentThemeName', theme.name);
+
+            // Update selected swatch in modal
+            document.querySelectorAll('.theme-color-swatch').forEach(swatch => {
+                swatch.classList.remove('selected');
+                if (swatch.dataset.themeName === theme.name) {
+                    swatch.classList.add('selected');
+                }
+            });
+        }
+
+        function populateThemeSwatches() {
+            themeColorGrid.innerHTML = ''; // Clear existing swatches
+            themes.forEach(theme => {
+                const swatch = document.createElement('div');
+                swatch.className = 'theme-color-swatch';
+                swatch.style.backgroundColor = theme.swatchColor; // Use a representative color for the swatch
+                swatch.dataset.themeName = theme.name; // Store theme name for identification
+                swatch.innerHTML = `<span>${theme.name}</span>`; // Display theme name
+
+                swatch.addEventListener('click', () => {
+                    applyTheme(theme);
+                    themeModalOverlay.classList.add('hidden'); // Close modal after selection
+                });
+                themeColorGrid.appendChild(swatch);
+            });
+        }
+
+        // Load theme from local storage or set default
+        const savedThemeName = localStorage.getItem('currentThemeName');
+        const initialTheme = themes.find(t => t.name === savedThemeName) || themes[0]; // Default to Deep Blue
+        applyTheme(initialTheme);
+        populateThemeSwatches(); // Populate swatches on load
+
+        // Theme modal toggle
+        themeToggleButton.addEventListener('click', () => {
+            themeModalOverlay.classList.remove('hidden');
+        });
+
+        closeThemeModalBtn.addEventListener('click', () => {
+            themeModalOverlay.classList.add('hidden');
+        });
+
+        // Initial setup and start countdown
+        currentExamIndex = findNextExam(); // Find the first upcoming exam on load
+        if (currentExamIndex !== -1) {
+            countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Initial call to display immediately
+        } else {
+            document.getElementById('countdown-message').textContent = "No upcoming exams!";
+            // Also set actual study time to 0 if no exams
+            document.getElementById('actual-study-hours').textContent = "0";
+            document.getElementById('actual-study-minutes').textContent = "0";
+            document.getElementById('actual-study-seconds').textContent = "0";
+        }
+    </script>
+</body>
+</html>
