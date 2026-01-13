@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Exam Suggestions 6th Semester</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-dark: #050505;
+            --bg-card: rgba(28, 28, 30, 0.6);
+            --text-main: #f5f5f7;
+            --text-sub: #86868b;
+            --accent-blue: #0A84FF;
+            --glow-cyan: #64D2FF;
+            --glow-purple: #BF5AF2;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            
+            /* Code Theme Colors */
+            --code-bg: #1e1e1e;
+            --code-header: #252526;
+            --c-keyword: #c586c0;
+            --c-func: #dcdcaa;
+            --c-string: #ce9178;
+            --c-comment: #6a9955;
+            --c-number: #b5cea8;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.5;
+            margin: 0;
+            padding-bottom: 140px;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        /* --- ATMOSPHERE --- */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(80px); opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb-1 { width: 300px; height: 300px; background: var(--accent-blue); top: -50px; left: -50px; animation-delay: 0s; }
+        .orb-2 { width: 400px; height: 400px; background: var(--glow-purple); bottom: -100px; right: -100px; animation-delay: -5s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 50px); }
+        }
+
+        /* --- UTILS & TEXT STYLES --- */
+        .hidden { display: none !important; }
+        .font-bold { font-weight: 700; }
+        .text-sm { font-size: 0.85rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        
+        /* The Glow Up Classes (Used by AI Snippet) */
+        .glow-cyan { 
+            color: var(--glow-cyan); 
+            text-shadow: 0 0 12px rgba(100, 210, 255, 0.4); 
+            font-weight: 600; 
+        }
+        .glow-purple { 
+            color: var(--glow-purple); 
+            font-weight: 600; 
+        }
+        
+        /* Number Badge Style */
+        .q-number-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--glow-cyan);
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            margin-right: 10px;
+            border: 1px solid rgba(100, 210, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        /* Exam Tags (Badges) */
+        .exam-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 5px;
+            background: rgba(255, 69, 58, 0.2);
+            color: #ff453a;
+            border: 1px solid rgba(255, 69, 58, 0.3);
+        }
+        .exam-tag.tip {
+            background: rgba(48, 209, 88, 0.2);
+            color: #30d158;
+            border-color: rgba(48, 209, 88, 0.3);
+        }
+
+        /* --- LIST BOX STYLE --- */
+        .list-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--glow-cyan);
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .list-box ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list-box li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        .list-box li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--glow-cyan);
+            font-weight: bold;
+        }
+
+        /* --- CODE SNIPPET STYLE (VS Code Vibe) --- */
+        .code-wrapper {
+            margin: 15px 0;
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            border: 1px solid #333;
+            overflow: hidden;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--code-header);
+            padding: 5px 12px;
+            border-bottom: 1px solid #333;
+        }
+        .code-lang {
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: 600;
+        }
+        .code-copy-btn {
+            background: none;
+            border: none;
+            color: var(--glow-cyan);
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .code-copy-btn:hover { opacity: 1; }
+        
+        .code-content {
+            padding: 12px;
+            overflow-x: auto;
+            margin: 0;
+            color: #d4d4d4;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        /* Syntax Highlighting Classes */
+        .c-k { color: var(--c-keyword); } /* Keyword */
+        .c-f { color: var(--c-func); }    /* Function */
+        .c-s { color: var(--c-string); }  /* String */
+        .c-c { color: var(--c-comment); font-style: italic; } /* Comment */
+        .c-n { color: var(--c-number); }  /* Number */
+
+        /* --- RGB ANIMATION --- */
+        .rgb-text {
+            font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            margin-top: 12px; cursor: pointer; text-decoration: none; display: inline-block;
+            background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            background-size: 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: rgb-cycle 3s linear infinite; transition: transform 0.2s;
+        }
+        .rgb-text:hover { transform: scale(1.05); }
+        @keyframes rgb-cycle { 0% { background-position: 0%; } 100% { background-position: 400%; } }
+
+        /* --- LAYOUT --- */
+        .main-content { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        /* --- HEADER --- */
+        .header-container {
+            position: relative; text-align: center; margin-bottom: 40px; padding: 30px 20px;
+            border-radius: 24px; background: rgba(28, 28, 30, 0.4); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .header h1 {
+            font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, #a0aec0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .header .subtitle { 
+            font-size: 0.9rem; font-weight: 500; color: var(--accent-blue); margin-top: 6px; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- CATEGORIES & ANIMATION --- */
+        .question-category { margin-bottom: 25px; }
+        
+        .category-header {
+            display: inline-flex; justify-content: space-between; align-items: center; gap: 10px;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); padding: 10px 18px; border-radius: 12px;
+            color: var(--glow-cyan); font-size: 0.9rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer; transition: background 0.2s ease;
+            position: relative; z-index: 5;
+        }
+        .category-header:hover { background: rgba(255, 255, 255, 0.1); }
+        .category-toggle-icon { width: 18px; height: 18px; transition: transform 0.3s ease; }
+        .category-toggle-icon.rotated { transform: rotate(180deg); }
+
+        /* Count Badge Style */
+        .count-badge {
+            font-size: 0.75rem; color: var(--text-sub); font-weight: 400; margin-left: 5px;
+            opacity: 0.8;
+        }
+
+        /* CATEGORY WRAPPER - The Unlimited Height Logic */
+        .category-wrapper {
+            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease, mask-image 0.4s ease;
+            overflow: hidden;
+            opacity: 1;
+        }
+
+        .category-wrapper.collapsed {
+            max-height: 50px !important; /* PEEK HEIGHT */
+            opacity: 0.4; pointer-events: none;
+            mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+        }
+
+        .question-list { 
+            display: flex; flex-direction: column; gap: 14px; 
+            padding-top: 5px; 
+        }
+
+        /* --- QUESTION ITEM --- */
+        .question-item {
+            background-color: var(--bg-card); backdrop-filter: blur(10px);
+            border-radius: 16px; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            position: relative; border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            opacity: 0; animation: fadeInUp 0.5s ease forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-item:active { transform: scale(0.98); } 
+        .question-item.active {
+            border-color: rgba(100, 210, 255, 0.3);
+            background-color: rgba(40, 40, 45, 0.8);
+            box-shadow: 0 0 25px rgba(100, 210, 255, 0.1);
+        }
+
+        .tier-mythic { border-left: 4px solid #FF453A; }
+        .tier-legendary { border-left: 4px solid #FFD60A; }
+        .tier-epic { border-left: 4px solid #BF5AF2; }
+
+        .question-main-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 16px; gap: 12px; cursor: pointer;
+        }
+        .question-text-toggle {
+            flex-grow: 1; display: flex; align-items: center; justify-content: flex-start;
+            font-size: 1rem; font-weight: 500; line-height: 1.4; padding-right: 10px; color: #e4e4e6;
+            gap: 10px;
+        }
+        .button-container { display: flex; gap: 10px; flex-shrink: 0; margin-left: auto; }
+        
+        .action-button {
+            display: flex; align-items: center; justify-content: center;
+            width: 38px; height: 38px; border-radius: 12px;
+            background-color: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid transparent; 
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .action-button:active { transform: scale(0.9); }
+        
+        /* HIDING AI BUTTON (Visual Only) */
+        .action-button.ai-btn { display: none; }
+        
+        .action-button.copy-btn:hover { color: #32D74B; background-color: rgba(50, 215, 75, 0.15); transform: scale(1.1) rotate(5deg); }
+        .toggle-icon { width: 20px; height: 20px; color: #555; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); flex-shrink: 0; margin-left: 10px; }
+        .rotated { transform: rotate(180deg); color: #fff; }
+
+        /* --- SMOOTH DROPDOWN ANIMATION (Answers) --- */
+        .answer-grid-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .answer-grid-wrapper.open {
+            grid-template-rows: 1fr;
+        }
+        .answer-overflow-container {
+            overflow: hidden;
+        }
+
+        .answer-dropdown {
+            background-color: rgba(0,0,0,0.3); padding: 20px; 
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.95rem; line-height: 1.6;
+            margin-top: 5px;
+        }
+        .short-answer-text-toggle {
+            cursor: pointer; padding: 12px; border-radius: 12px; display: flex;
+            justify-content: space-between; align-items: start;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+            transition: background 0.2s;
+        }
+        .short-answer-text-toggle:hover { background: rgba(255,255,255,0.07); }
+        
+        .extended-answer-dropdown {
+            margin-top: 16px; padding: 15px; 
+            background: linear-gradient(180deg, rgba(191, 90, 242, 0.1) 0%, rgba(0,0,0,0) 100%);
+            border-radius: 12px; border-left: 2px solid var(--glow-purple); color: #d1d1d6;
+        }
+
+        /* --- GLASS DOCK --- */
+        .glass-dock-container {
+            position: fixed; bottom: 25px; left: 0; width: 100%;
+            display: flex; justify-content: center; z-index: 900; pointer-events: none;
+        }
+        .glass-dock {
+            pointer-events: auto; position: relative;
+            background: rgba(22, 22, 24, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border-radius: 40px; padding: 12px 25px;
+            display: flex; align-items: center; gap: 30px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s;
+        }
+        .glass-dock:hover { transform: translateY(-5px); }
+        .dock-progress-svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; border-radius: 40px; z-index: 901;
+        }
+        .dock-track-rect { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 2px; }
+        .dock-progress-rect {
+            fill: none; stroke: url(#progressGradient); stroke-width: 3px; stroke-linecap: round;
+            stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.1s linear;
+        }
+        .dock-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: none; border: none; color: var(--text-sub); cursor: pointer;
+            transition: all 0.2s; padding: 0; z-index: 902;
+        }
+        .dock-item svg { width: 22px; height: 22px; margin-bottom: 5px; stroke-width: 2px; }
+        .dock-item span { font-size: 0.65rem; font-weight: 600; }
+        .dock-item:hover { color: #fff; transform: translateY(-3px); }
+        .dock-item:active { transform: scale(0.9); }
+        .dock-item.main-action { color: var(--accent-blue); }
+
+        /* --- TOAST & MODAL --- */
+        #toast {
+            visibility: hidden; min-width: 200px; 
+            background: rgba(28, 28, 30, 0.8); backdrop-filter: blur(15px);
+            color: #fff; text-align: center; border-radius: 50px; 
+            padding: 10px 20px; position: fixed; z-index: 2000; 
+            left: 50%; top: -50px; transform: translateX(-50%);
+            font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #toast.show { visibility: visible; top: 25px; }
+
+        .ai-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .ai-modal-overlay.active { opacity: 1; visibility: visible; }
+        .ai-modal-content {
+            background: #1c1c1e; width: 85%; max-width: 500px; max-height: 70vh;
+            border-radius: 24px; padding: 25px; overflow-y: auto; 
+            border: 1px solid var(--glass-border); box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+        .ai-response-text h2 { font-size: 1.1rem; color: var(--glow-cyan); margin-top: 15px; }
+        .ai-response-text p { margin-bottom: 10px; color: #d1d1d6; }
+        .ai-response-text strong { color: #fff; }
+
+    </style>
+</head>
+<body>
+    <div id="toast">✅ Copied!</div>
+
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-container">
+            <h1>Exam Suggestions</h1>
+            <p class="subtitle">6th Semester • Final Prep</p>
+            <a onclick="openLink('https://sahrfa.top')" class="rgb-text">
+                Made By Al Hossain Rifat
+            </a>
+        </div>
+
+        <!-- Very Short -->
+        <div class="question-category">
+            <div class="category-header" onclick="toggleCategory('wrapper-very-short', this)">
+                <span id="header-very-short">অতি সংক্ষিপ্ত (Very Short)</span>
+                <svg class="category-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="wrapper-very-short" class="category-wrapper">
+                <div class="question-list" id="very-short-questions"></div>
+            </div>
+        </div>
+
+        <!-- Short -->
+        <div class="question-category">
+            <div class="category-header" onclick="toggleCategory('wrapper-short', this)">
+                <span id="header-short">সংক্ষিপ্ত (Short)</span>
+                <svg class="category-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="wrapper-short" class="category-wrapper">
+                <div class="question-list" id="short-questions"></div>
+            </div>
+        </div>
+
+        <!-- Essay -->
+        <div class="question-category">
+            <div class="category-header" onclick="toggleCategory('wrapper-essay', this)">
+                <span id="header-essay">রচনামূলক (Essay)</span>
+                <svg class="category-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="wrapper-essay" class="category-wrapper">
+                <div class="question-list" id="essay-questions"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLASS DOCK -->
+    <div class="glass-dock-container">
+        <div class="glass-dock">
+            <svg class="dock-progress-svg" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:var(--glow-cyan);stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:var(--glow-purple);stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect class="dock-track-rect" x="0" y="0" width="100%" height="100%" rx="40" ry="40" />
+                <rect class="dock-progress-rect" x="0" y="0" width="100%" height="100%" rx="40" ry="40" pathLength="1" />
+            </svg>
+
+            <button class="dock-item" onclick="openLink('https://sahrfa.top/study/routine/6thcse/')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <span>Routine</span>
+            </button>
+            <button class="dock-item" onclick="openLink('https://sahrfa.top')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Dev</span>
+            </button>
+            <button class="dock-item main-action" onclick="downloadSite()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Save</span>
+            </button>
+            <button class="dock-item" onclick="toggleFullScreen()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                <span>Focus</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- AI Modal -->
+    <div id="aiAnswerModal" class="ai-modal-overlay">
+        <div class="ai-modal-content">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🤖</span>
+                    <h3 style="color:var(--glow-cyan); margin:0; font-size:1.1rem;">Gemini AI</h3>
+                </div>
+                <button id="closeAi" style="background:rgba(255,255,255,0.1); border:none; color:white; width:30px; height:30px; border-radius:50%; font-size:1.2rem; cursor:pointer;">&times;</button>
+            </div>
+            <p id="aiQuestionText" style="color:#86868b; font-size:0.9rem; margin-bottom:20px; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px; border:1px solid var(--glass-border);"></p>
+            <div id="aiResponseArea" class="ai-response-text" style="line-height:1.6; color:#d1d1d6;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyCyQQichX7ztAZqalLt2jvOevhrotmzAyQ"; 
+        
+        // 💎 PASTE YOUR GEM GENERATED DATA HERE
+        const questions = {
+            "very-short": [{
+        text: "কন্ট্রোলার সিকুয়েন্সারের কাজ কী?",
+        answer: "কন্ট্রোলার সিকুয়েন্সারের কাজ হলো কম্পিউটারের বিভিন্ন অংশের কাজের সমন্বয় করা এবং নির্দিষ্ট সময়ে সঠিক <span class=\"glow-cyan\">কন্ট্রোল সিগন্যাল</span> তৈরি করে নির্দেশ (Instruction) এক্সিকিউট করা।",
+        extendedAnswer: "এটা হলো কম্পিউটারের \"ট্রাফিক পুলিশ\" বা \"ব্যান্ডের কন্ডাক্টর\"। ট্রাফিক পুলিশ যেমন বলে \"এখন এই গাড়ি থামবে, ওই গাড়ি যাবে\", ঠিক তেমনি কন্ট্রোলার সিকুয়েন্সার প্রসেসরকে বলে, \"এখন মেমরি থেকে ডাটা আনো, এখন যোগ করো, এখন সেভ করো।\" এটা ছাড়া প্রসেসর বুঝবে না কখন কী করতে হবে।",
+        tier: "mythic"
+    },
+    {
+        text: "মেশিন সাইকেল বলতে কী বুঝায়?",
+        answer: "মাইক্রোপ্রসেসর কোনো একটি ইনস্ট্রাকশন বা নির্দেশ মেমরি থেকে <span class=\"glow-cyan\">ফেচ (Fetch), ডিকোড (Decode) এবং এক্সিকিউট (Execute)</span> করতে যে সময় নেয়, তাকে মেশিন সাইকেল বলে।",
+        extendedAnswer: "মনে করো তুমি রেস্টুরেন্টে গিয়েছো। ১. মেনু দেখলা (Fetch), ২. কী খাবে বুঝলা (Decode), ৩. খাওয়া শুরু করলা (Execute)। এই পুরো প্রসেসটা একবার শেষ করতে যতটুকু সময় লাগে, সেটাই প্রসেসরের ভাষায় একটা \"মেশিন সাইকেল\"।",
+        tier: "mythic"
+    },
+    {
+        text: "Flag register-এর কাজ লেখ এবং উদাহরণ দাও।",
+        answer: "ALU-তে গাণিতিক বা যৌক্তিক অপারেশনের পর <span class=\"glow-cyan\">ফলাফলের অবস্থা</span> (যেমন: জিরো, নেগেটিভ, ক্যারি) নির্দেশ করাই ফ্ল্যাগ রেজিস্টারের কাজ। উদাহরণ: Zero Flag (Z), Carry Flag (C)।",
+        extendedAnswer: "গণিত করার পর খাতার পাশে আমরা যেমন নোট লিখি \"হাতে থাকে ১\" বা \"উত্তর নেগেটিভ\"—ফ্ল্যাগ রেজিস্টার হলো প্রসেসরের সেই নোটবুক। যোগ করার পর যদি হাতে কিছু থাকে, সে লিখে রাখে \"Carry আছে\"। যদি উত্তর শূন্য হয়, সে লিখে রাখে \"Zero হয়েছে\"।",
+        tier: "mythic"
+    },
+    {
+        text: "Instruction বলতে কী বুঝ?",
+        answer: "ইনস্ট্রাকশন হলো কম্পিউটারকে কোনো নির্দিষ্ট কাজ সম্পন্ন করার জন্য দেওয়া <span class=\"glow-cyan\">বাইনারি কোড বা নির্দেশ</span>।",
+        extendedAnswer: "কম্পিউটার হলো একটা বোকা চাকর। তুমি যতক্ষণ না বলবে \"বসো\" বা \"দাঁড়াও\", সে নড়বে না। এই যে তুমি তাকে অর্ডার দিচ্ছ—এটাই ইনস্ট্রাকশন।",
+        tier: "mythic"
+    },
+    {
+        text: "ALU-এর কাজ কী?",
+        answer: "ALU (Arithmetic Logic Unit)-এর কাজ হলো সকল প্রকার <span class=\"glow-cyan\">গাণিতিক (যোগ, বিয়োগ) এবং যৌক্তিক (AND, OR, NOT) অপারেশন</span> সম্পন্ন করা।",
+        extendedAnswer: "এটা প্রসেসরের \"ক্যালকুলেটর\"। যোগ, বিয়োগ, গুণ, ভাগ বা কোনটা বড় কোনটা ছোট—এই সব হিসাব-নিকাশ ব্রেইনের যে অংশটা করে, সেটাই ALU।",
+        tier: "mythic"
+    },
+    {
+        text: "CPU বলতে কী বুঝ?",
+        answer: "CPU (Central Processing Unit) হলো <span class=\"glow-cyan\">কম্পিউটারের মস্তিষ্ক</span>, যা ইনপুট ডিভাইস থেকে তথ্য গ্রহণ করে, প্রক্রিয়াজাত করে এবং আউটপুট প্রদান করে।",
+        extendedAnswer: "মানুষের যেমন ব্রেইন (Brain) থাকে, কম্পিউটারের হলো CPU। সব চিন্তা, সিদ্ধান্ত এবং কাজ এখান থেকেই আসে। এটা ছাড়া কম্পিউটার শুধুই প্লাস্টিকের বাক্স।",
+        tier: "mythic"
+    },
+    {
+        text: "MAR ও MBR-এর কাজ লেখ?",
+        answer: "MAR (Memory Address Register) <span class=\"glow-cyan\">মেমরির অ্যাড্রেস</span> ধারণ করে এবং MBR (Memory Buffer Register) মেমরি থেকে পড়া বা মেমরিতে লেখার জন্য <span class=\"glow-cyan\">ডাটা</span> ধারণ করে।",
+        extendedAnswer: "MAR হলো \"ঠিকানা\" আর MBR হলো \"চিঠি\"। MAR বলে: \"৫ নাম্বার বক্সে যাও।\" MBR বলে: \"এই নাও চিঠি (ডাটা), এটা ৫ নাম্বার বক্সে রাখো।\"",
+        tier: "mythic"
+    },
+    {
+        text: "মেমরি বলতে কী বুঝ?",
+        answer: "মেমরি হলো কম্পিউটারের সেই অংশ যেখানে ডাটা, ইনস্ট্রাকশন এবং ফলাফল <span class=\"glow-cyan\">স্থায়ী বা অস্থায়ীভাবে</span> জমা রাখা হয়।",
+        extendedAnswer: "এটা হলো কম্পিউটারের স্টোর রুম বা গোডাউন। যা কাজ করছো, বা যা পরে লাগবে—সব এখানে জমা থাকে। এটা ভুলে গেলে কম্পিউটার কিছুই মনে রাখতে পারবে না।",
+        tier: "mythic"
+    },
+    {
+        text: "রিড রাইট হেড-এর কাজ কী?",
+        answer: "হার্ড ডিস্ক বা ম্যাগনেটিক স্টোরেজ ডিভাইসে প্ল্যাটার থেকে <span class=\"glow-cyan\">ডাটা পড়া (Read) এবং ডাটা লেখা (Write)</span> বা সংরক্ষণ করাই রিড/রাইট হেডের কাজ।",
+        extendedAnswer: "আগের দিনের ক্যাসেট প্লেয়ার বা গ্রামোফোন দেখেছ? একটা পিন ঘুরত আর গান বাজত। ওই \"পিন\" টাই হলো রিড রাইট হেড। সে ডিস্কের ওপর ঘুরে ঘুরে তথ্য পড়ে বা নতুন তথ্য লেখে।",
+        tier: "mythic"
+    },
+    {
+        text: "8086 Microprocessor-এর Mode কয়টি ও কী কী?",
+        answer: "৮০৮৬ মাইক্রোপ্রসেসরের মোড ২টি: ১. <span class=\"glow-cyan\">ম্যাক্সিমাম মোড (Maximum Mode)</span> এবং ২. <span class=\"glow-cyan\">মিনিমাম মোড (Minimum Mode)</span>।",
+        extendedAnswer: "৮০৮৬ এর দুটো মুড আছে। মিনিমাম মোড: \"একলা চলো রে\"—সে একা কাজ করে। ম্যাক্সিমাম মোড: \"দলবেঁধে কাজ\"—সে অন্য প্রসেসরের (Co-processor) সাহায্য নিয়ে কাজ করে।",
+        tier: "mythic"
+    },
+    {
+        text: "ইনস্ট্রাকশন কিউ এর কাজ কী?",
+        answer: "পরবর্তী ইনস্ট্রাকশনগুলো এক্সিকিউশনের জন্য অগ্রিম ফেচ করে <span class=\"glow-cyan\">সারিবদ্ধভাবে জমা রাখা</span>, যাতে প্রসেসিং স্পিড বাড়ে। ৮০৮৬-এ এটি ৬ বাইটের হয়।",
+        extendedAnswer: "মনে করো তুমি ভাত খাচ্ছ। এক লোকমা মুখে দেওয়ার আগেই হাতে আরেক লোকমা রেডি রাখো, যাতে সময় নষ্ট না হয়। ইনস্ট্রাকশন কিউ ঠিক এই কাজটাই করে—বর্তমান কাজ শেষ হওয়ার আগেই পরের কাজগুলো লাইনে দাঁড় করিয়ে রাখে।",
+        tier: "mythic"
+    },
+    {
+        text: "Microprocessor-এর Bit संख्या বলতে কী বুঝায়।",
+        answer: "মাইক্রোপ্রসেসর একবারে কত বিট ডাটা <span class=\"glow-cyan\">প্রসেস বা আদান-প্রদান</span> করতে পারে তা নির্দেশ করে। যেমন ১৬-বিট প্রসেসর একবারে ১৬ বিট ডাটা নিয়ে কাজ করতে পারে।",
+        extendedAnswer: "রাস্তা কত চওড়া, সেটা হলো বিট সংখ্যা। ৮-বিট মানে সরু রাস্তা (কম গাড়ি যায়), ৬৪-বিট মানে বিশাল হাইওয়ে (একসাথে অনেক গাড়ি বা ডাটা যেতে পারে)।",
+        tier: "mythic"
+    },
+    {
+        text: "ইন্টেল ৮০৮৬ মাইক্রোপ্রসেসরের ফ্ল্যাগ রেজিস্টারের ফ্ল্যাগগুলোর নাম লেখ।",
+        answer: "Status Flags: <span class=\"glow-cyan\">CF, PF, AF, ZF, SF, OF</span>. Control Flags: <span class=\"glow-cyan\">TF, IF, DF</span>.",
+        extendedAnswer: "এগুলো হলো প্রসেসরের সিগন্যাল লাইট। রেজাল্ট জিরো? ZF জ্বলবে। রেজাল্ট নেগেটিভ? SF জ্বলবে। মেইনলি ৬টা স্ট্যাটাস (অবস্থা বোঝায়) আর ৩টা কন্ট্রোল (নিয়ন্ত্রণ করে)।",
+        tier: "mythic"
+    },
+    {
+        text: "দুটি ১৬ বিট মাইক্রোপ্রসেসরের নাম লেখ।",
+        answer: "দুটি ১৬ বিট মাইক্রোপ্রসেসর হলো: <span class=\"glow-cyan\">Intel 8086</span> এবং <span class=\"glow-cyan\">Intel 80286</span>।",
+        extendedAnswer: "জাস্ট নাম মুখস্থ করো। ৮০৮৬ হলো দাদাজান, আর ৮০২৮৬ হলো তার ছেলে। দুজনেই ১৬-বিট ডাটা নিয়ে খেলতে পারত।",
+        tier: "mythic"
+    },
+    {
+        text: "অ্যাড্রেসিং মোড কী?",
+        answer: "ইনস্ট্রাকশনে অপারেন্ড বা ডাটার <span class=\"glow-cyan\">সোর্স (Source) এবং ডেস্টিনেশন (Destination)</span> খুঁজে বের করার বা উল্লেখ করার পদ্ধতিকে অ্যাড্রেসিং মোড বলে।",
+        extendedAnswer: "কাউকে ডাকার স্টাইল। ১. সরাসরি নাম ধরে ডাকা (Direct Mode)। ২. ইশারা করে ডাকা (Indirect Mode)। ৩. পকেটে হাত দিয়ে টাকা বের করা (Immediate Mode)। প্রসেসর ডাটা কোন জায়গা থেকে এবং কীভাবে আনবে, সেই স্টাইলটাই হলো অ্যাড্রেসিং মোড।",
+        tier: "mythic"
+    },
+    {
+        text: "SEGMENT ইনস্ট্রাকশন কেন ব্যবহার করা হয়?",
+        answer: "মেমরির <span class=\"glow-cyan\">নির্দিষ্ট সেগমেন্ট</span> (Code, Data, Stack) নির্ধারণ বা শুরু বোঝানোর জন্য অ্যাসেম্বলি ল্যাঙ্গুয়েজে SEGMENT ইনস্ট্রাকশন ব্যবহৃত হয়।",
+        extendedAnswer: "বইয়ের যেমন অধ্যায় (Chapter) থাকে, মেমরির তেমন সেগমেন্ট থাকে। এই ইনস্ট্রাকশন দিয়ে বলা হয়—\"এখন 'ডাটা' অধ্যায় শুরু হলো\" বা \"এখন 'কোড' অধ্যায় শুরু হলো।\"",
+        tier: "mythic"
+    },
+    {
+        text: "অ্যাসেমব্লার ডিরেকটিভস বলতে কী বুঝায়?",
+        answer: "যেসব নির্দেশ অ্যাসেমব্লারকে প্রোগ্রাম অনুবাদের সময় <span class=\"glow-cyan\">গাইড</span> করে কিন্তু মেশিনে এক্সিকিউট হয় না, তাদের অ্যাসেমব্লার ডিরেকটিভস বলে (যেমন: DB, DW, END)।",
+        extendedAnswer: "পরিচালক যেমন অভিনেতাকে বলে \"এখানে দাঁড়াও, ওদিকে তাকাও\"—এগুলো মুভিতে দেখা যায় না, কিন্তু মুভি বানাতে লাগে। ডিরেকটিভস হলো অ্যাসেমব্লারের পরিচালক। এগুলো কোডের অংশ না, কিন্তু কোড সাজাতে সাহায্য করে।",
+        tier: "mythic"
+    },
+    {
+        text: "সিডো কোড কাকে বলে?",
+        answer: "সিডো কোড (Pseudo Code) হলো প্রোগ্রামের লজিক বা ধাপগুলো মানুষের বোধগম্য <span class=\"glow-cyan\">সাধারণ ভাষায়</span> লেখা, যা কোনো নির্দিষ্ট প্রোগ্রামিং ভাষার নিয়ম মানে না।",
+        extendedAnswer: "\"সিডো\" মানে নকল। এটা আসল কোড না। কোড লেখার আগে আমরা রাফ খাতায় যেমন প্ল্যান করি—\"প্রথমে এটা হবে, তারপর ওটা হবে\"—এই রাফ প্ল্যানটাই সিডো কোড।",
+        tier: "mythic"
+    },
+    {
+        text: "ASSUME DIRECTIVES কোথায় ব্যবহৃত হয়?",
+        answer: "অ্যাসেমব্লি ল্যাঙ্গুয়েজ প্রোগ্রামে কোন <span class=\"glow-cyan\">লজিক্যাল সেগমেন্ট</span> ফিজিক্যাল মেমরির কোন সেগমেন্ট রেজিস্টারের সাথে যুক্ত হবে, তা অ্যাসেমব্লারকে জানাতে ব্যবহৃত হয়।",
+        extendedAnswer: "অ্যাসেমব্লারকে বলে দেওয়া: \"ভাই, আমার 'CODE' নামের সেগমেন্টটা আসলে CS (Code Segment) রেজিস্টারের জন্য, আর 'DATA' নামটা DS (Data Segment) এর জন্য।\" পরিচয় করিয়ে দেওয়া আরকি।",
+        tier: "mythic"
+    },
+    {
+        text: "Interfacing কাকে বলে।",
+        answer: "মাইক্রোপ্রসেসরের সাথে বাইরের <span class=\"glow-cyan\">পেরিফেরাল ডিভাইস বা মেমরির সংযোগ</span> স্থাপন ও তথ্য আদান-প্রদানের কৌশলকে ইন্টারফেসিং বলে।",
+        extendedAnswer: "তোমার ফোনের সাথে হেডফোন লাগানোর যে প্রসেস, সেটাই ইন্টারফেসিং। প্রসেসর তো একা চলতে পারে না, তার মেমরি লাগে, মাউস লাগে। এদের সাথে প্রসেসরের বন্ধুত্ব করিয়ে দেওয়াই ইন্টারফেসিং।",
+        tier: "mythic"
+    },
+    {
+        text: "8086 প্রসেসরের সর্বোচ্চ অ্যাড্রেস ক্ষমতা কত?",
+        answer: "৮০৮৬ প্রসেসরের অ্যাড্রেস বাস ২০ বিটের, তাই এর সর্বোচ্চ অ্যাড্রেস ক্ষমতা <span class=\"glow-cyan\">২^২০ বা ১ মেগাবাইট (1 MB)</span>।",
+        extendedAnswer: "এর ২০টা পা (pin) আছে ঠিকানা খোঁজার জন্য। ২ এর ওপর ২০ পাওয়ার দিলে যত হয় (১০,৪৮,৫৭৬ টি ঘর), সে ততগুলো মেমরি লোকেশন চিনতে পারে। সংক্ষেপে ১ মেগাবাইট।",
+        tier: "mythic"
+    },
+    {
+        text: "PPI বলতে কী বুঝায়?",
+        answer: "PPI (Programmable Peripheral Interface) হলো একটি চিপ যা মাইক্রোপ্রসেসরের সাথে বিভিন্ন পেরিফেরাল ডিভাইসের <span class=\"glow-cyan\">প্যারালাল ডাটা আদান-প্রদান</span> নিয়ন্ত্রণ করে।",
+        extendedAnswer: "এটা হলো \"মিডলম্যান\" বা দালাল। প্রসেসর সরাসরি প্রিন্টার বা স্ক্যানারের সাথে কথা বলতে পারে না। PPI মাঝখানে থেকে তাদের কথা চালাচালি (ডাটা পাস) করিয়ে দেয়।",
+        tier: "mythic"
+    },
+    {
+        text: "মাইক্রোপ্রসেসরে ব্যবহৃত সাপোর্ট চিপসমূহের নাম লেখ।",
+        answer: "কয়েকটি সাপোর্ট চিপ: <span class=\"glow-cyan\">8255 (PPI), 8259 (PIC), 8253 (Timer), 8237 (DMA Controller), 8284 (Clock Generator)</span>।",
+        extendedAnswer: "এরা হলো মাইক্রোপ্রসেসরের \"চামচা\" বা অ্যাসিস্ট্যান্ট। একজন টাইম দেখে (টাইমার), একজন বাইরের গেস্ট সামলায় (ইন্টারাপ্ট কন্ট্রোলার), একজন ডাটা টানে (DMA)। এরা ছাড়া প্রসেসর অচল।",
+        tier: "mythic"
+    },
+    {
+        text: "Interrupt কী?",
+        answer: "মাইক্রোপ্রসেসরের স্বাভাবিক কাজ সাময়িকভাবে থামিয়ে <span class=\"glow-cyan\">জরুরি কোনো কাজ</span> করার জন্য বাইরের ডিভাইস বা প্রোগ্রাম থেকে আসা সংকেতকে ইন্টারাপ্ট বলে।",
+        extendedAnswer: "তুমি গেম খেলছ, হঠাৎ আম্মু ডাক দিল \"বাজারে যা\"। তুমি গেম পজ করে বাজারে গেলে, ফিরে এসে আবার গেম খেললে। এই যে আম্মুর ডাক—এটাই ইন্টারাপ্ট।",
+        tier: "mythic"
+    },
+    {
+        text: "সফটওয়্যার ইন্টারাপ্ট কাকে বলে?",
+        answer: "প্রোগ্রামের মধ্যে নির্দিষ্ট <span class=\"glow-cyan\">ইনস্ট্রাকশন (যেমন: INT n)</span> এক্সিকিউশনের মাধ্যমে যে ইন্টারাপ্ট তৈরি হয়, তাকে সফটওয়্যার ইন্টারাপ্ট বলে।",
+        extendedAnswer: "এটা ইচ্ছাকৃত ইন্টারাপ্ট। প্রোগ্রাম নিজেই যখন বলে \"আমাকে এখন থামাও এবং ওই কাজটা করো\"। কোড লিখে এটাকে কল করা হয়।",
+        tier: "mythic"
+    },
+    {
+        text: "হার্ডওয়্যার ইন্টারাপ্ট কাকে বলে?",
+        answer: "মাইক্রোপ্রসেসরের বাইরের কোনো পেরিফেরাল ডিভাইস বা হার্ডওয়্যার পিন (যেমন: <span class=\"glow-cyan\">NMI, INTR</span>) এর মাধ্যমে যে ইন্টারাপ্ট সিগন্যাল পাঠানো হয়, তাকে হার্ডওয়্যার ইন্টারাপ্ট বলে।",
+        extendedAnswer: "বাইরে থেকে ধাক্কা দেওয়া। যেমন কীবোর্ডে চাপ দিলে বা মাউস নাড়ালে প্রসেসর একটা সিগন্যাল পায়—এগুলো হার্ডওয়্যার থেকে আসে, তাই হার্ডওয়্যার ইন্টারাপ্ট।",
+        tier: "mythic"
+    },
+    {
+        text: "সুপার স্কেলার আর্কিটেকচার কী?",
+        answer: "যে আর্কিটেকচারে প্রসেসর একটি ক্লক সাইকেলে <span class=\"glow-cyan\">একাধিক ইনস্ট্রাকশন প্যারালাল</span> বা সমান্তরালভাবে এক্সিকিউট করতে পারে, তাকে সুপার স্কেলার আর্কিটেকচার বলে।",
+        extendedAnswer: "সাধারণ প্রসেসর এক হাতে কাজ করে। সুপার স্কেলার হলো \"দশভুজা\" বা মাল্টি-টাস্কার। সে এক সেকেন্ডে একটার বদলে দুই-তিনটা কাজ একসাথে শেষ করে ফেলে।",
+        tier: "mythic"
+    },
+    {
+        text: "BIST-এর কাজ কী?",
+        answer: "<span class=\"glow-cyan\">BIST (Built-In Self Test)</span> এর কাজ হলো কম্পিউটার চালু করার সময় মেমরি এবং অভ্যন্তরীণ সার্কিটগুলো ঠিক আছে কি না তা স্বয়ংক্রিয়ভাবে পরীক্ষা করা।",
+        extendedAnswer: "সকালে ঘুম থেকে উঠে আমরা যেমন আড়মোড়া ভেঙে দেখি শরীর ঠিক আছে কি না, কম্পিউটার অন হলে BIST চেক করে দেখে তার র‍্যাম, প্রসেসর সব ঠিক আছে কি না।",
+        tier: "mythic"
+    },
+    {
+        text: "ম্যাক্রো-ইনস্ট্রাকশন বলতে কী বুঝায়?",
+        answer: "ম্যাক্রো-ইনস্ট্রাকশন হলো অ্যাসেম্বলি ল্যাঙ্গুয়েজের একটি একক নির্দেশ যা প্রোগ্রামে ব্যবহারের পর <span class=\"glow-cyan\">একাধিক মেশিন ইনস্ট্রাকশন</span> বা কোডে রূপান্তরিত হয়।",
+        extendedAnswer: "শর্টকাট কি (Shortcut Key)। তুমি লিখলে ছোট একটা নাম, কিন্তু কম্পাইলার সেটাকে ভেঙে ১০ লাইনের কোড বানিয়ে দিল। বারবার একই বড় কোড না লিখে এক লাইনে কাজ সারার উপায়।",
+        tier: "legendary"
+    },
+    {
+        text: "ফেচ সাইকেল বলতে কী বুঝায়?",
+        answer: "মেশিন সাইকেলের যে অংশে প্রসেসর মেমরি থেকে ইনস্ট্রাকশন <span class=\"glow-cyan\">পড়ে (Read) এবং ইনস্ট্রাকশন রেজিস্টারে</span> নিয়ে আসে, তাকে ফেচ সাইকেল বলে।",
+        extendedAnswer: "লাইব্রেরি থেকে বইটা শেলফ থেকে বের করে টেবিলে আনার কাজটুকু হলো \"ফেচ\"। পড়া বা বোঝা পরের ধাপ।",
+        tier: "legendary"
+    },
+    {
+        text: "Flag register বলতে কী বুঝায়?",
+        answer: "যে বিশেষ রেজিস্টার গাণিতিক বা লজিক্যাল অপারেশনের <span class=\"glow-cyan\">ফলাফলের অবস্থা (Status)</span> এবং প্রসেসরের নিয়ন্ত্রণ (Control) বিটগুলো সংরক্ষণ করে, তাকে ফ্ল্যাগ রেজিস্টার বলে।",
+        extendedAnswer: "(Mythic-এ উত্তর দেওয়া হয়েছে, এখানে আরেকটু ভিন্নভাবে): এটা প্রসেসরের \"রিপোর্ট কার্ড\"। শেষ কাজটার রেজাল্ট কেমন ছিল (শূন্য, নেগেটিভ, নাকি ওভারফ্লো) তা এখানে লেখা থাকে。",
+        tier: "legendary"
+    },
+    {
+        text: "Accumulator-এর কাজ লেখ।",
+        answer: "অ্যাকুমুলেটর হলো প্রধান রেজিস্টার যা <span class=\"glow-cyan\">গাণিতিক ও যৌক্তিক অপারেশনের ফলাফল</span> সাময়িকভাবে সংরক্ষণ করে এবং I/O অপারেশনে ডাটা আদান-প্রদান করে।",
+        extendedAnswer: "এটা হলো তোমার হাতের \"কাঁচা খাতা\"। যোগ, বিয়োগ, গুণ—সব কিছুর মেইন কাজ এই খাতায় (অ্যাকুমুলেটরে) হয়। সব রেজাল্ট ডিফল্টভাবে এখানেই এসে জমা হয়।",
+        tier: "legendary"
+    },
+    {
+        text: "জেনারেল রেজিস্টার মেশিন বলতে কী বুঝায়?",
+        answer: "যে প্রসেসর আর্কিটেকচারে গাণিতিক ও লজিক্যাল কাজের জন্য ডেডিকেটেড অ্যাকুমুলেটরের বদলে একাধিক <span class=\"glow-cyan\">জেনারেল পারপাস রেজিস্টার (GPR)</span> ব্যবহার করা যায়, তাকে জেনারেল রেজিস্টার মেশিন বলে।",
+        extendedAnswer: "আগে শুধু একটা প্লেটে (অ্যাকুমুলেটর) খাওয়া যেত। এখনকার মেশিনে অনেকগুলো প্লেট (Register) আছে। তুমি যেকোনা প্লেটে খেতে পারো। এটাই জেনারেল রেজিস্টার মেশিন।",
+        tier: "legendary"
+    },
+    {
+        text: "ফ্লাগ বলতে কী বুঝায়।",
+        answer: "ফ্লাগ হলো <span class=\"glow-cyan\">১ বিটের একটি নির্দেশক (Indicator)</span> বা ফ্লিপ-ফ্লপ, যা প্রসেসরের বর্তমান অবস্থা বা অপারেশনের ফলাফলের প্রকৃতি নির্দেশ করে।",
+        extendedAnswer: "ট্রেনের গার্ড যেমন সবুজ বা লাল পতাকা (Flag) দেখায়, প্রসেসরের ফ্লাগও তেমন ১ বা ০ দিয়ে সিগন্যাল দেয়—\"সব ঠিক আছে\" অথবা \"সমস্যা আছে\"।",
+        tier: "legendary"
+    },
+    {
+        text: "Operand ও Op-code বলতে কী বুঝ?",
+        answer: "<span class=\"glow-cyan\">Op-code</span> নির্দেশ করে কী কাজ করতে হবে, আর <span class=\"glow-cyan\">Operand</span> নির্দেশ করে কার ওপর কাজ হবে।",
+        extendedAnswer: "ইনস্ট্রাকশন: \"আলু কাটো\"। \"কাটো\" হলো Op-code (কী কাজ)। \"আলু\" হলো Operand (যার ওপর কাজ হচ্ছে)।",
+        tier: "legendary"
+    },
+    {
+        text: "Op-code encoding এর প্রকারভেদ বা পদ্ধতিসমূহ উল্লেখ কর।",
+        answer: "Op-code এনকোডিং মূলত তিন প্রকার: ১. <span class=\"glow-cyan\">ফিক্সড লেংথ</span>, ২. <span class=\"glow-cyan\">ভেরিয়েবল লেংথ</span>, ৩. <span class=\"glow-cyan\">হাফম্যান এনকোডিং</span>।",
+        extendedAnswer: "কম্পিউটারকে নির্দেশ দেওয়ার ভাষা সাজানোর কায়দা। সব নির্দেশ কি সমান সাইজের হবে, নাকি কোনটা ছোট কোনটা বড় হবে—সেটাই এই এনকোডিং ঠিক করে।",
+        tier: "legendary"
+    },
+    {
+        text: "কন্ট্রোল ইউনিট (CU)-এর কাজ কী?",
+        answer: "কন্ট্রোল ইউনিট মেমরি থেকে ইনস্ট্রাকশন ডিকোড করে এবং কম্পিউটারের অন্যান্য সকল ইউনিটের কার্যক্রম নিয়ন্ত্রণ করতে <span class=\"glow-cyan\">টাইমিং ও কন্ট্রোল সিগন্যাল</span> পাঠায়।",
+        extendedAnswer: "পুরো কম্পিউটারের ম্যানেজার। সে নিজে কোনো ভারী কাজ (যোগ/বিয়োগ) করে না, কিন্তু সবাইকে হুকুম দেয়—\"তুমি এটা করো, তুমি ওটা করো।\"",
+        tier: "legendary"
+    },
+    {
+        text: "Co-processor বলতে কী বুঝ?",
+        answer: "মেইন প্রসেসরের গতি ও কার্যক্ষমতা বাড়ানোর জন্য যে <span class=\"glow-cyan\">অতিরিক্ত প্রসেসর</span> জটিল গাণিতিক কাজগুলো আলাদাভাবে সম্পাদন করে, তাকে কো-প্রসেসর বলে।",
+        extendedAnswer: "প্রধান প্রসেসরের \"হেল্পার\"। মেইন প্রসেসর যখন খুব ব্যস্ত বা কঠিন অংক করতে পারে না, তখন সে এই কো-প্রসেসরকে দিয়ে কাজটা করিয়ে নেয়। (যেমন: 8087 হলো 8086 এর কো-প্রসেসর)।",
+        tier: "legendary"
+    },
+    {
+        text: "MAR ও MBR-এর পূর্ণনাম লেখ।",
+        answer: "<span class=\"glow-cyan\">Memory Address Register</span> ও <span class=\"glow-cyan\">Memory Buffer Register</span>।",
+        extendedAnswer: "জাস্ট ফুল ফর্ম। মনে রাখার ট্রিক: MAR মানে মেমরির ঠিকানা (Address), আর MBR মানে মেমরির বাফার (Buffer/Data)।",
+        tier: "legendary"
+    },
+    {
+        text: "Hard disk-এর বাহ্যিক উপাদানগুলো লেখ।",
+        answer: "হার্ড ডিস্কের প্রধান উপাদানগুলো হলো: <span class=\"glow-cyan\">প্ল্যাটার, স্পিন্ডল মোটর, রিড/রাইট হেড, অ্যাকচুয়েটর আর্ম</span> এবং কানেক্টর।",
+        extendedAnswer: "হার্ড ডিস্ক খুললে যা দেখা যায়: একটা সিডি (Platter), সেটা ঘোরানোর মোটর, একটা পিন (Head) যেটা দিয়ে রিড করে, আর পিনটা নড়াচড়ার জন্য একটা হাত (Arm)।",
+        tier: "legendary"
+    },
+    {
+        text: "Track কী?",
+        answer: "হার্ড ডিস্কের প্ল্যাটারের উপরিভাগে যে <span class=\"glow-cyan\">গোলাকার বা বৃত্তাকার পথগুলোতে</span> ডাটা সংরক্ষিত থাকে, তাদের ট্র্যাক (Track) বলে।",
+        extendedAnswer: "খেলার মাঠে দৌড়ানোর জন্য যেমন গোল গোল লেন (Lane) থাকে, হার্ড ডিস্কের সিডির উপরেও তেমন অদৃশ্য গোল গোল লেন থাকে। এই লেনগুলোই হলো ট্র্যাক।",
+        tier: "legendary"
+    },
+    {
+        text: "8086 মাইক্রোপ্রসেসরের স্ট্যাটাস পিনগুলোর নাম লেখ।",
+        answer: "<span class=\"glow-cyan\">S0-S2</span> (ম্যাক্সিমাম মোডে) এবং <span class=\"glow-cyan\">S3-S7</span> (বাস সাইকেলের অবস্থা নির্দেশ করতে)।",
+        extendedAnswer: "এরা প্রসেসরের \"মুড\" দেখায়। প্রসেসর এখন মেমরি রিড করছে, নাকি রাইট করছে, নাকি চুপচাপ বসে আছে—এই পিনগুলো সেই সিগন্যাল দেয়।",
+        tier: "legendary"
+    },
+    {
+        text: "Code Segment কী কাজে ব্যবহৃত হয়?",
+        answer: "প্রোগ্রামের এক্সিকিউটেবল ইনস্ট্রাকশন বা কোডগুলো মেমরির যে সেগমেন্টে জমা থাকে, তার <span class=\"glow-cyan\">বেস অ্যাড্রেস বা ঠিকানা</span> ধারণ করাই কোড সেগমেন্ট (CS) রেজিস্টারের কাজ।",
+        extendedAnswer: "মেমরির যেই এলাকাতে তোমার লেখা \"প্রোগ্রাম\" বা \"কোড\" গুলো রাখা আছে, সেই এলাকার ঠিকানাই হলো কোড সেগমেন্ট।",
+        tier: "legendary"
+    },
+    {
+        text: "Program counter-এর কাজ কী?",
+        answer: "প্রোগ্রাম কাউন্টার (PC) পরবর্তী যে ইনস্ট্রাকশনটি এক্সিকিউট হবে, মেমরিতে তার <span class=\"glow-cyan\">অ্যাড্রেস বা ঠিকানা</span> ধরে রাখে।",
+        extendedAnswer: "তুমি বই পড়ছো। আঙুল দিয়ে রাখো না যে এরপর কোন লাইনটা পড়বে? প্রোগ্রাম কাউন্টার হলো সেই আঙুল। সে সবসময় দেখিয়ে দেয়—\"এরপর এই লাইনটা পড়তে হবে।\"",
+        tier: "legendary"
+    },
+    {
+        text: "BIU/8086µp-এর মেগমেন্ট রেজিস্টাগুলোর নাম লেখ।",
+        answer: "৮০৮৬ এর BIU-এ ৪টি সেগমেন্ট রেজিস্টার থাকে: <span class=\"glow-cyan\">CS, DS, SS, ES</span>।",
+        extendedAnswer: "চারটা ড্রয়ার: ১. কোড রাখার জন্য (CS) ২. ডাটা রাখার জন্য (DS) ৩. প্লেট বা স্তূপ রাখার জন্য (SS) ৪. অতিরিক্ত জিনিস রাখার জন্য (ES)।",
+        tier: "legendary"
+    },
+    {
+        text: "Index Register-এর কাজ কী?",
+        answer: "ইনডেক্স রেজিস্টার (SI, DI) মূলত স্ট্রিং অপারেশনে <span class=\"glow-cyan\">সোর্স এবং ডেস্টিনেশন মেমরি অ্যাড্রেস</span> নির্দেশ করতে ব্যবহৃত হয়।",
+        extendedAnswer: "বইয়ের পেছনের ইনডেক্স দেখে যেমন টপিক খোঁজো, মেমরিতেও ডাটা খুঁজতে এই রেজিস্টার সাহায্য করে। বিশেষ করে যখন এক জায়গা থেকে আরেক জায়গায় ডাটা কপি করা হয়।",
+        tier: "legendary"
+    },
+    {
+        text: "STC ও CLC ইনস্ট্রাকশনের কাজ কী?",
+        answer: "<span class=\"glow-cyan\">STC</span> ক্যারি ফ্ল্যাগকে ১ করে, এবং <span class=\"glow-cyan\">CLC</span> ক্যারি ফ্ল্যাগকে ০ করে।",
+        extendedAnswer: "STC: জোর করে ক্যারি ফ্ল্যাগ অন করা। (বাতি জ্বালাও) CLC: জোর করে ক্যারি ফ্ল্যাগ অফ করা। (বাতি নেভাও)",
+        tier: "legendary"
+    },
+    {
+        text: "CLI ও STI ইনস্ট্রাকশনের কাজ লেখ।",
+        answer: "<span class=\"glow-cyan\">CLI</span> মাস্কেবল ইন্টারাপ্ট গ্রহণ করা বন্ধ করে, এবং <span class=\"glow-cyan\">STI</span> ইন্টারাপ্ট গ্রহণ করার অনুমতি দেয়।",
+        extendedAnswer: "CLI: প্রসেসর কানে তুলো দেয়, যাতে কেউ ডাকলে (Interrupt) শুনতে না পায়। \"এখন বিরক্ত করো না।\" STI: কানের তুলো বের করে ফেলে। \"এখন ডাকলে শুনব।\"",
+        tier: "legendary"
+    },
+    {
+        text: "অ্যাসেমব্লার কী?",
+        answer: "অ্যাসেমব্লার হলো একটি <span class=\"glow-cyan\">অনুবাদক প্রোগ্রাম</span> যা অ্যাসেম্বলি ল্যাঙ্গুয়েজকে মেশিন ল্যাঙ্গুয়েজে রূপান্তর করে।",
+        extendedAnswer: "তুমি কোড লেখো ইংরেজিতে (ADD, MOV), কিন্তু কম্পিউটার বোঝে শুধু ০ আর ১। অ্যাসেমব্লার তোমার ইংরেজি কথাগুলোকে ০ আর ১ এ অনুবাদ করে দেয়।",
+        tier: "legendary"
+    },
+    {
+        text: "ডিবাগার কী?",
+        answer: "ডিবাগার হলো একটি সফটওয়্যার টুল যা প্রোগ্রামের <span class=\"glow-cyan\">ত্রুটি (Bug) খুঁজে বের করতে</span> এবং কোড লাইন-বাই-লাইন টেস্ট করতে ব্যবহৃত হয়।",
+        extendedAnswer: "কোডে ভুল (Bug) থাকলে সেটা খুঁজে বের করার গোয়েন্দা হলো ডিবাগার। সে প্রোগ্রামকে স্লো-মোশনে চালায় যাতে তুমি দেখতে পারো কোথায় ভুল হচ্ছে।",
+        tier: "legendary"
+    },
+    {
+        text: "Demultiplex বলতে কী বুঝায়?",
+        answer: "Demultiplex হলো এমন একটি লজিক সার্কিট যা <span class=\"glow-cyan\">একটি ইনপুট থেকে একাধিক আউটপুটের</span> যে কোনো একটিতে তথ্য পাঠায়।",
+        extendedAnswer: "একজন প্রেরক, অনেক প্রাপক। মনে করো পানির পাইপ একটা, কিন্তু ট্যাপ অনেকগুলো। তুমি সুইচ ঘুরিয়ে ঠিক করো কোন ট্যাপ দিয়ে পানি পড়বে। এটাই ডিমাল্টিপ্লেক্সার।",
+        tier: "legendary"
+    },
+    {
+        text: "PPI এর ব্যবহৃত পোর্টসমূহ কী?",
+        answer: "ইন্টেল ৮২৫৫ পিপিআই-এ তিনটি ৮-বিটের পোর্ট থাকে: <span class=\"glow-cyan\">Port A, Port B, এবং Port C</span>।",
+        extendedAnswer: "এর তিনটা দরজা (Port) আছে ডাটা ঢোকা বা বের করার জন্য। দরজাগুলোর নাম খুব ক্রিয়েটিভ: A, B আর C।",
+        tier: "legendary"
+    },
+    {
+        text: "8086 এর I/O ইনস্ট্রাকশনগুলো উদাহরণসহ লেখ।",
+        answer: "৮০৮৬ এর প্রধান I/O ইনস্ট্রাকশন দুটি: <span class=\"glow-cyan\">IN</span> (ডাটা পড়া) এবং <span class=\"glow-cyan\">OUT</span> (ডাটা পাঠানো)।",
+        extendedAnswer: "IN: বাইরে থেকে ডাটা ভেতরে আনা। (Take) OUT: ভেতর থেকে ডাটা বাইরে পাঠানো। (Give)",
+        tier: "legendary"
+    },
+    {
+        text: "UART এবং USART শব্দের পূর্ণরূপ লেখ।",
+        answer: "<span class=\"glow-cyan\">Universal Asynchronous Receiver Transmitter</span> এবং <span class=\"glow-cyan\">Universal Synchronous Asynchronous Receiver Transmitter</span>।",
+        extendedAnswer: "এরা সিরিয়াল ডাটা ট্রান্সফারের প্রোটোকল। ফুল ফর্ম মুখস্থ করে ফেলো। পার্থক্য হলো \"S\" (Synchronous)—মানে ক্লক পালস সাথে যাবে কি যাবে না।",
+        tier: "legendary"
+    },
+    {
+        text: "DMA শব্দের পূর্ণরূপ লেখ।",
+        answer: "<span class=\"glow-cyan\">Direct Memory Access</span>।",
+        extendedAnswer: "প্রসেসরকে বাইপাস করে মেমরির সাথে হার্ডডিস্কের সরাসরি ডাটা আদান-প্রদান। \"বসকে না জানিয়ে সরাসরি গোডাউন থেকে মাল খালাস করা।\"",
+        tier: "legendary"
+    },
+    {
+        text: "Peripheral device কী?",
+        answer: "সিপিইউ-এর সাথে সংযুক্ত <span class=\"glow-cyan\">ইনপুট, আউটপুট এবং স্টোরেজ</span> ডিভাইসগুলোকে একত্রে পেরিফেরাল ডিভাইস বলে।",
+        extendedAnswer: "কম্পিউটারের আসল বডির সাথে যা যা এক্সট্রা লাগানো হয়। কীবোর্ড, মাউস, স্পিকার—এগুলো সব পেরিফেরাল।",
+        tier: "legendary"
+    },
+    {
+        text: "Base address কাকে বলে?",
+        answer: "মেমরি সেগমেন্টের <span class=\"glow-cyan\">শুরুর বা প্রথম বাইটের</span> ফিজিক্যাল অ্যাড্রেসকে বেস অ্যাড্রেস বলে।",
+        extendedAnswer: "একটা বিল্ডিংয়ের মেইন গেটের ঠিকানা। ফ্ল্যাট নম্বর খোঁজার আগে তোমাকে তো মেইন বিল্ডিংটা চিনতে হবে। ওই মেইন গেটটাই বেস অ্যাড্রেস।",
+        tier: "legendary"
+    },
+    {
+        text: "8086 প্রসেসরে কয়টি উৎস হতে উন্টারাপ্ট সিগন্যাল আসতে পারে?",
+        answer: "৮০৮৬ প্রসেসরে মূলত ৩টি উৎস থেকে ইন্টারাপ্ট আসতে পারে: <span class=\"glow-cyan\">হার্ডওয়্যার, সফটওয়্যার ইনস্ট্রাকশন, এবং ইন্টার্নাল এরর</span>।",
+        extendedAnswer: "তিন ভাবে কাজে বাধা আসতে পারে: ১. বাইরে থেকে কেউ ডাকলে। ২. নিজে ইচ্ছা করে কাজ থামালে। ৩. কাজ করতে গিয়ে ভুল করলে (যেমন শূন্য দিয়ে ভাগ)।",
+        tier: "legendary"
+    },
+    {
+        text: "রিয়‍্যাল মোড কাকে বলে?",
+        answer: "৮০৮৬ অন হওয়ার পর ডিফল্টভাবে যে মোডে কাজ করে এবং সর্বোচ্চ <span class=\"glow-cyan\">১ মেগাবাইট মেমরি অ্যাক্সেস</span> করতে পারে, তাকে রিয়্যাল মোড বলে।",
+        extendedAnswer: "কম্পিউটার চালু হওয়ার পর \"আদিম যুগে\" ফিরে যায়। এই মোডে সে ৮০৮৬ এর মতো আচরণ করে, আধুনিক ফিচারগুলো বন্ধ থাকে। একেই রিয়েল মোড বলে।",
+        tier: "legendary"
+    },
+    {
+        text: "BIST-এর পূর্ণ নাম নাম কী?",
+        answer: "<span class=\"glow-cyan\">Built-In Self Test</span>।",
+        extendedAnswer: "নিজের টেস্ট নিজেই করা। কম্পিউটার অন করলেই সে নিজেকে চেক করে।",
+        tier: "legendary"
+    },
+    {
+        text: "LDA অর্থ কী?",
+        answer: "LDA = <span class=\"glow-cyan\">Load Accumulator</span>। এটি মেমরি থেকে ডাটা সরাসরি অ্যাকুমুলেটরে নিয়ে আসে।",
+        extendedAnswer: "\"Load A\"। মানে A (Accumulator) এর মধ্যে কিছু লোড করো বা ভরো।",
+        tier: "epic"
+    },
+    {
+        text: "কন্ট্রোল ওয়ার্ড কাজ সম্পাদনে কয়টি সাইকেল ব্যবহৃত হয়?",
+        answer: "সাধারণত কন্ট্রোল ওয়ার্ড রাইট বা রিড করতে একটি <span class=\"glow-cyan\">বাস সাইকেল (Bus Cycle)</span> বা ৪টি ক্লক পিরিয়ড প্রয়োজন হয়।",
+        extendedAnswer: "কন্ট্রোল ওয়ার্ড হলো একটা কমান্ড। এই কমান্ডটা সেট করতে প্রসেসরের একবার মেমরিতে যেতে হয়, তাই একটা বাস সাইকেল লাগে।",
+        tier: "epic"
+    },
+    {
+        text: "ফেচ অপারেশন বলতে কী বুঝায়?",
+        answer: "প্রসেসর কর্তৃক মেমরি থেকে ইনস্ট্রাকশন কোড বা ডাটা খুঁজে বের করে <span class=\"glow-cyan\">প্রসেসরের অভ্যন্তরে নিয়ে আসার</span> প্রক্রিয়াকে ফেচ অপারেশন বলে।",
+        extendedAnswer: "বাজার থেকে মাছ কিনে আনা হলো \"ফেচ\"। রান্না করা (Execute) পরে। আনাটাই ফেচ।",
+        tier: "epic"
+    },
+    {
+        text: "MAR বলতে কী বুঝ?",
+        answer: "MAR হলো সিপিইউ-এর একটি রেজিস্টার যা প্রয়োজনীয় <span class=\"glow-cyan\">মেমরি লোকেশনের ঠিকানা</span> ধারণ করে।",
+        extendedAnswer: "এটা হলো পিয়ন, যার হাতে শুধু ঠিকানা লেখা থাকে। সে জানে না খামে কী আছে, সে শুধু জানে \"কোথায়\" যেতে হবে।",
+        tier: "epic"
+    },
+    {
+        text: "SAP-1 কী?",
+        answer: "SAP-1 (<span class=\"glow-cyan\">Simple As Possible-1</span>) হলো একটি প্রাথমিক ও সরল কম্পিউটার আর্কিটেকচার মডেল।",
+        extendedAnswer: "এটা খেলনা কম্পিউটার। আসল কম্পিউটার অনেক জটিল, তাই শেখার জন্য বিজ্ঞানীদের বানানো সবচেয়ে সহজ মডেল হলো SAP-1।",
+        tier: "epic"
+    },
+    {
+        text: "Stack-based machine কী?",
+        answer: "যে আর্কিটেকচারে অপারেশনগুলো প্রধানত <span class=\"glow-cyan\">স্ট্যাক এবং জিরো-অ্যাড্রেস</span> ইনস্ট্রাকশন ব্যবহার করে সম্পন্ন হয়।",
+        extendedAnswer: "প্লেটের স্তূপের মতো। এখানে ডাটা একটার ওপর একটা রাখা হয়। কাজ করার সময় সবার ওপরের দুটো ডাটা নিয়ে কাজ করা হয়। আলাদা করে অ্যাড্রেস বলা লাগে না।",
+        tier: "epic"
+    },
+    {
+        text: "প্রোগ্রাম কাউন্টার কী কাজে ব্যবহৃত হয়?",
+        answer: "এটি ট্র্যাক রাখে প্রোগ্রাম বর্তমানে কোন ধাপে আছে এবং এরপর <span class=\"glow-cyan\">কোন ধাপটি প্রসেসরে লোড হবে</span>।",
+        extendedAnswer: "এটা বুকমার্কের মতো. তুমি বইয়ের ১০ নাম্বার পৃষ্ঠা পড়লে, বুকমার্ক ১১ নাম্বারে গিয়ে বসে থাকবে।",
+        tier: "epic"
+    },
+    {
+        text: "স্ট্যাক মেশিন কী ধরনের কাজে ব্যবহৃত হয় এবং কী কী?",
+        answer: "স্ট্যাক মেশিন <span class=\"glow-cyan\">গাণিতিক এক্সপ্রেশন মূল্যায়ন, রিকার্সিভ ফাংশন হ্যান্ডলিং</span> এবং কম্পাইলার ডিজাইনে ব্যবহৃত হয়।",
+        extendedAnswer: "ব্র্যাকেট ওয়ালা অংক করতে (যেমন: `(a+b)*c`), বা এক ফাংশনের ভেতর আরেক ফাংশন কল করতে স্ট্যাক মেশিন সেরা। জাভা ভার্চুয়াল মেশিন (JVM) একটা স্ট্যাক মেশিন।",
+        tier: "epic"
+    },
+    {
+        text: "ফুল অ্যাডার কাকে বলে।",
+        answer: "যে লজিক সার্কিট তিনটি ইনপুট বিট যোগ করে একটি <span class=\"glow-cyan\">সাম (Sum) এবং একটি ক্যারি (Carry)</span> আউটপুট প্রদান করে।",
+        extendedAnswer: "হাফ অ্যাডার শুধু দুইটা বিট যোগ করতে পারে। কিন্তু ফুল অ্যাডার আগের হাতের এক (Carry) সহ মোট তিনটা বিট যোগ করতে পারে। পরিপূর্ণ যোগ করার মেশিন।",
+        tier: "epic"
+    },
+    {
+        text: "কো-প্রসেসরের কাজ লেখ?",
+        answer: "কো-প্রসেসর প্রধান প্রসেসরের পাশাপাশি <span class=\"glow-cyan\">জটিল গাণিতিক হিসাব বা গ্রাফিক্স প্রসেসিংয়ের</span> কাজ দ্রুত সম্পাদন করে।",
+        extendedAnswer: "মেইন প্রসেসর সাধারণ যোগ-বিয়োগ করে। আর কো-প্রসেসর দশমিকের জটিল গুণ-ভাগ বা গ্রাফিক্সের কাজ সামলায়। স্পেশালিস্ট আরকি।",
+        tier: "epic"
+    },
+    {
+        text: "মেমরি অর্গানাইজেশন কয় ধরণের?",
+        answer: "প্রধানত দুই ধরণের: ১. <span class=\"glow-cyan\">লিনিয়ার বা ফ্ল্যাট</span> এবং ২. <span class=\"glow-cyan\">সেগমেন্টেড</span>।",
+        extendedAnswer: "মেমরি সাজানোর কায়দা। ১. ফ্ল্যাট: একটা বিশাল লম্বা খাতা। ২. সেগমেন্টেড: খাতাটাকে অনেকগুলো চ্যাপ্টারে ভাগ করা।",
+        tier: "epic"
+    },
+    {
+        text: "প্লেটার (Platter)-এর কাজ কী?",
+        answer: "হার্ড ডিস্কের ভেতরে থাকা <span class=\"glow-cyan\">চৌম্বকীয় প্রলেপযুক্ত চাকতি</span> যা ডাটা ডিজিটাল আকারে সংরক্ষণ করে।",
+        extendedAnswer: "হার্ড ডিস্কের ভেতরের চকচকে সিডিটা। ওটার গায়েই সব গান, মুভি লেখা থাকে।",
+        tier: "epic"
+    },
+    {
+        text: "8086 মাইক্রোপ্রসেসরের মেমরি কন্ট্রোল সিগন্যালের কাজ লেখ।",
+        answer: "মেমরি থেকে ডাটা <span class=\"glow-cyan\">রিড করা হবে নাকি রাইট করা হবে</span>, তা মেমরি চিপকে নির্দেশ দেয়।",
+        extendedAnswer: "মেমরিকে বলা: \"ভাই, এখন তোমার থেকে ডাটা নেব (Read)\" নাকি \"তোমাকে ডাটা দেব (Write)\"।",
+        tier: "epic"
+    },
+    {
+        text: "8086µP-এ কয়টি মেমরি ব্যাংক থাকে?",
+        answer: "৮০৮৬ মাইক্রোপ্রসেসরে <span class=\"glow-cyan\">২টি মেমরি ব্যাংক</span> থাকে: ইভেন ব্যাংক এবং অড ব্যাংক।",
+        extendedAnswer: "এর ১ মেগাবাইট মেমরিকে দুই ভাগে ভাগ করা হয়েছে। জোড় সংখ্যার ঠিকানার জন্য একটা ব্যাংক, আর বিজোড় সংখ্যার জন্য আরেকটা। এতে স্পিড বাড়ে।",
+        tier: "epic"
+    },
+    {
+        text: "8086 মাইক্রোপ্রসেসরের কয়টি লাইনকে অ্যাড্রেস বাস হিসাবে ব্যবহার করা হয়?",
+        answer: "৮০৮৬ মাইক্রোপ্রসেসরে <span class=\"glow-cyan\">২০টি লাইনকে</span> অ্যাড্রেস বাস হিসেবে ব্যবহার করা হয়।",
+        extendedAnswer: "মোট ২০টা তার (wire) আছে ঠিকানা খোঁজার জন্য। প্রথম ১৬টা ডাটার জন্যও ব্যবহৃত হয়, কিন্তু অ্যাড্রেসিংয়ের সময় ২০টাই কাজ করে।",
+        tier: "epic"
+    },
+    {
+        text: "Bit কী?",
+        answer: "বিট (Bit) হলো <span class=\"glow-cyan\">বাইনারি ডিজিট</span> এর সংক্ষিপ্ত রূপ এবং ডাটা পরিমাপের ক্ষুদ্রতম একক।",
+        extendedAnswer: "ইলেকট্রনিক্সের ভাষায়: সুইচ অফ (০) বা সুইচ অন (১)। এটাই এক বিট।",
+        tier: "epic"
+    },
+    {
+        text: "MOV AL (SI) ইনস্ট্রাকশনটি ব্যাখ্যা কর?",
+        answer: "এটি SI রেজিস্টারে থাকা <span class=\"glow-cyan\">মেমরি অ্যাড্রেস থেকে ডাটা কপি করে</span> AL রেজিস্টারে নিয়ে আসে।",
+        extendedAnswer: "SI রেজিস্টার একটা ঠিকানায় আঙুল দিয়ে আছে। এই কমান্ডটা বলে: \"SI যেই ঠিকানা দেখাচ্ছে, সেখান থেকে মালটা তোলো আর AL-এ রাখো।\"",
+        tier: "epic"
+    },
+    {
+        text: "ওয়ান পাস অ্যাসেমব্লার কাকে বলে?",
+        answer: "যে অ্যাসেমব্লার সোর্স কোডকে <span class=\"glow-cyan\">মাত্র একবার স্ক্যান করেই</span> মেশিন কোডে রূপান্তর করতে পারে।",
+        extendedAnswer: "খুব ফাস্ট রিডার। পুরো কোড একবার পড়েই সে অনুবাদ করে ফেলে। দুইবার দেখা লাগে না।",
+        tier: "epic"
+    },
+    {
+        text: "অ্যাসেমব্লি ল্যাংগুয়েজ কী? হাই লেভেল ভাষার তুলনায় অ্যাসেমব্লি ভাষার সুবিধাসমূহ লেখ।",
+        answer: "অ্যাসেমব্লি একটি <span class=\"glow-cyan\">লো-লেভেল ভাষা</span> যা নেমোনিক ব্যবহার করে। সুবিধা: হার্ডওয়্যার সরাসরি নিয়ন্ত্রণ করা যায় এবং স্পিড বেশি।",
+        extendedAnswer: "এটা মেশিনের মাতৃভাষার (Machine Code) খুব কাছের কাজিন। সি বা পাইথনের মতো সহজ না, কিন্তু এটা দিয়ে হার্ডওয়্যার কন্ট্রোল করা যায়।",
+        tier: "epic"
+    },
+    {
+        text: "LDA 1234H নির্দেশনা দিয়ে কী বুঝায়?",
+        answer: "এটি মেমরি লোকেশন <span class=\"glow-cyan\">1234H থেকে ডাটা কপি করে</span> অ্যাকুমুলেটরে নিয়ে আসে।",
+        extendedAnswer: "\"১২৩৪ হেক্সাডেসিমেল নম্বরের ঘরে যাও, ওখানে যা আছে সেটা তুলে এনে অ্যাকুমুলেটরে রাখো।\"",
+        tier: "epic"
+    },
+    {
+        text: "8086 এর Data bus, Address bus and মেমরি সাইজ উল্লেখ কর?",
+        answer: "Data Bus: <span class=\"glow-cyan\">১৬ বিট</span>, Address Bus: <span class=\"glow-cyan\">২০ বিট</span>, Memory Size: <span class=\"glow-cyan\">১ মেগাবাইট</span>।",
+        extendedAnswer: "ডাটা আনা-নেওয়ার রাস্তা ১৬ লেনের (Data Bus)। ঠিকানা খোঁজার রাস্তা ২০ লেনের (Address Bus)। মোট ধারণ ক্ষমতা ১ মেগাবাইট।",
+        tier: "epic"
+    },
+    {
+        text: "ইন্টেল ৮২৫৫ A PPI এর কয়টি I/O পিন আছে?",
+        answer: "ইন্টেল ৮২৫৫ পিপিআই চিপে মোট <span class=\"glow-cyan\">২৪টি I/O পিন</span> আছে।",
+        extendedAnswer: "এর ৩টা পোর্ট (A, B, C)। প্রতিটা পোর্টে ৮টা করে পিন। তিন আঠা ২৪ টা পিন দিয়ে সে বাইরের জিনিসের সাথে কানেক্ট হয়।",
+        tier: "epic"
+    },
+    {
+        text: "PPI কন্ট্রোল ওয়ার্ডের কাজ লেখ।",
+        answer: "পিপিআই-এর পোর্টগুলো <span class=\"glow-cyan\">ইনপুট নাকি আউটপুট</span> হিসেবে কাজ করবে তা নির্ধারণ করাই কন্ট্রোল ওয়ার্ডের কাজ।",
+        extendedAnswer: "এটা একটা সেটিং বা কনফিগারেশন। এটা দিয়ে ৮২৫৫ কে বলা হয়—\"পোর্ট A দিয়ে ডাটা নাও, আর পোর্ট B দিয়ে ডাটা ছাড়ো।\"",
+        tier: "epic"
+    },
+    {
+        text: "ইন্টারআপ্ট ভেক্টর কাকে বলে?",
+        answer: "ইন্টারআপ্ট সার্ভিস রুটিন (ISR)-এর <span class=\"glow-cyan\">শুরুর মেমরি অ্যাড্রেসকে</span> ইন্টারআপ্ট ভেক্টর বলে।",
+        extendedAnswer: "ইন্টারআপ্ট আসলে প্রসেসরকে কোথায় যেতে হবে, সেই ঠিকানা। \"আগুন লাগলে ১০১ এ কল করো\"—এখানে ১০১ হলো ভেক্টর বা ঠিকানা।",
+        tier: "epic"
+    },
+    {
+        text: "কোন প্রকার ইন্টারআপ্টে কাকে বলে? (সম্ভাব্য: ভেক্টর ইন্টারআপ্ট বা প্রকারভেদ)",
+        answer: "যে ইন্টারআপ্টের <span class=\"glow-cyan\">নির্দিষ্ট মেমরি অ্যাড্রেস জানা থাকে</span> এবং প্রসেসর সরাসরি সেখানে জাম্প করতে পারে।",
+        extendedAnswer: "কিছু ইন্টারআপ্ট জানে তাদের গন্তব্য কোথায় (ভেক্টরড), আর কিছু জানে না, তাদের খুঁজে নিতে হয় (নন-ভেক্টরড)।",
+        tier: "epic"
+    }],
+            "short": [{
+        text: "কন্ট্রোলার সিকুয়েন্সারের কাজ কী?",
+        answer: "কন্ট্রোলার সিকুয়েন্সারের কাজ হলো কম্পিউটারের বিভিন্ন অংশের কাজের সমন্বয় করা এবং নির্দিষ্ট সময়ে <span class=\"glow-cyan\">সঠিক কন্ট্রোল সিগন্যাল তৈরি করে নির্দেশ (Instruction) এক্সিকিউট করা</span>।",
+        extendedAnswer: "এটা হলো কম্পিউটারের <span class=\"glow-purple\">\"ট্রাফিক পুলিশ\" বা \"ব্যান্ডের কন্ডাক্টর\"</span>। ট্রাফিক পুলিশ যেমন বলে \"এখন এই গাড়ি থামবে, ওই গাড়ি যাবে\", ঠিক তেমনি কন্ট্রোলার সিকুয়েন্সার প্রসেসরকে বলে, \"এখন মেমরি থেকে ডাটা আনো, এখন যোগ করো, এখন সেভ করো।\" এটা ছাড়া প্রসেসর বুঝবে না কখন কী করতে হবে।",
+        tier: "mythic"
+    },
+    {
+        text: "মেশিন সাইকেল বলতে কী বুঝায়?",
+        answer: "মাইক্রোপ্রসেসর কোনো একটি ইনস্ট্রাকশন বা নির্দেশ মেমরি থেকে <span class=\"glow-cyan\">ফেচ (Fetch), ডিকোড (Decode) এবং এক্সিকিউট (Execute)</span> করতে যে সময় নেয়, তাকে মেশিন সাইকেল বলে।",
+        extendedAnswer: "মনে করো তুমি রেস্টুরেন্টে গিয়েছো। ১. মেনু দেখলা (Fetch), ২. কী খাবে বুঝলা (Decode), ৩. খাওয়া শুরু করলা (Execute)। এই পুরো প্রসেসটা একবার শেষ করতে যতটুকু সময় লাগে, সেটাই প্রসেসরের ভাষায় একটা \"মেশিন সাইকেল\"।",
+        tier: "mythic"
+    },
+    {
+        text: "Flag register-এর কাজ লেখ এবং উদাহরণ দাও।",
+        answer: "ALU-তে গাণিতিক বা যৌক্তিক অপারেশনের পর ফলাফলের অবস্থা (যেমন: জিরো, নেগেটিভ, ক্যারি) <span class=\"glow-cyan\">নির্দেশ করাই ফ্ল্যাগ রেজিস্টারের কাজ</span>। উদাহরণ: Zero Flag (Z), Carry Flag (C)।",
+        extendedAnswer: "গণিত করার পর খাতার পাশে আমরা যেমন নোট লিখি \"হাতে থাকে ১\" বা \"উত্তর নেগেটিভ\"—ফ্ল্যাগ রেজিস্টার হলো প্রসেসরের সেই নোটবুক। যোগ করার পর যদি হাতে কিছু থাকে, সে লিখে রাখে <span class=\"glow-purple\">\"Carry আছে\"</span>। যদি উত্তর শূন্য হয়, সে লিখে রাখে \"Zero হয়েছে\"।",
+        tier: "mythic"
+    },
+    {
+        text: "Instruction বলতে কী বুঝ?",
+        answer: "ইনস্ট্রাকশন হলো কম্পিউটারকে কোনো নির্দিষ্ট কাজ সম্পন্ন করার জন্য দেওয়া <span class=\"glow-cyan\">বাইনারি কোড বা নির্দেশ</span>।",
+        extendedAnswer: "কম্পিউটার হলো একটা বোকা চাকর। তুমি যতক্ষণ না বলবে \"বসো\" বা \"দাঁড়াও\", সে নড়বে না। এই যে তুমি তাকে অর্ডার দিচ্ছ—এটাই ইনস্ট্রাকশন।",
+        tier: "mythic"
+    },
+    {
+        text: "ALU-এর কাজ কী?",
+        answer: "ALU (Arithmetic Logic Unit)-এর কাজ হলো সকল প্রকার <span class=\"glow-cyan\">গাণিতিক (যোগ, বিয়োগ) এবং যৌক্তিক (AND, OR, NOT) অপারেশন</span> সম্পন্ন করা।",
+        extendedAnswer: "এটা প্রসেসরের <span class=\"glow-purple\">\"ক্যালকুলেটর\"</span>। যোগ, বিয়োগ, গুণ, ভাগ বা কোনটা বড় কোনটা ছোট—এই সব হিসাব-নিকাশ ব্রেইনের যে অংশটা করে, সেটাই ALU।",
+        tier: "mythic"
+    },
+    {
+        text: "CPU বলতে কী বুঝ?",
+        answer: "CPU (Central Processing Unit) হলো কম্পিউটারের মস্তিষ্ক, যা ইনপুট ডিভাইস থেকে তথ্য গ্রহণ করে, <span class=\"glow-cyan\">প্রক্রিয়াজাত করে এবং আউটপুট প্রদান করে</span>।",
+        extendedAnswer: "মানুষের যেমন ব্রেইন (Brain) থাকে, কম্পিউটারের হলো CPU। সব চিন্তা, সিদ্ধান্ত এবং কাজ এখান থেকেই আসে। এটা ছাড়া কম্পিউটার শুধুই প্লাস্টিকের বাক্স।",
+        tier: "mythic"
+    },
+    {
+        text: "MAR ও MBR-এর কাজ লেখ?",
+        answer: "MAR (Memory Address Register) মেমরির <span class=\"glow-cyan\">অ্যাড্রেস ধারণ করে</span> এবং MBR (Memory Buffer Register) মেমরি থেকে পড়া বা মেমরিতে লেখার জন্য <span class=\"glow-cyan\">ডাটা ধারণ করে</span>।",
+        extendedAnswer: "MAR হলো <span class=\"glow-purple\">\"ঠিকানা\"</span> আর MBR হলো <span class=\"glow-purple\">\"চিঠি\"</span>। MAR বলে: \"৫ নাম্বার বক্সে যাও।\" MBR বলে: \"এই নাও চিঠি (ডাটা), এটা ৫ নাম্বার বক্সে রাখো।\"",
+        tier: "mythic"
+    },
+    {
+        text: "মেমরি বলতে কী বুঝ?",
+        answer: "মেমরি হলো কম্পিউটারের সেই অংশ যেখানে ডাটা, ইনস্ট্রাকশন এবং ফলাফল <span class=\"glow-cyan\">স্থায়ী বা অস্থায়ীভাবে জমা রাখা হয়</span>।",
+        extendedAnswer: "এটা হলো কম্পিউটারের <span class=\"glow-purple\">স্টোর রুম বা গোডাউন</span>। যা কাজ করছো, বা যা পরে লাগবে—সব এখানে জমা থাকে। এটা ভুলে গেলে কম্পিউটার কিছুই মনে রাখতে পারবে না।",
+        tier: "mythic"
+    },
+    {
+        text: "রিড রাইট হেড-এর কাজ কী?",
+        answer: "হার্ড ডিস্ক বা ম্যাগনেটিক স্টোরেজ ডিভাইসে প্ল্যাটার থেকে <span class=\"glow-cyan\">ডাটা পড়া (Read) এবং ডাটা লেখা (Write)</span> বা সংরক্ষণ করাই রিড/রাইট হেডের কাজ।",
+        extendedAnswer: "আগের দিনের ক্যাসেট প্লেয়ার বা গ্রামোফোন দেখেছ? একটা পিন ঘুরত আর গান বাজত। ওই \"পিন\" টাই হলো রিড রাইট হেড। সে ডিস্কের ওপর ঘুরে ঘুরে তথ্য পড়ে বা নতুন তথ্য লেখে।",
+        tier: "mythic"
+    },
+    {
+        text: "8086 Microprocessor-এর Mode কয়টি ও কী কী?",
+        answer: "৮০৮৬ মাইক্রোপ্রসেসরের মোড ২টি: ১. <span class=\"glow-cyan\">ম্যাক্সিমাম মোড (Maximum Mode)</span> এবং ২. <span class=\"glow-cyan\">মিনিমাম মোড (Minimum Mode)</span>।",
+        extendedAnswer: "৮০৮৬ এর দুটো মুড আছে। মিনিমাম মোড: \"একলা চলো রে\"—সে একা কাজ করে। ম্যাক্সিমাম মোড: \"দলবেঁধে কাজ\"—সে অন্য প্রসেসরের (Co-processor) সাহায্য নিয়ে কাজ করে।",
+        tier: "mythic"
+    },
+    {
+        text: "ইনস্ট্রাকশন কিউ এর কাজ কী?",
+        answer: "পরবর্তী ইনস্ট্রাকশনগুলো এক্সিকিউশনের জন্য <span class=\"glow-cyan\">অগ্রিম ফেচ করে সারিবদ্ধভাবে জমা রাখা</span>, যাতে প্রসেসিং স্পিড বাড়ে। ৮০৮৬-এ এটি ৬ বাইটের হয়।",
+        extendedAnswer: "মনে করো তুমি ভাত খাচ্ছ। এক লোকমা মুখে দেওয়ার আগেই হাতে আরেক লোকমা রেডি রাখো, যাতে সময় নষ্ট না হয়। ইনস্ট্রাকশন কিউ ঠিক এই কাজটাই করে—বর্তমান কাজ শেষ হওয়ার আগেই পরের কাজগুলো লাইনে দাঁড় করিয়ে রাখে।",
+        tier: "mythic"
+    },
+    {
+        text: "Microprocessor-এর Bit সংখ্যা বলতে কী বুঝায়।",
+        answer: "মাইক্রোপ্রসেসর একবারে কত বিট ডাটা <span class=\"glow-cyan\">প্রসেস বা আদান-প্রদান করতে পারে</span> তা নির্দেশ করে। যেমন ১৬-বিট প্রসেসর একবারে ১৬ বিট ডাটা নিয়ে কাজ করতে পারে।",
+        extendedAnswer: "রাস্তা কত চওড়া, সেটা হলো বিট সংখ্যা। ৮-বিট মানে সরু রাস্তা (কম গাড়ি যায়), ৬৪-বিট মানে বিশাল হাইওয়ে (একসাথে অনেক গাড়ি বা ডাটা যেতে পারে)।",
+        tier: "mythic"
+    },
+    {
+        text: "ইন্টেল ৮০৮৬ মাইক্রোপ্রসেসরের ফ্ল্যাগ রেজিস্টারের ফ্ল্যাগগুলোর নাম লেখ।",
+        answer: "Status Flags: <span class=\"glow-cyan\">CF, PF, AF, ZF, SF, OF</span>। Control Flags: <span class=\"glow-cyan\">TF, IF, DF</span>।",
+        extendedAnswer: "এগুলো হলো প্রসেসরের <span class=\"glow-purple\">সিগন্যাল লাইট</span>। রেজাল্ট জিরো? ZF জ্বলবে। রেজাল্ট নেগেটিভ? SF জ্বলবে। মেইনলি ৬টা স্ট্যাটাস (অবস্থা বোঝায়) আর ৩টা কন্ট্রোল (নিয়ন্ত্রণ করে)।",
+        tier: "mythic"
+    },
+    {
+        text: "দুটি ১৬ বিট মাইক্রোপ্রসেসরের নাম লেখ।",
+        answer: "দুটি ১৬ বিট মাইক্রোপ্রসেসর হলো: <span class=\"glow-cyan\">Intel 8086 এবং Intel 80286</span>।",
+        extendedAnswer: "জাস্ট নাম মুখস্থ করো। ৮০৮৬ হলো দাদাজান, আর ৮০২৮৬ হলো তার ছেলে। দুজনেই ১৬-বিট ডাটা নিয়ে খেলতে পারত।",
+        tier: "mythic"
+    },
+    {
+        text: "অ্যাড্রেসিং মোড কী?",
+        answer: "ইনস্ট্রাকশনে অপারেন্ড বা ডাটার <span class=\"glow-cyan\">সোর্স (Source) এবং ডেস্টিনেশন (Destination) খুঁজে বের করার</span> বা উল্লেখ করার পদ্ধতিকে অ্যাড্রেসিং মোড বলে।",
+        extendedAnswer: "কাউকে ডাকার স্টাইল। ১. সরাসরি নাম ধরে ডাকা (Direct Mode)। ২. ইশারা করে ডাকা (Indirect Mode)। ৩. পকেটে হাত দিয়ে টাকা বের করা (Immediate Mode)। প্রসেসর ডাটা কোন জায়গা থেকে এবং কীভাবে আনবে, সেই স্টাইলটাই হলো অ্যাড্রেসিং মোড।",
+        tier: "mythic"
+    },
+    {
+        text: "SEGMENT ইনস্ট্রাকশন কেন ব্যবহার করা হয়?",
+        answer: "মেমরির নির্দিষ্ট সেগমেন্ট <span class=\"glow-cyan\">(Code, Data, Stack) নির্ধারণ বা শুরু বোঝানোর জন্য</span> অ্যাসেম্বলি ল্যাঙ্গুয়েজে SEGMENT ইনস্ট্রাকশন ব্যবহৃত হয়।",
+        extendedAnswer: "বইয়ের যেমন অধ্যায় (Chapter) থাকে, মেমরির তেমন সেগমেন্ট থাকে। এই ইনস্ট্রাকশন দিয়ে বলা হয়—\"এখন 'ডাটা' অধ্যায় শুরু হলো\" বা \"এখন 'কোড' অধ্যায় শুরু হলো।\"",
+        tier: "mythic"
+    },
+    {
+        text: "অ্যাসেমব্লার ডিরেকটিভস বলতে কী বুঝায়?",
+        answer: "যেসব নির্দেশ অ্যাসেমব্লারকে প্রোগ্রাম অনুবাদের সময় গাইড করে কিন্তু <span class=\"glow-cyan\">মেশিনে এক্সিকিউট হয় না</span>, তাদের অ্যাসেমব্লার ডিরেকটিভস বলে (যেমন: DB, DW, END)।",
+        extendedAnswer: "পরিচালক যেমন অভিনেতাকে বলে \"এখানে দাঁড়াও, ওদিকে তাকাও\"—এগুলো মুভিতে দেখা যায় না, কিন্তু মুভি বানাতে লাগে। ডিরেকটিভস হলো অ্যাসেমব্লারের পরিচালক। এগুলো কোডের অংশ না, কিন্তু কোড সাজাতে সাহায্য করে।",
+        tier: "mythic"
+    },
+    {
+        text: "সিডো কোড কাকে বলে?",
+        answer: "সিডো কোড (Pseudo Code) হলো প্রোগ্রামের লজিক বা ধাপগুলো <span class=\"glow-cyan\">মানুষের বোধগম্য সাধারণ ভাষায় (ইংরেজি বা বাংলা) লেখা</span>, যা কোনো নির্দিষ্ট প্রোগ্রামিং ভাষার নিয়ম মানে না।",
+        extendedAnswer: "\"সিডো\" মানে নকল। এটা আসল কোড না। কোড লেখার আগে আমরা রাফ খাতায় যেমন প্ল্যান করি—\"প্রথমে এটা হবে, তারপর ওটা হবে\"—এই রাফ প্ল্যানটাই সিডো কোড।",
+        tier: "mythic"
+    },
+    {
+        text: "ASSUME DIRECTIVES কোথায় ব্যবহৃত হয়?",
+        answer: "অ্যাসেমব্লি ল্যাঙ্গুয়েজ প্রোগ্রামে কোন লজিক্যাল সেগমেন্ট (যেমন Code, Data) <span class=\"glow-cyan\">ফিজিক্যাল মেমরির কোন সেগমেন্ট রেজিস্টারের সাথে যুক্ত হবে</span>, তা অ্যাসেমব্লারকে জানাতে ব্যবহৃত হয়।",
+        extendedAnswer: "অ্যাসেমব্লারকে বলে দেওয়া: \"ভাই, আমার 'CODE' নামের সেগমেন্টটা আসলে CS (Code Segment) রেজিস্টারের জন্য, আর 'DATA' নামটা DS (Data Segment) এর জন্য।\" পরিচয় করিয়ে দেওয়া আরকি।",
+        tier: "mythic"
+    },
+    {
+        text: "Interfacing কাকে বলে।",
+        answer: "মাইক্রোপ্রসেসরের সাথে বাইরের পেরিফেরাল ডিভাইস (যেমন: কীবোর্ড, ডিসপ্লে) বা মেমরির <span class=\"glow-cyan\">সংযোগ স্থাপন ও তথ্য আদান-প্রদানের কৌশলকে</span> ইন্টারফেসিং বলে।",
+        extendedAnswer: "তোমার ফোনের সাথে হেডফোন লাগানোর যে প্রসেস, সেটাই ইন্টারফেসিং। প্রসেসর তো একা চলতে পারে না, তার মেমরি লাগে, মাউস লাগে। এদের সাথে প্রসেসরের বন্ধুত্ব করিয়ে দেওয়াই ইন্টারফেসিং।",
+        tier: "mythic"
+    },
+    {
+        text: "8086 প্রসেসরের সর্বোচ্চ অ্যাড্রেস ক্ষমতা কত?",
+        answer: "৮০৮৬ প্রসেসরের অ্যাড্রেস বাস ২০ বিটের, তাই এর সর্বোচ্চ অ্যাড্রেস ক্ষমতা $2^{20}$ বা <span class=\"glow-cyan\">১ মেগাবাইট (1 MB)</span>।",
+        extendedAnswer: "এর ২০টা পা (pin) আছে ঠিকানা খোঁজার জন্য। ২ এর ওপর ২০ পাওয়ার দিলে যত হয় (১০,৪৮,৫৭৬ টি ঘর), সে ততগুলো মেমরি লোকেশন চিনতে পারে। সংক্ষেপে ১ মেগাবাইট।",
+        tier: "mythic"
+    },
+    {
+        text: "PPI বলতে কী বুঝায়?",
+        answer: "PPI (Programmable Peripheral Interface) হলো একটি চিপ (যেমন Intel 8255) যা মাইক্রোপ্রসেসরের সাথে বিভিন্ন পেরিফেরাল ডিভাইসের <span class=\"glow-cyan\">প্যারালাল ডাটা আদান-প্রদান নিয়ন্ত্রণ করে</span>।",
+        extendedAnswer: "এটা হলো <span class=\"glow-purple\">\"মিডলম্যান\" বা দালাল</span>। প্রসেসর সরাসরি প্রিন্টার বা স্ক্যানারের সাথে কথা বলতে পারে না। PPI মাঝখানে থেকে তাদের কথা চালাচালি (ডাটা পাস) করিয়ে দেয়।",
+        tier: "mythic"
+    },
+    {
+        text: "মাইক্রোপ্রসেসরে ব্যবহৃত সাপোর্ট চিপসমূহের নাম লেখ।",
+        answer: "কয়েকটি সাপোর্ট চিপ: <span class=\"glow-cyan\">8255 (PPI), 8259 (PIC), 8253 (Timer), 8237 (DMA Controller), 8284 (Clock Generator)</span>।",
+        extendedAnswer: "এরা হলো মাইক্রোপ্রসেসরের <span class=\"glow-purple\">\"চামচা\" বা অ্যাসিস্ট্যান্ট</span>। একজন টাইম দেখে (টাইমার), একজন বাইরের গেস্ট সামলায় (ইন্টারাপ্ট কন্ট্রোলার), একজন ডাটা টানে (DMA)। এরা ছাড়া প্রসেসর অচল।",
+        tier: "mythic"
+    },
+    {
+        text: "Interrupt কী?",
+        answer: "মাইক্রোপ্রসেসরের স্বাভাবিক কাজ সাময়িকভাবে থামিয়ে <span class=\"glow-cyan\">জরুরি কোনো কাজ করার জন্য বাইরের ডিভাইস বা প্রোগ্রাম থেকে আসা সংকেতকে</span> ইন্টারাপ্ট বলে।",
+        extendedAnswer: "তুমি গেম খেলছ, হঠাৎ আম্মু ডাক দিল \"বাজারে যা\"। তুমি গেম পজ করে বাজারে গেলে, ফিরে এসে আবার গেম খেললে। এই যে আম্মুর ডাক—এটাই ইন্টারাপ্ট।",
+        tier: "mythic"
+    },
+    {
+        text: "সফটওয়্যার ইন্টারাপ্ট কাকে বলে?",
+        answer: "প্রোগ্রামের মধ্যে নির্দিষ্ট ইনস্ট্রাকশন (যেমন: INT n) এক্সিকিউশনের মাধ্যমে <span class=\"glow-cyan\">যে ইন্টারাপ্ট তৈরি হয়</span>, তাকে সফটওয়্যার ইন্টারাপ্ট বলে।",
+        extendedAnswer: "এটা ইচ্ছাকৃত ইন্টারাপ্ট। প্রোগ্রাম নিজেই যখন বলে \"আমাকে এখন থামাও এবং ওই কাজটা করো\"। কোড লিখে এটাকে কল করা হয়।",
+        tier: "mythic"
+    },
+    {
+        text: "হার্ডওয়্যার ইন্টারাপ্ট কাকে বলে?",
+        answer: "মাইক্রোপ্রসেসরের বাইরের কোনো পেরিফেরাল ডিভাইস বা হার্ডওয়্যার পিন (যেমন: NMI, INTR) এর মাধ্যমে <span class=\"glow-cyan\">যে ইন্টারাপ্ট সিগন্যাল পাঠানো হয়</span>, তাকে হার্ডওয়্যার ইন্টারাপ্ট বলে।",
+        extendedAnswer: "বাইরে থেকে ধাক্কা দেওয়া। যেমন কীবোর্ডে চাপ দিলে বা মাউস নাড়ালে প্রসেসর একটা সিগন্যাল পায়—এগুলো হার্ডওয়্যার থেকে আসে, তাই হার্ডওয়্যার ইন্টারাপ্ট।",
+        tier: "mythic"
+    },
+    {
+        text: "সুপার স্কেলার আর্কিটেকচার কী?",
+        answer: "যে আর্কিটেকচারে প্রসেসর একটি ক্লক সাইকেলে একাধিক ইনস্ট্রাকশন <span class=\"glow-cyan\">প্যারালাল বা সমান্তরালভাবে এক্সিকিউট করতে পারে</span>, তাকে সুপার স্কেলার আর্কিটেকচার বলে।",
+        extendedAnswer: "সাধারণ প্রসেসর এক হাতে কাজ করে। সুপার স্কেলার হলো <span class=\"glow-purple\">\"দশভুজা\" বা মাল্টি-টাস্কার</span>। সে এক সেকেন্ডে একটার বদলে দুই-তিনটা কাজ একসাথে শেষ করে ফেলে।",
+        tier: "mythic"
+    },
+    {
+        text: "BIST-এর কাজ কী?",
+        answer: "BIST (Built-In Self Test) এর কাজ হলো কম্পিউটার চালু করার সময় মেমরি এবং অভ্যন্তরীণ সার্কিটগুলো <span class=\"glow-cyan\">ঠিক আছে কি না তা স্বয়ংক্রিয়ভাবে পরীক্ষা করা</span>।",
+        extendedAnswer: "সকালে ঘুম থেকে উঠে আমরা যেমন আড়মোড়া ভেঙে দেখি শরীর ঠিক আছে কি না, কম্পিউটার অন হলে BIST চেক করে দেখে তার র‍্যাম, প্রসেসর সব ঠিক আছে কি না।",
+        tier: "mythic"
+    },
+
+    // 👑 THE LEGENDARY TIER
+    {
+        text: "ম্যাক্রো-ইনস্ট্রাকশন বলতে কী বুঝায়?",
+        answer: "ম্যাক্রো-ইনস্ট্রাকশন হলো অ্যাসেম্বলি ল্যাঙ্গুয়েজের একটি একক নির্দেশ যা প্রোগ্রামে ব্যবহারের পর <span class=\"glow-cyan\">একাধিক মেশিন ইনস্ট্রাকশন বা কোডে রূপান্তরিত হয়</span>।",
+        extendedAnswer: "শর্টকাট কি (Shortcut Key)। তুমি লিখলে ছোট একটা নাম, কিন্তু কম্পাইলার সেটাকে ভেঙে ১০ লাইনের কোড বানিয়ে দিল। বারবার একই বড় কোড না লিখে এক লাইনে কাজ সারার উপায়।",
+        tier: "legendary"
+    },
+    {
+        text: "ফেচ সাইকেল বলতে কী বুঝায়?",
+        answer: "মেশিন সাইকেলের যে অংশে প্রসেসর মেমরি থেকে ইনস্ট্রাকশন <span class=\"glow-cyan\">পড়ে (Read) এবং ইনস্ট্রাকশন রেজিস্টারে নিয়ে আসে</span>, তাকে ফেচ সাইকেল বলে।",
+        extendedAnswer: "লাইব্রেরি থেকে বইটা শেলফ থেকে বের করে টেবিলে আনার কাজটুকু হলো \"ফেচ\"। পড়া বা বোঝা পরের ধাপ।",
+        tier: "legendary"
+    },
+    {
+        text: "Flag register বলতে কী বুঝায়?",
+        answer: "যে বিশেষ রেজিস্টার গাণিতিক বা লজিক্যাল অপারেশনের <span class=\"glow-cyan\">ফলাফলের অবস্থা (Status) এবং প্রসেসরের নিয়ন্ত্রণ (Control) বিটগুলো সংরক্ষণ করে</span>, তাকে ফ্ল্যাগ রেজিস্টার বলে।",
+        extendedAnswer: "এটা প্রসেসরের <span class=\"glow-purple\">\"রিপোর্ট কার্ড\"</span>। শেষ কাজটার রেজাল্ট কেমন ছিল (শূন্য, নেগেটিভ, নাকি ওভারফ্লো) তা এখানে লেখা থাকে।",
+        tier: "legendary"
+    },
+    {
+        text: "Accumulator-এর কাজ লেখ।",
+        answer: "অ্যাকুমুলেটর (যেমন: AL/AX) হলো প্রধান রেজিস্টার যা গাণিতিক ও যৌক্তিক অপারেশনের ফলাফল <span class=\"glow-cyan\">সাময়িকভাবে সংরক্ষণ করে এবং I/O অপারেশনে ডাটা আদান-প্রদান করে</span>।",
+        extendedAnswer: "এটা হলো তোমার হাতের <span class=\"glow-purple\">\"কাঁচা খাতা\"</span>। যোগ, বিয়োগ, গুণ—সব কিছুর মেইন কাজ এই খাতায় (অ্যাকুমুলেটরে) হয়। সব রেজাল্ট ডিফল্টভাবে এখানেই এসে জমা হয়।",
+        tier: "legendary"
+    },
+    {
+        text: "জেনারেল রেজিস্টার মেশিন বলতে কী বুঝায়?",
+        answer: "যে প্রসেসর আর্কিটেকচারে গাণিতিক ও লজিক্যাল কাজের জন্য ডেডিকেটেড অ্যাকুমুলেটরের বদলে <span class=\"glow-cyan\">একাধিক সাধারণ বা জেনারেল পারপাস রেজিস্টার (GPR) ব্যবহার করা যায়</span>, তাকে জেনারেল রেজিস্টার মেশিন বলে।",
+        extendedAnswer: "আগে শুধু একটা প্লেটে (অ্যাকুমুলেটর) খাওয়া যেত। এখনকার মেশিনে অনেকগুলো প্লেট (Register) আছে। তুমি যেকোনা প্লেটে খেতে পারো। এটাই জেনারেল রেজিস্টার মেশিন।",
+        tier: "legendary"
+    },
+    {
+        text: "ফ্লাগ বলতে কী বুঝায়।",
+        answer: "ফ্লাগ হলো ১ বিটের একটি নির্দেশক (Indicator) বা ফ্লিপ-ফ্লপ, যা প্রসেসরের <span class=\"glow-cyan\">বর্তমান অবস্থা বা অপারেশনের ফলাফলের প্রকৃতি নির্দেশ করে</span>।",
+        extendedAnswer: "ট্রেনের গার্ড যেমন সবুজ বা লাল পতাকা (Flag) দেখায়, প্রসেসরের ফ্লাগও তেমন ১ বা ০ দিয়ে সিগন্যাল দেয়—\"সব ঠিক আছে\" অথবা \"সমস্যা আছে\"।",
+        tier: "legendary"
+    },
+    {
+        text: "Operand ও Op-code বলতে কী বুঝ?",
+        answer: "Op-code (Operation Code) নির্দেশ করে <span class=\"glow-cyan\">কী কাজ করতে হবে (যেমন: ADD)</span>, আর Operand নির্দেশ করে <span class=\"glow-cyan\">কার ওপর কাজ হবে (যেমন: ডাটা বা রেজিস্টার)</span>।",
+        extendedAnswer: "ইনস্ট্রাকশন: \"আলু কাটো\"। \"কাটো\" হলো Op-code (কী কাজ)। \"আলু\" হলো Operand (যার ওপর কাজ হচ্ছে)।",
+        tier: "legendary"
+    },
+    {
+        text: "Op-code encoding এর প্রকারভেদ বা পদ্ধতিসমূহ উল্লেখ কর।",
+        answer: "Op-code এনকোডিং মূলত তিন প্রকার হতে পারে: ১. <span class=\"glow-cyan\">ফিক্সড লেংথ (Fixed Length)</span>, ২. <span class=\"glow-cyan\">ভেরিয়েবল লেংথ (Variable Length)</span>, ৩. <span class=\"glow-cyan\">হাফম্যান এনকোডিং (Huffman)</span>।",
+        extendedAnswer: "কম্পিউটারকে নির্দেশ দেওয়ার ভাষা সাজানোর কায়দা। সব নির্দেশ কি সমান সাইজের হবে, নাকি কোনটা ছোট কোনটা বড় হবে—সেটাই এই এনকোডিং ঠিক করে।",
+        tier: "legendary"
+    },
+    {
+        text: "কন্ট্রোল ইউনিট (CU)-এর কাজ কী?",
+        answer: "কন্ট্রোল ইউনিট মেমরি থেকে ইনস্ট্রাকশন ডিকোড করে এবং কম্পিউটারের অন্যান্য সকল ইউনিটের (ALU, Memory, I/O) <span class=\"glow-cyan\">কার্যক্রম নিয়ন্ত্রণ করতে টাইমিং ও কন্ট্রোল সিগন্যাল পাঠায়</span>।",
+        extendedAnswer: "পুরো কম্পিউটারের ম্যানেজার। সে নিজে কোনো ভারী কাজ (যোগ/বিয়োগ) করে না, কিন্তু সবাইকে হুকুম দেয়—\"তুমি এটা করো, তুমি ওটা করো।\"",
+        tier: "legendary"
+    },
+    {
+        text: "Co-processor বলতে কী বুঝ?",
+        answer: "মেইন প্রসেসরের গতি ও কার্যক্ষমতা বাড়ানোর জন্য যে অতিরিক্ত প্রসেসর (যেমন: Math Co-processor) <span class=\"glow-cyan\">জটিল গাণিতিক কাজগুলো আলাদাভাবে সম্পাদন করে</span>, তাকে কো-প্রসেসর বলে।",
+        extendedAnswer: "প্রধান প্রসেসরের <span class=\"glow-purple\">\"হেল্পার\"</span>। মেইন প্রসেসর যখন খুব ব্যস্ত বা কঠিন অংক করতে পারে না, তখন সে এই কো-প্রসেসরকে দিয়ে কাজটা করিয়ে নেয়। (যেমন: 8087 হলো 8086 এর কো-প্রসেসর)।",
+        tier: "legendary"
+    },
+    {
+        text: "MAR ও MBR-এর পূর্ণনাম লেখ।",
+        answer: "MAR = <span class=\"glow-cyan\">Memory Address Register.</span><br>MBR = <span class=\"glow-cyan\">Memory Buffer Register.</span>",
+        extendedAnswer: "জাস্ট ফুল ফর্ম। মনে রাখার ট্রিক: MAR মানে মেমরির ঠিকানা (Address), আর MBR মানে মেমরির বাফার (Buffer/Data)।",
+        tier: "legendary"
+    },
+    {
+        text: "Hard disk-এর বাহ্যিক উপাদানগুলো লেখ।",
+        answer: "হার্ড ডিস্কের প্রধান উপাদানগুলো হলো: <span class=\"glow-cyan\">প্ল্যাটার (Platter), স্পিন্ডল মোটর (Spindle Motor), রিড/রাইট হেড (Read/Write Head), অ্যাকচুয়েটর আর্ম (Actuator Arm) এবং কানেক্টর</span>।",
+        extendedAnswer: "হার্ড ডিস্ক খুললে যা দেখা যায়: একটা সিডি (Platter), সেটা ঘোরানোর মোটর, একটা পিন (Head) যেটা দিয়ে রিড করে, আর পিনটা নড়াচড়ার জন্য একটা হাত (Arm)।",
+        tier: "legendary"
+    },
+    {
+        text: "Track কী?",
+        answer: "হার্ড ডিস্কের বা ফ্লপি ডিস্কের প্ল্যাটারের উপরিভাগে যে <span class=\"glow-cyan\">গোলাকার বা বৃত্তাকার পথগুলোতে ডাটা সংরক্ষিত থাকে</span>, তাদের ট্র্যাক (Track) বলে।",
+        extendedAnswer: "খেলার মাঠে দৌড়ানোর জন্য যেমন গোল গোল লেন (Lane) থাকে, হার্ড ডিস্কের সিডির উপরেও তেমন অদৃশ্য গোল গোল লেন থাকে। এই লেনগুলোই হলো ট্র্যাক।",
+        tier: "legendary"
+    },
+    {
+        text: "8086 মাইক্রোপ্রসেসরের স্ট্যাটাস পিনগুলোর নাম লেখ।",
+        answer: "<span class=\"glow-cyan\">$\\overline{S_0}, \\overline{S_1}, \\overline{S_2}$ (ম্যাক্সিমাম মোডে) এবং $S_3, S_4, S_5, S_6, S_7$</span> (বাস সাইকেলের অবস্থা নির্দেশ করতে)।",
+        extendedAnswer: "এরা প্রসেসরের <span class=\"glow-purple\">\"মুড\"</span> দেখায়। প্রসেসর এখন মেমরি রিড করছে, নাকি রাইট করছে, নাকি চুপচাপ বসে আছে—এই পিনগুলো সেই সিগন্যাল দেয়।",
+        tier: "legendary"
+    },
+    {
+        text: "Code Segment কী কাজে ব্যবহৃত হয়?",
+        answer: "প্রোগ্রামের এক্সিকিউটেবল ইনস্ট্রাকশন বা কোডগুলো মেমরির যে সেগমেন্টে জমা থাকে, তার <span class=\"glow-cyan\">বেস অ্যাড্রেস বা ঠিকানা ধারণ করাই</span> কোড সেগমেন্ট (CS) রেজিস্টারের কাজ।",
+        extendedAnswer: "মেমরির যেই এলাকাতে তোমার লেখা \"প্রোগ্রাম\" বা \"কোড\" গুলো রাখা আছে, সেই এলাকার ঠিকানাই হলো কোড সেগমেন্ট।",
+        tier: "legendary"
+    },
+    {
+        text: "Program counter-এর কাজ কী?",
+        answer: "প্রোগ্রাম কাউন্টার (PC) বা ইনস্ট্রাকশন পয়েন্টার (IP) পরবর্তী যে ইনস্ট্রাকশনটি এক্সিকিউট হবে, মেমরিতে তার <span class=\"glow-cyan\">অ্যাড্রেস বা ঠিকানা ধরে রাখে</span>।",
+        extendedAnswer: "তুমি বই পড়ছো। আঙুল দিয়ে রাখো না যে এরপর কোন লাইনটা পড়বে? প্রোগ্রাম কাউন্টার হলো সেই আঙুল। সে সবসময় দেখিয়ে দেয়—\"এরপর এই লাইনটা পড়তে হবে।\"",
+        tier: "legendary"
+    }],
+            "essay": [{
+        text: "কম্পিউটারের গঠন চিত্রসহ বর্ণনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🤷‍♂️</span><br><br><strong class=\"glow-cyan\">Too Lazy To Write The Answer.</strong><br>Make your own, soldier! 🫡</div>",
+        extendedAnswer: "Did you not read the instructions? Go study! 📚<br><span class=\"glow-purple\">(Bro, the file had no answer for this, so you gotta cook it yourself!)</span>",
+        tier: "mythic"
+    },
+    {
+        text: "174 General Register machine এর block চিত্র অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📦</span><br><br><strong class=\"glow-cyan\">Registers Not Found.</strong><br>Please insert coin (or knowledge) to unlock this answer.",
+        extendedAnswer: "It's all about GPRs. Just draw a bunch of registers connected to an ALU. Easy peasy.",
+        tier: "mythic"
+    },
+    {
+        text: "177 Huffman op-code encoding পদ্ধতি ব্যাখ্যা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🧩</span><br><br><strong class=\"glow-cyan\">Encoding Error.</strong><br>Huffman is complex, but you got this. Short codes for frequent instructions!",
+        extendedAnswer: "It's about saving bits. The more you use an instruction, the shorter its opcode should be. Smart stuff. 🧠",
+        tier: "mythic"
+    },
+    {
+        text: "184 DMA System-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">⏩</span><br><br><strong class=\"glow-cyan\">Direct Memory Access.</strong><br>Bypassing the CPU like a boss. Fast data transfer mode activated.",
+        extendedAnswer: "CPU is lazy, so DMA Controller does the heavy lifting of moving data. Efficient! 😎",
+        tier: "mythic"
+    },
+    {
+        text: "186 আর্কিটেকচার অঙ্কন করে প্রতিটি ব্লকের কার্যাবলি বর্ণনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🏛️</span><br><br><strong class=\"glow-cyan\">8086 Architecture.</strong><br>BIU (Bus Interface Unit) + EU (Execution Unit). The dynamic duo.",
+        extendedAnswer: "BIU fetches instructions, EU executes them. Pipeline processing baby! 🚀",
+        tier: "mythic"
+    },
+    {
+        text: "188 ৮০৮৬ µP-এর ফ্লা্যাগ রেজিস্টারের বর্ণনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🚩</span><br><br><strong class=\"glow-cyan\">Red Flag!</strong><br>Just kidding. It's the Status Register. Carry, Zero, Sign, Overflow...",
+        extendedAnswer: "It tells you the status of the last operation. Was it zero? Was it negative? The Flag Register knows. 🕵️‍♂️",
+        tier: "mythic"
+    },
+    {
+        text: "190 ৮০৮৬ প্রসেসরের ইনস্ট্রাকশন সেটের বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📜</span><br><br><strong class=\"glow-cyan\">Instruction Set Manual.</strong><br>MOV, PUSH, POP, ADD, SUB... The language of the 8086 gods.",
+        extendedAnswer: "Data Transfer, Arithmetic, Bit Manipulation, String, Control Transfer. Categorize and conquer! ⚔️",
+        tier: "mythic"
+    },
+    {
+        text: "191 ৮০৮৬µP- এর ইনস্ট্রাকশন সেটের শ্রণিবিভাগ বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📂</span><br><br><strong class=\"glow-cyan\">Categorization Required.</strong><br>Group the commands. Data Transfer, Arithmetic, Logic, Branching...",
+        extendedAnswer: "Same as above, just organized neatly. Keep it clean! 🧹",
+        tier: "mythic"
+    },
+    {
+        text: "192 ৮০৮৬ প্রসেসরের অ্যাড্রেসিং মোডের বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📍</span><br><br><strong class=\"glow-cyan\">Addressing Modes.</strong><br>Immediate, Register, Direct, Indirect... How do you find the data?",
+        extendedAnswer: "It's like finding a house. You can have the address, or directions, or a map. 🗺️",
+        tier: "mythic"
+    },
+    {
+        text: "194 দুটি ১৬-বিট সংখ্যাকে যোগ করার একটি প্রোগ্রাম লেখ।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">💻</span><br><br><strong class=\"glow-cyan\">Code It!</strong><br>MOV AX, [Data1] <br>ADD AX, [Data2] <br>MOV [Sum], AX <br>HLT",
+        extendedAnswer: "Don't forget to handle the Carry if there is one! (ADC instruction). 😉",
+        tier: "mythic"
+    },
+
+    // 🏆 LEGENDARY TIER (Secondary Priority)
+    {
+        text: "171 Sap-1 কম্পিউটারের আর্কিটেকচার চিত্রসহ বর্ণবা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🎨</span><br><br><strong class=\"glow-cyan\">Diagram Required!</strong><br>Open your book and draw the SAP-1 Architecture. It's too cool for text.",
+        extendedAnswer: "Seriously, it's a diagram. I can't draw here. Check your textbook! 📖",
+        tier: "legendary"
+    },
+    {
+        text: "175 Accumulator-based machine এর ব্লক (block) ডায়াগ্রাম অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🔋</span><br><br><strong class=\"glow-cyan\">Accumulator is Empty.</strong><br>Charge it up with your textbook knowledge!",
+        extendedAnswer: "One operand always comes from the Accumulator. Remember that! 💡",
+        tier: "legendary"
+    },
+    {
+        text: "179 ৪-বিট জেনারেল রেজিস্টার-রে ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">4️⃣</span><br><br><strong class=\"glow-cyan\">4-Bit Magic Required.</strong><br>Draw 4 flip-flops and call it a day. (Just kidding, add the control logic too!)",
+        extendedAnswer: "It stores 4 bits of data. 0000 to 1111. Simple as that.",
+        tier: "legendary"
+    },
+    {
+        text: "181 4-bit ALU ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🧠</span><br><br><strong class=\"glow-cyan\">ALU Brain Freeze.</strong><br>It does Math (Add/Sub) and Logic (AND/OR). Draw the V-shape!",
+        extendedAnswer: "Arithmetic Logic Unit. The calculator inside the processor. 🧮",
+        tier: "legendary"
+    },
+    {
+        text: "182 ক্যাশ মেমরি-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🚀</span><br><br><strong class=\"glow-cyan\">Cache Miss!</strong><br>Data not found in L1 Cache. Go fetch from Main Memory (Book).",
+        extendedAnswer: "It's super fast memory between CPU and RAM. Like money in your pocket vs. in the bank. 💸",
+        tier: "legendary"
+    },
+    {
+        text: "185 ৮০৮৬ MP-এর পিন ডায়াগ্রাম অঙ্কন করে বর্ণনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📌</span><br><br><strong class=\"glow-cyan\">40 Pins of Pain.</strong><br>Draw the chip. Label the pins. Don't mix up VCC and GND!",
+        extendedAnswer: "This is a classic question. Memorize the pinout or cry in the exam hall. 😭",
+        tier: "legendary"
+    },
+    {
+        text: "187 ৮০৮৬ µP-এর রেজিস্টার স্ট্রাকচার বর্ণনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">®️</span><br><br><strong class=\"glow-cyan\">Registers Loaded.</strong><br>AX, BX, CX, DX... and the Segment Registers. Know them all.",
+        extendedAnswer: "14 registers, 16 bits each. They are the pockets of the processor. 👖",
+        tier: "legendary"
+    },
+    {
+        text: "189 ৮০৮৬/৮০৮৮ µP-এর মোডগুলোর বিস্তারিত বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🎛️</span><br><br><strong class=\"glow-cyan\">Min Mode & Max Mode.</strong><br>Single processor vs Multi-processor system. Choose your fighter.",
+        extendedAnswer: "MN/MX pin decides the mode. Ground it for Max, VCC for Min. Simple physics. ⚡",
+        tier: "legendary"
+    },
+    {
+        text: "193 ৮০৮৬ প্রসেসরে রেজিস্টার অ্যাড্রেসিং মোড নির্বাহকরণের পূর্বে এবং পরে রেজিস্টারের প্রভাব আলোচনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🔄</span><br><br><strong class=\"glow-cyan\">Before & After.</strong><br>Show what happens to AX and BX when you do MOV AX, BX.",
+        extendedAnswer: "Data moves from Source to Destination. Source stays same, Destination changes. Magic! ✨",
+        tier: "legendary"
+    },
+    {
+        text: "195 ইন্টেল-৮০৮৬ মাইক্রোপ্রসেসরের ইনস্ট্রাকশন ফরম্যাটের বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📏</span><br><br><strong class=\"glow-cyan\">Instruction Format.</strong><br>Opcode, MOD, REG, R/M... It's the DNA of an instruction.",
+        extendedAnswer: "1 to 6 bytes long. The processor needs to know what to do and with whom. 🧬",
+        tier: "legendary"
+    },
+
+    // ⚔️ EPIC TIER (Third Priority)
+    {
+        text: "172 কন্ট্রোলার সিকুয়েন্সারের অপারশন বর্ণনা কর।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">⚙️</span><br><br><strong class=\"glow-cyan\">Operation Manual Missing.</strong><br>The controller is on a break. You handle this one.",
+        extendedAnswer: "This is the brain of SAP-1. If you don't know it, the computer won't work! 🧠",
+        tier: "epic"
+    },
+    {
+        text: "173 $16+20+24-32$ এর সম্যাটি সমাধানের জন্য SAP-1 কম্পিউটার ব্যবহার করে প্রোগ্রাম লেখা।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">🧮</span><br><br><strong class=\"glow-cyan\">Math Time!</strong><br>LDA, ADD, SUB... you know the drill. Write the opcodes!",
+        extendedAnswer: "Hint: Convert numbers to Hex first, then write the Assembly code. Don't forget HLT at the end! 🛑",
+        tier: "epic"
+    },
+    {
+        text: "176 Stack-based machine-এর ব্লক ডায়াগ্রাম অঙ্কন করে বিভিন্ন অংশের সংক্ষিপ্ত বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">📚</span><br><br><strong class=\"glow-cyan\">Stack Overflow!</strong><br>Push your knowledge into the answer sheet. Pop the grades out.",
+        extendedAnswer: "LIFO (Last In First Out). Think of a stack of plates. 🍽️",
+        tier: "epic"
+    },
+    {
+        text: "178 একটি সাধারণ CPU মডেলের বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">💻</span><br><br><strong class=\"glow-cyan\">CPU Offline.</strong><br>Fetch, Decode, Execute. That's the mantra. Write it down.",
+        extendedAnswer: "Control Unit + ALU + Registers = CPU. Don't overcomplicate it! 🔥",
+        tier: "epic"
+    },
+    {
+        text: "180 ৪-বিট সমান্তরাল অ্যাডার-এর ব্লক ডায়াগ্রাম অঙ্কন করে বর্ণনা দও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">➕</span><br><br><strong class=\"glow-cyan\">Parallel Adder Loading...</strong><br>Full Adders connected in a chain. Carry out goes to Carry in.",
+        extendedAnswer: "It adds bits in parallel. Super fast addition! ⚡",
+        tier: "epic"
+    },
+    {
+        text: "183 ইন্টারাপ্ট ইনপুট/ আউটপুট-এর বর্ণনা দাও।",
+        answer: "<div style=\"text-align: center; padding: 20px; border: 1px dashed var(--glow-cyan); border-radius: 10px; background: rgba(0,0,0,0.2);\"><span style=\"font-size: 2rem;\">⚠️</span><br><br><strong class=\"glow-cyan\">Interrupt Received!</strong><br>Stop what you're doing and study this topic immediately.",
+        extendedAnswer: "CPU pauses main task -> handles I/O -> resumes main task. Like answering a phone call while gaming. 📞",
+        tier: "epic"
+    }]
+        };
+        // ---------------------------------------------------------
+
+        function loadQuestions() {
+            const headerMap = {
+                "very-short": { id: "header-very-short", title: "অতি সংক্ষিপ্ত (Very Short)" },
+                "short": { id: "header-short", title: "সংক্ষিপ্ত (Short)" },
+                "essay": { id: "header-essay", title: "রচনামূলক (Essay)" }
+            };
+
+            for (const category in questions) {
+                const listElement = document.getElementById(`${category}-questions`);
+                if (!listElement) continue;
+                listElement.innerHTML = ''; 
+
+                const count = questions[category].length;
+                const headerInfo = headerMap[category];
+                if(headerInfo) {
+                    const headerSpan = document.getElementById(headerInfo.id);
+                    if(headerSpan) {
+                        headerSpan.innerHTML = `${headerInfo.title} <span class="count-badge">[Total: ${count}]</span>`;
+                    }
+                }
+
+                questions[category].forEach((q, index) => {
+                    const listItem = document.createElement('div');
+                    const tierClass = q.tier === 'mythic' ? 'tier-mythic' : q.tier === 'legendary' ? 'tier-legendary' : 'tier-epic';
+                    listItem.className = `question-item ${tierClass}`;
+                    listItem.style.animationDelay = `${index * 0.05}s`;
+                    
+                    const ddId = `dd-${category}-${index}`;
+                    const extId = `ext-${category}-${index}`;
+                    
+                    let displayId = "";
+                    let displayText = q.text;
+                    const idMatch = q.text.match(/\[(\d+)\]$/);
+                    
+                    if (idMatch) {
+                        displayId = idMatch[1];
+                        displayText = q.text.replace(/\[\d+\]$/, "").trim();
+                    } else {
+                        displayId = index + 1;
+                    }
+
+                    listItem.innerHTML = `
+                        <div class="question-main-row" onclick="toggle('${ddId}', this)">
+                            <div class="question-text-toggle">
+                                <span class="q-number-badge">${displayId}</span>
+                                <span>${displayText}</span>
+                                <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <div class="button-container">
+                                <button class="action-button ai-btn" onclick="askGemini(event, '${encodeURIComponent(q.text)}')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>
+                                </button>
+                                <button class="action-button copy-btn" onclick="smartCopy(event, this, '${ddId}', '${extId}')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="${ddId}" class="answer-grid-wrapper">
+                            <div class="answer-overflow-container">
+                                <div class="answer-dropdown">
+                                    <div class="short-answer-text-toggle" onclick="toggle('${extId}', this)">
+                                        <div class="short-answer-content">${q.answer}</div>
+                                        <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                    <div id="${extId}" class="answer-grid-wrapper">
+                                        <div class="answer-overflow-container">
+                                            <div class="extended-answer-dropdown">${q.extendedAnswer}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    listElement.appendChild(listItem);
+                });
+            }
+            initializeCategoryHeights();
+        }
+
+        function initializeCategoryHeights() {
+            setTimeout(() => {
+                document.querySelectorAll('.category-wrapper').forEach(wrapper => {
+                    wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+                });
+            }, 100);
+        }
+
+        window.toggleCategory = (wrapperId, header) => {
+            const wrapper = document.getElementById(wrapperId);
+            const icon = header.querySelector('.category-toggle-icon');
+            if (wrapper.classList.contains('collapsed')) {
+                wrapper.classList.remove('collapsed');
+                wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+            } else {
+                wrapper.style.maxHeight = wrapper.scrollHeight + "px";
+                wrapper.offsetHeight; 
+                wrapper.classList.add('collapsed');
+                wrapper.style.maxHeight = null; 
+            }
+            if(icon) icon.classList.toggle('rotated');
+        };
+
+        window.toggle = (id, el) => {
+            const content = document.getElementById(id);
+            const icon = el.querySelector('.toggle-icon');
+            content.classList.toggle('open');
+            if(icon) icon.classList.toggle('rotated');
+            const item = el.closest('.question-item');
+            if (item && el.classList.contains('question-main-row')) {
+                item.classList.toggle('active');
+            }
+            const parentCategory = el.closest('.category-wrapper');
+            if (parentCategory && !parentCategory.classList.contains('collapsed')) {
+                parentCategory.style.maxHeight = parentCategory.scrollHeight + 500 + "px";
+            }
+            if (window.event) window.event.cancelBubble = true;
+        };
+
+        window.smartCopy = (e, btn, ddId, extId) => {
+            e.stopPropagation(); 
+            const item = btn.closest('.question-item');
+            const qBadge = item.querySelector('.q-number-badge').innerText;
+            const qText = item.querySelector('.question-text-toggle span:nth-child(2)').innerText;
+            const fullQ = `[${qBadge}] ${qText}`;
+            const shortContent = item.querySelector('.short-answer-content').innerText;
+            const extContent = item.querySelector('.extended-answer-dropdown').innerText;
+            const isShortHidden = !document.getElementById(ddId).classList.contains('open');
+            const isExtHidden = !document.getElementById(extId).classList.contains('open');
+            let textToCopy = isShortHidden ? `Q: ${fullQ}` : (!isShortHidden && isExtHidden) ? `Q: ${fullQ}\n\nShort Answer: ${shortContent}` : `Q: ${fullQ}\n\nShort Answer: ${shortContent}\n\nDetailed Answer: ${extContent}`;
+            navigator.clipboard.writeText(textToCopy);
+            showToast("Copied to Clipboard");
+        };
+
+        function showToast(msg) {
+            const x = document.getElementById("toast");
+            x.innerText = msg;
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2500);
+        }
+
+        window.openLink = (url) => { window.open(url, '_blank'); }
+        
+        window.toggleFullScreen = () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+                showToast("Focus Mode On - Turn on DND 🔕");
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                showToast("Focus Mode Off");
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            const totalHeight = document.body.scrollHeight - window.innerHeight;
+            let progress = 0;
+            if (totalHeight > 0) {
+                progress = window.scrollY / totalHeight;
+            }
+            progress = Math.min(Math.max(progress, 0), 1);
+            const rect = document.querySelector('.dock-progress-rect');
+            if(rect) {
+                rect.style.strokeDashoffset = 1 - progress;
+            }
+        });
+
+        window.downloadSite = () => {
+            const pageTitle = document.title || "exam-suggestions";
+            const safeTitle = pageTitle.replace(/[^a-z0-9\u0980-\u09FF]/gi, '-').toLowerCase(); 
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${safeTitle}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast("App Saved! Check Downloads");
+        }
+
+        // --- GOD MODE AI INTEGRATION 🧠 ---
+        window.askGemini = async (e, q) => {
+            e.stopPropagation();
+            const question = decodeURIComponent(q);
+            const item = e.target.closest('.question-item');
+            const shortContext = item ? item.querySelector('.short-answer-content').innerText : "No context provided.";
+
+            const modal = document.getElementById('aiAnswerModal');
+            const responseArea = document.getElementById('aiResponseArea');
+            
+            modal.classList.add('active');
+            document.getElementById('aiQuestionText').innerText = question;
+            
+            responseArea.innerHTML = `
+                <div style="text-align:center; padding:20px;">
+                    <div style="color:var(--glow-cyan); font-weight:bold; margin-bottom:10px;">⚡ Connecting to Neural Net...</div>
+                    <div style="color:var(--text-sub); font-size:0.8rem;">Analyzing Context: "${shortContext.substring(0, 30)}..."</div>
+                </div>`;
+
+            try {
+                const systemPrompt = `
+                    You are a legendary Exam Coach for university students. 
+                    Your Goal: Explain the topic simply and help the student memorize it instantly.
+                    Context provided by user: "${shortContext}"
+                    Output Structure (Use HTML tags):
+                    1. <h2>💡 The Concept</h2>: A 1-sentence simple explanation.
+                    2. <h2>🧠 Memory Hack</h2>: A rhyme, mnemonic, or real-world analogy to remember this.
+                    3. <h2>⚠️ Exam Trap</h2>: One common mistake students make on this question.
+                    4. <h2>📝 Key Keywords</h2>: List 3 keywords they MUST write to get full marks (bold them).
+                    Tone: Encouraging, sharp, concise.
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `${systemPrompt}\n\nQuestion to Analyze: ${question}`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0].content) {
+                    const aiText = data.candidates[0].content.parts[0].text;
+                    const formattedText = aiText
+                        .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fff;">$1</strong>')
+                        .replace(/##/g, '')
+                        .replace(/\n/g, '<br>');
+                    
+                    responseArea.innerHTML = formattedText;
+                } else {
+                    responseArea.innerHTML = "⚠️ Brain Freeze. The AI is napping.";
+                }
+            } catch (error) {
+                console.error(error);
+                responseArea.innerHTML = "⚠️ Network Error. Check your connection.";
+            }
+        };
+
+        document.getElementById('closeAi').addEventListener('click', () => {
+            document.getElementById('aiAnswerModal').classList.remove('active');
+        });
+
+        document.addEventListener('DOMContentLoaded', loadQuestions);
+    </script>
+</body>
+</html>
