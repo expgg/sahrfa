@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox Replica</title>
+    <style>
+        :root {
+            --primary-pink: #E2136E;
+            --text-dark: #222;
+            --text-grey: #666;
+            --bg-grey: #f2f2f2;
+            --green: #008566;
+            --red: #D6203D;
+            --border: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll, handle inside app */
+        }
+
+        /* Mobile Container */
+        .app-container {
+            width: 100%;
+            max-width: 480px; /* Max width for desktop view */
+            background: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- Header --- */
+        .top-bar {
+            background-color: var(--primary-pink);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-bar-placeholder {
+            height: 24px;
+            background-color: var(--primary-pink);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 16px;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 10px 0;
+            background: var(--primary-pink);
+            color: white;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 14px 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-grey);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary-pink);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-pink);
+        }
+
+        /* --- Search & Filter --- */
+        .search-section {
+            padding: 12px 16px;
+            background: white;
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-box {
+            flex: 1;
+            background: #f9f9f9;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            margin-left: 8px;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border: 1px solid #ffcce0;
+            border-radius: 20px;
+            color: var(--primary-pink);
+            font-weight: 500;
+            font-size: 14px;
+            background: white;
+        }
+
+        /* --- Transaction List --- */
+        .list-header {
+            padding: 16px 16px 8px;
+            font-size: 13px;
+            color: #777;
+            font-weight: 500;
+            background: white;
+        }
+
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            background: white;
+            padding-bottom: 80px; /* Space for footer */
+        }
+
+        /* Custom Scrollbar hide */
+        .scroll-area::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: flex-start;
+        }
+
+        .left-part {
+            display: flex;
+            gap: 14px;
+        }
+
+        .icon-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        /* Icon Colors based on image */
+        .bg-blue { background-color: #8ab6d6; } /* Generic Initials */
+        .bg-teal { background-color: #8FD9D3; } /* Cash Out Store */
+        .bg-purple { background-color: #9fa8da; } /* bKash */
+        .bg-pink { background-color: #e6aebc; } /* Cash In */
+        .bg-orange { background-color: #fcc9b5; } /* Payment */
+        .bg-red { background-color: #e57373; } /* Send Money */
+        .bg-green { background-color: #a5d6a7; } /* Recharge */
+
+        .avatar-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .trx-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .trx-type {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .trx-name {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .trx-id {
+            font-size: 12px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .right-part {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .amount {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .amount.plus { color: var(--green); }
+        .amount.minus { color: var(--red); }
+
+        .time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .arrow {
+            color: #ccc;
+            font-size: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        /* --- Footer --- */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            font-size: 11px;
+            width: 20%;
+        }
+
+        .nav-item.active {
+            color: var(--primary-pink);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        
+        /* QR Button mimic */
+        .qr-btn {
+            position: relative;
+            top: -5px;
+        }
+        .qr-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #666;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Simple SVG Icons */
+        svg { width: 20px; height: 20px; fill: currentColor; }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="status-bar-placeholder">
+            <span>9:34</span>
+            <div style="display:flex; gap:5px;">
+                <span>📡</span><span>🔋 26%</span>
+            </div>
+        </div>
+
+        <div class="header-title">Inbox</div>
+        
+        <div class="tabs">
+            <div class="tab active">Transactions</div>
+            <div class="tab">Notifications</div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" style="width:18px; color:#888;">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <input type="text" placeholder="Search by TrxID or number">
+            </div>
+            <div class="filter-btn">
+                <svg viewBox="0 0 24 24" style="width:16px;">
+                    <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+                </svg>
+                Filter
+            </div>
+        </div>
+
+        <div class="scroll-area">
+            <div class="list-header">Transactions from the last 90 days</div>
+            <div id="transaction-list-container">
+                </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h2v2H6zm4-4h8v2h-8zm0 4h8v2h-8z"/></svg>
+                <span>My bKash</span>
+            </div>
+            <div class="nav-item qr-btn">
+                <div class="qr-icon">
+                   <svg viewBox="0 0 24 24"><path d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5H15zM3 13h6v6H3v-6zm2 2v2h2v-2H5zm8 4h2v2h-2v-2zm2-2h2v2h-2v-2zm-2 2h-2v-2h2v2zm4 0h2v2h-2v-2zm-4-4h2v2h-2v-2zm4 0h2v2h-2v-2zm-2 2h2v2h-2v-2z"/></svg>
+                </div>
+                <span>Scan QR</span>
+            </div>
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>
+                <span>Inbox</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data derived exactly from your screenshots
+        const transactions = [
+            { date: "25/01/26", time: "11:15am", type: "Received Money", name: "bKash", trxId: "TrxID : DAP9G7BW5D", amount: "+ ৳5,700.00", isPositive: true, iconType: "B", iconColor: "bg-blue" },
+            { date: "24/01/26", time: "12:12am", type: "Received Money", name: "bKash", trxId: "TrxID : DAO6EW2594", amount: "+ ৳10,000.00", isPositive: true, iconType: "B", iconColor: "bg-blue" },
+            { date: "21/01/26", time: "08:09pm", type: "Send Money", name: "01849399501", trxId: "TrxID : DAL6CKA0P4", amount: "- ৳22,000.00", isPositive: false, iconType: "0", iconColor: "bg-teal" },
+            { date: "21/01/26", time: "08:08pm", type: "bKash Bundle", name: "bKash", trxId: "TrxID : DAL8CK8BK2", amount: "- ৳21.00", isPositive: false, iconType: "৳", iconColor: "bg-pink" },
+            { date: "21/01/26", time: "05:12pm", type: "Send Money", name: "Habiba Vuski", trxId: "TrxID : DAL3CBMOAN", amount: "- ৳1,000.00", isPositive: false, iconType: "Img", img: "https://i.pravatar.cc/100?img=5" }, // Placeholder avatar
+            { date: "20/01/26", time: "10:47pm", type: "Received Money", name: "01721593966", trxId: "TrxID : DAK1BNAUV1", amount: "+ ৳21,500.00", isPositive: true, iconType: "Img", img: "https://i.pravatar.cc/100?img=8" },
+            { date: "20/01/26", time: "08:37pm", type: "Received Money", name: "Habiba Vuski", trxId: "TrxID : DAKOBIB1IG", amount: "+ ৳2,000.00", isPositive: true, iconType: "Img", img: "https://i.pravatar.cc/100?img=5" },
+            { date: "20/01/26", time: "06:13pm", type: "Send Money", name: "Sazzad Vai 👾🎮", trxId: "TrxID : DAK5BB2U47", amount: "- ৳3,000.00", isPositive: false, iconType: "Img", img: "https://i.pravatar.cc/100?img=3" },
+            { date: "20/01/26", time: "06:04pm", type: "Received Money", name: "01757842581", trxId: "TrxID : DAK1BAKV0T", amount: "+ ৳1,000.00", isPositive: true, iconType: "0", iconColor: "bg-orange" },
+            { date: "20/01/26", time: "05:55pm", type: "Received Money", name: "01789430336", trxId: "TrxID : DAK9BA7AVP", amount: "+ ৳2,000.00", isPositive: true, iconType: "Img", img: "https://i.pravatar.cc/100?img=9" },
+            { date: "20/01/26", time: "05:47pm", type: "Make Payment", name: "Brilliant Connect", trxId: "TrxID : DAK2B9TGAM", amount: "- ৳20.00", isPositive: false, iconType: "📞", iconColor: "bg-teal" },
+            { date: "20/01/26", time: "01:29pm", type: "Pay Bill", name: "NESCO (Prepaid)", trxId: "TrxID : DAK2B0AKVU", amount: "- ৳1,000.00", isPositive: false, iconType: "⚡", iconColor: "bg-bg-grey" }, // Just logo text logic
+            { date: "18/01/26", time: "11:55pm", type: "Make Payment", name: "NAHIYAN ENTER PRIZE", trxId: "TrxID : DAI59HJ30H", amount: "- ৳2,155.00", isPositive: false, iconType: "👜", iconColor: "bg-orange" },
+            { date: "18/01/26", time: "11:31pm", type: "Received Money", name: "01731550624", trxId: "TrxID : DAI89H0AEI", amount: "+ ৳3,000.00", isPositive: true, iconType: "0", iconColor: "bg-red" },
+            { date: "17/01/26", time: "07:56pm", type: "Send Money", name: "01913203735", trxId: "TrxID : DAH9865OFB", amount: "- ৳17,000.00", isPositive: false, iconType: "🐭", iconColor: "bg-bg-grey" },
+            { date: "17/01/26", time: "07:20pm", type: "Mobile Recharge", name: "Gamli", trxId: "TrxID : DAH084IZGO", amount: "- ৳40.00", isPositive: false, iconType: "G", iconColor: "bg-red" },
+            { date: "17/01/26", time: "05:05pm", type: "Cash In", name: "01762544490", trxId: "TrxID : DAH67Y4ZBA", amount: "+ ৳4,500.00", isPositive: true, iconType: "৳", iconColor: "bg-pink" },
+            { date: "16/01/26", time: "08:39pm", type: "Received Money", name: "01731550624", trxId: "TrxID : DAG4773U98", amount: "+ ৳2,100.00", isPositive: true, iconType: "0", iconColor: "bg-red" },
+            { date: "16/01/26", time: "01:57pm", type: "Send Money", name: "01721040413", trxId: "TrxID : DAG76R69RR", amount: "- ৳7,000.00", isPositive: false, iconType: "0", iconColor: "bg-purple" },
+            { date: "16/01/26", time: "12:23pm", type: "Cash Out", name: "Tin Vai Phone Center...", trxId: "TrxID : DAG86OZ864", amount: "- ৳30,000.00", isPositive: false, iconType: "🏪", iconColor: "bg-teal" },
+            { date: "16/01/26", time: "11:32am", type: "Received Money", name: "bKash", trxId: "TrxID : DAG46N3YLM", amount: "+ ৳10,000.00", isPositive: true, iconType: "B", iconColor: "bg-blue" },
+            { date: "16/01/26", time: "11:31am", type: "Received Money", name: "01647069434", trxId: "TrxID : DAG96N1YRN", amount: "+ ৳10,000.00", isPositive: true, iconType: "0", iconColor: "bg-blue" },
+            { date: "15/01/26", time: "04:49pm", type: "Cash Out", name: "Bismillah Pharmacy...", trxId: "TrxID : DAF15VNMGT", amount: "- ৳200.00", isPositive: false, iconType: "🏪", iconColor: "bg-teal" },
+            { date: "15/01/26", time: "03:17am", type: "Received Money", name: "bKash", trxId: "TrxID : DAF75C5H1H", amount: "+ ৳8,800.00", isPositive: true, iconType: "B", iconColor: "bg-blue" },
+            { date: "14/01/26", time: "11:30pm", type: "Received Money", name: "01647069434", trxId: "TrxID : DAE359JX1V", amount: "+ ৳20,000.00", isPositive: true, iconType: "0", iconColor: "bg-blue" },
+        ];
+
+        const listContainer = document.getElementById('transaction-list-container');
+
+        transactions.forEach(trx => {
+            const amountClass = trx.isPositive ? 'plus' : 'minus';
+            
+            // Render Icon (Image or Div)
+            let iconHTML = '';
+            if (trx.img) {
+                iconHTML = `<img src="${trx.img}" class="avatar-img" alt="av">`;
+            } else {
+                iconHTML = `<div class="icon-circle ${trx.iconColor}">${trx.iconType}</div>`;
+            }
+
+            const html = `
+                <div class="transaction-item">
+                    <div class="left-part">
+                        ${iconHTML}
+                        <div class="trx-details">
+                            <span class="trx-type">${trx.type}</span>
+                            <span class="trx-name">${trx.name}</span>
+                            <span class="trx-id">${trx.trxId}</span>
+                        </div>
+                    </div>
+                    <div class="right-part">
+                        <span class="amount ${amountClass}">${trx.amount}</span>
+                        <span class="time">${trx.time} ${trx.date}</span>
+                        <span class="arrow">></span>
+                    </div>
+                </div>
+            `;
+            listContainer.insertAdjacentHTML('beforeend', html);
+        });
+    </script>
+</body>
+</html>
