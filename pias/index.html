@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV - Md Masbaur Rahman</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas for PNG download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
@@ -12,7 +14,7 @@
         :root {
             --bg-dark: #0f172a; /* Deep Slate Blue */
             --bg-panel: #1e293b;
-            --text-main: #f1f5f9;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8; /* Tech Cyan */
             --accent-glow: rgba(56, 189, 248, 0.15);
@@ -28,120 +30,128 @@
             font-family: var(--font-main);
             height: 100vh;
             overflow: hidden; 
-            /* Subtle Grid Background */
+            /* Subtle Blueprint Grid */
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         /* --- MAIN LAYOUT (DESKTOP) --- */
         .main-container {
             display: grid;
-            grid-template-columns: 1fr 380px; 
+            grid-template-columns: 1fr 400px; /* Left Content, Right Profile */
             height: 100vh;
-            max-width: 1600px;
+            max-width: 1920px;
             margin: 0 auto;
         }
 
         /* --- LEFT PANEL (CONTENT) --- */
         .content-panel {
-            padding: 40px;
+            padding: 40px 60px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 30px;
             scrollbar-width: thin;
-            scrollbar-color: var(--border) var(--bg-dark);
+            scrollbar-color: var(--accent) var(--bg-dark);
         }
 
         /* --- RIGHT PANEL (PROFILE) --- */
         .profile-panel {
             background: var(--bg-panel);
-            border-left: 1px solid var(--border);
-            padding: 40px;
+            border-left: 2px solid var(--border);
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            overflow-y: auto; /* Scroll enabled for smaller height screens */
             position: relative;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
             z-index: 10;
+            scrollbar-width: none; /* Hide scrollbar for cleaner look */
         }
 
-        /* --- TYPOGRAPHY & ELEMENTS --- */
+        /* --- TYPOGRAPHY --- */
         h1 {
             font-size: 2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-align: center;
-            margin-top: 20px;
+            margin: 15px 0 5px 0;
             color: #fff;
+            line-height: 1.2;
         }
 
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--accent);
             border-bottom: 1px solid var(--border);
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
 
         /* --- CARDS (Glassmorphism) --- */
         .card {
-            background: rgba(30, 41, 59, 0.6);
+            background: rgba(30, 41, 59, 0.4);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            padding: 25px;
             position: relative;
             backdrop-filter: blur(5px);
-            transition: transform 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            border-color: var(--accent);
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
 
-        .card::after {
+        /* Tech Corner Detail */
+        .card::before {
             content: '';
             position: absolute;
-            top: 0; right: 0;
-            width: 10px; height: 10px;
+            top: -1px; right: -1px;
+            width: 15px; height: 15px;
             border-top: 2px solid var(--accent);
             border-right: 2px solid var(--accent);
-            opacity: 0.5;
         }
 
         /* --- PROFILE PICTURE --- */
+        .pfp-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
         .pfp-wrapper {
-            width: 180px;
-            height: 180px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            padding: 5px;
+            padding: 6px;
             border: 2px dashed var(--border);
             position: relative;
-            background: var(--bg-panel);
         }
 
-        .pfp-wrapper::before {
+        .pfp-wrapper::after {
             content: '';
             position: absolute;
-            inset: -5px;
+            inset: -6px;
             border-radius: 50%;
-            border-top: 2px solid var(--accent);
-            border-bottom: 2px solid var(--accent);
-            animation: spin 8s linear infinite;
+            border-top: 3px solid var(--accent);
+            border-bottom: 3px solid var(--accent);
+            animation: rotate 10s linear infinite;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
 
         .profile-img {
             width: 100%;
@@ -153,133 +163,151 @@
 
         .designation {
             color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 30px;
+            font-weight: 700;
             font-size: 0.9rem;
             text-align: center;
-            letter-spacing: 1px;
-            margin-top: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            opacity: 0.9;
         }
 
-        /* --- INFO LIST --- */
-        .info-list { width: 100%; margin-top: 20px; }
+        /* --- INFO LIST (Compact for details) --- */
+        .info-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .info-group-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
         .info-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 0;
             font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
         }
-        .info-label { color: var(--text-muted); font-weight: 500; }
-        .info-val { color: var(--text-main); font-weight: 600; text-align: right; }
+        
+        .info-item:last-child { border-bottom: none; }
 
-        /* --- SKILLS GRID --- */
-        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .info-label { color: #94a3b8; font-weight: 500; }
+        .info-val { color: #fff; font-weight: 600; text-align: right; max-width: 60%; }
+
+        /* --- SKILLS PILLS --- */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-pill {
-            background: rgba(56, 189, 248, 0.1);
+            background: rgba(56, 189, 248, 0.08);
             color: var(--accent);
-            padding: 6px 14px;
-            border-radius: 4px;
+            padding: 5px 12px;
+            border-radius: 2px;
             font-size: 0.85rem;
             border: 1px solid rgba(56, 189, 248, 0.2);
-            font-weight: 500;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
         }
 
-        /* --- ACTION BUTTON & MENU --- */
+        /* --- ACTION BUTTONS --- */
         .action-area {
-            position: absolute;
-            bottom: 40px;
+            margin-top: auto;
+            padding-top: 20px;
             width: 100%;
-            text-align: center;
-            padding: 0 40px;
+            position: relative;
         }
 
         .main-btn {
             background: var(--accent);
             color: #0f172a;
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
-            font-weight: 700;
+            border-radius: 2px;
+            font-weight: 800;
             text-transform: uppercase;
             cursor: pointer;
             letter-spacing: 1px;
             box-shadow: 0 0 15px var(--accent-glow);
+            transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
-        .main-btn:hover { background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+        .main-btn:hover { background: #fff; box-shadow: 0 0 25px rgba(255,255,255,0.3); }
 
         .download-menu {
             position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            width: 80%;
+            bottom: 100%; left: 0; width: 100%;
             background: #fff;
-            border-radius: 4px;
+            border-radius: 2px;
             overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
+            opacity: 0; pointer-events: none;
+            transform: translateY(10px);
             transition: all 0.2s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
         }
 
-        .download-menu.active {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-10px);
-            pointer-events: all;
-        }
+        .download-menu.active { opacity: 1; transform: translateY(0); pointer-events: all; }
 
         .menu-item {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #fff;
-            color: #1e293b;
-            border: none;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-            cursor: pointer;
-            font-weight: 600;
-            font-family: var(--font-main);
+            width: 100%; padding: 12px;
+            background: #fff; color: #1e293b;
+            border: none; border-bottom: 1px solid #e2e8f0;
+            text-align: left; cursor: pointer;
+            font-weight: 600; font-family: var(--font-main);
+            display: flex; align-items: center; gap: 10px;
         }
-
         .menu-item:hover { background: #f1f5f9; }
 
         /* --- RESPONSIVE MOBILE --- */
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             body { height: auto; overflow: auto; }
             .main-container { display: flex; flex-direction: column-reverse; height: auto; }
-            .profile-panel { padding: 40px 20px; border-left: none; border-bottom: 1px solid var(--border); }
-            .content-panel { padding: 20px; overflow: visible; }
-            .action-area { position: static; margin-top: 30px; }
-            .download-menu { bottom: auto; top: 100%; transform: translateX(-50%) translateY(10px); }
-            .download-menu.active { transform: translateX(-50%) translateY(10px); }
+            .profile-panel { 
+                padding: 40px 20px; 
+                border-left: none; 
+                border-bottom: 2px solid var(--border);
+                width: 100%;
+            }
+            .content-panel { padding: 30px 20px; overflow: visible; }
         }
 
         /* --- PRINT CSS --- */
         @media print {
-            body { background: #fff; color: #000; height: auto; overflow: visible; }
+            @page { size: A4; margin: 10mm; }
+            body { background: #fff; color: #000; height: auto; overflow: visible; font-size: 12pt; }
             .main-container { display: block; }
-            .profile-panel, .content-panel { 
-                background: #fff; border: none; box-shadow: none; padding: 0; width: 100%;
+            
+            .profile-panel {
+                width: 100%; border: none; padding: 0; box-shadow: none; background: transparent;
+                display: block; margin-bottom: 20px; border-bottom: 2px solid #000;
             }
-            .profile-panel { 
-                border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 20px; 
-                flex-direction: row; justify-content: space-between; align-items: flex-start;
-            }
-            .pfp-wrapper { border: none; width: 120px; height: 120px; }
-            .pfp-wrapper::before { display: none; }
+            .pfp-container { float: right; margin: 0 0 10px 20px; }
+            .pfp-wrapper { width: 120px; height: 120px; border: none; padding: 0; }
+            .pfp-wrapper::after { display: none; }
+            
+            h1 { color: #000; text-align: left; margin: 0; font-size: 24pt; }
+            .designation { color: #444; text-align: left; margin-bottom: 10px; }
+            
+            .content-panel { padding: 0; width: 100%; display: block; }
+            .card { border: none; padding: 0; margin-bottom: 15px; background: transparent; border-left: none; box-shadow: none; }
+            .card::before { display: none; }
+            
+            h2 { color: #000; border-bottom: 1px solid #000; font-size: 14pt; margin-top: 20px; }
+            p, .info-val, .info-label { color: #000 !important; }
+            .skill-pill { border: 1px solid #000; color: #000; background: transparent; }
+            
+            .info-group { display: block; margin-bottom: 10px; }
+            .info-item { border-bottom: 1px solid #ccc; padding: 4px 0; }
+            .info-val { text-align: left; width: 100%; max-width: 100%; padding-left: 10px; }
+            
+            /* Hide Buttons */
             .action-area, .download-menu, .no-print { display: none !important; }
-            h1, h2, p, .info-val, .info-label { color: #000 !important; }
-            h2 { border-bottom: 1px solid #000; }
-            .card { border: none; background: none; padding: 0; margin-bottom: 20px; }
-            .card::after { display: none; }
-            .skill-pill { border: 1px solid #000; color: #000; background: none; }
-            .info-list { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-            .info-item { border-bottom: 1px solid #ddd; }
         }
     </style>
 </head>
@@ -287,7 +315,10 @@
 
     <div class="main-container" id="cv-content">
         
+        <!-- LEFT: MAIN CONTENT -->
         <div class="content-panel">
+            
+            <!-- OBJECTIVE -->
             <section>
                 <h2><i class="fas fa-crosshairs"></i> Career Objective</h2>
                 <div class="card">
@@ -295,90 +326,133 @@
                 </div>
             </section>
 
+            <!-- EDUCATION -->
             <section>
-                <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+                <h2><i class="fas fa-graduation-cap"></i> Academic Qualification</h2>
                 <div class="card">
-                    <div style="margin-bottom: 15px;">
-                        <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">Diploma in Mechanical Engineering</div>
-                        <div style="color: var(--accent);">Bogra Polytechnic Institute | BTEB</div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted);">Passed: 2025 | Result: Pending</div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-weight: 700; font-size: 1.2rem; color: #fff;">Diploma in Engineering</div>
+                        <div style="color: var(--accent); font-weight: 600;">Mechanical Technology</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Institute: Bogra Polytechnic Institute</div>
+                        <div style="font-size: 0.9rem;">Board: <span style="color: #fff;">Dhaka</span></div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">Passing Year: 2025</div>
                     </div>
+                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
                     <div>
-                        <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">Secondary School Certificate (SSC)</div>
-                        <div style="color: var(--accent);">Science Group | Rajshahi Board</div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted);">Passed: 2021 | GPA: 5.00</div>
+                        <div style="font-weight: 700; font-size: 1.2rem; color: #fff;">Secondary School Certificate (SSC)</div>
+                        <div style="color: var(--accent); font-weight: 600;">Group: Science</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Board: <span style="color: #fff;">Rajshahi</span></div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">Passing Year: 2021 | Result: GPA 5.00</div>
                     </div>
                 </div>
             </section>
 
-             <section>
-                <h2><i class="fas fa-tools"></i> Key Competencies</h2>
-                <div class="card">
-                    <div class="skills-grid">
-                        <span class="skill-pill">Automobile Engineering</span>
-                        <span class="skill-pill">Mechanical Systems</span>
-                        <span class="skill-pill">Engine Diagnostics</span>
-                        <span class="skill-pill">Safety Protocols</span>
-                        <span class="skill-pill">Troubleshooting</span>
-                        <span class="skill-pill">MS Office</span>
-                        <span class="skill-pill">Bengali (Native)</span>
-                        <span class="skill-pill">English (Working)</span>
-                    </div>
-                </div>
-            </section>
-
+            <!-- SKILLS -->
             <section>
-                <h2><i class="fas fa-signature"></i> Declaration</h2>
-                <div class="card" style="border: none; background: transparent; padding-left: 0;">
+                <h2><i class="fas fa-cogs"></i> Technical Skills & Interests</h2>
+                <div class="card">
+                    <div style="margin-bottom: 15px; color: var(--text-muted); font-size: 0.9rem;">
+                        <strong>Experience:</strong> Strongly interested in Automobile Engineering.
+                    </div>
+                    <div class="skills-grid">
+                        <span class="skill-pill">Automobile Mechanics</span>
+                        <span class="skill-pill">Engine Systems</span>
+                        <span class="skill-pill">Mechanical Maintenance</span>
+                        <span class="skill-pill">Troubleshooting</span>
+                        <span class="skill-pill">Safety Procedures</span>
+                        <span class="skill-pill">MS Office</span>
+                        <span class="skill-pill">Communication</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DECLARATION -->
+            <section>
+                <h2><i class="fas fa-file-signature"></i> Declaration</h2>
+                <div class="card" style="border: none; background: transparent; padding: 0;">
                     <p>I do hereby declare that all the information stated above is correct and complete to the best of my knowledge and belief.</p>
                     <br>
-                    <p style="font-family: 'Courier New', monospace; color: var(--accent);">// Md Masbaur Rahman</p>
+                    <div style="margin-top: 20px;">
+                        <p style="font-family: 'Courier New', monospace; color: var(--accent);">// Md Masbaur Rahman</p>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">(Signature)</p>
+                    </div>
                 </div>
             </section>
         </div>
 
+        <!-- RIGHT: PROFILE SIDEBAR -->
         <div class="profile-panel">
-            <div class="pfp-wrapper">
-                <img src="https://i.ibb.co.com/CK0nMQc2/unnamed.jpg" alt="Profile" class="profile-img" crossorigin="anonymous">
+            <div class="pfp-container">
+                <div class="pfp-wrapper">
+                    <img src="https://i.ibb.co.com/CK0nMQc2/unnamed.jpg" alt="Profile" class="profile-img" crossorigin="anonymous">
+                </div>
             </div>
             
             <h1>Md Masbaur<br>Rahman</h1>
-            <div class="designation">MECHANICAL DIPLOMA HOLDER</div>
+            <div class="designation">DIPLOMA IN MECHANICAL</div>
 
-            <div class="info-list">
+            <!-- Contact Info -->
+            <div class="info-group">
+                <div class="info-group-title">Contact Information</div>
                 <div class="info-item">
                     <span class="info-label">Mobile</span>
                     <span class="info-val">01409287282</span>
                 </div>
+                <div class="info-item" style="flex-direction: column; gap: 5px;">
+                    <span class="info-label">Present Address</span>
+                    <span class="info-val" style="text-align: left; max-width: 100%;">Hazradighi-Boliyapara, Bogra Sadar, Bogra</span>
+                </div>
+                <div class="info-item" style="flex-direction: column; gap: 5px;">
+                    <span class="info-label">Permanent Address</span>
+                    <span class="info-val" style="text-align: left; max-width: 100%;">Hazradighi-Boliyapara, Bogra Sadar, Bogra</span>
+                </div>
+            </div>
+
+            <!-- Personal Details -->
+            <div class="info-group">
+                <div class="info-group-title">Personal Details</div>
                 <div class="info-item">
-                    <span class="info-label">Address</span>
-                    <span class="info-val">Hazradighi, Bogra</span>
+                    <span class="info-label">Father's Name</span>
+                    <span class="info-val">Md. Mostafa Kamal</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Nationality</span>
-                    <span class="info-val">Bangladeshi</span>
+                    <span class="info-label">Mother's Name</span>
+                    <span class="info-val">Mst. Moushumi Sultana</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Date of Birth</span>
                     <span class="info-val">03 April 2002</span>
                 </div>
                 <div class="info-item">
+                    <span class="info-label">Gender</span>
+                    <span class="info-val">Male</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Religion</span>
+                    <span class="info-val">Islam</span>
+                </div>
+                <div class="info-item">
                     <span class="info-label">Marital Status</span>
-                    <span class="info-val">Single</span>
+                    <span class="info-val">Unmarried</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Blood Group</span>
                     <span class="info-val">A+</span>
                 </div>
+                <div class="info-item">
+                    <span class="info-label">Nationality</span>
+                    <span class="info-val">Bangladeshi</span>
+                </div>
             </div>
 
+            <!-- Action Area -->
             <div class="action-area no-print">
                 <div class="download-menu" id="dlMenu">
                     <button class="menu-item" onclick="downloadPNG()">
-                        <i class="fas fa-image"></i> Download as PNG
+                        <i class="fas fa-image" style="color: var(--accent);"></i> Download as PNG
                     </button>
                     <button class="menu-item" onclick="printCV()">
-                        <i class="fas fa-print"></i> Print / Save PDF
+                        <i class="fas fa-print" style="color: var(--accent);"></i> Print / Save PDF
                     </button>
                 </div>
                 <button class="main-btn" onclick="toggleMenu()">
@@ -410,20 +484,20 @@
         function downloadPNG() {
             document.getElementById('dlMenu').classList.remove('active');
             
-            // Wait a moment for menu to hide fully
             setTimeout(() => {
                 html2canvas(document.getElementById('cv-content'), {
                     scale: 2,
-                    useCORS: true, // Fix for online images
+                    useCORS: true, 
                     allowTaint: true,
-                    backgroundColor: "#0f172a" 
+                    backgroundColor: "#0f172a",
+                    windowWidth: 1920 // Force wide render for better quality
                 }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = 'CV-Md-Masbaur-Rahman.png';
                     link.href = canvas.toDataURL("image/png");
                     link.click();
                 }).catch(err => {
-                    alert("PNG Error: " + err + "\n\nTry using the 'Print / Save PDF' option instead.");
+                    alert("Browser blocked the image download. Please use the 'Print / Save PDF' option instead.");
                 });
             }, 300);
         }
