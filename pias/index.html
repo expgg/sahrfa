@@ -2,352 +2,432 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- CRITICAL: This ensures it scales perfectly on phones -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Masbaur Rahman Pias | Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Md Masbaur Rahman</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- RESET & BASICS --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        /* --- RESET & CORPORATE VARIABLES --- */
+        :root {
+            --bg-dark: #0f172a; /* Deep Slate Blue */
+            --bg-panel: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8; /* Tech Cyan */
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border: #334155;
+            --font-main: 'Segoe UI', Inter, Roboto, Helvetica, Arial, sans-serif;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-            overflow-x: hidden;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            height: 100vh;
+            overflow: hidden; 
+            /* Subtle Grid Background */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        html { scroll-behavior: smooth; }
-
-        /* --- VARIABLES --- */
-        :root {
-            --primary-blue: #0056b3;
-            --accent-red: #d32f2f;
-            --dark: #1a1a1a;
-            --light: #ffffff;
-            --whatsapp: #25D366;
-            --telegram: #0088cc;
-            --facebook: #1877F2;
-            --instagram-grad: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        /* --- MAIN LAYOUT (DESKTOP) --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 380px; 
+            height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
-        /* --- SCROLL ANIMATIONS --- */
-        .hidden {
-            opacity: 0;
-            filter: blur(5px);
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .show {
-            opacity: 1;
-            filter: blur(0);
-            transform: translateY(0);
-        }
-
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            min-height: auto;
+        /* --- LEFT PANEL (CONTENT) --- */
+        .content-panel {
+            padding: 40px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; 
-            align-items: center;
-            text-align: center;
-            /* Reduced top padding since header is gone */
-            padding: 3rem 1.5rem 0.5rem 1.5rem; 
-            background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+            gap: 25px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) var(--bg-dark);
         }
 
-        /* Profile Pic Styling */
-        .pfp-container {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 1.5rem;
+        /* --- RIGHT PANEL (PROFILE) --- */
+        .profile-panel {
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             position: relative;
-            cursor: pointer;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        /* --- TYPOGRAPHY & ELEMENTS --- */
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+        /* --- CARDS (Glassmorphism) --- */
+        .card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            backdrop-filter: blur(5px);
             transition: transform 0.2s ease;
         }
-        
-        .pfp-container:active { transform: scale(0.95); }
 
-        .pfp-img {
+        .card:hover {
+            border-color: var(--accent);
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 10px; height: 10px;
+            border-top: 2px solid var(--accent);
+            border-right: 2px solid var(--accent);
+            opacity: 0.5;
+        }
+
+        /* --- PROFILE PICTURE --- */
+        .pfp-wrapper {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            padding: 5px;
+            border: 2px dashed var(--border);
+            position: relative;
+            background: var(--bg-panel);
+        }
+
+        .pfp-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border-top: 2px solid var(--accent);
+            border-bottom: 2px solid var(--accent);
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .profile-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
-            border: 4px solid var(--primary-blue);
-            box-shadow: 0 8px 20px rgba(0, 86, 179, 0.15);
+            background: #000;
         }
 
-        .zoom-hint {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: var(--accent-red);
-            color: white;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .designation {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 30px;
             font-size: 0.9rem;
-            border: 3px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .hero h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
-
-        .hero span { color: var(--accent-red); }
-
-        .hero h2 {
-            font-size: 1.1rem;
-            color: var(--primary-blue);
-            margin-bottom: 15px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* --- SECTIONS --- */
-        section {
-            /* drastically reduced top/bottom padding to close gap */
-            padding: 1.5rem 1.5rem 1rem 1.5rem; 
-            max-width: 600px; 
-            margin: 0 auto;
-        }
-
-        h3.section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
-            color: var(--dark);
-            /* New Underline Style */
-            display: inline-block; /* Makes border width match text length */
-            border-bottom: 3px solid var(--accent-red);
-            padding-bottom: 4px;
-        }
-
-        /* --- CARDS --- */
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            margin-bottom: 0.5rem; /* Reduced margin to pull sections closer */
-            font-size: 1rem;
-        }
-
-        /* --- CONTACT BUTTONS (MOBILE FIRST) --- */
-        .contact-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 16px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.1s;
-        }
-
-        .contact-btn:active { transform: scale(0.98); }
-        
-        .contact-btn i {
-            font-size: 1.4rem;
-            width: 30px;
-            margin-right: 10px;
             text-align: center;
+            letter-spacing: 1px;
+            margin-top: 10px;
         }
 
-        /* Brand Colors */
-        .btn-call { background-color: var(--dark); border: 1px solid #333; }
-        .btn-wa { background-color: var(--whatsapp); }
-        .btn-tg { background-color: var(--telegram); }
-        .btn-email { background-color: #EA4335; }
-        .btn-fb { background-color: var(--facebook); }
-        .btn-insta { background: var(--instagram-grad); }
-
-        /* --- LIGHTBOX --- */
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
+        /* --- INFO LIST --- */
+        .info-list { width: 100%; margin-top: 20px; }
+        .info-item {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+        }
+        .info-label { color: var(--text-muted); font-weight: 500; }
+        .info-val { color: var(--text-main); font-weight: 600; text-align: right; }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-pill {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            font-weight: 500;
+        }
+
+        /* --- ACTION BUTTON & MENU --- */
+        .action-area {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            padding: 0 40px;
+        }
+
+        .main-btn {
+            background: var(--accent);
+            color: #0f172a;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .main-btn:hover { background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+
+        .download-menu {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: 80%;
+            background: #fff;
+            border-radius: 4px;
+            overflow: hidden;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
-            padding: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
         }
 
-        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .download-menu.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+            pointer-events: all;
+        }
 
-        .lightbox img {
+        .menu-item {
+            display: block;
             width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            border: 2px solid white;
-        }
-
-        .close-lightbox {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            color: white;
-            font-size: 2.5rem;
+            padding: 12px;
+            background: #fff;
+            color: #1e293b;
+            border: none;
+            border-bottom: 1px solid #eee;
+            text-align: left;
             cursor: pointer;
-            background: rgba(255,255,255,0.1);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: 600;
+            font-family: var(--font-main);
         }
 
-        footer {
-            text-align: center;
-            padding: 2rem 2rem 3rem 2rem;
-            color: #999;
-            font-size: 0.8rem;
-            background: #f8f9fa;
+        .menu-item:hover { background: #f1f5f9; }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 900px) {
+            body { height: auto; overflow: auto; }
+            .main-container { display: flex; flex-direction: column-reverse; height: auto; }
+            .profile-panel { padding: 40px 20px; border-left: none; border-bottom: 1px solid var(--border); }
+            .content-panel { padding: 20px; overflow: visible; }
+            .action-area { position: static; margin-top: 30px; }
+            .download-menu { bottom: auto; top: 100%; transform: translateX(-50%) translateY(10px); }
+            .download-menu.active { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* --- PRINT CSS --- */
+        @media print {
+            body { background: #fff; color: #000; height: auto; overflow: visible; }
+            .main-container { display: block; }
+            .profile-panel, .content-panel { 
+                background: #fff; border: none; box-shadow: none; padding: 0; width: 100%;
+            }
+            .profile-panel { 
+                border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 20px; 
+                flex-direction: row; justify-content: space-between; align-items: flex-start;
+            }
+            .pfp-wrapper { border: none; width: 120px; height: 120px; }
+            .pfp-wrapper::before { display: none; }
+            .action-area, .download-menu, .no-print { display: none !important; }
+            h1, h2, p, .info-val, .info-label { color: #000 !important; }
+            h2 { border-bottom: 1px solid #000; }
+            .card { border: none; background: none; padding: 0; margin-bottom: 20px; }
+            .card::after { display: none; }
+            .skill-pill { border: 1px solid #000; color: #000; background: none; }
+            .info-list { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+            .info-item { border-bottom: 1px solid #ddd; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar Removed as requested -->
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <!-- Profile Picture (Click to Zoom) -->
-        <div class="pfp-container hidden" onclick="openLightbox()">
-            <img src="https://i.ibb.co.com/pvSZx16H/2d2e8189-0c77-4174-8bd5-b15a9fb0851d.jpg" alt="Pias" class="pfp-img">
-            <div class="zoom-hint"><i class="fas fa-expand"></i></div>
-        </div>
-
-        <h1 class="hidden delay-100">Masbaur Rahman <span class="delay-200">Pias</span></h1>
-        <h2 class="hidden delay-200">Mechanical Engineer</h2>
-        <p class="hidden delay-300" style="color:#666;">
-            Diploma in Engineering • Bogura Polytechnic Institute
-        </p>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
-        <h3 class="section-title hidden">About Me</h3>
+    <div class="main-container" id="cv-content">
         
-        <div class="card hidden delay-100">
-            <p>
-                I am a Mechanical Engineer focused on industrial systems, design, and maintenance. 
-                Based in Bangladesh, I specialize in solving technical challenges with precision.
-            </p>
-        </div>
-    </section>
+        <div class="content-panel">
+            <section>
+                <h2><i class="fas fa-crosshairs"></i> Career Objective</h2>
+                <div class="card">
+                    <p>An enthusiastic and dedicated Mechanical Engineering Diploma holder seeking an entry-level position in the Automobile or Mechanical sector. Eager to utilize my technical knowledge, practical skills, and strong work ethic to contribute to organizational success while gaining hands-on professional experience.</p>
+                </div>
+            </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h3 class="section-title hidden">Get in Touch</h3>
-        <div class="contact-grid hidden delay-100">
+            <section>
+                <h2><i class="fas fa-graduation-cap"></i> Education</h2>
+                <div class="card">
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">Diploma in Mechanical Engineering</div>
+                        <div style="color: var(--accent);">Bogra Polytechnic Institute | BTEB</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Passed: 2025 | Result: Pending</div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">Secondary School Certificate (SSC)</div>
+                        <div style="color: var(--accent);">Science Group | Rajshahi Board</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Passed: 2021 | GPA: 5.00</div>
+                    </div>
+                </div>
+            </section>
+
+             <section>
+                <h2><i class="fas fa-tools"></i> Key Competencies</h2>
+                <div class="card">
+                    <div class="skills-grid">
+                        <span class="skill-pill">Automobile Engineering</span>
+                        <span class="skill-pill">Mechanical Systems</span>
+                        <span class="skill-pill">Engine Diagnostics</span>
+                        <span class="skill-pill">Safety Protocols</span>
+                        <span class="skill-pill">Troubleshooting</span>
+                        <span class="skill-pill">MS Office</span>
+                        <span class="skill-pill">Bengali (Native)</span>
+                        <span class="skill-pill">English (Working)</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2><i class="fas fa-signature"></i> Declaration</h2>
+                <div class="card" style="border: none; background: transparent; padding-left: 0;">
+                    <p>I do hereby declare that all the information stated above is correct and complete to the best of my knowledge and belief.</p>
+                    <br>
+                    <p style="font-family: 'Courier New', monospace; color: var(--accent);">// Md Masbaur Rahman</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="profile-panel">
+            <div class="pfp-wrapper">
+                <img src="https://i.ibb.co.com/CK0nMQc2/unnamed.jpg" alt="Profile" class="profile-img" crossorigin="anonymous">
+            </div>
             
-            <!-- 1. Facebook -->
-            <a href="https://www.facebook.com/masbaurrahman.pias" target="_blank" class="contact-btn btn-fb">
-                <i class="fab fa-facebook-f"></i> Facebook
-            </a>
+            <h1>Md Masbaur<br>Rahman</h1>
+            <div class="designation">MECHANICAL DIPLOMA HOLDER</div>
 
-            <!-- 2. Instagram -->
-            <a href="https://www.instagram.com/masbaur_rahman_pias" target="_blank" class="contact-btn btn-insta">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Mobile</span>
+                    <span class="info-val">01409287282</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Address</span>
+                    <span class="info-val">Hazradighi, Bogra</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Nationality</span>
+                    <span class="info-val">Bangladeshi</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Date of Birth</span>
+                    <span class="info-val">03 April 2002</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Marital Status</span>
+                    <span class="info-val">Single</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Blood Group</span>
+                    <span class="info-val">A+</span>
+                </div>
+            </div>
 
-            <!-- 3. WhatsApp -->
-            <a href="https://wa.me/8801409287282" target="_blank" class="contact-btn btn-wa">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-
-            <!-- 4. Telegram -->
-            <a href="https://t.me/+8801409287282" target="_blank" class="contact-btn btn-tg">
-                <i class="fab fa-telegram-plane"></i> Telegram
-            </a>
-
-            <!-- 5. Call Me -->
-            <a href="tel:+8801409287282" class="contact-btn btn-call">
-                <i class="fas fa-phone-alt"></i> Call Me
-            </a>
-
-            <!-- 6. Email -->
-            <a href="mailto:masbaurrahmanpias65@gmail.com" class="contact-btn btn-email">
-                <i class="fas fa-envelope"></i> Send Email
-            </a>
-
+            <div class="action-area no-print">
+                <div class="download-menu" id="dlMenu">
+                    <button class="menu-item" onclick="downloadPNG()">
+                        <i class="fas fa-image"></i> Download as PNG
+                    </button>
+                    <button class="menu-item" onclick="printCV()">
+                        <i class="fas fa-print"></i> Print / Save PDF
+                    </button>
+                </div>
+                <button class="main-btn" onclick="toggleMenu()">
+                    Download / Print CV
+                </button>
+            </div>
         </div>
-    </section>
-
-    <footer>
-        <p>© 2025 Masbaur Rahman Pias.</p>
-    </footer>
-
-    <!-- LIGHTBOX OVERLAY -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <div class="close-lightbox">&times;</div>
-        <img src="https://i.ibb.co.com/pvSZx16H/2d2e8189-0c77-4174-8bd5-b15a9fb0851d.jpg" alt="Full Size">
     </div>
 
-    <!-- SCRIPT -->
     <script>
-        // Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
-
-        // Lightbox Functions
-        function openLightbox() {
-            document.getElementById('lightbox').classList.add('active');
+        function toggleMenu() {
+            document.getElementById('dlMenu').classList.toggle('active');
         }
-        
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
+
+        // Close menu on outside click
+        document.addEventListener('click', function(e) {
+            const btn = document.querySelector('.main-btn');
+            const menu = document.getElementById('dlMenu');
+            if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        function printCV() {
+            document.getElementById('dlMenu').classList.remove('active');
+            window.print();
+        }
+
+        function downloadPNG() {
+            document.getElementById('dlMenu').classList.remove('active');
+            
+            // Wait a moment for menu to hide fully
+            setTimeout(() => {
+                html2canvas(document.getElementById('cv-content'), {
+                    scale: 2,
+                    useCORS: true, // Fix for online images
+                    allowTaint: true,
+                    backgroundColor: "#0f172a" 
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'CV-Md-Masbaur-Rahman.png';
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                }).catch(err => {
+                    alert("PNG Error: " + err + "\n\nTry using the 'Print / Save PDF' option instead.");
+                });
+            }, 300);
         }
     </script>
+
 </body>
 </html>
